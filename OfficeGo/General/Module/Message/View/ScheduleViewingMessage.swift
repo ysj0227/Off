@@ -114,13 +114,32 @@ class ScheduleViewingMessageCell: RCMessageCell {
         return label
     }()
     
+    // 消息背景
+     lazy var iconimg: UIImageView = {
+         let imageView = UIImageView(frame: CGRect.zero)
+         imageView.backgroundColor = kAppBlueColor
+         return imageView
+     }()
+     
+    //拒绝
+    lazy var rejectBtn: UIButton = {
+        let view = UIButton()
+        view.setTitleColor(kAppBlueColor, for: .normal)
+        view.titleLabel?.font = FONT_13
+        view.setTitle("拒绝", for: .normal)
+        view.setTitleColor(kAppColor_666666, for: .normal)
+        view.addTarget(self, action: #selector(rejectClick), for: .touchUpInside)
+        return view
+    }()
     
-    // 消息显示的 label
+    //同意
     lazy var lookupBtn: UIButton = {
         let view = UIButton()
         view.setTitleColor(kAppBlueColor, for: .normal)
         view.titleLabel?.font = FONT_13
-        view.setTitle("立刻查看", for: .normal)
+        view.setTitle("同意", for: .normal)
+        view.setTitleColor(kAppBlueColor, for: .normal)
+        view.addTarget(self, action: #selector(agreeClick), for: .touchUpInside)
         return view
     }()
     
@@ -130,11 +149,18 @@ class ScheduleViewingMessageCell: RCMessageCell {
         return view
     }()
     
+    lazy var btnlineView: UIView = {
+           let view = UIView()
+           view.backgroundColor = kAppColor_line_EEEEEE
+           return view
+       }()
+    
     // 消息背景
     lazy var bubbleBackgroundView: UIImageView = {
         let imageView = UIImageView(frame: CGRect.zero)
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
+        imageView.backgroundColor = kAppWhiteColor
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -143,7 +169,8 @@ class ScheduleViewingMessageCell: RCMessageCell {
     override class func size(for model: RCMessageModel!, withCollectionViewWidth collectionViewWidth: CGFloat, referenceExtraHeight extraHeight: CGFloat) -> CGSize {
         
         let message = model.content as? ScheduleViewingMessage
-        let size = getBubbleBackgroundViewSize(message ?? ScheduleViewingMessage.messageWithContent(content: ""))
+
+        let size = getBubbleBackgroundViewSize(message ?? ScheduleViewingMessage.messageWithContent(content: ""), messageDirection: model.messageDirection)
         
         var messagecontentviewHeight = size.height;
         messagecontentviewHeight = messagecontentviewHeight + extraHeight;
@@ -155,6 +182,14 @@ class ScheduleViewingMessageCell: RCMessageCell {
         initialize()
     }
     
+    @objc func agreeClick() {
+        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: true)
+    }
+    
+    @objc func rejectClick() {
+        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: false)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
@@ -162,9 +197,12 @@ class ScheduleViewingMessageCell: RCMessageCell {
     
     func initialize() {
         messageContentView.addSubview(bubbleBackgroundView)
+        bubbleBackgroundView.addSubview(iconimg)
         bubbleBackgroundView.addSubview(textLabel)
+        bubbleBackgroundView.addSubview(rejectBtn)
         bubbleBackgroundView.addSubview(lookupBtn)
         bubbleBackgroundView.addSubview(lineView)
+        bubbleBackgroundView.addSubview(btnlineView)
 
         
         // (UIApplication.registerUserNotificationSettings(_:))
@@ -175,12 +213,6 @@ class ScheduleViewingMessageCell: RCMessageCell {
         textMessageTap.numberOfTapsRequired = 1
         textMessageTap.numberOfTouchesRequired = 1
         textLabel.addGestureRecognizer(textMessageTap)
-        
-        lookupBtn.addTarget(self, action: #selector(scheduleLook), for: .touchUpInside)
-    }
-    
-    @objc func scheduleLook() {
-        NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleDetail, object: nil)
     }
     
     @objc private func longPressed(_ sender: UILongPressGestureRecognizer) {
@@ -196,6 +228,12 @@ class ScheduleViewingMessageCell: RCMessageCell {
     
     override func setDataModel(_ model: RCMessageModel!) {
         super.setDataModel(model)
+        let testMessage = model.content as? ScheduleViewingMessage
+         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+            testMessage?.content = "我想要与您约看房源，您是否同意？"
+        }else {
+            testMessage?.content = "请求约看房源已发送"
+        }
         setAutoLayout()
     }
     
@@ -207,27 +245,33 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let bubbleBackgroundViewSize = ScheduleViewingMessageCell.getBubbleSize(textLabelSize)
         var messageContentViewRect = messageContentView.frame
         
-        //接收 - 业主
+        //接收
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
-            textLabel.frame = CGRect(x: 20, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45)
-            lineView.frame = CGRect(x: 6, y: textLabel.bottom + 14, width: bubbleBackgroundViewSize.width - 12, height: 1)
-            lookupBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundViewSize.width, height: 45)
+            iconimg.isHidden = false
+            rejectBtn.isHidden = false
+            lookupBtn.isHidden = false
+            lineView.isHidden = false
+            btnlineView.isHidden = false
+            iconimg.frame = CGRect(x: 10, y: 7, width: 12, height: textLabelSize.height - 45)
+            textLabel.frame = CGRect(x: 27, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45)
+            lineView.frame = CGRect(x: 6, y: textLabel.bottom + 7, width: bubbleBackgroundViewSize.width - 12, height: 1)
+            rejectBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundViewSize.width / 2.0, height: 45)
+            btnlineView.frame = CGRect(x: rejectBtn.right, y: rejectBtn.top, width: 1.0, height: rejectBtn.height)
+            lookupBtn.frame = CGRect(x: bubbleBackgroundViewSize.width / 2.0, y: lineView.bottom, width: bubbleBackgroundViewSize.width / 2.0, height: 45)
             messageContentViewRect.size.width = bubbleBackgroundViewSize.width
             messageContentView.frame = messageContentViewRect
             
             bubbleBackgroundView.frame = CGRect(x: 0, y: 0, width: bubbleBackgroundViewSize.width, height: bubbleBackgroundViewSize.height)
-//            let image = RCKitUtility.imageNamed("chat_from_bg_normal", ofBundle: "RongCloud.bundle")
-            let image = UIImage.create(with: kAppWhiteColor)
-            let imageHeigth = image?.size.height ?? 0
-            let imageWidth = image?.size.width ?? 0
-            bubbleBackgroundView.image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: imageHeigth * 0.8, left: imageWidth * 0.8, bottom: imageHeigth * 0.2, right: imageWidth * 0.2))
         }
         //
         else {
+            iconimg.isHidden = true
+            rejectBtn.isHidden = true
+            lookupBtn.isHidden = true
+            lineView.isHidden = true
+            btnlineView.isHidden = true
+            textLabel.frame = CGRect(x: 18, y: (bubbleBackgroundViewSize.height - textLabelSize.height) / 2.0, width: textLabelSize.width, height: textLabelSize.height)
             
-            textLabel.frame = CGRect(x: 20, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45)
-            lineView.frame = CGRect(x: 6, y: textLabel.bottom + 14, width: bubbleBackgroundViewSize.width - 12, height: 1)
-            lookupBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundViewSize.width, height: 45)
             messageContentViewRect.size.width = bubbleBackgroundViewSize.width
             messageContentViewRect.size.height = bubbleBackgroundViewSize.height
             
@@ -237,19 +281,18 @@ class ScheduleViewingMessageCell: RCMessageCell {
             messageContentView.frame = messageContentViewRect
             
             bubbleBackgroundView.frame = CGRect(x: 0, y: 0, width: bubbleBackgroundViewSize.width, height: bubbleBackgroundViewSize.height)
-//            let image = RCKitUtility.imageNamed("chat_to_bg_normal", ofBundle: "RongCloud.bundle")
-            let image = UIImage.create(with: kAppWhiteColor)
-
-            let imageHeigth = image?.size.height ?? 0
-            let imageWidth = image?.size.width ?? 0
-            bubbleBackgroundView.image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: imageHeigth * 0.8, left: imageWidth * 0.2, bottom: imageHeigth * 0.2, right: imageWidth * 0.8))
         }
         
     }
     
     private class func getTextLabelSize(_ message: ScheduleViewingMessage, messageDirection: RCMessageDirection) -> CGSize {
-        let content = message.content
-        if !content.isEmpty {
+         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+            message.content = "我想要与您约看房源，您是否同意？"
+           }else {
+            message.content = "请求约看房源已发送"
+           }
+
+        if !message.content.isEmpty {
             let screenWidth = UIScreen.main.bounds.size.width
             let portraitWidth = RCIM.shared()?.globalMessagePortraitSize.width
             let portrait = (10 + (portraitWidth ?? 0.0) + 10) * 2
@@ -260,7 +303,11 @@ class ScheduleViewingMessageCell: RCMessageCell {
             textRect.size.width = CGFloat(ceilf(Float(textRect.size.width)))
 //            return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 5)
             
-            return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 45)
+            if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+                return CGSize(width: textRect.size.width + 5 + 19, height: textRect.size.height + 45)
+            }else {
+                return CGSize(width: textRect.size.width, height: textRect.size.height)
+            }
         } else {
             return CGSize.zero
         }
@@ -284,9 +331,9 @@ class ScheduleViewingMessageCell: RCMessageCell {
         return bubbleSize
     }
     
-    public class func getBubbleBackgroundViewSize(_ message: ScheduleViewingMessage) -> CGSize {
+    public class func getBubbleBackgroundViewSize(_ message: ScheduleViewingMessage, messageDirection: RCMessageDirection) -> CGSize {
         
-        let textLabelSize = ScheduleViewingMessageCell.getTextLabelSize(message, messageDirection: RCMessageDirection.MessageDirection_RECEIVE)
+        let textLabelSize = ScheduleViewingMessageCell.getTextLabelSize(message, messageDirection: messageDirection)
         return ScheduleViewingMessageCell.getBubbleSize(textLabelSize)
         
     }

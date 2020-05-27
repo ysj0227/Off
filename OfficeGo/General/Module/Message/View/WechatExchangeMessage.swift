@@ -105,13 +105,20 @@ class WechatExchangeMessageCell: RCMessageCell {
         return label
     }()
     
-    
+    // 消息背景
+     lazy var iconimg: UIImageView = {
+         let imageView = UIImageView(frame: CGRect.zero)
+         imageView.backgroundColor = kAppBlueColor
+         return imageView
+     }()
+     
     //拒绝
     lazy var rejectBtn: UIButton = {
         let view = UIButton()
         view.setTitleColor(kAppBlueColor, for: .normal)
         view.titleLabel?.font = FONT_13
         view.setTitle("拒绝", for: .normal)
+        view.setTitleColor(kAppColor_666666, for: .normal)
         view.addTarget(self, action: #selector(rejectClick), for: .touchUpInside)
         return view
     }()
@@ -122,6 +129,7 @@ class WechatExchangeMessageCell: RCMessageCell {
         view.setTitleColor(kAppBlueColor, for: .normal)
         view.titleLabel?.font = FONT_13
         view.setTitle("同意", for: .normal)
+        view.setTitleColor(kAppBlueColor, for: .normal)
         view.addTarget(self, action: #selector(agreeClick), for: .touchUpInside)
         return view
     }()
@@ -132,11 +140,18 @@ class WechatExchangeMessageCell: RCMessageCell {
         return view
     }()
     
+    lazy var btnlineView: UIView = {
+           let view = UIView()
+           view.backgroundColor = kAppColor_line_EEEEEE
+           return view
+       }()
+    
     // 消息背景
     lazy var bubbleBackgroundView: UIImageView = {
         let imageView = UIImageView(frame: CGRect.zero)
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
+        imageView.backgroundColor = kAppWhiteColor
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -173,10 +188,12 @@ class WechatExchangeMessageCell: RCMessageCell {
     
     func initialize() {
         messageContentView.addSubview(bubbleBackgroundView)
+        bubbleBackgroundView.addSubview(iconimg)
         bubbleBackgroundView.addSubview(textLabel)
         bubbleBackgroundView.addSubview(rejectBtn)
         bubbleBackgroundView.addSubview(lookupBtn)
         bubbleBackgroundView.addSubview(lineView)
+        bubbleBackgroundView.addSubview(btnlineView)
 
         
         // (UIApplication.registerUserNotificationSettings(_:))
@@ -202,6 +219,12 @@ class WechatExchangeMessageCell: RCMessageCell {
     
     override func setDataModel(_ model: RCMessageModel!) {
         super.setDataModel(model)
+        let testMessage = model.content as? WechatExchangeMessage
+         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+            testMessage?.content = "我想要与您交换微信，您是否同意？"
+        }else {
+            testMessage?.content = "请求交换微信已发送"
+        }
         setAutoLayout()
     }
     
@@ -215,29 +238,30 @@ class WechatExchangeMessageCell: RCMessageCell {
         
         //接收
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
+            iconimg.isHidden = false
             rejectBtn.isHidden = false
             lookupBtn.isHidden = false
             lineView.isHidden = false
-            textLabel.frame = CGRect(x: 20, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45)
-            lineView.frame = CGRect(x: 6, y: textLabel.bottom + 14, width: bubbleBackgroundViewSize.width - 12, height: 1)
+            btnlineView.isHidden = false
+            iconimg.frame = CGRect(x: 10, y: 7, width: 12, height: textLabelSize.height - 45)
+            textLabel.frame = CGRect(x: 27, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45)
+            lineView.frame = CGRect(x: 6, y: textLabel.bottom + 7, width: bubbleBackgroundViewSize.width - 12, height: 1)
             rejectBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundViewSize.width / 2.0, height: 45)
+            btnlineView.frame = CGRect(x: rejectBtn.right, y: rejectBtn.top, width: 1.0, height: rejectBtn.height)
             lookupBtn.frame = CGRect(x: bubbleBackgroundViewSize.width / 2.0, y: lineView.bottom, width: bubbleBackgroundViewSize.width / 2.0, height: 45)
             messageContentViewRect.size.width = bubbleBackgroundViewSize.width
             messageContentView.frame = messageContentViewRect
             
             bubbleBackgroundView.frame = CGRect(x: 0, y: 0, width: bubbleBackgroundViewSize.width, height: bubbleBackgroundViewSize.height)
-//            let image = RCKitUtility.imageNamed("chat_from_bg_normal", ofBundle: "RongCloud.bundle")
-            let image = UIImage.create(with: kAppWhiteColor)
-            let imageHeigth = image?.size.height ?? 0
-            let imageWidth = image?.size.width ?? 0
-            bubbleBackgroundView.image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: imageHeigth * 0.8, left: imageWidth * 0.8, bottom: imageHeigth * 0.2, right: imageWidth * 0.2))
         }
         //
         else {
+            iconimg.isHidden = true
             rejectBtn.isHidden = true
             lookupBtn.isHidden = true
             lineView.isHidden = true
-            textLabel.frame = CGRect(x: 12, y: 7, width: textLabelSize.width, height: textLabelSize.height)
+            btnlineView.isHidden = true
+            textLabel.frame = CGRect(x: 18, y: (bubbleBackgroundViewSize.height - textLabelSize.height) / 2.0, width: textLabelSize.width, height: textLabelSize.height)
             
             messageContentViewRect.size.width = bubbleBackgroundViewSize.width
             messageContentViewRect.size.height = bubbleBackgroundViewSize.height
@@ -248,22 +272,17 @@ class WechatExchangeMessageCell: RCMessageCell {
             messageContentView.frame = messageContentViewRect
             
             bubbleBackgroundView.frame = CGRect(x: 0, y: 0, width: bubbleBackgroundViewSize.width, height: bubbleBackgroundViewSize.height)
-//            let image = RCKitUtility.imageNamed("chat_to_bg_normal", ofBundle: "RongCloud.bundle")
-            let image = UIImage.create(with: kAppWhiteColor)
-
-            let imageHeigth = image?.size.height ?? 0
-            let imageWidth = image?.size.width ?? 0
-            bubbleBackgroundView.image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: imageHeigth * 0.8, left: imageWidth * 0.2, bottom: imageHeigth * 0.2, right: imageWidth * 0.8))
         }
         
     }
     
     private class func getTextLabelSize(_ message: WechatExchangeMessage, messageDirection: RCMessageDirection) -> CGSize {
-        if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            message.content = "对方想获取你的微信～"
-        }else {
-            message.content = "你像对方发送了请求微信～"
-        }
+         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+            message.content = "我想要与您交换微信，您是否同意？"
+           }else {
+            message.content = "请求交换微信已发送"
+           }
+
         if !message.content.isEmpty {
             let screenWidth = UIScreen.main.bounds.size.width
             let portraitWidth = RCIM.shared()?.globalMessagePortraitSize.width
@@ -276,9 +295,9 @@ class WechatExchangeMessageCell: RCMessageCell {
 //            return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 5)
             
             if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-                return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 45)
+                return CGSize(width: textRect.size.width + 5 + 19, height: textRect.size.height + 45)
             }else {
-                return CGSize(width: textRect.size.width + 5, height: textRect.size.height)
+                return CGSize(width: textRect.size.width, height: textRect.size.height)
             }
         } else {
             return CGSize.zero
@@ -311,3 +330,4 @@ class WechatExchangeMessageCell: RCMessageCell {
     }
     
 }
+
