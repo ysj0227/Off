@@ -230,26 +230,26 @@ extension RenterChatViewController {
     
     //发送交换手机号自定义消息
     func sendExchangePhone() {
-        let messageContent = PhoneExchangeMessage.messageWithContent(content: "你像对方发送了请求手机号～")
-        sendMessage(messageContent, pushContent: "交换手机号")
+        let messageContent = PhoneExchangeMessage.messageWithContent(content: "我想和您交换手机号")
+        sendMessage(messageContent, pushContent: "我想和您交换手机号")
     }
     
     //发送交换微信自定义消息
     func sendExchangeWechat() {
-        let messageContent = WechatExchangeMessage.messageWithContent(content: "你像对方发送了请求微信～")
-        sendMessage(messageContent, pushContent: "交换微信")
+        let messageContent = WechatExchangeMessage.messageWithContent(content: "我想和您交换微信号")
+        sendMessage(messageContent, pushContent: "我想和您交换微信号")
     }
     
     //交换微信同意拒绝消息
     func sendExchangeWechatAgreeOrReject(agree: Bool) {
         
-        let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "wechat18516765366": "您已拒绝对方获取微信的请求～", isAgree: agree)
+        let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换微信": "我拒绝和您交换微信", isAgree: agree)
         sendMessage(messageContent, pushContent: "交换信成功失败")
     }
     
     //交换手机号同意拒绝消息
     func sendExchangePhoneAgreeOrReject(agree: Bool) {
-        let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "18516765366" : "您已拒绝对方获取手机号的请求～", isAgree: agree)
+        let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换手机号" : "我拒绝和您交换手机号", isAgree: agree)
         sendMessage(messageContent, pushContent: "交换手机号成功失败")
     }
     
