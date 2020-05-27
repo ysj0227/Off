@@ -100,7 +100,7 @@ class PhoneExchangeStatusMessage: RCMessageContent, NSCoding {
 }
 
 
-class PhoneExchangeStatusMessageCell: RCMessageCell {
+class PhoneExchangeStatusMessageCell: RCMessageBaseCell {
     
     // 消息显示的 label
     lazy var textLabel: UILabel = {
@@ -114,15 +114,29 @@ class PhoneExchangeStatusMessageCell: RCMessageCell {
         return label
     }()
     
-    // 消息显示的 label
-    lazy var lookupBtn: UIButton = {
+    //复制按钮
+    lazy var copyBtn: UIButton = {
         let view = UIButton()
         view.setTitleColor(kAppBlueColor, for: .normal)
         view.titleLabel?.font = FONT_13
-        view.setTitle("复制手机号", for: .normal)
+        view.setTitle("复制号码", for: .normal)
         return view
     }()
     
+    //复制按钮
+    lazy var dailBtn: UIButton = {
+        let view = UIButton()
+        view.setTitleColor(kAppBlueColor, for: .normal)
+        view.titleLabel?.font = FONT_13
+        view.setTitle("立即拨打", for: .normal)
+        return view
+    }()
+    lazy var btnlineView: UIView = {
+           let view = UIView()
+           view.backgroundColor = kAppColor_line_EEEEEE
+           return view
+       }()
+
     lazy var lineView: UIView = {
         let view = UIView()
         view.backgroundColor = kAppColor_line_EEEEEE
@@ -134,6 +148,7 @@ class PhoneExchangeStatusMessageCell: RCMessageCell {
         let imageView = UIImageView(frame: CGRect.zero)
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
+        imageView.backgroundColor = kAppColor_bgcolor_F7F7F7
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -141,9 +156,8 @@ class PhoneExchangeStatusMessageCell: RCMessageCell {
     // 自定义消息 Cell 的 Size
     override class func size(for model: RCMessageModel!, withCollectionViewWidth collectionViewWidth: CGFloat, referenceExtraHeight extraHeight: CGFloat) -> CGSize {
         
-        let message = model.content as? PhoneExchangeStatusMessage
-        let size = getBubbleBackgroundViewSize(message ?? PhoneExchangeStatusMessage.messageWithContent(content: "", isAgree: false), messageDirection: model.messageDirection)
-        
+        let message = model.content as? PhoneExchangeStatusMessage ?? PhoneExchangeStatusMessage.messageWithContent(content: "", isAgree: false)
+        let size = PhoneExchangeStatusMessageCell.getTextLabelSize(message, messageDirection: model.messageDirection)
         var messagecontentviewHeight = size.height;
         messagecontentviewHeight = messagecontentviewHeight + extraHeight;
         return CGSize(width: collectionViewWidth, height: messagecontentviewHeight)
@@ -160,9 +174,10 @@ class PhoneExchangeStatusMessageCell: RCMessageCell {
     }
     
     func initialize() {
-        messageContentView.addSubview(bubbleBackgroundView)
+        
+        baseContentView.addSubview(bubbleBackgroundView)
         bubbleBackgroundView.addSubview(textLabel)
-        bubbleBackgroundView.addSubview(lookupBtn)
+        bubbleBackgroundView.addSubview(copyBtn)
         bubbleBackgroundView.addSubview(lineView)
         
         
@@ -194,20 +209,19 @@ class PhoneExchangeStatusMessageCell: RCMessageCell {
     }
     
     private func setContent(_ model: RCMessageModel!) {
+        let testMessage = model.content as? PhoneExchangeStatusMessage
         //接收 -
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
-            let testMessage = model.content as? PhoneExchangeStatusMessage
             if testMessage?.isAgree == true {
-                testMessage?.content = "18516765366"
+                testMessage?.content = "电话已交换！\n 对方电话：1234567890"
             }else {
                 testMessage?.content = "对方拒绝交换手机号"
             }
         }else {
-            let testMessage = model.content as? PhoneExchangeStatusMessage
             if testMessage?.isAgree == true {
-                testMessage?.content = "你的手机号已经发送给对象～"
+                testMessage?.content = "手机号已经发送给对方"
             }else {
-                testMessage?.content = "您已拒绝对方获取手机号的请求～"
+                testMessage?.content = "已拒绝"
             }
         }
     }
@@ -219,124 +233,82 @@ class PhoneExchangeStatusMessageCell: RCMessageCell {
         textLabel.text = testMessage?.content
         
         let textLabelSize = PhoneExchangeStatusMessageCell.getTextLabelSize(testMessage ?? PhoneExchangeStatusMessage.messageWithContent(content: "", isAgree: testMessage?.isAgree ?? false), messageDirection: messageDirection)
-        
-        let bubbleBackgroundViewSize = PhoneExchangeStatusMessageCell.getBubbleSize(textLabelSize)
-        var messageContentViewRect = messageContentView.frame
+        baseContentView.frame = CGRect(x: (UIScreen.main.bounds.size.width - 112) / 2.0, y:0, width: 112, height: textLabelSize.height)
+        bubbleBackgroundView.frame = CGRect(x: 0, y:0, width: 112, height: textLabelSize.height)
         
         //接收 -
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
             
             if testMessage?.isAgree == true {
+                
                 lineView.isHidden = false
-                lookupBtn.isHidden = false
-                textLabel.frame = CGRect(x: 20, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45)
-                lineView.frame = CGRect(x: 6, y: textLabel.bottom + 14, width: bubbleBackgroundViewSize.width - 12, height: 1)
-                lookupBtn.frame = CGRect(x: 6, y: lineView.bottom, width: bubbleBackgroundViewSize.width - 6, height: 45)
-                messageContentViewRect.size.width = bubbleBackgroundViewSize.width
-                messageContentView.frame = messageContentViewRect
+                copyBtn.isHidden = false
+                dailBtn.isHidden = false
+                btnlineView.isHidden = false
                 
-                bubbleBackgroundView.frame = CGRect(x: 0, y: 0, width: bubbleBackgroundViewSize.width, height: bubbleBackgroundViewSize.height)
-                let image = UIImage.create(with: kAppWhiteColor)
-                let imageHeigth = image?.size.height ?? 0
-                let imageWidth = image?.size.width ?? 0
-                bubbleBackgroundView.image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: imageHeigth * 0.8, left: imageWidth * 0.8, bottom: imageHeigth * 0.2, right: imageWidth * 0.2))
+                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: 32)
+                lineView.frame = CGRect(x: 3.5, y: textLabel.bottom, width: bubbleBackgroundView.width - 7, height: 1)
+                copyBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
+                btnlineView.frame = CGRect(x: copyBtn.right, y: copyBtn.top, width: 1.0, height: copyBtn.height)
+                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 45)
             }else {
+                
                 lineView.isHidden = true
-                lookupBtn.isHidden = true
-                textLabel.frame = CGRect(x: 20, y: 7, width: textLabelSize.width, height: textLabelSize.height)
-                
-                messageContentViewRect.size.width = bubbleBackgroundViewSize.width
-                messageContentView.frame = messageContentViewRect
-                
-                bubbleBackgroundView.frame = CGRect(x: 0, y: 0, width: bubbleBackgroundViewSize.width, height: bubbleBackgroundViewSize.height)
-                let image = UIImage.create(with: kAppWhiteColor)
-                let imageHeigth = image?.size.height ?? 0
-                let imageWidth = image?.size.width ?? 0
-                bubbleBackgroundView.image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: imageHeigth * 0.8, left: imageWidth * 0.8, bottom: imageHeigth * 0.2, right: imageWidth * 0.2))
-            }            
+                copyBtn.isHidden = true
+                dailBtn.isHidden = true
+                btnlineView.isHidden = true
+                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: 32)
+            }
         }
             //发送方
         else {
+            
             lineView.isHidden = true
-            lookupBtn.isHidden = true
-            
-            textLabel.frame = CGRect(x: 12, y: 7, width: textLabelSize.width, height: textLabelSize.height)
-            
-            messageContentViewRect.size.width = bubbleBackgroundViewSize.width
-            messageContentViewRect.size.height = bubbleBackgroundViewSize.height
-            
-            let portraitWidht = RCIM.shared().globalMessagePortraitSize.width
-            messageContentViewRect.origin.x = baseContentView.bounds.size.width - (messageContentViewRect.size.width + CGFloat(HeadAndContentSpacing) + portraitWidht + 10)
-            
-            messageContentView.frame = messageContentViewRect
-            
-            bubbleBackgroundView.frame = CGRect(x: 0, y: 0, width: bubbleBackgroundViewSize.width, height: bubbleBackgroundViewSize.height)
-            //            let image = RCKitUtility.imageNamed("chat_to_bg_normal", ofBundle: "RongCloud.bundle")
-            let image = UIImage.create(with: kAppWhiteColor)
-            
-            let imageHeigth = image?.size.height ?? 0
-            let imageWidth = image?.size.width ?? 0
-            bubbleBackgroundView.image = image?.resizableImage(withCapInsets: UIEdgeInsets(top: imageHeigth * 0.8, left: imageWidth * 0.2, bottom: imageHeigth * 0.2, right: imageWidth * 0.8))
+            copyBtn.isHidden = true
+            dailBtn.isHidden = true
+            btnlineView.isHidden = true
+            textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: 32)
         }
     }
     
     private class func getTextLabelSize(_ message: PhoneExchangeStatusMessage, messageDirection: RCMessageDirection) -> CGSize {
+        if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
+            if message.isAgree == true {
+                message.content = "电话已交换！\n 对方电话：1234567890"
+            }else {
+                message.content = "对方拒绝交换手机号"
+            }
+        }else {
+            if message.isAgree == true {
+                message.content = "手机号已经发送给对方"
+            }else {
+                message.content = "已拒绝"
+            }
+        }
         
         if !message.content.isEmpty {
-            let screenWidth = UIScreen.main.bounds.size.width
-            let portraitWidth = RCIM.shared()?.globalMessagePortraitSize.width
-            let portrait = (10 + (portraitWidth ?? 0.0) + 10) * 2
-            let maxWidth = screenWidth - portrait - 5 - 35
-            
-            var textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
-            textRect.size.height = CGFloat(ceilf(Float(textRect.size.height)))
-            textRect.size.width = CGFloat(ceilf(Float(textRect.size.width)))
             
             if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
                 
                 if message.isAgree == true {
-                    return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 45)
+                    
+                    return CGSize(width: 112, height: 58)
                     
                 }else {
-                    return CGSize(width: textRect.size.width + 5, height: textRect.size.height)
+                    return CGSize(width: 112, height: 32)
                 }
             }else {
                 if message.isAgree == true {
-                    return CGSize(width: textRect.size.width + 5, height: textRect.size.height)
+                    return CGSize(width: 112, height: 32)
                     
                 }else {
-                    return CGSize(width: textRect.size.width + 5, height: textRect.size.height)
+                    return CGSize(width: 112, height: 32)
                 }
             }
             
         } else {
             return CGSize.zero
         }
-    }
-    
-    private class func getBubbleSize(_ textLabelSize: CGSize) -> CGSize {
-        var bubbleSize = CGSize(width: textLabelSize.width, height: textLabelSize.height)
-        
-        if bubbleSize.width + 12 + 20 > 50 {
-            bubbleSize.width = bubbleSize.width + 12 + 20
-        } else {
-            bubbleSize.width = 50
-        }
-        
-        if bubbleSize.height + 7 + 7 > 40 {
-            bubbleSize.height = bubbleSize.height + 7 + 7
-        } else {
-            bubbleSize.height = 40
-        }
-        
-        return bubbleSize
-    }
-    
-    public class func getBubbleBackgroundViewSize(_ message: PhoneExchangeStatusMessage, messageDirection: RCMessageDirection) -> CGSize {
-        
-        let textLabelSize = PhoneExchangeStatusMessageCell.getTextLabelSize(message, messageDirection: messageDirection)
-        return PhoneExchangeStatusMessageCell.getBubbleSize(textLabelSize)
-        
     }
     
 }
