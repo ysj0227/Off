@@ -1,0 +1,93 @@
+//
+//  RenterDetailTrafficCell.swift
+//  OfficeGo
+//
+//  Created by DENGFei on 2020/5/11.
+//  Copyright © 2020 Senwei. All rights reserved.
+//
+
+import UIKit
+
+class RenterDetailTrafficCell: BaseTableViewCell {
+    
+    @IBOutlet weak var addressLabel: UILabel!
+    
+    @IBOutlet weak var trafficLineView: UIView!
+    
+    @IBOutlet weak var lookAllButton: UIButton!
+    
+    @IBOutlet weak var lineViewConstantHeight: NSLayoutConstraint!
+    
+    //点击全部站点- block
+    var trafficBtnClick: ((_ isUp: Bool) -> Void)?
+
+    let duanHeight: CGFloat = 30
+    
+    let changHeight: CGFloat = 60
+    
+    
+    @IBAction func clickLookAllLineview(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        guard let blockk = trafficBtnClick else {
+            return
+        }
+        blockk(sender.isSelected)
+        setBtnUpOrDown(button: sender, isUp: sender.isSelected)
+    }
+    
+    //设置按钮箭头方向
+    func setBtnUpOrDown(button: UIButton?, isUp: Bool) {
+        if isUp {
+            button?.setImage(UIImage(named: "upIcon"), for: .normal)
+            lineViewConstantHeight.constant = changHeight
+        }else {
+            button?.setImage(UIImage(named: "downDirGray"), for: .normal)
+            lineViewConstantHeight.constant = duanHeight
+        }
+    }
+    
+    var model: String = "" {
+        didSet {
+            var arr = trafficLineView.subviews
+            arr.removeAll()
+            addLineLabels(str: model)
+        }
+    }
+    
+    func addLineLabels(str: String) {
+        let arr = str.split{$0 == ","}.map(String.init)
+        var height: CGFloat = 0.0
+        for strs in arr {
+            let itemHeight:CGFloat = 30
+            let view = UILabel.init(frame: CGRect(x: 0, y: height, width: trafficLineView.width, height: itemHeight))
+            view.text = strs
+            view.font = FONT_11
+            view.textColor = kAppColor_666666
+            height =  height + itemHeight
+            trafficLineView.addSubview(view)
+        }
+    }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        lookAllButton.setTitle("全部站点", for: .normal)
+        lookAllButton.setImage(UIImage(named: "downDirGray"), for: .normal)
+        lookAllButton.layoutButton(.imagePositionRight, space: 4)
+    }
+    
+    
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+    }
+    
+    
+    class func rowHeight() -> CGFloat {
+        return 40 + 30
+    }
+    
+    func rowHeight() -> CGFloat {
+        return 40 + 30 * 2
+    }
+}

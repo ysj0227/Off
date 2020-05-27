@@ -1,0 +1,196 @@
+//
+//  SSAPI.swift
+//  UUEnglish
+//
+//  Created by Aibo on 2018/3/27.
+//  Copyright © 2018年 uuabc. All rights reserved.
+//
+
+import Foundation
+
+@objcMembers class SSAPI: NSObject {
+    
+    enum AppBuildType: Int {
+        case Dev
+        case Test
+        case Uat
+        case Tag
+        case Release
+    }
+    
+    enum BackgroundServerType: Int {
+        case SSApiHost
+        case ShareHost
+    }
+    
+    // DEBUG 开发环境,供技术内部联调
+    // TEST 测试环境，供测试在测试环境测试
+    // UAT 预上线环境，供测试在仿生产环境测试
+    // REALEASE or Tag 正式环境, REALEASE testflight上测试, Tag adhoc
+    // 激光推送 App 是 ad-hoc 打包或者App Store 版本（发布证书 Production）https://docs.jiguang.cn/jpush/client/iOS/ios_debug_guide/
+    
+    
+    
+    static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/api/",
+                             "Test": "http://admin.officego.com.cn/api/",
+                             "Uat": "http://admin.officego.com.cn/api/",
+                             "Tag": "http://admin.officego.com.cn/api/",
+                             "Release": "http://admin.officego.com.cn/api/"]
+    
+    static var ShareHosts = ["Dev": "http://admin.officego.com.cn/api/",
+                             "Test": "http://admin.officego.com.cn/api/",
+                             "Uat": "http://admin.officego.com.cn/api/",
+                             "Tag": "http://admin.officego.com.cn/api/",
+                             "Release": "admin://api.officego.com.cn/api/"]
+    
+    static func getUrlAddress(buildType:AppBuildType,serverType:BackgroundServerType) -> String {
+        let buildType =  "\(buildType)"
+        var addrese: String
+        switch serverType {
+            
+        case .SSApiHost:
+            addrese = SSApiHosts[buildType]!
+            
+        case .ShareHost:
+            addrese = ShareHosts[buildType]!
+        }
+        return addrese
+    }
+    
+    static func saveUrlAddress(url:String, buildType:AppBuildType,serverType:BackgroundServerType) {
+        guard url.length>0 else {
+            return
+        }
+        guard  buildType != .Release else {
+            return
+        }
+        let key:String = "\(serverType)\(buildType)"
+        SSTool.saveDataWithUserDefault(key: key, value: url as AnyObject)
+    }
+    
+    static  func getUrlByServerType(serverType: BackgroundServerType) -> String {
+        #if DEBUG
+        return getUrlAddress(buildType: .Dev,serverType: serverType)
+        #elseif TEST
+        return getUrlAddress(buildType: .Test,serverType:serverType)
+        #elseif UAT
+        return getUrlAddress(buildType: .Uat,serverType: serverType)
+        #elseif TAG
+        return getUrlAddress(buildType: .Tag,serverType: serverType)
+        #else  //REALEASE
+        let releaseBuildType = "\(AppBuildType.Release)"
+        var url = ""
+        switch serverType {
+        case .SSApiHost:
+            url = SSApiHosts[releaseBuildType]!
+        case .ShareHost:
+            url = ShareHosts[releaseBuildType]!
+        }
+        SSLog("url:\(url)")
+        return url
+        #endif
+    }
+    
+    
+    @objc static var SSApiHost: String {
+        return getUrlByServerType(serverType: .SSApiHost)
+    }
+    
+    static var ShareHost: String {
+        return getUrlByServerType(serverType: .ShareHost)
+    }
+}
+
+//  MARK:   --基本信息
+class SSBasicURL: NSObject {
+    
+    //地铁线路接口
+    static let getSubwayList = "dictionary/getSubwayList"
+    
+    //区域商圈接口
+    static let getDistrictList = "dictionary/getDistrictList"
+    
+    //获取字典接口
+    static let getDictionary = "dictionary/getDictionary"
+    
+}
+
+//  MARK:   --登录
+class SSLoginURL: NSObject {
+    
+    static let getSmsCode = "login/sms_code"
+    
+    static let loginWithCode = "login/loginCode"
+    
+    static let addWantToFind = "building/addWantGoBuild"
+    
+}
+
+
+//  MARK:   --行程接口
+class SSScheduleURL: NSObject {
+    
+    //看房日程
+    static let getScheduleListApp = "schedule/getScheduleListApp"
+    
+    //约看房记录
+    static let getOldScheduleListApp = "schedule/getOldScheduleListApp"
+    
+    //看房行程详情
+    static let getScheduleApp = "schedule/getScheduleApp"
+    
+    //预约看房
+    static let selectScheduleHouseApp = "schedule/selectScheduleHouseApp"
+    
+    //保存预约行程
+    static let addRenterApp = "schedule/addRenterApp"
+    
+    //结束行程
+    static let updateFinish = "schedule/updateFinish"
+    
+    //行程审核接口
+    static let updateAuditStatusApp = "schedule/updateAuditStatusApp"
+    
+}
+
+
+//海报
+class SSPoster: NSObject {
+    
+    static let posterBgList = "api/activity/poster/list"                  // 默认的海报地址
+    static let posterSaveToDB  = "api/activity/posterUser"                // 保存用户生成海报信息
+    static let posterUserList  = "api/activity/posterUser/list"           // 我的海报列表
+    static let recommend = "api/activity/activityRecommend/list"
+    static let getQiniuToken = "api/activity/qiniu/getUploadToken"        //七牛云获取token
+}
+
+class UUListenTestUrl: NSObject {
+    static let requestListenTest = "api/activity/superActivityUrl" //获取试听h5接口
+}
+
+extension SSAPI.AppBuildType: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .Dev:
+            return "Dev"
+        case .Test:
+            return "Test"
+        case .Uat:
+            return "Uat"
+        case .Tag:
+            return "Tag"
+        case .Release:
+            return "Release"
+        }
+    }
+}
+extension SSAPI.BackgroundServerType: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .SSApiHost:
+            return "SSAPIHost"
+        case .ShareHost:
+            return "ShareHost"
+        }
+    }
+}

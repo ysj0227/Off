@@ -1,0 +1,154 @@
+//
+//  RenterChatListViewController.swift
+//  OfficeGo
+//
+//  Created by mac on 2020/5/20.
+//  Copyright © 2020 Senwei. All rights reserved.
+//
+
+import UIKit
+
+class RenterChatListViewController: RCConversationListViewController {
+    
+    var titleview: ThorNavigationView?
+    
+    var index: Int?
+    
+    var isClick: Bool?
+
+    override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         let tab = self.navigationController?.tabBarController as? MainTabBarController
+         tab?.customTabBar.isHidden = true
+     }
+     override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+         let tab = self.navigationController?.tabBarController as? MainTabBarController
+         tab?.customTabBar.isHidden = false
+     }
+
+    
+    func updateBadgeValueForTabBarItem() {
+        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE]) ?? 0)
+        let tab = self.navigationController?.tabBarController as? MainTabBarController
+        tab?.setbadge(num: count)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        initSubviews()
+        
+        setupView()
+        
+        setConversationType()
+    }
+    
+    func setConversationType() {
+        self.setDisplayConversationTypes([RCConversationType.ConversationType_PRIVATE.rawValue])
+//        self.setDisplayConversationTypes([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_GROUP.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue])
+//        self.setCollectionConversationType([RCConversationType.ConversationType_GROUP.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue])
+    }
+    
+}
+
+extension RenterChatListViewController {
+    
+    func initSubviews() {
+        self.conversationListTableView.separatorColor = kAppClearColor
+        self.index = 0
+        self.showConnectingStatusOnNavigatorBar = true
+    }
+    
+    
+    func setupView() {
+                
+        titleview = ThorNavigationView.init(type: .messageTitleSearchBarSearchBtn)
+        titleview?.rightButton.isHidden = true
+        titleview?.searchBarView.isHidden = true
+        titleview?.rightBtnClickBlock = { [weak self] in
+            self?.titleview?.rightButton.isHidden = true
+            self?.titleview?.searchBarView.isHidden = false
+        }
+        titleview?.searchBarView.searchTextfiled.delegate = self
+        titleview?.searchBarView.searchTextfiled.clearButtonMode = .always
+        self.view.addSubview(titleview!)
+        
+        self.conversationListTableView.snp.remakeConstraints { (make) in
+            make.top.equalTo(kNavigationHeight)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        
+    }
+    
+    override func onSelectedTableRow(_ conversationModelType: RCConversationModelType, conversationModel model: RCConversationModel!, at indexPath: IndexPath!) {
+        
+        
+        if model.conversationModelType == .CONVERSATION_MODEL_TYPE_NORMAL {
+            if conversationModelType == .CONVERSATION_MODEL_TYPE_COLLECTION {
+//                let vc = RenterChatViewController()
+//                vc.displayConversationTypeArray =
+//                vc.targetId = model.targetId
+//                vc.title = model.conversationTitle
+//                vc.unReadMessage = model.unreadMessageCount
+//                vc.enableNewComingMessageIcon = true  //开启消息提醒
+//                vc.enableNewComingMessageIcon = true
+//                if model.conversationType == .ConversationType_SYSTEM {
+//                    vc.userName = "de_actionbar_sub_system"
+//                    vc.title = "de_actionbar_sub_system"
+//                }else {
+//                    vc.displayUserNameInCell = false
+//                }
+//                self.navigationController?.pushViewController(vc, animated: true)
+
+            }else {
+                let vc = RenterChatViewController()
+                vc.conversationType = .ConversationType_PRIVATE
+                vc.targetId = model.targetId
+                vc.title = model.conversationTitle
+                vc.unReadMessage = model.unreadMessageCount
+                vc.enableNewComingMessageIcon = true  //开启消息提醒
+                vc.enableNewComingMessageIcon = true
+                if model.conversationType == .ConversationType_SYSTEM {
+                    vc.userName = "de_actionbar_sub_system"
+                    vc.title = "de_actionbar_sub_system"
+                }else {
+                    vc.displayUserNameInCell = false
+                }
+                self.navigationController?.pushViewController(vc, animated: true)
+
+            }
+        }
+        
+        self.updateBadgeValueForTabBarItem()
+    }
+    
+    
+    override func rcConversationListTableView(_ tableView: UITableView!, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath!) {
+        
+    }
+    
+//    override func willDisplayConversationTableCell(_ cell: RCConversationBaseCell!, at indexPath: IndexPath!) {
+//        if let model = self.conversationListDataSource[indexPath.row] as? RCConversationModel {
+//            weak var weakSelf = self
+//            RCDUserService.shared.getUserInfo(withUserId:model.targetId) { (userInfo) in
+//                weakSelf?.updateCell(at: indexPath)
+//            }
+//        }
+//    }
+
+}
+
+extension RenterChatListViewController :UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        titleview?.rightButton.isHidden = false
+        titleview?.searchBarView.isHidden = true
+        titleview?.searchBarView.searchTextfiled.resignFirstResponder()
+        return true
+    }
+}

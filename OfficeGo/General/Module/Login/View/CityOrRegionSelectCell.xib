@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityOrRegionSelectCell" rowHeight="110" id="KGk-i7-Jjw" customClass="CityOrRegionSelectCell" customModule="OfficeGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择城市" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0r-YX-I8E">
+                        <rect key="frame" x="17" y="0.0" width="69.5" height="59"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="59" id="Kby-N7-IgN"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择区域" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fwe-Ud-vT3">
+                        <rect key="frame" x="121" y="0.0" width="180" height="59"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8s-rQ-bH4">
+                        <rect key="frame" x="17" y="65" width="87" height="38"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="38" id="g4T-X8-Y4T"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="上海">
+                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="citySelect:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="w4A-Tq-Fnt"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P1U-TR-XJL">
+                        <rect key="frame" x="121" y="65" width="180" height="38"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="38" id="92o-fx-4te"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="宝山·顾村/共富/高境/共">
+                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="addressSelect:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zFd-px-UQA"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Fwe-Ud-vT3" firstAttribute="top" secondItem="u0r-YX-I8E" secondAttribute="top" id="081-jq-TXk"/>
+                    <constraint firstItem="Fwe-Ud-vT3" firstAttribute="trailing" secondItem="P1U-TR-XJL" secondAttribute="trailing" id="1BU-b5-V6b"/>
+                    <constraint firstItem="Fwe-Ud-vT3" firstAttribute="leading" secondItem="P1U-TR-XJL" secondAttribute="leading" id="9wj-bl-ia1"/>
+                    <constraint firstItem="P1U-TR-XJL" firstAttribute="leading" secondItem="M8s-rQ-bH4" secondAttribute="trailing" constant="17" id="Ciz-Lx-B60"/>
+                    <constraint firstItem="M8s-rQ-bH4" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="102/375" id="JND-FQ-YZ1"/>
+                    <constraint firstItem="Fwe-Ud-vT3" firstAttribute="height" secondItem="u0r-YX-I8E" secondAttribute="height" id="YVb-wl-7Y4"/>
+                    <constraint firstItem="M8s-rQ-bH4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="17" id="bk0-ZF-qa4"/>
+                    <constraint firstAttribute="trailing" secondItem="P1U-TR-XJL" secondAttribute="trailing" constant="19" id="gnL-cQ-aRk"/>
+                    <constraint firstItem="u0r-YX-I8E" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="17" id="i5r-rg-JwD"/>
+                    <constraint firstItem="P1U-TR-XJL" firstAttribute="bottom" secondItem="M8s-rQ-bH4" secondAttribute="bottom" id="kBd-z4-KYK"/>
+                    <constraint firstItem="u0r-YX-I8E" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="l6d-YU-Ste"/>
+                    <constraint firstAttribute="bottom" secondItem="M8s-rQ-bH4" secondAttribute="bottom" constant="7" id="mVr-UX-fum"/>
+                    <constraint firstAttribute="bottom" secondItem="M8s-rQ-bH4" secondAttribute="bottom" constant="7" id="sUV-dQ-Fdq"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addressButton" destination="P1U-TR-XJL" id="nav-cY-4ac"/>
+                <outlet property="cityButton" destination="M8s-rQ-bH4" id="R2b-uu-OV3"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="99.776785714285708"/>
+        </tableViewCell>
+    </objects>
+</document>

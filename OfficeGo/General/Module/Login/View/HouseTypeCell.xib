@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HouseTypeCell" rowHeight="110" id="KGk-i7-Jjw" customClass="HouseTypeCell" customModule="OfficeGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="355" height="110"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="355" height="110"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="房源类型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRp-o2-tvV">
+                        <rect key="frame" x="17" y="0.0" width="61.5" height="59"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="59" id="hwc-KM-NNf"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOF-OO-zwL">
+                        <rect key="frame" x="17" y="65" width="96.5" height="38"/>
+                        <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="38" id="8U9-88-cFu"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <state key="normal" title="写字楼">
+                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="officeBuildingSelect:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="tC5-Di-22k"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qO-2J-IMV">
+                        <rect key="frame" x="128.5" y="65" width="96.5" height="38"/>
+                        <color key="backgroundColor" red="0.85490196080000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="38" id="HIf-Do-g0s"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <state key="normal" title="联合办公">
+                            <color key="titleColor" red="0.27450980390000002" green="0.76470588240000004" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="jointOfficeSelect:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="vsc-cP-5GH"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="8qO-2J-IMV" firstAttribute="bottom" secondItem="wOF-OO-zwL" secondAttribute="bottom" id="2RY-VC-1P0"/>
+                    <constraint firstItem="wOF-OO-zwL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="17" id="Ae3-ff-Y9b"/>
+                    <constraint firstItem="wOF-OO-zwL" firstAttribute="top" secondItem="cRp-o2-tvV" secondAttribute="bottom" constant="6" id="QAr-Cp-anH"/>
+                    <constraint firstItem="8qO-2J-IMV" firstAttribute="width" secondItem="wOF-OO-zwL" secondAttribute="width" id="Qpn-i3-ok5"/>
+                    <constraint firstItem="wOF-OO-zwL" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="102/375" id="RvY-UC-iHX"/>
+                    <constraint firstItem="cRp-o2-tvV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="17" id="bFb-GE-S8E"/>
+                    <constraint firstItem="8qO-2J-IMV" firstAttribute="leading" secondItem="wOF-OO-zwL" secondAttribute="trailing" constant="15" id="f3a-8O-6c7"/>
+                    <constraint firstItem="cRp-o2-tvV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="uZp-Vj-5EA"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="categoryTitleLabel" destination="cRp-o2-tvV" id="KkR-7p-gL5"/>
+                <outlet property="jointOfficeButton" destination="8qO-2J-IMV" id="Sqm-Bo-bfE"/>
+                <outlet property="officeBuildingButton" destination="wOF-OO-zwL" id="P84-4c-jz9"/>
+            </connections>
+            <point key="canvasLocation" x="163.04347826086959" y="132.58928571428572"/>
+        </tableViewCell>
+    </objects>
+</document>

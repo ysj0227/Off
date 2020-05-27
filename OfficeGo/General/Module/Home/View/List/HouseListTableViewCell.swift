@@ -1,0 +1,83 @@
+//
+//  HouseListTableViewCell.swift
+//  OfficeGo
+//
+//  Created by DENGFei on 2020/4/29.
+//  Copyright © 2020 Senwei. All rights reserved.
+//
+
+import UIKit
+
+class HouseListTableViewCell: BaseTableViewCell {
+
+    @IBOutlet weak var houseImageview: BaseImageView!
+    @IBOutlet weak var houseNameLabel: UILabel!
+    @IBOutlet weak var houseAddressLabel: UILabel!
+    @IBOutlet weak var houseDistanceLabel: UILabel!
+    @IBOutlet weak var houseRouteLineLabel: UILabel!
+    @IBOutlet weak var housePriceLabel: UILabel!
+    @IBOutlet weak var housePriceUnitLabel: UILabel!
+    @IBOutlet weak var houseOfficeNumOrSquareNumLabel: UIView!
+    @IBOutlet weak var houseFeatureView: UIView!
+    
+    @IBOutlet weak var lineView: UIView!
+    lazy var mianjiOrLianheView: FeatureView = {
+        let view = FeatureView(frame: CGRect(x: 0, y: 0, width: self.houseOfficeNumOrSquareNumLabel.width - left_pending_space_17 * 2, height: 18))
+//        view.featureString = "免费停车,近地铁,近地铁1"
+        return view
+    }()
+    
+    lazy var featureView: FeatureView = {
+            let view = FeatureView(frame: CGRect(x: 0, y: 0, width: self.houseOfficeNumOrSquareNumLabel.width - left_pending_space_17 * 2, height: 18))
+            return view
+        }()
+        
+    class func rowHeight() -> CGFloat {
+        return 192
+    }
+    
+    var model: FangYuanListModel = FangYuanListModel() {
+        didSet {
+            viewModel = FangYuanListViewModel.init(model: model)
+        }
+    }
+    
+    var viewModel: FangYuanListViewModel = FangYuanListViewModel(model: FangYuanListModel()) {
+        didSet {
+            setCellWithViewModel(viewModel: viewModel)
+        }
+    }
+    
+    func setCellWithViewModel(viewModel: FangYuanListViewModel) {
+        houseImageview.setImage(with: viewModel.mainPicImgString ?? "", placeholder: UIImage(named: "wechat"))
+//        houseNameLabel.text = viewModel.buildingName
+        houseNameLabel.text = "东方明珠"
+        houseAddressLabel.text = viewModel.addressString
+        houseDistanceLabel.text = viewModel.distanceString
+        houseRouteLineLabel.text = viewModel.walkTimesubwayAndStationString
+        housePriceLabel.text = viewModel.dayPriceString
+        housePriceUnitLabel.text = viewModel.unitString
+        if viewModel.houseType == 1 {
+            mianjiOrLianheView.mianjiStringList = "29m²,50²,70²"
+            featureView.featureStringList = "免费停车,近地铁,近地铁1"
+        }else if viewModel.houseType == 2 {
+            mianjiOrLianheView.lianheStringList = "开放工位20,独立办公室5个"
+            featureView.featureStringList = "免费停车,近地铁,近地铁1"
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        houseOfficeNumOrSquareNumLabel.addSubview(mianjiOrLianheView)
+        mianjiOrLianheView.snp.makeConstraints { (make) in
+            make.top.leading.bottom.trailing.equalToSuperview()
+        }
+        
+        houseFeatureView.addSubview(featureView)
+       featureView.snp.makeConstraints { (make) in
+           make.top.leading.bottom.trailing.equalToSuperview()
+       }
+    }
+    
+}

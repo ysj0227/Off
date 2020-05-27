@@ -1,0 +1,129 @@
+PODS:
+  - Alamofire (4.9.0)
+  - CLImagePickerTool (3.1.3)
+  - FSCalendar (2.8.0)
+  - HandyJSON (5.0.0)
+  - IQKeyboardManagerSwift (6.3.0)
+  - Kingfisher (5.8.3):
+    - Kingfisher/Core (= 5.8.3)
+  - Kingfisher/Core (5.8.3)
+  - lottie-ios (3.1.3)
+  - Masonry (1.1.0)
+  - MJRefresh (3.3.1)
+  - RongCloudIM/IMKit (2.9.25):
+    - RongCloudIM/IMLib
+  - RongCloudIM/IMLib (2.9.25)
+  - RxCocoa (5.0.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.0.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.0.0)
+  - SKPhotoBrowser (6.1.0)
+  - SnapKit (5.0.1)
+  - SwiftyJSON (5.0.0)
+  - UMCCommon (2.1.1)
+  - UMCSecurityPlugins (1.0.6)
+  - UMCShare/Core (6.9.5):
+    - UMCCommon
+  - UMCShare/Social/ReducedSina (6.9.5):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/ReducedWeChat (6.9.5):
+    - UMCCommon
+    - UMCShare/Core
+  - UMCShare/Social/Sina (6.9.5):
+    - UMCCommon
+    - UMCShare/Core
+    - UMCShare/Social/ReducedSina
+  - UMCShare/Social/WeChat (6.9.5):
+    - UMCCommon
+    - UMCShare/Core
+    - UMCShare/Social/ReducedWeChat
+  - UMCShare/UI (6.9.5):
+    - UMCCommon
+    - UMCShare/Core
+  - WMPlayer (5.0.0):
+    - Masonry
+
+DEPENDENCIES:
+  - Alamofire
+  - CLImagePickerTool (from `https://github.com/Darren-chenchen/CLImagePickerTool.git`)
+  - FSCalendar (= 2.8.0)
+  - HandyJSON (= 5.0.0)
+  - IQKeyboardManagerSwift (= 6.3.0)
+  - Kingfisher (= 5.8.3)
+  - lottie-ios (= 3.1.3)
+  - Masonry (= 1.1.0)
+  - MJRefresh (= 3.3.1)
+  - RongCloudIM/IMKit (~> 2.9.16)
+  - RongCloudIM/IMLib (~> 2.9.16)
+  - RxCocoa (= 5)
+  - RxSwift (= 5)
+  - SKPhotoBrowser
+  - SnapKit (= 5.0.1)
+  - SwiftyJSON (= 5.0.0)
+  - UMCCommon
+  - UMCSecurityPlugins
+  - UMCShare/Social/Sina (= 6.9.5)
+  - UMCShare/Social/WeChat (= 6.9.5)
+  - UMCShare/UI (~> 6.9.5)
+  - WMPlayer (= 5.0.0)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - FSCalendar
+    - HandyJSON
+    - IQKeyboardManagerSwift
+    - Kingfisher
+    - lottie-ios
+    - Masonry
+    - RongCloudIM
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+    - SKPhotoBrowser
+    - SwiftyJSON
+    - UMCCommon
+    - UMCSecurityPlugins
+    - UMCShare
+    - WMPlayer
+  trunk:
+    - MJRefresh
+    - SnapKit
+
+EXTERNAL SOURCES:
+  CLImagePickerTool:
+    :git: https://github.com/Darren-chenchen/CLImagePickerTool.git
+
+CHECKOUT OPTIONS:
+  CLImagePickerTool:
+    :commit: "ed5e4db0df5bbdc4ad2354cc442db84388977ce2\nerror: key does not contain a section: trustexitcode"
+    :git: https://github.com/Darren-chenchen/CLImagePickerTool.git
+
+SPEC CHECKSUMS:
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  CLImagePickerTool: 2ef59c6524efd493571a0ee2bc42f445b4c5b2cb
+  FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
+  HandyJSON: 992f2d661716d6a91de82d0056927bc7813b5770
+  IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
+  Kingfisher: b7e4cb65ff24c264bd2a1284b75b974d907afd94
+  lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
+  RongCloudIM: cd6836aa86fbf6c02f7b6b5c895ea4caa894d67f
+  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
+  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
+  SKPhotoBrowser: 343de95d89dc7913763c5dda243cc6e606e4a168
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  UMCCommon: 971f324a5a99c9d662ae040a815e7e3d7ef8b2a8
+  UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
+  UMCShare: 552b29753f1b4da87b51d96545ed19e6263df397
+  WMPlayer: a914f80ed5dca7cd9e3a94ec07a2b02eec8c15c0
+
+PODFILE CHECKSUM: fc192efaf769ea1a817bbd6264f488d313087ee3
+
+COCOAPODS: 1.9.1
