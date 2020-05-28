@@ -66,6 +66,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func notifyObserve() {
         //登录成功通知
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccess), name: NSNotification.Name.UserLogined, object: nil)
+        //退出登录
+        NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name.UserLogout, object: nil)
+        //切换身份
+        NotificationCenter.default.addObserver(self, selector: #selector(roleChange), name: NSNotification.Name.UserRoleChange, object: nil)
     }
     
     //9.0
@@ -78,10 +82,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return result
     }
     
+    //退出登录
+    @objc func logout(){
+        
+        //不清空身份类型
+        UserTool.shared.removeAll()
+        let tabbarVC = MainTabBarController()
+        window?.rootViewController = tabbarVC
+    }
+    
+    //切换身份
+    @objc func roleChange(){
+        
+        UserTool.shared.removeAll()
+        let tabbarVC = MainTabBarController()
+        window?.rootViewController = tabbarVC
+    }
+    
+    
     //登录成功 - 登录融云 - 设置tabbar
     @objc func loginSuccess(){
         
-        loginRongCloud()
+        //跳到tabbat之前判断是否是登录
+        if UserTool.shared.isLogin() == true {
+            
+            loginRongCloud()
+            
+        }else {
+            let tabbarVC = MainTabBarController()
+            window?.rootViewController = tabbarVC
+        }
     }
     
     //    func networkReachabilityStatus() {
@@ -94,16 +124,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func runTabBarViewController() -> Void {
         
-        if !UserInfo.shared().isLogin() {
+        if UserTool.shared.isLogin() == true {
+            //登录直接登录融云 - 然后设置tabbar
+            loginRongCloud()
+        }else {
             let rolechangeVC = LoginRoleViewController()
             navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
             navigationController?.navigationBar.isHidden = true
             window?.rootViewController = navigationController
             return
-        }else {
-            //登录直接登录融云 - 然后设置tabbar
-            loginRongCloud()
         }
+        //        if !UserInfo.shared().isLogin() {
+        //            let rolechangeVC = LoginRoleViewController()
+        //            navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
+        //            navigationController?.navigationBar.isHidden = true
+        //            window?.rootViewController = navigationController
+        //            return
+        //        }else {
+        //            //登录直接登录融云 - 然后设置tabbar
+        //            loginRongCloud()
+        //        }
     }
 }
 
@@ -113,8 +153,8 @@ extension AppDelegate {
     //设置当前用户信息
     func setRCUserInfo() {
         let info = RCUserInfo.init(userId: "11", name: "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com", portrait: "https://img.officego.com.cn/house/1589973533713.png")
-//    let info = RCUserInfo.init(userId: "200", name: "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com", portrait: "https://img.officego.com.cn/report/1590121741001.jpg")
-
+        //    let info = RCUserInfo.init(userId: "200", name: "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com", portrait: "https://img.officego.com.cn/report/1590121741001.jpg")
+        
         RCIM.shared()?.currentUserInfo = info
         
         ///是否在发送的所有消息中携带当前登录的用户信息
@@ -141,7 +181,7 @@ extension AppDelegate {
     
     func setUpSDKs() {
         
-        //友盟设置 - f
+        //友盟设置 -
         UMSocialManager.default().openLog(true)
         UMConfigure.initWithAppkey(AppKey.UMKey, channel: "App Store")
         /* 设置微信的appKey和appSecret */
@@ -175,8 +215,8 @@ extension AppDelegate {
         RCIM.shared()?.enablePersistentUserInfoCache = true
         
         //没懂什么意思Mark Mark
-//        RCIM.shared()?.userInfoDataSource = RCDUserService.shared
-//        RCIM.shared()?.userInfoDataSource = self
+        //        RCIM.shared()?.userInfoDataSource = RCDUserService.shared
+        //        RCIM.shared()?.userInfoDataSource = self
         
         //注册自定义消息
         //交换手机
@@ -184,19 +224,19 @@ extension AppDelegate {
         
         //交换微信
         RCIM.shared()?.registerMessageType(WechatExchangeMessage.self)
-
+        
         //交换手机状态
         RCIM.shared()?.registerMessageType(PhoneExchangeStatusMessage.self)
-
+        
         //交换微信状态
         RCIM.shared()?.registerMessageType(WechatExchangeStatusMessage.self)
-
+        
         //约看房源
         RCIM.shared()?.registerMessageType(ScheduleViewingMessage.self)
         
         //房源信息
         RCIM.shared()?.registerMessageType(FangyuanInsertFYMessage.self)
-
+        
     }
 }
 
@@ -206,7 +246,7 @@ extension AppDelegate {
 //当 SDK 在接收到消息时，开发者可通过下面方法进行处理。 SDK 会通过此方法接收包含 单聊、群聊、聊天室、系统 类型的所有消息，开发者只需全局设置一次即可，多次设置会导致其他代理失效。实现此功能需要开发者遵守 RCIMReceiveMessageDelegate 协议。
 extension AppDelegate: RCIMReceiveMessageDelegate {
     func onRCIMReceive(_ message: RCMessage!, left: Int32) {
-
+        
     }
     
     
