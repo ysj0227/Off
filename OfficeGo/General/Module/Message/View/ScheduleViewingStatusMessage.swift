@@ -2,7 +2,7 @@
 //  ScheduleViewingStatusMessage.swift
 //  OfficeGo
 //
-//  Created by mac on 2020/5/26.
+//  Created by mac on 2020/5/45.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
@@ -251,11 +251,11 @@ class ScheduleViewingStatusMessageCell: RCMessageBaseCell {
                 //                dailBtn.isHidden = false
                 //                btnlineView.isHidden = false
                 //
-                //                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height - 32)
+                //                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height - 45)
                 //                lineView.frame = CGRect(x: 3.5, y: textLabel.bottom, width: bubbleBackgroundView.width - 7, height: 1)
-                //                copyBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
+                //                copyBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 45)
                 //                btnlineView.frame = CGRect(x: copyBtn.right, y: copyBtn.top, width: 1.0, height: copyBtn.height)
-                //                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
+                //                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 45)
                 lineView.isHidden = true
                 copyBtn.isHidden = true
                 dailBtn.isHidden = true
@@ -305,10 +305,11 @@ class ScheduleViewingStatusMessageCell: RCMessageBaseCell {
             let maxWidth = screenWidth - portrait - 5 - 35
             let textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: [.usesLineFragmentOrigin, .usesDeviceMetrics, .usesFontLeading], attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
             
-            var width = maxWidth
+            var width = textRect.width
             width += 20
             var heght = textRect.height
             
+            heght += 20
             if heght < 40 {
                 heght = 40
             }
@@ -319,9 +320,9 @@ class ScheduleViewingStatusMessageCell: RCMessageBaseCell {
                     
                     return CGSize(width: width, height: heght)
                     
-                    //                    return CGSize(width: width, height: heght + 26)
+                    //                    return CGSize(width: width, height: heght + 45)
                     //
-                    //                    return CGSize(width: textRect.size.width, height: textRect.size.height + 26)
+                    //                    return CGSize(width: textRect.size.width, height: textRect.size.height + 45)
                     
                 }else {
                     

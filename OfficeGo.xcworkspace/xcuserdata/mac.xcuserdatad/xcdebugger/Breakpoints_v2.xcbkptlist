@@ -7,64 +7,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6E61754E-804B-4F13-A6ED-0B700F17EBEB"
+            uuid = "538026DB-434E-4664-ACB3-30B39FED546F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Login/Controller/ReviewLoginViewController.swift"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "466"
-            endingLineNumber = "466"
-            landmarkName = "verifyDiscount(discount:)"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
+            landmarkName = "setAutoLayout()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B7F2F009-8CAA-4F9A-9B87-9E2E755922A4"
+            uuid = "60393512-C501-441F-BB90-F0601CF2FCB1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Login/Controller/ReviewLoginViewController.swift"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "475"
-            endingLineNumber = "475"
-            landmarkName = "verifyDiscount(discount:)"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "setAutoLayout()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0E4B8434-F381-4365-A38D-AB219D6069CF"
+            uuid = "9B52FB5A-2EC6-42D4-BC49-72C52441792D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Login/Controller/ReviewLoginViewController.swift"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "481"
-            endingLineNumber = "481"
-            landmarkName = "verifyDiscount(discount:)"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
+            landmarkName = "getTextLabelSize(_:messageDirection:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4E6BAF1E-86D5-4135-9292-EF9B98A5B087"
+            uuid = "4BA4E400-BFED-47DB-935F-5AA7B553D111"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Login/Controller/ReviewLoginViewController.swift"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "461"
-            endingLineNumber = "461"
-            landmarkName = "verifyDiscount(discount:)"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
+            landmarkName = "getTextLabelSize(_:messageDirection:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

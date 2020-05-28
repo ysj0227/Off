@@ -257,8 +257,8 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let testMessage = model.content as? ScheduleViewingMessage
         textLabel.text = testMessage?.content
         
-        let intervalString = testMessage?.time
-        let date = Date.init(timeIntervalSince1970: TimeInterval.init(0))
+        let intervalString = testMessage?.time ?? ""
+        let date = Date.init(timeIntervalSince1970: TimeInterval.init(Int(intervalString) ?? 0))
         let dateStr = date.localDateString()
         timeLabel.text = "约看时间：\(dateStr)"
         

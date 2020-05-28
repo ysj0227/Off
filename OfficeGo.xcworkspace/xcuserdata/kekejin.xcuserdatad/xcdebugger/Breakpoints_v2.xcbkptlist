@@ -7,33 +7,81 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D6E50C7A-101A-4B3C-B6FD-1084A95CB30D"
+            uuid = "8F976133-6DF7-4BDA-BF62-E2713C3618A6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/Controller/HomePageViewController.swift"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
+            landmarkName = "getTextLabelSize(_:messageDirection:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "725AFD03-02EE-4F71-A79E-C42079BC9210"
+            uuid = "AB7C67CB-8167-4E03-AAC1-09B26FC70DF6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/AppDelegate.swift"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "AppDelegate"
-            landmarkType = "3">
+            startingLineNumber = "356"
+            endingLineNumber = "356"
+            landmarkName = "getTextLabelSize(_:messageDirection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5FB4F7CB-3616-4DFA-ACCE-FADD137DA7B9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
+            landmarkName = "setAutoLayout()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9C7FF7DE-98A7-4981-944B-775CD73D9E20"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
+            landmarkName = "setAutoLayout()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "715824D4-B60D-40AF-AFF8-09C76527BB4A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
+            landmarkName = "setAutoLayout()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
