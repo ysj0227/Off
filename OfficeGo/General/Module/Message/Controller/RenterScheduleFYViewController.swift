@@ -12,11 +12,22 @@ class RenterScheduleFYViewController: BaseTableViewController {
     
     var dateSelect: Date?
     
+    var dateHasSelect: Bool = false {
+        didSet {
+            if dateHasSelect {
+                bottomBtnView.rightSelectBtn.isUserInteractionEnabled = true
+                bottomBtnView.rightSelectBtn.backgroundColor = kAppBlueColor
+            }
+        }
+    }
+    
     lazy var bottomBtnView: BottomBtnView = {
         let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
         view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
         view.rightSelectBtn.setTitle("立即约看", for: .normal)
         view.backgroundColor = kAppWhiteColor
+        view.rightSelectBtn.isUserInteractionEnabled = false
+        view.rightSelectBtn.backgroundColor = kAppColor_btnGray_BEBEBE
         return view
     }()
     
@@ -31,6 +42,8 @@ class RenterScheduleFYViewController: BaseTableViewController {
         let interval = Int(round(dateSelect?.timeIntervalSince1970 ?? 0 * 1000))
 
         NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleSuccess, object: interval)
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     func setUpView() {
@@ -144,6 +157,7 @@ extension RenterScheduleFYViewController {
         if indexPath.section == 1 && indexPath.row == 2 {
             let datePicker = YLDatePicker(currentDate: dateSelect, minLimitDate: Date(), maxLimitDate: nil, datePickerType: .YMDHm) { [weak self] (date) in
                 self?.dateSelect = date
+                self?.dateHasSelect = true
                 self?.tableView.reloadData()
             }
             datePicker.show()
