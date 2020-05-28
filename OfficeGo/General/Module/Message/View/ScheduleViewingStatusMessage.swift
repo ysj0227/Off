@@ -305,7 +305,7 @@ class ScheduleViewingStatusMessageCell: RCMessageBaseCell {
             let maxWidth = screenWidth - portrait - 5 - 35
             let textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: [.usesLineFragmentOrigin, .usesDeviceMetrics, .usesFontLeading], attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
             
-            var width = textRect.width
+            var width = maxWidth
             width += 20
             var heght = textRect.height
             

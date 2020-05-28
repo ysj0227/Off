@@ -41,12 +41,12 @@ struct AppKey {
     static let rcTargetid = "11"
     static let rcname = "shouji"
 
-    static let InsertFYMessageTypeIdentifier = "og:insertfyinfo2"
-    static let PhoneExchangeMessageTypeIdentifier = "og:mobile2"
-    static let WechatExchangeMessageTypeIdentifier = "og:wx2"
-    static let ViewingDateExchangeMessageTypeIdentifier = "og:fy2"
-    static let ExchangePhoneStatusMessageTypeIdentifier = "og:exmobile2"
-    static let ExchangeWechatStatusMessageTypeIdentifier = "og:exwx2"
-    static let ExchangeViewingDateStatusMessageTypeIdentifier = "og:exfy2"
+    static let InsertFYMessageTypeIdentifier = "og:insertfyinfo"
+    static let PhoneExchangeMessageTypeIdentifier = "og:mobile"
+    static let WechatExchangeMessageTypeIdentifier = "og:wx"
+    static let ViewingDateExchangeMessageTypeIdentifier = "og:fy"
+    static let ExchangePhoneStatusMessageTypeIdentifier = "og:exmobile"
+    static let ExchangeWechatStatusMessageTypeIdentifier = "og:exwx"
+    static let ExchangeViewingDateStatusMessageTypeIdentifier = "og:exfy"
 
 }

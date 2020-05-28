@@ -335,7 +335,7 @@ class PhoneExchangeStatusMessageCell: RCMessageBaseCell {
             let portraitWidth = RCIM.shared()?.globalMessagePortraitSize.width
             let portrait = (10 + (portraitWidth ?? 0.0) + 10) * 2
             let maxWidth = screenWidth - portrait - 5 - 35
-            let textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
+            let textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: [.truncatesLastVisibleLine, .usesFontLeading, .usesLineFragmentOrigin, .usesDeviceMetrics], attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
             
             var width = textRect.width
             width += 20

@@ -337,33 +337,40 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
             let maxWidth = screenWidth - portrait - 5 - 35
             let textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
             
-            var width = textRect.width
-            width += 20
+            //            var width = textRect.width
+            //          width += 20
+            
             var heght = textRect.height
             
             if heght < 40 {
                 heght = 40
             }
-            heght = 40 + 40 + 40
+            //            heght = 40 + 40 + 40
             
             if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
                 
                 if message.isAgree == true {
                     
+                    var width = maxWidth
+                    width += 20
                     return CGSize(width: width, height: heght + 26)
                     
                     return CGSize(width: textRect.size.width, height: textRect.size.height + 26)
                     
                 }else {
-                    
+                    var width = textRect.width
+                    width += 20
                     return CGSize(width: width, height: heght)
                 }
             }else {
                 if message.isAgree == true {
-                    
+                    var width = maxWidth
+                    width += 20
                     return CGSize(width: width, height: heght + 26)
                     
                 }else {
+                    var width = textRect.width
+                    width += 20
                     return CGSize(width: width, height: heght)
                 }
             }
