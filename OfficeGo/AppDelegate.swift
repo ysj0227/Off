@@ -53,7 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         //        self.networkReachabilityStatus()
-        
+//        UserTool.shared.user_phone = "18567111111"
+        UserTool.shared.user_phone = "18567200200"
+
         setUpSDKs()
         
         notifyObserve()
@@ -102,16 +104,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //登录成功 - 登录融云 - 设置tabbar
     @objc func loginSuccess(){
-        
-        //跳到tabbat之前判断是否是登录
-        if UserTool.shared.isLogin() == true {
-            
-            loginRongCloud()
-            
-        }else {
-            let tabbarVC = MainTabBarController()
-            window?.rootViewController = tabbarVC
-        }
+        loginRongCloud()
+        let tabbarVC = MainTabBarController()
+        window?.rootViewController = tabbarVC
+//        //跳到tabbat之前判断是否是登录
+//        if UserTool.shared.isLogin() == true {
+//
+////            loginRongCloud()
+//
+//        }else {
+//            let tabbarVC = MainTabBarController()
+//            window?.rootViewController = tabbarVC
+//        }
     }
     
     //    func networkReachabilityStatus() {
@@ -152,8 +156,8 @@ extension AppDelegate {
     
     //设置当前用户信息
     func setRCUserInfo() {
-        let info = RCUserInfo.init(userId: "11", name: "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com", portrait: "https://img.officego.com.cn/house/1589973533713.png")
-        //    let info = RCUserInfo.init(userId: "200", name: "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com", portrait: "https://img.officego.com.cn/report/1590121741001.jpg")
+//        let info = RCUserInfo.init(userId: "11", name: "11", portrait: "https://img.officego.com.cn/house/1589973533713.png")
+            let info = RCUserInfo.init(userId: "200", name: "200", portrait: "https://img.officego.com.cn/report/1590121741001.jpg")
         
         RCIM.shared()?.currentUserInfo = info
         
@@ -225,14 +229,17 @@ extension AppDelegate {
         //交换微信
         RCIM.shared()?.registerMessageType(WechatExchangeMessage.self)
         
+        //约看房源
+        RCIM.shared()?.registerMessageType(ScheduleViewingMessage.self)
+        
         //交换手机状态
         RCIM.shared()?.registerMessageType(PhoneExchangeStatusMessage.self)
         
         //交换微信状态
         RCIM.shared()?.registerMessageType(WechatExchangeStatusMessage.self)
-        
+      
         //约看房源
-        RCIM.shared()?.registerMessageType(ScheduleViewingMessage.self)
+        RCIM.shared()?.registerMessageType(ScheduleViewingStatusMessage.self)
         
         //房源信息
         RCIM.shared()?.registerMessageType(FangyuanInsertFYMessage.self)

@@ -17,12 +17,13 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
     var extraMessage: String? = ""
     
     // (预约成功的id)
-     var id: String? = ""
+    var time: String? = ""
     
     // 根据参数创建消息对象
-    class func messageWithContent(content: String) -> ScheduleViewingMessage {
+    class func messageWithContent(content: String, time: String) -> ScheduleViewingMessage {
         let testMessage = ScheduleViewingMessage()
         testMessage.content = content
+        testMessage.time = time
         return testMessage
     }
     
@@ -40,15 +41,15 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
         super.init()
         content = aDecoder.decodeObject(forKey: "content") as? String ?? ""
         extraMessage = aDecoder.decodeObject(forKey: "extraMessage") as? String ?? ""
-        id = aDecoder.decodeObject(forKey: "id") as? String ?? ""
+        time = aDecoder.decodeObject(forKey: "time") as? String ?? ""
     }
     
     // NSCoding
     func encode(with aCoder: NSCoder) {
         aCoder.encode(content, forKey: "content")
         aCoder.encode(extraMessage, forKey: "extraMessage")
-        aCoder.encode(id, forKey: "id")
-
+        aCoder.encode(time, forKey: "time")
+        
     }
     
     // 序列化，将消息内容编码成 json
@@ -59,8 +60,8 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
         if let extraMessage = extraMessage {
             dataDict["extraMessage"] = extraMessage
         }
-       if let id = id {
-            dataDict["id"] = id
+        if let time = time {
+            dataDict["time"] = time
         }
         if let senderUserInfo = senderUserInfo {
             dataDict["user"] = self.encode(senderUserInfo)
@@ -81,7 +82,7 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
             let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
             content = dictionary["content"] as? String ?? ""
             extraMessage = dictionary["extraMessage"] as? String ?? ""
-            id = dictionary["id"] as? String ?? ""
+            time = dictionary["time"] as? String ?? ""
             let userInfoDict = dictionary["user"] as? [String : Any] ?? [:]
             decodeUserInfo(userInfoDict)
         } catch {
@@ -96,12 +97,12 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
     
     // 返回消息的类型名
     override class func getObjectName() -> String! {
-        return AppKey.ViewingDateMessageTypeIdentifier
+        return AppKey.ViewingDateExchangeMessageTypeIdentifier
     }
 }
 
 class ScheduleViewingMessageCell: RCMessageCell {
-
+    
     // 消息显示的 label
     lazy var textLabel: UILabel = {
         let label = UILabel(frame: CGRect.zero)
@@ -114,13 +115,25 @@ class ScheduleViewingMessageCell: RCMessageCell {
         return label
     }()
     
+    // 时间
+    lazy var timeLabel: UILabel = {
+        let label = UILabel(frame: CGRect.zero)
+        label.font = FONT_13
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .left
+        label.textColor = kAppBlueColor
+        return label
+    }()
+    
     // 消息背景
-     lazy var iconimg: UIImageView = {
-         let imageView = UIImageView(frame: CGRect.zero)
-         imageView.backgroundColor = kAppBlueColor
-         return imageView
-     }()
-     
+    lazy var iconimg: UIImageView = {
+        let imageView = UIImageView(frame: CGRect.zero)
+        imageView.backgroundColor = kAppBlueColor
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     //拒绝
     lazy var rejectBtn: UIButton = {
         let view = UIButton()
@@ -150,10 +163,10 @@ class ScheduleViewingMessageCell: RCMessageCell {
     }()
     
     lazy var btnlineView: UIView = {
-           let view = UIView()
-           view.backgroundColor = kAppColor_line_EEEEEE
-           return view
-       }()
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
     
     // 消息背景
     lazy var bubbleBackgroundView: UIImageView = {
@@ -169,8 +182,8 @@ class ScheduleViewingMessageCell: RCMessageCell {
     override class func size(for model: RCMessageModel!, withCollectionViewWidth collectionViewWidth: CGFloat, referenceExtraHeight extraHeight: CGFloat) -> CGSize {
         
         let message = model.content as? ScheduleViewingMessage
-
-        let size = getBubbleBackgroundViewSize(message ?? ScheduleViewingMessage.messageWithContent(content: ""), messageDirection: model.messageDirection)
+        
+        let size = getBubbleBackgroundViewSize(message ?? ScheduleViewingMessage.messageWithContent(content: "", time: "0"), messageDirection: model.messageDirection)
         
         var messagecontentviewHeight = size.height;
         messagecontentviewHeight = messagecontentviewHeight + extraHeight;
@@ -183,11 +196,11 @@ class ScheduleViewingMessageCell: RCMessageCell {
     }
     
     @objc func agreeClick() {
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: true)
+        NotificationCenter.default.post(name: NSNotification.Name.MsgViewingScheduleStatusBtnLocked, object: true)
     }
     
     @objc func rejectClick() {
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: false)
+        NotificationCenter.default.post(name: NSNotification.Name.MsgViewingScheduleStatusBtnLocked, object: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -199,11 +212,12 @@ class ScheduleViewingMessageCell: RCMessageCell {
         messageContentView.addSubview(bubbleBackgroundView)
         bubbleBackgroundView.addSubview(iconimg)
         bubbleBackgroundView.addSubview(textLabel)
+        bubbleBackgroundView.addSubview(timeLabel)
         bubbleBackgroundView.addSubview(rejectBtn)
         bubbleBackgroundView.addSubview(lookupBtn)
         bubbleBackgroundView.addSubview(lineView)
         bubbleBackgroundView.addSubview(btnlineView)
-
+        
         
         // (UIApplication.registerUserNotificationSettings(_:))
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
@@ -228,11 +242,13 @@ class ScheduleViewingMessageCell: RCMessageCell {
     
     override func setDataModel(_ model: RCMessageModel!) {
         super.setDataModel(model)
+        
         let testMessage = model.content as? ScheduleViewingMessage
-         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+        
+        if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
             testMessage?.content = "我想要与您约看房源，您是否同意？"
         }else {
-            testMessage?.content = "请求约看房源已发送"
+            testMessage?.content = "你发起了一个看房邀约，等待对方接受"
         }
         setAutoLayout()
     }
@@ -241,7 +257,12 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let testMessage = model.content as? ScheduleViewingMessage
         textLabel.text = testMessage?.content
         
-        let textLabelSize = ScheduleViewingMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: ""), messageDirection: messageDirection)
+        let intervalString = testMessage?.time
+        let date = Date.init(timeIntervalSince1970: TimeInterval.init(0))
+        let dateStr = date.localDateString()
+        timeLabel.text = "约看时间：\(dateStr)"
+        
+        let textLabelSize = ScheduleViewingMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", time: "0"), messageDirection: messageDirection)
         let bubbleBackgroundViewSize = ScheduleViewingMessageCell.getBubbleSize(textLabelSize)
         var messageContentViewRect = messageContentView.frame
         
@@ -252,9 +273,11 @@ class ScheduleViewingMessageCell: RCMessageCell {
             lookupBtn.isHidden = false
             lineView.isHidden = false
             btnlineView.isHidden = false
-            iconimg.frame = CGRect(x: 10, y: 7, width: 12, height: textLabelSize.height - 45)
-            textLabel.frame = CGRect(x: 27, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45)
-            lineView.frame = CGRect(x: 6, y: textLabel.bottom + 7, width: bubbleBackgroundViewSize.width - 12, height: 1)
+            iconimg.frame = CGRect(x: 12, y: 7, width: 23, height: textLabelSize.height - 45 - 30)
+            textLabel.frame = CGRect(x: iconimg.right + 10, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45 - 30)
+            timeLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom, width: textLabelSize.width, height: 30)
+            
+            lineView.frame = CGRect(x: 6, y: timeLabel.bottom + 7, width: bubbleBackgroundViewSize.width - 12, height: 1)
             rejectBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundViewSize.width / 2.0, height: 45)
             btnlineView.frame = CGRect(x: rejectBtn.right, y: rejectBtn.top, width: 1.0, height: rejectBtn.height)
             lookupBtn.frame = CGRect(x: bubbleBackgroundViewSize.width / 2.0, y: lineView.bottom, width: bubbleBackgroundViewSize.width / 2.0, height: 45)
@@ -263,14 +286,15 @@ class ScheduleViewingMessageCell: RCMessageCell {
             
             bubbleBackgroundView.frame = CGRect(x: 0, y: 0, width: bubbleBackgroundViewSize.width, height: bubbleBackgroundViewSize.height)
         }
-        //
+            //
         else {
             iconimg.isHidden = true
             rejectBtn.isHidden = true
             lookupBtn.isHidden = true
             lineView.isHidden = true
             btnlineView.isHidden = true
-            textLabel.frame = CGRect(x: 18, y: (bubbleBackgroundViewSize.height - textLabelSize.height) / 2.0, width: textLabelSize.width, height: textLabelSize.height)
+            textLabel.frame = CGRect(x: 18, y: (bubbleBackgroundViewSize.height - textLabelSize.height) / 2.0, width: textLabelSize.width, height: textLabelSize.height - 30)
+            timeLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom, width: textLabelSize.width, height: 30)
             
             messageContentViewRect.size.width = bubbleBackgroundViewSize.width
             messageContentViewRect.size.height = bubbleBackgroundViewSize.height
@@ -286,12 +310,15 @@ class ScheduleViewingMessageCell: RCMessageCell {
     }
     
     private class func getTextLabelSize(_ message: ScheduleViewingMessage, messageDirection: RCMessageDirection) -> CGSize {
-         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+        
+        if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+            //            message.content = "我想要与您约看房源，您是否同意？\n 约看时间：\(dateStr)"
             message.content = "我想要与您约看房源，您是否同意？"
-           }else {
-            message.content = "请求约看房源已发送"
-           }
-
+            
+        }else {
+            message.content = "你发起了一个看房邀约，等待对方接受"
+        }
+        
         if !message.content.isEmpty {
             let screenWidth = UIScreen.main.bounds.size.width
             let portraitWidth = RCIM.shared()?.globalMessagePortraitSize.width
@@ -301,12 +328,12 @@ class ScheduleViewingMessageCell: RCMessageCell {
             var textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
             textRect.size.height = CGFloat(ceilf(Float(textRect.size.height)))
             textRect.size.width = CGFloat(ceilf(Float(textRect.size.width)))
-//            return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 5)
+            //            return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 5)
             
             if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-                return CGSize(width: textRect.size.width + 5 + 19, height: textRect.size.height + 45)
+                return CGSize(width: textRect.size.width + 5 + 30, height: textRect.size.height + 45 + 30)
             }else {
-                return CGSize(width: textRect.size.width, height: textRect.size.height)
+                return CGSize(width: textRect.size.width, height: textRect.size.height + 30)
             }
         } else {
             return CGSize.zero

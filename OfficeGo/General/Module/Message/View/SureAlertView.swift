@@ -64,7 +64,7 @@ class SureAlertView: UIView {
             alertMessageLabel.text = alertMsg
         }
     }
-
+    
     @objc func clickRemoveFromSuperview() {
         guard let blockk = cancelButtonCallClick else {
             return
@@ -175,10 +175,10 @@ class SureAlertView: UIView {
         }
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             
-//            if self?.inputTFView.text?.isBlankString == true {
-//                AppUtilities.makeToast("微信号为空")
-//                return
-//            }
+            //            if self?.inputTFView.text?.isBlankString == true {
+            //                AppUtilities.makeToast("微信号为空")
+            //                return
+            //            }
             
             guard let blockk = self?.sureAreaaddressButtonCallBack else {
                 return

@@ -27,7 +27,10 @@ class RenterScheduleFYViewController: BaseTableViewController {
     }
     
     func sendYuyueNotify() {
-        NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleSuccess, object: "12")
+        
+        let interval = Int(round(dateSelect?.timeIntervalSince1970 ?? 0 * 1000))
+
+        NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleSuccess, object: interval)
     }
     
     func setUpView() {

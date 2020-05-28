@@ -97,15 +97,18 @@ extension RenterChatViewController {
         //交换微信
         register(WechatExchangeMessageCell.self, forMessageClass: WechatExchangeMessage.self)
         
+        //约看房源
+        register(ScheduleViewingMessageCell.self, forMessageClass: ScheduleViewingMessage.self)
+        
         //交换手机状态
         register(PhoneExchangeStatusMessageCell.self, forMessageClass: PhoneExchangeStatusMessage.self)
         
         //交换微信状态
         register(WechatExchangeStatusMessageCell.self, forMessageClass: WechatExchangeStatusMessage.self)
         
-        //约看房源
-        register(ScheduleViewingMessageCell.self, forMessageClass: ScheduleViewingMessage.self)
-        
+        //约看房源状态
+         register(ScheduleViewingStatusMessageCell.self, forMessageClass: ScheduleViewingStatusMessage.self)
+             
         //房源信息
         register(FangyuanInsertFYMessageCell.self, forMessageClass: FangyuanInsertFYMessage.self)
         
@@ -117,7 +120,10 @@ extension RenterChatViewController {
         
         //预约成功
         NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgScheduleSuccess, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            self?.sendScheduleFY()
+            if let interval = noti.object as? Int {
+                
+                self?.sendScheduleFY(interval: interval)
+            }
         }
         
         //收藏
@@ -126,27 +132,39 @@ extension RenterChatViewController {
             
         }
         
-        //微信拒绝同意
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let type = noti.object as? Bool {
-                
-                self?.sendExchangeWechatAgreeOrReject(agree: type)
-            }
-        }
         
         //手机拒绝同意
         NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let type = noti.object as? Bool {
-                
-                self?.sendExchangePhoneAgreeOrReject(agree: type)
+            if let type = noti.object as? [String: Any] {
+                let agress = type["agress"] as? Bool
+                let phone = type["phone"] as? String
+                self?.sendExchangePhoneAgreeOrReject(agree: agress ?? false, otherPhone: phone ?? "")
             }
         }
         
+        //微信拒绝同意
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            if let type = noti.object as? [String: Any] {
+                let agress = type["agress"] as? Bool
+                let phone = type["phone"] as? String
+                self?.sendExchangeWechatAgreeOrReject(agree: agress ?? false, otherWechat: phone ?? "")
+            }
+        }
+        
+        //约看房源拒绝同意
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgViewingScheduleStatusBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            if let type = noti.object as? Bool {
+                
+                self?.sendScheduleViewingAgreeOrReject(agree: type)
+            }
+        }
+        
+        
         //点击邀约自定义详情
-       NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgScheduleDetail, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-           
-           self?.clickToScheduleDetailVC()
-       }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgScheduleDetail, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
+            self?.clickToScheduleDetailVC()
+        }
         
         
         
@@ -199,11 +217,11 @@ extension RenterChatViewController {
             
         }else if index == 2 {
             
-        if UserTool.shared.isHasWX() == true {
-            showSureAlertview()
-        }else{
-            showWXInputAlertview()
-        }
+            if UserTool.shared.isHasWX() == true {
+                showSureAlertview()
+            }else{
+                showWXInputAlertview()
+            }
             
             
         }else if index == 3 {
@@ -217,7 +235,7 @@ extension RenterChatViewController {
     
     //弹出发送确认框弹框
     func showSureAlertview() {
-
+        
         let alert = SureAlertView(frame: self.view.frame)
         alert.ShowAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
             
@@ -237,19 +255,38 @@ extension RenterChatViewController {
         }
     }
     
+    //点击确认发送
+    //弹出发送确认框弹框
+       func showBtnSureAlertview() {
+           
+           let alert = SureAlertView(frame: self.view.frame)
+           alert.ShowAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
+               
+           }) { [weak self] in
+               self?.sendExchangeWechat()
+           }
+       }
+       
+    //输入微信弹框
+    func showBtnWXInputAlertview(otherWechat: String) {
+           let alert = SureAlertView(frame: self.view.frame)
+           alert.inputTFView.placeholder = "请输入您的微信号"
+           alert.ShowInputAlertView(superview: self.view, message: "当前未绑定微信", cancelButtonCallClick: {
+               
+           }) { [weak self] (str) in
+               self?.requestSaveWX(wx: str)
+                self?.sendMesExchangeWechatAgreeOrReject(agree: true, otherWechat: otherWechat)
+           }
+       }
+    
     //保存微信接口
     func requestSaveWX(wx: String) {
+        UserTool.shared.user_wechat = wx
         self.sendExchangeWechat()
     }
 }
 
 extension RenterChatViewController {
-    
-    //预约房源
-    func sendScheduleFY() {
-        let messageContent = ScheduleViewingMessage.messageWithContent(content: "预约房源预约房源预约房源预约房源预约房源预约房源预约房源预约房源预约房源预约房源预约房源预约房源预约房源")
-        sendMessage(messageContent, pushContent: "预约房源")
-    }
     
     //添加插入房源消息
     func insertMessage() {
@@ -260,62 +297,61 @@ extension RenterChatViewController {
     
     //发送交换手机号自定义消息
     func sendExchangePhone() {
-        let messageContent = PhoneExchangeMessage.messageWithContent(content: "我想和您交换手机号")
+        let messageContent = PhoneExchangeMessage.messageWithContent(content: "我想和您交换手机号", number: UserTool.shared.user_phone ?? "")
         sendMessage(messageContent, pushContent: "我想和您交换手机号")
     }
     
     //发送交换微信自定义消息
     func sendExchangeWechat() {
-        let messageContent = WechatExchangeMessage.messageWithContent(content: "我想和您交换微信号")
+        let messageContent = WechatExchangeMessage.messageWithContent(content: "我想和您交换微信号", number: UserTool.shared.user_wechat ?? "")
         sendMessage(messageContent, pushContent: "我想和您交换微信号")
     }
     
-    //交换微信同意拒绝消息
-    func sendExchangeWechatAgreeOrReject(agree: Bool) {
-        
-        let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换微信": "我拒绝和您交换微信", isAgree: agree)
-        sendMessage(messageContent, pushContent: "交换信成功失败")
-    }
+    //预约房源
+       func sendScheduleFY(interval: Int) {
+           let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", time: "\(interval)")
+           sendMessage(messageContent, pushContent: "我发送了一个看房邀请")
+       }
     
     //交换手机号同意拒绝消息
-    func sendExchangePhoneAgreeOrReject(agree: Bool) {
-        let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换手机号" : "我拒绝和您交换手机号", isAgree: agree)
-        sendMessage(messageContent, pushContent: "交换手机号成功失败")
+    func sendExchangePhoneAgreeOrReject(agree: Bool, otherPhone: String) {
+        let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换手机号" : "我拒绝和您交换手机号", isAgree: agree, sendNumber: otherPhone, receiveNumber: UserTool.shared.user_phone ?? "")
+        sendMessage(messageContent, pushContent: "交换手机号回复")
     }
+    
+    //交换微信同意拒绝消息 - 点击确定需要判断有没有微信
+    func sendExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String) {
+        
+        if agree {
+             if UserTool.shared.isHasWX() == true {
+                
+             }else{
+                showBtnWXInputAlertview(otherWechat: otherWechat)
+               }
+        }else {
+            sendMesExchangeWechatAgreeOrReject(agree: false, otherWechat: otherWechat)
+        }
+        
+       
+    }
+    
+    func sendMesExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String) {
+        let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换微信": "我拒绝和您交换微信", isAgree: agree, sendNumber: otherWechat, receiveNumber: UserTool.shared.user_wechat ?? "")
+               sendMessage(messageContent, pushContent: "交换信成功回复")
+    }
+
+    //看房邀约同意拒绝消息
+    func sendScheduleViewingAgreeOrReject(agree: Bool) {
+        let messageContent = ScheduleViewingStatusMessage.messageWithContent(content: agree ? "我同意您发送的看房邀请" : "我拒绝您发送的看房邀请", isAgree: agree)
+        sendMessage(messageContent, pushContent: "看房邀请回复")
+    }
+    
     
     //每次进来强制刷新好友用户信息
     func reloadRCCompanyUserInfo() {
         //        let info = RCUserInfo.init(userId: "200", name: "修改了名字", portrait: "https://img.officego.com.cn/house/1589973533713.png")
         //        RCIM.shared()?.refreshUserInfoCache(info, withUserId: "200")
     }
-    
-    
-    // 添加附加信息
-    //       override func willSendMessage(_ messageContent: RCMessageContent!) -> RCMessageContent! {
-    //
-    //           if messageContent.isKind(of: PhoneExchangeMessage.self) {
-    //               let testMessage = messageContent as? PhoneExchangeMessage
-    //               testMessage?.phoneNum = "附加信息"
-    //               return testMessage
-    //           }
-    //           return messageContent
-    //       }
-    
-    //    override func didTapMessageCell(_ model: RCMessageModel!) {
-    //           super.didTapMessageCell(model)
-    //
-    //           if let content = model.content {
-    //               if content.isKind(of: PhoneExchangeMessage.self) {
-    //                   guard let testMsg = content as? PhoneExchangeMessage else {
-    //                       return
-    //                   }
-    //                   let alertView = UIAlertView(title: "PhoneExchangeMessage", message: "content:\(testMsg.userName), extra: \(String(describing: testMsg.phoneNum))", delegate: self, cancelButtonTitle: "OK")
-    //                   alertView.show()
-    //               }
-    //           }
-    //       }
-    
-    
     
 }
 

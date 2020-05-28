@@ -126,6 +126,12 @@ class SSLoginURL: NSObject {
     
 }
 
+//  MARK:   --我的
+class SSMineURL: NSObject {
+    
+    static let bindWeChat = "login/sms_code"
+    
+}
 
 //  MARK:   --行程接口
 class SSScheduleURL: NSObject {

@@ -19,19 +19,28 @@ class UserTool: NSObject {
     }
     
     func isLogin() -> Bool {
-        if self.user_token?.isBlankString == true {
+        if let usertoken = self.user_token {
+            if usertoken.isBlankString == true {
+                return false
+            }else{
+                return true
+            }
+        }else {
             return false
-        }else{
-            return true
         }
     }
     
     func isHasWX() -> Bool {
-        if self.user_wechat?.isBlankString == true {
+        if let userwechat = self.user_wechat {
+            if userwechat.isBlankString == true {
+                return false
+            }else{
+                return true
+            }
+        }else {
             return false
-        }else{
-            return true
         }
+        
     }
     
     //终端渠道,1:IOS,2:安卓,3:H5

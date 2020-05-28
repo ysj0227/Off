@@ -1,5 +1,5 @@
 //
-//  WechatExchangeStatusMessage.swift
+//  ScheduleViewingStatusMessage.swift
 //  OfficeGo
 //
 //  Created by mac on 2020/5/26.
@@ -8,16 +8,10 @@
 
 import UIKit
 
-class WechatExchangeStatusMessage: RCMessageContent, NSCoding {
+class ScheduleViewingStatusMessage: RCMessageContent, NSCoding {
     
     // 测试消息的内容
     var content: String = ""
-    
-    //发送者微信
-    var sendNumber: String = ""
-    
-    //接受者微信
-    var receiveNumber: String = ""
     
     // 测试消息的附加信息
     var extraMessage: String? = ""
@@ -25,12 +19,10 @@ class WechatExchangeStatusMessage: RCMessageContent, NSCoding {
     var isAgree: Bool = false
     
     // 根据参数创建消息对象
-    class func messageWithContent(content: String, isAgree: Bool, sendNumber: String, receiveNumber: String) -> WechatExchangeStatusMessage {
-        let testMessage = WechatExchangeStatusMessage()
+    class func messageWithContent(content: String, isAgree: Bool) -> ScheduleViewingStatusMessage {
+        let testMessage = ScheduleViewingStatusMessage()
         testMessage.content = content
         testMessage.isAgree = isAgree
-        testMessage.sendNumber = sendNumber
-        testMessage.receiveNumber = receiveNumber
         return testMessage
     }
     
@@ -47,8 +39,6 @@ class WechatExchangeStatusMessage: RCMessageContent, NSCoding {
     required init(coder aDecoder: NSCoder) {
         super.init()
         content = aDecoder.decodeObject(forKey: "content") as? String ?? ""
-        sendNumber = aDecoder.decodeObject(forKey: "sendNumber") as? String ?? ""
-        receiveNumber = aDecoder.decodeObject(forKey: "receiveNumber") as? String ?? ""
         extraMessage = aDecoder.decodeObject(forKey: "extraMessage") as? String ?? ""
         isAgree = aDecoder.decodeObject(forKey: "isAgree") as? Bool ?? false
     }
@@ -56,10 +46,9 @@ class WechatExchangeStatusMessage: RCMessageContent, NSCoding {
     // NSCoding
     func encode(with aCoder: NSCoder) {
         aCoder.encode(content, forKey: "content")
-        aCoder.encode(sendNumber, forKey: "sendNumber")
-        aCoder.encode(receiveNumber, forKey: "receiveNumber")
         aCoder.encode(extraMessage, forKey: "extraMessage")
         aCoder.encode(isAgree, forKey: "isAgree")
+        
     }
     
     // 序列化，将消息内容编码成 json
@@ -71,8 +60,6 @@ class WechatExchangeStatusMessage: RCMessageContent, NSCoding {
             dataDict["extraMessage"] = extraMessage
         }
         dataDict["isAgree"] = isAgree
-        dataDict["sendNumber"] = sendNumber
-        dataDict["receiveNumber"] = receiveNumber
         
         if let senderUserInfo = senderUserInfo {
             dataDict["user"] = self.encode(senderUserInfo)
@@ -92,8 +79,6 @@ class WechatExchangeStatusMessage: RCMessageContent, NSCoding {
         do {
             let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
             content = dictionary["content"] as? String ?? ""
-            sendNumber = dictionary["sendNumber"] as? String ?? ""
-            receiveNumber = dictionary["receiveNumber"] as? String ?? ""
             extraMessage = dictionary["extraMessage"] as? String ?? ""
             isAgree = dictionary["isAgree"] as? Bool ?? false
             let userInfoDict = dictionary["user"] as? [String : Any] ?? [:]
@@ -110,12 +95,12 @@ class WechatExchangeStatusMessage: RCMessageContent, NSCoding {
     
     // 返回消息的类型名
     override class func getObjectName() -> String! {
-        return AppKey.ExchangeWechatStatusMessageTypeIdentifier
+        return AppKey.ExchangeViewingDateStatusMessageTypeIdentifier
     }
 }
 
 
-class WechatExchangeStatusMessageCell: RCMessageBaseCell {
+class ScheduleViewingStatusMessageCell: RCMessageBaseCell {
     
     // 消息显示的 label
     lazy var textLabel: UILabel = {
@@ -171,8 +156,8 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
     // 自定义消息 Cell 的 Size
     override class func size(for model: RCMessageModel!, withCollectionViewWidth collectionViewWidth: CGFloat, referenceExtraHeight extraHeight: CGFloat) -> CGSize {
         
-        let message = model.content as? WechatExchangeStatusMessage ?? WechatExchangeStatusMessage.messageWithContent(content: "", isAgree: false, sendNumber: "", receiveNumber: "")
-        let size = WechatExchangeStatusMessageCell.getTextLabelSize(message, messageDirection: model.messageDirection)
+        let message = model.content as? ScheduleViewingStatusMessage ?? ScheduleViewingStatusMessage.messageWithContent(content: "", isAgree: false)
+        let size = ScheduleViewingStatusMessageCell.getTextLabelSize(message, messageDirection: model.messageDirection)
         var messagecontentviewHeight = size.height;
         messagecontentviewHeight = messagecontentviewHeight + extraHeight;
         return CGSize(width: collectionViewWidth, height: messagecontentviewHeight)
@@ -225,22 +210,17 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
     }
     
     private func setContent(_ model: RCMessageModel!) {
-        let testMessage = model.content as? WechatExchangeStatusMessage
+        let testMessage = model.content as? ScheduleViewingStatusMessage
         //接收 -
-        //        let extreeeeee  = testMessage?.extraMessage?.components(separatedBy: ",")
-        //        let other = extreeeeee?[0]
-        //        let selfphone = extreeeeee?[1]
-        let sender = testMessage?.sendNumber
-        let receive = testMessage?.receiveNumber
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
             if testMessage?.isAgree == true {
-                testMessage?.content = "微信已交换！\n 对方微信：\(receive ?? "")"
+                testMessage?.content = "已同意看房邀约"
             }else {
-                testMessage?.content = "对方拒绝交换微信"
+                testMessage?.content = "已拒绝看房邀约"
             }
         }else {
             if testMessage?.isAgree == true {
-                testMessage?.content = "微信已交换！\n 对方微信：\(sender ?? "")"
+                testMessage?.content = "看房邀约已经发送给对方"
             }else {
                 testMessage?.content = "已拒绝"
             }
@@ -249,11 +229,11 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
     
     private func setAutoLayout() {
         
-        let testMessage = model.content as? WechatExchangeStatusMessage
+        let testMessage = model.content as? ScheduleViewingStatusMessage
         
         textLabel.text = testMessage?.content
         
-        let textLabelSize = WechatExchangeStatusMessageCell.getTextLabelSize(testMessage ?? WechatExchangeStatusMessage.messageWithContent(content: "", isAgree: false, sendNumber: "", receiveNumber: ""), messageDirection: messageDirection)
+        let textLabelSize = ScheduleViewingStatusMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingStatusMessage.messageWithContent(content: "", isAgree: testMessage?.isAgree ?? false), messageDirection: messageDirection)
         var messageContentViewRect = baseContentView.frame
         //        messageContentViewRect.size.width = textLabelSize.width
         messageContentViewRect.size.width = kWidth
@@ -266,16 +246,21 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
             
             if testMessage?.isAgree == true {
                 
-                lineView.isHidden = false
-                copyBtn.isHidden = false
-                dailBtn.isHidden = false
-                btnlineView.isHidden = false
-                
-                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height - 32)
-                lineView.frame = CGRect(x: 3.5, y: textLabel.bottom, width: bubbleBackgroundView.width - 7, height: 1)
-                copyBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
-                btnlineView.frame = CGRect(x: copyBtn.right, y: copyBtn.top, width: 1.0, height: copyBtn.height)
-                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
+                //                lineView.isHidden = false
+                //                copyBtn.isHidden = false
+                //                dailBtn.isHidden = false
+                //                btnlineView.isHidden = false
+                //
+                //                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height - 32)
+                //                lineView.frame = CGRect(x: 3.5, y: textLabel.bottom, width: bubbleBackgroundView.width - 7, height: 1)
+                //                copyBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
+                //                btnlineView.frame = CGRect(x: copyBtn.right, y: copyBtn.top, width: 1.0, height: copyBtn.height)
+                //                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
+                lineView.isHidden = true
+                copyBtn.isHidden = true
+                dailBtn.isHidden = true
+                btnlineView.isHidden = true
+                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height)
             }else {
                 
                 lineView.isHidden = true
@@ -288,54 +273,37 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
         }
             //发送方
         else {
-            if testMessage?.isAgree == true {
-                
-                lineView.isHidden = false
-                copyBtn.isHidden = false
-                dailBtn.isHidden = false
-                btnlineView.isHidden = false
-                
-                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height - 32)
-                lineView.frame = CGRect(x: 3.5, y: textLabel.bottom, width: bubbleBackgroundView.width - 7, height: 1)
-                copyBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
-                btnlineView.frame = CGRect(x: copyBtn.right, y: copyBtn.top, width: 1.0, height: copyBtn.height)
-                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 32)
-            }else {
-                
-                lineView.isHidden = true
-                copyBtn.isHidden = true
-                dailBtn.isHidden = true
-                btnlineView.isHidden = true
-                textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height)
-                
-            }
+            
+            lineView.isHidden = true
+            copyBtn.isHidden = true
+            dailBtn.isHidden = true
+            btnlineView.isHidden = true
+            textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height)
         }
     }
     
-    private class func getTextLabelSize(_ message: WechatExchangeStatusMessage, messageDirection: RCMessageDirection) -> CGSize {
-        
-        let sender = message.sendNumber
-        let receive = message.receiveNumber
+    private class func getTextLabelSize(_ message: ScheduleViewingStatusMessage, messageDirection: RCMessageDirection) -> CGSize {
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
             if message.isAgree == true {
-                message.content = "微信已交换！\n 对方微信：\(receive)"
+                message.content = "已同意看房邀约"
             }else {
-                message.content = "对方拒绝交换微信"
+                message.content = "已拒绝看房邀约"
             }
         }else {
             if message.isAgree == true {
-                message.content = "微信已交换！\n 对方微信：\(sender)"
+                message.content = "看房邀约已经发送给对方"
             }else {
                 message.content = "已拒绝"
             }
         }
+        
         if !message.content.isEmpty {
             
             let screenWidth = UIScreen.main.bounds.size.width
             let portraitWidth = RCIM.shared()?.globalMessagePortraitSize.width
             let portrait = (10 + (portraitWidth ?? 0.0) + 10) * 2
             let maxWidth = screenWidth - portrait - 5 - 35
-            let textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
+            let textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: [.usesLineFragmentOrigin, .usesDeviceMetrics, .usesFontLeading], attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
             
             var width = textRect.width
             width += 20
@@ -344,15 +312,16 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
             if heght < 40 {
                 heght = 40
             }
-            heght = 40 + 40 + 40
             
             if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
                 
                 if message.isAgree == true {
                     
-                    return CGSize(width: width, height: heght + 26)
+                    return CGSize(width: width, height: heght)
                     
-                    return CGSize(width: textRect.size.width, height: textRect.size.height + 26)
+                    //                    return CGSize(width: width, height: heght + 26)
+                    //
+                    //                    return CGSize(width: textRect.size.width, height: textRect.size.height + 26)
                     
                 }else {
                     
@@ -361,7 +330,7 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
             }else {
                 if message.isAgree == true {
                     
-                    return CGSize(width: width, height: heght + 26)
+                    return CGSize(width: width, height: heght)
                     
                 }else {
                     return CGSize(width: width, height: heght)

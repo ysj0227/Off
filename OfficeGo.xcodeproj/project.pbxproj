@@ -12,6 +12,7 @@
 		042CE446246A3387006243DD /* RenterHeaderItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CE445246A3387006243DD /* RenterHeaderItemSelectView.swift */; };
 		042CE44B246A66DD006243DD /* RenterDetailFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CE449246A66DD006243DD /* RenterDetailFYListCell.swift */; };
 		042CE44C246A66DD006243DD /* RenterDetailFYListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042CE44A246A66DD006243DD /* RenterDetailFYListCell.xib */; };
+		042ECDB0247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */; };
 		04301F45247D0CD70047B70F /* WechatExchangeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */; };
 		04301F47247D0D030047B70F /* PhoneExchangeStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */; };
 		04301F49247D0D110047B70F /* WechatExchangeStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F48247D0D110047B70F /* WechatExchangeStatusMessage.swift */; };
@@ -50,6 +51,9 @@
 		04D9D965246CE3A900211B40 /* RenterCollectOfficeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */; };
 		04D9D967246CE45900211B40 /* RenterCollectOfficeBuuildingOrJointListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D966246CE45900211B40 /* RenterCollectOfficeBuuildingOrJointListViewController.swift */; };
 		04D9D96A246CE65200211B40 /* RenterCollectOfficeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D968246CE65200211B40 /* RenterCollectOfficeCell.swift */; };
+		04DB5A59247F48C700E3836F /* SureAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB5A58247F48C700E3836F /* SureAlertView.swift */; };
+		04DB5A5B247F603A00E3836F /* UserTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB5A5A247F603A00E3836F /* UserTool.swift */; };
+		04DB5A5D247F65CD00E3836F /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB5A5C247F65CD00E3836F /* LoginModel.swift */; };
 		04E69B18246D4D7A00A0ABCA /* ButtonSelectItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E69B17246D4D7A00A0ABCA /* ButtonSelectItemView.swift */; };
 		04E69B61246D6BAD00A0ABCA /* RenterSearchHistoryCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E69B60246D6BAD00A0ABCA /* RenterSearchHistoryCollectionCell.swift */; };
 		04EF1E41247777B700871762 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E40247777B700871762 /* MainTabBarController.swift */; };
@@ -235,6 +239,7 @@
 		042CE445246A3387006243DD /* RenterHeaderItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterHeaderItemSelectView.swift; sourceTree = "<group>"; };
 		042CE449246A66DD006243DD /* RenterDetailFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterDetailFYListCell.swift; sourceTree = "<group>"; };
 		042CE44A246A66DD006243DD /* RenterDetailFYListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RenterDetailFYListCell.xib; sourceTree = "<group>"; };
+		042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewingStatusMessage.swift; sourceTree = "<group>"; };
 		04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WechatExchangeMessage.swift; sourceTree = "<group>"; };
 		04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneExchangeStatusMessage.swift; sourceTree = "<group>"; };
 		04301F48247D0D110047B70F /* WechatExchangeStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WechatExchangeStatusMessage.swift; sourceTree = "<group>"; };
@@ -273,6 +278,9 @@
 		04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectOfficeListViewController.swift; sourceTree = "<group>"; };
 		04D9D966246CE45900211B40 /* RenterCollectOfficeBuuildingOrJointListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectOfficeBuuildingOrJointListViewController.swift; sourceTree = "<group>"; };
 		04D9D968246CE65200211B40 /* RenterCollectOfficeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectOfficeCell.swift; sourceTree = "<group>"; };
+		04DB5A58247F48C700E3836F /* SureAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SureAlertView.swift; sourceTree = "<group>"; };
+		04DB5A5A247F603A00E3836F /* UserTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTool.swift; sourceTree = "<group>"; };
+		04DB5A5C247F65CD00E3836F /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		04E69B17246D4D7A00A0ABCA /* ButtonSelectItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSelectItemView.swift; sourceTree = "<group>"; };
 		04E69B60246D6BAD00A0ABCA /* RenterSearchHistoryCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterSearchHistoryCollectionCell.swift; sourceTree = "<group>"; };
 		04EF1E40247777B700871762 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -501,6 +509,7 @@
 		047333142473CDD800755192 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				04DB5A5A247F603A00E3836F /* UserTool.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -811,6 +820,8 @@
 				04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */,
 				04301F48247D0D110047B70F /* WechatExchangeStatusMessage.swift */,
 				04301F4A247D0D450047B70F /* ScheduleViewingMessage.swift */,
+				04DB5A58247F48C700E3836F /* SureAlertView.swift */,
+				042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -848,6 +859,7 @@
 		EE7F5573245673AB0010073B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				04DB5A5C247F65CD00E3836F /* LoginModel.swift */,
 				EEB1F9DE245914A2000500A3 /* HouseFeatureModel.swift */,
 				EE02B9DF2462AD0300B51D34 /* AreaRegionModel.swift */,
 			);
@@ -1447,6 +1459,7 @@
 				EEB1F9D2245854AE000500A3 /* PictureShowTableViewCell.swift in Sources */,
 				EEB1F9C32458299D000500A3 /* CycleCell.swift in Sources */,
 				EE6070B42468F9A30098CAC2 /* HouseTypeAndSortSelectView.swift in Sources */,
+				04DB5A5B247F603A00E3836F /* UserTool.swift in Sources */,
 				EEE87B142455856800C03424 /* UIButtonSnapEx.swift in Sources */,
 				EEE87B5724558F9800C03424 /* ThorTouchesEnableCollectionView.swift in Sources */,
 				EEE0D9422465581200E5C77B /* Color.swift in Sources */,
@@ -1488,6 +1501,7 @@
 				EEE87B3824558F6A00C03424 /* DispatchExtensions.swift in Sources */,
 				EEE0D93E2465581200E5C77B /* Layout.swift in Sources */,
 				EEE87AEB2455856300C03424 /* WebViewController.swift in Sources */,
+				04DB5A59247F48C700E3836F /* SureAlertView.swift in Sources */,
 				0473331B2473CDD800755192 /* RenterHouseScheduleDetailViewController.swift in Sources */,
 				EEE87B5824558F9800C03424 /* AnimateRefreshFooter.swift in Sources */,
 				EEE87B7124559F5100C03424 /* BaseViewController.swift in Sources */,
@@ -1531,6 +1545,8 @@
 				042CE44B246A66DD006243DD /* RenterDetailFYListCell.swift in Sources */,
 				042CE446246A3387006243DD /* RenterHeaderItemSelectView.swift in Sources */,
 				EE6070B02468F9A30098CAC2 /* HotCityTableViewCell.swift in Sources */,
+				042ECDB0247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift in Sources */,
+				04DB5A5D247F65CD00E3836F /* LoginModel.swift in Sources */,
 				0473331D2473CDD800755192 /* RenterMineViewController.swift in Sources */,
 				EEE87B1F2455856800C03424 /* UIButtonEx.swift in Sources */,
 				EE6070D52468FD980098CAC2 /* RenterOfficebuildingFYDeatailCell.swift in Sources */,

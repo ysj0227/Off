@@ -11,7 +11,7 @@ import UIKit
 struct AppKey {
         
 //    /// 极光
-//    static let jpushAppKey = "71355408d75091c2524071d1"
+//    static let jpushAppKey = "71355408d75091c2524071d2"
 //    static let jpushChannel = "Publish channel"
 //    static let isProduction = true
     
@@ -32,20 +32,21 @@ struct AppKey {
     static let RCAppSecret = "OF78PpILjjRk4"
 
     //模拟器
-    static let rcToken = "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
-   static let rcTargetid = "200"
-    static let rcname = "这是手机上的用户"
+//    static let rcToken = "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
+//   static let rcTargetid = "200"
+//    static let rcname = "这是手机上的用户"
 
     //手机
-//    static let rcToken = "eUzLOW4WtLJWoGBApvh/8HCrUzJkiK1E9fMM5XnpfOM=@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
-//    static let rcTargetid = "11"
-//    static let rcname = "shouji"
+    static let rcToken = "eUzLOW4WtLJWoGBApvh/8HCrUzJkiK1E9fMM5XnpfOM=@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
+    static let rcTargetid = "11"
+    static let rcname = "shouji"
 
-    static let InsertFYMessageTypeIdentifier = "og:insertfyinfo"
-    static let PhoneExchangeMessageTypeIdentifier = "og:ecphoneinfo"
-    static let WechatExchangeMessageTypeIdentifier = "og:ecwechatinfo"
-    static let ExchangePhoneStatusMessageTypeIdentifier = "og:ecphonestatusinfo"
-    static let ExchangeWechatStatusMessageTypeIdentifier = "og:ecwechatstatusinfo"
-    static let ViewingDateMessageTypeIdentifier = "og:viewingdateinfo"
-    
+    static let InsertFYMessageTypeIdentifier = "og:insertfyinfo2"
+    static let PhoneExchangeMessageTypeIdentifier = "og:mobile2"
+    static let WechatExchangeMessageTypeIdentifier = "og:wx2"
+    static let ViewingDateExchangeMessageTypeIdentifier = "og:fy2"
+    static let ExchangePhoneStatusMessageTypeIdentifier = "og:exmobile2"
+    static let ExchangeWechatStatusMessageTypeIdentifier = "og:exwx2"
+    static let ExchangeViewingDateStatusMessageTypeIdentifier = "og:exfy2"
+
 }
