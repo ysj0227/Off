@@ -199,7 +199,12 @@ extension RenterChatViewController {
             
         }else if index == 2 {
             
-            sendExchangeWechat()
+        if UserTool.shared.isHasWX() == true {
+            showSureAlertview()
+        }else{
+            showWXInputAlertview()
+        }
+            
             
         }else if index == 3 {
             
@@ -207,9 +212,34 @@ extension RenterChatViewController {
             
         }else if index == 4 {
             
-            let model = RCTextMessage(content: "hello啊")
-            self.sendMessage(model, pushContent: "TEST")
         }
+    }
+    
+    //弹出发送确认框弹框
+    func showSureAlertview() {
+
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            self?.sendExchangeWechat()
+        }
+    }
+    
+    //弹出输入微信弹框
+    func showWXInputAlertview() {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.inputTFView.placeholder = "请输入您的微信号"
+        alert.ShowInputAlertView(superview: self.view, message: "当前未绑定微信", cancelButtonCallClick: {
+            
+        }) { [weak self] (str) in
+            self?.requestSaveWX(wx: str)
+        }
+    }
+    
+    //保存微信接口
+    func requestSaveWX(wx: String) {
+        self.sendExchangeWechat()
     }
 }
 
