@@ -27,7 +27,7 @@ class RenterMineSettingViewController: BaseTableViewController {
         let btn = UIButton.init(frame: CGRect(x: left_pending_space_17, y: 40, width: kWidth - left_pending_space_17 * 2, height: btnHeight_44))
         btn.backgroundColor = kAppWhiteColor
         btn.clipsToBounds = true
-        btn.layer.cornerRadius = button_cordious
+        btn.layer.cornerRadius = button_cordious_2
         btn.setTitle("退出登录", for: .normal)
         btn.setTitleColor(kAppColor_333333, for: .normal)
         btn.titleLabel?.font = FONT_15
@@ -52,6 +52,7 @@ extension RenterMineSettingViewController {
     
     @objc func logotClick() {
         //退出登录
+        NotificationCenter.default.post(name: NSNotification.Name.UserLogout, object: nil)
     }
     
     func setUpView() {

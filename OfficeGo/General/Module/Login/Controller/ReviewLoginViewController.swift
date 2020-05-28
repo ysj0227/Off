@@ -9,6 +9,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import HandyJSON
+import SwiftyJSON
 
 class ReviewLoginViewController: BaseViewController {
     
@@ -100,7 +102,7 @@ class ReviewLoginViewController: BaseViewController {
         getCodeButton.setTitle(NSLocalizedString("获取验证码", comment: ""), for: .normal)
         getCodeButton.setTitleColor(kAppColor_line_D8D8D8, for: .normal)
         getCodeButton.clipsToBounds = true
-        getCodeButton.layer.cornerRadius = button_cordious
+        getCodeButton.layer.cornerRadius = button_cordious_2
         getCodeButton.isUserInteractionEnabled = false
         getCodeButton.titleLabel?.font = FONT_MEDIUM_15
         return getCodeButton
@@ -111,7 +113,7 @@ class ReviewLoginViewController: BaseViewController {
         nextButton.setTitle(NSLocalizedString("获取验证码", comment: ""), for: .normal)
         nextButton.setTitleColor(.white, for: .normal)
         nextButton.clipsToBounds = true
-        nextButton.layer.cornerRadius = button_cordious
+        nextButton.layer.cornerRadius = button_cordious_2
         nextButton.backgroundColor = kAppColor_btnGray_BEBEBE
         nextButton.isUserInteractionEnabled = false
         nextButton.titleLabel?.font = FONT_MEDIUM_15
@@ -414,9 +416,16 @@ class ReviewLoginViewController: BaseViewController {
         var params = [String:AnyObject]()
         params["phone"] = self.phoneField.text as AnyObject?
         params["code"] = self.verifyCodeField.text as AnyObject?
-        params["channel"] = 1 as AnyObject
-        params["idType"] = 0 as AnyObject
+        params["channel"] = UserTool.shared.user_channel as AnyObject
+        params["idType"] = UserTool.shared.user_id_type as AnyObject?
         SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
+ 
+            if let model = LoginModel.deserialize(from: response as? [String: AnyObject]) {
+                UserTool.shared.user_rongyuntoken = model.rongyuntoken
+                UserTool.shared.user_uid = model.uid
+                UserTool.shared.user_token = model.token
+                UserTool.shared.user_phone = self?.phoneField.text
+            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
                 self?.rightBtnClick()
                 self?.setNextEnable()
@@ -439,7 +448,14 @@ class ReviewLoginViewController: BaseViewController {
         }
     }
     
+    func resignTF() {
+        phoneField.resignFirstResponder()
+        verifyCodeField.resignFirstResponder()
+    }
+    
     func checkVerifyCode() {
+        
+        resignTF()
         
         let mobile = self.phoneField.text
         let code = self.verifyCodeField.text
@@ -460,7 +476,6 @@ class ReviewLoginViewController: BaseViewController {
             self.getCodeButton.isUserInteractionEnabled = false
             self.getCodeButton.setTitleColor(kAppColor_line_D8D8D8, for: .normal)
             self.getCodeButton.setTitle(String(format: NSLocalizedString("重新获取%ldS"), discount), for: .normal)
-            let mobile = self.phoneField.text
             self.phoneField.isEnabled = false
             self.areaLabel.isUserInteractionEnabled = false
             if let mobile = UserInfo.shared().verifyMobile {

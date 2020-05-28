@@ -13,6 +13,10 @@ extension Notification.Name {
     public static let NetStatusChange = Notification.Name("NetStatusChange")
     /// 用户登录
     public static let UserLogined = Notification.Name("userLogined")
+    /// 用户推出
+    public static let UserLogout = Notification.Name("userLogout")
+    /// 用户身份切换
+    public static let UserRoleChange = Notification.Name("userRoleChange")
     /// 首页登录锁定通知
     public static let HomeBtnLocked = Notification.Name("homeBtnLocked")
     
@@ -21,9 +25,9 @@ extension Notification.Name {
     
     /// 聊天页面 - 点击收藏按钮 通知
     public static let MsgCollectBtnLocked = Notification.Name("msgCollectBtnLocked")
-
+    
     /// 聊天页面 - 约看房源预约成功通知
-     public static let MsgScheduleSuccess = Notification.Name("msgScheduleSuccess")
+    public static let MsgScheduleSuccess = Notification.Name("msgScheduleSuccess")
     
     /// 聊天页面 -交换手机号 - 业主点击同意或拒绝
     public static let MsgExchangePhoneStatusBtnLocked = Notification.Name("msgExchangePhoneStatusBtnLocked")

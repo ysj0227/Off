@@ -10,7 +10,12 @@ import UIKit
 
 class LoginRoleViewController: BaseTableViewController {
 
-    var selectedIndex: Int?
+    //0:租户,1:业主,9:其他
+    var selectedIndex: Int = 999 {
+        didSet {
+            UserTool.shared.user_id_type = selectedIndex
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
