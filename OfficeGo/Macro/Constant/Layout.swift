@@ -20,11 +20,15 @@ let btnHeight = 52
 
 let btnHeight_44: CGFloat = 44
 
+let btnHeight_50: CGFloat = 50
+
 //按钮的圆角
-let button_cordious: CGFloat = 2
+let button_cordious_2: CGFloat = 2
 
 //头像的圆角
-let heder_cordious: CGFloat = 32
+let heder_cordious_32: CGFloat = 32
+
+let button_cordious_15: CGFloat = 15
 
 let btnMargin: CGFloat = 15
 
@@ -35,6 +39,12 @@ let kStatusBarHeight = UIApplication.shared.statusBarFrame.height
 let kNavigationHeight = kStatusBarHeight + 44
 
 let kNavigationHeight_Higher = kStatusBarHeight + 100
+
+let kMessageAlertWidth: CGFloat = 266
+
+let kMessageAlertHeight: CGFloat = 120
+
+let kMessageInputAlertHeight: CGFloat = 158
 
 let kIsiPhoneX = kStatusBarHeight == 44 ? true : false
 

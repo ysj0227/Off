@@ -39,6 +39,8 @@ public enum BottomBtnViewType {
     case BottomBtnViewTypeIwantToFind   //我想找页面 - 只显示一个确定按钮
     case BottomBtnViewTypeShaixuan      //筛选页面 - 两个按钮 清除 确定
     case BottomBtnViewTypeOfficeDetail  //详情页面 - 收藏 - 找房东
+    case BottomBtnViewTypeChatAlertBottomView  //聊天页面 - 取消 - 确定
+
 }
 
 //租户我的

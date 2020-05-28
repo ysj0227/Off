@@ -242,7 +242,7 @@ public enum NavgationTitleViewType {
             self.leftButton.setImage(UIImage.init(named: "ic_back_b"), for: .normal)
             rightButton.titleLabel?.textAlignment = .center
             rightButton.clipsToBounds = true
-            rightButton.layer.cornerRadius = button_cordious
+            rightButton.layer.cornerRadius = button_cordious_2
             rightButton.titleLabel?.font = FONT_13
             backTitleRightView.backgroundColor = kAppWhiteColor
             titleLabel.textColor = kAppColor_333333

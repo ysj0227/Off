@@ -145,7 +145,7 @@ class RenterHeaderItemCell: UICollectionViewCell {
         itemView.font = FONT_11
         itemView.textColor = kAppBlueColor
         itemView.clipsToBounds = true
-        itemView.layer.cornerRadius = button_cordious
+        itemView.layer.cornerRadius = button_cordious_2
         itemView.layer.borderColor = kAppBlueColor.cgColor
         itemView.layer.borderWidth = 1.0
         return itemView

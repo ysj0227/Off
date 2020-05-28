@@ -83,7 +83,7 @@ class HouseShaixuanSelectView: UIView {
         didSet {
             //如果是添加到页面- 是子view
             if isSubView == true {
-
+                
                 blackAlphabgView.isUserInteractionEnabled = false
                 blackAlphabgView.backgroundColor = kAppWhiteColor
                 bottomBtnView.snp.updateConstraints { (make) in
@@ -390,7 +390,6 @@ class BottomBtnView: UIView {
     lazy var leftBtn: UIButton = {
         let button = UIButton.init()
         button.clipsToBounds = true
-        button.layer.cornerRadius = button_cordious
         button.backgroundColor = kAppColor_bgcolor_F7F7F7
         button.titleLabel?.font = FONT_MEDIUM_16
         button.addTarget(self, action: #selector(leftBtnClick), for: .touchUpInside)
@@ -400,7 +399,6 @@ class BottomBtnView: UIView {
     lazy var rightSelectBtn: UIButton = {
         let button = UIButton.init()
         button.clipsToBounds = true
-        button.layer.cornerRadius = button_cordious
         button.backgroundColor = kAppBlueColor
         button.titleLabel?.font = FONT_MEDIUM_16
         button.setTitleColor(kAppWhiteColor, for: .normal)
@@ -410,9 +408,9 @@ class BottomBtnView: UIView {
     
     
     var leftBtnClickBlock: (() -> Void)?
-
+    
     var rightBtnClickBlock: (() -> Void)?
-
+    
     
     @objc func leftBtnClick() {
         guard let blockk = leftBtnClickBlock else {
@@ -444,6 +442,8 @@ class BottomBtnView: UIView {
         switch bottomType {
         case .BottomBtnViewTypeIwantToFind: //我想找页面 - 只显示一个确定按钮
             leftBtn.isHidden = true
+            rightSelectBtn.layer.cornerRadius = button_cordious_2
+
             rightSelectBtn.setTitle("确定", for: .normal)
             rightSelectBtn.snp.makeConstraints { (make) in
                 make.leading.equalTo(left_pending_space_17)
@@ -453,6 +453,8 @@ class BottomBtnView: UIView {
             }
         case .BottomBtnViewTypeShaixuan:    //筛选页面 - 两个按钮 清除 确定
             leftBtn.isHidden = false
+            leftBtn.layer.cornerRadius = button_cordious_2
+            rightSelectBtn.layer.cornerRadius = button_cordious_2
             leftBtn.setTitle("清除", for: .normal)
             leftBtn.setTitleColor(kAppBlackColor, for: .normal)
             rightSelectBtn.setTitle("确定", for: .normal)
@@ -472,6 +474,8 @@ class BottomBtnView: UIView {
             }
         case .BottomBtnViewTypeOfficeDetail://详情页面 - 收藏 - 找房东
             leftBtn.isHidden = false
+            leftBtn.layer.cornerRadius = button_cordious_2
+            rightSelectBtn.layer.cornerRadius = button_cordious_2
             leftBtn.backgroundColor = kAppWhiteColor
             leftBtn.titleLabel?.font = FONT_9
             leftBtn.setTitleColor(kAppColor_999999, for: .normal)
@@ -480,7 +484,7 @@ class BottomBtnView: UIView {
             leftBtn.setTitle("已收藏", for: .selected)
             leftBtn.setImage(UIImage.init(named: "collectItemSel"), for: .selected)
             leftBtn.layoutButton(.imagePositionTop, space: 10)
-
+            
             rightSelectBtn.setTitle("找房东", for: .normal)
             
             leftBtn.snp.makeConstraints { (make) in
@@ -495,21 +499,42 @@ class BottomBtnView: UIView {
                 make.centerY.equalToSuperview()
                 make.height.equalTo(40)
             }
+            
+        case .BottomBtnViewTypeChatAlertBottomView://详情页面 - 收藏 - 找房东
+            leftBtn.isHidden = false
+            leftBtn.backgroundColor = kAppLightLightBlueColor
+            leftBtn.titleLabel?.font = FONT_14
+            leftBtn.setTitleColor(kAppColor_666666, for: .normal)
+            leftBtn.setTitle("取消", for: .normal)
+            rightSelectBtn.isHidden = false
+            rightSelectBtn.backgroundColor = kAppBlueColor
+            rightSelectBtn.titleLabel?.font = FONT_14
+            rightSelectBtn.setTitleColor(kAppWhiteColor, for: .normal)
+            rightSelectBtn.setTitle("确定", for: .normal)
+            
+            leftBtn.snp.makeConstraints { (make) in
+                make.leading.height.centerY.equalToSuperview()
+                make.width.equalTo(self.width / 2.0)
+            }
+            rightSelectBtn.snp.makeConstraints { (make) in
+                make.trailing.height.centerY.equalToSuperview()
+                make.width.equalTo(self.width / 2.0)
+            }
         }
-        
-    }
     
-    private func setupView() {
-        
-        self.backgroundColor = kAppWhiteColor
-        
-        self.addSubview(leftBtn)
-        self.addSubview(rightSelectBtn)
-    }
+}
+
+private func setupView() {
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    self.backgroundColor = kAppWhiteColor
     
+    self.addSubview(leftBtn)
+    self.addSubview(rightSelectBtn)
+}
+
+required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+}
+
 }
 

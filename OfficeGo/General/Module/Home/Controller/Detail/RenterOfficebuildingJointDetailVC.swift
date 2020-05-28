@@ -599,7 +599,7 @@ extension RenterOfficebuildingJointDetailVC {
                 btn.setTitleColor(kAppBlueColor, for: .normal)
                 btn.titleLabel?.font = FONT_11
                 btn.clipsToBounds = true
-                btn.layer.cornerRadius = button_cordious
+                btn.layer.cornerRadius = button_cordious_2
                 btn.layer.borderColor = kAppBlueColor.cgColor
                 btn.layer.borderWidth = 1.0
                 btn.addTarget(self, action: #selector(loadMore), for: .touchUpInside)
@@ -622,7 +622,7 @@ extension RenterOfficebuildingJointDetailVC {
                 btn.setTitleColor(kAppBlueColor, for: .normal)
                 btn.titleLabel?.font = FONT_11
                 btn.clipsToBounds = true
-                btn.layer.cornerRadius = button_cordious
+                btn.layer.cornerRadius = button_cordious_2
                 btn.layer.borderColor = kAppBlueColor.cgColor
                 btn.layer.borderWidth = 1.0
                 btn.addTarget(self, action: #selector(loadMore), for: .touchUpInside)

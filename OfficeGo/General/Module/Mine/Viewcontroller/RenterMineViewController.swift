@@ -149,7 +149,7 @@ class RenterUserHeaderView: UIView {
         let view = BaseImageView.init()
         view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
-        view.layer.cornerRadius = heder_cordious
+        view.layer.cornerRadius = heder_cordious_32
         return view
     }()
     

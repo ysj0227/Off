@@ -44,7 +44,7 @@ class RenterMsgFYHeaderView: UICollectionReusableView {
         let view = UIImageView()
         view.image = UIImage.init(named: "")
         view.clipsToBounds = true
-        view.layer.cornerRadius = button_cordious
+        view.layer.cornerRadius = button_cordious_2
         return view
     }()
     lazy var houseNameLabel: UILabel = {
