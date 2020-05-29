@@ -131,8 +131,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func runTabBarViewController() -> Void {
         
         if UserTool.shared.isLogin() == true {
+            /*
             //登录直接登录融云 - 然后设置tabbar
             loginRongCloud()
+            */
+            
+            //现在目前改为每次登录显示
+            let rolechangeVC = LoginRoleViewController()
+            navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
+            navigationController?.navigationBar.isHidden = true
+            window?.rootViewController = navigationController
         }else {
             let rolechangeVC = LoginRoleViewController()
             navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
