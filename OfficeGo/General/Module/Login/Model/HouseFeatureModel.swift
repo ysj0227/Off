@@ -15,7 +15,7 @@ class HouseSelectModel: HandyJSON {
     var typeModel: HouseTypeSelectModel = HouseTypeSelectModel()
     var sortModel: HouseSortSelectModel = HouseSortSelectModel()
     var shaixuanModel: HouseShaixuanModel = HouseShaixuanModel()
-
+    
     required init() {
     }
 }
@@ -28,9 +28,21 @@ class HouseSelectModel: HandyJSON {
 //}
 //类型选择model
 class HouseTypeSelectModel: HandyJSON {
-    var id: String?
+    var btype: Int? //类型,1:楼盘 写字楼,2:网点 联合办公
     var title: String?
     var type: HouseTypeEnum?
+    
+    //    var type: HouseTypeEnum = .jointOfficeEnum {
+    //        didSet {
+    //            if type == .officeBuildingEnum {
+    //                btype = 1
+    //            }else if type == .officeBuildingEnum {
+    //                btype = 2
+    //            }
+    //        }
+    //    }
+    
+    //    var type: HouseTypeEnum?
     required init() {
     }
 }
@@ -59,45 +71,55 @@ class HouseShaixuanModel: HandyJSON {
         var model = SliderExtentModel()
         model.minimumValue = 0
         model.maximumValue = 1000
+        model.lowValue = 0
+        model.highValue = 1000
         return model
     }()
     var zujinofficeBuildingExtentModel: SliderExtentModel = {
-           var model = SliderExtentModel()
-           model.minimumValue = 0
-           model.maximumValue = 10
-           return model
-       }()
+        var model = SliderExtentModel()
+        model.minimumValue = 0
+        model.maximumValue = 10
+        model.lowValue = 0
+        model.highValue = 10
+        return model
+    }()
     var gongweiofficeBuildingExtentModel: SliderExtentModel = {
-           var model = SliderExtentModel()
-           model.minimumValue = 0
-           model.maximumValue = 500
-           return model
-       }()
+        var model = SliderExtentModel()
+        model.minimumValue = 0
+        model.maximumValue = 500
+        model.lowValue = 0
+        model.highValue = 500
+        return model
+    }()
     //联合办公少选范围
-//    var mianjijointOfficeExtentModel: SliderExtentModel = SliderExtentModel()
+    //    var mianjijointOfficeExtentModel: SliderExtentModel = SliderExtentModel()
     var zujinjointOfficeExtentModel: SliderExtentModel = {
-           var model = SliderExtentModel()
-           model.minimumValue = 0
-           model.maximumValue = 100000
-           return model
-       }()
+        var model = SliderExtentModel()
+        model.minimumValue = 0
+        model.maximumValue = 100000
+        model.lowValue = 0
+        model.highValue = 100000
+        return model
+    }()
     var gongweijointOfficeExtentModel: SliderExtentModel = {
-           var model = SliderExtentModel()
-           model.minimumValue = 0
-           model.maximumValue = 20
-           return model
-       }()
+        var model = SliderExtentModel()
+        model.minimumValue = 0
+        model.maximumValue = 20
+        model.lowValue = 0
+        model.highValue = 20
+        return model
+    }()
     //装修 - 写字楼特有
     var documentTypeModelArr = [HouseFeatureModel]()
     
     // 房源特色数据
     var featureModelArr = [HouseFeatureModel]()
     
-//    //房源特色 - 选择办公楼
-//    var featureofficeBuildingSelectedArr = [HouseFeatureModel]()
-//
-//    //房源特色 - 选择联合办公
-//    var featurejointOfficeSelectedArr = [HouseFeatureModel]()
+    //    //房源特色 - 选择办公楼
+    //    var featureofficeBuildingSelectedArr = [HouseFeatureModel]()
+    //
+    //    //房源特色 - 选择联合办公
+    //    var featurejointOfficeSelectedArr = [HouseFeatureModel]()
     
     required init() {
     }
@@ -113,9 +135,7 @@ class SliderExtentModel: HandyJSON {
 
 //装修类型
 //筛选特色
-class HouseFeatureModel: HandyJSON {
-    var id: String?
-    var title: String?
+class HouseFeatureModel: DictionaryModel {
     
     //办公楼特色选择
     var isOfficeBuildingSelected: Bool = false
@@ -125,7 +145,8 @@ class HouseFeatureModel: HandyJSON {
     
     //装修类型选择
     var isDocumentSelected: Bool = false
-
+    
     required init() {
     }
+    
 }

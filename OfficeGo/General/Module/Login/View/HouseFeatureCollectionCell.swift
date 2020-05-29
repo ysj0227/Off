@@ -24,7 +24,7 @@ class HouseFeatureCollectionCell: BaseCollectionViewCell {
     
     var model: HouseFeatureModel? {
         didSet {
-            itemButton.b_texts = ThorButtonText(normalText: model?.title, selectedText: model?.title, disableText: model?.title)
+            itemButton.b_texts = ThorButtonText(normalText: model?.dictCname, selectedText: model?.dictCname, disableText: model?.dictCname)
         }
     }
     

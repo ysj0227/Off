@@ -75,7 +75,7 @@ class RenterSearchRecommendCollectionCell:  BaseCollectionViewCell {
     }
     
     func updatelayout() {
-        if model?.title == "ji" {
+        if model?.dictCname == "ji" {
             houseJiIcon.isHidden = false
             houseNameLabel.snp.remakeConstraints { (make) in
                 make.leading.equalTo(houseJiIcon.snp.trailing).offset(6)
@@ -95,7 +95,7 @@ class RenterSearchRecommendCollectionCell:  BaseCollectionViewCell {
     }
     
     class func sizeWithData(model: HouseFeatureModel) -> CGSize {
-        if model.title?.count ?? 0 <= 0 {
+        if model.dictCname?.count ?? 0 <= 0 {
             return .zero
         }
         return CGSize(width: kWidth, height: 60)

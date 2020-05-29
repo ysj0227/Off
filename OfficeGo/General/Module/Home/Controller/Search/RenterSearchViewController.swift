@@ -61,27 +61,27 @@ class RenterSearchViewController: BaseViewController {
     
     func setData() {
         let model = HouseFeatureModel()
-        model.title = "ji"
+        model.dictCname = "ji"
         let model1 = HouseFeatureModel()
-        model1.title = "呃呃呃"
+        model1.dictCname = "呃呃呃"
         let model2 = HouseFeatureModel()
-        model2.title = "俄方发个哥哥去"
+        model2.dictCname = "俄方发个哥哥去"
         let model3 = HouseFeatureModel()
-        model3.title = "AAAA"
+        model3.dictCname = "AAAA"
         let model4 = HouseFeatureModel()
-        model4.title = "热门"
+        model4.dictCname = "热门"
         let model5 = HouseFeatureModel()
-        model5.title = "方法方法"
+        model5.dictCname = "方法方法"
         let model6 = HouseFeatureModel()
-        model6.title = "上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦"
+        model6.dictCname = "上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦"
         let model7 = HouseFeatureModel()
-        model7.title = "测试擦好姑娘数据- - - -- - 的年纪爱护肤IE"
+        model7.dictCname = "测试擦好姑娘数据- - - -- - 的年纪爱护肤IE"
         let model8 = HouseFeatureModel()
-        model8.title = "宝贝宝贝"
+        model8.dictCname = "宝贝宝贝"
         let model9 = HouseFeatureModel()
-        model9.title = "恶吻吻吻"
+        model9.dictCname = "恶吻吻吻"
         let model10 = HouseFeatureModel()
-        model10.title = "饿"
+        model10.dictCname = "饿"
         dataArr.append(model)
         dataArr.append(model1)
         dataArr.append(model2)

@@ -178,6 +178,25 @@ class HouseShaixuanSelectView: UIView {
             make.height.equalTo(44)
         }
         
+        bottomBtnView.leftBtnClickBlock = { [weak self] in
+            guard let blockk = self?.clearButtonCallBack else {
+                return
+            }
+            blockk()
+            self?.selfRemove()
+        }
+        bottomBtnView.rightBtnClickBlock = { [weak self] in
+            guard let blockk = self?.sureHouseShaixuanButtonCallBack else {
+                return
+            }
+            blockk(self?.selectModel ?? HouseSelectModel())
+            if self?.isSubView == true {
+                
+            }else {
+                self?.selfRemove()
+            }
+        }
+        
         tableView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(bottomBtnView.snp.top)
@@ -253,6 +272,7 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var iwanttType:IWantToFindType
+        //联合办公
         if isLianHeBanGong != HouseTypeEnum.officeBuildingEnum {
             iwanttType = LianHeBanGongdataArray[indexPath.section][indexPath.row]
             switch iwanttType {
@@ -280,6 +300,12 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
                 cell?.unit = "个"
                 cell?.minimumValue = self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.minimumValue
                 cell?.maximumValue = self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue
+                cell?.lowValue = self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue
+                cell?.highValue = self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue
+                cell?.sureExtentButtonCallBack = { [weak self] (low, high) in
+                    self?.selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue = low
+                    self?.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue = high
+                }
                 return cell ?? ExtentSelectCell.init(frame: .zero)
             case .IWantToFindTypeZujin:
                 let cell = tableView.dequeueReusableCell(withIdentifier: ExtentSelectCell.reuseIdentifierStr) as? ExtentSelectCell
@@ -287,6 +313,12 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
                 cell?.unit = "元/m²/天"
                 cell?.minimumValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.minimumValue
                 cell?.maximumValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue
+                cell?.lowValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue
+                cell?.highValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue
+                cell?.sureExtentButtonCallBack = { [weak self] (low, high) in
+                    self?.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue = low
+                    self?.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue = high
+                }
                 cell?.selectionStyle = .none
                 return cell ?? ExtentSelectCell.init(frame: .zero)
             case .IWantToFindTypeMianji:
@@ -335,6 +367,12 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
                 cell?.unit = "个"
                 cell?.minimumValue = self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.minimumValue
                 cell?.maximumValue = self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.maximumValue
+                cell?.lowValue = self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.lowValue
+                cell?.highValue = self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.highValue
+                cell?.sureExtentButtonCallBack = { [weak self] (low, high) in
+                    self?.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.lowValue = low
+                    self?.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.highValue = high
+                }
                 return cell ?? ExtentSelectCell.init(frame: .zero)
             case .IWantToFindTypeZujin:
                 let cell = tableView.dequeueReusableCell(withIdentifier: ExtentSelectCell.reuseIdentifierStr) as? ExtentSelectCell
@@ -343,6 +381,12 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
                 cell?.unit = "元/m²/天"
                 cell?.minimumValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.minimumValue
                 cell?.maximumValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue
+                cell?.lowValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue
+                cell?.highValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue
+                cell?.sureExtentButtonCallBack = { [weak self] (low, high) in
+                    self?.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue = low
+                    self?.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue = high
+                }
                 return cell ?? ExtentSelectCell.init(frame: .zero)
             case .IWantToFindTypeMianji:
                 let cell = tableView.dequeueReusableCell(withIdentifier: ExtentSelectCell.reuseIdentifierStr) as? ExtentSelectCell
@@ -351,6 +395,12 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
                 cell?.unit = "m²"
                 cell?.minimumValue = self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.minimumValue
                 cell?.maximumValue = self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue
+                cell?.lowValue = self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue
+                cell?.highValue = self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue
+                cell?.sureExtentButtonCallBack = { [weak self] (low, high) in
+                    self?.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue = low
+                    self?.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue = high
+                }
                 return cell ?? ExtentSelectCell.init(frame: .zero)
             case .IWantToFindTypeFeature:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HouseFeatureCell.reuseIdentifierStr) as? HouseFeatureCell

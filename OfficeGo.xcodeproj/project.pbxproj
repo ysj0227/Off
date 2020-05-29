@@ -46,6 +46,8 @@
 		0473332F247527D100755192 /* RenterChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0473332E247527D100755192 /* RenterChatListViewController.swift */; };
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
 		047333372476869900755192 /* RenterChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333362476869900755192 /* RenterChatViewController.swift */; };
+		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
+		04810B7E2480A91800F35FBE /* DictionaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7D2480A91800F35FBE /* DictionaryModel.swift */; };
 		04D9D961246CD47A00211B40 /* RenterCollectPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D960246CD47A00211B40 /* RenterCollectPageViewController.swift */; };
 		04D9D963246CDC1400211B40 /* RenterHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D962246CDC1400211B40 /* RenterHomePageViewController.swift */; };
 		04D9D965246CE3A900211B40 /* RenterCollectOfficeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */; };
@@ -273,6 +275,8 @@
 		0473332E247527D100755192 /* RenterChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterChatListViewController.swift; sourceTree = "<group>"; };
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
 		047333362476869900755192 /* RenterChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterChatViewController.swift; sourceTree = "<group>"; };
+		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		04810B7D2480A91800F35FBE /* DictionaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryModel.swift; sourceTree = "<group>"; };
 		04D9D960246CD47A00211B40 /* RenterCollectPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectPageViewController.swift; sourceTree = "<group>"; };
 		04D9D962246CDC1400211B40 /* RenterHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterHomePageViewController.swift; sourceTree = "<group>"; };
 		04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectOfficeListViewController.swift; sourceTree = "<group>"; };
@@ -862,6 +866,7 @@
 				04DB5A5C247F65CD00E3836F /* LoginModel.swift */,
 				EEB1F9DE245914A2000500A3 /* HouseFeatureModel.swift */,
 				EE02B9DF2462AD0300B51D34 /* AreaRegionModel.swift */,
+				04810B7D2480A91800F35FBE /* DictionaryModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1153,6 +1158,7 @@
 			children = (
 				EE7F54B32456685E0010073B /* User.swift */,
 				EEE87B6A24559BEF00C03424 /* UserInfo.swift */,
+				04810B7B2480A88C00F35FBE /* BaseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1510,6 +1516,7 @@
 				EEE87B5224558F9800C03424 /* ThorTabBarItem.swift in Sources */,
 				EE6070E2246900120098CAC2 /* RenterFeatureCell.swift in Sources */,
 				040FACD0246E39AB001429C5 /* RenterSearchRecommendCollectionCell.swift in Sources */,
+				04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */,
 				0437CFB7247E1A5D0015C355 /* SSAPI.swift in Sources */,
 				046AF998246E5F0500E49D60 /* SearchResultListViewController.swift in Sources */,
 				EEB1F9C42458299D000500A3 /* CycleView.swift in Sources */,
@@ -1525,6 +1532,7 @@
 				04D9D96A246CE65200211B40 /* RenterCollectOfficeCell.swift in Sources */,
 				046689222472548800A76669 /* ConfigureModel.swift in Sources */,
 				EE353ECA2456F42500057545 /* CityOrRegionSelectCell.swift in Sources */,
+				04810B7E2480A91800F35FBE /* DictionaryModel.swift in Sources */,
 				047333252473D77700755192 /* UIView+Extension.swift in Sources */,
 				EEE87B0D2455856800C03424 /* JHWebViewController.swift in Sources */,
 				04EF1E41247777B700871762 /* MainTabBarController.swift in Sources */,

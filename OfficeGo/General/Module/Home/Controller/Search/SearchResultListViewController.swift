@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import HandyJSON
+import SwiftyJSON
 
 class SearchResultListViewController: BaseTableViewController {
     
@@ -34,6 +36,53 @@ class SearchResultListViewController: BaseTableViewController {
         super.viewWillDisappear(animated)
         
         selectView.removeShowView()
+    }
+    
+    func requestGetDecorate() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumdecoratedType, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.selectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
+                }
+            }
+//            weakSelf.setModelShow()
+
+        }, failure: {[weak self] (error) in
+//            self?.setModelShow()
+        }) {[weak self] (code, message) in
+//            self?.setModelShow()
+
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    
+    func requestGetFeature() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.selectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
+                }
+            }
+            weakSelf.requestGetDecorate()
+
+        }, failure: {[weak self] (error) in
+            self?.requestGetDecorate()
+        }) {[weak self] (code, message) in
+            self?.requestGetDecorate()
+
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
     func setDataModel() {
@@ -111,40 +160,41 @@ class SearchResultListViewController: BaseTableViewController {
         
         selectModel.areaModel.areaModelCount.append(categoryModel3)
         
+        requestGetFeature()
         
-        //装修类型数据源模拟
-        let documentModel = HouseFeatureModel()
-        documentModel.title = "11"
-        documentModel.id = "1"
-        let documentModel2 = HouseFeatureModel()
-        documentModel2.title = "22"
-        documentModel2.id = "2"
-        let ddocumentModel = HouseFeatureModel()
-        ddocumentModel.title = "交通方便"
-        ddocumentModel.id = "13"
-        let ddocumentModel2 = HouseFeatureModel()
-        ddocumentModel2.title = "商圈环绕"
-        ddocumentModel2.id = "25"
-        selectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        selectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        selectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
-        selectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
-        
-        //房源特色数据源模拟
-        let fdocumentModel = HouseFeatureModel()
-        fdocumentModel.title = "交通方便"
-        fdocumentModel.id = "9"
-        let fdocumentModel2 = HouseFeatureModel()
-        fdocumentModel2.title = "商圈环绕"
-        fdocumentModel2.id = "299"
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+//        //装修类型数据源模拟
+//        let documentModel = HouseFeatureModel()
+//        documentModel.dictCname = "11"
+////        documentModel.dictValue = "1"
+//        let documentModel2 = HouseFeatureModel()
+//        documentModel2.dictCname = "22"
+////        documentModel2.id = "2"
+//        let ddocumentModel = HouseFeatureModel()
+//        ddocumentModel.dictCname = "交通方便"
+////        ddocumentModel.id = "13"
+//        let ddocumentModel2 = HouseFeatureModel()
+//        ddocumentModel2.dictCname = "商圈环绕"
+////        ddocumentModel2.id = "25"
+//        selectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
+//        selectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
+//        selectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
+//        selectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
+//
+//        //房源特色数据源模拟
+//        let fdocumentModel = HouseFeatureModel()
+//        fdocumentModel.dictCname = "交通方便"
+////        fdocumentModel.id = "9"
+//        let fdocumentModel2 = HouseFeatureModel()
+//        fdocumentModel2.dictCname = "商圈环绕"
+////        fdocumentModel2.id = "299"
+//        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+//        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+//        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+//        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+//        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+//        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+//        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+//        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
     }
     override func viewDidLoad() {
         super.viewDidLoad()

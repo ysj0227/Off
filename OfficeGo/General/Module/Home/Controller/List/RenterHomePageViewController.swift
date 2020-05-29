@@ -7,20 +7,22 @@
 //
 
 import UIKit
+import HandyJSON
+import SwiftyJSON
 
 class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
     
     //推荐房源搜索model
     var recommendSelectModel: HouseSelectModel = HouseSelectModel() {
-       didSet {
-//            self.tableView.reloadData()
-       }
-   }
+        didSet {
+            //            self.tableView.reloadData()
+        }
+    }
     
     //附件房源搜索model
-     var nearbySelectModel: HouseSelectModel = HouseSelectModel() {
+    var nearbySelectModel: HouseSelectModel = HouseSelectModel() {
         didSet {
-//            self.tableView.reloadData()
+            //            self.tableView.reloadData()
         }
     }
     
@@ -48,6 +50,55 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
         super.viewWillAppear(animated)
         let tab = self.navigationController?.tabBarController as? MainTabBarController
         tab?.customTabBar.isHidden = false
+    }
+    
+    func requestGetDecorate() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumdecoratedType, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.recommendSelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
+                    weakSelf.nearbySelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
+                }
+            }
+            //             weakSelf.setModelShow()
+            
+            }, failure: {[weak self] (error) in
+                //             self?.setModelShow()
+        }) {[weak self] (code, message) in
+            //             self?.setModelShow()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //获取特色和装修类型接口
+    func requestGetFeature() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.recommendSelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
+                    weakSelf.nearbySelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
+                }
+            }
+            weakSelf.requestGetDecorate()
+            
+            }, failure: {[weak self] (error) in
+                self?.requestGetDecorate()
+        }) {[weak self] (code, message) in
+            self?.requestGetDecorate()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
     func setDataModel() {
@@ -125,59 +176,60 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
         
         recommendSelectModel.areaModel.areaModelCount.append(categoryModel3)
         
+        requestGetFeature()
         
-        //装修类型数据源模拟
-        let documentModel = HouseFeatureModel()
-        documentModel.title = "11"
-        documentModel.id = "1"
-        let documentModel2 = HouseFeatureModel()
-        documentModel2.title = "22"
-        documentModel2.id = "2"
-        let ddocumentModel = HouseFeatureModel()
-        ddocumentModel.title = "交通方便"
-        ddocumentModel.id = "13"
-        let ddocumentModel2 = HouseFeatureModel()
-        ddocumentModel2.title = "商圈环绕"
-        ddocumentModel2.id = "25"
-        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
-        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
-        
-        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
-        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
-        
-        //房源特色数据源模拟
-        let fdocumentModel = HouseFeatureModel()
-        fdocumentModel.title = "交通方便"
-        fdocumentModel.id = "9"
-        let fdocumentModel2 = HouseFeatureModel()
-        fdocumentModel2.title = "商圈环绕"
-        fdocumentModel2.id = "299"
-        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        
-        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        //        //装修类型数据源模拟
+        //        let documentModel = HouseFeatureModel()
+        //        documentModel.title = "11"
+        //        documentModel.id = "1"
+        //        let documentModel2 = HouseFeatureModel()
+        //        documentModel2.title = "22"
+        //        documentModel2.id = "2"
+        //        let ddocumentModel = HouseFeatureModel()
+        //        ddocumentModel.title = "交通方便"
+        //        ddocumentModel.id = "13"
+        //        let ddocumentModel2 = HouseFeatureModel()
+        //        ddocumentModel2.title = "商圈环绕"
+        //        ddocumentModel2.id = "25"
+        //        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
+        //        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
+        //        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
+        //        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
+        //
+        //        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
+        //        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
+        //        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
+        //        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
+        //
+        //        //房源特色数据源模拟
+        //        let fdocumentModel = HouseFeatureModel()
+        //        fdocumentModel.title = "交通方便"
+        //        fdocumentModel.id = "9"
+        //        let fdocumentModel2 = HouseFeatureModel()
+        //        fdocumentModel2.title = "商圈环绕"
+        //        fdocumentModel2.id = "299"
+        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        //
+        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
+        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         //模拟数据 - 推荐和附近 - 不同的数据
         setDataModel()
         
@@ -192,7 +244,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
         
         //默认推荐
         segmentTitleSelectview.selectView.selectModel = recommendSelectModel
-
+        
         
         //切换下面的筛选条件
         segmentTitleSelectview.titleView.segHead?.buttonCallBack = {[weak self] (index) in
@@ -201,8 +253,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
             self?.segmentTitleSelectview.selectView.removeShowView()
             
             self?.pageView.reloadCurrentIndex(index: index - 1)
-//            delegate?.segMegmentCtlView?(segMegmentCtlView: self, dragToScroll: leftItemView, rightItemView: rightItemView)
-
+            //            delegate?.segMegmentCtlView?(segMegmentCtlView: self, dragToScroll: leftItemView, rightItemView: rightItemView)
+            
             if index == 1 {
                 //推荐
                 self?.segmentTitleSelectview.selectView.hiddenArea = false
@@ -230,23 +282,23 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
         self.view.bringSubviewToFront(segmentTitleSelectview)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-                        
+            
             print("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
-
+            
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
-               self?.titleview?.isHidden = true
-               self?.segmentTitleSelectview.isHidden = false
-           }else {
-               self?.titleview?.isHidden = false
-               self?.segmentTitleSelectview.isHidden = true
-           }
+                self?.titleview?.isHidden = true
+                self?.segmentTitleSelectview.isHidden = false
+            }else {
+                self?.titleview?.isHidden = false
+                self?.segmentTitleSelectview.isHidden = true
+            }
         }
         
         
         
         titleview = ThorNavigationView.init(type: .locationSearchClear)
         titleview?.locationBtn.layoutButton(.imagePositionLeft, margin: 10)
-
+        
         titleview?.locationBtn.setTitle("  上海", for: .normal)
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))

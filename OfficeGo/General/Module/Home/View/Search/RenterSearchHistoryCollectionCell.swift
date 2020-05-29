@@ -34,15 +34,15 @@ class RenterSearchHistoryCollectionCell:  BaseCollectionViewCell {
     
     var model: HouseFeatureModel? {
         didSet {
-            titleLabel.setTitle(model?.title, for: .normal)
+            titleLabel.setTitle(model?.dictCname, for: .normal)
         }
     }
     
     class func sizeWithData(model: HouseFeatureModel) -> CGSize {
-        if model.title?.count ?? 0 <= 0 {
+        if model.dictCname?.count ?? 0 <= 0 {
             return .zero
         }
-        let width:CGFloat = model.title?.boundingRect(with: CGSize(width: kWidth, height: 24), font: FONT_LIGHT_11, lineSpacing: 0).width ?? 0.0
+        let width:CGFloat = model.dictCname?.boundingRect(with: CGSize(width: kWidth, height: 24), font: FONT_LIGHT_11, lineSpacing: 0).width ?? 0.0
         return CGSize(width: width + 30.0, height: 24)
     }
     

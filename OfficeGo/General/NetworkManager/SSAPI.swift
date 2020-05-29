@@ -100,7 +100,17 @@ import Foundation
         return getUrlByServerType(serverType: .ShareHost)
     }
 }
-
+enum DictionaryCodeEnum: String {
+    case codeEnumuserPosition = "userPosition"
+    case codeEnumbasicServices = "basicServices"
+    case codeEnumcompanyService = "companyService"
+    case codeEnumdecoratedType = "decoratedType"
+    case codeEnumbranchUnique = "branchUnique"
+    case codeEnumbuildType = "buildType"
+    case codeEnumhouseUnique = "houseUnique"
+    case codeEnumreportType = "reportType"
+    case codeEnumhotKeywords = "hotKeywords"
+}
 //  MARK:   --基本信息
 class SSBasicURL: NSObject {
     

@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-typealias SSSuccessedClosure = (_ dataObj: [String: AnyObject]) -> Void
+typealias SSSuccessedClosure = (_ dataObj: [String: Any]) -> Void
 typealias SSErrorCodeMessageClosure = (_ statusCode: String, _ message: String) -> Void
 typealias SSFailedErrorClosure = (_ error: NSError) -> Void
 
@@ -52,13 +52,14 @@ class SSNetworkTool: NSObject {
                     guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
                         return
                     }
-                    let infoData = (resp["data"] as? [String: AnyObject])
+//                    let infoData = (resp["data"] as? [String: AnyObject])
                     
                     let statusCode = (resp["status"] as? Int) ?? -1
                     if statusCode == SSCode.SUCCESS.code {
                         if let block = success {
-                            block(infoData ?? [:])
+                            block(resp)
                         }
+                        
                     }else if statusCode == SSCode.DEFAULT_ERROR_CODE_5000.code {
                         var message = ""
                         if let msg  = resp["message"]  {
@@ -160,13 +161,38 @@ extension SSNetworkTool {
         }
     }
     
+    class SSBasic:NSObject {
+        
+        //地铁线路接口
+        static func request_getSubwayList(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
+            let url = String.init(format:SSBasicURL.getSubwayList)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)        }
+        
+        //区域商圈接口
+        static func request_getDistrictList(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
+            let url = String.init(format:SSBasicURL.getDistrictList)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)        }
+        
+        //获取字典接口
+        static func request_getDictionary(code: DictionaryCodeEnum,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
+            var params = [String:AnyObject]()
+            params["code"] = code.rawValue as AnyObject?
+            let url = String.init(format:SSBasicURL.getDictionary)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)        }
+        
+    }
+    
+    
     //  MARK:   登录
     class SSLogin: NSObject {
         
         //验证码
         static func request_getSmsCode(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format:SSLoginURL.getSmsCode)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
                 success,failed:failure,error:error)
         }
         
@@ -179,7 +205,7 @@ extension SSNetworkTool {
         
         //我想找接口
         static func request_addWantToFind(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format:SSLoginURL.loginWithCode)
+            let url = String.init(format:SSLoginURL.addWantToFind)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
                 success,failed:failure,error:error)
         }
@@ -194,19 +220,7 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        //短信登录
-        static func request_loginWithCode(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format:SSLoginURL.loginWithCode)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
-                success,failed:failure,error:error)
-        }
-        
-        //我想找接口
-        static func request_addWantToFind(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format:SSLoginURL.loginWithCode)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
-                success,failed:failure,error:error)
-        }
+       
     }
     
 }

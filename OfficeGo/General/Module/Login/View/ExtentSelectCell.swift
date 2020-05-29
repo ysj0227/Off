@@ -54,7 +54,9 @@ class ExtentSelectCell: BaseTableViewCell {
             }
          }
      }
-     
+    
+    var sureExtentButtonCallBack:((_ low: Double, _ high: Double) -> Void)?
+
     var minimumValue: Double? {
            didSet {
                sliderView.minimumValue = minimumValue ?? 0
@@ -97,9 +99,15 @@ class ExtentSelectCell: BaseTableViewCell {
             self.maxNumLabel.center = highCenterInView
             self.minNumLabel.text = String(format: "%.0f", self.self.sliderView.lowValue)
             self.maxNumLabel.text = String(format: "%.0f", self.self.sliderView.highValue)
-            if self.sliderView.highValue == self.maximumValue{
+            
+            if self.sliderView.highValue == self.maximumValue {
                 self.maxNumLabel.text = "不限"
             }
+            
+            guard let blockk = self.sureExtentButtonCallBack else {
+                return
+            }
+            blockk(self.self.sliderView.lowValue, self.self.sliderView.highValue)
         }
         
     }

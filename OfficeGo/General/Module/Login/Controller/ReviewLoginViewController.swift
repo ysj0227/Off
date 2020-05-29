@@ -420,7 +420,7 @@ class ReviewLoginViewController: BaseViewController {
         params["idType"] = UserTool.shared.user_id_type as AnyObject?
         SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
  
-            if let model = LoginModel.deserialize(from: response as? [String: AnyObject]) {
+            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
                 UserTool.shared.user_rongyuntoken = model.rongyuntoken
                 UserTool.shared.user_uid = model.uid
                 UserTool.shared.user_token = model.token

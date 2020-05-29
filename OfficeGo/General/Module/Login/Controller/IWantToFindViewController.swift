@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import HandyJSON
+import SwiftyJSON
 
 class IWantToFindViewController: BaseViewController {
     
@@ -29,7 +31,7 @@ class IWantToFindViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         titleview = ThorNavigationView.init(type: .backTitleRight)
         titleview?.titleLabel.text = "我想找"
         titleview?.rightButton.isHidden = false
@@ -51,12 +53,6 @@ class IWantToFindViewController: BaseViewController {
         
         setDataModel()
         
-        shaixuanView.ShowHouseShaixuanView(issubView:true, model: self.selectModel, clearButtonCallBack: {
-            
-        }, sureHouseShaixuanButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
-            self?.selectModel = selectModel
-        })
-        
     }
     
     override func leftBtnClick() {
@@ -68,51 +64,179 @@ class IWantToFindViewController: BaseViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    override func rightBtnClick() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setModelShow()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: HouseShaixuanSelectView.self) {
                 view.removeFromSuperview()
             }
         })
+    }
+    
+    override func rightBtnClick() {
+        
         NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
     }
 }
 
 
+//MARK:-  API调用接口
 extension IWantToFindViewController {
-    func setDataModel() {
-        //装修类型数据源模拟
-        let documentModel = HouseFeatureModel()
-        documentModel.title = "11"
-        documentModel.id = "1"
-        let documentModel2 = HouseFeatureModel()
-        documentModel2.title = "22"
-        documentModel2.id = "2"
-        let ddocumentModel = HouseFeatureModel()
-        ddocumentModel.title = "交通方便"
-        ddocumentModel.id = "13"
-        let ddocumentModel2 = HouseFeatureModel()
-        ddocumentModel2.title = "商圈环绕"
-        ddocumentModel2.id = "25"
-        selectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
-        selectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
-        selectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        selectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel2)
+    
+    //MARK:-  装修类型
+    func requestGetDecorate() {
         
-        //房源特色数据源模拟
-        let fdocumentModel = HouseFeatureModel()
-        fdocumentModel.title = "交通方便"
-        fdocumentModel.id = "9"
-        let fdocumentModel2 = HouseFeatureModel()
-        fdocumentModel2.title = "商圈环绕"
-        fdocumentModel2.id = "299"
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        selectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumdecoratedType, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.selectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
+                }
+            }
+            weakSelf.shaixuanView.selectModel = weakSelf.selectModel
+            
+            }, failure: {[weak self] (error) in
+                self?.shaixuanView.selectModel = self?.selectModel ?? HouseSelectModel()
+                
+        }) {[weak self] (code, message) in
+            self?.shaixuanView.selectModel = self?.selectModel ?? HouseSelectModel()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //MARK:-  装修特色
+    func requestGetFeature() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.selectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
+                }
+            }
+            weakSelf.requestGetDecorate()
+            
+            }, failure: {[weak self] (error) in
+                self?.requestGetDecorate()
+        }) {[weak self] (code, message) in
+            self?.requestGetDecorate()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    func setModelShow() {
+        shaixuanView.ShowHouseShaixuanView(issubView:true, model: self.selectModel, clearButtonCallBack: {
+            
+        }, sureHouseShaixuanButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
+            self?.selectModel = selectModel
+            self?.request_addWantToFind()
+        })
+    }
+    
+    //MARK:-  添加我想找接口
+    func request_addWantToFind() {
+        //调用登录接口 - 成功跳转登录
+        var params = [String:AnyObject]()
+        
+        var btype: Int? //类型,1:楼盘 写字楼,2:网点 联合办公
+        if selectModel.typeModel.type == .officeBuildingEnum {
+            btype = 1
+        }else {
+            btype = 2
+        }
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["btype"] = btype as AnyObject?
+        
+        //工位 - 两者都有
+        var gongweiExtentStr: String?
+        
+        //租金 - 两者都有
+        var zujinExtentStr: String?
+        
+        //房源特色 - 两者都有
+        var featureArr: [String] = []
+        
+        
+        //联合办公
+        if btype == 2 {
+            
+            gongweiExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
+            
+            zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
+            
+            //房源特色 - 两者都有
+            for model in self.selectModel.shaixuanModel.featureModelArr {
+                if model.isOfficejointOfficeSelected {
+                    featureArr.append("\(model.dictValue ?? 0)")
+                }
+            }
+            
+        }else if btype == 1 {
+            
+            gongweiExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.highValue ?? 0)
+            
+            zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
+            
+            //办公室 - 面积传值
+            let mianjiStr: String = String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
+            params["constructionArea"] = mianjiStr as AnyObject?
+            
+            //办公室 - 装修类型传值
+            var documentArr: [String] = []
+            for model in self.selectModel.shaixuanModel.documentTypeModelArr {
+                if model.isDocumentSelected {
+                    documentArr.append("\(model.dictValue ?? 0)")
+                }
+            }
+            let documentStr: String = documentArr.joined(separator: ",")
+            params["decoration"] = documentStr as AnyObject?
+            
+            //房源特色 - 两者都有
+            for model in self.selectModel.shaixuanModel.featureModelArr {
+                if model.isOfficeBuildingSelected {
+                    featureArr.append("\(model.dictValue ?? 0)")
+                }
+            }
+        }
+        
+        params["simple"] = gongweiExtentStr as AnyObject?
+        params["rentPrice"] = zujinExtentStr as AnyObject?
+        
+        //房源特色 - 两者都有
+        let featureStr: String = featureArr.joined(separator: ",")
+        params["tags"] = featureStr as AnyObject?
+        
+        SSNetworkTool.SSLogin.request_addWantToFind(params: params, success: { [weak self] (response) in
+            //            self?.rightBtnClick()
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+            
+        }
+    }
+    
+    //MARK:-  设置状态数据
+    func setDataModel() {
+        
+        requestGetFeature()
     }
 }

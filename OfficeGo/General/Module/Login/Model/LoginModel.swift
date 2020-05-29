@@ -7,14 +7,9 @@
 //
 
 import UIKit
-import HandyJSON
 
-class LoginModel: NSObject, HandyJSON {
-    
-    required override init(){
-        
-    }
-    
+class LoginModel: BaseModel {
+
     var rid: Int?
     var rongyuntoken: String?
     var token: String?
