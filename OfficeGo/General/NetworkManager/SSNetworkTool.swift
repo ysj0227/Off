@@ -161,6 +161,20 @@ extension SSNetworkTool {
         }
     }
     
+    //  MARK:   首页
+    class SSHome: NSObject {
+        
+        //请求banner
+        static func request_getbannerListt(success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSHomeURL.getbannerListt)
+            var params = [String:AnyObject]()
+            params["type"] = NetworkParams.AppType as AnyObject?
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+    }
+    
+    
     class SSBasic:NSObject {
         
         //地铁线路接口
@@ -219,9 +233,14 @@ extension SSNetworkTool {
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
                 success,failed:failure,error:error)
         }
-        
-       
     }
     
 }
 
+
+
+struct NetworkParams {
+        //1：H5，2：IOS，3：安卓
+    static let AppType = "2"
+
+}

@@ -111,6 +111,15 @@ enum DictionaryCodeEnum: String {
     case codeEnumreportType = "reportType"
     case codeEnumhotKeywords = "hotKeywords"
 }
+
+//  MARK:   --首页
+class SSHomeURL: NSObject {
+    
+    //轮播图接口
+    static let getbannerListt = "banner/bannerList"
+    
+}
+
 //  MARK:   --基本信息
 class SSBasicURL: NSObject {
     

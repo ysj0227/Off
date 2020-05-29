@@ -48,6 +48,7 @@
 		047333372476869900755192 /* RenterChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333362476869900755192 /* RenterChatViewController.swift */; };
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
 		04810B7E2480A91800F35FBE /* DictionaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7D2480A91800F35FBE /* DictionaryModel.swift */; };
+		04810B8024811DEC00F35FBE /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7F24811DEC00F35FBE /* BannerModel.swift */; };
 		04D9D961246CD47A00211B40 /* RenterCollectPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D960246CD47A00211B40 /* RenterCollectPageViewController.swift */; };
 		04D9D963246CDC1400211B40 /* RenterHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D962246CDC1400211B40 /* RenterHomePageViewController.swift */; };
 		04D9D965246CE3A900211B40 /* RenterCollectOfficeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */; };
@@ -277,6 +278,7 @@
 		047333362476869900755192 /* RenterChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterChatViewController.swift; sourceTree = "<group>"; };
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		04810B7D2480A91800F35FBE /* DictionaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryModel.swift; sourceTree = "<group>"; };
+		04810B7F24811DEC00F35FBE /* BannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModel.swift; sourceTree = "<group>"; };
 		04D9D960246CD47A00211B40 /* RenterCollectPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectPageViewController.swift; sourceTree = "<group>"; };
 		04D9D962246CDC1400211B40 /* RenterHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterHomePageViewController.swift; sourceTree = "<group>"; };
 		04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectOfficeListViewController.swift; sourceTree = "<group>"; };
@@ -736,6 +738,7 @@
 			isa = PBXGroup;
 			children = (
 				EEE0D98D246673CF00E5C77B /* FangyuanModel.swift */,
+				04810B7F24811DEC00F35FBE /* BannerModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1507,6 +1510,7 @@
 				EEE87B3824558F6A00C03424 /* DispatchExtensions.swift in Sources */,
 				EEE0D93E2465581200E5C77B /* Layout.swift in Sources */,
 				EEE87AEB2455856300C03424 /* WebViewController.swift in Sources */,
+				04810B8024811DEC00F35FBE /* BannerModel.swift in Sources */,
 				04DB5A59247F48C700E3836F /* SureAlertView.swift in Sources */,
 				0473331B2473CDD800755192 /* RenterHouseScheduleDetailViewController.swift in Sources */,
 				EEE87B5824558F9800C03424 /* AnimateRefreshFooter.swift in Sources */,

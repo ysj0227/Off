@@ -29,12 +29,12 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
     let KCount = 100
     
     //MARK: 获取图片URL数组
-    var imageURLStringArr : [String]? {
+    var imageURLStringArr : [String] = [] {
         didSet{
-            pageControl.numberOfPages = (imageURLStringArr?.count)!
+            pageControl.numberOfPages = imageURLStringArr.count
             collectionView.reloadData()
             //滚动到中间位置
-            let indexPath : IndexPath = IndexPath(item: (imageURLStringArr?.count)! * KCount, section: 0)
+            let indexPath : IndexPath = IndexPath(item: imageURLStringArr.count * KCount, section: 0)
             collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
         }
     }
@@ -123,9 +123,9 @@ extension CycleView {
         let page : NSInteger = NSInteger(offsetX / bounds.size.width)
         let itemsCount = collectionView.numberOfItems(inSection: 0)
         if page == 0 { //第一页
-            collectionView.contentOffset = CGPoint(x: offsetX + CGFloat((imageURLStringArr?.count)!) * CGFloat(KCount) * bounds.size.width, y: 0)
+            collectionView.contentOffset = CGPoint(x: offsetX + CGFloat(imageURLStringArr.count) * CGFloat(KCount) * bounds.size.width, y: 0)
         } else if page == itemsCount - 1 { //最后一页
-            collectionView.contentOffset = CGPoint(x: offsetX - CGFloat((imageURLStringArr?.count)!) * CGFloat(KCount) * bounds.size.width, y: 0)
+            collectionView.contentOffset = CGPoint(x: offsetX - CGFloat(imageURLStringArr.count) * CGFloat(KCount) * bounds.size.width, y: 0)
         }
     }
     
@@ -138,7 +138,7 @@ extension CycleView {
     internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetX = scrollView.contentOffset.x
         var page = NSInteger(offsetX / bounds.size.width + 0.5)
-        page = page % (imageURLStringArr?.count)!
+        page = page % (imageURLStringArr.count)
         pageControl.currentPage = page
     }
 
@@ -153,15 +153,15 @@ extension CycleView {
 extension CycleView {
     //FIXME: 点击cell的代理方法
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.cycleViewDidSelectedItemAtIndex(indexPath.item % (imageURLStringArr?.count)!)
+        delegate?.cycleViewDidSelectedItemAtIndex(indexPath.item % imageURLStringArr.count)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (imageURLStringArr?.count)! * 2 * KCount
+        return imageURLStringArr.count * 2 * KCount
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : CycleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CycleCell
         cell.mode = mode
-        cell.imageURLString = imageURLStringArr?[indexPath.item % (imageURLStringArr?.count)!] ?? ""
+        cell.imageURLString = imageURLStringArr[indexPath.item % imageURLStringArr.count] ?? ""
         return cell
     }
 }

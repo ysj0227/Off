@@ -51,55 +51,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
         let tab = self.navigationController?.tabBarController as? MainTabBarController
         tab?.customTabBar.isHidden = false
     }
-    
-    func requestGetDecorate() {
-        
-        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumdecoratedType, success: { [weak self] (response) in
-            guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                for model in decoratedArray {
-                    weakSelf.recommendSelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
-                    weakSelf.nearbySelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
-                }
-            }
-            //             weakSelf.setModelShow()
-            
-            }, failure: {[weak self] (error) in
-                //             self?.setModelShow()
-        }) {[weak self] (code, message) in
-            //             self?.setModelShow()
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-    }
-    
-    //获取特色和装修类型接口
-    func requestGetFeature() {
-        
-        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
-            guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                for model in decoratedArray {
-                    weakSelf.recommendSelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
-                    weakSelf.nearbySelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
-                }
-            }
-            weakSelf.requestGetDecorate()
-            
-            }, failure: {[weak self] (error) in
-                self?.requestGetDecorate()
-        }) {[weak self] (code, message) in
-            self?.requestGetDecorate()
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-    }
+
     
     func setDataModel() {
         
@@ -177,58 +129,13 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
         recommendSelectModel.areaModel.areaModelCount.append(categoryModel3)
         
         requestGetFeature()
-        
-        //        //装修类型数据源模拟
-        //        let documentModel = HouseFeatureModel()
-        //        documentModel.title = "11"
-        //        documentModel.id = "1"
-        //        let documentModel2 = HouseFeatureModel()
-        //        documentModel2.title = "22"
-        //        documentModel2.id = "2"
-        //        let ddocumentModel = HouseFeatureModel()
-        //        ddocumentModel.title = "交通方便"
-        //        ddocumentModel.id = "13"
-        //        let ddocumentModel2 = HouseFeatureModel()
-        //        ddocumentModel2.title = "商圈环绕"
-        //        ddocumentModel2.id = "25"
-        //        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        //        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        //        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
-        //        recommendSelectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
-        //
-        //        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        //        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(ddocumentModel)
-        //        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(documentModel)
-        //        nearbySelectModel.shaixuanModel.documentTypeModelArr.append(documentModel2)
-        //
-        //        //房源特色数据源模拟
-        //        let fdocumentModel = HouseFeatureModel()
-        //        fdocumentModel.title = "交通方便"
-        //        fdocumentModel.id = "9"
-        //        let fdocumentModel2 = HouseFeatureModel()
-        //        fdocumentModel2.title = "商圈环绕"
-        //        fdocumentModel2.id = "299"
-        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        //        recommendSelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        //
-        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
-        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel)
-        //        nearbySelectModel.shaixuanModel.featureModelArr.append(fdocumentModel2)
+      
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        request_bannerlist()
         
         //模拟数据 - 推荐和附近 - 不同的数据
         setDataModel()
@@ -311,8 +218,6 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
         cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: kWidth * 267 / 320.0))
         cycleView?.delegate = self
         cycleView?.mode = .scaleAspectFill
-        //本地图片测试--加载网络图片,请用第三方库如SDWebImage等
-        cycleView?.imageURLStringArr = ["loginBgImg", "wechat", "loginBgImg", "wechat"]
         
         loadSegmentedConfig()
     }
@@ -323,6 +228,82 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
         shareVC.isPosterShare = true
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
+    }
+}
+
+//MARK: 接口处理
+extension RenterHomePageViewController {
+    
+    func requestGetDecorate() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumdecoratedType, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.recommendSelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
+                    weakSelf.nearbySelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
+                }
+            }
+            //             weakSelf.setModelShow()
+            
+            }, failure: {[weak self] (error) in
+                //             self?.setModelShow()
+        }) {[weak self] (code, message) in
+            //             self?.setModelShow()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //获取特色和装修类型接口
+    func requestGetFeature() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.recommendSelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
+                    weakSelf.nearbySelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
+                }
+            }
+            weakSelf.requestGetDecorate()
+            
+            }, failure: {[weak self] (error) in
+                self?.requestGetDecorate()
+        }) {[weak self] (code, message) in
+            self?.requestGetDecorate()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    //MARK: 轮播图
+    func request_bannerlist() {
+        SSNetworkTool.SSHome.request_getbannerListt(success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                    
+                var arr: [String] = []
+                for model in decoratedArray {
+                    arr.append(model?.img ?? "")
+                }
+                weakSelf.cycleView?.imageURLStringArr = arr
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
 }
 
