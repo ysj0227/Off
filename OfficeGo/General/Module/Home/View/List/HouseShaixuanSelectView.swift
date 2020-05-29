@@ -66,10 +66,10 @@ class HouseShaixuanSelectView: UIView {
     fileprivate var alertStyle: HouseShaixuanStyle?
     
     @objc func clickRemoveFromSuperview() {
-        guard let blockk = clearButtonCallBack else {
-            return
-        }
-        blockk()
+        //        guard let blockk = clearButtonCallBack else {
+        //            return
+        //        }
+        //        blockk()
         selfRemove()
     }
     
@@ -164,6 +164,57 @@ class HouseShaixuanSelectView: UIView {
         setUpSubviews()
     }
     
+    //MARK: 清除数据操作
+    func clearData() {
+        //清除操作
+        if self.selectModel.typeModel.type == .officeBuildingEnum {
+            
+            //工位数清空
+            self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.lowValue = self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.minimumValue
+            
+            self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.highValue = self.selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.maximumValue
+            
+            //租金清空
+            self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.minimumValue
+            
+            self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue
+            
+            //面积清空
+            self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue = self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.minimumValue
+            
+            self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue = self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue
+            
+            //选择特色清空
+            for model in self.selectModel.shaixuanModel.featureModelArr {
+                model.isOfficeBuildingSelected = false
+            }
+            
+            //选择装修类型清空
+            for model in self.selectModel.shaixuanModel.documentTypeModelArr {
+                model.isDocumentSelected = false
+            }
+            
+        }else {
+            //工位数清空
+            self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue = self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.minimumValue
+            
+            self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue = self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue
+            
+            //租金清空
+            self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.minimumValue
+            
+            self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue
+            
+            //选择特色清空
+            for model in self.selectModel.shaixuanModel.featureModelArr {
+                model.isOfficejointOfficeSelected = false
+            }
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    
     func setUpSubviews() {
         self.addSubview(blackAlphabgView)
         self.addSubview(tableView)
@@ -179,11 +230,13 @@ class HouseShaixuanSelectView: UIView {
         }
         
         bottomBtnView.leftBtnClickBlock = { [weak self] in
-            guard let blockk = self?.clearButtonCallBack else {
-                return
-            }
-            blockk()
-            self?.selfRemove()
+            
+            self?.clearData()
+            //            guard let blockk = self?.clearButtonCallBack else {
+            //                return
+            //            }
+            //            blockk()
+            //            self?.selfRemove()
         }
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             guard let blockk = self?.sureHouseShaixuanButtonCallBack else {
@@ -493,7 +546,7 @@ class BottomBtnView: UIView {
         case .BottomBtnViewTypeIwantToFind: //我想找页面 - 只显示一个确定按钮
             leftBtn.isHidden = true
             rightSelectBtn.layer.cornerRadius = button_cordious_2
-
+            
             rightSelectBtn.setTitle("确定", for: .normal)
             rightSelectBtn.snp.makeConstraints { (make) in
                 make.leading.equalTo(left_pending_space_17)
@@ -571,20 +624,20 @@ class BottomBtnView: UIView {
                 make.width.equalTo(self.width / 2.0)
             }
         }
+        
+    }
     
-}
-
-private func setupView() {
+    private func setupView() {
+        
+        self.backgroundColor = kAppWhiteColor
+        
+        self.addSubview(leftBtn)
+        self.addSubview(rightSelectBtn)
+    }
     
-    self.backgroundColor = kAppWhiteColor
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    self.addSubview(leftBtn)
-    self.addSubview(rightSelectBtn)
-}
-
-required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-}
-
 }
 
