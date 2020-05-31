@@ -80,7 +80,8 @@ class IWantToFindViewController: BaseViewController {
     
     override func rightBtnClick() {
         
-        NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+        //都是跳转到tabbar
+        NotificationCenter.default.post(name: NSNotification.Name.SetTabbarViewController, object: nil)
     }
 }
 
@@ -222,7 +223,7 @@ extension IWantToFindViewController {
         params["tags"] = featureStr as AnyObject?
         
         SSNetworkTool.SSLogin.request_addWantToFind(params: params, success: { [weak self] (response) in
-            //            self?.rightBtnClick()
+            self?.rightBtnClick()
             
             }, failure: { (error) in
                 

@@ -77,6 +77,17 @@ class UserTool: NSObject {
         }
     }
     
+    /// 租户用户是否已经跳过了登录 - 如果跳过了登录就直接显示tabar 0没有跳过 1跳过
+    var user_renter_clickTap: Int?{
+        get{
+            return userDefault.value(forKey: "user_renter_clickTap") as? Int
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "user_renter_clickTap")
+        }
+    }
+    
+    
     /// 手机号
     var user_phone: String?{
         get{

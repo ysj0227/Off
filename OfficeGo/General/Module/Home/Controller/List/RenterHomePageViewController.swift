@@ -292,7 +292,8 @@ extension RenterHomePageViewController {
                 for model in decoratedArray {
                     arr.append(model?.img ?? "")
                 }
-                weakSelf.cycleView?.imageURLStringArr = arr
+//                weakSelf.cycleView?.imageURLStringArr = arr
+                weakSelf.cycleView?.imageURLStringArr = ["loginBgImg", "IAmYezhu"]
             }
             
             }, failure: { (error) in

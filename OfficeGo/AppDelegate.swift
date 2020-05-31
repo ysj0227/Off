@@ -55,9 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         //        self.networkReachabilityStatus()
-//        UserTool.shared.user_phone = "18567111111"
+        //        UserTool.shared.user_phone = "18567111111"
         UserTool.shared.user_phone = "18567200200"
-
+        
         setUpSDKs()
         
         notifyObserve()
@@ -68,6 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func notifyObserve() {
+        //设置tabar
+        NotificationCenter.default.addObserver(self, selector: #selector(setTabar), name: NSNotification.Name.SetTabbarViewController, object: nil)
         //登录成功通知
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccess), name: NSNotification.Name.UserLogined, object: nil)
         //退出登录
@@ -86,38 +88,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return result
     }
     
+    //设置导航栏 -
+    @objc func setTabar(){
+        
+        //0:租户,1:业主,9:其他
+        if UserTool.shared.user_id_type == 0 {
+            
+            //不清空身份类型
+            
+            let tabbarVC = MainTabBarController()
+            window?.rootViewController = tabbarVC
+            
+        }else if UserTool.shared.user_id_type == 1 {
+            
+            
+        }
+        
+    }
+    
     //退出登录
     @objc func logout(){
         
         //不清空身份类型
         UserTool.shared.removeAll()
-        let tabbarVC = MainTabBarController()
-        window?.rootViewController = tabbarVC
+        
+        setTabar()
     }
     
-    //切换身份
+    //切换身份 - 设置里边 - 切换身份字段 - 重新设置tabbar
     @objc func roleChange(){
         
         UserTool.shared.removeAll()
-        let tabbarVC = MainTabBarController()
-        window?.rootViewController = tabbarVC
+        
+        setTabar()
     }
     
     
     //登录成功 - 登录融云 - 设置tabbar
     @objc func loginSuccess(){
+        
+        //登录融云
         loginRongCloud()
-        let tabbarVC = MainTabBarController()
-        window?.rootViewController = tabbarVC
-//        //跳到tabbat之前判断是否是登录
-//        if UserTool.shared.isLogin() == true {
-//
-////            loginRongCloud()
-//
-//        }else {
-//            let tabbarVC = MainTabBarController()
-//            window?.rootViewController = tabbarVC
-//        }
     }
     
     //    func networkReachabilityStatus() {
@@ -131,22 +142,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func runTabBarViewController() -> Void {
         
         if UserTool.shared.isLogin() == true {
-            /*
-            //登录直接登录融云 - 然后设置tabbar
-            loginRongCloud()
-            */
             
-            //现在目前改为每次登录显示
-            let rolechangeVC = LoginRoleViewController()
-            navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
-            navigationController?.navigationBar.isHidden = true
-            window?.rootViewController = navigationController
+            //登录直接登录融云 -
+            loginRongCloud()
+            
+            //然后设置tabbar
+            setTabar()
+            
         }else {
+            
+            //未登录判断
+            //
+            //            //0:租户,1:业主,9:其他
+            //           if UserTool.shared.user_id_type == 0 {
+            //
+            //               //不清空身份类型
+            //               //如果是租户 - 之前已经点击跳过了 - 不需要设置tabbar   user_renter_clickTap = 1点过
+            //               if UserTool.shared.user_renter_clickTap == 1{
+            //                   //不清空身份类型
+            //                   let tabbarVC = MainTabBarController()
+            //                   window?.rootViewController = tabbarVC
+            //               }else {
+            //
+            //               }
+            //               let tabbarVC = MainTabBarController()
+            //               window?.rootViewController = tabbarVC
+            //
+            //           }else if UserTool.shared.user_id_type == 1 {
+            //          }
+            
             let rolechangeVC = LoginRoleViewController()
             navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
             navigationController?.navigationBar.isHidden = true
             window?.rootViewController = navigationController
-            return
         }
         //        if !UserInfo.shared().isLogin() {
         //            let rolechangeVC = LoginRoleViewController()
@@ -166,8 +194,8 @@ extension AppDelegate {
     
     //设置当前用户信息
     func setRCUserInfo() {
-//        let info = RCUserInfo.init(userId: "11", name: "11", portrait: "https://img.officego.com.cn/house/1589973533713.png")
-            let info = RCUserInfo.init(userId: "200", name: "200", portrait: "https://img.officego.com.cn/report/1590121741001.jpg")
+        //        let info = RCUserInfo.init(userId: "11", name: "11", portrait: "https://img.officego.com.cn/house/1589973533713.png")
+        let info = RCUserInfo.init(userId: "200", name: "200", portrait: "https://img.officego.com.cn/report/1590121741001.jpg")
         
         RCIM.shared()?.currentUserInfo = info
         
@@ -189,8 +217,6 @@ extension AppDelegate {
             print("token错误")
         })
         setRCUserInfo()
-        let tabbarVC = MainTabBarController()
-        window?.rootViewController = tabbarVC
     }
     
     func setUpSDKs() {
@@ -247,7 +273,7 @@ extension AppDelegate {
         
         //交换微信状态
         RCIM.shared()?.registerMessageType(WechatExchangeStatusMessage.self)
-      
+        
         //约看房源
         RCIM.shared()?.registerMessageType(ScheduleViewingStatusMessage.self)
         

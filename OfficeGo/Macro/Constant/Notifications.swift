@@ -11,6 +11,8 @@ import Foundation
 extension Notification.Name {
     /// 网络状态通知
     public static let NetStatusChange = Notification.Name("NetStatusChange")
+    /// 设置rootviewcontroller
+    public static let SetTabbarViewController = Notification.Name("setTabbarViewController")
     /// 用户登录
     public static let UserLogined = Notification.Name("userLogined")
     /// 用户推出

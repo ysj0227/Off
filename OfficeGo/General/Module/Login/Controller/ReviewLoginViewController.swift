@@ -184,10 +184,21 @@ class ReviewLoginViewController: BaseViewController {
         setupActions()
     }
     
+    //登录跳过直接到tabbar - 租户设置已经点击过跳过
     override func rightBtnClick() {
+        
+        //点击过 如果点击登录- 不需要设置tabbar - 直接登录刷新数据就好了
+        UserTool.shared.user_renter_clickTap = 1
+        
+        NotificationCenter.default.post(name: NSNotification.Name.SetTabbarViewController, object: nil)
+    }
+    
+    //登录之后 跳到我想找页面
+    func loginBtnClick() {
         let iwanttovc = IWantToFindViewController()
         self.navigationController?.pushViewController(iwanttovc, animated: false)
     }
+    
     
     func setupUI() {
         
@@ -408,6 +419,7 @@ class ReviewLoginViewController: BaseViewController {
         
     }
     
+    //验证码登录接口
     func loginWithCode() {
         
         nextButton.isUserInteractionEnabled = false
@@ -427,7 +439,7 @@ class ReviewLoginViewController: BaseViewController {
                 UserTool.shared.user_phone = self?.phoneField.text
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
-                self?.rightBtnClick()
+                self?.loginBtnClick()
                 self?.setNextEnable()
             })
             }, failure: {[weak self] (error) in
@@ -440,6 +452,11 @@ class ReviewLoginViewController: BaseViewController {
             }
             self?.setNextEnable()
         }
+        
+        UserTool.shared.user_token = "OTZfc3Vud2VsbF8xNTkwOTAwMDk4XzA="
+        UserTool.shared.user_rongyuntoken = "k/d/Bk+BW1hWoGBApvh/8C7FQOmNCTuv9fMM5XnpfOM=@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
+        self.loginBtnClick()
+        self.setNextEnable()
     }
     
     func setNextEnable() {

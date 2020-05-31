@@ -9,7 +9,7 @@
 import UIKit
 
 class LoginRoleViewController: BaseTableViewController {
-
+    
     //0:租户,1:业主,9:其他
     var selectedIndex: Int = 999 {
         didSet {
@@ -25,7 +25,7 @@ class LoginRoleViewController: BaseTableViewController {
         super.viewDidLoad()
         setupUI()
     }
-        
+    
     func setupUI() {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
@@ -40,7 +40,7 @@ class LoginRoleViewController: BaseTableViewController {
         }
         self.tableView.register(UINib.init(nibName: RoleSelectTableViewCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RoleSelectTableViewCell.reuseIdentifierStr)
     }
-
+    
 }
 extension LoginRoleViewController {
     
@@ -49,7 +49,12 @@ extension LoginRoleViewController {
         cell?.selectionStyle = .none
         var img: String = ""
         if indexPath.row == 0 {
-            cell?.titleLab.text = "我要租房"
+            //            cell?.titleLab.text = "我要租房"
+            //            if cell?.isSelected ?? false {
+            //                img = "IAmRenterSel"
+            //            }else {
+            //                img = "IAmRenter"
+            //            }
             if selectedIndex == indexPath.row {
                 img = "IAmRenterSel"
             }else {
@@ -58,13 +63,14 @@ extension LoginRoleViewController {
             cell?.bgImg.image = UIImage(named: img)
         }else {
             cell?.titleLab.text = "我是房东"
-             if selectedIndex == indexPath.row {
-                   img = "IAmYezhuSel"
-               }else {
-                   img = "IAmYezhu"
-               }
-               cell?.bgImg.image = UIImage(named: img)
+            if selectedIndex == indexPath.row {
+                img = "IAmYezhuSel"
+            }else {
+                img = "IAmYezhu"
+            }
+            cell?.bgImg.image = UIImage(named: img)
         }
+        
         return cell ?? RoleSelectTableViewCell.init(frame: .zero)
     }
     
@@ -83,14 +89,21 @@ extension LoginRoleViewController {
         
         self.tableView.reloadData()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: { [weak self] in
-            if indexPath.row == 1 {
-                
-            }else {
-                let login = ReviewLoginViewController()
-                self?.navigationController?.pushViewController(login, animated: true)
-            }
-        })
+        if indexPath.row == 1 {
+            
+        }else {
+            let login = ReviewLoginViewController()
+            self.navigationController?.pushViewController(login, animated: true)
+        }
+        
+        //        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: { [weak self] in
+        //            if indexPath.row == 1 {
+        //
+        //            }else {
+        //                let login = ReviewLoginViewController()
+        //                self?.navigationController?.pushViewController(login, animated: true)
+        //            }
+        //        })
         
     }
 }
