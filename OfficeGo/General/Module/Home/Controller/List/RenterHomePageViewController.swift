@@ -10,7 +10,7 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 
-class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate {
+class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, LLSegmentedControlDelegate {
     
     //推荐房源搜索model
     var recommendSelectModel: HouseSelectModel = HouseSelectModel() {
@@ -308,6 +308,14 @@ extension RenterHomePageViewController {
     }
 }
 
+
+//MARK: LLSegmentedControlDelegate
+extension RenterHomePageViewController {
+    func segMegmentCtlView(segMegmentCtlView: LLSegmentedControl, dragToSelected itemView: LLSegmentBaseItemView) {
+        segmentTitleSelectview.titleView.segHead?.selectedIndex = itemView.index + 1
+    }
+}
+
 //MARK: CycleViewDelegate
 extension RenterHomePageViewController {
     func cycleViewDidSelectedItemAtIndex(_ index: NSInteger) {
@@ -363,6 +371,7 @@ extension RenterHomePageViewController{
         segmentedCtlStyle?.segmentItemViewClass = LLSegmentItemTitleView.self  //ItemView和ItemViewStyle要统一对应
         segmentedCtlStyle?.itemViewStyle = itemStyle ?? LLSegmentItemTitleViewStyle()
         segmentCtlView.reloadData(ctlViewStyle: segmentedCtlStyle)
+        segmentCtlView.delegate = self
     }
 }
 

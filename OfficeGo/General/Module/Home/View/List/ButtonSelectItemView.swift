@@ -29,6 +29,17 @@ class ButtonSelectItemView: UIView {
         return view
     }()
     
+    var selectedIndex = 1 {
+        didSet {
+            if selectedIndex == selectedBtn?.tag {
+                
+            }else {
+                let btn = self.viewWithTag(selectedIndex) as? UIButton
+                btnClick(btn: btn ?? UIButton())
+            }
+        }
+    }
+    
     var selectedBtn: UIButton?
     
     var buttonCallBack:((Int) -> Void)?
