@@ -136,6 +136,9 @@ class FeatureView: UIView {
     var widthAdd: CGFloat = 0
     
     func setUpFeatureSubviews(str: String, font: UIFont, bgColor: UIColor, titleColor: UIColor) {
+        self.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
         let arr = str.split{$0 == ","}.map(String.init)
         var width: CGFloat = 0.0
         for strs in arr {
