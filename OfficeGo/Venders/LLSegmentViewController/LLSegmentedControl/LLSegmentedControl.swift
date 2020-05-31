@@ -237,7 +237,7 @@ extension LLSegmentedControl{
     }
     
     //IndicatorView响应
-    private func checkOutItemIndicatorViewAction(sourceItemView:LLSegmentBaseItemView,destinationItemView:LLSegmentBaseItemView){
+    public func checkOutItemIndicatorViewAction(sourceItemView:LLSegmentBaseItemView,destinationItemView:LLSegmentBaseItemView){
         var leftItemView = sourceItemView
         var rightItemView = destinationItemView
         if leftItemView.frame.origin.x > rightItemView.frame.origin.x {
