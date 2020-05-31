@@ -311,15 +311,14 @@ extension RenterHomePageViewController {
 
 //MARK: LLSegmentedControlDelegate
 extension RenterHomePageViewController {
+    //设置自己上面的按钮状态
+    /*******滚动ContentView*****/
     func segMegmentCtlView(segMegmentCtlView: LLSegmentedControl, dragToSelected itemView: LLSegmentBaseItemView) {
         segmentTitleSelectview.titleView.segHead?.selectedIndex = itemView.index + 1
     }
-    
+    /********点击ItemView*****/
     func segMegmentCtlView(segMegmentCtlView: LLSegmentedControl, clickItemAt sourceItemView: LLSegmentBaseItemView, to destinationItemView: LLSegmentBaseItemView) {
         segmentTitleSelectview.titleView.segHead?.selectedIndex = destinationItemView.index + 1
-        
-        //设置上面的按钮
-        segmentCtlView.checkOutItemIndicatorViewAction(sourceItemView: sourceItemView, destinationItemView: destinationItemView)
     }
 }
 
