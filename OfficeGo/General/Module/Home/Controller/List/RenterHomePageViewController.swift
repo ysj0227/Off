@@ -159,8 +159,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             //点击切换 移除
             self?.segmentTitleSelectview.selectView.removeShowView()
             
-            self?.pageView.reloadCurrentIndex(index: index - 1)
-            //            delegate?.segMegmentCtlView?(segMegmentCtlView: self, dragToScroll: leftItemView, rightItemView: rightItemView)
+            //更新选中下面的滑动和点击view
+            self?.segmentCtlView.selected(at: index - 1, animation: true)
             
             if index == 1 {
                 //推荐
@@ -313,6 +313,13 @@ extension RenterHomePageViewController {
 extension RenterHomePageViewController {
     func segMegmentCtlView(segMegmentCtlView: LLSegmentedControl, dragToSelected itemView: LLSegmentBaseItemView) {
         segmentTitleSelectview.titleView.segHead?.selectedIndex = itemView.index + 1
+    }
+    
+    func segMegmentCtlView(segMegmentCtlView: LLSegmentedControl, clickItemAt sourceItemView: LLSegmentBaseItemView, to destinationItemView: LLSegmentBaseItemView) {
+        segmentTitleSelectview.titleView.segHead?.selectedIndex = destinationItemView.index + 1
+        
+        //设置上面的按钮
+        segmentCtlView.checkOutItemIndicatorViewAction(sourceItemView: sourceItemView, destinationItemView: destinationItemView)
     }
 }
 
