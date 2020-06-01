@@ -11,61 +11,24 @@ import UIKit
 
 class AreaAddressView: UIView {
     
-    var categoryLevelModel = AreaCategorySelectModel()
-    //    {
-    //        didSet {
-    //            firstLevelTableView.reloadData()
-    ////            firstLevelIndex = 0
-    //            firstLevelModel = categoryLevelModel.c[firstLevelIndex]
-    ////            secondLevelModel = firstLevelModel.list[secondLevelIndex]
+    var areaCategoryLevelModel = AreaCategorySelectModel()
+    
+    var subwayCategoryLevelModel = SubwayCategorySelectModel()
+    
+    var areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
+    
+    var subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+    
+    //    var categoryIndex: Int = 2
     //
-    //        }
-    //    }
-    
-    var firstLevelModel = AreaCategoryFirstLevelSelectModel()
-    //    {
-    //        didSet {
-    //            secondLevelTableView.reloadData()
-    ////            secondLevelIndex = 0
-    //            secondLevelModel = firstLevelModel.list[secondLevelIndex]
+    //    var firstLevelIndex: Int = 0
     //
-    //        }
-    //    }
-//    var secondLevelModel = AreaCategorySecondLevelSelectModel()
-    //    {
-    //        didSet {
-    //        }
-    //    }
-    var categoryIndex: Int = 2
-    //    {
-    //        didSet {
-    //            categoryLevelModel = areaRegionModel.areaModelCount[categoryIndex]
-    //        }
-    //    }
-    
-    var firstLevelIndex: Int = 0
-    //    {
-    //        didSet {
-    //            firstLevelModel = categoryLevelModel.c[firstLevelIndex]
-    //        }
-    //    }
-    
-    var secondLevelIndex: Int = 0
-    //    {
-    //        didSet {
-    //            secondLevelModel = firstLevelModel.list[secondLevelIndex]
-    //        }
-    //    }
+    //    var secondLevelIndex: Int = 0
     
     //数据结构
     var areaRegionModel: AreaModel = AreaModel()
-    //    {
-    //        didSet {
-    //            categoryIndex = 0
-    //            firstLevelIndex = 0
-    //            secondLevelIndex = 0
-    //        }
-    //    }
+    
+    var selectModel: HouseSelectModel?
     
     lazy var blackAlphabgView: UIButton = {
         let button = UIButton.init()
@@ -125,10 +88,6 @@ class AreaAddressView: UIView {
     var sureAreaaddressButtonCallBack:((HouseSelectModel) -> Void)?
     
     @objc func clickRemoveFromSuperview() {
-        guard let blockk = clearButtonCallBack else {
-            return
-        }
-        blockk()
         selfRemove()
     }
     
@@ -155,6 +114,7 @@ class AreaAddressView: UIView {
         
         self.clearButtonCallBack = clearButtonCallBack
         self.sureAreaaddressButtonCallBack = sureAreaaddressButtonCallBack
+        self.selectModel = model
         self.areaRegionModel = model.areaModel
         
         UIApplication.shared.keyWindow?.addSubview(self)
@@ -178,6 +138,19 @@ class AreaAddressView: UIView {
         self.addSubview(firstLevelTableView)
         self.addSubview(secondLevelTableView)
         self.addSubview(bottomBtnView)
+        
+        bottomBtnView.leftBtnClickBlock = { [weak self] in
+            
+            self?.clearData()
+        }
+        bottomBtnView.rightBtnClickBlock = { [weak self] in
+            guard let blockk = self?.sureAreaaddressButtonCallBack else {
+                return
+            }
+            blockk(self?.selectModel ?? HouseSelectModel())
+            self?.selfRemove()
+        }
+        
         blackAlphabgView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
@@ -210,16 +183,39 @@ class AreaAddressView: UIView {
         
     }
     
+    //MARK: 清除数据操作
+    func clearData() {
+        
+        //清除操作
+        areaRegionModel.selectedCategoryID = ""
+        areaCategoryLevelModel = AreaCategorySelectModel()
+        areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
+        subwayCategoryLevelModel = SubwayCategorySelectModel()
+        subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+        categoryTableview.reloadData()
+        firstLevelTableView.reloadData()
+        secondLevelTableView.reloadData()
+    }
 }
 
 extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 1 {
-            return areaRegionModel.areaModelCount.count
+            //            return areaRegionModel.areaModelCount.count
+            return 2
         }else if tableView.tag == 2 {
-            return categoryLevelModel.c.count
+            if areaRegionModel.selectedCategoryID == "1" {
+                return areaCategoryLevelModel.data.count
+            }else {
+                return subwayCategoryLevelModel.data.count
+                
+            }
         }else  {
-            return firstLevelModel.list.count
+            if areaRegionModel.selectedCategoryID == "1" {
+                return areaFirstLevelModel.list.count
+            }else {
+                return subwayFirstLevelModel.list.count
+            }
         }
     }
     
@@ -233,13 +229,36 @@ extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
             cell?.selectionStyle = .none
             cell?.backgroundColor = kAppClearColor
             cell?.titleLabel.backgroundColor = kAppClearColor
-            if self.areaRegionModel.areaModelCount.count > 0 {
+            
+            if indexPath.row == 0 {
+                cell?.titleLabel.text = areaRegionModel.areaModelCount.name
                 
-                 cell?.titleLabel.text = areaRegionModel.areaModelCount[indexPath.row].name
-
-                if categoryLevelModel.id ==  areaRegionModel.areaModelCount[indexPath.row].id{
+                if areaCategoryLevelModel.id ==  areaRegionModel.selectedCategoryID {
                     var selNum = 0
-                    for model in firstLevelModel.list {
+                    for model in areaFirstLevelModel.list {
+                        if model.isSelected ?? false {
+                            selNum += 1
+                        }
+                    }
+                    if selNum > 0 {
+                        cell?.itemNumView.isHidden = false
+                        cell?.itemNumView.text = "\(selNum)"
+                    }else {
+                        cell?.itemNumView.isHidden = true
+                    }
+                    cell?.titleLabel.textColor = kAppBlueColor
+                    
+                }else {
+                    cell?.itemNumView.isHidden = true
+                    cell?.titleLabel.textColor = kAppColor_333333
+                }
+            }else {
+                
+                cell?.titleLabel.text = areaRegionModel.subwayModelCount.name
+                
+                if subwayCategoryLevelModel.id ==  areaRegionModel.selectedCategoryID {
+                    var selNum = 0
+                    for model in subwayFirstLevelModel.list {
                         if model.isSelected ?? false {
                             selNum += 1
                         }
@@ -258,36 +277,72 @@ extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             
+            
             return cell ?? TypeAndSortCell()
         }else if tableView.tag == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: TypeAndSortCell.reuseIdentifierStr) as? TypeAndSortCell
-            cell?.selectionStyle = .none
-            if self.categoryLevelModel.c.count > 0 {
-                cell?.titleLabel.text = categoryLevelModel.c[indexPath.row].n
-                if firstLevelModel.id ==  categoryLevelModel.c[indexPath.row].id{
-                    cell?.titleLabel.textColor = kAppBlueColor
-                }else {
-                    cell?.titleLabel.textColor = kAppColor_333333
+            if areaRegionModel.selectedCategoryID == "1" {
+                let cell = tableView.dequeueReusableCell(withIdentifier: TypeAndSortCell.reuseIdentifierStr) as? TypeAndSortCell
+                cell?.selectionStyle = .none
+                if self.areaCategoryLevelModel.data.count > 0 {
+                    cell?.titleLabel.text = areaCategoryLevelModel.data[indexPath.row].district
+                    if areaFirstLevelModel.districtID ==  areaCategoryLevelModel.data[indexPath.row].districtID{
+                        cell?.titleLabel.textColor = kAppBlueColor
+                    }else {
+                        cell?.titleLabel.textColor = kAppColor_333333
+                    }
                 }
+                return cell ?? TypeAndSortCell()
+            }else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: TypeAndSortCell.reuseIdentifierStr) as? TypeAndSortCell
+                cell?.selectionStyle = .none
+                if self.subwayCategoryLevelModel.data.count > 0 {
+                    cell?.titleLabel.text = subwayCategoryLevelModel.data[indexPath.row].line
+                    if subwayFirstLevelModel.lid ==  subwayCategoryLevelModel.data[indexPath.row].lid{
+                        cell?.titleLabel.textColor = kAppBlueColor
+                    }else {
+                        cell?.titleLabel.textColor = kAppColor_333333
+                    }
+                }
+                return cell ?? TypeAndSortCell()
             }
-            return cell ?? TypeAndSortCell()
+            
         }else  {
-            let cell = tableView.dequeueReusableCell(withIdentifier: AreaSubwayMutileSelectCell.reuseIdentifierStr) as? AreaSubwayMutileSelectCell
-            cell?.selectionStyle = .none
-            if self.firstLevelModel.list.count > indexPath.row {
-                cell?.layoutSubviews()
-                let model = firstLevelModel.list[indexPath.row]
-                cell?.titleLabel.text = model.n
-                
-                if model.isSelected == true {
-                    cell?.titleLabel.textColor = kAppBlueColor
-                    cell?.itemImg.image = UIImage.init(named: "circleSelected")
-                }else {
-                    cell?.titleLabel.textColor = kAppColor_333333
-                    cell?.itemImg.image = UIImage.init(named: "circleUnSelected")
+            if areaRegionModel.selectedCategoryID == "1" {
+                let cell = tableView.dequeueReusableCell(withIdentifier: AreaSubwayMutileSelectCell.reuseIdentifierStr) as? AreaSubwayMutileSelectCell
+                cell?.selectionStyle = .none
+                if self.areaFirstLevelModel.list.count > indexPath.row {
+                    cell?.layoutSubviews()
+                    let model = areaFirstLevelModel.list[indexPath.row]
+                    cell?.titleLabel.text = model.area
+                    
+                    if model.isSelected == true {
+                        cell?.titleLabel.textColor = kAppBlueColor
+                        cell?.itemImg.image = UIImage.init(named: "circleSelected")
+                    }else {
+                        cell?.titleLabel.textColor = kAppColor_333333
+                        cell?.itemImg.image = UIImage.init(named: "circleUnSelected")
+                    }
                 }
+                return cell ?? AreaSubwayMutileSelectCell()
+            }else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: AreaSubwayMutileSelectCell.reuseIdentifierStr) as? AreaSubwayMutileSelectCell
+                cell?.selectionStyle = .none
+                if self.subwayFirstLevelModel.list.count > indexPath.row {
+                    cell?.layoutSubviews()
+                    let model = subwayFirstLevelModel.list[indexPath.row]
+                    cell?.titleLabel.text = model.stationName
+                    
+                    if model.isSelected == true {
+                        cell?.titleLabel.textColor = kAppBlueColor
+                        cell?.itemImg.image = UIImage.init(named: "circleSelected")
+                    }else {
+                        cell?.titleLabel.textColor = kAppColor_333333
+                        cell?.itemImg.image = UIImage.init(named: "circleUnSelected")
+                    }
+                }
+                return cell ?? AreaSubwayMutileSelectCell()
             }
-            return cell ?? AreaSubwayMutileSelectCell()
+            
         }
     }
     
@@ -302,32 +357,67 @@ extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.tag == 1 {
-            //            if categoryIndex ==  indexPath.row{
-            //                return
-            //            }
-            categoryIndex = indexPath.row
-            categoryLevelModel = areaRegionModel.areaModelCount[indexPath.row]
-            firstLevelModel = AreaCategoryFirstLevelSelectModel()
-            categoryTableview.reloadData()
-            firstLevelTableView.reloadData()
-            secondLevelTableView.reloadData()
-        }else if tableView.tag == 2 {
-            //            if firstLevelIndex ==  indexPath.row{
-            //                return
-            //            }
-            firstLevelIndex =  indexPath.row
-            firstLevelModel = categoryLevelModel.c[indexPath.row]
-            for model in firstLevelModel.list {
-                model.isSelected = false
+            
+            if indexPath.row == 0 {
+                
+                areaRegionModel.selectedCategoryID = areaCategoryLevelModel.id
+                
+                areaCategoryLevelModel = areaRegionModel.areaModelCount
+                areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
+                subwayCategoryLevelModel = areaRegionModel.subwayModelCount
+                subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+                categoryTableview.reloadData()
+                firstLevelTableView.reloadData()
+                secondLevelTableView.reloadData()
+            }else if indexPath.row == 1 {
+                
+                areaRegionModel.selectedCategoryID = subwayCategoryLevelModel.id
+                
+                areaCategoryLevelModel = areaRegionModel.areaModelCount
+                areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
+                subwayCategoryLevelModel = areaRegionModel.subwayModelCount
+                subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+                categoryTableview.reloadData()
+                firstLevelTableView.reloadData()
+                secondLevelTableView.reloadData()
             }
-            categoryTableview.reloadData()
-            firstLevelTableView.reloadData()
-            secondLevelTableView.reloadData()
+            
+            
+        }else if tableView.tag == 2 {
+            
+            if areaRegionModel.selectedCategoryID == "1" {
+                //            firstLevelIndex =  indexPath.row
+                areaFirstLevelModel = areaCategoryLevelModel.data[indexPath.row]
+                for model in areaFirstLevelModel.list {
+                    model.isSelected = false
+                }
+                categoryTableview.reloadData()
+                firstLevelTableView.reloadData()
+                secondLevelTableView.reloadData()
+            }else {
+                //            firstLevelIndex =  indexPath.row
+                subwayFirstLevelModel = subwayCategoryLevelModel.data[indexPath.row]
+                for model in subwayFirstLevelModel.list {
+                    model.isSelected = false
+                }
+                categoryTableview.reloadData()
+                firstLevelTableView.reloadData()
+                secondLevelTableView.reloadData()
+            }
+            
         }else  {
-            secondLevelIndex = indexPath.row
-            firstLevelModel.list[indexPath.row].isSelected = !(firstLevelModel.list[indexPath.row].isSelected ?? false)
-            categoryTableview.reloadData()
-            secondLevelTableView.reloadData()
+            if areaRegionModel.selectedCategoryID == "1" {
+                //            secondLevelIndex = indexPath.row
+                areaFirstLevelModel.list[indexPath.row].isSelected = !(areaFirstLevelModel.list[indexPath.row].isSelected ?? false)
+                categoryTableview.reloadData()
+                secondLevelTableView.reloadData()
+            }else {
+                //            secondLevelIndex = indexPath.row
+                subwayFirstLevelModel.list[indexPath.row].isSelected = !(subwayFirstLevelModel.list[indexPath.row].isSelected ?? false)
+                categoryTableview.reloadData()
+                secondLevelTableView.reloadData()
+            }
+            
         }
     }
 }

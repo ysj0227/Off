@@ -66,6 +66,8 @@ class HouseShaixuanModel: HandyJSON {
      面积：    范围 0 - 1000          默认 0 - 200
      */
     
+    var isShaixuan: Bool?
+    
     //办公楼筛选范围
     var mianjiofficeBuildingExtentModel: SliderExtentModel = {
         var model = SliderExtentModel()

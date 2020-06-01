@@ -242,6 +242,7 @@ class HouseShaixuanSelectView: UIView {
             guard let blockk = self?.sureHouseShaixuanButtonCallBack else {
                 return
             }
+            self?.selectModel.shaixuanModel.isShaixuan = true
             blockk(self?.selectModel ?? HouseSelectModel())
             if self?.isSubView == true {
                 

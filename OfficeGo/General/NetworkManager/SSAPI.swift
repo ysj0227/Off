@@ -118,6 +118,9 @@ class SSHomeURL: NSObject {
     //轮播图接口
     static let getbannerListt = "banner/bannerList"
     
+    //推荐列表
+    static let getselectBuildingApp = "building/selectBuildingApp"
+       
 }
 
 //  MARK:   --基本信息
