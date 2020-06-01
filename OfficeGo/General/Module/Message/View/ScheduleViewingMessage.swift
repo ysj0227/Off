@@ -129,7 +129,7 @@ class ScheduleViewingMessageCell: RCMessageCell {
     // 消息背景
     lazy var iconimg: UIImageView = {
         let imageView = UIImageView(frame: CGRect.zero)
-        imageView.backgroundColor = kAppBlueColor
+        imageView.image = UIImage.init(named: "scheduleBlueM")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
