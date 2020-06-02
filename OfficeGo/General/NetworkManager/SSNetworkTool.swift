@@ -20,7 +20,7 @@ class SSNetworkTool: NSObject {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 15  // seconds
         config.timeoutIntervalForResource = config.timeoutIntervalForRequest
-        
+        config.requestCachePolicy = NSURLRequest.CachePolicy.reloadIgnoringCacheData
         Alamofire.SessionManager.default.delegate.taskWillPerformHTTPRedirection = nil
         return Alamofire.SessionManager(configuration: config)
     }()
@@ -156,6 +156,26 @@ extension SSNetworkTool {
         static func request_version(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format:SSLoginURL.loginWithCode)
             SSNetworkTool.requestVersion(type: .post,urlStr:"\(SSAPI.SSApiHost)\(url)", params:params,success:success,failed:failure,error:error)
+        }
+    }
+
+    //  MARK:   详情
+    class SSFYDetail: NSObject {
+        
+        //楼盘网点详情
+        static func request_getBuildingDetailbyBuildingId(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSFYDetailURL.getBuildingDetailbyBuildingId)
+            var params = [String:AnyObject]()
+            params["type"] = NetworkParams.AppType as AnyObject?
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        //楼盘-网点房源详情
+        static func request_getBuildingFYDetailbyHouseId(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
+            let url = String.init(format: SSFYDetailURL.getBuildingFYDetailbyHouseId)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
         }
     }
     
