@@ -77,7 +77,7 @@ extension RenterCollectOfficeListViewController {
         }else if indexPath.row == 1  {
             model.btype = 2
         }
-        vc.model = model
+        vc.buildingModel = model
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

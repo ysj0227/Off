@@ -165,8 +165,6 @@ extension SSNetworkTool {
         //楼盘网点详情
         static func request_getBuildingDetailbyBuildingId(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSFYDetailURL.getBuildingDetailbyBuildingId)
-            var params = [String:AnyObject]()
-            params["type"] = NetworkParams.AppType as AnyObject?
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
                 success,failed:failure,error:error)
         }

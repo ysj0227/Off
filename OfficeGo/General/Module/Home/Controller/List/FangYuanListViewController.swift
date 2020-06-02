@@ -37,8 +37,7 @@ class FangYuanListViewController: BaseTableViewController {
     override func refreshData() {
         var params = [String:AnyObject]()
         
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
+        params["token"] = "" as AnyObject?
         
         //商圈和地铁
         //商圈
@@ -185,7 +184,7 @@ class FangYuanListViewController: BaseTableViewController {
         
         params["pageNo"] = self.pageNo as AnyObject
         params["pageSize"] = self.pageSize as AnyObject
-        
+//        params["time"] = "0" as AnyObject
         SSNetworkTool.SSHome.request_getselectBuildingApp(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<FangYuanListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
@@ -255,7 +254,7 @@ extension FangYuanListViewController {
         }
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
             let vc = RenterOfficebuildingJointDetailVC()
-            vc.model = model
+            vc.buildingModel = model
             self.navigationController?.pushViewController(vc, animated: true)
         }
         

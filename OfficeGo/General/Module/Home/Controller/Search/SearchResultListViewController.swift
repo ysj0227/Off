@@ -302,7 +302,7 @@ extension SearchResultListViewController {
         }
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
             let vc = RenterOfficebuildingJointDetailVC()
-            vc.model = model
+            vc.buildingModel = model
             self.navigationController?.pushViewController(vc, animated: true)
         }
         

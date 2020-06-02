@@ -143,16 +143,79 @@ class RenterJointDetailNameCell: BaseTableViewCell {
         
     }
     
-    var itemModel: String = "" {
+    var isOpenSeats: Bool?
+    
+    var model: FangYuanBuildingBuildingModel = FangYuanBuildingBuildingModel() {
         didSet {
-            tagLabel.text = "独立办公室"
-            firstItem.titleLabel.text = "119~2000㎡"
-            firstItem.descripLabel.text = "面积"
-            secondItem.titleLabel.text = "￥2 /㎡/天起"
-            secondItem.descripLabel.text = "租金"
-            thirdItem.titleLabel.text = "50套"
-            thirdItem.descripLabel.text = "在租房源"
+            viewModel = FangYuanBuildingBuildingViewModel.init(model: model)
         }
+    }
+    
+    var viewModel: FangYuanBuildingBuildingViewModel = FangYuanBuildingBuildingViewModel(model: FangYuanBuildingBuildingModel()) {
+        didSet {
+            
+            setCellWithViewModel(viewModel: viewModel)
+        }
+    }
+    /**
+     ///独立办公室最小面积 - 最大面积
+      var independentAreaString: String?
+     
+      ///独立办公室平均租金
+      var independentavgDayPriceString: String?
+      
+      ///独立办公室工位数区间
+      var independentSeatsString: String?
+      
+      ///开放工位数- 默认取最小
+      var seatsOpenStationString: String?
+      
+      ///开放工位平均租金
+      var avgDayPriceOpenStationString: String?
+     */
+    func setCellWithViewModel(viewModel: FangYuanBuildingBuildingViewModel) {
+        //楼盘
+        if viewModel.btype == 1 {
+            
+        }
+        //网点
+        else if viewModel.btype == 2 {
+            //开放工位
+            if isOpenSeats == true {
+                if viewModel.openStationFlag == true {
+                    thirdItem.isHidden = true
+                    firstItem.isHidden = false
+                    secondItem.isHidden = false
+                    tagLabel.isHidden = false
+                    tagLabel.text = "开放工位"
+                    firstItem.titleLabel.text = viewModel.seatsOpenStationString
+                    firstItem.descripLabel.text = "工位数"
+                    secondItem.titleLabel.text = viewModel.avgDayPriceOpenStationString
+                    secondItem.descripLabel.text = "均价"
+                }else {
+                    thirdItem.isHidden = true
+                    firstItem.isHidden = true
+                    secondItem.isHidden = true
+                    tagLabel.isHidden = true
+                }
+                
+            }else {
+                thirdItem.isHidden = false
+                firstItem.isHidden = false
+                secondItem.isHidden = false
+                tagLabel.isHidden = false
+
+                tagLabel.text = "独立办公室"
+                firstItem.titleLabel.text = viewModel.independentAreaString
+                firstItem.descripLabel.text = "面积"
+                secondItem.titleLabel.text = viewModel.independentavgDayPriceString
+                secondItem.descripLabel.text = "均价"
+                thirdItem.titleLabel.text = viewModel.independentSeatsString
+                thirdItem.descripLabel.text = "工位数"
+                
+            }
+        }
+        
     }
     
     class func rowHeight() -> CGFloat {

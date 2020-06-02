@@ -35,11 +35,18 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     
     var amtitusMatingListARR = [String]()
     
-    var model: FangYuanListModel = FangYuanListModel() {
+    //房源详情model
+    var buildingDetailModel: FangYuanBuildingDetailModel?
+    
+    //房源详情viewmodel
+    var buildingDetailViewModel: FangYuanBuildingDetailViewModel?
+    
+    //列表传过来的模型
+    var buildingModel: FangYuanListModel = FangYuanListModel() {
         didSet {
             bottomBtnView.leftBtn.isSelected  = false
             //1是办公楼，2是联合办公
-            if model.btype == 1 {
+            if buildingModel.btype == 1 {
                 //办公楼 -
                 //名称基本信息 - 公交 特色
                 self.dataSourceArr.append([
@@ -52,7 +59,8 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                 //楼盘信息 - 周边配套
                 self.dataSourceArr.append([
                     FYDetailItemType.FYDetailItemTypeOfficeDeatail,
-                    FYDetailItemType.FYDetailItemTypeAmbitusMating])
+                    //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+                ])
                 
                 dataOfficeListSourceArr.append("11")
                 dataOfficeListSourceArr.append("12")
@@ -66,7 +74,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                 amtitusMatingListARR.append("14")
                 
                 self.tableView.reloadData()
-            }else if model.btype == 2 {
+            }else if buildingModel.btype == 2 {
                 //联合办公 -
                 //名称基本信息 - 开放工位和独立办公室
                 self.dataSourceArr.append([
@@ -85,7 +93,8 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                 self.dataSourceArr.append([
                     FYDetailItemType.FYDetailItemTypeShareServices,
                     FYDetailItemType.FYDetailItemTypeOfficeDeatail,
-                    FYDetailItemType.FYDetailItemTypeAmbitusMating])
+                    //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+                ])
                 
                 dataOfficeListSourceArr.append("21")
                 dataOfficeListSourceArr.append("22")
@@ -134,6 +143,12 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         tableHeaderView.cycleView.removeFromSuperview()
         tableHeaderView.releaseWMplayer()
         self.navigationController?.popViewController(animated: true)
+    }
+    func requestSet() {
+        
+        isShowRefreshHeader = false
+        
+        refreshData()
     }
     
     func setupUI() {
@@ -205,10 +220,43 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
             vc.displayUserNameInCell = false
             self?.navigationController?.pushViewController(vc, animated: true)
         }
+        
+        requestSet()
+        
     }
     
     func collectClick() {
         bottomBtnView.leftBtn.isSelected = !bottomBtnView.leftBtn.isSelected
+    }
+    
+    
+    override func refreshData() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = "" as AnyObject?
+        params["btype"] = "2" as AnyObject?
+        params["buildingId"] = "57" as AnyObject?
+        
+        
+        SSNetworkTool.SSFYDetail.request_getBuildingDetailbyBuildingId(params: params, success: {[weak self] (response) in
+            if let model = FangYuanBuildingDetailModel.deserialize(from: response, designatedPath: "data") {
+//                model.building?.openStationFlag = false
+                model.btype = self?.buildingModel.btype
+                model.building?.btype = self?.buildingModel.btype
+                self?.buildingDetailModel = model
+                self?.buildingDetailViewModel = FangYuanBuildingDetailViewModel.init(model: self?.buildingDetailModel ?? FangYuanBuildingDetailModel())
+                self?.tableView.reloadData()
+            }
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
 }
@@ -232,7 +280,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.model.btype == 1 { //办公楼
+        if self.buildingModel.btype == 1 { //办公楼
             //在租写字楼
             if section == 1 {
                 return dataOfficeListSourceArr.count
@@ -245,7 +293,12 @@ extension RenterOfficebuildingJointDetailVC {
                 return 2
             }else if section == 2 { //在租写字楼
                 //开放工位
-                return dataGongweiListSourceArr.count
+                //判断是否显示开放工位
+                if self.buildingDetailModel?.building?.openStationFlag == true {
+                    return 1
+                }else {
+                    return 0
+                }
             }else if section == 3 {
                 //独立办公室
                 return dataOfficeListSourceArr.count
@@ -256,7 +309,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.model.btype == 1 { //办公楼
+        if self.buildingModel.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 //办公室
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailOfficeListCell.reuseIdentifierStr) as? RenterDetailOfficeListCell
@@ -277,7 +330,11 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeTraffic:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
                     cell?.selectionStyle = .none
-                    cell?.model = "步行5分钟到 | 7号线·长寿路站,步行1分钟到 | 12号线·长路站,"
+                    if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                        cell?.viewModel = buildingViewModel
+                    }else {
+                        cell?.model = self.buildingDetailModel?.building ?? FangYuanBuildingBuildingModel()
+                    }
                     cell?.trafficBtnClick = {[weak self] (isup) in
                         self?.isTrafficUp = isup
                         self?.tableView.reloadData()
@@ -287,7 +344,7 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeFeature:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
                     cell?.selectionStyle = .none
-                    cell?.featureString = "免费停车,近地铁,近地铁1"
+                    cell?.featureString = self.buildingDetailViewModel?.tagsString ?? ""
                     return cell ?? RenterFeatureCell.init(frame: .zero)
                     
                 case FYDetailItemType.FYDetailItemTypeLianheOpenList:
@@ -300,6 +357,7 @@ extension RenterOfficebuildingJointDetailVC {
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficeDeatailCell.reuseIdentifierStr) as? RenterOfficeDeatailCell
                     cell?.selectionStyle = .none
                     cell?.ruzhuQiyeConstantHeight.constant = 50
+                    cell?.model = self.buildingDetailModel?.introduction ?? FangYuanBuildingIntroductionModel()
                     return cell ?? RenterOfficeDeatailCell()
                     
                 case FYDetailItemType.FYDetailItemTypeAmbitusMating:
@@ -315,18 +373,39 @@ extension RenterOfficebuildingJointDetailVC {
                 }
             }
             
-        }else if self.model.btype == 2 { //联合办公
+        }else if self.buildingModel.btype == 2 { //联合办公
             //联合办公- 开放工位和独立nameview
             if indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterJointDetailNameCell.reuseIdentifierStr) as? RenterJointDetailNameCell
                 cell?.selectionStyle = .none
-                cell?.itemModel = ""
+                //独立办公室
+                if indexPath.row == 0 {
+                    cell?.isOpenSeats = false
+                    if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                        cell?.viewModel = buildingViewModel
+                    }else {
+                        cell?.model = self.buildingDetailModel?.building ?? FangYuanBuildingBuildingModel()
+                    }
+                }else if indexPath.row == 1 { //开放工位
+                    cell?.isOpenSeats = true
+                    //判断是否显示开放工位
+                    if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                        cell?.viewModel = buildingViewModel
+                    }else {
+                        cell?.model = self.buildingDetailModel?.building ?? FangYuanBuildingBuildingModel()
+                    }
+                }
                 return cell ?? RenterJointDetailNameCell()
             }else if indexPath.section == 2 {
                 //开发工位列表
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailFYListCell.reuseIdentifierStr) as? RenterDetailFYListCell
                 cell?.selectionStyle = .none
-                cell?.leftTopLabel.text = "工位"
+                //判断是否显示开放工位
+                if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                    cell?.viewModel = buildingViewModel
+                }else {
+                    cell?.model = self.buildingDetailModel?.building ?? FangYuanBuildingBuildingModel()
+                }
                 return cell ?? RenterDetailFYListCell.init(frame: .zero)
             }else if indexPath.section == 3 {
                 //独立办公室
@@ -347,7 +426,11 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeTraffic:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
                     cell?.selectionStyle = .none
-                    cell?.model = "步行5分钟到 | 7号线·长寿路站,步行1分钟到 | 12号线·长路站,"
+                    if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                        cell?.viewModel = buildingViewModel
+                    }else {
+                        cell?.model = self.buildingDetailModel?.building ?? FangYuanBuildingBuildingModel()
+                    }
                     cell?.trafficBtnClick = {[weak self] (isup) in
                         self?.isTrafficUp = isup
                         self?.tableView.reloadData()
@@ -357,7 +440,7 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeFeature:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
                     cell?.selectionStyle = .none
-                    cell?.featureString = "免费停车,近地铁,近地铁1"
+                    cell?.featureString = self.buildingDetailViewModel?.tagsString ?? ""
                     return cell ?? RenterFeatureCell.init(frame: .zero)
                     //TODO:
                     //联合办公专享 -
@@ -372,6 +455,12 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficeDeatailCell.reuseIdentifierStr) as? RenterOfficeDeatailCell
                     cell?.selectionStyle = .none
+                    if let introductionViewModel = self.buildingDetailViewModel?.introductionViewModel {
+                        cell?.viewModel = introductionViewModel
+                    }else {
+                        cell?.model = self.buildingDetailModel?.introduction ?? FangYuanBuildingIntroductionModel()
+                    }
+                    cell?.model = self.buildingDetailModel?.introduction ?? FangYuanBuildingIntroductionModel()
                     cell?.ruzhuQiyeConstantHeight.constant = 50
                     return cell ?? RenterOfficeDeatailCell()
                     
@@ -383,8 +472,13 @@ extension RenterOfficebuildingJointDetailVC {
                 case .FYDetailItemTypeShareServices:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterShareServiceCell.reuseIdentifierStr) as? RenterShareServiceCell
                     cell?.selectionStyle = .none
-                    cell?.featureitemArr = ["111", "2222"]
-                    cell?.basicitemArr = ["111", "2222", "2222", "2222", "2222", "2222", "2222"]
+                    if let arr = self.buildingDetailViewModel?.buildingViewModel?.corporateServicesString {
+                        cell?.featureitemArr = arr
+                    }
+                    if let arr = self.buildingDetailViewModel?.buildingViewModel?.basicServicesString {
+                       cell?.basicitemArr = arr
+                   }
+                                       
                     return cell ?? RenterShareServiceCell()
                     
                 case FYDetailItemType.FYDetailItemTypeHuxing:
@@ -399,7 +493,7 @@ extension RenterOfficebuildingJointDetailVC {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if self.model.btype == 1 { //办公楼
+        if self.buildingModel.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 return RenterDetailOfficeListCell.rowHeight()
             }else {
@@ -410,9 +504,12 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeJointNameView:
                     return 0
                 case FYDetailItemType.FYDetailItemTypeTraffic:
-                    //                    return RenterDetailTrafficCell.rowHeight()
                     if isTrafficUp == true {
-                        return 40 + 30 * 2 + 1
+                        if let arr = buildingDetailModel?.building?.nearbySubwayTime {
+                            return CGFloat(40 + 30 * arr.count + 1)
+                        }else {
+                            return 40 + 30 + 1
+                        }
                     }else {
                         return 40 + 30 + 1
                     }
@@ -433,9 +530,20 @@ extension RenterOfficebuildingJointDetailVC {
                     return 0
                 }
             }
-        }else if self.model.btype == 2 { //联合办公
+        }else if self.buildingModel.btype == 2 { //联合办公
             if indexPath.section == 0 {
-                return RenterJointDetailNameCell.rowHeight()
+                if indexPath.row == 0 {
+                    return RenterJointDetailNameCell.rowHeight()
+                }else {
+                    //判断是否显示开放工位
+                    if self.buildingDetailModel?.building?.openStationFlag == true {
+                        return RenterJointDetailNameCell.rowHeight()
+                        
+                    }else {
+                        return 0
+                    }
+                }
+                
             }else if indexPath.section == 2 || indexPath.section == 3 {
                 return RenterDetailFYListCell.rowHeight()
             }else {
@@ -446,9 +554,12 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeJointNameView:
                     return 0
                 case FYDetailItemType.FYDetailItemTypeTraffic:
-                    //                    return RenterDetailTrafficCell.rowHeight()
                     if isTrafficUp == true {
-                        return 40 + 30 * 2 + 1
+                        if let arr = buildingDetailModel?.building?.nearbySubwayTime {
+                            return CGFloat(40 + 30 * arr.count + 1)
+                        }else {
+                            return 40 + 30 + 1
+                        }
                     }else {
                         return 40 + 30 + 1
                     }
@@ -479,18 +590,22 @@ extension RenterOfficebuildingJointDetailVC {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if self.model.btype == 1 { //办公楼
+        if self.buildingModel.btype == 1 { //办公楼
             if section == 1 {
                 return 52 + 39 + 15
             }else {
                 return 0
             }
-        }else if self.model.btype == 2 { //联合办公
+        }else if self.buildingModel.btype == 2 { //联合办公
             if section == 0 {
                 return 50
             }else if section == 2 {
-                //如果开放工位数据数组大于0显示
-                return 50
+                //判断是否显示开放工位
+                if self.buildingDetailModel?.building?.openStationFlag == true {
+                    return 50
+                }else {
+                    return 0
+                }
             }else if section == 3 {
                 //如果独立办公室数据数组大于0显示
                 return 52 + 39 + 15
@@ -504,7 +619,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if self.model.btype == 1 { //办公楼
+        if self.buildingModel.btype == 1 { //办公楼
             if section == 1 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -520,7 +635,7 @@ extension RenterOfficebuildingJointDetailVC {
             }else {
                 return UIView()
             }
-        }else if self.model.btype == 2 { //联合办公
+        }else if self.buildingModel.btype == 2 { //联合办公
             if section == 0 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -528,12 +643,12 @@ extension RenterOfficebuildingJointDetailVC {
                 let title = UILabel()
                 title.frame = CGRect(x: left_pending_space_17, y: 15, width: kWidth - left_pending_space_17, height: 25)
                 title.textColor = kAppColor_333333
-                title.text = "JA-Space上时大厦"
+                title.text = self.buildingDetailViewModel?.buildingViewModel?.buildingName
                 title.font = FONT_15
                 view.addSubview(title)
                 return view
             }else if section == 2 {
-                //如果开放工位数据数组大于0显示
+                //判断是否显示开放工位
                 let view = UIView()
                 view.backgroundColor = kAppWhiteColor
                 let title = UILabel()
@@ -542,7 +657,12 @@ extension RenterOfficebuildingJointDetailVC {
                 title.text = "开放工位"
                 title.font = FONT_15
                 view.addSubview(title)
-                return view
+                //判断是否显示开放工位
+                if self.buildingDetailModel?.building?.openStationFlag == true {
+                    return view
+                }else {
+                    return UIView()
+                }
             }else if section == 3 {
                 //如果独立办公室数据数组大于0显示
                 let view = UIView()
@@ -565,13 +685,13 @@ extension RenterOfficebuildingJointDetailVC {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
-        if self.model.btype == 1 { //办公楼
+        if self.buildingModel.btype == 1 { //办公楼
             if section == 1 {
                 return 78
             }else {
                 return 0
             }
-        }else if self.model.btype == 2 { //联合办公
+        }else if self.buildingModel.btype == 2 { //联合办公
             if section == 0 {
                 return 0
             }else if section == 2 {
@@ -589,7 +709,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if self.model.btype == 1 { //办公楼
+        if self.buildingModel.btype == 1 { //办公楼
             if section == 1 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -608,7 +728,7 @@ extension RenterOfficebuildingJointDetailVC {
             }else {
                 return UIView()
             }
-        }else if self.model.btype == 2 { //联合办公
+        }else if self.buildingModel.btype == 2 { //联合办公
             if section == 2 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -639,7 +759,7 @@ extension RenterOfficebuildingJointDetailVC {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if self.model.btype == 1 { //办公楼
+        if self.buildingModel.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 let model = FangYuanListModel()
                 let vc = RenterOfficebuildingFYDetailVC()
@@ -647,7 +767,7 @@ extension RenterOfficebuildingJointDetailVC {
                 vc.model = model
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-        }else if self.model.btype == 2 { //联合办公
+        }else if self.buildingModel.btype == 2 { //联合办公
             
             if indexPath.section == 1 {
                 //如果开放工位数据数组大于0显示

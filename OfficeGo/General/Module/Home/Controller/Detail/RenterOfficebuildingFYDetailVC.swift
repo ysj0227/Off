@@ -188,7 +188,7 @@ extension RenterOfficebuildingFYDetailVC {
             case FYDetailItemType.FYDetailItemTypeTraffic:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
                 cell?.selectionStyle = .none
-                cell?.model = "步行5分钟到 | 7号线·长寿路站,步行1分钟到 | 12号线·长路站,"
+//                cell?.model = FangYuanBuildingBuildingModel()
                 cell?.trafficBtnClick = {[weak self] (isup) in
                     self?.isTrafficUp = isup
                     self?.tableView.reloadData()

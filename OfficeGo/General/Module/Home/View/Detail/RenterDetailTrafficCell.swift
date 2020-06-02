@@ -20,7 +20,7 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     
     //点击全部站点- block
     var trafficBtnClick: ((_ isUp: Bool) -> Void)?
-
+    
     let duanHeight: CGFloat = 30
     
     let changHeight: CGFloat = 60
@@ -45,19 +45,30 @@ class RenterDetailTrafficCell: BaseTableViewCell {
             lineViewConstantHeight.constant = duanHeight
         }
     }
-    
-    var model: String = "" {
+    var model: FangYuanBuildingBuildingModel = FangYuanBuildingBuildingModel() {
         didSet {
-            var arr = trafficLineView.subviews
-            arr.removeAll()
-            addLineLabels(str: model)
+            viewModel = FangYuanBuildingBuildingViewModel.init(model: model)
         }
     }
     
-    func addLineLabels(str: String) {
-        let arr = str.split{$0 == ","}.map(String.init)
+    var viewModel: FangYuanBuildingBuildingViewModel = FangYuanBuildingBuildingViewModel(model: FangYuanBuildingBuildingModel()) {
+        didSet {
+            
+            setCellWithViewModel(viewModel: viewModel)
+        }
+    }
+    
+    func setCellWithViewModel(viewModel: FangYuanBuildingBuildingViewModel) {
+        
+        addressLabel.text = viewModel.addressString
+        addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
+    }
+    func addLineLabels(str: [String]) {
+        trafficLineView.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
         var height: CGFloat = 0.0
-        for strs in arr {
+        for strs in str {
             let itemHeight:CGFloat = 30
             let view = UILabel.init(frame: CGRect(x: 0, y: height, width: trafficLineView.width, height: itemHeight))
             view.text = strs

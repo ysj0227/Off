@@ -118,8 +118,19 @@ class SSHomeURL: NSObject {
     //轮播图接口
     static let getbannerListt = "banner/bannerList"
     
-    //推荐列表
+    //推荐列表 - 首页和搜索页面
     static let getselectBuildingApp = "building/selectBuildingApp"
+       
+}
+
+//  MARK:   --详情
+class SSFYDetailURL: NSObject {
+    
+    //楼盘网点详情
+    static let getBuildingDetailbyBuildingId = "building/selectBuildingbyBuildingIdApp"
+    
+    //楼盘-网点房源详情
+    static let getBuildingFYDetailbyHouseId = "house/selectHousebyHouseId"
        
 }
 

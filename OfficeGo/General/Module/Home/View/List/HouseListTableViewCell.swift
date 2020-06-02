@@ -47,18 +47,6 @@ class HouseListTableViewCell: BaseTableViewCell {
             setCellWithViewModel(viewModel: viewModel)
         }
     }
-//    var btype: Int?                     //1是办公楼，2是联合办公
-//    var idString: Int?                  //房源id
-//    var mainPicImgString: String?       //封面图
-//    var buildingName: String?           //楼盘名称
-//    var distanceString: String?         //距离 1.0km
-//    var addressString: String?          //区域和商圈 徐汇区 · 徐家汇
-//    var walkTimesubwayAndStationString: String?  //步行5分钟到 | 2号线 ·东昌路站
-//    var dayPriceString: String?         //日租金
-//    var unitString: String?             //单位 /m²/天起
-//    var areaString: String?             //平方米
-//    var tagsString: String?             //特色
-//    var jointDuliAndLianheNumString: String?//联合办公 独立办公室和开放工位的数量
 
     func setCellWithViewModel(viewModel: FangYuanListViewModel) {
         houseImageview.setImage(with: viewModel.mainPicImgString ?? "", placeholder: UIImage(named: "wechat"))
