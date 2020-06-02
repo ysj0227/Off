@@ -8,22 +8,18 @@
 
 import UIKit
 import MJRefresh
+//import DZNEmptyDataSet
 
 class BaseTableViewController: BaseViewController {
     
     var dataSource: [Any?] = []
-//    {
-//           didSet {
-//            self.tableView.reloadData()
-//           }
-//       }
     let tableView: UITableView = {
-           let view = UITableView.init(frame: .zero, style: .plain)
+        let view = UITableView.init(frame: .zero, style: .plain)
         view.backgroundColor = kAppWhiteColor
-           view.separatorStyle = .none
-           view.estimatedRowHeight = 0
-           return view
-       }()
+        view.separatorStyle = .none
+        view.estimatedRowHeight = 0
+        return view
+    }()
     
     var isShowRefreshHeader: Bool = true {
         didSet {
@@ -45,6 +41,18 @@ class BaseTableViewController: BaseViewController {
         }
     }
     
+    // 页码
+    public var pageNo: Int = 1
+    
+    /// 每页加载数
+    public var pageSize: Int = 10
+    
+    /// 是否自动刷新
+    public var refreshWhenLoad:Bool = true
+    
+    // 是否显示空数据页面
+    public var haveData:Bool = true
+    
     func reloadTableview() {
         
     }
@@ -56,13 +64,13 @@ class BaseTableViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(headRefreshAction))
-        tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(footerRefreshAction))
+        tableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(loadNewData))
+        tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadNextPage))
         
         isShowRefreshHeader = true
         
         isShowRefreshFooter = true
-
+        
         
         tableView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
@@ -75,43 +83,70 @@ class BaseTableViewController: BaseViewController {
         
     }
     
-    @objc func headRefreshAction(){
-           if tableView.mj_header?.isRefreshing == true {
-//               DispatchQueue.main.asyncAfter(deadline: .now()+1.5, execute:{ [weak self] in
-//                   self?.tableView.mj_header?.endRefreshing()
-//               })
-            AppUtilities.makeToast("加载中")
-
-            refreshData()
-           }
-       }
-       
-       @objc func footerRefreshAction(){
-           if tableView.mj_footer?.isRefreshing == true {
-//               DispatchQueue.main.asyncAfter(deadline: .now()+1.5, execute:{ [weak self] in
-//                   self?.tableView.mj_footer?.endRefreshing()
-//               })
-            AppUtilities.makeToast("加载中")
-
-            loadMoreData()
-           }
-       }
+    @objc func loadNewData(){
+            
+        pageNo = 1
+        
+        if self.dataSource.count > 0 {
+            self.dataSource.removeAll()
+        }
+        
+        AppUtilities.makeToast("加载中")
+        
+        refreshData()
+    }
     
     @objc func headerEndRefreshing() {
         self.tableView.mj_header?.endRefreshing()
-
+        
     }
+    
+    /// 结束刷新
+    public func endRefreshAnimation() {
+        endRefreshWithCount(0)
+    }
+    
+    public func endRefreshWithCount(_ count: Int) {
+        haveData = self.dataSource.count > 0 ? true : false
+        reloadData()
+        
+        guard let header = tableView.mj_header else {
+            return
+        }
+        if (header.isRefreshing) {
+            tableView.mj_header?.endRefreshing()
+        }
+        guard let footer = tableView.mj_footer else {
+            return
+        }
+        if (footer.isRefreshing) {
+            tableView.mj_footer?.endRefreshing()
+        }
+        
+        let isNoMoreData = count < pageSize || count == 0
+        tableView.mj_footer?.isHidden = isNoMoreData
+        
+    }
+    /// MARK: 刷新事件
+    private func reloadData() {
+        tableView.reloadData()
+        //            tableView.reloadEmptyDataSet()
+    }
+    
     
     @objc func footerEndRefreshing() {
         self.tableView.mj_footer?.endRefreshing()
     }
-
+    
+    /// 刷新数据
     @objc func refreshData() {
         
     }
     
-    @objc func loadMoreData() {
-          
+    @objc func loadNextPage() {
+        AppUtilities.makeToast("加载中")
+        pageNo += 1
+        refreshData()
     }
 }
 extension BaseTableViewController: UITableViewDelegate,UITableViewDataSource {
@@ -133,5 +168,34 @@ extension BaseTableViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
-
+    
 }
+//extension  BaseTableViewController : DZNEmptyDataSetSource,DZNEmptyDataSetDelegate {
+//    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+//        return UIImage.init(named: "empty_placeholde_happy_image")
+//    }
+//
+//    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+//        let text = "暂无数据"
+//        let attributes:[NSAttributedStringKey:AnyObject] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont.systemFont(ofSize: 14),NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.init(hexString: "3c3e42")!]
+//        return NSAttributedString.init(string: text, attributes: attributes)
+//
+//    }
+//
+//    func buttonImage(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> UIImage! {
+//        return UIImage(named: "")
+//    }
+//
+//    func emptyDataSet(_ scrollView: UIScrollView!, didTap button: UIButton!) {
+//
+//    }
+//
+//    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+//         return !haveData
+//    }
+//
+//    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
+//        return true
+//    }
+//
+//}

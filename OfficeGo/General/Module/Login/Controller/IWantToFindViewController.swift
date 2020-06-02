@@ -195,7 +195,7 @@ extension IWantToFindViewController {
             
             //办公室 - 面积传值
             let mianjiStr: String = String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
-            params["constructionArea"] = mianjiStr as AnyObject?
+            params["area"] = mianjiStr as AnyObject?
             
             //办公室 - 装修类型传值
             var documentArr: [String] = []
@@ -215,12 +215,12 @@ extension IWantToFindViewController {
             }
         }
         
-        params["simple"] = gongweiExtentStr as AnyObject?
-        params["rentPrice"] = zujinExtentStr as AnyObject?
+        params["seats"] = gongweiExtentStr as AnyObject?
+        params["dayPrice"] = zujinExtentStr as AnyObject?
         
         //房源特色 - 两者都有
         let featureStr: String = featureArr.joined(separator: ",")
-        params["tags"] = featureStr as AnyObject?
+        params["houseTags"] = featureStr as AnyObject?
         
         SSNetworkTool.SSLogin.request_addWantToFind(params: params, success: { [weak self] (response) in
             self?.rightBtnClick()

@@ -15,8 +15,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     //推荐房源搜索model
     var recommendSelectModel: HouseSelectModel = HouseSelectModel() {
         didSet {
-            //            self.tableView.reloadData()
-            requestGetBuildingList()
+            
+            NotificationCenter.default.post(name: NSNotification.Name.HomeSelectRefresh, object: recommendSelectModel)
         }
     }
     
@@ -153,7 +153,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
         loadSegmentedConfig()
         
-        requestGetBuildingList()
+//        requestGetBuildingList()
     }
     
     
@@ -167,144 +167,6 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
 
 //MARK: 接口处理
 extension RenterHomePageViewController {
-    
-    //MARK: 获取首页列表数据
-    func requestGetBuildingList() {
-        var params = [String:AnyObject]()
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        
-        //商圈和地铁
-        //商圈
-        if recommendSelectModel.areaModel.selectedCategoryID == "1" {
-            
-            //            var district = recommendSelectModel.areaModel.areaModelCount.
-            
-            var business: String?
-            
-            
-        }else if recommendSelectModel.areaModel.selectedCategoryID == "2" {
-            
-            var line: String?
-            
-            var nearbySubway: String?
-            
-        }
-        
-        
-        //类型
-        var btype: Int? //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
-        if recommendSelectModel.typeModel.type == .officeBuildingEnum {
-            btype = 1
-        }else if recommendSelectModel.typeModel.type == .jointOfficeEnum {
-            btype = 2
-        }else {
-            btype = 0
-        }
-        params["btype"] = btype as AnyObject?
-        
-        
-        //排序
-        //排序 0默认 1价格从高到低 2价格从低到高 3面积从大到小 4面积从小到大
-        var sortNum: Int?
-        if recommendSelectModel.sortModel.type == .defaultSortEnum {
-            sortNum = 0
-        }else if recommendSelectModel.sortModel.type == .priceTopToLowEnum {
-            sortNum = 1
-        }else if recommendSelectModel.sortModel.type == .priceLowToTopEnum {
-            sortNum = 2
-        }else if recommendSelectModel.sortModel.type == .squareTopToLowEnum {
-            sortNum = 3
-        }else if recommendSelectModel.sortModel.type == .squareLowToTopEnum {
-            sortNum = 4
-        }
-        params["sort"] = sortNum as AnyObject?
-        
-        
-        //筛选 - 只有点击过筛选按钮 才把筛选的参数带过去
-        if self.recommendSelectModel.shaixuanModel.isShaixuan == true {
-            //工位 - 两者都有
-            var gongweiExtentStr: String?
-            
-            //租金 - 两者都有
-            var zujinExtentStr: String?
-            
-            //房源特色 - 两者都有
-            var featureArr: [String] = []
-            
-            //联合办公
-            if btype == 2 {
-                
-                gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
-                
-                zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
-                
-                //房源特色 - 两者都有
-                for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
-                    if model.isOfficejointOfficeSelected {
-                        featureArr.append("\(model.dictValue ?? 0)")
-                    }
-                }
-                
-            }else if btype == 1 {
-                
-                gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweiofficeBuildingExtentModel.highValue ?? 0)
-                
-                zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
-                
-                //办公室 - 面积传值
-                let mianjiStr: String = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
-                params["constructionArea"] = mianjiStr as AnyObject?
-                
-                //办公室 - 装修类型传值
-                var documentArr: [String] = []
-                for model in self.recommendSelectModel.shaixuanModel.documentTypeModelArr {
-                    if model.isDocumentSelected {
-                        documentArr.append("\(model.dictValue ?? 0)")
-                    }
-                }
-                let documentStr: String = documentArr.joined(separator: ",")
-                params["decoration"] = documentStr as AnyObject?
-                
-                //房源特色 - 两者都有
-                for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
-                    if model.isOfficeBuildingSelected {
-                        featureArr.append("\(model.dictValue ?? 0)")
-                    }
-                }
-            }
-            
-            params["simple"] = gongweiExtentStr as AnyObject?
-            params["rentPrice"] = zujinExtentStr as AnyObject?
-            
-            //房源特色 - 两者都有
-            let featureStr: String = featureArr.joined(separator: ",")
-            params["tags"] = featureStr as AnyObject?
-        }
-        
-        
-        SSNetworkTool.SSHome.request_getselectBuildingApp(params: params, success: { [weak self] (response) in
-            guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                for model in decoratedArray {
-                    weakSelf.recommendSelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
-                    weakSelf.nearbySelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
-                }
-            }
-            //             weakSelf.setModelShow()
-            
-            }, failure: {(error) in
-                //             self?.setModelShow()
-        }) {(code, message) in
-            //             self?.setModelShow()
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-    }
     
     //MARK: 获取商圈数据
     func request_getDistrict() {
@@ -361,12 +223,10 @@ extension RenterHomePageViewController {
                     weakSelf.nearbySelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
                 }
             }
-            //             weakSelf.setModelShow()
             
             }, failure: {(error) in
-                //             self?.setModelShow()
+                
         }) {(code, message) in
-            //             self?.setModelShow()
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {

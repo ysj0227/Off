@@ -388,6 +388,7 @@ extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
             if areaRegionModel.selectedCategoryID == "1" {
                 //            firstLevelIndex =  indexPath.row
                 areaFirstLevelModel = areaCategoryLevelModel.data[indexPath.row]
+                areaRegionModel.areaModelCount.isFirstSelectedModel = areaFirstLevelModel
                 for model in areaFirstLevelModel.list {
                     model.isSelected = false
                 }
@@ -397,6 +398,7 @@ extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
             }else {
                 //            firstLevelIndex =  indexPath.row
                 subwayFirstLevelModel = subwayCategoryLevelModel.data[indexPath.row]
+                areaRegionModel.subwayModelCount.isFirstSelectedModel = subwayFirstLevelModel
                 for model in subwayFirstLevelModel.list {
                     model.isSelected = false
                 }

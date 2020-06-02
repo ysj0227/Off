@@ -25,7 +25,7 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         didSet {
             bottomBtnView.leftBtn.isSelected  = false
             //1是办公楼，2是联合办公
-            if model.houseType == 1 {
+            if model.btype == 1 {
                 //办公楼 -
                 //名称基本信息 -房源信息- 户型 - 工交 - 周边配套
                 
@@ -152,7 +152,7 @@ extension RenterOfficebuildingFYDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             //在租写字楼
             return self.dataSourceArr[section].count
             
@@ -162,7 +162,7 @@ extension RenterOfficebuildingFYDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.model.houseType == 1 {
+        if self.model.btype == 1 {
             let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
             switch type {
                 
@@ -220,7 +220,7 @@ extension RenterOfficebuildingFYDetailVC {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if self.model.houseType == 1 {
+        if self.model.btype == 1 {
             let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
             switch type {
                 

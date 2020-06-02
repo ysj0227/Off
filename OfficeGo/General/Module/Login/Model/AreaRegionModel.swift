@@ -31,8 +31,9 @@ class AreaCategorySelectModel: HandyJSON {
     var name: String?
     
     var id = "1"
-    
-    var selectedFirstLevelID: String?
+
+    //用来标记 选中的商圈区
+    var isFirstSelectedModel: AreaCategoryFirstLevelSelectModel?
 
     ///商圈数组
     var data = [AreaCategoryFirstLevelSelectModel]()
@@ -48,7 +49,7 @@ class AreaCategoryFirstLevelSelectModel: HandyJSON {
     var district: String?
     
     var districtID: String?
-    
+
     ///商圈数组
     var list = [AreaCategorySecondLevelSelectModel]()
     
@@ -76,7 +77,10 @@ class SubwayCategorySelectModel: HandyJSON {
     
     var id = "2"
     
-    ///地铁数组或者商圈数组
+    //用来标记 选中的商圈区
+    var isFirstSelectedModel: SubwayCategoryFirstLevelSelectModel?
+    
+    ///地铁数组数组
     var data = [SubwayCategoryFirstLevelSelectModel]()
     
     required init() {

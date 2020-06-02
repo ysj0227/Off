@@ -22,6 +22,9 @@ extension Notification.Name {
     /// 首页登录锁定通知
     public static let HomeBtnLocked = Notification.Name("homeBtnLocked")
     
+    /// 首页筛选之后刷新列表通知
+    public static let HomeSelectRefresh = Notification.Name("homeSelectRefresh")
+    
     /// 详情页面 公交展开通知
     public static let TrafficUpOrDown = Notification.Name("trafficUpOrDown")
     

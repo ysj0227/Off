@@ -7,64 +7,128 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "538026DB-434E-4664-ACB3-30B39FED546F"
+            uuid = "101965DC-9B25-4F29-805F-6AB4634B6457"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
+            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
-            landmarkName = "setAutoLayout()"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
+            landmarkName = "setUpSubviews()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "60393512-C501-441F-BB90-F0601CF2FCB1"
+            uuid = "4A487804-C3B8-4AF9-B334-9D575C875FE3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
+            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
-            landmarkName = "setAutoLayout()"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "setUpSubviews()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9B52FB5A-2EC6-42D4-BC49-72C52441792D"
+            uuid = "8B18D532-4449-4282-BA3F-81AA8D24A151"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
+            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
-            landmarkName = "getTextLabelSize(_:messageDirection:)"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
+            landmarkName = "setUpSubviews()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4BA4E400-BFED-47DB-935F-5AA7B553D111"
+            uuid = "13E0C440-C5FF-4909-B3DC-622ACFB03DBB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Message/View/PhoneExchangeStatusMessage.swift"
+            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
-            landmarkName = "getTextLabelSize(_:messageDirection:)"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "setUpSubviews()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EA1307A5-AD8D-49FC-A09F-4CE75C8E026A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "setUpSubviews()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A70FB67F-14D9-4C92-AE84-8724465842D1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Home/View/List/HouseListTableViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "setCellWithViewModel(viewModel:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1343E976-E228-437E-8DE3-C83590CDC9EA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Home/Controller/List/FangYuanListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "refreshData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9E140E1C-3ABE-48D4-84A6-DEDC9733EB28"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Home/Controller/List/FangYuanListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "refreshData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

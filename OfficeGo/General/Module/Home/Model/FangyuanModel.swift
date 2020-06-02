@@ -7,72 +7,118 @@
 //
 
 import UIKit
-import HandyJSON
 
-class FangYuanListModel: HandyJSON {
+class FangYuanListModel: BaseModel {
     
-    var id: Int?                //房源id
-    var buildingId: Int?        //楼盘id
-    var buildingName: String?   //楼盘名称
-    var branchesName: String?   //楼盘名称
-    var area: Double?           //平方米
-    var monthPrice: Double?     //月租金
-    var dayPrice: Double?       //日租金
-    var releaseTime: Int?       //发布时间
-    var mainPic: String?        //封面图
-    var seats: Int?             //工位数
-    var decoration: String?     //装修类型
-    //    var officeType: Int?        //办公类型1是独立办公室，2是开放工位
-    var officeType: String?     //逗号分隔的办公类型1是独立办公室，2是开放工位
-    var houseType: Int?         //1是办公楼，2是联合办公
+    var address : String?               //距离
+    var areaMap : [Float]?
+    var btype : Int?                    //类型,1:楼盘,2:网点,当是1的时候,网点名称可为空
+    var buildingMap : BuildingMap?      //
+    var businessDistrict : String?      //所属商圈-静安区-静安市
+    var createTime : Int?
+    var distance : String?              //距离
+    var id: Int?                        //楼盘id
+    var independenceOffice : Int?       //独立办公室数量
+    var mainPic : String?               //封面图
+    var maxArea : Float?
+    var maxDayPrice : Float?
+    var maxSeats : Int?
+    var minDayPrice : Float?
+    var minSeats : Int?
+    var name : String?                  //楼盘名称, 网点名称
+    var officeType: String?             //逗号分隔的办公类型1是独立办公室，2是开放工位
+    var openStation : Int?              //开放工位数量
+    var passengerLift : Int?
+    var releaseTime : AnyObject?        //发布时间
+    var remark : AnyObject?
+    var seatMonthPrice : Float?
+    var storeyHeight : String?
+    var tags : [DictionaryModel]?       //楼盘网点特色
+    var totalFloor : AnyObject?
+    var updateTime : Int?
+    var userId : AnyObject?             //用户id 发布者
     
-    required init() {
-    }
 }
 
+//地址模型
+class BuildingMap : BaseModel {
+
+    var nearbySubwayTime : [String]?    //距离最近地铁达到时间
+    var stationColours : [String]?      //地铁线颜色
+    var stationNames : [String]?        //站名
+    var stationline : [String]?         //距离最近地铁先，进的在前
+}
 class FangYuanListViewModel: NSObject {
-    
+    var btype: Int?                     //1是办公楼，2是联合办公
     var idString: Int?                  //房源id
-    var buildingIdString: Int?          //楼盘id
-    var buildingName: String?           //楼盘名称
-    var branchesName: String?           //楼盘名称
-    var areaString: String?             //平方米
-    var monthPriceString: String?       //月租金
-    var dayPriceString: String?         //日租金
-    var releaseTimeString: String?      //发布时间
     var mainPicImgString: String?       //封面图
-    var seatsString: String?            //工位数
-    var decorationArr: [String]?        //装修类型
-    var officeTypeString: String        //办公类型1是独立办公室，2是开放工位
-    
-    var addressString: String            //区域和商圈 徐汇区 · 徐家汇
-    var distanceString: String          //距离 1.0km
-    var walkTimesubwayAndStationString: String  //步行5分钟到 | 2号线 ·东昌路站
-    var unitString: String              //单位 /m²/天起
-    var houseType: Int?         //1是办公楼，2是联合办公
-    
+    var buildingName: String?           //楼盘名称
+    var distanceString: String?         //距离 1.0km
+    var addressString: String?          //区域和商圈 徐汇区 · 徐家汇
+    var walkTimesubwayAndStationString: String?  //步行5分钟到 | 2号线 ·东昌路站
+    var dayPriceString: String?         //日租金
+    var unitString: String?             //单位 /m²/天起
+    var areaString: String?             //平方米
+    var tagsString: String?             //特色
+    var jointDuliAndLianheNumString: String?//联合办公 独立办公室和开放工位的数量
+
     init(model:FangYuanListModel) {
-        houseType = model.houseType
-        buildingName = model.buildingName
-        branchesName = model.branchesName
-        areaString = "\(model.area ?? 0)"
-        monthPriceString = "\(model.monthPrice ?? 0)"
-        dayPriceString = "¥" + "\(model.dayPrice ?? 0)"
-        releaseTimeString = "\(model.releaseTime ?? 0)"
+        btype = model.btype
+        idString = model.id
         mainPicImgString = model.mainPic
-        seatsString = "\(model.seats ?? 0)"
-        decorationArr = ["地铁", "美食", "上下"]
-        officeTypeString = model.officeType ?? ""
-        addressString = "徐汇区" + " · " + "徐家汇"
-        distanceString = "1.0" + "km"
-        walkTimesubwayAndStationString = "步行" + "5" + "分钟到 | " + "2" + "号线 ·" + "东昌路" + "站"
+        buildingName = model.name
+        distanceString = model.distance ?? ""
+        addressString = model.businessDistrict ?? ""
+        walkTimesubwayAndStationString = "步行"
+        guard let nearbySubwayTime = model.buildingMap?.nearbySubwayTime else {
+            return
+        }
+        walkTimesubwayAndStationString?.append(nearbySubwayTime[0])
+        walkTimesubwayAndStationString?.append("分钟到 | ")
+        guard let stationline = model.buildingMap?.stationline else {
+            return
+        }
+        walkTimesubwayAndStationString?.append(stationline[0])
+        walkTimesubwayAndStationString?.append("号线 ·")
+        guard let stationNames = model.buildingMap?.stationNames else {
+            return
+        }
+        walkTimesubwayAndStationString?.append(stationNames[0])
+        walkTimesubwayAndStationString?.append("站")
+
+        dayPriceString = "\(model.minDayPrice ?? 0)"
         unitString = "/m²/天起"
+
+        //面积
+        var areaArr: [String] = []
+        model.areaMap?.forEach({ (area) in
+            areaArr.append(String(format: "%.0fm²", area))
+        })
+        areaString = areaArr.joined(separator: ",")
+        
+        //特色
+        var tagArr: [String] = []
+        model.tags?.forEach({ (model) in
+            tagArr.append(model.dictCname ?? "")
+        })
+        tagsString = tagArr.joined(separator: ",")
+
+        
+        //开放工位数和独立办公室数量
+        var jointArr: [String] = []
+        if model.independenceOffice ?? 0 > 0 {
+            jointArr.append("独立办公室\(model.independenceOffice ?? 0)间")
+        }
+        if model.openStation ?? 0 > 0 {
+            jointArr.append("开放工位\(model.openStation ?? 0)个")
+        }
+        jointDuliAndLianheNumString = jointArr.joined(separator: ",")
     }
 }
 
 
 
-class FangyuanDetailModel: HandyJSON {
+class FangyuanDetailModel: BaseModel {
     
     var id: Int?                //房源id
     var buildingId: Int?        //楼盘id
@@ -80,10 +126,8 @@ class FangyuanDetailModel: HandyJSON {
     var IsFavorite: Int?        //是否收藏：为0时是未为收藏 ，其他是已经收藏
     var building: FangYuanBuildingModel?   //楼盘名称
     
-    required init() {
-    }
 }
-class FangYuanBuildingModel: HandyJSON {
+class FangYuanBuildingModel: BaseModel {
     
     var buildingIntroduction: FangYuanBuildingIntroductionModel?   //楼盘简介信息（下部分）
     var buildingMsg: FangYuanBuildingMsgModel?   //楼盘信息（上部分）
@@ -92,51 +136,18 @@ class FangYuanBuildingModel: HandyJSON {
     }
 }
 //楼盘简介信息（下部分）
-class FangYuanBuildingIntroductionModel: HandyJSON {
-    required init() {
-    }
+class FangYuanBuildingIntroductionModel: BaseModel {
+
 }
 //楼盘信息（上部分）
-class FangYuanBuildingMsgModel: HandyJSON {
-    required init() {
-    }
+class FangYuanBuildingMsgModel: BaseModel {
+
+    
 }
 class FangyuanDetailViewModel: NSObject {
     
-    var idString: Int?                  //房源id
-    var buildingIdString: Int?          //楼盘id
-    var buildingName: String?           //楼盘名称
-    var branchesName: String?           //楼盘名称
-    var areaString: String?             //平方米
-    var monthPriceString: String?       //月租金
-    var dayPriceString: String?         //日租金
-    var releaseTimeString: String?      //发布时间
-    var mainPicImgString: String?       //封面图
-    var seatsString: String?            //工位数
-    var decorationArr: [String]?        //装修类型
-    var officeTypeString: String        //办公类型1是独立办公室，2是开放工位
-    
-    var addressString: String            //区域和商圈 徐汇区 · 徐家汇
-    var distanceString: String          //距离 1.0km
-    var walkTimesubwayAndStationString: String  //步行5分钟到 | 2号线 ·东昌路站
-    var unitString: String              //单位 /m²/天起
-    var houseType: Int?         //1是办公楼，2是联合办公
     
     init(model:FangYuanListModel) {
-        houseType = model.houseType
-        buildingName = model.buildingName
-        branchesName = model.branchesName
-        areaString = "\(model.area ?? 0)"
-        monthPriceString = "\(model.monthPrice ?? 0)"
-        dayPriceString = "¥" + "\(model.dayPrice ?? 0)"
-        releaseTimeString = "\(model.releaseTime ?? 0)"
-        mainPicImgString = model.mainPic
-        seatsString = "\(model.seats ?? 0)"
-        decorationArr = ["地铁", "美食", "上下"]
-        officeTypeString = model.officeType ?? ""
-        addressString = "徐汇区" + " · " + "徐家汇"
-        distanceString = "1.0" + "km"
-        walkTimesubwayAndStationString = "步行" + "5" + "分钟到 | " + "2" + "号线 ·" + "东昌路" + "站"
-        unitString = "/m²/天起"
+
     }
 }

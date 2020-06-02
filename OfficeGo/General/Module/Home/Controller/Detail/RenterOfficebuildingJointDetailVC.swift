@@ -39,7 +39,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         didSet {
             bottomBtnView.leftBtn.isSelected  = false
             //1是办公楼，2是联合办公
-            if model.houseType == 1 {
+            if model.btype == 1 {
                 //办公楼 -
                 //名称基本信息 - 公交 特色
                 self.dataSourceArr.append([
@@ -66,7 +66,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                 amtitusMatingListARR.append("14")
                 
                 self.tableView.reloadData()
-            }else if model.houseType == 2 {
+            }else if model.btype == 2 {
                 //联合办公 -
                 //名称基本信息 - 开放工位和独立办公室
                 self.dataSourceArr.append([
@@ -232,7 +232,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             //在租写字楼
             if section == 1 {
                 return dataOfficeListSourceArr.count
@@ -256,7 +256,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 //办公室
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailOfficeListCell.reuseIdentifierStr) as? RenterDetailOfficeListCell
@@ -315,7 +315,7 @@ extension RenterOfficebuildingJointDetailVC {
                 }
             }
             
-        }else if self.model.houseType == 2 { //联合办公
+        }else if self.model.btype == 2 { //联合办公
             //联合办公- 开放工位和独立nameview
             if indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterJointDetailNameCell.reuseIdentifierStr) as? RenterJointDetailNameCell
@@ -399,7 +399,7 @@ extension RenterOfficebuildingJointDetailVC {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 return RenterDetailOfficeListCell.rowHeight()
             }else {
@@ -433,7 +433,7 @@ extension RenterOfficebuildingJointDetailVC {
                     return 0
                 }
             }
-        }else if self.model.houseType == 2 { //联合办公
+        }else if self.model.btype == 2 { //联合办公
             if indexPath.section == 0 {
                 return RenterJointDetailNameCell.rowHeight()
             }else if indexPath.section == 2 || indexPath.section == 3 {
@@ -479,13 +479,13 @@ extension RenterOfficebuildingJointDetailVC {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             if section == 1 {
                 return 52 + 39 + 15
             }else {
                 return 0
             }
-        }else if self.model.houseType == 2 { //联合办公
+        }else if self.model.btype == 2 { //联合办公
             if section == 0 {
                 return 50
             }else if section == 2 {
@@ -504,7 +504,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             if section == 1 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -520,7 +520,7 @@ extension RenterOfficebuildingJointDetailVC {
             }else {
                 return UIView()
             }
-        }else if self.model.houseType == 2 { //联合办公
+        }else if self.model.btype == 2 { //联合办公
             if section == 0 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -565,13 +565,13 @@ extension RenterOfficebuildingJointDetailVC {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             if section == 1 {
                 return 78
             }else {
                 return 0
             }
-        }else if self.model.houseType == 2 { //联合办公
+        }else if self.model.btype == 2 { //联合办公
             if section == 0 {
                 return 0
             }else if section == 2 {
@@ -589,7 +589,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             if section == 1 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -608,7 +608,7 @@ extension RenterOfficebuildingJointDetailVC {
             }else {
                 return UIView()
             }
-        }else if self.model.houseType == 2 { //联合办公
+        }else if self.model.btype == 2 { //联合办公
             if section == 2 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -639,15 +639,15 @@ extension RenterOfficebuildingJointDetailVC {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if self.model.houseType == 1 { //办公楼
+        if self.model.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 let model = FangYuanListModel()
                 let vc = RenterOfficebuildingFYDetailVC()
-                model.houseType = 1
+                model.btype = 1
                 vc.model = model
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-        }else if self.model.houseType == 2 { //联合办公
+        }else if self.model.btype == 2 { //联合办公
             
             if indexPath.section == 1 {
                 //如果开放工位数据数组大于0显示

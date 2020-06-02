@@ -28,23 +28,6 @@ class RenterCollectOfficeListViewController: BaseTableViewController {
         self.tableView.reloadData()
     }
     
-    override func loadMoreData() {
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        self.dataSource.append("one")
-        footerEndRefreshing()
-        isShowRefreshFooter = true
-        self.tableView.reloadData()
-    }
 }
 
 extension RenterCollectOfficeListViewController {
@@ -90,9 +73,9 @@ extension RenterCollectOfficeListViewController {
         let model = FangYuanListModel()
         let vc = RenterOfficebuildingJointDetailVC()
         if indexPath.row == 0  {
-            model.houseType = 1
+            model.btype = 1
         }else if indexPath.row == 1  {
-            model.houseType = 2
+            model.btype = 2
         }
         vc.model = model
         self.navigationController?.pushViewController(vc, animated: true)

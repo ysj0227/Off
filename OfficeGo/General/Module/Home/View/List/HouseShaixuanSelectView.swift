@@ -242,6 +242,17 @@ class HouseShaixuanSelectView: UIView {
             guard let blockk = self?.sureHouseShaixuanButtonCallBack else {
                 return
             }
+            //判断 如果是筛选页面 - 则如果之前没有选择过，默认选中联合办公
+            if self?.isSubView != true {
+                
+                guard let type = self?.selectModel.typeModel.type else {
+                    self?.selectModel.typeModel.type = HouseTypeEnum.jointOfficeEnum
+                    return
+                }
+                if type == HouseTypeEnum.allEnum {
+                    self?.selectModel.typeModel.type = HouseTypeEnum.jointOfficeEnum
+                }
+            }
             self?.selectModel.shaixuanModel.isShaixuan = true
             blockk(self?.selectModel ?? HouseSelectModel())
             if self?.isSubView == true {

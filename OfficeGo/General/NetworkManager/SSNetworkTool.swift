@@ -174,7 +174,7 @@ extension SSNetworkTool {
         //请求首页推荐列表
         static func request_getselectBuildingApp(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format: SSHomeURL.getselectBuildingApp)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
                 success,failed:failure,error:error)
         }
     }
