@@ -65,6 +65,7 @@
 		04EF1E47247777E400871762 /* SSTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E44247777E400871762 /* SSTabBarItemView.swift */; };
 		04EF1E49247A684700871762 /* RCDUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E48247A684700871762 /* RCDUserService.swift */; };
 		A7971EB22F21F910CD4CFEDE /* Pods_OfficeGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4A347C2B62727595AA17EB /* Pods_OfficeGo.framework */; };
+		D371ED2B2487AF7E0000A9EE /* AppDeleagate+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */; };
 		DE0306DAC522233E2C5CE8D3 /* Pods_OfficeGoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */; };
 		EE02B9E02462AD0300B51D34 /* AreaRegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02B9DF2462AD0300B51D34 /* AreaRegionModel.swift */; };
 		EE02B9E82463B34200B51D34 /* String+SoolyCitySelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02B9E72463B34200B51D34 /* String+SoolyCitySelector.swift */; };
@@ -299,6 +300,7 @@
 		5BD0AE81A9F960371D9FF994 /* Pods-OfficeGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGo.release.xcconfig"; path = "Target Support Files/Pods-OfficeGo/Pods-OfficeGo.release.xcconfig"; sourceTree = "<group>"; };
 		A4D3C24013D5B3F294FF583B /* Pods-OfficeGoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGoTests.release.xcconfig"; path = "Target Support Files/Pods-OfficeGoTests/Pods-OfficeGoTests.release.xcconfig"; sourceTree = "<group>"; };
 		CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OfficeGoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDeleagate+Ext.swift"; sourceTree = "<group>"; };
 		D70B4CBA8F92A8E15CF08F19 /* Pods-OfficeGoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGoTests.debug.xcconfig"; path = "Target Support Files/Pods-OfficeGoTests/Pods-OfficeGoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE02B9DF2462AD0300B51D34 /* AreaRegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaRegionModel.swift; sourceTree = "<group>"; };
 		EE02B9E72463B34200B51D34 /* String+SoolyCitySelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+SoolyCitySelector.swift"; sourceTree = "<group>"; };
@@ -991,6 +993,7 @@
 				EEE87B2924558BC300C03424 /* Macro */,
 				EEE87AEE2455856700C03424 /* Class */,
 				EEE87AC62455854C00C03424 /* AppDelegate.swift */,
+				D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */,
 				EEE87B272455864300C03424 /* ExViewController.swift */,
 				EEE87ACA2455854C00C03424 /* ViewController.swift */,
 				EEE87AEA2455856300C03424 /* CollectionViewController.swift */,
@@ -1545,6 +1548,7 @@
 				EEE87B5924558F9800C03424 /* BaseLabel.swift in Sources */,
 				EEE87B1D2455856800C03424 /* UIColorEx.swift in Sources */,
 				EE353ECE2456F48300057545 /* ExtentSelectCell.swift in Sources */,
+				D371ED2B2487AF7E0000A9EE /* AppDeleagate+Ext.swift in Sources */,
 				EE4914B424692D35008D5689 /* MLMSegmentScroll.m in Sources */,
 				EE6070B12468F9A30098CAC2 /* CurrentCityTableViewCell.swift in Sources */,
 				04301F49247D0D110047B70F /* WechatExchangeStatusMessage.swift in Sources */,
@@ -1749,7 +1753,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6UEALBHQRU;
+				DEVELOPMENT_TEAM = CZN8XX9Z73;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = OfficeGo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1773,7 +1777,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6UEALBHQRU;
+				DEVELOPMENT_TEAM = CZN8XX9Z73;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = OfficeGo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
