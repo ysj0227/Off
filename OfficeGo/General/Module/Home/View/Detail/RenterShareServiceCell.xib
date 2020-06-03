@@ -26,7 +26,7 @@
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="特色服务" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDj-aH-8rP">
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="特色服务" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDj-aH-8rP">
                         <rect key="frame" x="17" y="48" width="323" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="7QT-eF-iUn"/>
@@ -35,8 +35,9 @@
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFz-G6-eaS" customClass="ShareItemBtnView" customModule="OfficeGo" customModuleProvider="target">
+                    <button hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFz-G6-eaS" customClass="ShareItemBtnView" customModule="OfficeGo" customModuleProvider="target">
                         <rect key="frame" x="17" y="75" width="306" height="20"/>
+                        <color key="backgroundColor" red="0.27450980390000002" green="0.76470588240000004" blue="0.76078431369999999" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="sy6-rl-111"/>
                         </constraints>
@@ -44,7 +45,7 @@
                             <action selector="showView:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="CrC-xs-AH8"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81D-nz-GWO">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="81D-nz-GWO">
                         <rect key="frame" x="333" y="74" width="7" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="7" id="prx-ry-bKd"/>
@@ -52,7 +53,7 @@
                         <state key="normal" image="ic_arrow_gray_right"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="创业服务" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7nC-ao-MVO">
-                        <rect key="frame" x="17" y="113" width="323" height="16"/>
+                        <rect key="frame" x="17" y="48" width="323" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="YGD-jo-rdr"/>
                         </constraints>
@@ -61,7 +62,8 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CWF-O4-fEt" customClass="ShareItemBtnView" customModule="OfficeGo" customModuleProvider="target">
-                        <rect key="frame" x="17" y="140" width="306" height="20"/>
+                        <rect key="frame" x="17" y="75" width="306" height="20"/>
+                        <color key="backgroundColor" red="0.27450980390000002" green="0.76470588240000004" blue="0.76078431369999999" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="fmv-vj-BPR"/>
                         </constraints>
@@ -70,14 +72,14 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gNe-UA-JrW">
-                        <rect key="frame" x="333" y="139" width="7" height="22"/>
+                        <rect key="frame" x="333" y="74" width="7" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="7" id="fSD-Tv-z7x"/>
                         </constraints>
                         <state key="normal" image="ic_arrow_gray_right"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="基础服务" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ccb-0Y-g3d">
-                        <rect key="frame" x="17" y="179" width="323" height="16"/>
+                        <rect key="frame" x="17" y="114" width="323" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="2WY-Wo-9vU"/>
                         </constraints>
@@ -86,7 +88,8 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GAm-GK-jGt" customClass="ShareItemBtnView" customModule="OfficeGo" customModuleProvider="target">
-                        <rect key="frame" x="17" y="213" width="306" height="20"/>
+                        <rect key="frame" x="17" y="148" width="306" height="20"/>
+                        <color key="backgroundColor" red="0.27450980390000002" green="0.76470588240000004" blue="0.76078431369999999" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="S3X-Mo-O3g"/>
                         </constraints>
@@ -95,7 +98,7 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qyK-h9-iHp">
-                        <rect key="frame" x="333" y="212" width="7" height="22"/>
+                        <rect key="frame" x="333" y="147" width="7" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="7" id="qbf-di-z5r"/>
                         </constraints>
@@ -135,10 +138,10 @@
                     <constraint firstItem="gNe-UA-JrW" firstAttribute="centerY" secondItem="CWF-O4-fEt" secondAttribute="centerY" id="giO-ss-ltw"/>
                     <constraint firstItem="gNe-UA-JrW" firstAttribute="trailing" secondItem="81D-nz-GWO" secondAttribute="trailing" id="hCb-Az-FHb"/>
                     <constraint firstItem="qyK-h9-iHp" firstAttribute="trailing" secondItem="81D-nz-GWO" secondAttribute="trailing" id="kSJ-Cy-4Eb"/>
-                    <constraint firstItem="7nC-ao-MVO" firstAttribute="top" secondItem="81D-nz-GWO" secondAttribute="bottom" constant="17" id="l4g-jZ-lQ5"/>
                     <constraint firstItem="ccb-0Y-g3d" firstAttribute="trailing" secondItem="nDj-aH-8rP" secondAttribute="trailing" id="lij-xM-JJg"/>
                     <constraint firstItem="gNe-UA-JrW" firstAttribute="leading" secondItem="CWF-O4-fEt" secondAttribute="trailing" constant="10" id="og7-FX-pib"/>
                     <constraint firstAttribute="bottom" secondItem="rRW-PN-d7I" secondAttribute="bottom" id="qsC-nD-09W"/>
+                    <constraint firstItem="7nC-ao-MVO" firstAttribute="top" secondItem="A0c-XY-Ecl" secondAttribute="bottom" constant="10" id="rQN-C7-YK1"/>
                     <constraint firstItem="CWF-O4-fEt" firstAttribute="top" secondItem="7nC-ao-MVO" secondAttribute="bottom" constant="11" id="wUu-7B-hWd"/>
                 </constraints>
             </tableViewCellContentView>
@@ -148,7 +151,7 @@
                 <outlet property="chuangyeServiceView" destination="CWF-O4-fEt" id="a7q-Yc-NKZ"/>
                 <outlet property="featureServiceView" destination="hFz-G6-eaS" id="U58-uq-eWM"/>
             </connections>
-            <point key="canvasLocation" x="518" y="-2"/>
+            <point key="canvasLocation" x="516.66666666666674" y="-2.34375"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -595,7 +595,7 @@ class BottomBtnView: UIView {
             leftBtn.titleLabel?.font = FONT_9
             leftBtn.setTitleColor(kAppColor_999999, for: .normal)
             leftBtn.setTitle("收藏", for: .normal)
-            leftBtn.setImage(UIImage.init(named: "collectItemSel"), for: .normal)
+            leftBtn.setImage(UIImage.init(named: "collectItemUnSel"), for: .normal)
             leftBtn.setTitle("已收藏", for: .selected)
             leftBtn.setImage(UIImage.init(named: "collectItemSel"), for: .selected)
             leftBtn.layoutButton(.imagePositionTop, space: 10)

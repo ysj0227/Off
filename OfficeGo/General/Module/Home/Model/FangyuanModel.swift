@@ -152,6 +152,7 @@ class FangYuanBuildingDetailViewModel: NSObject {
         IsFavorite = model.IsFavorite
         model.building?.btype = model.btype
         buildingViewModel = FangYuanBuildingBuildingViewModel.init(model: model.building ?? FangYuanBuildingBuildingModel())
+        model.factorMap?.btype = model.btype
         factorMap = model.factorMap
         imgUrl = model.imgUrl
         introductionViewModel = FangYuanBuildingIntroductionlViewModel.init(model: model.introduction ?? FangYuanBuildingIntroductionModel())
@@ -179,6 +180,19 @@ class FangYuanBuildingBuildingModel: BaseModel {
     var buildingId : Int?
     var businessDistrict : String?
     var mainPic : String?
+    
+    ///楼盘
+    ///房源数
+    var houseCount : Int?
+    ///最小面积-最大面积
+    var minArea : Float?
+    var maxArea : Float?
+    ///价格
+    var minDayPrice : Float?
+    var maxDayPrice : Float?
+
+
+    ///网点
     ///独立办公室最小面积
     var minAreaIndependentOffice : Float?
     ///独立办公室最大面积
@@ -227,6 +241,17 @@ class FangYuanBuildingBuildingViewModel: NSObject {
     ///创业服务
     var corporateServices : [DictionaryModel]?
     
+    
+    ///楼盘
+    ///房源数
+    var houseCountString : String?
+    ///最小面积-最大面积
+    var houseAreaString : String?
+    ///价格
+    var housePriceString : String?
+    
+    
+    ///网点
     ///独立办公室最小面积 - 最大面积
     var independentAreaString: String?
     
@@ -287,7 +312,11 @@ class FangYuanBuildingBuildingViewModel: NSObject {
         
         ///办公楼
         if btype == 1 {
-            
+            houseCountString = "\(model.houseCount ?? 0)" + "套"
+            ///最小面积-最大面积
+            houseAreaString = String(format: "%.0f", model.minArea ?? 0) + "-" + String(format: "%.0f", model.maxArea ?? 0) + "m²"
+            ///价格
+            housePriceString = String(format: "%.0f", model.minDayPrice ?? 0) + "/m²/天起"
         }
             
             ///联合办公
@@ -358,26 +387,39 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             }
         }
         
+        basicServices = model.basicServices
+        
         if let arr = model.corporateServices {
             corporateServicesString = []
             for service in arr {
                 corporateServicesString?.append(service.dictImg ?? "")
             }
         }
-
-        
+        corporateServices = model.corporateServices
         
     }
 }
 class FangYuanBuildingFactorModel: BaseModel {
-    var one : Int?
-    var sevenTen : Int?
-    var all : Int?
-    var elevenFifteen : Int?
-    var fourSix : Int?
-    var sixteenTwenty : Int?
-    var twentyAbove : Int?
-    var twoThree : Int?
+    ///1是办公楼，2是联合办公
+    var btype: Int?
+    var buildingItem0: Int?
+    var buildingItem1 : Int?
+    var buildingItem2 : Int?
+    var buildingItem3 : Int?
+    var buildingItem4 : Int?
+    var buildingItem5 : Int?
+    var buildingItem6 : Int?
+    var buildingItem7 : Int?
+    var buildingItem8 : Int?
+    var jointworkItem0 : Int?
+    var jointworkItem1 : Int?
+    var jointworkItem2 : Int?
+    var jointworkItem3 : Int?
+    var jointworkItem4 : Int?
+    var jointworkItem5 : Int?
+    var jointworkItem6 : Int?
+    var jointworkItem7 : Int?
+    var jointworkItem8 : Int?
 }
 
 //楼盘信息 - 空调 空调费

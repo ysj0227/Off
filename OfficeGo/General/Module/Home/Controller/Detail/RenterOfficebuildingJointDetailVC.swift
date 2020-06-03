@@ -131,8 +131,6 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     
     func setData() {
         
-        tableHeaderView.model = ""
-        
         itemview.itemSelectCallBack = {[weak self] (index) in
             self?.dataOfficeListSourceArr.removeAll()
             self?.loadMore()
@@ -225,8 +223,52 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         
     }
     
+    //MARK: 收藏按钮点击 - 调用接口 0是收藏1是取消收藏
     func collectClick() {
-        bottomBtnView.leftBtn.isSelected = !bottomBtnView.leftBtn.isSelected
+        
+        UserTool.shared.user_token = "MTA3X3N1bndlbGxfMTU5MTE2NDIzOF8w"
+
+        var params = [String:AnyObject]()
+        
+        //0 添加收藏
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        //取消收藏
+        if self.buildingDetailModel?.IsFavorite ?? false == true {
+            params["flag"] = 1 as AnyObject?
+        }else {
+            params["flag"] = 0 as AnyObject?
+        }
+        params["buildingId"] = buildingModel.id as AnyObject?
+        
+        SSNetworkTool.SSCollect.request_addCollection(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+    
+            weakSelf.buildingDetailModel?.IsFavorite = !(weakSelf.buildingDetailModel?.IsFavorite ?? false)
+            SSTool.invokeInMainThread {
+                weakSelf.setCollectBtnState(isCollect: weakSelf.buildingDetailModel?.IsFavorite ?? false)
+            }
+        }, failure: { (error) in
+            
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //设置收藏按钮的状态
+    func setCollectBtnState(isCollect: Bool) {
+        
+        
+        bottomBtnView.leftBtn.isSelected = isCollect
+    }
+    
+    //MARK: 加载头部的图片和视频
+    func loadHeaderview() {
+        tableHeaderView.model = self.buildingDetailModel ?? FangYuanBuildingDetailModel()
     }
     
     
@@ -234,23 +276,39 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         
         var params = [String:AnyObject]()
         
-        params["token"] = "" as AnyObject?
-        params["btype"] = "2" as AnyObject?
-        params["buildingId"] = "57" as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["btype"] = buildingModel.btype as AnyObject?
+        params["buildingId"] = buildingModel.id as AnyObject?
         
         
         SSNetworkTool.SSFYDetail.request_getBuildingDetailbyBuildingId(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
             if let model = FangYuanBuildingDetailModel.deserialize(from: response, designatedPath: "data") {
-//                model.building?.openStationFlag = false
+                //                model.building?.openStationFlag = false
                 model.btype = self?.buildingModel.btype
                 model.building?.btype = self?.buildingModel.btype
                 self?.buildingDetailModel = model
                 self?.buildingDetailViewModel = FangYuanBuildingDetailViewModel.init(model: self?.buildingDetailModel ?? FangYuanBuildingDetailModel())
+                
+                self?.loadHeaderview()
+                self?.setCollectBtnState(isCollect: model.IsFavorite ?? false)
                 self?.tableView.reloadData()
             }
-            }, failure: { (error) in
+            weakSelf.endRefreshAnimation()
+            
+            }, failure: {[weak self] (error) in
                 
-        }) { (code, message) in
+                guard let weakSelf = self else {return}
+                
+                weakSelf.endRefreshAnimation()
+                
+        }) {[weak self] (code, message) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.endRefreshAnimation()
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
@@ -323,7 +381,11 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailNameCell.reuseIdentifierStr) as? RenterDetailNameCell
                     cell?.selectionStyle = .none
-                    cell?.itemModel = ""
+                    if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                        cell?.viewModel = buildingViewModel
+                    }else {
+                        cell?.model = self.buildingDetailModel?.building ?? FangYuanBuildingBuildingModel()
+                    }
                     return cell ?? RenterDetailNameCell()
                 case FYDetailItemType.FYDetailItemTypeJointNameView:
                     return UITableViewCell.init(frame: .zero)
@@ -472,13 +534,11 @@ extension RenterOfficebuildingJointDetailVC {
                 case .FYDetailItemTypeShareServices:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterShareServiceCell.reuseIdentifierStr) as? RenterShareServiceCell
                     cell?.selectionStyle = .none
-                    if let arr = self.buildingDetailViewModel?.buildingViewModel?.corporateServicesString {
-                        cell?.featureitemArr = arr
+                    if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                        cell?.basicViewModel = buildingViewModel
+                        cell?.corporateViewModel = buildingViewModel
                     }
-                    if let arr = self.buildingDetailViewModel?.buildingViewModel?.basicServicesString {
-                       cell?.basicitemArr = arr
-                   }
-                                       
+                    
                     return cell ?? RenterShareServiceCell()
                     
                 case FYDetailItemType.FYDetailItemTypeHuxing:
@@ -630,6 +690,9 @@ extension RenterOfficebuildingJointDetailVC {
                 title.text = "在租写字楼"
                 title.font = FONT_15
                 view.addSubview(title)
+                if let factorMap = self.buildingDetailViewModel?.factorMap {
+                    itemview.factorMap = factorMap
+                }
                 view.addSubview(itemview)
                 return view
             }else {
@@ -673,6 +736,9 @@ extension RenterOfficebuildingJointDetailVC {
                 title.text = "独立办公室"
                 title.font = FONT_15
                 view.addSubview(title)
+                if let factorMap = self.buildingDetailViewModel?.factorMap {
+                    itemview.factorMap = factorMap
+                }
                 view.addSubview(itemview)
                 return view
             }else {
@@ -849,14 +915,27 @@ class RenterDetailSourceView: UIView {
         wmPlayer = nil
     }
     
-    var model: String = "" {
+    var model: FangYuanBuildingDetailModel = FangYuanBuildingDetailModel() {
         didSet {
-            //本地图片测试--加载网络图片,请用第三方库如SDWebImage等
-            cycleView.imageURLStringArr = ["loginBgImg", "wechat", "loginBgImg", "wechat"]
-            let model = WMPlayerModel()
-            //            model.title = "视频"
-            model.videoURL = URL.init(string: "http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4")
-            playerModel = model
+            
+            if let imgArr = model.imgUrl {
+                var arr: [String] = []
+                for imgModel in imgArr {
+                    arr.append("https://img.officego.com.cn/dictionary/dayin.png" ?? "")
+                }
+                self.cycleView.imageURLStringArr = arr
+            }
+            
+            if let videoArr = model.videoUrl {
+                if videoArr.count > 0 {
+                    let videoModel = videoArr[0]
+                    let player = WMPlayerModel()
+                    //            model.title = "视频"
+                    player.videoURL = URL.init(string: videoModel.imgUrl ?? "")
+                    //                model.videoURL = URL.init(string: "http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4")
+                    playerModel = player
+                }
+            }
         }
     }
     
@@ -872,6 +951,7 @@ class RenterDetailSourceView: UIView {
     //视频播放view
     lazy var videoView: UIView = {
         let view = UIView.init(frame: self.frame)
+        view.backgroundColor = kAppBlackColor
         return view
     }()
     

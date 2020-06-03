@@ -66,18 +66,28 @@ class RenterDetailNameCell: BaseTableViewCell {
         
     }
     
-    var itemModel: String = "" {
+    var model: FangYuanBuildingBuildingModel = FangYuanBuildingBuildingModel() {
         didSet {
-            titleLabel.text = "上海中心大厦"
-            firstItem.titleLabel.text = "119~2000㎡"
-            firstItem.descripLabel.text = "面积"
-            secondItem.titleLabel.text = "￥2 /㎡/天起"
-            secondItem.descripLabel.text = "租金"
-            thirdItem.titleLabel.text = "50套"
-            thirdItem.descripLabel.text = "在租房源"
+            viewModel = FangYuanBuildingBuildingViewModel.init(model: model)
         }
     }
     
+    var viewModel: FangYuanBuildingBuildingViewModel = FangYuanBuildingBuildingViewModel(model: FangYuanBuildingBuildingModel()) {
+        didSet {
+            
+            setCellWithViewModel(viewModel: viewModel)
+        }
+    }
+    func setCellWithViewModel(viewModel: FangYuanBuildingBuildingViewModel) {
+        titleLabel.text = viewModel.buildingName
+        firstItem.titleLabel.text = viewModel.houseAreaString
+        firstItem.descripLabel.text = "面积"
+        secondItem.titleLabel.text = viewModel.housePriceString
+        secondItem.descripLabel.text = "租金"
+        thirdItem.titleLabel.text = viewModel.houseCountString
+        thirdItem.descripLabel.text = "在租房源"
+    }
+       
     class func rowHeight() -> CGFloat {
         return 107
     }

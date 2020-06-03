@@ -453,7 +453,7 @@ class ReviewLoginViewController: BaseViewController {
             self?.setNextEnable()
         }
         
-        UserTool.shared.user_token = "OTZfc3Vud2VsbF8xNTkwOTAwMDk4XzA="
+        UserTool.shared.user_token = "MTA3X3N1bndlbGxfMTU5MTE2NDIzOF8w"
         UserTool.shared.user_rongyuntoken = "k/d/Bk+BW1hWoGBApvh/8C7FQOmNCTuv9fMM5XnpfOM=@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
         self.loginBtnClick()
         self.setNextEnable()

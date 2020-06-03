@@ -123,6 +123,13 @@ class SSHomeURL: NSObject {
        
 }
 
+//  MARK:   --收藏
+class SSCollectURL: NSObject {
+    
+    static let addCollection = "favorite/addCollectionAPP"
+    
+}
+
 //  MARK:   --详情
 class SSFYDetailURL: NSObject {
     

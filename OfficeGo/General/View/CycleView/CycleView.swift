@@ -139,8 +139,11 @@ extension CycleView {
     internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetX = scrollView.contentOffset.x
         var page = NSInteger(offsetX / bounds.size.width + 0.5)
-        page = page % (imageURLStringArr.count)
+        if imageURLStringArr.count > 0 {
+            page = page % (imageURLStringArr.count)
+        }
         pageControl.currentPage = page
+
     }
 
     //MARK: 随父控件的消失取消定时器

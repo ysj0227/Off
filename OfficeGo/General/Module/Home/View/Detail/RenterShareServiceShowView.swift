@@ -75,8 +75,7 @@ class RenterShareServiceShowView: UIView {
             blockk(selectedIndex)
         }
     }
-    
-    var selectModel: HouseSelectModel = HouseSelectModel() {
+    var dataSourceArr: [DictionaryModel] = [] {
         didSet {
             reloadData()
         }
@@ -97,7 +96,7 @@ class RenterShareServiceShowView: UIView {
     
     // MARK: - 弹出view显示
     // MARK: - 弹出view显示 - 筛选
-    func ShowHouseShaixuanView(tite: String, model: HouseSelectModel) {
+    func ShowHouseShaixuanView(tite: String, dataSource: [DictionaryModel]) {
         
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: RenterShareServiceShowView.self) {
@@ -107,7 +106,7 @@ class RenterShareServiceShowView: UIView {
         
         self.titleview.text = tite
         
-        self.selectModel = model
+        self.dataSourceArr = dataSource
         
         UIApplication.shared.keyWindow?.addSubview(self)
     }
@@ -174,9 +173,9 @@ extension RenterShareServiceShowView: UICollectionViewDataSource, UICollectionVi
             make.leading.equalTo(5)
             make.size.equalTo(24)
         }
-        
-        cell?.titleLabel.text = "大会议室大议室大"
-        cell?.numLabel.text = "5-20人"
+        cell?.itemImg.setImage(with: dataSourceArr[indexPath.row].dictImg ?? "", placeholder: UIImage.init(named: "wechat"))
+        cell?.titleLabel.text = dataSourceArr[indexPath.row].dictCname ?? ""
+//        cell?.numLabel.text = "5-20人"
         if titleview.text == "特色服务" {
             cell?.numLabel.isHidden = false
         }else {
@@ -191,7 +190,7 @@ extension RenterShareServiceShowView: UICollectionViewDataSource, UICollectionVi
     }
     //返回多少个cell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return dataSourceArr.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -169,7 +169,11 @@ extension RenterOfficebuildingFYDetailVC {
             case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailNameCell.reuseIdentifierStr) as? RenterDetailNameCell
                 cell?.selectionStyle = .none
-                cell?.itemModel = ""
+//                if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+//                    cell?.viewModel = buildingViewModel
+//                }else {
+//                    cell?.model = self.buildingDetailModel?.building ?? FangYuanBuildingBuildingModel()
+//                }
                 return cell ?? RenterDetailNameCell()
                 
             case FYDetailItemType.FYDetailItemTypeJointNameView:

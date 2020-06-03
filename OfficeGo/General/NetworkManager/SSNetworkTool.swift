@@ -159,6 +159,17 @@ extension SSNetworkTool {
         }
     }
 
+    //  MARK:   收藏
+    class SSCollect: NSObject {
+        
+        static func request_addCollection(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSCollectURL.addCollection)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+    }
+    
     //  MARK:   详情
     class SSFYDetail: NSObject {
         

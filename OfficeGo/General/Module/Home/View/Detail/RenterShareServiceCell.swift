@@ -9,22 +9,32 @@
 import UIKit
 
 class RenterShareServiceCell: BaseTableViewCell {
-
+    
     @IBOutlet weak var chuangyeServiceView: ShareItemBtnView!
     @IBOutlet weak var featureServiceView: ShareItemBtnView!
     @IBOutlet weak var basicServiceView: ShareItemBtnView!
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        chuangyeServiceView.addTarget(self, action: #selector(showView), for: .touchUpInside)
     }
     
-    var featureitemArr: [String] = [] {
+    //创业服务
+    var corporateViewModel: FangYuanBuildingBuildingViewModel = FangYuanBuildingBuildingViewModel(model: FangYuanBuildingBuildingModel()) {
         didSet {
-            chuangyeServiceView.featureServiceStringList = featureitemArr
-            featureServiceView.featureServiceStringList = featureitemArr
+            if let stringarr = corporateViewModel.corporateServicesString {
+                chuangyeServiceView.chuangyeServiceStringList = stringarr
+            }
         }
     }
+    //基础服务
+    var basicViewModel: FangYuanBuildingBuildingViewModel = FangYuanBuildingBuildingViewModel(model: FangYuanBuildingBuildingModel()) {
+        didSet {
+            if let stringarr = basicViewModel.basicServicesString {
+                basicServiceView.basicServiceStringList = stringarr
+            }
+        }
+    }
+    
     
     lazy var areaView: RenterShareServiceShowView = {
         let view = RenterShareServiceShowView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
@@ -33,54 +43,58 @@ class RenterShareServiceCell: BaseTableViewCell {
     
     @IBAction func showView(_ sender: UIButton) {
         if sender.tag == 1 {
-            areaView.ShowHouseShaixuanView(tite: "特色服务", model: HouseSelectModel())
+//            areaView.ShowHouseShaixuanView(tite: "特色服务", dataSource: [])
         }else if sender.tag == 2 {
-            areaView.ShowHouseShaixuanView(tite: "创业服务", model: HouseSelectModel())
+            if let corporateServices = corporateViewModel.corporateServices {
+                areaView.ShowHouseShaixuanView(tite: "创业服务", dataSource: corporateServices)
+            }
         }else if sender.tag == 3 {
-            areaView.ShowHouseShaixuanView(tite: "基础服务", model: HouseSelectModel())
-        }
-    }
-//    @objc func showView() {
-//        areaView.ShowHouseShaixuanView(tite: "特色服务", model: HouseSelectModel())
-//    }
+            if let basicServices = basicViewModel.basicServices {
+                areaView.ShowHouseShaixuanView(tite: "基础服务", dataSource: basicServices)
+            }
 
-    var basicitemArr: [String] = [] {
-        didSet {
-            basicServiceView.featureServiceStringList = basicitemArr
-        
         }
     }
     
+    
     class func rowHeight() -> CGFloat {
-        return 260
+        return 260 - 70
     }
 }
 
 class ShareItemBtnView: UIButton {
-      
+    
     //特色服务
-    var featureServiceStringList: [String] = [] {
+    //    var featureServiceStringList: [String] = [] {
+    //        didSet {
+    //            setUpFeatureSubviews(str: featureServiceStringList)
+    //        }
+    //    }
+    
+    //创业服务
+    var chuangyeServiceStringList: [String] = [] {
         didSet {
-            setUpFeatureSubviews(str: featureServiceStringList)
+            setUpFeatureSubviews(str: chuangyeServiceStringList)
         }
     }
     
-    //创业服务
-    var chuangyeServiceStringList: String = ""
-    
     //基础服务
-    var basicServiceStringList: String = ""
+    var basicServiceStringList: [String] = [] {
+        didSet {
+            setUpFeatureSubviews(str: basicServiceStringList)
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
-          super.init(coder: aDecoder)
-      }
-      override init(frame: CGRect) {
-          
-          super.init(frame: frame)
-          
-          self.frame = frame
-          
-      }
+        super.init(coder: aDecoder)
+    }
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
+        
+        self.frame = frame
+        
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -104,6 +118,6 @@ class ShareItemBtnView: UIButton {
             width =  width + (itemwidth + space)
             self.addSubview(btn)
         }
-      }
-
+    }
+    
 }

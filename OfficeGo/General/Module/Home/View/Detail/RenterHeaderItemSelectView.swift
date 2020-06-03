@@ -24,6 +24,14 @@ class RenterHeaderItemSelectView: UIView {
     func reloadData() {
         headerCollectionView.reloadData()
     }
+
+    var factorMap: FangYuanBuildingFactorModel = FangYuanBuildingFactorModel() {
+        didSet {
+            
+            reloadData()
+        }
+    }
+    
     
     var itemSelectCallBack:((Int) -> Void)?
     
@@ -33,12 +41,6 @@ class RenterHeaderItemSelectView: UIView {
                 return
             }
             blockk(selectedIndex)
-        }
-    }
-    
-    var selectModel: HouseSelectModel = HouseSelectModel() {
-        didSet {
-            reloadData()
         }
     }
     
@@ -69,18 +71,49 @@ extension RenterHeaderItemSelectView: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterHeaderItemCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterHeaderItemCell
-        if indexPath.item == 0 {
-            cell?.titleString = "全部 \n 50套"
-        }else if indexPath.item == 1 {
-            cell?.titleString = "100-300㎡ \n 10套"
-        }else if indexPath.item == 2 {
-            cell?.titleString
-                = "300-500 \n 20套"
-        }else if indexPath.item == 3 {
-            cell?.titleString = "500-1000㎡ \n 10套"
-        }else {
-            cell?.titleString = "\(indexPath.item)" + "00-1000㎡ \n 10套"
+        
+        if let btype = self.factorMap.btype {
+            ///办公楼
+            if btype == 1 {
+                if indexPath.item == 0 {
+                    cell?.titleString = "全部 \n \(self.factorMap.buildingItem0 ?? 0)套"
+                }else if indexPath.item == 1 {
+                    cell?.titleString = "0-100㎡ \n \(self.factorMap.buildingItem1 ?? 0)套"
+                }else if indexPath.item == 2 {
+                    cell?.titleString
+                        = "100-200 \n \(self.factorMap.buildingItem2 ?? 0)套"
+                }else if indexPath.item == 3 {
+                    cell?.titleString = "200-300㎡ \n \(self.factorMap.buildingItem3 ?? 0)套"
+                }else if indexPath.item == 4 {
+                    cell?.titleString = "300-400㎡ \n \(self.factorMap.buildingItem4 ?? 0)套"
+                }else if indexPath.item == 5 {
+                    cell?.titleString = "400-500㎡ \n \(self.factorMap.buildingItem5 ?? 0)套"
+                }else if indexPath.item == 6 {
+                    cell?.titleString = "500-1000㎡ \n \(self.factorMap.buildingItem6 ?? 0)套"
+                }else if indexPath.item == 7 {
+                    cell?.titleString = "1000㎡以上 \n \(self.factorMap.buildingItem7 ?? 0)套"
+                }
+            }else {
+                if indexPath.item == 0 {
+                    cell?.titleString = "全部 \n \(self.factorMap.jointworkItem0 ?? 0)套"
+                }else if indexPath.item == 1 {
+                    cell?.titleString = "1人 \n \(self.factorMap.jointworkItem1 ?? 0)套"
+                }else if indexPath.item == 2 {
+                    cell?.titleString = "2～3人 \n \(self.factorMap.jointworkItem2 ?? 0)套"
+                }else if indexPath.item == 3 {
+                    cell?.titleString = "4～6人 \n \(self.factorMap.jointworkItem3 ?? 0)套"
+                }else if indexPath.item == 4 {
+                    cell?.titleString = "7～10人 \n \(self.factorMap.jointworkItem4 ?? 0)套"
+                }else if indexPath.item == 5 {
+                    cell?.titleString = "11～15人 \n \(self.factorMap.jointworkItem5 ?? 0)套"
+                }else if indexPath.item == 6 {
+                    cell?.titleString = "16～20人 \n \(self.factorMap.jointworkItem6 ?? 0)套"
+                }else if indexPath.item == 7 {
+                    cell?.titleString = "20人以上 \n \(self.factorMap.jointworkItem7 ?? 0)套"
+                }
+            }
         }
+        
         if indexPath.item == selectedIndex {
             cell?.itemView.backgroundColor = kAppBlueColor
             cell?.itemView.textColor = kAppWhiteColor
@@ -97,7 +130,17 @@ extension RenterHeaderItemSelectView: UICollectionViewDataSource, UICollectionVi
     }
     //返回多少个cell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        if let btype = self.factorMap.btype {
+            ///办公楼
+            if btype == 1 {
+                return 8
+
+            }else {
+                return 8
+
+            }
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
