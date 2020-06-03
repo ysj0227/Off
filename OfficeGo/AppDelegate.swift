@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+        InstallCocoaDebug()
         window = UIWindow.init(frame: UIScreen.main.bounds)
         
         window?.makeKeyAndVisible()
