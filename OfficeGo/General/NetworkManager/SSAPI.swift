@@ -138,6 +138,9 @@ class SSFYDetailURL: NSObject {
     
     //楼盘-网点房源详情
     static let getBuildingFYDetailbyHouseId = "house/selectHousebyHouseId"
+    
+    //楼盘-网点房源列表
+    static let getBuildingFYList = "building/selectHouseApp"
        
 }
 

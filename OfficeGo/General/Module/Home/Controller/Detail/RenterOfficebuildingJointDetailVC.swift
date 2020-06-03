@@ -8,6 +8,8 @@
 
 import UIKit
 import WMPlayer
+import HandyJSON
+import SwiftyJSON
 
 class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
@@ -41,6 +43,11 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     //房源详情viewmodel
     var buildingDetailViewModel: FangYuanBuildingDetailViewModel?
     
+    var isHiddenMoreData: Bool?
+    
+    //从列表传过来的筛选参数
+    var shaiXuanParams: [String:AnyObject]?
+    
     //列表传过来的模型
     var buildingModel: FangYuanListModel = FangYuanListModel() {
         didSet {
@@ -73,7 +80,8 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                 amtitusMatingListARR.append("13")
                 amtitusMatingListARR.append("14")
                 
-                self.tableView.reloadData()
+                refreshData()
+                
             }else if buildingModel.btype == 2 {
                 //联合办公 -
                 //名称基本信息 - 开放工位和独立办公室
@@ -102,7 +110,8 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                 dataOfficeListSourceArr.append("24")
                 
                 dataGongweiListSourceArr.append("31")
-                self.tableView.reloadData()
+                
+                refreshData()
             }
             
         }
@@ -114,6 +123,9 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         view.backgroundColor = kAppWhiteColor
         return view
     }()
+    
+    //点击头部的条件 要传的参数
+    var clickItemString: String = ""
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -127,14 +139,141 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         super.viewDidLoad()
         setupUI()
         setData()
+        //请求列表数据
+        loadNewData()
+    }
+    
+    ///获取点击的条件
+    func getClickItemString(index: Int) {
+        if buildingModel.btype == 1 { //办公楼
+            
+            switch index {
+            case 0:
+                clickItemString = ""
+            case 1:
+                clickItemString = "0,100"
+            case 2:
+                clickItemString = "100,200"
+            case 3:
+                clickItemString = "200,300"
+            case 4:
+                clickItemString = "300,400"
+            case 5:
+                clickItemString = "400,500"
+            case 6:
+                clickItemString = "500,1000"
+            case 7:
+                clickItemString = "1000,99999"
+            default:
+                clickItemString = ""
+            }
+        }else if buildingModel.btype == 2 {
+            switch index {
+            case 0:
+                clickItemString = ""
+            case 1:
+                clickItemString = "0,1"
+            case 2:
+                clickItemString = "2,3"
+            case 3:
+                clickItemString = "4,6"
+            case 4:
+                clickItemString = "7,10"
+            case 5:
+                clickItemString = "11,15"
+            case 6:
+                clickItemString = "16,20"
+            case 7:
+                clickItemString = "20,99999"
+            default:
+                clickItemString = ""
+            }
+        }
     }
     
     func setData() {
         
         itemview.itemSelectCallBack = {[weak self] (index) in
-            self?.dataOfficeListSourceArr.removeAll()
-            self?.loadMore()
+            
+            //获取筛选参数
+            self?.getClickItemString(index: index)
+            
+            //点击头部 每次调用接口 - page设为1
+            self?.loadNewData()
         }
+    }
+    
+    //MARK: 请求列表数据
+    /// 刷新数据
+    @objc func refreshDataList() {
+        
+        var params = [String:AnyObject]()
+        
+        if let parr = shaiXuanParams {
+            params = parr
+        }
+        params["pageNo"] = self.pageNo as AnyObject
+        params["pageSize"] = self.pageSize as AnyObject
+        params["btype"] = buildingModel.btype as AnyObject?
+        params["buildingId"] = buildingModel.id as AnyObject?
+        
+        if buildingModel.btype == 1 { //办公楼
+            params["area"] = clickItemString as AnyObject?
+        }else {
+            params["seats"] = clickItemString as AnyObject?
+        }
+        SSNetworkTool.SSFYDetail.request_getBuildingFYList(params: params, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<FangYuanBuildingOpenStationModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
+                weakSelf.dataSource = weakSelf.dataSource + decoratedArray
+                weakSelf.endRefreshWithCount(decoratedArray.count)
+            }
+            
+            }, failure: {[weak self] (error) in
+                guard let weakSelf = self else {return}
+                
+                weakSelf.endRefreshAnimation()
+                
+        }) {[weak self] (code, message) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.endRefreshAnimation()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    /// 结束刷新
+    public override func endRefreshAnimation() {
+        endRefreshWithCount(0)
+    }
+    
+    public override func endRefreshWithCount(_ count: Int) {
+        
+        isHiddenMoreData = count < pageSize || count == 0
+        
+        tableView.reloadData()
+    }
+    @objc override func loadNewData(){
+        
+        pageNo = 1
+        
+        if self.dataSource.count > 0 {
+            self.dataSource.removeAll()
+        }
+        
+        AppUtilities.makeToast("加载中")
+        
+        refreshDataList()
+    }
+    
+    @objc override func loadNextPage() {
+        AppUtilities.makeToast("加载中")
+        pageNo += 1
+        refreshDataList()
     }
     
     override func leftBtnClick() {
@@ -146,7 +285,6 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         
         isShowRefreshHeader = false
         
-        refreshData()
     }
     
     func setupUI() {
@@ -227,7 +365,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     func collectClick() {
         
         UserTool.shared.user_token = "MTA3X3N1bndlbGxfMTU5MTE2NDIzOF8w"
-
+        
         var params = [String:AnyObject]()
         
         //0 添加收藏
@@ -243,13 +381,13 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         SSNetworkTool.SSCollect.request_addCollection(params: params, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
-    
+            
             weakSelf.buildingDetailModel?.IsFavorite = !(weakSelf.buildingDetailModel?.IsFavorite ?? false)
             SSTool.invokeInMainThread {
                 weakSelf.setCollectBtnState(isCollect: weakSelf.buildingDetailModel?.IsFavorite ?? false)
             }
-        }, failure: { (error) in
-            
+            }, failure: { (error) in
+                
         }) { (code, message) in
             
             //只有5000 提示给用户
@@ -262,7 +400,6 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     //设置收藏按钮的状态
     func setCollectBtnState(isCollect: Bool) {
         
-        
         bottomBtnView.leftBtn.isSelected = isCollect
     }
     
@@ -271,10 +408,14 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         tableHeaderView.model = self.buildingDetailModel ?? FangYuanBuildingDetailModel()
     }
     
-    
+    //MARK: 调用详情接口 -
     override func refreshData() {
         
         var params = [String:AnyObject]()
+        
+        if let parr = shaiXuanParams {
+            params = parr
+        }
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["btype"] = buildingModel.btype as AnyObject?
@@ -341,7 +482,7 @@ extension RenterOfficebuildingJointDetailVC {
         if self.buildingModel.btype == 1 { //办公楼
             //在租写字楼
             if section == 1 {
-                return dataOfficeListSourceArr.count
+                return dataSource.count
             }else {
                 return self.dataSourceArr[section].count
             }
@@ -359,7 +500,7 @@ extension RenterOfficebuildingJointDetailVC {
                 }
             }else if section == 3 {
                 //独立办公室
-                return dataOfficeListSourceArr.count
+                return dataSource.count
             }else {
                 return self.dataSourceArr[section].count
             }
@@ -372,6 +513,11 @@ extension RenterOfficebuildingJointDetailVC {
                 //办公室
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailOfficeListCell.reuseIdentifierStr) as? RenterDetailOfficeListCell
                 cell?.selectionStyle = .none
+                if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
+                    model.btype = 1
+                    cell?.model = model
+                }
+                
                 return cell ?? RenterDetailOfficeListCell.init(frame: .zero)
             }else {
                 let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
@@ -459,7 +605,7 @@ extension RenterOfficebuildingJointDetailVC {
                 }
                 return cell ?? RenterJointDetailNameCell()
             }else if indexPath.section == 2 {
-                //开发工位列表
+                //开发工位列表 2
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailFYListCell.reuseIdentifierStr) as? RenterDetailFYListCell
                 cell?.selectionStyle = .none
                 //判断是否显示开放工位
@@ -470,10 +616,14 @@ extension RenterOfficebuildingJointDetailVC {
                 }
                 return cell ?? RenterDetailFYListCell.init(frame: .zero)
             }else if indexPath.section == 3 {
-                //独立办公室
+                //独立办公室 1
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailFYListCell.reuseIdentifierStr) as? RenterDetailFYListCell
                 cell?.selectionStyle = .none
-                cell?.leftTopLabel.text = "独立办公室"
+                if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
+                    model.btype = 2
+                    model.officeType = 1
+                    cell?.duliModel = model
+                }
                 return cell ?? RenterDetailFYListCell.init(frame: .zero)
             }else {
                 let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
@@ -781,14 +931,25 @@ extension RenterOfficebuildingJointDetailVC {
                 let view = UIView()
                 view.backgroundColor = kAppWhiteColor
                 let btn = UIButton.init(frame: CGRect(x: left_pending_space_17, y: 22, width: kWidth - left_pending_space_17 * 2, height: 34))
-                btn.setTitle("查看更多", for: .normal)
-                btn.setTitleColor(kAppBlueColor, for: .normal)
                 btn.titleLabel?.font = FONT_11
                 btn.clipsToBounds = true
                 btn.layer.cornerRadius = button_cordious_2
-                btn.layer.borderColor = kAppBlueColor.cgColor
                 btn.layer.borderWidth = 1.0
-                btn.addTarget(self, action: #selector(loadMore), for: .touchUpInside)
+                btn.addTarget(self, action: #selector(loadNextPage), for: .touchUpInside)
+                //如果没有更多就显示灰色
+                if isHiddenMoreData ?? false == true {
+                    btn.setTitle("没有更多了", for: .normal)
+                    btn.setTitleColor(kAppColor_333333, for: .normal)
+                    btn.layer.borderColor = kAppColor_line_EEEEEE.cgColor
+                    btn.backgroundColor = kAppColor_line_EEEEEE
+                    btn.isUserInteractionEnabled = false
+                }else {
+                    btn.setTitle("查看更多", for: .normal)
+                    btn.setTitleColor(kAppBlueColor, for: .normal)
+                    btn.layer.borderColor = kAppBlueColor.cgColor
+                    btn.backgroundColor = kAppWhiteColor
+                    btn.isUserInteractionEnabled = true
+                }
                 view.addSubview(btn)
                 return view
             }else {
@@ -804,14 +965,25 @@ extension RenterOfficebuildingJointDetailVC {
                 let view = UIView()
                 view.backgroundColor = kAppWhiteColor
                 let btn = UIButton.init(frame: CGRect(x: left_pending_space_17, y: 22, width: kWidth - left_pending_space_17 * 2, height: 34))
-                btn.setTitle("查看更多", for: .normal)
-                btn.setTitleColor(kAppBlueColor, for: .normal)
                 btn.titleLabel?.font = FONT_11
                 btn.clipsToBounds = true
                 btn.layer.cornerRadius = button_cordious_2
                 btn.layer.borderColor = kAppBlueColor.cgColor
                 btn.layer.borderWidth = 1.0
-                btn.addTarget(self, action: #selector(loadMore), for: .touchUpInside)
+                btn.addTarget(self, action: #selector(loadNextPage), for: .touchUpInside)
+                if isHiddenMoreData ?? false == true {
+                    btn.setTitle("没有更多了", for: .normal)
+                    btn.setTitleColor(kAppColor_333333, for: .normal)
+                    btn.layer.borderColor = kAppColor_line_EEEEEE.cgColor
+                    btn.backgroundColor = kAppColor_line_EEEEEE
+                    btn.isUserInteractionEnabled = false
+                }else {
+                    btn.setTitle("查看更多", for: .normal)
+                    btn.setTitleColor(kAppBlueColor, for: .normal)
+                    btn.layer.borderColor = kAppBlueColor.cgColor
+                    btn.backgroundColor = kAppWhiteColor
+                    btn.isUserInteractionEnabled = true
+                }
                 view.addSubview(btn)
                 return view
             }else {
@@ -848,15 +1020,7 @@ extension RenterOfficebuildingJointDetailVC {
 }
 
 extension RenterOfficebuildingJointDetailVC {
-    @objc func loadMore() {
-        dataOfficeListSourceArr.append("15")
-        dataOfficeListSourceArr.append("16")
-        dataOfficeListSourceArr.append("17")
-        dataOfficeListSourceArr.append("18")
-        dataOfficeListSourceArr.append("19")
-        //        self.tableView.reloadSections(IndexSet.init(integer: 1), with: .fade)
-        self.tableView.reloadData()
-    }
+    
 }
 
 extension RenterDetailSourceView: CycleViewDelegate{

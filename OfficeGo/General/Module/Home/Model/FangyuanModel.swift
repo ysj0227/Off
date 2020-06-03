@@ -190,8 +190,8 @@ class FangYuanBuildingBuildingModel: BaseModel {
     ///价格
     var minDayPrice : Float?
     var maxDayPrice : Float?
-
-
+    
+    
     ///网点
     ///独立办公室最小面积
     var minAreaIndependentOffice : Float?
@@ -300,7 +300,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
     init(model:FangYuanBuildingBuildingModel) {
         
         super.init()
-
+        
         btype = model.btype
         
         buildingName = model.name
@@ -375,7 +375,9 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             }
         }
         
-        
+        model.openStationMap?.btype = model.btype
+        //详情 - 包含 开放工位
+        model.openStationMap?.officeType = 2
         openStationViewModel = FangYuanBuildingOpenStationViewModel.init(model: model.openStationMap ?? FangYuanBuildingOpenStationModel())
         
         
@@ -516,30 +518,117 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
 
 ///工位数模型
 class FangYuanBuildingOpenStationModel: BaseModel {
+    ///1是办公楼，2是联合办公
+    var btype: Int?
     ///每工位每月租金  3000.0
     var dayPrice : Float?
-    ///房源id
-    var houseId : Int?
     var mainPic : String?
+    
+    ///网点
+    ///房源id
+    var id : Int?
     ///最短租期
     var minimumLease : String?
+    
+    ///楼盘
+    var area : Float?
+    var decoration : String?
+    var floor : String?
+    var monthPrice : Float?
+    /// 办公类型1是独立办公室，2是开放工位
+    var officeType : Int?
+    var seats : Int?
+    var simple : String?
+
     
 }
 ///工位数viewmodel模型
 class FangYuanBuildingOpenStationViewModel: NSObject {
-    ///每工位每月租金  3000.0
-    var dayPriceString : String?
+    ///1是办公楼，2是联合办公
+    var btype: Int?
     ///房源id
-    var houseId : Int?
+    var id : Int?
+    
+    /// 办公类型1是独立办公室，2是开放工位
+    var officeType : Int?
+    
     var mainPic : String?
+    
+    
+    ///开放工位
+    ///工位数 - 30工位
+    var openSeatsString : String?
+    ///月租金
+    var openMonthPriceString : String?
     ///最短租期---6个月可租
-    var minimumLeaseString : String?
+    var openMinimumLeaseString : String?
+    
+    
+    ///独立办公室
+    ///
+    ///面积
+    var individualAreaString : String?
+    ///每工位每月租金  3000.0
+    var individualMonthPriceString : String?
+    ///工位数 - 30工位
+    var individualSeatsString : String?
+    ///每工位每天租金  3000.0
+    var individualDayPriceString : String?
+    
+    
+    ///面积
+    var buildingArea : String?
+    ///工位数
+    var buildinSeats : String?
+    var buildingDayPriceString : String?
+    ///月租金
+    var buildingMonthPriceString : String?
+    ///装修
+    var buildingDecoration : String?
+    ///楼层
+    var buildingFloor : String?
+    
     
     init(model:FangYuanBuildingOpenStationModel) {
-        dayPriceString = String(format: "¥%.0f", model.dayPrice ?? 0)
-        houseId = model.houseId
+        btype = model.btype
+        id = model.id
         mainPic = model.mainPic
-        minimumLeaseString = "\(model.minimumLease ?? "")" + "个月可租"
+        
+        if btype == 1 {
+            buildingArea = String(format: "%.0f㎡", model.area ?? 0)
+            let arr = model.simple?.split{$0 == ","}.map(String.init)
+            if let simpleArr = arr {
+                if simpleArr.count >= 2 {
+                    buildinSeats = "最多\(simpleArr[1])个工位"
+                }
+            }else {
+                buildinSeats = "最多0个工位"
+            }
+            buildingDayPriceString = String(format: "¥%.0f /㎡/天", model.dayPrice ?? 0)
+            buildingMonthPriceString = String(format: "¥%.0f /月", model.monthPrice ?? 0)
+            buildingDecoration = model.decoration ?? ""
+            buildingFloor = "\(model.floor ?? "0")层"
+        }else if btype == 2 {
+            
+            officeType = model.officeType
+            
+            ///独立办公室
+            if officeType == 1 {
+                individualAreaString = String(format: "%.0f㎡", model.area ?? 0)
+                individualMonthPriceString = String(format: "¥%.0f", model.monthPrice ?? 0)
+                individualSeatsString = "\(model.seats ?? 0)" + "工位"
+                individualDayPriceString = String(format: "¥%.0f /位/天", model.dayPrice ?? 0)
+            }else {
+                openSeatsString = "\(model.seats ?? 0)" + "工位"
+                openMonthPriceString = String(format: "¥%.0f", model.dayPrice ?? 0)
+                openMinimumLeaseString = "\(model.minimumLease ?? "")" + "个月起租"
+            }
+            
+            
+        }
+        
+        
+        
     }
     
 }

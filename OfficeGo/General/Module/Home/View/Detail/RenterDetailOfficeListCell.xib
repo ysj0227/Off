@@ -30,7 +30,7 @@
                             <constraint firstAttribute="height" constant="1" id="PpA-MA-L6a"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Yu-Ra-Ohp">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Yu-Ra-Ohp" customClass="BaseImageView" customModule="OfficeGo" customModuleProvider="target">
                         <rect key="frame" x="17" y="12" width="77" height="60"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="1Yu-Ra-Ohp" secondAttribute="height" multiplier="77:60" id="tU2-aH-nUA"/>
@@ -98,7 +98,16 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <point key="canvasLocation" x="175" y="92"/>
+            <connections>
+                <outlet property="centerBottomLabel" destination="HqU-UQ-xan" id="iad-P4-vc3"/>
+                <outlet property="centerTopLabel" destination="y00-b1-bxy" id="8eF-dd-vRW"/>
+                <outlet property="leftTopLabel" destination="8A9-gN-t3k" id="Aff-fG-4c9"/>
+                <outlet property="leftbottomLabel" destination="T4T-jC-TnS" id="6tv-OU-0Nb"/>
+                <outlet property="mainImageView" destination="1Yu-Ra-Ohp" id="sFv-Db-HKr"/>
+                <outlet property="rightBottomFloorLabel" destination="c72-gj-iBf" id="ZMY-5u-0vI"/>
+                <outlet property="rightDocumentLabel" destination="b1m-N4-18L" id="kju-7B-c8Y"/>
+            </connections>
+            <point key="canvasLocation" x="-72" y="98"/>
         </tableViewCell>
     </objects>
 </document>

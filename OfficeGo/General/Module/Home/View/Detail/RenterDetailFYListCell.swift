@@ -24,7 +24,15 @@ class RenterDetailFYListCell: BaseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+    /**
+     ///开放工位
+       ///工位数 - 30工位
+       var openSeatsString : String?
+       ///月租金
+       var openMonthPriceString : String?
+       ///最短租期---6个月可租
+       var openMinimumLeaseString : String?
+     */
     //开放工位 显示
     var model: FangYuanBuildingBuildingModel = FangYuanBuildingBuildingModel() {
          didSet {
@@ -36,14 +44,48 @@ class RenterDetailFYListCell: BaseTableViewCell {
             setCellWithViewModel(viewModel: viewModel)
         }
     }
-    
+        
     func setCellWithViewModel(viewModel: FangYuanBuildingBuildingViewModel) {
         
         mainImageView.setImage(with: viewModel.openStationViewModel?.mainPic ?? "", placeholder: UIImage(named: "wechat"))
-        leftTopLabel.text = viewModel.openStationViewModel?.minimumLeaseString
-        rightPriceLabel.text = viewModel.openStationViewModel?.dayPriceString
+        leftTopLabel.text = viewModel.openStationViewModel?.openSeatsString
+        rightPriceLabel.text = viewModel.openStationViewModel?.openMonthPriceString
         rightUnitLabel.text = "/位/月"
-        rightBottomUnitLabel.text = viewModel.openStationViewModel?.minimumLeaseString
+        rightBottomUnitLabel.text = viewModel.openStationViewModel?.openMinimumLeaseString
+    }
+    
+    
+        /**
+       ///独立办公室
+       ///
+       ///面积
+       var individualAreaString : String?
+       ///每工位每月租金  3000.0
+       var individualMonthPriceString : String?
+       ///工位数 - 30工位
+       var individualSeatsString : String?
+       ///每工位每天租金  3000.0
+       var individualDayPriceString : String?
+       */
+    
+    var duliModel: FangYuanBuildingOpenStationModel = FangYuanBuildingOpenStationModel() {
+        didSet {
+            duliViewModel = FangYuanBuildingOpenStationViewModel.init(model: duliModel)
+        }
+    }
+    
+    var duliViewModel: FangYuanBuildingOpenStationViewModel = FangYuanBuildingOpenStationViewModel(model: FangYuanBuildingOpenStationModel()) {
+        didSet {
+            setDuliCellWithViewModel(viewModel: duliViewModel)
+        }
+    }
+    func setDuliCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
+        mainImageView.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: "wechat"))
+        leftTopLabel.text = viewModel.individualAreaString
+        leftbottomLabel.text = viewModel.individualSeatsString
+        rightPriceLabel.text = viewModel.individualMonthPriceString
+        rightUnitLabel.text = "/月"
+        rightBottomUnitLabel.text = viewModel.individualDayPriceString
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
