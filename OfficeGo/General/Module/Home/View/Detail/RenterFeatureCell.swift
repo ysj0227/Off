@@ -35,7 +35,7 @@ class RenterFeatureCell: BaseTableViewCell {
     
     var featureString: String = "" {
         didSet {
-            featureView.featureStringDetail = featureString
+            featureView.featureNumofLinesStringDetail = featureString
         }
     }
     
@@ -79,7 +79,9 @@ class RenterFeatureCell: BaseTableViewCell {
     class func rowHeight() -> CGFloat {
         return 58
     }
-    
+    class func rowHeight0() -> CGFloat {
+        return 58
+    }
 }
 
 
@@ -117,6 +119,39 @@ class FeatureView: UIView {
            }
        }
        
+    //特色设置 - 详情 - 多行显示
+    var featureNumofLinesStringDetail: String = "" {
+        didSet {
+            widthAdd = 10
+            setUpNumofLinesFeatureSubviews(str: featureNumofLinesStringDetail, font: FONT_10, bgColor: kAppBlueColor, titleColor: kAppWhiteColor)
+        }
+    }
+    
+    func setUpNumofLinesFeatureSubviews(str: String, font: UIFont, bgColor: UIColor, titleColor: UIColor) {
+        self.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
+        let arr = str.split{$0 == ","}.map(String.init)
+        var width: CGFloat = 0.0
+        let height: CGFloat = 20.0
+        var topY: CGFloat = 5.0
+
+        for strs in arr {
+            let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: height), font: font, lineSpacing: 0).width + widthAdd
+            if (width + (itemwidth + space)) > self.width {
+                width = 0.0
+                topY += (height + 5)
+            }
+            let btn = UIButton.init(frame: CGRect(x: width, y: topY, width: itemwidth, height: height))
+            btn.setTitleColor(titleColor, for: .normal)
+            btn.setTitle(strs, for: .normal)
+            btn.titleLabel?.font = font
+            width =  width + (itemwidth + space)
+            btn.backgroundColor = bgColor
+            self.addSubview(btn)
+        }
+    }
+    
     
     required init?(coder aDecoder: NSCoder) {
           super.init(coder: aDecoder)

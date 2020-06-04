@@ -38,7 +38,7 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     //设置按钮箭头方向
     func setBtnUpOrDown(button: UIButton?, isUp: Bool) {
         if isUp {
-            button?.setImage(UIImage(named: "upIcon"), for: .normal)
+            button?.setImage(UIImage(named: "upDirGray"), for: .normal)
             lineViewConstantHeight.constant = changHeight
         }else {
             button?.setImage(UIImage(named: "downDirGray"), for: .normal)

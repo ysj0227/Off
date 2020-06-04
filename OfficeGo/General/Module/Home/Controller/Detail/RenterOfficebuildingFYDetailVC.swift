@@ -309,7 +309,7 @@ extension RenterOfficebuildingFYDetailVC {
             case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr) as? RenterOfficebuildingFYDeatailCell
                 cell?.selectionStyle = .none
-                if let model = self.buildingFYDetailModel?.house?.basicInformation {
+                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
                     cell?.model = model
                 }
                 return cell ?? RenterOfficebuildingFYDeatailCell()
@@ -377,7 +377,7 @@ extension RenterOfficebuildingFYDetailVC {
             case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr) as? RenterOfficebuildingFYDeatailCell
                 cell?.selectionStyle = .none
-                if let model = self.buildingFYDetailModel?.house?.basicInformation {
+                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
                     cell?.model = model
                 }
                 return cell ?? RenterOfficebuildingFYDeatailCell()
@@ -391,9 +391,11 @@ extension RenterOfficebuildingFYDetailVC {
                 return cell ?? RenterOfficebuildingDeatailHuxingCell()
                 
             case FYDetailItemType.FYDetailItemTypeTraffic:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
+               let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
                 cell?.selectionStyle = .none
-                //                cell?.model = FangYuanBuildingBuildingModel()
+                if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                    cell?.viewModel = buildingViewModel
+                }
                 cell?.trafficBtnClick = {[weak self] (isup) in
                     self?.isTrafficUp = isup
                     self?.tableView.reloadData()
@@ -470,8 +472,12 @@ extension RenterOfficebuildingFYDetailVC {
                 }
                 
             case FYDetailItemType.FYDetailItemTypeFeature:
-                return RenterFeatureCell.rowHeight()
 
+                if let height = buildingFYDetailViewModel?.houseViewModel?.tagsHeight {
+                   return RenterFeatureCell.rowHeight0() + height
+               }else {
+                   return RenterFeatureCell.rowHeight0() + 30
+               }
             case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                 return 0
                 

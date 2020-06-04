@@ -37,6 +37,10 @@ class FangYuanBuildingDetailViewModel: NSObject {
     var introductionViewModel : FangYuanBuildingIntroductionlViewModel?
     ///特色
     var tagsString: String?
+    
+    ///特色高度
+    var tagsHeight: CGFloat?
+    
     var videoUrl : [BannerModel]?
     var vrUrl : [BannerModel]?
     //用户id 发布者
@@ -58,6 +62,31 @@ class FangYuanBuildingDetailViewModel: NSObject {
             tagArr.append(model.dictCname ?? "")
         })
         tagsString = tagArr.joined(separator: ",")
+        let widthAdd: CGFloat = 10
+        let space: CGFloat = 9
+        let maxWidth: CGFloat = kWidth - 50
+        var width: CGFloat = 0.0
+        let height: CGFloat = 20.0
+        var topY: CGFloat = 5.0
+        
+        for strs in tagArr {
+            let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: height), font: FONT_10, lineSpacing: 0).width + widthAdd
+            if (width + (itemwidth + space)) > maxWidth {
+                topY += (height + 5)
+                width = 0.0
+            }
+            width =  width + (itemwidth + space)
+            let index = tagArr.firstIndex(of: strs)
+            if index == tagArr.count - 1 {
+                topY += (height + 5)
+            }
+        }
+        if topY < 30 {
+            tagsHeight = 30
+        }else {
+            tagsHeight = topY
+        }
+        
         videoUrl = model.videoUrl
         vrUrl = model.vrUrl
     }
@@ -231,28 +260,28 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             
             ///开放工位和共享服务之后网点有
             model.openStationMap?.btype = model.btype
-           //详情 - 包含 开放工位
-           model.openStationMap?.officeType = 2
-           openStationViewModel = FangYuanBuildingOpenStationViewModel.init(model: model.openStationMap ?? FangYuanBuildingOpenStationModel())
-           
-           
-           //共享服务 - 显示用黑色的图标
-           if let arr = model.basicServices {
-               basicServicesString = []
-               for service in arr {
-                   basicServicesString?.append(service.dictImgBlack ?? "")
-               }
-           }
-           
-           basicServices = model.basicServices
-           
-           if let arr = model.corporateServices {
-               corporateServicesString = []
-               for service in arr {
-                   corporateServicesString?.append(service.dictImgBlack ?? "")
-               }
-           }
-           corporateServices = model.corporateServices
+            //详情 - 包含 开放工位
+            model.openStationMap?.officeType = 2
+            openStationViewModel = FangYuanBuildingOpenStationViewModel.init(model: model.openStationMap ?? FangYuanBuildingOpenStationModel())
+            
+            
+            //共享服务 - 显示用黑色的图标
+            if let arr = model.basicServices {
+                basicServicesString = []
+                for service in arr {
+                    basicServicesString?.append(service.dictImgBlack ?? "")
+                }
+            }
+            
+            basicServices = model.basicServices
+            
+            if let arr = model.corporateServices {
+                corporateServicesString = []
+                for service in arr {
+                    corporateServicesString?.append(service.dictImgBlack ?? "")
+                }
+            }
+            corporateServices = model.corporateServices
         }
         
         let timeStr = "步行"
@@ -442,7 +471,7 @@ class FangYuanBuildingOpenStationModel: BaseModel {
     var officeType : Int?
     var seats : Int?
     var simple : String?
-
+    
     
 }
 ///工位数viewmodel模型

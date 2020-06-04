@@ -15,7 +15,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     
     //首页带过来的面积或者工位数
     var shaixuanAreaSeatsString: String?
-        
+    
     //点击清楚按钮之后 - 隐藏筛选条件
     var isClearCondition: Bool = false {
         didSet {
@@ -27,7 +27,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
             }
         }
     }
-
+    
     
     //筛选条件
     let shaixuanConditionView: ShaixuanConditionSelectView = {
@@ -243,10 +243,10 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
             self?.isClearCondition = true
             
             //默认选择第一个全部获取筛选参数
-           self?.getClickItemString(index: 0)
-           
-           //点击头部 每次调用接口 - page设为1
-           self?.loadNewData()
+            self?.getClickItemString(index: 0)
+            
+            //点击头部 每次调用接口 - page设为1
+            self?.loadNewData()
             
         }
         
@@ -804,7 +804,11 @@ extension RenterOfficebuildingJointDetailVC {
                         return 40 + 30 + 1
                     }
                 case FYDetailItemType.FYDetailItemTypeFeature:
-                    return RenterFeatureCell.rowHeight()
+                    if let height = buildingDetailViewModel?.tagsHeight {
+                        return RenterFeatureCell.rowHeight0() + height
+                    }else {
+                        return RenterFeatureCell.rowHeight0() + 30
+                    }
                 case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                     return 0
                 case FYDetailItemType.FYDetailItemTypeFYList:
@@ -854,7 +858,11 @@ extension RenterOfficebuildingJointDetailVC {
                         return 40 + 30 + 1
                     }
                 case FYDetailItemType.FYDetailItemTypeFeature:
-                    return RenterFeatureCell.rowHeight()
+                    if let height = buildingDetailViewModel?.tagsHeight {
+                        return RenterFeatureCell.rowHeight0() + height
+                    }else {
+                        return RenterFeatureCell.rowHeight0() + 30
+                    }
                 case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                     return 0
                 case FYDetailItemType.FYDetailItemTypeFYList:
@@ -979,7 +987,7 @@ extension RenterOfficebuildingJointDetailVC {
                 view.addSubview(title)
                 
                 if isClearCondition != true {
-                   view.addSubview(shaixuanConditionView)
+                    view.addSubview(shaixuanConditionView)
                 }else {
                     if let factorMap = self.buildingDetailViewModel?.factorMap {
                         itemview.factorMap = factorMap
@@ -1321,9 +1329,9 @@ class ShaixuanConditionSelectView: UIView {
     }()
     
     var clearCallBack:(() -> Void)?
-
+    
     @objc func btnClick(btn: UIButton) {
-
+        
         guard let block = clearCallBack else {
             return
         }
@@ -1333,7 +1341,7 @@ class ShaixuanConditionSelectView: UIView {
     public override required init(frame: CGRect) {
         super.init(frame: frame)
         self.frame = frame
-                
+        
         self.clipsToBounds = true
         self.layer.cornerRadius = button_cordious_2
         self.layer.borderColor = kAppBlueColor.cgColor

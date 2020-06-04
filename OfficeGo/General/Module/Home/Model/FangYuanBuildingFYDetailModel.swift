@@ -30,6 +30,7 @@ class FangYuanBuildingFYDetailViewModel: NSObject {
     init(model:FangYuanBuildingFYDetailModel) {
         btype = model.btype
         IsFavorite = model.IsFavorite
+        model.house?.basicInformation?.btype = model.btype
         houseViewModel = FangYuanBuildingFYDetailHouseViewModel.init(model: model.house ?? FangYuanBuildingFYDetailHouseModel())
         imgUrl = model.imgUrl
         videoUrl = model.videoUrl
@@ -41,9 +42,9 @@ class FangYuanBuildingFYDetailHouseModel: BaseModel {
     var btype: Int?
     var buildingId : Int?
     var id : Int?
-
+    
     ///面积
-     var area : Float?
+    var area : Float?
     
     //基本信息
     var basicInformation : FangYuanBuildingFYDetailBasicInformationModel?
@@ -67,20 +68,20 @@ class FangYuanBuildingFYDetailHouseModel: BaseModel {
     var seats : Int?
     var simple : String?
     var tags : [DictionaryModel]?
-
+    
     //用户id 发布者
     var userId : String?
-
+    
 }
 class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     ///1是办公楼，2是联合办公
     var btype: Int?
     var buildingId : Int?
     var id : Int?
-
+    
     ///面积
-     var areaString : String?
-        
+    var areaString : String?
+    
     //基本信息
     var basicInformation : FangYuanBuildingFYDetailBasicInformationModel?
     
@@ -97,7 +98,7 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     var mainPic : String?
     var licenceId : Int?
     var monthPriceString : String?
-
+    
     /// 办公类型1是独立办公室，2是开放工位
     var officeType : Int?
     
@@ -105,16 +106,19 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     var seatsString : String?
     
     var tagsString : String?
-
+    
+    ///特色高度
+    var tagsHeight: CGFloat?
+    
     //用户id 发布者
     var userId : String?
- 
+    
     init(model:FangYuanBuildingFYDetailHouseModel) {
         
         btype = model.btype
         
         buildingId = model.buildingId
-
+        
         id = model.id
         
         buildingName = model.buildingName
@@ -124,15 +128,16 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         decorationString = model.decoration ?? ""
         
         monthPriceString = String(format: "%.0f/月", model.monthPrice ?? 0)
-
+        
         let size: CGSize = model.basicInformation?.unitPatternRemark?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_LIGHT_13, lines: 0) ?? CGSize(width: kWidth - left_pending_space_17 * 2, height: 25)
         if size.height < 25 {
             model.basicInformation?.textHeight = 25
         }else{
             model.basicInformation?.textHeight = size.height
-
+            
         }
         
+        model.basicInformation?.btype = model.btype
         basicInformation = model.basicInformation
         
         //办公室
@@ -150,7 +155,7 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         }else {
             
             dayPriceString = String(format: "%.0f/位/天", model.dayPrice ?? 0)
-
+            
             seatsString = "\(model.seats ?? 0)个工位"
         }
         
@@ -160,10 +165,38 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
             tagArr.append(model.dictCname ?? "")
         })
         tagsString = tagArr.joined(separator: ",")
+        
+        let widthAdd: CGFloat = 10
+        let space: CGFloat = 9
+        let maxWidth: CGFloat = kWidth - 50
+        var width: CGFloat = 0.0
+        let height: CGFloat = 20.0
+        var topY: CGFloat = 5.0
+        
+        for strs in tagArr {
+            let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: height), font: FONT_10, lineSpacing: 0).width + widthAdd
+            if (width + (itemwidth + space)) > maxWidth {
+                topY += (height + 5)
+                width = 0.0
+            }
+            width =  width + (itemwidth + space)
+            let index = tagArr.firstIndex(of: strs)
+            if index == tagArr.count - 1 {
+                topY += (height + 5)
+            }
+        }
+        if topY < 30 {
+            tagsHeight = 30
+        }else {
+            tagsHeight = topY
+        }
+        
     }
 }
 
 class FangYuanBuildingFYDetailBasicInformationModel: BaseModel {
+    ///1是办公楼，2是联合办公 用来判断最短租期单位
+    var btype: Int?
     ///"随时",//最早交付
     var earliestDelivery : String?
     ///楼层信息
