@@ -88,6 +88,29 @@ class RenterDetailNameCell: BaseTableViewCell {
         thirdItem.descripLabel.text = "在租房源"
     }
        
+    var fyModel: FangYuanBuildingFYDetailHouseModel = FangYuanBuildingFYDetailHouseModel() {
+        didSet {
+            fyViewModel = FangYuanBuildingFYDetailHouseViewModel.init(model: fyModel)
+        }
+    }
+    
+    var fyViewModel: FangYuanBuildingFYDetailHouseViewModel = FangYuanBuildingFYDetailHouseViewModel(model: FangYuanBuildingFYDetailHouseModel()) {
+        didSet {
+            
+            setCellWithFYViewModel(viewModel: fyViewModel)
+        }
+    }
+    func setCellWithFYViewModel(viewModel: FangYuanBuildingFYDetailHouseViewModel) {
+        titleLabel.text = viewModel.buildingName
+        firstItem.titleLabel.text = viewModel.areaString
+        firstItem.descripLabel.text = viewModel.seatsString
+        secondItem.titleLabel.text = viewModel.dayPriceString
+        secondItem.descripLabel.text = viewModel.monthPriceString
+        thirdItem.titleLabel.text = viewModel.decorationString
+        thirdItem.descripLabel.text = "装修风格"
+    }
+       
+    
     class func rowHeight() -> CGFloat {
         return 107
     }

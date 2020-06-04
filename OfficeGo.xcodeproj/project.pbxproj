@@ -49,6 +49,8 @@
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
 		04810B7E2480A91800F35FBE /* DictionaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7D2480A91800F35FBE /* DictionaryModel.swift */; };
 		04810B8024811DEC00F35FBE /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7F24811DEC00F35FBE /* BannerModel.swift */; };
+		0499C37F2487C987000A4EFE /* FangYuanBuildingDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499C37E2487C987000A4EFE /* FangYuanBuildingDetailModel.swift */; };
+		0499C3812487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499C3802487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift */; };
 		04D9D961246CD47A00211B40 /* RenterCollectPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D960246CD47A00211B40 /* RenterCollectPageViewController.swift */; };
 		04D9D963246CDC1400211B40 /* RenterHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D962246CDC1400211B40 /* RenterHomePageViewController.swift */; };
 		04D9D965246CE3A900211B40 /* RenterCollectOfficeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */; };
@@ -280,6 +282,8 @@
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		04810B7D2480A91800F35FBE /* DictionaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryModel.swift; sourceTree = "<group>"; };
 		04810B7F24811DEC00F35FBE /* BannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModel.swift; sourceTree = "<group>"; };
+		0499C37E2487C987000A4EFE /* FangYuanBuildingDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FangYuanBuildingDetailModel.swift; sourceTree = "<group>"; };
+		0499C3802487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FangYuanBuildingFYDetailModel.swift; sourceTree = "<group>"; };
 		04D9D960246CD47A00211B40 /* RenterCollectPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectPageViewController.swift; sourceTree = "<group>"; };
 		04D9D962246CDC1400211B40 /* RenterHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterHomePageViewController.swift; sourceTree = "<group>"; };
 		04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectOfficeListViewController.swift; sourceTree = "<group>"; };
@@ -741,6 +745,8 @@
 			children = (
 				EEE0D98D246673CF00E5C77B /* FangyuanModel.swift */,
 				04810B7F24811DEC00F35FBE /* BannerModel.swift */,
+				0499C37E2487C987000A4EFE /* FangYuanBuildingDetailModel.swift */,
+				0499C3802487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1454,6 +1460,7 @@
 				0473332F247527D100755192 /* RenterChatListViewController.swift in Sources */,
 				04E69B61246D6BAD00A0ABCA /* RenterSearchHistoryCollectionCell.swift in Sources */,
 				046AF995246E5E8800E49D60 /* ResultTableViewController.swift in Sources */,
+				0499C3812487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift in Sources */,
 				04D9D967246CE45900211B40 /* RenterCollectOfficeBuuildingOrJointListViewController.swift in Sources */,
 				04D9D965246CE3A900211B40 /* RenterCollectOfficeListViewController.swift in Sources */,
 				EE6070DD2468FE2A0098CAC2 /* RenterAmbitusMatingCell.swift in Sources */,
@@ -1543,6 +1550,7 @@
 				047333252473D77700755192 /* UIView+Extension.swift in Sources */,
 				EEE87B0D2455856800C03424 /* JHWebViewController.swift in Sources */,
 				04EF1E41247777B700871762 /* MainTabBarController.swift in Sources */,
+				0499C37F2487C987000A4EFE /* FangYuanBuildingDetailModel.swift in Sources */,
 				EEE87B152455856800C03424 /* UIViewSnapEx.swift in Sources */,
 				04EF1E46247777E400871762 /* SSTabBarView.swift in Sources */,
 				EEE87B5924558F9800C03424 /* BaseLabel.swift in Sources */,

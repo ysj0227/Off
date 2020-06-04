@@ -26,7 +26,7 @@ class CycleCell: UICollectionViewCell {
         didSet{
             if (imageURLString?.hasPrefix("http"))! {
                 //网络图片:使用SDWebImage下载即可
-                
+                imageView.setImage(with: imageURLString ?? "", placeholder: UIImage.init(named: "wechat"))
             } else {
                 //本地图片
                 imageView.image = UIImage(named: imageURLString!)
@@ -44,8 +44,8 @@ class CycleCell: UICollectionViewCell {
     }
     
     //MARK: 懒加载
-    lazy var imageView : UIImageView = {
-        let imageView = UIImageView(frame: bounds)
+    lazy var imageView : BaseImageView = {
+        let imageView = BaseImageView(frame: bounds)
         imageView.clipsToBounds = true
         return imageView
     }()

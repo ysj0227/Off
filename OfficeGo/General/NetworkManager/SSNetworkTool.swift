@@ -193,6 +193,7 @@ extension SSNetworkTool {
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
                 success,failed:failure,error:error)
         }
+        
     }
     
     //  MARK:   首页

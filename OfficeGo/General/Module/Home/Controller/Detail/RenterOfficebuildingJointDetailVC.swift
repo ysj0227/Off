@@ -30,17 +30,13 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     
     //总体数据源
     var dataSourceArr = [[FYDetailItemType]]()
-    //办公楼 - 办公室。     联合办公 - 独立办公室数组
-    var dataOfficeListSourceArr = [String]()
-    //开发工位数组
-    var dataGongweiListSourceArr = [String]()
     
     var amtitusMatingListARR = [String]()
     
     //房源详情model
     var buildingDetailModel: FangYuanBuildingDetailModel?
     
-    //房源详情viewmodel
+    //楼盘详情viewmodel
     var buildingDetailViewModel: FangYuanBuildingDetailViewModel?
     
     var isHiddenMoreData: Bool?
@@ -68,11 +64,6 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                     FYDetailItemType.FYDetailItemTypeOfficeDeatail,
                     //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
                 ])
-                
-                dataOfficeListSourceArr.append("11")
-                dataOfficeListSourceArr.append("12")
-                dataOfficeListSourceArr.append("13")
-                dataOfficeListSourceArr.append("14")
                 
                 //周边配套
                 amtitusMatingListARR.append("11")
@@ -103,13 +94,6 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                     FYDetailItemType.FYDetailItemTypeOfficeDeatail,
                     //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
                 ])
-                
-                dataOfficeListSourceArr.append("21")
-                dataOfficeListSourceArr.append("22")
-                dataOfficeListSourceArr.append("23")
-                dataOfficeListSourceArr.append("24")
-                
-                dataGongweiListSourceArr.append("31")
                 
                 refreshData()
             }
@@ -283,7 +267,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     }
     func requestSet() {
         
-        isShowRefreshHeader = false
+        isShowRefreshHeader = true
         
     }
     
@@ -321,7 +305,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         self.tableView.register(UINib.init(nibName: RenterOfficeDeatailCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterOfficeDeatailCell.reuseIdentifierStr)
         
         //周边配套
-        self.tableView.register(UINib.init(nibName: RenterAmbitusMatingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr)
+//        self.tableView.register(UINib.init(nibName: RenterAmbitusMatingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr)
         
         //开放工位 - 独立办公室
         self.tableView.register(UINib.init(nibName: RenterDetailFYListCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterDetailFYListCell.reuseIdentifierStr)
@@ -999,19 +983,28 @@ extension RenterOfficebuildingJointDetailVC {
         
         if self.buildingModel.btype == 1 { //办公楼
             if indexPath.section == 1 {
-                let model = FangYuanListModel()
-                let vc = RenterOfficebuildingFYDetailVC()
-                model.btype = 1
-                vc.model = model
-                self.navigationController?.pushViewController(vc, animated: true)
+                if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
+                    model.btype = 1
+                    let vc = RenterOfficebuildingFYDetailVC()
+                    vc.buildingDetailViewModel = buildingDetailViewModel
+                    vc.model = model
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }else if self.buildingModel.btype == 2 { //联合办公
             
-            if indexPath.section == 1 {
+            if indexPath.section == 2 {
                 //如果开放工位数据数组大于0显示
                 
-            }else if indexPath.section == 2 {
+            }else if indexPath.section == 3 {
                 //独立办公室
+                if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
+                    model.btype = 2
+                    let vc = RenterOfficebuildingFYDetailVC()
+                    vc.buildingDetailViewModel = buildingDetailViewModel
+                    vc.model = model
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }
         
@@ -1081,16 +1074,40 @@ class RenterDetailSourceView: UIView {
     
     var model: FangYuanBuildingDetailModel = FangYuanBuildingDetailModel() {
         didSet {
-            
+
             if let imgArr = model.imgUrl {
                 var arr: [String] = []
                 for imgModel in imgArr {
-                    arr.append("https://img.officego.com.cn/dictionary/dayin.png" ?? "")
+                    arr.append(imgModel.imgUrl ?? "")
                 }
                 self.cycleView.imageURLStringArr = arr
             }
             
             if let videoArr = model.videoUrl {
+                if videoArr.count > 0 {
+                    let videoModel = videoArr[0]
+                    let player = WMPlayerModel()
+                    //            model.title = "视频"
+                    player.videoURL = URL.init(string: videoModel.imgUrl ?? "")
+                    //                model.videoURL = URL.init(string: "http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4")
+                    playerModel = player
+                }
+            }
+        }
+    }
+    
+    var FYModel: FangYuanBuildingFYDetailModel = FangYuanBuildingFYDetailModel() {
+        didSet {
+
+            if let imgArr = FYModel.imgUrl {
+                var arr: [String] = []
+                for imgModel in imgArr {
+                    arr.append(imgModel.imgUrl ?? "")
+                }
+                self.cycleView.imageURLStringArr = arr
+            }
+            
+            if let videoArr = FYModel.videoUrl {
                 if videoArr.count > 0 {
                     let videoModel = videoArr[0]
                     let player = WMPlayerModel()
@@ -1115,10 +1132,10 @@ class RenterDetailSourceView: UIView {
     //视频播放view
     lazy var videoView: UIView = {
         let view = UIView.init(frame: self.frame)
-        view.backgroundColor = kAppBlackColor
+        view.backgroundColor = kAppClearColor
         return view
     }()
-    
+
     var playerModel: WMPlayerModel = WMPlayerModel() {
         didSet {
             setPlayer()
@@ -1136,7 +1153,6 @@ class RenterDetailSourceView: UIView {
         wmPlayer?.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
-        //        wmPlayer?.play()
     }
     
     var changeBtnView: ButtonCycleSelectItemView = {

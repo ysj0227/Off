@@ -10,11 +10,32 @@ import UIKit
 
 class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
 
+    @IBOutlet weak var huxingImgConstantHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var huxingConstangHeight: NSLayoutConstraint!
+    
+    ///户型格局图
+    @IBOutlet weak var unitPatternImgView: BaseImageView!
+    
+    ///"门朝北，窗户朝向南，2个独立办公室，1间大会议室，3间小会议室。",//户型格局简
+    @IBOutlet weak var unitPatternRemarkLabel: UILabel!
+    
+    var model: FangYuanBuildingFYDetailBasicInformationModel = FangYuanBuildingFYDetailBasicInformationModel() {
+        didSet {
+            setCellWithViewModel(viewModel: model)
+        }
+    }
+
+    func setCellWithViewModel(viewModel: FangYuanBuildingFYDetailBasicInformationModel) {
+        unitPatternImgView.setImage(with: viewModel.unitPatternImg ?? "", placeholder: UIImage.init(named: "wechat"))
+        unitPatternRemarkLabel.text = viewModel.unitPatternRemark
+        huxingConstangHeight.constant = viewModel.textHeight ?? 25
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        huxingImgConstantHeight.constant = (kWidth - left_pending_space_17 * 2) * (2 / 3.0)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -24,6 +45,6 @@ class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
     }
     
     class func rowHeight() -> CGFloat {
-        return 241 + 25
+        return 55 + 17 * 2 + (kWidth - left_pending_space_17 * 2) * (2 / 3.0)
     }
 }

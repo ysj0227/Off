@@ -165,7 +165,7 @@ extension CycleView {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : CycleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CycleCell
         cell.mode = mode
-        cell.imageURLString = imageURLStringArr[indexPath.item % imageURLStringArr.count] ?? ""
+        cell.imageURLString = imageURLStringArr[indexPath.item % imageURLStringArr.count]
         return cell
     }
 }

@@ -10,6 +10,12 @@ import UIKit
 
 class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     
+    //表头
+    let tableHeaderView: RenterDetailSourceView = {
+        let item = RenterDetailSourceView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kWidth * 267 / 320.0))
+        return item
+    }()
+    
     var isTrafficUp: Bool = false
     
     let itemview: RenterHeaderItemSelectView = {
@@ -18,25 +24,50 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         return item
     }()
     
+    //楼盘详情viewmodel
+    var buildingDetailViewModel: FangYuanBuildingDetailViewModel?
+    
+    //房源详情model
+    var buildingFYDetailModel: FangYuanBuildingFYDetailModel?
+    
+    //房源详情viewmodel
+    var buildingFYDetailViewModel: FangYuanBuildingFYDetailViewModel?
+    
     //总体数据源
     var dataSourceArr = [[FYDetailItemType]]()
     
-    var model: FangYuanListModel = FangYuanListModel() {
+    var model: FangYuanBuildingOpenStationModel = FangYuanBuildingOpenStationModel() {
         didSet {
             bottomBtnView.leftBtn.isSelected  = false
             //1是办公楼，2是联合办公
             if model.btype == 1 {
-                //办公楼 -
-                //名称基本信息 -房源信息- 户型 - 工交 - 周边配套
+                //办公楼 - 办公室
+                //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
                 
                 self.dataSourceArr.append([
                     FYDetailItemType.FYDetailItemOfficeBuildingNameView,
                     FYDetailItemType.FYDetailItemTypeOfficeDeatail,
                     FYDetailItemType.FYDetailItemTypeHuxing,
                     FYDetailItemType.FYDetailItemTypeTraffic,
-                    FYDetailItemType.FYDetailItemTypeAmbitusMating])
+                    FYDetailItemType.FYDetailItemTypeFeature
+                    //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+                ])
                 
-                self.tableView.reloadData()
+                refreshData()
+                
+            }else {
+                //网点 - 独立办公室
+                //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
+                
+                self.dataSourceArr.append([
+                    FYDetailItemType.FYDetailItemOfficeBuildingNameView,
+                    FYDetailItemType.FYDetailItemTypeOfficeDeatail,
+                    FYDetailItemType.FYDetailItemTypeHuxing,
+                    FYDetailItemType.FYDetailItemTypeTraffic,
+                    //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+                ])
+                
+                refreshData()
             }
             
         }
@@ -52,6 +83,17 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tableHeaderView.pausePlayer()
+    }
+    
+    override func leftBtnClick() {
+         tableHeaderView.cycleView.removeFromSuperview()
+         tableHeaderView.releaseWMplayer()
+         self.navigationController?.popViewController(animated: true)
+     }
+     
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,14 +117,9 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
             self.leftBtnClick()
         }
         
-        //轮播图加载 - 设置头部
-        let pointY: CGFloat = 0
-        let cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: kWidth * 267 / 320.0))
-        cycleView.delegate = self
-        cycleView.mode = .scaleAspectFill
-        //本地图片测试--加载网络图片,请用第三方库如SDWebImage等
-        cycleView.imageURLStringArr = ["loginBgImg", "wechat", "loginBgImg", "wechat"]
-        self.tableView.tableHeaderView = cycleView
+        
+        //设置头部
+        self.tableView.tableHeaderView = tableHeaderView
         
         //头部
         self.tableView.register(RenterDetailNameCell.self, forCellReuseIdentifier: RenterDetailNameCell.reuseIdentifierStr)
@@ -97,9 +134,11 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         //交通
         self.tableView.register(UINib.init(nibName: RenterDetailTrafficCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterDetailTrafficCell.reuseIdentifierStr)
         
+        //特色
+        self.tableView.register(RenterFeatureCell.self, forCellReuseIdentifier: RenterFeatureCell.reuseIdentifierStr)
         
         //周边配套
-        self.tableView.register(UINib.init(nibName: RenterAmbitusMatingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr)
+        //        self.tableView.register(UINib.init(nibName: RenterAmbitusMatingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr)
         
         self.view.addSubview(bottomBtnView)
         
@@ -130,10 +169,97 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         }
     }
     
+    //MARK: 收藏按钮点击 - 调用接口 0是收藏1是取消收藏
     func collectClick() {
-        bottomBtnView.leftBtn.isSelected = !bottomBtnView.leftBtn.isSelected
+        
+        UserTool.shared.user_token = "MTA3X3N1bndlbGxfMTU5MTE2NDIzOF8w"
+        
+        var params = [String:AnyObject]()
+        
+        //0 添加收藏
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        //取消收藏
+        if self.buildingFYDetailModel?.IsFavorite ?? false == true {
+            params["flag"] = 1 as AnyObject?
+        }else {
+            params["flag"] = 0 as AnyObject?
+        }
+        params["houseId"] = buildingFYDetailModel?.house?.id as AnyObject?
+        
+        SSNetworkTool.SSCollect.request_addCollection(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.buildingFYDetailModel?.IsFavorite = !(weakSelf.buildingFYDetailModel?.IsFavorite ?? false)
+            SSTool.invokeInMainThread {
+                weakSelf.setCollectBtnState(isCollect: weakSelf.buildingFYDetailModel?.IsFavorite ?? false)
+            }
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
+    //设置收藏按钮的状态
+    func setCollectBtnState(isCollect: Bool) {
+        
+        bottomBtnView.leftBtn.isSelected = isCollect
+    }
+    
+    
+    //MARK: 加载头部的图片和视频
+    func loadHeaderview() {
+        tableHeaderView.FYModel = self.buildingFYDetailModel ?? FangYuanBuildingFYDetailModel()
+    }
+    
+    //MARK: 调用详情接口 -
+    override func refreshData() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["btype"] = model.btype as AnyObject?
+        params["houseId"] = model.id as AnyObject?
+        
+        
+        SSNetworkTool.SSFYDetail.request_getBuildingFYDetailbyHouseId(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = FangYuanBuildingFYDetailModel.deserialize(from: response, designatedPath: "data") {
+                //                model.building?.openStationFlag = false
+                self?.buildingFYDetailModel = model
+                self?.buildingFYDetailViewModel = FangYuanBuildingFYDetailViewModel.init(model: self?.buildingFYDetailModel ?? FangYuanBuildingFYDetailModel())
+                
+                self?.loadHeaderview()
+                self?.setCollectBtnState(isCollect: model.IsFavorite ?? false)
+                self?.tableView.reloadData()
+            }
+            weakSelf.endRefreshAnimation()
+            
+            }, failure: {[weak self] (error) in
+                
+                guard let weakSelf = self else {return}
+                
+                weakSelf.endRefreshAnimation()
+                
+        }) {[weak self] (code, message) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.endRefreshAnimation()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
 }
 
 //MARK: CycleViewDelegate
@@ -157,7 +283,8 @@ extension RenterOfficebuildingFYDetailVC {
             return self.dataSourceArr[section].count
             
         }else {
-            return 0
+            return self.dataSourceArr[section].count
+
         }
     }
     
@@ -169,11 +296,11 @@ extension RenterOfficebuildingFYDetailVC {
             case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailNameCell.reuseIdentifierStr) as? RenterDetailNameCell
                 cell?.selectionStyle = .none
-//                if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
-//                    cell?.viewModel = buildingViewModel
-//                }else {
-//                    cell?.model = self.buildingDetailModel?.building ?? FangYuanBuildingBuildingModel()
-//                }
+                if let buildingViewModel = self.buildingFYDetailViewModel?.houseViewModel {
+                    cell?.fyViewModel = buildingViewModel
+                }else {
+                    cell?.fyModel = self.buildingFYDetailModel?.house ?? FangYuanBuildingFYDetailHouseModel()
+                }
                 return cell ?? RenterDetailNameCell()
                 
             case FYDetailItemType.FYDetailItemTypeJointNameView:
@@ -182,22 +309,37 @@ extension RenterOfficebuildingFYDetailVC {
             case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr) as? RenterOfficebuildingFYDeatailCell
                 cell?.selectionStyle = .none
+                if let model = self.buildingFYDetailModel?.house?.basicInformation {
+                    cell?.model = model
+                }
                 return cell ?? RenterOfficebuildingFYDeatailCell()
                 
             case .FYDetailItemTypeHuxing:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingDeatailHuxingCell.reuseIdentifierStr) as? RenterOfficebuildingDeatailHuxingCell
                 cell?.selectionStyle = .none
+                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
+                    cell?.model = model
+                }
                 return cell ?? RenterOfficebuildingDeatailHuxingCell()
                 
             case FYDetailItemType.FYDetailItemTypeTraffic:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
                 cell?.selectionStyle = .none
-//                cell?.model = FangYuanBuildingBuildingModel()
+                if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                    cell?.viewModel = buildingViewModel
+                }
                 cell?.trafficBtnClick = {[weak self] (isup) in
                     self?.isTrafficUp = isup
                     self?.tableView.reloadData()
                 }
                 return cell ?? RenterDetailTrafficCell.init(frame: .zero)
+                
+            case FYDetailItemType.FYDetailItemTypeFeature:
+                let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
+                cell?.selectionStyle = .none
+                cell?.featureString = self.buildingFYDetailViewModel?.houseViewModel?.tagsString ?? ""
+                return cell ?? RenterFeatureCell.init(frame: .zero)
+                
                 
             case FYDetailItemType.FYDetailItemTypeAmbitusMating:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr) as? RenterAmbitusMatingCell
@@ -205,8 +347,6 @@ extension RenterOfficebuildingFYDetailVC {
                 cell?.selectModel = HouseSelectModel()
                 return cell ?? RenterAmbitusMatingCell()
                 
-            case FYDetailItemType.FYDetailItemTypeFeature:
-                return UITableViewCell.init(frame: .zero)
                 
             case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                 return UITableViewCell.init(frame: .zero)
@@ -217,7 +357,74 @@ extension RenterOfficebuildingFYDetailVC {
             case .FYDetailItemTypeShareServices:
                 return UITableViewCell()
             }
-        }else {
+        }else if self.model.btype == 2 {
+            let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
+            switch type {
+                
+            case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
+                let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailNameCell.reuseIdentifierStr) as? RenterDetailNameCell
+                cell?.selectionStyle = .none
+                if let buildingViewModel = self.buildingFYDetailViewModel?.houseViewModel {
+                    cell?.fyViewModel = buildingViewModel
+                }else {
+                    cell?.fyModel = self.buildingFYDetailModel?.house ?? FangYuanBuildingFYDetailHouseModel()
+                }
+                return cell ?? RenterDetailNameCell()
+                
+            case FYDetailItemType.FYDetailItemTypeJointNameView:
+                return UITableViewCell.init(frame: .zero)
+                
+            case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
+                let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr) as? RenterOfficebuildingFYDeatailCell
+                cell?.selectionStyle = .none
+                if let model = self.buildingFYDetailModel?.house?.basicInformation {
+                    cell?.model = model
+                }
+                return cell ?? RenterOfficebuildingFYDeatailCell()
+                
+            case .FYDetailItemTypeHuxing:
+                let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingDeatailHuxingCell.reuseIdentifierStr) as? RenterOfficebuildingDeatailHuxingCell
+                cell?.selectionStyle = .none
+                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
+                    cell?.model = model
+                }
+                return cell ?? RenterOfficebuildingDeatailHuxingCell()
+                
+            case FYDetailItemType.FYDetailItemTypeTraffic:
+                let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
+                cell?.selectionStyle = .none
+                //                cell?.model = FangYuanBuildingBuildingModel()
+                cell?.trafficBtnClick = {[weak self] (isup) in
+                    self?.isTrafficUp = isup
+                    self?.tableView.reloadData()
+                }
+                return cell ?? RenterDetailTrafficCell.init(frame: .zero)
+                
+            case FYDetailItemType.FYDetailItemTypeFeature:
+                let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
+                cell?.selectionStyle = .none
+                cell?.featureString = self.buildingFYDetailViewModel?.houseViewModel?.tagsString ?? ""
+                return cell ?? RenterFeatureCell.init(frame: .zero)
+                
+                
+            case FYDetailItemType.FYDetailItemTypeAmbitusMating:
+                let cell = tableView.dequeueReusableCell(withIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr) as? RenterAmbitusMatingCell
+                cell?.selectionStyle = .none
+                cell?.selectModel = HouseSelectModel()
+                return cell ?? RenterAmbitusMatingCell()
+                
+                
+            case FYDetailItemType.FYDetailItemTypeLianheOpenList:
+                return UITableViewCell.init(frame: .zero)
+                
+            case FYDetailItemType.FYDetailItemTypeFYList: //在租办公楼 -
+                return UITableViewCell.init(frame: .zero)
+                
+            case .FYDetailItemTypeShareServices:
+                return UITableViewCell()
+            }
+        }
+        else {
             return UITableViewCell()
         }
     }
@@ -238,16 +445,76 @@ extension RenterOfficebuildingFYDetailVC {
                 return RenterOfficebuildingFYDeatailCell.rowHeight()
                 
             case .FYDetailItemTypeHuxing:
-                return RenterOfficebuildingDeatailHuxingCell.rowHeight()
+                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
+                    if let height = model.textHeight {
+                        return RenterOfficebuildingDeatailHuxingCell.rowHeight() + height
+                    }else {
+                        return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
+                    }
+                }else {
+                    return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
+                }
                 
             case FYDetailItemType.FYDetailItemTypeAmbitusMating:
                 return 79 + (41 + 10) * 3
-            //            return 241 + huxingConstangHeight.constant
                 
             case FYDetailItemType.FYDetailItemTypeTraffic:
-                //                    return RenterDetailTrafficCell.rowHeight()
                 if isTrafficUp == true {
-                    return 40 + 30 * 2 + 1
+                    if let arr = buildingDetailViewModel?.buildingViewModel?.walkTimesubwayAndStationStringArr {
+                        return CGFloat(40 + 30 * arr.count + 1)
+                    }else {
+                        return 40 + 30 + 1
+                    }
+                }else {
+                    return 40 + 30 + 1
+                }
+                
+            case FYDetailItemType.FYDetailItemTypeFeature:
+                return RenterFeatureCell.rowHeight()
+
+            case FYDetailItemType.FYDetailItemTypeLianheOpenList:
+                return 0
+                
+            case FYDetailItemType.FYDetailItemTypeFYList:
+                return 0
+                
+            case .FYDetailItemTypeShareServices:
+                return 0
+            }
+        }else {
+            let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
+            switch type {
+                
+            case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
+                return RenterDetailNameCell.rowHeight()
+                
+            case FYDetailItemType.FYDetailItemTypeJointNameView:
+                return 0
+                
+            case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
+                return RenterOfficebuildingFYDeatailCell.rowHeight()
+                
+            case .FYDetailItemTypeHuxing:
+                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
+                    if let height = model.textHeight {
+                        return RenterOfficebuildingDeatailHuxingCell.rowHeight() + height
+                    }else {
+                        return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
+                    }
+                }else {
+                    return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
+                }
+                
+            case FYDetailItemType.FYDetailItemTypeAmbitusMating:
+                return 79 + (41 + 10) * 3
+                
+            case FYDetailItemType.FYDetailItemTypeTraffic:
+                if isTrafficUp == true {
+                    if let arr = buildingDetailViewModel?.buildingViewModel?.walkTimesubwayAndStationStringArr {
+                        return CGFloat(40 + 30 * arr.count + 1)
+                    }else {
+                        return 40 + 30 + 1
+                    }
                 }else {
                     return 40 + 30 + 1
                 }
@@ -264,8 +531,6 @@ extension RenterOfficebuildingFYDetailVC {
             case .FYDetailItemTypeShareServices:
                 return 0
             }
-        }else {
-            return 0
         }
     }
     
