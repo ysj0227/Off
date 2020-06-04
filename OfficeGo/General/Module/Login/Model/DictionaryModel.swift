@@ -17,10 +17,7 @@ class DictionaryModel: BaseModel {
     
     ///名称
     var dictCname: String?
-
-    required init() {
-        dictValue = 0
-        dictImg = ""
-        dictCname = ""
-    }
+    
+    ///房源详情 - 共享服务 - 黑色图标
+    var dictImgBlack: String?
 }

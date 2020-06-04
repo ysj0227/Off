@@ -68,12 +68,14 @@ class RenterOfficeDeatailCell: BaseTableViewCell {
         propertyCostsLabel.text = viewModel.propertyCosts
         internetLabel.text = viewModel.internet
         promoteSloganLabel.text = viewModel.promoteSlogan
+        
+        ruzhuQiyeConstantHeight.constant = viewModel.textHeight ?? 0
+
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        ruzhuQiyeConstantHeight.constant = 25
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -83,7 +85,7 @@ class RenterOfficeDeatailCell: BaseTableViewCell {
     }
     
     
-    func rowHeight() -> CGFloat {
-        return 493 - 25 + ruzhuQiyeConstantHeight.constant
+    class func rowHeight() -> CGFloat {
+        return 493 - 25
     }
 }

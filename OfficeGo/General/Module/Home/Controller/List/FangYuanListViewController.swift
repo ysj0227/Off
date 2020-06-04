@@ -237,11 +237,14 @@ class FangYuanListViewController: BaseTableViewController {
             //房源特色 - 两者都有
             var featureArr: [String] = []
             
+            //楼盘不要工位数 - 网点要
             //联合办公
             if btype == 2 {
                 
                 gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
                 
+                params["seats"] = gongweiExtentStr as AnyObject?
+
                 zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
                 
                 //房源特色 - 两者都有
@@ -252,9 +255,7 @@ class FangYuanListViewController: BaseTableViewController {
                 }
                 
             }else if btype == 1 {
-                
-                gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweiofficeBuildingExtentModel.highValue ?? 0)
-                
+                                
                 zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
                 
                 //办公室 - 面积传值
@@ -279,7 +280,6 @@ class FangYuanListViewController: BaseTableViewController {
                 }
             }
             
-            params["seats"] = gongweiExtentStr as AnyObject?
             params["dayPrice"] = zujinExtentStr as AnyObject?
             
             //房源特色 - 两者都有

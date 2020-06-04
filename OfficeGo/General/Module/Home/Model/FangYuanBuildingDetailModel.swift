@@ -228,6 +228,31 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             
             avgDayPriceOpenStationString = "¥" + String(format: "%.0f", model.avgDayPriceOpenStation ?? 0) + "/位/月"
             
+            
+            ///开放工位和共享服务之后网点有
+            model.openStationMap?.btype = model.btype
+           //详情 - 包含 开放工位
+           model.openStationMap?.officeType = 2
+           openStationViewModel = FangYuanBuildingOpenStationViewModel.init(model: model.openStationMap ?? FangYuanBuildingOpenStationModel())
+           
+           
+           //共享服务 - 显示用黑色的图标
+           if let arr = model.basicServices {
+               basicServicesString = []
+               for service in arr {
+                   basicServicesString?.append(service.dictImgBlack ?? "")
+               }
+           }
+           
+           basicServices = model.basicServices
+           
+           if let arr = model.corporateServices {
+               corporateServicesString = []
+               for service in arr {
+                   corporateServicesString?.append(service.dictImgBlack ?? "")
+               }
+           }
+           corporateServices = model.corporateServices
         }
         
         let timeStr = "步行"
@@ -267,30 +292,6 @@ class FangYuanBuildingBuildingViewModel: NSObject {
                 
             }
         }
-        
-        model.openStationMap?.btype = model.btype
-        //详情 - 包含 开放工位
-        model.openStationMap?.officeType = 2
-        openStationViewModel = FangYuanBuildingOpenStationViewModel.init(model: model.openStationMap ?? FangYuanBuildingOpenStationModel())
-        
-        
-        //共享服务
-        if let arr = model.basicServices {
-            basicServicesString = []
-            for service in arr {
-                basicServicesString?.append(service.dictImg ?? "")
-            }
-        }
-        
-        basicServices = model.basicServices
-        
-        if let arr = model.corporateServices {
-            corporateServicesString = []
-            for service in arr {
-                corporateServicesString?.append(service.dictImg ?? "")
-            }
-        }
-        corporateServices = model.corporateServices
         
     }
 }
@@ -376,6 +377,9 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
     ///宣传口号-市中心，交通便利
     var promoteSlogan : String?
     
+    //宣传口号简介高度
+    var textHeight: CGFloat?
+    
     init(model:FangYuanBuildingIntroductionModel) {
         
         airDefaultConditioning = "常规:" + "\(model.airConditioning ?? "")"
@@ -404,8 +408,14 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
         
         internet = model.internet ?? ""
         
-        promoteSlogan = model.promoteSlogan ?? ""
+        promoteSlogan = model.promoteSlogan ?? "--"
         
+        let size: CGSize = model.promoteSlogan?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_13, lines: 0) ?? CGSize(width: kWidth - left_pending_space_17 * 2, height: 25)
+        if size.height < 25 {
+            textHeight = 25
+        }else{
+            textHeight = size.height
+        }
     }
 }
 

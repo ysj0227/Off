@@ -305,7 +305,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         self.tableView.register(UINib.init(nibName: RenterOfficeDeatailCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterOfficeDeatailCell.reuseIdentifierStr)
         
         //周边配套
-//        self.tableView.register(UINib.init(nibName: RenterAmbitusMatingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr)
+        //        self.tableView.register(UINib.init(nibName: RenterAmbitusMatingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr)
         
         //开放工位 - 独立办公室
         self.tableView.register(UINib.init(nibName: RenterDetailFYListCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterDetailFYListCell.reuseIdentifierStr)
@@ -548,8 +548,11 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
                     let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficeDeatailCell.reuseIdentifierStr) as? RenterOfficeDeatailCell
                     cell?.selectionStyle = .none
-                    cell?.ruzhuQiyeConstantHeight.constant = 50
-                    cell?.model = self.buildingDetailModel?.introduction ?? FangYuanBuildingIntroductionModel()
+                    if let introductionViewModel = self.buildingDetailViewModel?.introductionViewModel {
+                        cell?.viewModel = introductionViewModel
+                    }else {
+                        cell?.model = self.buildingDetailModel?.introduction ?? FangYuanBuildingIntroductionModel()
+                    }
                     return cell ?? RenterOfficeDeatailCell()
                     
                 case FYDetailItemType.FYDetailItemTypeAmbitusMating:
@@ -656,8 +659,6 @@ extension RenterOfficebuildingJointDetailVC {
                     }else {
                         cell?.model = self.buildingDetailModel?.introduction ?? FangYuanBuildingIntroductionModel()
                     }
-                    cell?.model = self.buildingDetailModel?.introduction ?? FangYuanBuildingIntroductionModel()
-                    cell?.ruzhuQiyeConstantHeight.constant = 50
                     return cell ?? RenterOfficeDeatailCell()
                     
                 case FYDetailItemType.FYDetailItemTypeAmbitusMating:
@@ -764,12 +765,17 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeFYList:
                     return 0
                 case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                    //                return RenterOfficeDeatailCell.rowHeight()
-                    //                return 493 - 25 + ruzhuQiyeConstantHeight.constant
-                    return 493 - 25 + 50
+                    if let introductionViewModel = self.buildingDetailViewModel?.introductionViewModel {
+                        if let height = introductionViewModel.textHeight {
+                            return RenterOfficeDeatailCell.rowHeight() + height
+                        }else {
+                            return RenterOfficeDeatailCell.rowHeight() + 25
+                        }
+                    }else {
+                        return RenterOfficeDeatailCell.rowHeight() + 25
+                    }
                 case FYDetailItemType.FYDetailItemTypeAmbitusMating:
                     return 79 + (41 + 10) * 3
-                //            return 241 + huxingConstangHeight.constant
                 case .FYDetailItemTypeShareServices:
                     return RenterShareServiceCell.rowHeight()
                 case FYDetailItemType.FYDetailItemTypeHuxing:
@@ -1074,7 +1080,7 @@ class RenterDetailSourceView: UIView {
     
     var model: FangYuanBuildingDetailModel = FangYuanBuildingDetailModel() {
         didSet {
-
+            
             if let imgArr = model.imgUrl {
                 var arr: [String] = []
                 for imgModel in imgArr {
@@ -1098,7 +1104,7 @@ class RenterDetailSourceView: UIView {
     
     var FYModel: FangYuanBuildingFYDetailModel = FangYuanBuildingFYDetailModel() {
         didSet {
-
+            
             if let imgArr = FYModel.imgUrl {
                 var arr: [String] = []
                 for imgModel in imgArr {
@@ -1135,7 +1141,7 @@ class RenterDetailSourceView: UIView {
         view.backgroundColor = kAppClearColor
         return view
     }()
-
+    
     var playerModel: WMPlayerModel = WMPlayerModel() {
         didSet {
             setPlayer()

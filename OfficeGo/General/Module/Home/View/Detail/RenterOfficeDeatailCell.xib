@@ -330,7 +330,7 @@
                 <outlet property="liftStringLabel" destination="Vva-hg-cW9" id="D7g-uX-Gi5"/>
                 <outlet property="parkingSpaceLabel" destination="Ugf-a9-OjI" id="N1m-Mu-Ylc"/>
                 <outlet property="parkingSpaceRentLabel" destination="hZp-MB-eBz" id="zjc-S7-u1e"/>
-                <outlet property="promoteSloganLabel" destination="vAc-xD-Qrh" id="pEg-Ze-Yrl"/>
+                <outlet property="promoteSloganLabel" destination="T5a-My-VUz" id="mgd-bH-41H"/>
                 <outlet property="propertyCostsLabel" destination="Osd-kd-1l7" id="otV-Ow-SON"/>
                 <outlet property="propertyLabel" destination="mo4-mM-NAw" id="3q6-4Y-Lpf"/>
                 <outlet property="ruzhuQiyeConstantHeight" destination="Svh-GO-Lej" id="27b-su-lRq"/>
