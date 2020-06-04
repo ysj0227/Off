@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 enum HouseTypeEnum: String {
-    case allEnum = "所有"
+    case allEnum = "全部"
     case officeBuildingEnum = "办公楼"
     case jointOfficeEnum = "联合办公"
 }

@@ -160,7 +160,7 @@ extension RenterHouseScheduleViewController {
             make.top.bottom.equalToSuperview()
         }
         titleview?.rightButton.layoutButton(.imagePositionRight, margin: 2)
-        titleview?.titleLabel.text = "看房日程"
+        titleview?.titleLabel.text = "看房行程"
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
         }

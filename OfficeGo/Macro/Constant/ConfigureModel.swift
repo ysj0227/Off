@@ -28,7 +28,7 @@ class MineConfigureModel: ConfigureModel {
         case .RenterMineTypeIWanttoFind:
             return "我想找"
         case .RenterMineTypeHouseSchedule:
-            return "看房日程"
+            return "看房行程"
         case .RenterMineTypeHelpAndFeedback:
             return "帮助与反馈"
         case .RenterMineTypeCusomers:

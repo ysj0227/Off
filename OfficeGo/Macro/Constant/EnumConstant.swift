@@ -45,7 +45,7 @@ public enum BottomBtnViewType {
 //租户我的
 public enum RenterMineType {
     case RenterMineTypeIWanttoFind      //我想找
-    case RenterMineTypeHouseSchedule    //看房日程
+    case RenterMineTypeHouseSchedule    //看房行程
     case RenterMineTypeHelpAndFeedback  //帮助与反馈
     case RenterMineTypeCusomers         //客服
     case RenterMineTypeRegisterAgent    //注册协议与隐私条款

@@ -179,7 +179,7 @@ class SSMineURL: NSObject {
 //  MARK:   --行程接口
 class SSScheduleURL: NSObject {
     
-    //看房日程
+    //看房行程
     static let getScheduleListApp = "schedule/getScheduleListApp"
     
     //约看房记录
