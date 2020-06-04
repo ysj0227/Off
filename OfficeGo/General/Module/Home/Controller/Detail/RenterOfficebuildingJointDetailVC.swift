@@ -13,6 +13,28 @@ import SwiftyJSON
 
 class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
+    //首页带过来的面积或者工位数
+    var shaixuanAreaSeatsString: String?
+        
+    //点击清楚按钮之后 - 隐藏筛选条件
+    var isClearCondition: Bool = false {
+        didSet {
+            if isClearCondition == true {
+                shaixuanConditionView.isHidden = true
+                shaixuanConditionView.removeFromSuperview()
+            }else {
+                
+            }
+        }
+    }
+
+    
+    //筛选条件
+    let shaixuanConditionView: ShaixuanConditionSelectView = {
+        let item = ShaixuanConditionSelectView(frame: CGRect(x: left_pending_space_17, y: 44, width: kWidth - left_pending_space_17 * 2, height: 40))
+        return item
+    }()
+    
     //表头
     let tableHeaderView: RenterDetailSourceView = {
         let item = RenterDetailSourceView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kWidth * 267 / 320.0))
@@ -46,10 +68,30 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     
     //列表传过来的模型
     var buildingModel: FangYuanListModel = FangYuanListModel() {
-        didSet {
+        didSet {            
+            
             bottomBtnView.leftBtn.isSelected  = false
             //1是办公楼，2是联合办公
             if buildingModel.btype == 1 {
+                
+                //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
+                if let params = shaiXuanParams {
+                    if let seats = params["area"] {
+                        let str = seats as? String
+                        if str?.count ?? 0 > 0 {
+                            shaixuanAreaSeatsString = str?.replacingOccurrences(of: ",", with: "~")
+                            isClearCondition = false
+                        }else {
+                            isClearCondition = true
+                        }
+                    }else {
+                        isClearCondition = true
+                    }
+                }else {
+                    isClearCondition = true
+                }
+                
+                
                 //办公楼 -
                 //名称基本信息 - 公交 特色
                 self.dataSourceArr.append([
@@ -74,6 +116,24 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                 refreshData()
                 
             }else if buildingModel.btype == 2 {
+                
+                //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
+                if let params = shaiXuanParams {
+                    if let seats = params["seats"] {
+                        let str = seats as? String
+                        if str?.count ?? 0 > 0 {
+                            shaixuanAreaSeatsString = str?.replacingOccurrences(of: ",", with: "~")
+                            isClearCondition = false
+                        }else {
+                            isClearCondition = true
+                        }
+                    }else {
+                        isClearCondition = true
+                    }
+                }else {
+                    isClearCondition = true
+                }
+                
                 //联合办公 -
                 //名称基本信息 - 开放工位和独立办公室
                 self.dataSourceArr.append([
@@ -177,6 +237,20 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     
     func setData() {
         
+        //筛选条件清除回掉
+        shaixuanConditionView.clearCallBack = { [weak self] in
+            
+            self?.isClearCondition = true
+            
+            //默认选择第一个全部获取筛选参数
+           self?.getClickItemString(index: 0)
+           
+           //点击头部 每次调用接口 - page设为1
+           self?.loadNewData()
+            
+        }
+        
+        //面积和工位选择
         itemview.itemSelectCallBack = {[weak self] (index) in
             
             //获取筛选参数
@@ -202,15 +276,35 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         params["buildingId"] = buildingModel.id as AnyObject?
         
         if buildingModel.btype == 1 { //办公楼
-            params["area"] = clickItemString as AnyObject?
+            ///只有点击清楚按钮之后 - 用自己选择的面积
+            if isClearCondition == true {
+                params["area"] = clickItemString as AnyObject?
+            }
         }else {
-            params["seats"] = clickItemString as AnyObject?
+            ///只有点击清楚按钮之后 - 用自己选择的面积
+            if isClearCondition == true {
+                params["seats"] = clickItemString as AnyObject?
+            }
         }
         SSNetworkTool.SSFYDetail.request_getBuildingFYList(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<FangYuanBuildingOpenStationModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
                 weakSelf.endRefreshWithCount(decoratedArray.count)
+                
+                //显示带过来的筛选条件
+                if weakSelf.isClearCondition != true {
+                    
+                    if let dataDic = response["data"] as? [String: Any] {
+                        let totalPage = dataDic["totalPage"]
+                        if weakSelf.buildingModel.btype == 1 { //办公楼
+                            weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")㎡ \n \(totalPage ?? 0)套"
+                        }else {
+                            weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")人 \n \(totalPage ?? 0)套"
+                        }
+                    }
+                    
+                }
             }
             
             }, failure: {[weak self] (error) in
@@ -419,6 +513,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
                 
                 self?.loadHeaderview()
                 self?.setCollectBtnState(isCollect: model.IsFavorite ?? false)
+                
                 self?.tableView.reloadData()
             }
             weakSelf.endRefreshAnimation()
@@ -830,10 +925,16 @@ extension RenterOfficebuildingJointDetailVC {
                 title.text = "在租写字楼"
                 title.font = FONT_15
                 view.addSubview(title)
-                if let factorMap = self.buildingDetailViewModel?.factorMap {
-                    itemview.factorMap = factorMap
+                
+                if isClearCondition != true {
+                    view.addSubview(shaixuanConditionView)
+                }else {
+                    if let factorMap = self.buildingDetailViewModel?.factorMap {
+                        itemview.factorMap = factorMap
+                    }
+                    view.addSubview(itemview)
                 }
-                view.addSubview(itemview)
+                
                 return view
             }else {
                 return UIView()
@@ -876,10 +977,15 @@ extension RenterOfficebuildingJointDetailVC {
                 title.text = "独立办公室"
                 title.font = FONT_15
                 view.addSubview(title)
-                if let factorMap = self.buildingDetailViewModel?.factorMap {
-                    itemview.factorMap = factorMap
+                
+                if isClearCondition != true {
+                   view.addSubview(shaixuanConditionView)
+                }else {
+                    if let factorMap = self.buildingDetailViewModel?.factorMap {
+                        itemview.factorMap = factorMap
+                    }
+                    view.addSubview(itemview)
                 }
-                view.addSubview(itemview)
                 return view
             }else {
                 return UIView()
@@ -1195,3 +1301,67 @@ class RenterDetailSourceView: UIView {
     }
     
 }
+
+
+//筛选条件view显示
+class ShaixuanConditionSelectView: UIView {
+    
+    var titleView: UILabel = {
+        var view = UILabel()
+        view.numberOfLines = 2
+        view.font = FONT_13
+        view.textColor = kAppBlueColor
+        return view
+    }()
+    
+    var clearBtn: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage.init(named: "closeBlue"), for: .normal)
+        return view
+    }()
+    
+    var clearCallBack:(() -> Void)?
+
+    @objc func btnClick(btn: UIButton) {
+
+        guard let block = clearCallBack else {
+            return
+        }
+        block()
+    }
+    
+    public override required init(frame: CGRect) {
+        super.init(frame: frame)
+        self.frame = frame
+                
+        self.clipsToBounds = true
+        self.layer.cornerRadius = button_cordious_2
+        self.layer.borderColor = kAppBlueColor.cgColor
+        self.layer.borderWidth = 1.0
+        
+        self.backgroundColor = kAppWhiteColor
+        
+        self.addSubview(titleView)
+        self.addSubview(clearBtn)
+        
+        clearBtn.addTarget(self, action: #selector(btnClick(btn:)), for: .touchUpInside)
+        
+        titleView.snp.makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.leading.equalTo(left_pending_space_17)
+        }
+        
+        clearBtn.snp.makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalTo(-left_pending_space_17)
+            make.width.equalTo(20)
+        }
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+}
+

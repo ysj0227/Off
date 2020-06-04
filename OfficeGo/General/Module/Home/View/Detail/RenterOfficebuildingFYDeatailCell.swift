@@ -58,6 +58,7 @@ class RenterOfficebuildingFYDeatailCell: BaseTableViewCell {
         earliestDeliveryLabel.text = model.earliestDelivery
         rentFreePeriodLabel.text = model.rentFreePeriod
         minimumLeaseLabel.text = model.minimumLease
+        
     }
     
     
