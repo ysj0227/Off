@@ -565,7 +565,7 @@ extension RenterOfficebuildingJointDetailVC {
             }else {
                 return self.dataSourceArr[section].count
             }
-        }else {
+        }else if self.buildingModel.btype == 2 {
             if section == 0 {
                 //开放工位
                 return 2
@@ -583,6 +583,8 @@ extension RenterOfficebuildingJointDetailVC {
             }else {
                 return self.dataSourceArr[section].count
             }
+        }else {
+            return 0
         }
     }
     

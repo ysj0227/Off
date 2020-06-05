@@ -133,7 +133,6 @@ class BaseTableViewController: BaseViewController {
         //            tableView.reloadEmptyDataSet()
     }
     
-    
     @objc func footerEndRefreshing() {
         self.tableView.mj_footer?.endRefreshing()
     }

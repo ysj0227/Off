@@ -37,8 +37,8 @@ class FangYuanListViewController: BaseTableViewController {
     override func refreshData() {
         var params = [String:AnyObject]()
         
-        params["token"] = "" as AnyObject?
-        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+
         //商圈和地铁
         //商圈
         if recommendSelectModel.areaModel.selectedCategoryID == "1" {
@@ -313,7 +313,7 @@ extension FangYuanListViewController {
         cell?.selectionStyle = .none
         if self.dataSource.count > 0 {
             if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as! FangYuanListModel
+                cell?.model = model as? FangYuanListModel ?? FangYuanListModel()
             }
         }
         return cell ?? HouseListTableViewCell.init(frame: .zero)

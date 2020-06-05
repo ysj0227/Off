@@ -36,6 +36,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
     
     lazy var houseaddressIcon: BaseImageView = {
         let view = BaseImageView()
+        view.contentMode = .scaleAspectFit
         view.image = UIImage.init(named:"locationGray")
         return view
     }()
@@ -86,20 +87,74 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var isDuliOffice: Bool = false {
+    /**
+     ///开放工位
+     ///工位数 - 30工位
+     var openSeatsString : String?
+     ///月租金
+     var openMonthPriceString : String?
+     ///最短租期---6个月可租
+     var openMinimumLeaseString : String?
+     */
+    var model: FangYuanBuildingOpenStationModel = FangYuanBuildingOpenStationModel() {
         didSet {
-            reloadLayout()
+            viewModel = FangYuanBuildingOpenStationViewModel.init(model: model)
         }
     }
     
-    func reloadLayout() {
-        if isDuliOffice {
-            houseTagLabel.isHidden = true
-            secondItem.isHidden = true
-        }else {
+    var viewModel: FangYuanBuildingOpenStationViewModel = FangYuanBuildingOpenStationViewModel(model: FangYuanBuildingOpenStationModel()) {
+        didSet {
+            
+            setCellWithViewModel(viewModel: viewModel)
+        }
+    }
+    /**
+     ///面积
+     var buildingArea : String?
+     ///工位数
+     var buildinSeats : String?
+     var buildingDayPriceString : String?
+     ///月租金
+     var buildingMonthPriceString : String?
+     ///装修
+     var buildingDecoration : String?
+     ///楼层
+     var buildingFloor : String?
+     */
+    func setCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
+        
+        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: "wechat"))
+        houseNameLabel.text = viewModel.buildingName
+        houseAddressLabel.text = viewModel.addressString
+        
+        if viewModel.btype == 1 {
+            
             houseTagLabel.isHidden = false
             secondItem.isHidden = false
+            
+            firstItem.titleLabel.text = viewModel.buildingArea
+            firstItem.descripLabel.text = viewModel.buildinSeats
+            secondItem.titleLabel.text = viewModel.buildingDayPriceString
+            secondItem.descripLabel.text = viewModel.buildingMonthPriceString
+            thirdItem.titleLabel.text = viewModel.buildingDecoration
+            thirdItem.descripLabel.text = viewModel.buildingFloor
+            
+        }else if viewModel.btype == 2 {
+            houseTagLabel.isHidden = true
+            secondItem.isHidden = true
+            
+            firstItem.titleLabel.text = viewModel.individualAreaString
+            firstItem.descripLabel.text = viewModel.individualSeatsString
+            thirdItem.titleLabel.text = viewModel.openMonthPriceString ?? "0" + "/月"
+            thirdItem.descripLabel.text = viewModel.individualDayPriceString
         }
+        
+        //        mainImageView.setImage(with: viewModel.openStationViewModel?.mainPic ?? "", placeholder: UIImage(named: "wechat"))
+        //        leftTopLabel.text = viewModel.openStationViewModel?.openSeatsString
+        //        rightPriceLabel.text = viewModel.openStationViewModel?.openMonthPriceString
+        //        rightUnitLabel.text = "/位/月"
+        //        rightBottomUnitLabel.text = viewModel.openStationViewModel?.openMinimumLeaseString
+        
     }
     
     func setupViews() {
@@ -125,13 +180,13 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         houseNameLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(houseImageview.snp.trailing).offset(11)
             make.top.equalTo(houseImageview)
-//            make.height.equalTo(18)
+            //            make.height.equalTo(18)
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
         }
         houseaddressIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
             make.top.equalTo(houseNameLabel.snp.bottom).offset(6)
-            make.size.equalTo(CGSize(width: 12, height: 14))
+            make.size.equalTo(CGSize(width: 12, height: 18))
         }
         houseAddressLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(houseaddressIcon.snp.trailing).offset(4)
@@ -141,7 +196,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         let width = (kWidth - 79 - left_pending_space_17 * 2 - 11) / 3.0
         firstItem.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseAddressLabel.snp.bottom).offset(6)
+            make.top.equalTo(houseaddressIcon.snp.bottom).offset(6)
             make.width.equalTo(width)
         }
         secondItem.snp.makeConstraints { (make) in
@@ -175,20 +230,6 @@ class RenterCollectOfficeCell: BaseTableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-    }
-    
-    var itemModel: String = "" {
-        didSet {
-            houseImageview.setImage(with: "", placeholder: UIImage.init(named: "wechat"))
-            houseAddressLabel.text = "徐汇区 · 徐家汇"
-            houseNameLabel.text = "上海中心大厦"
-            firstItem.titleLabel.text = "119~2000㎡"
-            firstItem.descripLabel.text = "面积"
-            secondItem.titleLabel.text = "￥2 /㎡/天起"
-            secondItem.descripLabel.text = "租金"
-            thirdItem.titleLabel.text = "50套"
-            thirdItem.descripLabel.text = "在租房源"
-        }
     }
     
     class func rowHeight() -> CGFloat {

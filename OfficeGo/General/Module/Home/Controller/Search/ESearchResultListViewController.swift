@@ -1,8 +1,8 @@
 //
-//  RenterCollectOfficeBuuildingOrJointListViewController.swift
+//  ESearchResultListViewController.swift
 //  OfficeGo
 //
-//  Created by mac on 2020/5/14.
+//  Created by mac on 2020/6/5.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
@@ -10,10 +10,13 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 
-class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewController {
+class ESearchResultListViewController: BaseTableViewController {
     
-    //1为楼盘网点收藏，2为房源收藏
-    var type: Int?
+    var keywords: String? = "" {
+        didSet {
+            refreshData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,17 +28,12 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
     override func refreshData() {
         var params = [String:AnyObject]()
         
-        params["token"] = UserTool.shared.user_token as AnyObject
-        params["longitude"] = "" as AnyObject
-        params["latitude"] = "" as AnyObject
-        params["pageNo"] = self.pageNo as AnyObject
-        params["pageSize"] = self.pageSize as AnyObject
-        params["type"] = self.type as AnyObject
-        SSNetworkTool.SSCollect.request_getFavoriteListAPP(params: params, success: { [weak self] (response) in
+        params["keywords"] = keywords as AnyObject
+        SSNetworkTool.SSSearch.request_getsearchList(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<FangYuanListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
+            if let decoratedArray = JSONDeserializer<FangYuanSearchResultModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
-                weakSelf.endRefreshWithCount(decoratedArray.count)
+                weakSelf.tableView.reloadData()
             }
             
             }, failure: {[weak self] (error) in
@@ -59,33 +57,31 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
     
 }
 
-extension RenterCollectOfficeBuuildingOrJointListViewController {
+extension ESearchResultListViewController {
     
     @objc func requestSet() {
         
         isShowRefreshHeader = false
         
-        self.tableView.register(UINib.init(nibName: HouseListTableViewCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
-        
-        self.type = 1
-        
+        self.tableView.register(UINib.init(nibName: SearchResultTableViewCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: SearchResultTableViewCell.reuseIdentifierStr)
+                
         refreshData()
     }
     
     
 }
 
-extension RenterCollectOfficeBuuildingOrJointListViewController {
+extension ESearchResultListViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: HouseListTableViewCell.reuseIdentifierStr) as? HouseListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.reuseIdentifierStr) as? SearchResultTableViewCell
         cell?.selectionStyle = .none
         if self.dataSource.count > 0 {
             if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as! FangYuanListModel
+                cell?.model = model as? HouseFeatureModel
             }
         }
-        return cell ?? HouseListTableViewCell.init(frame: .zero)
+        return cell ?? SearchResultTableViewCell.init(frame: .zero)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -94,17 +90,17 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return HouseListTableViewCell.rowHeight()
+        return SearchResultTableViewCell.rowHeight()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.dataSource.count <= 0 {
             return
         }
-        if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
+        if let model = self.dataSource[indexPath.row] as? FangYuanSearchResultModel {
             let vc = RenterOfficebuildingJointDetailVC()
             vc.shaiXuanParams = [:]
-            vc.buildingModel = model
+//            vc.buildingModel = model
             self.navigationController?.pushViewController(vc, animated: true)
         }
         

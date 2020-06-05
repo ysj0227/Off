@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let resultCell = "resultCell"
+private let resultCell = SearchResultTableViewCell.reuseIdentifierStr
 
 class ResultTableViewController: UITableViewController {
 
@@ -22,7 +22,7 @@ class ResultTableViewController: UITableViewController {
         // 控制器根据所在界面的status bar，navigationbar，与tabbar的高度，不自动调整scrollview的 inset
         self.automaticallyAdjustsScrollViewInsets = false
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: resultCell)
+        tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: resultCell)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

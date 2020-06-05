@@ -282,9 +282,11 @@ extension RenterOfficebuildingFYDetailVC {
             //在租写字楼
             return self.dataSourceArr[section].count
             
-        }else {
+        }else if self.model.btype == 2 {
             return self.dataSourceArr[section].count
 
+        }else {
+            return 0
         }
     }
     

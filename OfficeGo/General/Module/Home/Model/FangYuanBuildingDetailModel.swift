@@ -448,7 +448,7 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
     }
 }
 
-///工位数模型
+///房源列表模型
 class FangYuanBuildingOpenStationModel: BaseModel {
     ///1是办公楼，2是联合办公
     var btype: Int?
@@ -456,6 +456,10 @@ class FangYuanBuildingOpenStationModel: BaseModel {
     var dayPrice : Float?
     var mainPic : String?
     
+    var buildingName : String?
+    
+    var businessDistrict : String?
+
     ///网点
     ///房源id
     var id : Int?
@@ -474,7 +478,7 @@ class FangYuanBuildingOpenStationModel: BaseModel {
     
     
 }
-///工位数viewmodel模型
+///房源列表viewmodel模型
 class FangYuanBuildingOpenStationViewModel: NSObject {
     ///1是办公楼，2是联合办公
     var btype: Int?
@@ -486,6 +490,9 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     
     var mainPic : String?
     
+    var buildingName : String?
+    
+    var addressString : String?
     
     ///开放工位
     ///工位数 - 30工位
@@ -525,7 +532,9 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
         btype = model.btype
         id = model.id
         mainPic = model.mainPic
-        
+        buildingName = model.buildingName
+        addressString = model.businessDistrict ?? ""
+
         if btype == 1 {
             buildingArea = String(format: "%.0f㎡", model.area ?? 0)
             let arr = model.simple?.split{$0 == ","}.map(String.init)
@@ -555,12 +564,6 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
                 openMonthPriceString = String(format: "¥%.0f", model.dayPrice ?? 0)
                 openMinimumLeaseString = "\(model.minimumLease ?? "")" + "个月起租"
             }
-            
-            
         }
-        
-        
-        
     }
-    
 }

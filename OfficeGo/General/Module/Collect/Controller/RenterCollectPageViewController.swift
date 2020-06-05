@@ -71,7 +71,7 @@ class RenterCollectPageViewController: BaseViewController {
     
     func customChildController() -> [UIViewController] {
         var temp:[UIViewController] = []
-        let vc1 = FangYuanListViewController()
+        let vc1 = RenterCollectOfficeBuuildingOrJointListViewController()
         let vc2 = RenterCollectOfficeListViewController()
         temp.append(vc1)
         temp.append(vc2)

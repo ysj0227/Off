@@ -12,6 +12,9 @@
 		042CE446246A3387006243DD /* RenterHeaderItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CE445246A3387006243DD /* RenterHeaderItemSelectView.swift */; };
 		042CE44B246A66DD006243DD /* RenterDetailFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CE449246A66DD006243DD /* RenterDetailFYListCell.swift */; };
 		042CE44C246A66DD006243DD /* RenterDetailFYListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042CE44A246A66DD006243DD /* RenterDetailFYListCell.xib */; };
+		042D46B32489E6D0003B6305 /* FangYuanSearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B22489E6D0003B6305 /* FangYuanSearchResultModel.swift */; };
+		042D46B52489F974003B6305 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B42489F974003B6305 /* SearchResultTableViewCell.swift */; };
+		042D46B7248A2138003B6305 /* ESearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */; };
 		042ECDB0247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */; };
 		04301F45247D0CD70047B70F /* WechatExchangeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */; };
 		04301F47247D0D030047B70F /* PhoneExchangeStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */; };
@@ -245,6 +248,9 @@
 		042CE445246A3387006243DD /* RenterHeaderItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterHeaderItemSelectView.swift; sourceTree = "<group>"; };
 		042CE449246A66DD006243DD /* RenterDetailFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterDetailFYListCell.swift; sourceTree = "<group>"; };
 		042CE44A246A66DD006243DD /* RenterDetailFYListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RenterDetailFYListCell.xib; sourceTree = "<group>"; };
+		042D46B22489E6D0003B6305 /* FangYuanSearchResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FangYuanSearchResultModel.swift; sourceTree = "<group>"; };
+		042D46B42489F974003B6305 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESearchResultListViewController.swift; sourceTree = "<group>"; };
 		042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewingStatusMessage.swift; sourceTree = "<group>"; };
 		04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WechatExchangeMessage.swift; sourceTree = "<group>"; };
 		04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneExchangeStatusMessage.swift; sourceTree = "<group>"; };
@@ -505,6 +511,7 @@
 				046AF994246E5E8800E49D60 /* RenterSearchViewController.swift */,
 				046AF993246E5E8800E49D60 /* ResultTableViewController.swift */,
 				046AF997246E5F0500E49D60 /* SearchResultListViewController.swift */,
+				042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -545,6 +552,7 @@
 				040FACC7246D7039001429C5 /* UICollectionViewLeftAlignedLayout.m */,
 				04E69B60246D6BAD00A0ABCA /* RenterSearchHistoryCollectionCell.swift */,
 				040FACCF246E39AB001429C5 /* RenterSearchRecommendCollectionCell.swift */,
+				042D46B42489F974003B6305 /* SearchResultTableViewCell.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -747,6 +755,7 @@
 				04810B7F24811DEC00F35FBE /* BannerModel.swift */,
 				0499C37E2487C987000A4EFE /* FangYuanBuildingDetailModel.swift */,
 				0499C3802487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift */,
+				042D46B22489E6D0003B6305 /* FangYuanSearchResultModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1463,6 +1472,7 @@
 				0499C3812487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift in Sources */,
 				04D9D967246CE45900211B40 /* RenterCollectOfficeBuuildingOrJointListViewController.swift in Sources */,
 				04D9D965246CE3A900211B40 /* RenterCollectOfficeListViewController.swift in Sources */,
+				042D46B7248A2138003B6305 /* ESearchResultListViewController.swift in Sources */,
 				EE6070DD2468FE2A0098CAC2 /* RenterAmbitusMatingCell.swift in Sources */,
 				EEE87B3924558F6A00C03424 /* StringExtensions.swift in Sources */,
 				EEE0D93D2465581200E5C77B /* Device.swift in Sources */,
@@ -1497,6 +1507,7 @@
 				04301F4B247D0D450047B70F /* ScheduleViewingMessage.swift in Sources */,
 				EE4914DA24692D62008D5689 /* LLSegmentBaseItemView.swift in Sources */,
 				EEE87B6B24559BEF00C03424 /* UserInfo.swift in Sources */,
+				042D46B32489E6D0003B6305 /* FangYuanSearchResultModel.swift in Sources */,
 				EEE87AEC2455856300C03424 /* TableViewController.swift in Sources */,
 				EEE0D96124655DE000E5C77B /* Array+Extension.swift in Sources */,
 				EEE87B5624558F9800C03424 /* ThorNavigationView.swift in Sources */,
@@ -1533,6 +1544,7 @@
 				04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */,
 				0437CFB7247E1A5D0015C355 /* SSAPI.swift in Sources */,
 				046AF998246E5F0500E49D60 /* SearchResultListViewController.swift in Sources */,
+				042D46B52489F974003B6305 /* SearchResultTableViewCell.swift in Sources */,
 				EEB1F9C42458299D000500A3 /* CycleView.swift in Sources */,
 				EEE87B5E24558F9800C03424 /* BaseImageView.swift in Sources */,
 				EEE87B6224558F9800C03424 /* ErrorView.swift in Sources */,

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import HandyJSON
+import SwiftyJSON
+
 class RenterSearchViewController: BaseViewController {
     var layout: UICollectionViewLeftAlignedLayout = {
         let ll = UICollectionViewLeftAlignedLayout.init()
@@ -18,7 +21,14 @@ class RenterSearchViewController: BaseViewController {
         return ll
     }()
     
+    var searchResultVC: ESearchResultListViewController?
+    
     var collectionView: UICollectionView?
+    
+    var historyDatasource: [SearchHistoryModel?] = []
+    
+    var findHotDatasource: [DictionaryModel?] = []
+    
     
     var dataArr: [HouseFeatureModel] = []
     
@@ -31,14 +41,17 @@ class RenterSearchViewController: BaseViewController {
     }
     
     func setupView() {
+        
+        searchResultVC = ESearchResultListViewController.init()
+        self.view.addSubview(searchResultVC?.view ?? UIView())
+        
         titleview = ThorNavigationView.init(type: .homeSearchRightBlue)
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .homeSearchRightBlue))
         self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .homeSearchRightBlue))
         titleview?.rightBtnClickBlock = { [weak self] in
             self?.navigationController?.dismiss(animated: true, completion: nil)
         }
-        titleview?.searchBarView.searchTextfiled.delegate = self
-        
+
         collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: layout)
         collectionView?.backgroundColor = kAppWhiteColor
         collectionView?.delegate = self
@@ -57,59 +70,107 @@ class RenterSearchViewController: BaseViewController {
             make.top.equalTo(kNavigationHeight)
             make.leading.bottom.trailing.equalToSuperview()
         })
+        
+        searchResultVC?.view.snp.makeConstraints({ (make) in
+            make.top.equalTo(kNavigationHeight)
+            make.leading.bottom.trailing.equalToSuperview()
+        })
     }
     
     func setData() {
-        let model = HouseFeatureModel()
-        model.dictCname = "ji"
-        let model1 = HouseFeatureModel()
-        model1.dictCname = "呃呃呃"
-        let model2 = HouseFeatureModel()
-        model2.dictCname = "俄方发个哥哥去"
-        let model3 = HouseFeatureModel()
-        model3.dictCname = "AAAA"
-        let model4 = HouseFeatureModel()
-        model4.dictCname = "热门"
-        let model5 = HouseFeatureModel()
-        model5.dictCname = "方法方法"
-        let model6 = HouseFeatureModel()
-        model6.dictCname = "上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦上海大厦"
-        let model7 = HouseFeatureModel()
-        model7.dictCname = "测试擦好姑娘数据- - - -- - 的年纪爱护肤IE"
-        let model8 = HouseFeatureModel()
-        model8.dictCname = "宝贝宝贝"
-        let model9 = HouseFeatureModel()
-        model9.dictCname = "恶吻吻吻"
-        let model10 = HouseFeatureModel()
-        model10.dictCname = "饿"
-        dataArr.append(model)
-        dataArr.append(model1)
-        dataArr.append(model2)
-        dataArr.append(model3)
-        dataArr.append(model4)
-        dataArr.append(model5)
-        dataArr.append(model6)
-        dataArr.append(model7)
-        dataArr.append(model8)
-        dataArr.append(model9)
-        dataArr.append(model10)
-        collectionView?.reloadData()
         
+        requestGetHistory()
+        
+        requestGetHotFind()
     }
 }
-
+extension RenterSearchViewController {
+    
+    //MARK: 历史记录
+    func requestGetHistory() {
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        SSNetworkTool.SSSearch.request_getHistorySearchKeywords(params: params, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<SearchHistoryModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                
+                weakSelf.historyDatasource = decoratedArray
+                weakSelf.collectionView?.reloadData()
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //MARK: 发现- 热门关键字
+    func requestGetHotFind() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumhotKeywords, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                weakSelf.findHotDatasource = decoratedArray
+                weakSelf.collectionView?.reloadData()
+            }
+            
+            }, failure: {(error) in
+                
+        }) {(code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+}
 extension RenterSearchViewController :UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         clickPushToSearchListVc(sarchStr: textField.text ?? "")
         return true
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.text?.isBlankString ?? false {
+            
+        }else {
+            searchResultVC?.keywords = textField.text
+        }
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        searchResultVC?.view.isHidden = false
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        searchResultVC?.view.isHidden = true
+        return true
+    }
+    
 }
 
 extension RenterSearchViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 || indexPath.section == 1 {
+        if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterSearchHistoryCollectionCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterSearchHistoryCollectionCell
-            cell?.model = dataArr[indexPath.item]
+            cell?.historyModel = historyDatasource[indexPath.item] ?? SearchHistoryModel()
+            //点击了某个item
+            cell?.buttonCallBack = {[weak self] (str) in
+                self?.clickPushToSearchListVc(sarchStr: str)
+            }
+            return cell ?? RenterSearchHistoryCollectionCell()
+        }else if indexPath.section == 1 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterSearchHistoryCollectionCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterSearchHistoryCollectionCell
+            cell?.findHotModel = findHotDatasource[indexPath.item] ?? DictionaryModel()
             //点击了某个item
             cell?.buttonCallBack = {[weak self] (str) in
                 self?.clickPushToSearchListVc(sarchStr: str)
@@ -117,7 +178,6 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
             return cell ?? RenterSearchHistoryCollectionCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterSearchRecommendCollectionCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterSearchRecommendCollectionCell
-            cell?.model = dataArr[indexPath.item]
             //点击了某个item
             cell?.buttonCallBack = {[weak self] (str) in
                 self?.clickPushToSearchListVc(sarchStr: str)
@@ -129,11 +189,17 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        //        return 3
+        return 2
     }
     //返回多少个cell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataArr.count
+        if section == 0 {
+            return historyDatasource.count
+        }else if section == 1 {
+            return findHotDatasource.count
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -143,10 +209,14 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if indexPath.section == 0 || indexPath.section == 1 {
-            let model: HouseFeatureModel
-            model = dataArr[indexPath.item]
-            return RenterSearchHistoryCollectionCell.sizeWithData(model: model)
+        if indexPath.section == 0 {
+            
+            return RenterSearchHistoryCollectionCell.sizeWithHistoryModelData(historyModel: historyDatasource[indexPath.item] ?? SearchHistoryModel())
+            
+        }else if indexPath.section == 1 {
+            
+            return RenterSearchHistoryCollectionCell.sizeWithFindHotData(findHotModel: findHotDatasource[indexPath.item] ?? DictionaryModel())
+
         }else {
             return CGSize(width: kWidth - left_pending_space_17, height: 60)
         }
@@ -176,13 +246,14 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
                 header?.buttonCallBack = {[weak self] (str) in
                     //刷新数据
                 }
-            }else  if indexPath.section == 2 {
+            }
+            /*else  if indexPath.section == 2 {
                 header?.titleLabel.text = "推荐"
                 header?.headerButton.setImage(UIImage.init(named: ""), for: .normal)
                 header?.buttonCallBack = {[weak self] (str) in
                     //刷新数据
                 }
-            }
+            }*/
             return header ?? UICollectionReusableView()
         }
         

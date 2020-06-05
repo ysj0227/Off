@@ -158,15 +158,45 @@ extension SSNetworkTool {
             SSNetworkTool.requestVersion(type: .post,urlStr:"\(SSAPI.SSApiHost)\(url)", params:params,success:success,failed:failure,error:error)
         }
     }
-
+    
     //  MARK:   收藏
     class SSCollect: NSObject {
         
+        //添加收藏
         static func request_addCollection(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSCollectURL.addCollection)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
                 success,failed:failure,error:error)
         }
+        
+        //获取收藏列表
+        static func request_getFavoriteListAPP(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSCollectURL.getFavoriteListAPP)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+    }
+    
+    
+    //  MARK:   --搜索
+    class SSSearch: NSObject {
+        
+        //全局搜索接口
+        static func request_getsearchList(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSSearchURL.getsearchList)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        //查询历史记录
+        static func request_getHistorySearchKeywords(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSSearchURL.getgetSearchKeywords)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        //查询发现 - 热门关键字 - 字典接口
         
     }
     
@@ -223,13 +253,15 @@ extension SSNetworkTool {
         static func request_getSubwayList(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format:SSBasicURL.getSubwayList)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
-                success,failed:failure,error:error)        }
+                success,failed:failure,error:error)
+        }
         
         //区域商圈接口
         static func request_getDistrictList(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format:SSBasicURL.getDistrictList)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
-                success,failed:failure,error:error)        }
+                success,failed:failure,error:error)
+        }
         
         //获取字典接口
         static func request_getDictionary(code: DictionaryCodeEnum,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
@@ -237,7 +269,8 @@ extension SSNetworkTool {
             params["code"] = code.rawValue as AnyObject?
             let url = String.init(format:SSBasicURL.getDictionary)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
-                success,failed:failure,error:error)        }
+                success,failed:failure,error:error)
+        }
         
     }
     

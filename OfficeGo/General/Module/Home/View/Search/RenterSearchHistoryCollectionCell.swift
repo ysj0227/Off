@@ -32,17 +32,34 @@ class RenterSearchHistoryCollectionCell:  BaseCollectionViewCell {
         return view
     }()
     
-    var model: HouseFeatureModel? {
+    var findHotModel: DictionaryModel? {
         didSet {
-            titleLabel.setTitle(model?.dictCname, for: .normal)
+            titleLabel.setTitle(findHotModel?.dictCname, for: .normal)
         }
     }
     
-    class func sizeWithData(model: HouseFeatureModel) -> CGSize {
-        if model.dictCname?.count ?? 0 <= 0 {
+    
+    class func sizeWithFindHotData(findHotModel: DictionaryModel) -> CGSize {
+        if findHotModel.dictCname?.count ?? 0 <= 0 {
             return .zero
         }
-        let width:CGFloat = model.dictCname?.boundingRect(with: CGSize(width: kWidth, height: 24), font: FONT_LIGHT_11, lineSpacing: 0).width ?? 0.0
+        let width:CGFloat = findHotModel.dictCname?.boundingRect(with: CGSize(width: kWidth, height: 24), font: FONT_LIGHT_11, lineSpacing: 0).width ?? 0.0
+        return CGSize(width: width + 30.0, height: 24)
+    }
+    
+    //历史
+    var historyModel: SearchHistoryModel? {
+        didSet {
+            titleLabel.setTitle(historyModel?.keywords, for: .normal)
+        }
+    }
+    
+    
+    class func sizeWithHistoryModelData(historyModel: SearchHistoryModel) -> CGSize {
+        if historyModel.keywords?.count ?? 0 <= 0 {
+            return .zero
+        }
+        let width:CGFloat = historyModel.keywords?.boundingRect(with: CGSize(width: kWidth, height: 24), font: FONT_LIGHT_11, lineSpacing: 0).width ?? 0.0
         return CGSize(width: width + 30.0, height: 24)
     }
     

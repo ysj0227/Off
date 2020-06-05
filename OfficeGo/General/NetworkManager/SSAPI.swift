@@ -112,6 +112,20 @@ enum DictionaryCodeEnum: String {
     case codeEnumhotKeywords = "hotKeywords"
 }
 
+
+//  MARK:   --搜索
+class SSSearchURL: NSObject {
+    
+    //全局搜索接口
+    static let getsearchList = "esearch/searchListApp"
+    
+    //查询历史记录
+    static let getgetSearchKeywords = "esearch/getSearchKeywords"
+    
+    //查询发现 - 热门关键字 - 字典接口
+    
+}
+
 //  MARK:   --首页
 class SSHomeURL: NSObject {
     
@@ -126,8 +140,12 @@ class SSHomeURL: NSObject {
 //  MARK:   --收藏
 class SSCollectURL: NSObject {
     
+    //添加收藏
     static let addCollection = "favorite/addCollectionAPP"
     
+    //收藏列表
+    static let getFavoriteListAPP = "favorite/getFavoriteListApp"
+       
 }
 
 //  MARK:   --详情
