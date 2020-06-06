@@ -72,6 +72,18 @@ class FangYuanBuildingFYDetailHouseModel: BaseModel {
     //用户id 发布者
     var userId : String?
     
+    ///增加的公交和区域商圈
+    ///距离最近地铁达到时间
+    var nearbySubwayTime : [String]?
+    ///地铁线颜色
+    var stationColours : [String]?
+    ///站名
+    var stationNames : [String]?
+    ///距离最近地铁先，进的在前
+    var stationline : [String]?
+    
+    var businessDistrict : String?
+
 }
 class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     ///1是办公楼，2是联合办公
@@ -107,6 +119,11 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     
     var tagsString : String?
     
+    ///区域和商圈 徐汇区 · 徐家汇
+    var addressString: String?
+    
+    var walkTimesubwayAndStationStringArr: [String]?  //步行5分钟到 | 2号线 ·东昌路站
+    
     ///特色高度
     var tagsHeight: CGFloat?
     
@@ -115,6 +132,8 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     
     init(model:FangYuanBuildingFYDetailHouseModel) {
         
+        super.init()
+
         btype = model.btype
         
         buildingId = model.buildingId
@@ -191,6 +210,46 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
             tagsHeight = topY
         }
         
+        let timeStr = "步行"
+        guard let nearbySubwayTime = model.nearbySubwayTime else {
+            return
+        }
+        
+        let miniuteStr = "分钟到 | "
+        
+        guard let stationline = model.stationline else {
+            return
+        }
+        
+        let xianStr = "号线 ·"
+        guard let stationNames = model.stationNames else {
+            return
+        }
+        
+        let zhanStr = "站"
+        
+        if nearbySubwayTime.count == stationline.count && nearbySubwayTime.count == stationNames.count && nearbySubwayTime.count > 0 {
+            
+            walkTimesubwayAndStationStringArr = []
+            
+            nearbySubwayTime.forEach { (time) in
+                let index = nearbySubwayTime.firstIndex(of: time)
+                var timestring = timeStr
+                timestring.append(time)
+                timestring.append(miniuteStr)
+                let stationlineStr = stationline[index ?? 0]
+                timestring.append(stationlineStr)
+                timestring.append(xianStr)
+                let stationName = stationNames[index ?? 0]
+                timestring.append(stationName)
+                timestring.append(zhanStr)
+                self.walkTimesubwayAndStationStringArr?.append(timestring)
+                
+            }
+        }
+        
+        addressString = model.businessDistrict ?? ""
+
     }
 }
 

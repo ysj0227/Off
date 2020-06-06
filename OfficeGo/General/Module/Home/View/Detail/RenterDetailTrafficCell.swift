@@ -63,6 +63,22 @@ class RenterDetailTrafficCell: BaseTableViewCell {
         addressLabel.text = viewModel.addressString
         addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
     }
+    
+    
+    
+    var fYViewModel: FangYuanBuildingFYDetailHouseViewModel = FangYuanBuildingFYDetailHouseViewModel(model: FangYuanBuildingFYDetailHouseModel()) {
+        didSet {
+            
+            setfYCellWithViewModel(viewModel: fYViewModel)
+        }
+    }
+    
+    func setfYCellWithViewModel(viewModel: FangYuanBuildingFYDetailHouseViewModel) {
+        
+        addressLabel.text = viewModel.addressString
+        addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
+    }
+
     func addLineLabels(str: [String]) {
         trafficLineView.subviews.forEach { (view) in
             view.removeFromSuperview()

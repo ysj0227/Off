@@ -17,7 +17,7 @@ class RenterCollectOfficeListViewController: RenterCollectOfficeBuuildingOrJoint
         isShowRefreshHeader = false
         
         self.tableView.register(RenterCollectOfficeCell.self, forCellReuseIdentifier: RenterCollectOfficeCell.reuseIdentifierStr)
-
+        
         self.type = 2
         
         refreshData()
@@ -68,7 +68,7 @@ extension RenterCollectOfficeListViewController {
 }
 
 extension RenterCollectOfficeListViewController {
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RenterCollectOfficeCell.reuseIdentifierStr) as? RenterCollectOfficeCell
         cell?.selectionStyle = .none
@@ -77,20 +77,22 @@ extension RenterCollectOfficeListViewController {
         }
         return cell ?? HouseListTableViewCell.init(frame: .zero)
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
+        
         return RenterCollectOfficeCell.rowHeight()
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = FangYuanListModel()
-        let vc = RenterOfficebuildingJointDetailVC()
-
-        self.navigationController?.pushViewController(vc, animated: true)
+        //独立办公室
+        if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
+            let vc = RenterOfficebuildingFYDetailVC()
+            vc.model = model
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

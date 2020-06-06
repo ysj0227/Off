@@ -185,7 +185,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         }
         houseaddressIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseNameLabel.snp.bottom).offset(6)
+            make.top.equalTo(houseNameLabel.snp.bottom).offset(4)
             make.size.equalTo(CGSize(width: 12, height: 18))
         }
         houseAddressLabel.snp.makeConstraints { (make) in
@@ -196,7 +196,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         let width = (kWidth - 79 - left_pending_space_17 * 2 - 11) / 3.0
         firstItem.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseaddressIcon.snp.bottom).offset(6)
+            make.top.equalTo(houseaddressIcon.snp.bottom).offset(4)
             make.width.equalTo(width)
         }
         secondItem.snp.makeConstraints { (make) in

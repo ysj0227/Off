@@ -24,9 +24,6 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         return item
     }()
     
-    //楼盘详情viewmodel
-    var buildingDetailViewModel: FangYuanBuildingDetailViewModel?
-    
     //房源详情model
     var buildingFYDetailModel: FangYuanBuildingFYDetailModel?
     
@@ -327,8 +324,8 @@ extension RenterOfficebuildingFYDetailVC {
             case FYDetailItemType.FYDetailItemTypeTraffic:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
                 cell?.selectionStyle = .none
-                if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
-                    cell?.viewModel = buildingViewModel
+                if let houseViewModel = self.buildingFYDetailViewModel?.houseViewModel {
+                    cell?.fYViewModel = houseViewModel
                 }
                 cell?.trafficBtnClick = {[weak self] (isup) in
                     self?.isTrafficUp = isup
@@ -395,8 +392,8 @@ extension RenterOfficebuildingFYDetailVC {
             case FYDetailItemType.FYDetailItemTypeTraffic:
                let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
                 cell?.selectionStyle = .none
-                if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
-                    cell?.viewModel = buildingViewModel
+                if let houseViewModel = self.buildingFYDetailViewModel?.houseViewModel {
+                    cell?.fYViewModel = houseViewModel
                 }
                 cell?.trafficBtnClick = {[weak self] (isup) in
                     self?.isTrafficUp = isup
@@ -464,7 +461,7 @@ extension RenterOfficebuildingFYDetailVC {
                 
             case FYDetailItemType.FYDetailItemTypeTraffic:
                 if isTrafficUp == true {
-                    if let arr = buildingDetailViewModel?.buildingViewModel?.walkTimesubwayAndStationStringArr {
+                    if let arr = buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr {
                         return CGFloat(40 + 30 * arr.count + 1)
                     }else {
                         return 40 + 30 + 1
@@ -518,7 +515,7 @@ extension RenterOfficebuildingFYDetailVC {
                 
             case FYDetailItemType.FYDetailItemTypeTraffic:
                 if isTrafficUp == true {
-                    if let arr = buildingDetailViewModel?.buildingViewModel?.walkTimesubwayAndStationStringArr {
+                    if let arr = buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr {
                         return CGFloat(40 + 30 * arr.count + 1)
                     }else {
                         return 40 + 30 + 1

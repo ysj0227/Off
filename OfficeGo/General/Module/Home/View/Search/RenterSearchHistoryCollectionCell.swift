@@ -96,6 +96,7 @@ class RenterSearchCollectionViewHeader: UICollectionReusableView {
     
     lazy var headerButton: UIButton = {
         let view = UIButton()
+        view.imageView?.contentMode = .scaleAspectFit
         view.addTarget(self, action: #selector(btnClick), for: .touchUpInside)
         return view
     }()

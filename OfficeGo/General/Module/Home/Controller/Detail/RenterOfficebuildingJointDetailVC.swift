@@ -1108,7 +1108,6 @@ extension RenterOfficebuildingJointDetailVC {
                 if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
                     model.btype = 1
                     let vc = RenterOfficebuildingFYDetailVC()
-                    vc.buildingDetailViewModel = buildingDetailViewModel
                     vc.model = model
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
@@ -1123,7 +1122,6 @@ extension RenterOfficebuildingJointDetailVC {
                 if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
                     model.btype = 2
                     let vc = RenterOfficebuildingFYDetailVC()
-                    vc.buildingDetailViewModel = buildingDetailViewModel
                     vc.model = model
                     self.navigationController?.pushViewController(vc, animated: true)
                 }

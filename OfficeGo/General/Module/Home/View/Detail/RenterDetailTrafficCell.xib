@@ -33,6 +33,9 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="徐汇区 · 人民广场" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVj-A9-Pdv">
                         <rect key="frame" x="37" y="18" width="96" height="14.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="14.5" id="6xG-4Y-6BC"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -98,7 +101,7 @@
                 <outlet property="lookAllButton" destination="Gt3-CN-oVQ" id="iFF-7d-caF"/>
                 <outlet property="trafficLineView" destination="gus-0f-8y3" id="xg8-zA-UQz"/>
             </connections>
-            <point key="canvasLocation" x="73" y="57"/>
+            <point key="canvasLocation" x="263" y="62"/>
         </tableViewCell>
     </objects>
     <resources>
