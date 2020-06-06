@@ -97,6 +97,7 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.clipsToBounds = true
         lookAllButton.setTitle("全部站点", for: .normal)
         lookAllButton.setImage(UIImage(named: "downDirGray"), for: .normal)
         lookAllButton.layoutButton(.imagePositionRight, space: 4)
