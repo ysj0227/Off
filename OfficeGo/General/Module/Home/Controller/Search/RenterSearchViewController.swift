@@ -46,6 +46,18 @@ class RenterSearchViewController: BaseViewController {
         setData()
     }
     
+    @objc func valueDidChange() {
+        if titleview?.searchBarView.searchTextfiled.text?.isBlankString == true {
+            searchResultVC?.view.isHidden = true
+            searchResultVC?.keywords = ""
+        }else {
+            searchResultVC?.view.isHidden = false
+            searchResultVC?.keywords = titleview?.searchBarView.searchTextfiled.text
+
+        }
+        
+    }
+    
     func setupView() {
         
         titleview = ThorNavigationView.init(type: .homeSearchRightBlue)
@@ -57,7 +69,7 @@ class RenterSearchViewController: BaseViewController {
         titleview?.rightBtnClickBlock = { [weak self] in
             self?.navigationController?.dismiss(animated: true, completion: nil)
         }
-        
+        titleview?.searchBarView.searchTextfiled.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
         collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: layout)
         collectionView?.backgroundColor = kAppWhiteColor
         collectionView?.delegate = self
@@ -198,20 +210,6 @@ extension RenterSearchViewController :UITextFieldDelegate {
         return true
     }
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        searchResultVC?.view.isHidden = false
-        return true
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        textField.text = ""
-        searchResultVC?.view.isHidden = true
-        return true
-    }
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        searchResultVC?.view.isHidden = false
-        searchResultVC?.keywords = textField.text
-    }
 }
 
 extension RenterSearchViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
