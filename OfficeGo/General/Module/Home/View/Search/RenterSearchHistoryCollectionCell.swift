@@ -17,7 +17,12 @@ class RenterSearchHistoryCollectionCell:  BaseCollectionViewCell {
         guard let blockk = buttonCallBack else {
             return
         }
-        blockk("selectedIndex")
+        if let name = findHotModel?.dictCname {
+            blockk(name)
+        }
+        if let name = historyModel?.keywords {
+            blockk(name)
+        }
     }
     
     lazy var titleLabel: UIButton = {

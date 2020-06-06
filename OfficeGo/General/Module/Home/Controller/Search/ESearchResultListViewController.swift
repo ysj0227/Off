@@ -12,11 +12,17 @@ import SwiftyJSON
 
 class ESearchResultListViewController: BaseTableViewController {
     
+    /// 点击cell回调闭包
+    var callBack: (FangYuanListModel) -> () = {_ in }
+    
     var keywords: String? = "" {
         didSet {
+            dataSource.removeAll()
             refreshData()
         }
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +37,8 @@ class ESearchResultListViewController: BaseTableViewController {
         params["keywords"] = keywords as AnyObject
         SSNetworkTool.SSSearch.request_getsearchList(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<FangYuanSearchResultModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "list") {
-                weakSelf.dataSource = weakSelf.dataSource + decoratedArray
+            if let decoratedArray = JSONDeserializer<FangYuanSearchResultModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                weakSelf.dataSource = decoratedArray
                 weakSelf.tableView.reloadData()
             }
             
@@ -61,11 +67,10 @@ extension ESearchResultListViewController {
     
     @objc func requestSet() {
         
-        isShowRefreshHeader = false
+        isShowRefreshHeader = true
         
-        self.tableView.register(UINib.init(nibName: SearchResultTableViewCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: SearchResultTableViewCell.reuseIdentifierStr)
+        self.tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.reuseIdentifierStr)
                 
-        refreshData()
     }
     
     
@@ -78,7 +83,7 @@ extension ESearchResultListViewController {
         cell?.selectionStyle = .none
         if self.dataSource.count > 0 {
             if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as? HouseFeatureModel
+                cell?.model = model as? FangYuanSearchResultModel
             }
         }
         return cell ?? SearchResultTableViewCell.init(frame: .zero)
@@ -98,10 +103,11 @@ extension ESearchResultListViewController {
             return
         }
         if let model = self.dataSource[indexPath.row] as? FangYuanSearchResultModel {
-            let vc = RenterOfficebuildingJointDetailVC()
-            vc.shaiXuanParams = [:]
-//            vc.buildingModel = model
-            self.navigationController?.pushViewController(vc, animated: true)
+            let buildingModel = FangYuanListModel()
+            buildingModel.btype = model.buildType
+            buildingModel.id = model.bid
+            // 点击cell调用闭包
+            callBack(buildingModel)
         }
         
     }

@@ -10,46 +10,36 @@ import UIKit
 
 class SearchResultTableViewCell: BaseTableViewCell {
     
-    lazy var houseNumberLabel: UILabel = {
-        let view = UILabel()
-        view.textAlignment = .left
-        view.font = FONT_MEDIUM_11
-        view.textColor = kAppBlueColor
-        return view
-    }()
-    lazy var houseJiIcon: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage.init(named: "jiIcon")
-        return view
-    }()
     lazy var houseNameLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_LIGHT_12
+        view.font = FONT_LIGHT_14
         view.textColor = kAppColor_333333
         return view
     }()
     lazy var houseDictrictIcon: UIImageView = {
         let view = UIImageView()
+        view.contentMode = .scaleAspectFit
         view.image = UIImage.init(named: "locationGray")
         return view
     }()
     lazy var houseDistrictBusinessLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_LIGHT_10
+        view.font = FONT_LIGHT_11
         view.textColor = kAppColor_333333
         return view
     }()
     lazy var houseAddressIcon: UIImageView = {
         let view = UIImageView()
+        view.contentMode = .scaleAspectFit
         view.image = UIImage.init(named: "locationGray")
         return view
     }()
     lazy var houseAddressLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_LIGHT_10
+        view.font = FONT_LIGHT_11
         view.textColor = kAppColor_333333
         return view
     }()
@@ -67,35 +57,12 @@ class SearchResultTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    var model: HouseFeatureModel? {
+    var model: FangYuanSearchResultModel? {
         didSet {
-            updatelayout()
-            houseNumberLabel.text = "1"
-            houseNameLabel.text = "上海中心大厦"
-            houseDistrictBusinessLabel.text = "2.1km | 徐汇区 · 漕河泾"
-            houseAddressLabel.text = ""
-
-            housePriceLabel.text = "￥2 /㎡/天起"
-        }
-    }
-    
-    func updatelayout() {
-        if model?.dictCname == "ji" {
-            houseJiIcon.isHidden = false
-            houseNameLabel.snp.remakeConstraints { (make) in
-                make.leading.equalTo(houseJiIcon.snp.trailing).offset(6)
-                make.trailing.equalToSuperview().offset(-left_pending_space_17)
-                make.top.equalTo(10)
-                make.height.equalTo(24)
-            }
-        }else {
-            houseJiIcon.isHidden = true
-            houseNameLabel.snp.remakeConstraints { (make) in
-                make.leading.equalTo(houseNumberLabel.snp.trailing).offset(15)
-                make.trailing.equalToSuperview().offset(-left_pending_space_17)
-                make.top.equalTo(10)
-                make.height.equalTo(24)
-            }
+            houseNameLabel.text = model?.buildingName
+            houseDistrictBusinessLabel.text = "\(model?.district ?? "") · \(model?.business ?? "")"
+            houseAddressLabel.text = model?.address
+            housePriceLabel.text = "￥" + String(format: "%.0f", model?.dayPrice ?? 0) + "/m²/天起"
         }
     }
     
@@ -113,8 +80,6 @@ class SearchResultTableViewCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(houseNumberLabel)
-        self.addSubview(houseJiIcon)
         self.addSubview(houseNameLabel)
         self.addSubview(houseDictrictIcon)
         self.addSubview(houseDistrictBusinessLabel)
@@ -122,26 +87,17 @@ class SearchResultTableViewCell: BaseTableViewCell {
         self.addSubview(houseAddressLabel)
         self.addSubview(housePriceLabel)
         self.addSubview(lineView)
-        houseNumberLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(0)
-            make.width.equalTo(10)
-            make.centerY.equalToSuperview()
-        }
-        houseJiIcon.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseNumberLabel.snp.trailing).offset(15)
-            make.size.equalTo(14)
-            make.top.equalTo(15)
-        }
+
         houseNameLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseJiIcon.snp.trailing).offset(6)
+            make.leading.equalTo(left_pending_space_17)
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
             make.top.equalTo(10)
             make.height.equalTo(24)
         }
         houseDictrictIcon.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseNumberLabel.snp.trailing).offset(15)
-            make.top.equalTo(houseNameLabel.snp.bottom).offset(3)
-            make.height.equalTo(14)
+            make.leading.equalTo(left_pending_space_17)
+            make.top.equalTo(houseNameLabel.snp.bottom).offset(4)
+            make.height.equalTo(18)
             make.width.equalTo(12)
         }
         houseDistrictBusinessLabel.snp.makeConstraints { (make) in
@@ -149,9 +105,9 @@ class SearchResultTableViewCell: BaseTableViewCell {
             make.centerY.equalTo(houseDictrictIcon)
         }
         houseAddressIcon.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseNumberLabel.snp.trailing).offset(15)
-            make.top.equalTo(houseDictrictIcon.snp.bottom).offset(3)
-            make.height.equalTo(14)
+            make.leading.equalTo(left_pending_space_17)
+            make.top.equalTo(houseDictrictIcon.snp.bottom).offset(4)
+            make.height.equalTo(18)
             make.width.equalTo(12)
         }
         houseAddressLabel.snp.makeConstraints { (make) in
@@ -160,10 +116,10 @@ class SearchResultTableViewCell: BaseTableViewCell {
         }
         housePriceLabel.snp.makeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(houseNameLabel)
         }
         lineView.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseNumberLabel)
+            make.leading.equalTo(left_pending_space_17)
             make.trailing.equalTo(-left_pending_space_17)
             make.bottom.equalToSuperview()
             make.height.equalTo(1)

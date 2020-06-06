@@ -121,7 +121,7 @@ class SSSearchURL: NSObject {
     
     //查询历史记录
     static let getgetSearchKeywords = "esearch/getSearchKeywords"
-    
+        
     //查询发现 - 热门关键字 - 字典接口
     
 }

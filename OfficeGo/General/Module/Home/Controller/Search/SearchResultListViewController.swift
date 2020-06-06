@@ -54,6 +54,7 @@ class SearchResultListViewController: BaseTableViewController {
     
     func setupView() {
         titleview = ThorNavigationView.init(type: .homeBackSearchRightBlue)
+        titleview?.searchBarBtnTitleLabel?.text = searchString
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .homeSearchRightBlue))
         self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .homeSearchRightBlue))
         titleview?.leftButtonCallBack = { [weak self] in
@@ -81,12 +82,14 @@ class SearchResultListViewController: BaseTableViewController {
 
     }
     
-    //MARK: 获取首页列表数据
+    //MARK: 获取列表数据
     override func refreshData() {
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         
+        params["keyWord"] = searchString as AnyObject?
+
         
         //商圈和地铁
         //商圈
