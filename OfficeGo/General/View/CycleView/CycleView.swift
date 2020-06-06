@@ -24,7 +24,7 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
     weak var delegate : CycleViewDelegate?
     
     var mode : contentMode? = .scaleAspectFill
-
+    
     //CollectionView复用cell的机制,不管当前的section有道少了item,当cell的宽和屏幕的宽一致是,当前屏幕最多显示两个cell(图片切换时是两个cell),切换完成时有且仅有一个cell,即使放大1000倍,内存中最多加载两个cell,所以不会造成内存暴涨现象
     let KCount = 100
     
@@ -33,9 +33,11 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
         didSet{
             pageControl.numberOfPages = imageURLStringArr.count
             collectionView.reloadData()
-            //滚动到中间位置
-            let indexPath : IndexPath = IndexPath(item: imageURLStringArr.count * KCount, section: 0)
-            collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+            if imageURLStringArr.count > 0 {
+                //滚动到中间位置
+                let indexPath : IndexPath = IndexPath(item: imageURLStringArr.count * KCount, section: 0)
+                collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+            }
         }
     }
     
@@ -50,7 +52,7 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
             pageControl.currentPageIndicatorTintColor = currentPageColor
         }
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpUI()
@@ -143,9 +145,9 @@ extension CycleView {
             page = page % (imageURLStringArr.count)
         }
         pageControl.currentPage = page
-
+        
     }
-
+    
     //MARK: 随父控件的消失取消定时器
     internal override func removeFromSuperview() {
         super.removeFromSuperview()
