@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-fileprivate let YLDatePickerMargin:CGFloat = 8
+fileprivate let YLDatePickerMargin:CGFloat = 0
 fileprivate let YLDatePickerH:CGFloat = 270
 typealias DoneBlock = (Date) -> ()
 
@@ -48,15 +48,15 @@ public class YLDatePicker: UIView {
     fileprivate var datePicker: UIPickerView = {
         let datePicker = UIPickerView()
         datePicker.showsSelectionIndicator = false
+        datePicker.backgroundColor = kAppWhiteColor
         return datePicker
     }()
     
-    fileprivate var backWindow: UIWindow = {
-        let backWindow = UIWindow(frame: UIScreen.main.bounds)
-        backWindow.windowLevel = UIWindow.Level.statusBar
-        backWindow.backgroundColor = UIColor(white: 0, alpha: 0.3)
-        backWindow.isHidden = true
-        return backWindow
+    fileprivate var blackAlphabgView: UIButton = {
+        let button = UIButton.init()
+        button.backgroundColor = UIColor.init(white: 0, alpha: 0.3)
+        button.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+        return button
     }()
     
     fileprivate var backLabel: UILabel = {
@@ -64,6 +64,7 @@ public class YLDatePicker: UIView {
         label.text = "看房时间"
         label.font = FONT_15
         label.textColor = kAppColor_666666
+        label.backgroundColor = kAppWhiteColor
         label.textAlignment = .center
         return label
     }()
@@ -101,14 +102,15 @@ public class YLDatePicker: UIView {
     
     func layoutUI() {
         
-        backgroundColor = UIColor.white
-        layer.cornerRadius = 8
-        clipsToBounds = true
+        addSubview(blackAlphabgView)
+        
+        blackAlphabgView.frame = CGRect(x: 0, y: 0, width: kWidth, height: kHeight)
         
         //        // 背景文字
         addSubview(backLabel)
         backLabel.snp.makeConstraints { (make) in
-            make.top.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-YLDatePickerH + 57)
             make.height.equalTo(57)
         }
         
@@ -120,8 +122,8 @@ public class YLDatePicker: UIView {
         doneButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
         addSubview(doneButton)
         doneButton.snp.makeConstraints { (make) in
-            make.leading.top.equalToSuperview()
-            make.height.equalTo(57)
+            make.leading.equalToSuperview()
+            make.bottom.height.equalTo(backLabel)
             make.width.equalTo(60)
         }
         
@@ -133,22 +135,24 @@ public class YLDatePicker: UIView {
         cancelButton.addTarget(self, action: #selector(YLDatePicker.doneButtonHandle), for: .touchUpInside)
         addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
-            make.trailing.top.equalToSuperview()
-            make.height.equalTo(57)
+            make.trailing.equalToSuperview()
+            make.bottom.height.equalTo(backLabel)
             make.width.equalTo(60)
         }
         
         // 时间控件
         datePicker.delegate = self
         datePicker.dataSource = self
-        datePicker.backgroundColor = UIColor.clear
         addSubview(datePicker)
         datePicker.snp.makeConstraints { (make) in
             make.trailing.leading.bottom.equalToSuperview()
-            make.top.equalTo(57)
+            make.height.equalTo(YLDatePickerH - 57)
+            make.bottom.equalToSuperview()
         }
         
-        backWindow.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismiss)))
+        UIApplication.shared.keyWindow?.addSubview(self)
+
+        blackAlphabgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismiss)))
         
     }
     
@@ -197,31 +201,11 @@ public class YLDatePicker: UIView {
     }
     
     public func show() {
-        
-        backWindow.addSubview(self)
-        backWindow.makeKeyAndVisible()
-        
-        frame = CGRect.init(x: YLDatePickerMargin, y: backWindow.frame.height, width: backWindow.frame.width - YLDatePickerMargin*2, height: YLDatePickerH)
-        
-        UIView.animate(withDuration: 0.3) {
-            
-            var bottom:CGFloat = 0
-            if UIScreen.main.bounds.height == 812 {
-                bottom = 44
-            }
-            
-            self.frame = CGRect.init(x: YLDatePickerMargin, y: self.backWindow.frame.height - YLDatePickerH - bottom, width: self.backWindow.frame.width - YLDatePickerMargin*2, height: YLDatePickerH)
-        }
+        self.frame = blackAlphabgView.frame
     }
     
     @objc public func dismiss() {
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            self.frame = CGRect.init(x: YLDatePickerMargin, y: self.backWindow.frame.height, width: self.backWindow.frame.width - YLDatePickerMargin*2, height: YLDatePickerH)
-        }) { (_) in
-            self.removeFromSuperview()
-            self.backWindow.resignKey()
-        }
+        self.removeFromSuperview()
     }
 }
 
