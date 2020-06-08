@@ -299,6 +299,12 @@ class HouseSelectBtnView: UIView {
             }, sureHouseShaixuanButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
                 self?.selectModel = selectModel
                 self?.setBtnUpOrDown(button: self?.houseShaixuanBtn, isUp: false)
+                
+                ///点击筛选后，更改类型的文字和颜色
+                  self?.houseTypeSelectBtn.setTitle(self?.selectModel?.typeModel.type?.rawValue, for: .normal)
+                  self?.houseTypeSelectBtn.isSelected = true
+                  self?.houseTypeSelectBtn.layoutButton(.imagePositionRight, space: 6)
+                
                 //把筛选条件带到页面上去
                 guard let blockk = self?.sureButtonButtonCallBack else {
                     return
