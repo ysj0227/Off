@@ -186,6 +186,10 @@ class ReviewLoginViewController: BaseViewController {
     
     //登录跳过直接到tabbar - 租户设置已经点击过跳过
     override func rightBtnClick() {
+        //TODO: 添加登录token
+        UserTool.shared.user_token = "MTA3X3N1bndlbGxfMTU5MTE2NDIzOF8w"
+        UserTool.shared.user_rongyuntoken = "k/d/Bk+BW1hWoGBApvh/8C7FQOmNCTuv9fMM5XnpfOM=@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
+        
         
         //点击过 如果点击登录- 不需要设置tabbar - 直接登录刷新数据就好了
         UserTool.shared.user_renter_clickTap = 1
