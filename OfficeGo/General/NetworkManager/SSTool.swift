@@ -25,21 +25,39 @@ import SnapKit
         }
     }
 
-//    static func returnWidth(string:NSString,fontSize:CGFloat) -> CGFloat {
-//    let size: CGSize = string.size(withAttributes: [NSAttributedStringKey.font: UIFont.pingFangSCRegular(fontSize)])
-//        return size.width
-//    }
-//
-//    static func invokeClosureIfNotNil(closure: VoidClosure?) {
-//        if let temp = closure {
-//            temp()
-//        }
-//    }
+    //时间戳转成字符串 - 10位
+    static func timeIntervalChangeToTimeStr(timeInterval:TimeInterval, dateFormat:String?) -> String {
+        let date:NSDate = NSDate.init(timeIntervalSince1970: timeInterval)
+        let formatter = DateFormatter.init()
+        if dateFormat == nil {
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        }else{
+            formatter.dateFormat = dateFormat
+        }
+        return formatter.string(from: date as Date)
+    }
     
     static func invokeInDebug(closure: VoidClosure) {
         #if DEBUG
         closure()
         #endif
+    }
+    
+     //字符串转时间戳
+    static func timeStrChangeTotimeInterval(timeStr: String?, dateFormat:String?) -> String {
+        if timeStr?.count ?? 0 > 0 {
+            return ""
+        }
+        let format = DateFormatter.init()
+        format.dateStyle = .medium
+        format.timeStyle = .short
+        if dateFormat == nil {
+            format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        }else{
+            format.dateFormat = dateFormat
+        }
+        let date = format.date(from: timeStr!)
+        return String(date!.timeIntervalSince1970)
     }
     
     static func invokeInMainThread(closure: @escaping VoidClosure) {

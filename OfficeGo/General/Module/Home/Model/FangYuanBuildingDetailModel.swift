@@ -356,7 +356,7 @@ class FangYuanBuildingIntroductionModel: BaseModel {
     ///货梯
     var cargoLift : Int?
     ///竣工时间
-    var completionTime : String?
+    var completionTime : Int?
     ///建筑面积
     var constructionArea : String?
     ///电信,联通
@@ -420,6 +420,8 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
         airJiabanCoastConditioning = "常规:" + "--"
         
         completionTime = "2010年"
+        
+        completionTime = SSTool.timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(model.completionTime ?? 0), dateFormat:"yyyy年")
         
         totalFloor = "\(model.totalFloor ?? "0")" + "层"
         

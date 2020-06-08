@@ -129,7 +129,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         
         if viewModel.btype == 1 {
             
-            houseTagLabel.isHidden = false
+            houseTagLabel.isHidden = true
             secondItem.isHidden = false
             
             firstItem.titleLabel.text = viewModel.buildingArea
@@ -140,7 +140,9 @@ class RenterCollectOfficeCell: BaseTableViewCell {
             thirdItem.descripLabel.text = viewModel.buildingFloor
             
         }else if viewModel.btype == 2 {
-            houseTagLabel.isHidden = true
+            if viewModel.officeType == 1 {
+                houseTagLabel.isHidden = false
+            }
             secondItem.isHidden = true
             
             firstItem.titleLabel.text = viewModel.individualAreaString
