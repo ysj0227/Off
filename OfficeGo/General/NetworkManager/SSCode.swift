@@ -58,6 +58,11 @@ class SSCode: NSObject {
     static let ERROR_CODE_7001                      = StatusStruct.init(code:7001, msg: "该房源没有管理员无法建立聊天")
     static let ERROR_CODE_7002                      = StatusStruct.init(code:7002, msg: "删除失败")
     static let ERROR_CODE_7003                      = StatusStruct.init(code:7003, msg: "楼盘不存在")
+    static let ERROR_CODE_7012                      = StatusStruct.init(code:7012, msg: "楼盘已经下架")
+    static let ERROR_CODE_7013                      = StatusStruct.init(code:7013, msg: "楼盘下的房源已经售完")
+    static let ERROR_CODE_7014                      = StatusStruct.init(code:7014, msg: "楼盘已删除")
+    static let ERROR_CODE_7016                      = StatusStruct.init(code:7016, msg: "房源已下架")
+
     //8开头,谢
     static let ERROR_CODE_8000                      = StatusStruct.init(code:8000, msg: "默认")
     static let ERROR_CODE_8001                      = StatusStruct.init(code:8001, msg: "企业名称已存在")

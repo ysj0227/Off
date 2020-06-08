@@ -35,38 +35,10 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     
     var model: FangYuanBuildingOpenStationModel = FangYuanBuildingOpenStationModel() {
         didSet {
-            bottomBtnView.leftBtn.isSelected  = false
-            //1是办公楼，2是联合办公
-            if model.btype == 1 {
-                //办公楼 - 办公室
-                //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
-                
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemOfficeBuildingNameView,
-                    FYDetailItemType.FYDetailItemTypeOfficeDeatail,
-                    FYDetailItemType.FYDetailItemTypeHuxing,
-                    FYDetailItemType.FYDetailItemTypeTraffic,
-                    FYDetailItemType.FYDetailItemTypeFeature
-                    //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
-                ])
-                
-                refreshData()
-                
-            }else {
-                //网点 - 独立办公室
-                //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
-                
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemOfficeBuildingNameView,
-                    FYDetailItemType.FYDetailItemTypeOfficeDeatail,
-                    FYDetailItemType.FYDetailItemTypeHuxing,
-                    FYDetailItemType.FYDetailItemTypeTraffic,
-                    //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
-                ])
-                
-                refreshData()
-            }
             
+            bottomBtnView.leftBtn.isSelected  = false
+            
+            refreshData()
         }
     }
     
@@ -81,6 +53,35 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         super.viewWillAppear(animated)
     }
     
+    func setItemFunc() {
+        //1是办公楼，2是联合办公
+        if model.btype == 1 {
+            //办公楼 - 办公室
+            //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
+            
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemOfficeBuildingNameView,
+                FYDetailItemType.FYDetailItemTypeOfficeDeatail,
+                FYDetailItemType.FYDetailItemTypeHuxing,
+                FYDetailItemType.FYDetailItemTypeTraffic,
+                FYDetailItemType.FYDetailItemTypeFeature
+                //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+            ])
+            
+        }else {
+            //网点 - 独立办公室
+            //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
+            
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemOfficeBuildingNameView,
+                FYDetailItemType.FYDetailItemTypeOfficeDeatail,
+                FYDetailItemType.FYDetailItemTypeHuxing,
+                FYDetailItemType.FYDetailItemTypeTraffic,
+                //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+            ])
+        }
+        
+    }
     override func viewWillDisappear(_ animated: Bool) {
         tableHeaderView.pausePlayer()
     }
@@ -228,9 +229,11 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
             
             if let model = FangYuanBuildingFYDetailModel.deserialize(from: response, designatedPath: "data") {
                 //                model.building?.openStationFlag = false
+                model.btype = self?.model.btype
                 self?.buildingFYDetailModel = model
                 self?.buildingFYDetailViewModel = FangYuanBuildingFYDetailViewModel.init(model: self?.buildingFYDetailModel ?? FangYuanBuildingFYDetailModel())
                 
+                self?.setItemFunc()
                 self?.loadHeaderview()
                 self?.setCollectBtnState(isCollect: model.IsFavorite ?? false)
                 self?.tableView.reloadData()
@@ -249,8 +252,8 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
             
             weakSelf.endRefreshAnimation()
             
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
             }
         }

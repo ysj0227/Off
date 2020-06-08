@@ -71,93 +71,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         didSet {            
             
             bottomBtnView.leftBtn.isSelected  = false
-            //1是办公楼，2是联合办公
-            if buildingModel.btype == 1 {
-                
-                //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
-                if let params = shaiXuanParams {
-                    if let seats = params["area"] {
-                        let str = seats as? String
-                        if str?.count ?? 0 > 0 {
-                            shaixuanAreaSeatsString = str?.replacingOccurrences(of: ",", with: "~")
-                            isClearCondition = false
-                        }else {
-                            isClearCondition = true
-                        }
-                    }else {
-                        isClearCondition = true
-                    }
-                }else {
-                    isClearCondition = true
-                }
-                
-                
-                //办公楼 -
-                //名称基本信息 - 公交 特色
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemOfficeBuildingNameView,
-                    FYDetailItemType.FYDetailItemTypeTraffic,
-                    FYDetailItemType.FYDetailItemTypeFeature])
-                //在租写字楼
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemTypeFYList])
-                //楼盘信息 - 周边配套
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemTypeOfficeDeatail,
-                    //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
-                ])
-                
-                //周边配套
-                amtitusMatingListARR.append("11")
-                amtitusMatingListARR.append("12")
-                amtitusMatingListARR.append("13")
-                amtitusMatingListARR.append("14")
-                
-                refreshData()
-                
-            }else if buildingModel.btype == 2 {
-                
-                //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
-                if let params = shaiXuanParams {
-                    if let seats = params["seats"] {
-                        let str = seats as? String
-                        if str?.count ?? 0 > 0 {
-                            shaixuanAreaSeatsString = str?.replacingOccurrences(of: ",", with: "~")
-                            isClearCondition = false
-                        }else {
-                            isClearCondition = true
-                        }
-                    }else {
-                        isClearCondition = true
-                    }
-                }else {
-                    isClearCondition = true
-                }
-                
-                //联合办公 -
-                //名称基本信息 - 开放工位和独立办公室
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemTypeJointNameView])
-                //- 公交 特色
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemTypeTraffic,
-                    FYDetailItemType.FYDetailItemTypeFeature])
-                //开放工位
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemTypeLianheOpenList])
-                //独立办公室
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemTypeFYList])
-                //共享服务 - 楼盘信息 - 周边配套
-                self.dataSourceArr.append([
-                    FYDetailItemType.FYDetailItemTypeShareServices,
-                    FYDetailItemType.FYDetailItemTypeOfficeDeatail,
-                    //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
-                ])
-                
-                refreshData()
-            }
-            
+            refreshData()
         }
     }
     
@@ -179,6 +93,95 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         tableHeaderView.pausePlayer()
     }
     
+    func setItemFunc() {
+        
+        bottomBtnView.leftBtn.isSelected  = false
+        //1是办公楼，2是联合办公
+        if buildingDetailModel?.btype == 1 {
+            
+            //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
+            if let params = shaiXuanParams {
+                if let seats = params["area"] {
+                    let str = seats as? String
+                    if str?.count ?? 0 > 0 {
+                        shaixuanAreaSeatsString = str?.replacingOccurrences(of: ",", with: "~")
+                        isClearCondition = false
+                    }else {
+                        isClearCondition = true
+                    }
+                }else {
+                    isClearCondition = true
+                }
+            }else {
+                isClearCondition = true
+            }
+            
+            
+            //办公楼 -
+            //名称基本信息 - 公交 特色
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemOfficeBuildingNameView,
+                FYDetailItemType.FYDetailItemTypeTraffic,
+                FYDetailItemType.FYDetailItemTypeFeature])
+            //在租写字楼
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemTypeFYList])
+            //楼盘信息 - 周边配套
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemTypeOfficeDeatail,
+                //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+            ])
+            
+            //周边配套
+            amtitusMatingListARR.append("11")
+            amtitusMatingListARR.append("12")
+            amtitusMatingListARR.append("13")
+            amtitusMatingListARR.append("14")
+                        
+        }else if buildingDetailModel?.btype == 2 {
+            
+            //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
+            if let params = shaiXuanParams {
+                if let seats = params["seats"] {
+                    let str = seats as? String
+                    if str?.count ?? 0 > 0 {
+                        shaixuanAreaSeatsString = str?.replacingOccurrences(of: ",", with: "~")
+                        isClearCondition = false
+                    }else {
+                        isClearCondition = true
+                    }
+                }else {
+                    isClearCondition = true
+                }
+            }else {
+                isClearCondition = true
+            }
+            
+            //联合办公 -
+            //名称基本信息 - 开放工位和独立办公室
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemTypeJointNameView])
+            //- 公交 特色
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemTypeTraffic,
+                FYDetailItemType.FYDetailItemTypeFeature])
+            //开放工位
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemTypeLianheOpenList])
+            //独立办公室
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemTypeFYList])
+            //共享服务 - 楼盘信息 - 周边配套
+            self.dataSourceArr.append([
+                FYDetailItemType.FYDetailItemTypeShareServices,
+                FYDetailItemType.FYDetailItemTypeOfficeDeatail,
+                //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+            ])
+            
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -189,7 +192,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     
     ///获取点击的条件
     func getClickItemString(index: Int) {
-        if buildingModel.btype == 1 { //办公楼
+        if buildingDetailModel?.btype == 1 { //办公楼
             
             switch index {
             case 0:
@@ -211,7 +214,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
             default:
                 clickItemString = ""
             }
-        }else if buildingModel.btype == 2 {
+        }else if buildingDetailModel?.btype == 2 {
             switch index {
             case 0:
                 clickItemString = ""
@@ -505,10 +508,11 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
             if let model = FangYuanBuildingDetailModel.deserialize(from: response, designatedPath: "data") {
                 //                model.building?.openStationFlag = false
                 model.btype = self?.buildingModel.btype
-                model.building?.btype = self?.buildingModel.btype
+                model.building?.btype = self?.buildingDetailModel?.btype
                 self?.buildingDetailModel = model
                 self?.buildingDetailViewModel = FangYuanBuildingDetailViewModel.init(model: self?.buildingDetailModel ?? FangYuanBuildingDetailModel())
                 
+                self?.setItemFunc()
                 self?.loadHeaderview()
                 self?.setCollectBtnState(isCollect: model.IsFavorite ?? false)
                 
@@ -528,8 +532,8 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
             
             weakSelf.endRefreshAnimation()
             
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7012.code)" || code == "\(SSCode.ERROR_CODE_7013.code)" || code == "\(SSCode.ERROR_CODE_7014.code)"{
                 AppUtilities.makeToast(message)
             }
         }
@@ -556,14 +560,14 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.buildingModel.btype == 1 { //办公楼
+        if self.buildingDetailModel?.btype == 1 { //办公楼
             //在租写字楼
             if section == 1 {
                 return dataSource.count
             }else {
                 return self.dataSourceArr[section].count
             }
-        }else if self.buildingModel.btype == 2 {
+        }else if self.buildingDetailModel?.btype == 2 {
             if section == 0 {
                 //开放工位
                 return 2
@@ -587,7 +591,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.buildingModel.btype == 1 { //办公楼
+        if self.buildingDetailModel?.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 //办公室
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailOfficeListCell.reuseIdentifierStr) as? RenterDetailOfficeListCell
@@ -663,7 +667,7 @@ extension RenterOfficebuildingJointDetailVC {
                 }
             }
             
-        }else if self.buildingModel.btype == 2 { //联合办公
+        }else if self.buildingDetailModel?.btype == 2 { //联合办公
             //联合办公- 开放工位和独立nameview
             if indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterJointDetailNameCell.reuseIdentifierStr) as? RenterJointDetailNameCell
@@ -783,7 +787,7 @@ extension RenterOfficebuildingJointDetailVC {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if self.buildingModel.btype == 1 { //办公楼
+        if self.buildingDetailModel?.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 return RenterDetailOfficeListCell.rowHeight()
             }else {
@@ -824,7 +828,7 @@ extension RenterOfficebuildingJointDetailVC {
                     return 0
                 }
             }
-        }else if self.buildingModel.btype == 2 { //联合办公
+        }else if self.buildingDetailModel?.btype == 2 { //联合办公
             if indexPath.section == 0 {
                 if indexPath.row == 0 {
                     return RenterJointDetailNameCell.rowHeight()
@@ -893,13 +897,13 @@ extension RenterOfficebuildingJointDetailVC {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if self.buildingModel.btype == 1 { //办公楼
+        if self.buildingDetailModel?.btype == 1 { //办公楼
             if section == 1 {
                 return 52 + 39 + 15
             }else {
                 return 0
             }
-        }else if self.buildingModel.btype == 2 { //联合办公
+        }else if self.buildingDetailModel?.btype == 2 { //联合办公
             if section == 0 {
                 return 50
             }else if section == 2 {
@@ -922,7 +926,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if self.buildingModel.btype == 1 { //办公楼
+        if self.buildingDetailModel?.btype == 1 { //办公楼
             if section == 1 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -947,7 +951,7 @@ extension RenterOfficebuildingJointDetailVC {
             }else {
                 return UIView()
             }
-        }else if self.buildingModel.btype == 2 { //联合办公
+        }else if self.buildingDetailModel?.btype == 2 { //联合办公
             if section == 0 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -1005,13 +1009,13 @@ extension RenterOfficebuildingJointDetailVC {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
-        if self.buildingModel.btype == 1 { //办公楼
+        if self.buildingDetailModel?.btype == 1 { //办公楼
             if section == 1 {
                 return 78
             }else {
                 return 0
             }
-        }else if self.buildingModel.btype == 2 { //联合办公
+        }else if self.buildingDetailModel?.btype == 2 { //联合办公
             if section == 0 {
                 return 0
             }else if section == 2 {
@@ -1029,7 +1033,7 @@ extension RenterOfficebuildingJointDetailVC {
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if self.buildingModel.btype == 1 { //办公楼
+        if self.buildingDetailModel?.btype == 1 { //办公楼
             if section == 1 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -1059,7 +1063,7 @@ extension RenterOfficebuildingJointDetailVC {
             }else {
                 return UIView()
             }
-        }else if self.buildingModel.btype == 2 { //联合办公
+        }else if self.buildingDetailModel?.btype == 2 { //联合办公
             if section == 2 {
                 //如果开放工位数据数组大于0显示
                 let view = UIView()
@@ -1101,7 +1105,7 @@ extension RenterOfficebuildingJointDetailVC {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if self.buildingModel.btype == 1 { //办公楼
+        if self.buildingDetailModel?.btype == 1 { //办公楼
             if indexPath.section == 1 {
                 if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
                     model.btype = 1
@@ -1110,7 +1114,7 @@ extension RenterOfficebuildingJointDetailVC {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
-        }else if self.buildingModel.btype == 2 { //联合办公
+        }else if self.buildingDetailModel?.btype == 2 { //联合办公
             
             if indexPath.section == 2 {
                 //如果开放工位数据数组大于0显示
