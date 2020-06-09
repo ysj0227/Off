@@ -73,17 +73,17 @@ class FangYuanListViewModel: NSObject {
         guard let nearbySubwayTime = model.buildingMap?.nearbySubwayTime else {
             return
         }
-        walkTimesubwayAndStationString?.append(nearbySubwayTime[0])
+        walkTimesubwayAndStationString?.append(nearbySubwayTime.count > 0 ? nearbySubwayTime[0] : "")
         walkTimesubwayAndStationString?.append("分钟到 | ")
         guard let stationline = model.buildingMap?.stationline else {
             return
         }
-        walkTimesubwayAndStationString?.append(stationline[0])
+        walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
         walkTimesubwayAndStationString?.append("号线 ·")
         guard let stationNames = model.buildingMap?.stationNames else {
             return
         }
-        walkTimesubwayAndStationString?.append(stationNames[0])
+        walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
         walkTimesubwayAndStationString?.append("站")
         
         dayPriceString = "\(model.minDayPrice ?? 0)"
