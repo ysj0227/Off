@@ -6,8 +6,18 @@
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 import UIKit
+import HandyJSON
+import SwiftyJSON
+
 
 class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
+    
+    var dataSourceArr: [ScheduleViewModel] = []
+
+    var currentDayString: String?
+    
+    ///当前显示的某一天的数据
+    var currentModel: ScheduleViewModel?
     
     fileprivate lazy var calendar: FSCalendar = {
         //获取FSCalendar的实例
@@ -66,12 +76,45 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
     }
     
     
+    override func refreshData() {
+        
+        var params = [String:AnyObject]()
+        params["token"] = "MTA0X3N1bndlbGxfMTU5MTYwNTkwOV8w" as AnyObject?
+        params["startTime"] = 1591002463 as AnyObject?
+        params["endTime"] = 1591942800 as AnyObject?
+
+        SSNetworkTool.SSSchedule.request_getScheduleListApp(params: params, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<ScheduleModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                
+                var arr: [ScheduleViewModel] = []
+                for model in decoratedArray {
+                    let viewmodel = ScheduleViewModel.init(model: model ?? ScheduleModel())
+                    arr.append(viewmodel)
+                    weakSelf.datesWithEvent.append(viewmodel.day ?? "")
+                }
+                weakSelf.dataSourceArr = arr
+                weakSelf.setUpData()
+                weakSelf.tableView.reloadData()
+                
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        currentDayString =  self.dateFormatter2.string(from: NSDate() as Date)
         setUpView()
-        
-        setUpData()
         
     }
     
@@ -82,26 +125,19 @@ extension RenterHouseScheduleViewController {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print("didSelect\(date)")
-        if self.datesWithEvent.contains(self.dateFormatter2.string(from: date)) {
-            dataSource.append("111")
-            dataSource.append("2224")
-            dataSource.append("111")
-            dataSource.append("2224")
-            dataSource.append("111")
-            dataSource.append("2224")
-            dataSource.append("111")
-            dataSource.append("2224")
-            self.tableView.reloadData()
-        }else {
-            dataSource.removeAll()
-            self.tableView.reloadData()
+        currentDayString = self.dateFormatter2.string(from: date)
+        for model in dataSourceArr {
+            if model.day == currentDayString {
+                currentModel = model
+                break
+            }
         }
-        
+        self.tableView.reloadData()
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         print("calendarCurrentPageDidChange\(calendar.currentPage)")
-        dataSource.removeAll()
+        dataSourceArr.removeAll()
         self.tableView.reloadData()
     }
     
@@ -192,24 +228,26 @@ extension RenterHouseScheduleViewController {
             make.bottom.equalToSuperview()
         }
         self.tableView.register(RenterHouseScheduleCell.self, forCellReuseIdentifier: RenterHouseScheduleCell.reuseIdentifierStr)
+        
+        refreshData()
     }
     
     func setUpData() {
         
-        datesWithEvent.append("2020-05-01")
-        datesWithEvent.append("2020-05-19")
-        datesWithEvent.append("2020-05-20")
-        datesWithEvent.append("2020-05-28")
-        
-        dataSource.append("111")
-        dataSource.append("2224")
-        dataSource.append("111")
-        dataSource.append("2224")
-        dataSource.append("111")
-        dataSource.append("2224")
-        dataSource.append("111")
-        dataSource.append("2224")
-        self.tableView.reloadData()
+//        datesWithEvent.append("2020-05-01")
+//        datesWithEvent.append("2020-05-19")
+//        datesWithEvent.append("2020-05-20")
+//        datesWithEvent.append("2020-05-28")
+//
+//        dataSourceArr.append("111")
+//        dataSourceArr.append("2224")
+//        dataSourceArr.append("111")
+//        dataSourceArr.append("2224")
+//        dataSourceArr.append("111")
+//        dataSourceArr.append("2224")
+//        dataSourceArr.append("111")
+//        dataSourceArr.append("2224")
+//        self.tableView.reloadData()
     }
     
 }
@@ -219,16 +257,15 @@ extension RenterHouseScheduleViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RenterHouseScheduleCell.reuseIdentifierStr) as? RenterHouseScheduleCell
         cell?.selectionStyle = .none
-        if indexPath.row % 2 == 0 {
-            cell?.model = ""
-        }else {
-            cell?.model = "complete"
+        if let scheduleList = currentModel?.scheduleViewModelList {
+            cell?.viewModel = scheduleList[indexPath.row]
         }
         return cell ?? RenterHouseScheduleCell.init(frame: .zero)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        
+        return currentModel?.scheduleViewModelList?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -335,9 +372,10 @@ class RenterHouseScheduleCell: BaseTableViewCell {
         return 102
     }
     
-    var model: String = "" {
+    var viewModel: ScheduleViewModelList = ScheduleViewModelList(model: ScheduleList()) {
         didSet {
-            if model == "complete" {
+            ///行程审核状态 0预约待接受 1预约成功 2预约失败 3已看房 4未看房
+            if viewModel.auditStatus == 3 {
                 timeIcon.image = UIImage.init(named: "timeIconGray")
                 stateLabel.text = "已完成"
                 stateLabel.textColor = kAppColor_666666
@@ -345,20 +383,27 @@ class RenterHouseScheduleCell: BaseTableViewCell {
                 nameLabel.textColor = kAppColor_666666
                 descLabel.textColor = kAppColor_666666
                 
-            }else {
+            }else if viewModel.auditStatus == 0 {
                 timeIcon.image = UIImage.init(named: "timeIcon")
                 stateLabel.text = "待接受"
                 stateLabel.textColor = kAppBlueColor
                 bgView.backgroundColor = kAppLightBlueColor
                 nameLabel.textColor = kAppColor_333333
                 descLabel.textColor = kAppColor_333333
+            }else if viewModel.auditStatus == 1 {
+                timeIcon.image = UIImage.init(named: "timeIcon")
+                stateLabel.text = "预约成功"
+                stateLabel.textColor = kAppBlueColor
+                bgView.backgroundColor = kAppLightBlueColor
+                nameLabel.textColor = kAppColor_333333
+                descLabel.textColor = kAppColor_333333
             }
-            dateLabel.text = "04月15日"
-            dateTimeLabel.text = "9:30"
-            nameLabel.text = "贾先生"
-            companyLabel.text = "公司.职位"
-            descLabel.text = "约看 「上海实业大厦」"
-            addressLabel.text = "徐汇区 · 徐家汇"
+            dateLabel.text = viewModel.dateTimeString
+            dateTimeLabel.text = viewModel.hourMinuterTimeString
+            nameLabel.text = viewModel.contactNameString
+            companyLabel.text = viewModel.companyJobString
+            descLabel.text = viewModel.schedulebuildingName
+            addressLabel.text = viewModel.businessDistrict
         }
     }
     

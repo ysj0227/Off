@@ -40,7 +40,25 @@ class RenterScheduleFYViewController: BaseTableViewController {
     func sendYuyueNotify() {
         
         let interval = Int(round(dateSelect?.timeIntervalSince1970 ?? 0 * 1000))
+        
+        var params = [String:AnyObject]()
+        params["buildingId"] = 55 as AnyObject?
+        params["houseIds"] = "223" as AnyObject?
+        params["chatUserId"] = 104 as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
 
+        SSNetworkTool.SSSchedule.request_addRenterApp(params: params, success: { [weak self] (response) in
+            
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+        
         NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleSuccess, object: interval)
         
         self.navigationController?.popViewController(animated: true)

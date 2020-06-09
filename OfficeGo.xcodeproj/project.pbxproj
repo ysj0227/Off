@@ -15,6 +15,7 @@
 		042D46B32489E6D0003B6305 /* FangYuanSearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B22489E6D0003B6305 /* FangYuanSearchResultModel.swift */; };
 		042D46B52489F974003B6305 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B42489F974003B6305 /* SearchResultTableViewCell.swift */; };
 		042D46B7248A2138003B6305 /* ESearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */; };
+		042D46BB248F931F003B6305 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46BA248F931F003B6305 /* ScheduleModel.swift */; };
 		042ECDB0247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */; };
 		04301F45247D0CD70047B70F /* WechatExchangeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */; };
 		04301F47247D0D030047B70F /* PhoneExchangeStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */; };
@@ -251,6 +252,7 @@
 		042D46B22489E6D0003B6305 /* FangYuanSearchResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FangYuanSearchResultModel.swift; sourceTree = "<group>"; };
 		042D46B42489F974003B6305 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESearchResultListViewController.swift; sourceTree = "<group>"; };
+		042D46BA248F931F003B6305 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewingStatusMessage.swift; sourceTree = "<group>"; };
 		04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WechatExchangeMessage.swift; sourceTree = "<group>"; };
 		04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneExchangeStatusMessage.swift; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				04DB5A5A247F603A00E3836F /* UserTool.swift */,
+				042D46BA248F931F003B6305 /* ScheduleModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1549,6 +1552,7 @@
 				EEE87B5E24558F9800C03424 /* BaseImageView.swift in Sources */,
 				EEE87B6224558F9800C03424 /* ErrorView.swift in Sources */,
 				EEE87B5D24558F9800C03424 /* LoadingView.swift in Sources */,
+				042D46BB248F931F003B6305 /* ScheduleModel.swift in Sources */,
 				EEE87B7924559FE800C03424 /* BaseWebViewController.swift in Sources */,
 				EEB1F9D624585513000500A3 /* ZJPictureCollectionCell.swift in Sources */,
 				EEE0D98E246673D000E5C77B /* FangyuanModel.swift in Sources */,

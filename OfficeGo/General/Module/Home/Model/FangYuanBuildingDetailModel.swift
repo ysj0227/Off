@@ -418,9 +418,7 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
         airDefaultCoastConditioning = "常规:" + "--"
         
         airJiabanCoastConditioning = "常规:" + "--"
-        
-        completionTime = "2010年"
-        
+                
         completionTime = SSTool.timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(model.completionTime ?? 0), dateFormat:"yyyy年")
         
         totalFloor = "\(model.totalFloor ?? "0")" + "层"
