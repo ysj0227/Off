@@ -31,7 +31,7 @@ class UserInfo: NSObject, HandyJSON {
     
     @objc var user: User? {
         didSet {
-            NotificationCenter.default.post(name: Notification.Name.userChanged, object: nil)
+//            NotificationCenter.default.post(name: Notification.Name.userChanged, object: nil)
         }
     }
     

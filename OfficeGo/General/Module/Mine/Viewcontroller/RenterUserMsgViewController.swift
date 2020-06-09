@@ -8,8 +8,36 @@
 
 import UIKit
 import CLImagePickerTool
+import Alamofire
 
 class RenterUserMsgViewController: BaseTableViewController {
+    
+    var selectedAvatarData: NSData?
+    
+    var userModel: LoginUserModel? {
+        didSet {
+            setUpData()
+            
+            ///设置下面的按钮的状态
+            if userModel?.nickname?.isBlankString == true || userModel?.sex?.isBlankString == true || userModel?.phone?.isBlankString == true  {
+                bottomBtnView.rightSelectBtn.isUserInteractionEnabled = false
+                bottomBtnView.rightSelectBtn.backgroundColor = kAppColor_btnGray_BEBEBE
+            }else {
+                bottomBtnView.rightSelectBtn.isUserInteractionEnabled = true
+                bottomBtnView.rightSelectBtn.backgroundColor = kAppBlueColor
+            }
+        }
+    }
+    
+    lazy var bottomBtnView: BottomBtnView = {
+           let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
+           view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
+           view.rightSelectBtn.setTitle("保存", for: .normal)
+           view.backgroundColor = kAppWhiteColor
+           view.rightSelectBtn.isUserInteractionEnabled = false
+           view.rightSelectBtn.backgroundColor = kAppColor_btnGray_BEBEBE
+           return view
+       }()
     
     lazy var imagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
@@ -38,9 +66,7 @@ class RenterUserMsgViewController: BaseTableViewController {
         super.viewDidLoad()
         
         setUpView()
-        
-        setUpData()
-        
+                
     }
     
 }
@@ -84,25 +110,100 @@ extension RenterUserMsgViewController {
         }
         
         self.tableView.register(RenterMineUserMsgCell.self, forCellReuseIdentifier: RenterMineUserMsgCell.reuseIdentifierStr)
+        
+        self.view.addSubview(bottomBtnView)
+        bottomBtnView.rightBtnClickBlock = { [weak self] in
+            self?.requestEditUserMessage()
+            if let data = self?.selectedAvatarData {
+                if data.count > 0 {
+                    self?.upload(uploadImage: self?.headerView.headerImg.image ?? UIImage.init())
+                }
+            }
+        }
+        bottomBtnView.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().offset(-bottomMargin())
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(50)
+        }
     }
     
     func pickerSelect() {
         imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
             print("返回的asset数组是\(asset)")
             
-            //获取缩略图，耗时较短
-            let imageArr = CLImagePickerTool.convertAssetArrToThumbnailImage(assetArr: asset, targetSize: CGSize(width: 80, height: 80))
-            print(imageArr)
-            self?.headerView.headerImg.image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
+            var imageArr = [UIImage]()
+            var index = asset.count // 标记失败的次数
+                
+            // 获取原图，异步
+            // scale 指定压缩比
+            // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                imageArr.append(image)
+                self?.dealImage(imageArr: imageArr, index: index)
+                }, failedClouse: { () in
+                    index = index - 1
+//                    self?.dealImage(imageArr: imageArr, index: index)
+            })
         }
     }
-    
+    @objc func dealImage(imageArr:[UIImage],index:Int) {
+
+          if imageArr.count == index {
+//              PopViewUtil.share.stopLoading()
+            
+          }
+        let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
+        self.headerView.headerImg.image = image
+        if let data = image?.jpegData(compressionQuality: 0.9) {
+            selectedAvatarData = data as NSData
+        }
+      }
     func setUpData() {
         
         //设置头像
-        headerView.userModel = ""
+        headerView.userModel = userModel
         
         self.tableView.reloadData()
+    }
+    
+  private func upload(uploadImage:UIImage) {
+
+        let url = String.init(format: SSMineURL.updateUserMessage)
+         SSNetworkTool.uploadImage(url: "\(SSAPI.SSApiHost)\(url)", image: uploadImage, params: ["token": UserTool.shared.user_token ?? ""], imageName: UserTool.shared.user_phone ?? "", isShowHud: false, progressClosure: { (progress) in
+
+         }) { _ in
+             
+         }
+
+    }
+    
+    func requestEditUserMessage() {
+        var params = [String:AnyObject]()
+        params["realname"] = userModel?.realname as AnyObject?
+        params["sex"] = userModel?.sex as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
+
+        
+        params["WX"] = userModel?.wxId as AnyObject?
+//        params["company"] = userModel?.company as AnyObject?
+//        params["job"] = userModel?.job as AnyObject?
+
+        SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
+            
+            self?.postUserMsgChangeNotify()
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    func postUserMsgChangeNotify() {
+        NotificationCenter.default.post(name: Notification.Name.userChanged, object: nil)
     }
     
 }
@@ -112,7 +213,11 @@ extension RenterUserMsgViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RenterMineUserMsgCell.reuseIdentifierStr) as? RenterMineUserMsgCell
         cell?.selectionStyle = .none
+        cell?.userModel = userModel
         cell?.model = typeSourceArray[indexPath.row]
+        cell?.endEditingMessageCell = { [weak self] (userModel) in
+            self?.userModel = userModel
+        }
         return cell ?? RenterMineUserMsgCell.init(frame: .zero)
     }
     
@@ -129,11 +234,13 @@ extension RenterUserMsgViewController {
         if typeSourceArray[indexPath.row].type == RenterUserMsgType.RenterUserMsgTypeSex {
             
             let alertController = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
-            let refreshAction = UIAlertAction.init(title: "男", style: .default) { (action: UIAlertAction) in
-                
+            let refreshAction = UIAlertAction.init(title: "男", style: .default) {[weak self] (action: UIAlertAction) in
+                self?.userModel?.sex = "1"
+                self?.tableView.reloadData()
             }
-            let copyAction = UIAlertAction.init(title: "女", style: .default) { (action: UIAlertAction) in
-                
+            let copyAction = UIAlertAction.init(title: "女", style: .default) {[weak self] (action: UIAlertAction) in
+                self?.userModel?.sex = "0"
+                self?.tableView.reloadData()
             }
             let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
                 
@@ -162,6 +269,7 @@ class RenterMineUserMsgCell: BaseTableViewCell {
         let view = UITextField()
         view.textAlignment = .left
         view.font = FONT_14
+        view.delegate = self
         view.textColor = kAppColor_333333
         return view
     }()
@@ -189,15 +297,37 @@ class RenterMineUserMsgCell: BaseTableViewCell {
     class func rowHeight() -> CGFloat {
         return 49
     }
+    var userModel: LoginUserModel?
+    
+    var endEditingMessageCell:((LoginUserModel) -> Void)?
+    
     var model: UserMsgConfigureModel = UserMsgConfigureModel(types: RenterUserMsgType.RenterUserMsgTypeAvatar) {
         didSet {
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? RenterUserMsgType.RenterUserMsgTypeAvatar)
             if model.type == RenterUserMsgType.RenterUserMsgTypeSex {
                 self.detailIcon.isHidden = false
                 self.editLabel.isUserInteractionEnabled = false
+                if userModel?.sex == "1" {
+                    self.editLabel.text = "男"
+                }else if userModel?.sex == "0" {
+                    self.editLabel.text = "女"
+                }else {
+                    self.editLabel.text = ""
+                }
+            }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
+                self.detailIcon.isHidden = true
+                self.editLabel.isUserInteractionEnabled = false
+                self.editLabel.text = userModel?.phone
+
             }else {
                 self.detailIcon.isHidden = true
                 self.editLabel.isUserInteractionEnabled = true
+                
+                if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
+                    self.editLabel.text = userModel?.realname
+                }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
+                    self.editLabel.text = userModel?.wxId
+                }
             }
         }
     }
@@ -247,6 +377,24 @@ class RenterMineUserMsgCell: BaseTableViewCell {
     }
     
 }
+
+extension RenterMineUserMsgCell: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
+            userModel?.realname = textField.text
+        }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
+            userModel?.phone = textField.text
+        }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
+            userModel?.wxId = textField.text
+        }
+        guard let blockk = self.endEditingMessageCell else {
+            return
+        }
+        blockk(userModel ?? LoginUserModel())
+    }
+}
+
+
 class RenterAvatarUploadHeaderView: UIView { //高度69
     
     lazy var headerViewBtn: UIButton = {
@@ -284,9 +432,9 @@ class RenterAvatarUploadHeaderView: UIView { //高度69
     
     var setBtnClickBlock: (() -> Void)?
     
-    var userModel: String = "" {
+    var userModel: LoginUserModel? {
         didSet {
-            headerImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
+            headerImg.setImage(with: userModel?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
         }
     }
     

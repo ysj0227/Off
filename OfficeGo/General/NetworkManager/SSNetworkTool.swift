@@ -32,7 +32,38 @@ class SSNetworkTool: NSObject {
         let headers = ["Accept": "application/json; version=\(version)"]
         return (Url, headers)
     }
-    
+                          /// 图片上传
+    ///
+    /// - Parameters:
+    ///   - url: 地址
+    ///   - image: 图片
+    ///   - params: 参数
+    ///   - imageName: 图片名字
+    ///   - isShowHud: 是否显示HUD
+    ///   - progressClosure: 进度回调
+    ///   - successClosure: 成功回调
+    static func uploadImage(url: String,image: UIImage,params: [String:String],imageName:String,isShowHud:Bool,progressClosure:@escaping((_ progress:Double) ->Void),successClosure:@escaping((_ result:[String:AnyObject]) -> ()))
+    {
+      //压缩图片 可自定义
+        let imageData : Data = image.jpegData(compressionQuality: 0.01) ?? Data()
+        let urlString = "\(SSAPI.SSApiHost)\(SSMineURL.updateUserMessage)"
+        
+//        if isShowHud {
+//            HUD.flash(.progress)
+//
+//        }
+        
+        Alamofire.upload(multipartFormData: { (multiPart) in
+            for p in params {
+                multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
+            }
+            multiPart.append(imageData, withName: "file", fileName: "\(imageName).jpg", mimeType: "image/jpg")
+        }, to: urlString, method: .post, headers: nil) { (multiPartResult) in
+            NotificationCenter.default.post(name: Notification.Name.userChanged, object: nil)
+        }
+       
+    }
+                  
     
     static func request(type: HTTPMethod, urlStr: String,sessionId:String?, params:Dic, success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
         SSTool.invokeInGlobalThread {
@@ -154,9 +185,45 @@ extension SSNetworkTool {
     
     class SSVersion:NSObject {
         static func request_version(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
-            let url = String.init(format:SSLoginURL.loginWithCode)
-            SSNetworkTool.requestVersion(type: .post,urlStr:"\(SSAPI.SSApiHost)\(url)", params:params,success:success,failed:failure,error:error)
+            let url = String.init(format: SSLoginURL.versionUpdate)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
         }
+    }
+    
+    //  MARK:   --行程
+    class SSSchedule: NSObject {
+        
+        //看房行程
+        static func request_getScheduleListApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSScheduleURL.getScheduleListApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        //看房记录
+        static func request_getOldScheduleListApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSScheduleURL.getOldScheduleListApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        //看房行程详情
+        static func request_getScheduleDetailApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSScheduleURL.getScheduleApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        //添加预约看房
+        static func request_addRenterApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSScheduleURL.addRenterApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        
+        
     }
     
     //  MARK:   收藏
@@ -307,13 +374,44 @@ extension SSNetworkTool {
     }
     //  MARK:   我的
     class SSMine: NSObject {
-        
-        //绑定微信
-        static func request_bindWeChat(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSMineURL.bindWeChat)
+
+        ///绑定微信
+       static func request_bindWeChat(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+           let url = String.init(format: SSMineURL.bindWeChat)
+           SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+               success,failed:failure,error:error)
+       }
+            
+        ///切换身份
+        static func request_roleChange(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSMineURL.roleChange)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
                 success,failed:failure,error:error)
         }
+        
+        ///个人资料
+        static func request_getUserMsg(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSMineURL.getUserMsg)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        ///修改个人资料 - 不包含头像
+        static func request_updateUserMessage(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSMineURL.updateUserMessage)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        ///修改个人资料 -头像
+        static func request_uploadAvatar(image: UIImage, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+//           let url = String.init(format: SSMineURL.updateUserMessage)
+//            SSNetworkTool.uploadImage(url: "\(SSAPI.SSApiHost)\(url)", image: image, params: ["token": UserTool.shared.user_token ?? ""], imageName: UserTool.shared.user_phone ?? "", isShowHud: false, progressClosure: { (progress) in
+//
+//            }) { (<#[String : AnyObject]#>) in
+//                <#code#>
+//            }
+       }
     }
     
 }

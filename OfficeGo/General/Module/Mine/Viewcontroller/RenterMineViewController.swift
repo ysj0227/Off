@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import HandyJSON
+import SwiftyJSON
 
 class RenterMineViewController: BaseTableViewController {
+    
+    var userModel: LoginUserModel?
     
     var typeSourceArray:[MineConfigureModel] = {
         var arr = [MineConfigureModel]()
@@ -44,8 +48,16 @@ class RenterMineViewController: BaseTableViewController {
          super.viewWillAppear(animated)
          let tab = self.navigationController?.tabBarController as? MainTabBarController
          tab?.customTabBar.isHidden = false
+        
+        if userModel == nil {
+            requestUserMessage()
+        }
      }
      
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 }
 
 
@@ -55,12 +67,15 @@ extension RenterMineViewController {
         
         self.navigationController?.navigationBar.isHidden = true
         
+        NotificationCenter.default.addObserver(self, selector: #selector(requestUserMessage), name: Notification.Name.userChanged, object: nil)
+        
         self.view.backgroundColor = kAppBlueColor
         
         self.view.addSubview(headerView)
         
         headerView.headerBtnClickBlock = { [weak self] in
             let vc = RenterUserMsgViewController()
+            vc.userModel = self?.userModel
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
@@ -80,8 +95,8 @@ extension RenterMineViewController {
     
     func setUpData() {
         
-        headerView.userModel = ""
-        
+        requestUserMessage()
+                
         self.tableView.reloadData()
     }
     
@@ -147,7 +162,7 @@ class RenterUserHeaderView: UIView {
     
     lazy var headerImg: BaseImageView = {
         let view = BaseImageView.init()
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = heder_cordious_32
         return view
@@ -171,11 +186,13 @@ class RenterUserHeaderView: UIView {
     
     var setBtnClickBlock: (() -> Void)?
     
-    var userModel: String = "" {
+    var userModel: LoginUserModel = LoginUserModel() {
         didSet {
-            headerImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
-            nameLabel.text = "租户"
-            introductionLabel.text = "公司 - 职位"
+//            headerImg.setImage(with: userModel.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
+            headerImg.kf.setImage(with: URL(string: userModel.avatar ?? ""), placeholder: UIImage.init(named: "avatar"), options: nil, progressBlock: { (receivedSize, totalSize) in
+            })
+            nameLabel.text = userModel.realname ?? userModel.nickname ?? "名字"
+            introductionLabel.text = "\(userModel.company ?? "公司") - \(userModel.job ?? "职位")"
         }
     }
     
@@ -347,4 +364,42 @@ class RenterMineCell: BaseTableViewCell {
         
     }
     
+}
+
+
+extension RenterMineViewController {
+    @objc func requestUserMessage() {
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        SSNetworkTool.SSMine.request_getUserMsg(params: params, success: {[weak self] (response) in
+
+            if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
+                
+                self?.userModel = model
+                
+                UserTool.shared.user_uid = model.userId
+                UserTool.shared.user_name = model.realname
+                UserTool.shared.user_nickname = model.nickname
+                UserTool.shared.user_avatars = model.avatar
+                UserTool.shared.user_company = model.company
+                UserTool.shared.user_job = model.job
+                UserTool.shared.user_sex = model.sex
+                UserTool.shared.user_phone = model.phone
+                UserTool.shared.user_wechat = model.wxId
+                
+                self?.headerView.userModel = model
+
+            }
+            
+            }, failure: {[weak self] (error) in
+                
+        }) {[weak self] (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
 }

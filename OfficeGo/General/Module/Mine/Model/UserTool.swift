@@ -118,6 +118,26 @@ class UserTool: NSObject {
         }
     }
     
+    /// 名字 - 租户realname
+       var user_name:String?{
+           get{
+               return userDefault.value(forKey: "user_name") as? String
+           }
+           set(newValue){
+               return userDefault.set(newValue, forKey: "user_name")
+           }
+       }
+   
+    /// 名字 - 租户realname
+    var user_nickname:String?{
+        get{
+            return userDefault.value(forKey: "user_nickname") as? String
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "user_nickname")
+        }
+    }
+    
     /// 头像
     var user_avatars:String?{
         get{
@@ -145,6 +165,26 @@ class UserTool: NSObject {
         }
         set(newValue){
             return userDefault.set(newValue, forKey: "isOldSystem")
+        }
+    }
+    
+    /// 公司
+    var user_company:String?{
+        get{
+            return userDefault.value(forKey: "user_company") as? String
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "user_company")
+        }
+    }
+    
+    /// 岗位
+    var user_job:String?{
+        get{
+            return userDefault.value(forKey: "user_job") as? String
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "user_job")
         }
     }
     
