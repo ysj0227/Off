@@ -184,9 +184,9 @@ class SSNetworkTool: NSObject {
 extension SSNetworkTool {
     
     class SSVersion:NSObject {
-        static func request_version(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
-            let url = String.init(format: SSLoginURL.versionUpdate)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+        static func request_version(success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
+            let url = String.init(format: SSMineURL.versionUpdate)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:["versioncode": SSTool.getVersion() as AnyObject],success:
                 success,failed:failure,error:error)
         }
     }

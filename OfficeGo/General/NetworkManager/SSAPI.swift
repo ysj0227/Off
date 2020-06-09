@@ -112,7 +112,6 @@ enum DictionaryCodeEnum: String {
     case codeEnumhotKeywords = "hotKeywords"
 }
 
-
 //  MARK:   --搜索
 class SSSearchURL: NSObject {
     
@@ -190,8 +189,21 @@ class SSLoginURL: NSObject {
 //  MARK:   --我的
 class SSMineURL: NSObject {
     
-    static let bindWeChat = "login/sms_code"
+    ///绑定微信
+    static let bindWeChat = "login/sms_codeApp"
     
+    ///个人资料
+    static let getUserMsg = "user/getAllMsgApp"
+
+    ///切换身份
+    static let roleChange = "user/regTokenApp"
+    
+    ///修改个人资料
+    static let updateUserMessage = "user/updateDataApp"
+
+    ///版本更新
+    static let versionUpdate = "version/ios"
+
 }
 
 //  MARK:   --行程接口

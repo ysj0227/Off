@@ -69,3 +69,11 @@ public enum RenterUserMsgType {
     case RenterUserMsgTypeTele              //联系方式
     case RenterUserMsgTypeWechat            //微信
 }
+
+
+//弹框alert
+public enum AlertType {
+    case AlertTypeVersionUpdate             //版本更新 - 弹框
+    case AlertTypeChatInput                 //聊天- 微信输入框
+    case AlertTypeChatSure                  //聊天- 微信交换弹框
+}

@@ -81,6 +81,45 @@ extension RenterMineSettingViewController {
         self.tableView.reloadData()
     }
     
+    
+    func requestVersionUpdate() {
+        
+       SSNetworkTool.SSVersion.request_version(success: { [weak self] (response) in
+
+           if let model = VersionModel.deserialize(from: response, designatedPath: "data") {
+            self?.showUpdateAlertview(versionModel: model)
+           }
+           }, failure: { (error) in
+            
+       }) {(code, message) in
+           //只有5000 提示给用户
+           if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+               AppUtilities.makeToast(message)
+           }
+
+        }
+               
+    }
+    
+    //弹出版本更新弹框
+    func showUpdateAlertview(versionModel: VersionModel) {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.inputTFView.text = versionModel.desc ?? ""
+        alert.isHiddenVersionCancel = versionModel.force ?? false
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, superview: self.view, message: "版本更新", cancelButtonCallClick: {
+            
+        }) {
+            if let url = URL(string: versionModel.uploadUrl ?? "") {
+                if UIApplication.shared.canOpenURL(url) {
+                    if #available(iOS 10, *) {
+                        UIApplication.shared.open(url, options: [:], completionHandler:nil)
+                    } else {
+                        UIApplication.shared.openURL(url)
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension RenterMineSettingViewController {
@@ -102,7 +141,22 @@ extension RenterMineSettingViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if let type = typeSourceArray[indexPath.row].type {
+            switch type {
+            case .RenterSettingTypeAccountAndBind:
+                break
+            case .RenterSettingTypeNoticifyAndAlert:
+                break
+            case .RenterSettingTypePrivacySetting:
+                break
+            case .RenterSettingTypeHello:
+                break
+            case .RenterSettingTypeVersionUpdate:
+                requestVersionUpdate()
+            case .RenterSettingTypeRoleChange:
+                break
+            }
+        }
     }
 }
 

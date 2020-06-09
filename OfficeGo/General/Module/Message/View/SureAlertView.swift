@@ -10,6 +10,36 @@ import UIKit
 
 class SureAlertView: UIView {
     
+    ///弹框类型-
+    var alertType: AlertType? {
+        didSet {
+            if let type = alertType {
+                switch type {
+                
+                case .AlertTypeVersionUpdate:
+                    titleMessageLayoyt()
+                    
+                case .AlertTypeChatInput:
+                    
+                    inputLayoyt()
+                    
+                case .AlertTypeChatSure:
+                    onlyBtnLayout()
+                }
+            }
+        }
+    }
+    
+    ///更新版本- 取消是否显示
+    var isHiddenVersionCancel: Bool? {
+        didSet {
+            if isHiddenVersionCancel == true {
+                ///隐藏取消按钮
+                bottomBtnView.updateIsHiddenCancel = true
+            }
+        }
+    }
+    
     lazy var blackAlphabgView: UIButton = {
         let button = UIButton.init()
         button.backgroundColor = UIColor.init(white: 0, alpha: 0.7)
@@ -78,20 +108,32 @@ class SureAlertView: UIView {
     }
     
     // MARK: - 弹出view显示
-    func ShowInputAlertView(superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((String) -> Void)) -> Void {
+    func ShowSureAlertView(superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureButtonCallClick: @escaping (() -> Void)) -> Void {
         selfRemove()
         alertMsg = message
-        reloadLayoyt()
+        alertType = AlertType.AlertTypeChatSure
         self.cancelButtonCallClick = cancelButtonCallClick
-        self.sureAreaaddressButtonCallBack = sureAreaaddressButtonCallBack
+        self.sureButtonCallClick = sureButtonCallClick
+        
         superview.addSubview(self)
     }
     
+     // MARK: - 弹出输入显示
+      func ShowInputAlertView(superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((String) -> Void)) -> Void {
+          selfRemove()
+          alertMsg = message
+          alertType = AlertType.AlertTypeChatInput
+          self.cancelButtonCallClick = cancelButtonCallClick
+          self.sureAreaaddressButtonCallBack = sureAreaaddressButtonCallBack
+          superview.addSubview(self)
+      }
     
-    // MARK: - 弹出view显示
-    func ShowAlertView(superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureButtonCallClick: @escaping (() -> Void)) -> Void {
+    
+    // MARK: - 弹出view显示 - message - 版本更新
+    func ShowAlertView(withalertType: AlertType, superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureButtonCallClick: @escaping (() -> Void)) -> Void {
         selfRemove()
         alertMsg = message
+        alertType = withalertType
         self.cancelButtonCallClick = cancelButtonCallClick
         self.sureButtonCallClick = sureButtonCallClick
         
@@ -119,6 +161,11 @@ class SureAlertView: UIView {
         blackAlphabgView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
+        
+    }
+    
+    ///交换微信 - 只有两个按钮约束
+    func onlyBtnLayout() {
         bgview.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageAlertHeight))
@@ -149,7 +196,14 @@ class SureAlertView: UIView {
         }
     }
     
-    func reloadLayoyt() {
+    ///输入框约束
+    func inputLayoyt() {
+        
+        inputTFView.clipsToBounds = true
+        inputTFView.layer.cornerRadius = 4
+        inputTFView.layer.borderColor = kAppColor_line_EEEEEE.cgColor
+        inputTFView.layer.borderWidth = 1
+        inputTFView.isUserInteractionEnabled = true
         bgview.addSubview(inputTFView)
         bgview.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
@@ -164,14 +218,18 @@ class SureAlertView: UIView {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(btnHeight_50)
         }
-        inputTFView.clipsToBounds = true
-        inputTFView.layer.cornerRadius = 4
-        inputTFView.layer.borderColor = kAppColor_line_EEEEEE.cgColor
-        inputTFView.layer.borderWidth = 1
+        
         inputTFView.snp.makeConstraints { (make) in
             make.height.equalTo(40)
             make.top.equalTo(alertMessageLabel.snp.bottom)
             make.leading.trailing.equalToSuperview().inset(15)
+        }
+        bottomBtnView.leftBtnClickBlock = { [weak self] in
+            guard let blockk = self?.cancelButtonCallClick else {
+                return
+            }
+            blockk()
+            self?.selfRemove()
         }
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             
@@ -184,6 +242,45 @@ class SureAlertView: UIView {
                 return
             }
             blockk(self?.inputTFView.text ?? "")
+            self?.selfRemove()
+        }
+    }
+    
+    ///版本更新 - 有标题和文本说明
+    func titleMessageLayoyt() {
+        
+        bgview.addSubview(inputTFView)
+        bgview.snp.remakeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageInputAlertHeight))
+        }
+        bottomBtnView.snp.remakeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(btnHeight_50)
+        }
+        alertMessageLabel.snp.remakeConstraints { (make) in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(btnHeight_50)
+        }
+        
+        inputTFView.snp.makeConstraints { (make) in
+            make.height.equalTo(40)
+            make.top.equalTo(alertMessageLabel.snp.bottom)
+            make.leading.trailing.equalToSuperview().inset(15)
+        }
+        bottomBtnView.leftBtnClickBlock = { [weak self] in
+            guard let blockk = self?.cancelButtonCallClick else {
+                return
+            }
+            blockk()
+            self?.selfRemove()
+        }
+        bottomBtnView.rightBtnClickBlock = { [weak self] in
+            guard let blockk = self?.sureButtonCallClick else {
+                return
+            }
+            blockk()
             self?.selfRemove()
         }
     }

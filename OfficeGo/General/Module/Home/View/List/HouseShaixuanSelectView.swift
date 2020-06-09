@@ -546,6 +546,17 @@ class BottomBtnView: UIView {
         setupView()
     }
     
+    ///当为版本更新时 隐藏取消
+    var updateIsHiddenCancel: Bool? {
+        didSet {
+            if updateIsHiddenCancel == true {
+                leftBtn.isHidden = true
+                rightSelectBtn.snp.makeConstraints { (make) in
+                    make.leading.trailing.height.centerY.equalToSuperview()
+                }
+            }
+        }
+    }
     
     var bottomType: BottomBtnViewType = BottomBtnViewType.BottomBtnViewTypeIwantToFind {
         didSet {

@@ -9,6 +9,17 @@
 import UIKit
 
 class RenterChatViewController: RCConversationViewController {
+    
+    ///楼盘id
+    var buildingId: Int?
+    
+    ///房源id 英文逗号分隔
+    var houseIds: String?
+    
+    ///对方用户id
+    var chatUserId: String?
+
+    
     //上面四个按钮view
     var buttonView:RenterMsgBtnView = {
         let view = RenterMsgBtnView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: 60))
@@ -237,7 +248,7 @@ extension RenterChatViewController {
     func showSureAlertview() {
         
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
+        alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
             
         }) { [weak self] in
             self?.sendExchangeWechat()
@@ -260,7 +271,7 @@ extension RenterChatViewController {
        func showBtnSureAlertview() {
            
            let alert = SureAlertView(frame: self.view.frame)
-           alert.ShowAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
+           alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
                
            }) { [weak self] in
                self?.sendExchangeWechat()
