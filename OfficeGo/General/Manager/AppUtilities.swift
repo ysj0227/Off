@@ -15,47 +15,10 @@ class AppUtilities: NSObject {
     static var navigationController = (UIApplication.shared.delegate as? AppDelegate)?.navigationController
     
     static func makeToast(_ string: String, image: UIImage? = nil) {
-        if let presentedVC = navigationController?.presentedViewController {
-            presentedVC.view.makeToast(string, image: image)
-        } else {
-            navigationController?.view.makeToast(string, image: image)
-        }
+        
+        UIApplication.shared.keyWindow?.makeToast(string, image: image)
+
     }
-    
-    static func makeToast(_ view: UIView) {
-        if let presentedVC = navigationController?.presentedViewController {
-            presentedVC.view.showToast(view)
-        } else {
-            navigationController?.view.showToast(view)
-        }
-    }
-    
-    static func showAlert(alertController: UIAlertController) {
-        navigationController?.present(alertController, animated: true, completion: nil)
-    }
-    
-    static func showSimpleAlert(title: String?, message: String?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("知道了", comment: ""), style: .cancel, handler: nil))
-        navigationController?.present(alert, animated: true, completion: nil)
-    }
-    
-//    static func deviceID() -> String {
-//        let keychain = KeychainSwift()
-//        guard let savedID = keychain.get("deviceID") else {
-//            if let idfv = UIDevice.current.identifierForVendor?.uuidString {
-//                keychain.set(idfv, forKey: "deviceID")
-//                return idfv
-//            } else {
-//                let uuidRef = CFUUIDCreate(kCFAllocatorDefault)
-//                let strRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef)
-//                let uuidString = (strRef! as String)
-//                keychain.set(uuidString, forKey: "deviceID")
-//                return uuidString
-//            }
-//        }
-//        return savedID
-//    }
     
     static func formatDuration(_ duration: Float) -> String {
         var seconds = Int(roundf(duration))

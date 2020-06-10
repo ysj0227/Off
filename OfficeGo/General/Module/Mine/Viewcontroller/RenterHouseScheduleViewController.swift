@@ -239,6 +239,7 @@ extension RenterHouseScheduleViewController {
         if isHas != true {
             currentDayString = ""
             currentModel = nil
+            AppUtilities.makeToast("没有数据～")
         }
         self.tableView.reloadData()
     }

@@ -610,7 +610,8 @@ class BottomBtnView: UIView {
             leftBtn.setTitle("已收藏", for: .selected)
             leftBtn.setImage(UIImage.init(named: "collectItemSel"), for: .selected)
             leftBtn.layoutButton(.imagePositionTop, space: 10)
-            
+
+            leftBtn.titleLabel?.textAlignment = .center
             rightSelectBtn.setTitle("找房东", for: .normal)
             
             leftBtn.snp.makeConstraints { (make) in

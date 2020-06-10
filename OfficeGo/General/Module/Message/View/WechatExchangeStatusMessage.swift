@@ -140,13 +140,13 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
     }()
     
     //复制按钮
-//    lazy var dailBtn: UIButton = {
-//        let view = UIButton()
-//        view.setTitleColor(kAppBlueColor, for: .normal)
-//        view.titleLabel?.font = FONT_13
-//        view.setTitle("立即拨打", for: .normal)
-//        return view
-//    }()
+    //    lazy var dailBtn: UIButton = {
+    //        let view = UIButton()
+    //        view.setTitleColor(kAppBlueColor, for: .normal)
+    //        view.titleLabel?.font = FONT_13
+    //        view.setTitle("立即拨打", for: .normal)
+    //        return view
+    //    }()
     lazy var btnlineView: UIView = {
         let view = UIView()
         view.backgroundColor = kAppColor_line_EEEEEE
@@ -212,7 +212,7 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
         bubbleBackgroundView.addSubview(textLabel)
         bubbleBackgroundView.addSubview(copyBtn)
         bubbleBackgroundView.addSubview(lineView)
-//        bubbleBackgroundView.addSubview(dailBtn)
+        //        bubbleBackgroundView.addSubview(dailBtn)
         bubbleBackgroundView.addSubview(btnlineView)
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
@@ -286,19 +286,19 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
                 
                 lineView.isHidden = false
                 copyBtn.isHidden = false
-//                dailBtn.isHidden = false
+                //                dailBtn.isHidden = false
                 btnlineView.isHidden = false
                 
                 textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height - 45)
                 lineView.frame = CGRect(x: 3.5, y: textLabel.bottom, width: bubbleBackgroundView.width - 7, height: 1)
                 copyBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundView.width, height: 45)
                 btnlineView.frame = CGRect(x: copyBtn.right, y: copyBtn.top, width: 1.0, height: copyBtn.height)
-//                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 45)
+                //                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 45)
             }else {
                 
                 lineView.isHidden = true
                 copyBtn.isHidden = true
-//                dailBtn.isHidden = true
+                //                dailBtn.isHidden = true
                 btnlineView.isHidden = true
                 textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height)
                 
@@ -310,19 +310,19 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
                 
                 lineView.isHidden = false
                 copyBtn.isHidden = false
-//                dailBtn.isHidden = false
+                //                dailBtn.isHidden = false
                 btnlineView.isHidden = false
                 
                 textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height - 45)
                 lineView.frame = CGRect(x: 3.5, y: textLabel.bottom, width: bubbleBackgroundView.width - 7, height: 1)
                 copyBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundView.width, height: 45)
                 btnlineView.frame = CGRect(x: copyBtn.right, y: copyBtn.top, width: 1.0, height: copyBtn.height)
-//                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 45)
+                //                dailBtn.frame = CGRect(x: bubbleBackgroundView.width / 2.0, y: lineView.bottom, width: bubbleBackgroundView.width / 2.0, height: 45)
             }else {
                 
                 lineView.isHidden = true
                 copyBtn.isHidden = true
-//                dailBtn.isHidden = true
+                //                dailBtn.isHidden = true
                 btnlineView.isHidden = true
                 textLabel.frame = CGRect(x: 0, y:0, width: bubbleBackgroundView.width, height: textLabelSize.height)
                 
@@ -364,7 +364,7 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
             if heght < 40 {
                 heght = 40
             }
-
+            
             
             if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
                 
@@ -384,7 +384,7 @@ class WechatExchangeStatusMessageCell: RCMessageBaseCell {
                     return CGSize(width: width, height: heght + 45)
                     
                 }else {
-
+                    
                     return CGSize(width: width, height: heght)
                 }
             }

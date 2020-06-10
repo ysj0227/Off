@@ -15,7 +15,7 @@ class SureAlertView: UIView {
         didSet {
             if let type = alertType {
                 switch type {
-                
+                    
                 case .AlertTypeVersionUpdate:
                     titleMessageLayoyt()
                     
@@ -118,15 +118,15 @@ class SureAlertView: UIView {
         superview.addSubview(self)
     }
     
-     // MARK: - 弹出输入显示
-      func ShowInputAlertView(superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((String) -> Void)) -> Void {
-          selfRemove()
-          alertMsg = message
-          alertType = AlertType.AlertTypeChatInput
-          self.cancelButtonCallClick = cancelButtonCallClick
-          self.sureAreaaddressButtonCallBack = sureAreaaddressButtonCallBack
-          superview.addSubview(self)
-      }
+    // MARK: - 弹出输入显示
+    func ShowInputAlertView(superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((String) -> Void)) -> Void {
+        selfRemove()
+        alertMsg = message
+        alertType = AlertType.AlertTypeChatInput
+        self.cancelButtonCallClick = cancelButtonCallClick
+        self.sureAreaaddressButtonCallBack = sureAreaaddressButtonCallBack
+        superview.addSubview(self)
+    }
     
     
     // MARK: - 弹出view显示 - message - 版本更新
@@ -233,10 +233,10 @@ class SureAlertView: UIView {
         }
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             
-            //            if self?.inputTFView.text?.isBlankString == true {
-            //                AppUtilities.makeToast("微信号为空")
-            //                return
-            //            }
+            if self?.inputTFView.text?.isBlankString == true {
+                AppUtilities.makeToast("微信号为空")
+                return
+            }
             
             guard let blockk = self?.sureAreaaddressButtonCallBack else {
                 return
