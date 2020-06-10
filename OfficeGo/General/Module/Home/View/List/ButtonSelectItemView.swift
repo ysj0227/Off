@@ -70,18 +70,20 @@ class ButtonSelectItemView: UIView {
         self.frame = frame
         
         self.addSubview(recommendBtn)
-        self.addSubview(nearbyBtn)
         
         recommendBtn.snp.makeConstraints { (make) in
             make.top.leading.bottom.equalToSuperview()
             make.width.equalTo(60)
         }
         
+        /* 暂时隐藏附近房源
+        self.addSubview(nearbyBtn)
         nearbyBtn.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
             make.leading.equalTo(recommendBtn.snp.trailing)
             make.width.equalTo(60)
         }
+ */
         
         selectedBtn = recommendBtn
     }

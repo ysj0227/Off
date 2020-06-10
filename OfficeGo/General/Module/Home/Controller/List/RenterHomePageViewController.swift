@@ -326,10 +326,13 @@ extension RenterHomePageViewController{
         let introCtl = FangYuanListViewController()
         introCtl.title = "推荐房源"
         
+        /* 暂时隐藏附近房源
         let catalogCtl = FangYuanListViewController()
         catalogCtl.title = "附近房源"
+         let ctls =  [introCtl,catalogCtl]
+        */
         
-        let ctls =  [introCtl,catalogCtl]
+        let ctls =  [introCtl]
         reloadViewControllers(ctls:ctls)
     }
     
