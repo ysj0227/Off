@@ -14,9 +14,8 @@ class BaseViewController: UIViewController {
     
     var titleview: ThorNavigationView?
     
-    lazy var loadingView: LoadingView = {
-        let view = LoadingView(coder: NSCoder())
-        return view ?? UIView() as! LoadingView
+    lazy var loadingView: UIView = {
+        return UIView()
     }()
     
     /*

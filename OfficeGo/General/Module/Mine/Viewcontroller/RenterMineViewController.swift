@@ -134,7 +134,11 @@ extension RenterMineViewController {
         case .RenterMineTypeRegisterAgent:
             print(typeSourceArray[indexPath.row].type)
         case .RenterMineTypeAboutus:
-            print(typeSourceArray[indexPath.row].type)
+//            print(typeSourceArray[indexPath.row].type)
+            let vc = BaseWebViewController.init(url: "https://www.baidu.com")
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
+            self.navigationController?.pushViewController(vc, animated: true)
+
         case .none:
             print(typeSourceArray[indexPath.row].type)
         }
@@ -164,6 +168,7 @@ class RenterUserHeaderView: UIView {
         let view = BaseImageView.init()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
+        view.image = UIImage.init(named: "avatar")
         view.layer.cornerRadius = heder_cordious_32
         return view
     }()

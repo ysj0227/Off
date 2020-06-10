@@ -16,48 +16,22 @@ import SwiftyJSON
 class BaseWebViewController: BaseViewController {
     
     let urlString: String
-    var isShowNaviBar = true
-    var isShowReportButton = false
     var loadingBgView: UIView?
     var titleString: String? {
         didSet {
-            if isShowNaviBar {
-                self.title = titleString
-            }
+            titleview?.titleLabel.text = titleString
         }
     }
+    
     lazy var webView: WKWebView? = {
         let view = WKWebView()
         view.navigationDelegate = self
         return view
     }()
     let disposeBag = DisposeBag()
-    lazy var leftButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "topbar_ic_back_w"), for: .normal)
-        button.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.leftBtnClick()
-            })
-            .disposed(by: disposeBag)
-        return button
-    }()
-    lazy var reportButton: UIButton = {
-        var colors = ThorButtonTextColor()
-        colors.normalColor = kAppColor_666666
-        let button = BaseButton.init(textColors: colors, imageNames: nil, texts: nil)
-        button.titleLabel?.font = UIFont.appRegular(12)
-        button.backgroundColor = kAppColor_F6F6F6
-        button.setTitle(NSLocalizedString("投诉", comment: ""), for: .normal)
-        button.layer.cornerRadius = 9
-        button.clipsToBounds = true
-        return button
-    }()
-    
-    init(url: String, showNaviBar: Bool = true, showReportButton: Bool = false) {
+
+    init(url: String) {
         urlString = url
-        isShowNaviBar = showNaviBar
-        isShowReportButton = showReportButton
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -74,16 +48,23 @@ class BaseWebViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        titleString = NSLocalizedString("加载中...", comment: "")
-        super.viewDidLoad()
-//        self.navigationHidden(hidden: !isShowNaviBar)
+                
+        titleview?.titleLabel.text = titleString
 
-//        self.navigationView.isHidden = !isShowNaviBar
+        super.viewDidLoad()
+        
+        titleview = ThorNavigationView.init(type: .backTitleRight)
+        titleview?.backgroundColor = kAppWhiteColor
+        titleview?.leftButtonCallBack = { [weak self] in
+            self?.leftBtnClick()
+        }
+        view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
+
         if let webView = webView {
             view.insertSubview(webView, at: 0)
             showLoadingView()
             webView.snp.makeConstraints { (make) in
-//                make.top.equalTo(isShowNaviBar ? navigationView.snp.bottom : 0)
+                make.top.equalTo(kNavigationHeight)
                 make.leading.bottom.trailing.equalToSuperview()
             }
             if let url = URL(string: urlString) {
@@ -91,27 +72,7 @@ class BaseWebViewController: BaseViewController {
                 webView.load(request)
             }
         }
-        if isShowNaviBar {
-            if isShowReportButton {
-//                navigationView.addSubview(reportButton)
-                reportButton.snp.makeConstraints { (make) in
-//                    make.centerY.equalTo(navigationView.titleLabel.snp.centerY)
-                    make.width.equalTo(56)
-                    make.height.equalTo(18)
-                    make.trailing.equalTo(-10)
-                }
-                reportButton.rx.tap.subscribe(onNext: {
-//                    AppLinkManager.shared.gotoFeedbackVC()
-                }).disposed(by: disposeBag)
-            }
-        } else {
-            view.addSubview(leftButton)
-            leftButton.snp.makeConstraints { (make) in
-                make.leading.equalToSuperview()
-                make.top.equalTo(kNavigationHeight - 55)
-                make.width.height.equalTo(55)
-            }
-        }
+
         _ = webView?.rx.observeWeakly(String.self, "title")
             .subscribe(onNext: { [weak self] (value) in
                 if let value = value, value.count > 0 {
@@ -150,21 +111,14 @@ class BaseWebViewController: BaseViewController {
             })
             let view = UIImageView(image: UIImage(named: name))
             loadingBgView?.addSubview(view)
-            if isShowNaviBar {
-                view.snp.makeConstraints({ (make) in
-                    make.leading.trailing.equalToSuperview()
-                    make.top.equalToSuperview().inset(kNavigationHeight)
-                })
-            } else {
-                loadingBgView?.snp.makeConstraints({ (make) in
-                    make.leading.trailing.equalToSuperview()
-                    if #available(iOS 11.0, *) {
-                        make.top.equalToSuperview().inset(self.view.safeAreaInsets.top)
-                    } else {
-                        make.top.equalToSuperview()
-                    }
-                })
-            }
+            loadingBgView?.snp.makeConstraints({ (make) in
+                make.leading.trailing.equalToSuperview()
+                if #available(iOS 11.0, *) {
+                    make.top.equalToSuperview().inset(self.view.safeAreaInsets.top)
+                } else {
+                    make.top.equalToSuperview()
+                }
+            })
         } else {
             super.showLoadingView()
         }
