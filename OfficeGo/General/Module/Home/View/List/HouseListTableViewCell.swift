@@ -22,13 +22,13 @@ class HouseListTableViewCell: BaseTableViewCell {
     
     @IBOutlet weak var lineView: UIView!
     lazy var mianjiOrLianheView: FeatureView = {
-        let view = FeatureView(frame: CGRect(x: 0, y: 0, width: self.houseOfficeNumOrSquareNumLabel.width - left_pending_space_17 * 2, height: 18))
+        let view = FeatureView(frame: CGRect(x: 0, y: 0, width:  kWidth - left_pending_space_17 * 2, height: 18))
 //        view.featureString = "免费停车,近地铁,近地铁1"
         return view
     }()
     
     lazy var featureView: FeatureView = {
-            let view = FeatureView(frame: CGRect(x: 0, y: 0, width: self.houseOfficeNumOrSquareNumLabel.width - left_pending_space_17 * 2, height: 18))
+            let view = FeatureView(frame: CGRect(x: 0, y: 0, width: kWidth - left_pending_space_17 * 2, height: 18))
             return view
         }()
         
