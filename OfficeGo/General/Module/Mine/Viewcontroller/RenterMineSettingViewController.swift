@@ -12,10 +12,10 @@ class RenterMineSettingViewController: BaseTableViewController {
     
     var typeSourceArray:[SettingConfigureModel] = {
         var arr = [SettingConfigureModel]()
-        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeAccountAndBind))
-        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeNoticifyAndAlert))
-        arr.append(SettingConfigureModel.init(types: .RenterSettingTypePrivacySetting))
-        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeHello))
+//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeAccountAndBind))
+//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeNoticifyAndAlert))
+//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypePrivacySetting))
+//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeHello))
         arr.append(SettingConfigureModel.init(types: .RenterSettingTypeVersionUpdate))
         arr.append(SettingConfigureModel.init(types: .RenterSettingTypeRoleChange))
         return arr
@@ -51,8 +51,8 @@ class RenterMineSettingViewController: BaseTableViewController {
 extension RenterMineSettingViewController {
     
     @objc func logotClick() {
-        //退出登录
-        NotificationCenter.default.post(name: NSNotification.Name.UserLogout, object: nil)
+        
+        showLogotAlertview()
     }
     
     func setUpView() {
@@ -118,6 +118,17 @@ extension RenterMineSettingViewController {
                     }
                 }
             }
+        }
+    }
+    
+    func showLogotAlertview() {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.inputTFView.text = "您是否要退出登录？"
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, superview: self.view, message: "温馨提示", cancelButtonCallClick: {
+            
+        }) {
+            //退出登录
+            NotificationCenter.default.post(name: NSNotification.Name.UserLogout, object: nil)
         }
     }
 }

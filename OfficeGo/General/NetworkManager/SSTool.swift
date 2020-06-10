@@ -75,6 +75,18 @@ import SnapKit
         return String(date!.timeIntervalSince1970)
     }
     
+    //字符串转时间戳
+    static func timeStrChangeToDateYYYYMMdd(timeStr: String?) -> Date {
+        
+        let format = DateFormatter.init()
+        format.dateStyle = .medium
+        format.timeStyle = .short
+        format.dateFormat = "yyyy-MM-dd"
+
+        let date = format.date(from: timeStr!) ?? Date()
+        return date
+    }
+    
     static func invokeInMainThread(closure: @escaping VoidClosure) {
         DispatchQueue.main.async {
             closure()

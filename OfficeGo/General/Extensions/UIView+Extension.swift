@@ -25,7 +25,6 @@ extension UIView {
         self.layer.shadowOffset = offset
         self.layer.shadowRadius = radius
         self.layer.shadowOpacity = opacity
-        self.layer.masksToBounds = false
     }
     
     /// 添加部分圆角

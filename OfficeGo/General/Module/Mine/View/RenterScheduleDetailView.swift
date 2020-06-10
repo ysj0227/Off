@@ -24,19 +24,25 @@ class RenterScheduleDetailView: UIView {
     @IBAction func clickToTelephone(_ sender: Any) {
     }
     
-    
-    var model: String = "" {
+        var model: ScheduleListDetailModel? {
         didSet {
-            houseNameLabel.text = "约看：" + ""
-            userAvatarImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
-            userNameLabel.text = "名字"
-            userCompanyLabel.text = "公司"
-            scheduleTimeLabel.text = "时间点"
-            scheduleAddressLabel.text = "地址"
-            scheduleTrafficLabel.text = "公交"
+            if let buildingModel = model?.building {
+                buildingViewModel = ScheduleListDetailBuildingViewModel.init(model: buildingModel)
+            }
         }
     }
 
+    var buildingViewModel: ScheduleListDetailBuildingViewModel? {
+        didSet {
+            houseNameLabel.text = buildingViewModel?.schedulebuildingName
+            userAvatarImg.setImage(with: buildingViewModel?.avatarString ?? "", placeholder: UIImage.init(named: "avatar"))
+            userNameLabel.text = buildingViewModel?.contactNameString
+            userCompanyLabel.text = buildingViewModel?.companyJobString
+            scheduleTimeLabel.text = buildingViewModel?.dateTimeString
+            scheduleAddressLabel.text = buildingViewModel?.addressString
+            scheduleTrafficLabel.text = buildingViewModel?.walkTimesubwayAndStationStringArr?.count ?? 0 > 0 ? buildingViewModel?.walkTimesubwayAndStationStringArr?[0] : ""
+        }
+    }
     override func draw(_ rect: CGRect) {
 
     }

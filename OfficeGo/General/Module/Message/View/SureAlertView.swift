@@ -249,6 +249,8 @@ class SureAlertView: UIView {
     ///版本更新 - 有标题和文本说明
     func titleMessageLayoyt() {
         
+        inputTFView.textAlignment = .center
+        
         bgview.addSubview(inputTFView)
         bgview.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()

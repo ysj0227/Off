@@ -16,7 +16,7 @@ class RenterMineViewController: BaseTableViewController {
     
     var typeSourceArray:[MineConfigureModel] = {
         var arr = [MineConfigureModel]()
-        arr.append(MineConfigureModel.init(types: .RenterMineTypeIWanttoFind))
+//        arr.append(MineConfigureModel.init(types: .RenterMineTypeIWanttoFind))
         arr.append(MineConfigureModel.init(types: .RenterMineTypeHouseSchedule))
         arr.append(MineConfigureModel.init(types: .RenterMineTypeHelpAndFeedback))
         arr.append(MineConfigureModel.init(types: .RenterMineTypeCusomers))

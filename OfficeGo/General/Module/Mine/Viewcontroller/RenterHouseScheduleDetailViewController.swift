@@ -22,14 +22,46 @@ class RenterHouseScheduleDetailViewController: BaseViewController {
         return view
     }()
     
+    var scheduleId: Int?
+    
+    var scheduleListDetailModel: ScheduleListDetailModel?
+    
+    var scheduleListDetailViewModel: ScheduleListDetailViewModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setView()
         
-        setData()
+        refreshData()
     }
     
+    func refreshData() {
+        
+        var params = [String:AnyObject]()
+        params["token"] = "MTA0X3N1bndlbGxfMTU5MTYwNTkwOV8w" as AnyObject?
+        params["scheduleId"] = scheduleId as AnyObject?
+
+        SSNetworkTool.SSSchedule.request_getScheduleDetailApp(params: params, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let model = ScheduleListDetailModel.deserialize(from: response, designatedPath: "data") {
+
+                weakSelf.scheduleListDetailModel = model
+                weakSelf.scheduleListDetailViewModel = ScheduleListDetailViewModel.init(model: model)
+
+                weakSelf.setViewModel()
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
 }
 
 extension RenterHouseScheduleDetailViewController {
@@ -52,7 +84,13 @@ extension RenterHouseScheduleDetailViewController {
         }
     }
     
-    func setData() {
-        msgView.model = ""
+    func setViewModel() {
+        
+        titleview?.titleLabel.text = scheduleListDetailViewModel?.buildingViewModel?.auditStatusString
+
+        SSTool.invokeInMainThread {[weak self] in
+            self?.msgView.buildingViewModel = self?.scheduleListDetailViewModel?.buildingViewModel
+        }
     }
+    
 }

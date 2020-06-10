@@ -12,8 +12,23 @@ import SwiftyJSON
 
 class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     
+    ///默认显示看房行程- 为true 显示约看记录
+    var isLookRecord: Bool = false {
+        didSet {
+            setDataType()
+        }
+    }
+    
+    ///开始请求时间戳
+    var startTime: Int = 0
+    
+    ///结束请求时间戳
+    var endTime: Int = 0
+    
+    ///显示数据
     var dataSourceArr: [ScheduleViewModel] = []
 
+    ///当前显示的有数据的事件 2020-09-20
     var currentDayString: String?
     
     ///当前显示的某一天的数据
@@ -27,11 +42,8 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
         calendar.delegate = self
         calendar.scope = .week
         calendar.placeholderType = .none
-        //        calendar.scrollEnabled = true
-        //        calendar.pagingEnabled = true
-        //        calendar.rowHeight = 53
-        //        return _scope == FSCalendarScopeMonth && _scrollEnabled && !_pagingEnabled;
-        
+        ///设置周一为周的第一天
+        calendar.firstWeekday = 2
         calendar.headerHeight = 45
         calendar.weekdayHeight = 30
         calendar.layoutSubviews()
@@ -45,6 +57,8 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
         calendar.appearance.titleFont = FONT_13
         calendar.appearance.selectionColor = kAppBlueColor      //选中的日期的背景
         calendar.appearance.titleSelectionColor = kAppWhiteColor//选中的日期的颜色
+        calendar.appearance.todayColor = kAppBlueColor
+        calendar.appearance.todaySelectionColor = kAppBlueColor
         calendar.select(Date(), scrollToDate: true)
         calendar.accessibilityIdentifier = "calendar"
         calendar.layoutSubviews()
@@ -75,49 +89,137 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
         
     }
     
-    
+    func getTimeIntervalWidhtDate(date: Date) -> Int {
+        return Int(date.timeIntervalSince1970)
+    }
     override func refreshData() {
         
         var params = [String:AnyObject]()
         params["token"] = "MTA0X3N1bndlbGxfMTU5MTYwNTkwOV8w" as AnyObject?
-        params["startTime"] = 1591002463 as AnyObject?
-        params["endTime"] = 1591942800 as AnyObject?
-
-        SSNetworkTool.SSSchedule.request_getScheduleListApp(params: params, success: { [weak self] (response) in
-            guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<ScheduleModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                
-                var arr: [ScheduleViewModel] = []
-                for model in decoratedArray {
-                    let viewmodel = ScheduleViewModel.init(model: model ?? ScheduleModel())
-                    arr.append(viewmodel)
-                    weakSelf.datesWithEvent.append(viewmodel.day ?? "")
+        params["startTime"] = startTime as AnyObject?
+        params["endTime"] = endTime as AnyObject?
+        
+        if isLookRecord == true {
+            ///请求看房记录 -
+            SSNetworkTool.SSSchedule.request_getOldScheduleListApp(params: params, success: { [weak self] (response) in
+                guard let weakSelf = self else {return}
+                if let decoratedArray = JSONDeserializer<ScheduleModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                    
+                    var arr: [ScheduleViewModel] = []
+                    var event: [String] = []
+                    for model in decoratedArray {
+                        let viewmodel = ScheduleViewModel.init(model: model ?? ScheduleModel())
+                        arr.append(viewmodel)
+                        event.append(viewmodel.day ?? "")
+                    }
+                    weakSelf.dataSourceArr = arr
+                    weakSelf.datesWithEvent = event
+                    weakSelf.loadViewShowViews()
+                    
                 }
-                weakSelf.dataSourceArr = arr
-                weakSelf.setUpData()
-                weakSelf.tableView.reloadData()
                 
+                }, failure: { (error) in
+                    
+            }) { (code, message) in
+                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
             }
-            
-            }, failure: { (error) in
+        }else {
+
+            SSNetworkTool.SSSchedule.request_getScheduleListApp(params: params, success: { [weak self] (response) in
+                guard let weakSelf = self else {return}
+                if let decoratedArray = JSONDeserializer<ScheduleModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                    
+                    var arr: [ScheduleViewModel] = []
+                    var event: [String] = []
+                    for model in decoratedArray {
+                        let viewmodel = ScheduleViewModel.init(model: model ?? ScheduleModel())
+                        arr.append(viewmodel)
+                        event.append(viewmodel.day ?? "")
+                    }
+                    weakSelf.dataSourceArr = arr
+                    weakSelf.datesWithEvent = event
+                    weakSelf.loadViewShowViews()
+                    
+                }
                 
-        }) { (code, message) in
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
+                }, failure: { (error) in
+                    
+            }) { (code, message) in
+                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
             }
         }
+
+    }
+    
+    func loadViewShowViews() {
+        SSTool.invokeInMainThread { [weak self] in
+
+            if let arr = self?.datesWithEvent {
+                if arr.count > 0 {
+                    self?.currentDayString = arr[0]
+                    let date = SSTool.timeStrChangeToDateYYYYMMdd(timeStr: self?.currentDayString)
+                    self?.calendar.select(date, scrollToDate: true)
+                    self?.currentModel = self?.dataSourceArr[0]
+                }
+            }
+            self?.calendar.reloadData()
+            self?.tableView.reloadData()
+        }
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         currentDayString =  self.dateFormatter2.string(from: NSDate() as Date)
+
         setUpView()
-        
     }
     
+    
+    func setDataType() {
+        ///默认显示看房行程- 为true 显示约看记录
+        ///当前为约看记录
+        if isLookRecord == true {
+             titleview?.rightButton.setTitle("看房行程", for: .normal)
+
+            titleview?.titleLabel.text = "约看记录"
+            
+            ///清空之前显示的数据
+            currentDayString = ""
+            
+            currentModel = nil
+            
+            refreshData()
+
+            titleview?.rightBtnClickBlock = { [weak self] in
+                self?.isLookRecord = false
+            }
+        }else {
+            titleview?.rightButton.setTitle("约看记录", for: .normal)
+
+            titleview?.titleLabel.text = "看房行程"
+
+            ///清空之前显示的数据
+            currentDayString = ""
+            
+            currentModel = nil
+            
+            refreshData()
+
+            titleview?.rightBtnClickBlock = { [weak self] in
+                self?.isLookRecord = true
+            }
+        }
+    }
 }
 
 
@@ -126,19 +228,28 @@ extension RenterHouseScheduleViewController {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print("didSelect\(date)")
         currentDayString = self.dateFormatter2.string(from: date)
+        var isHas: Bool = false
         for model in dataSourceArr {
             if model.day == currentDayString {
                 currentModel = model
+                isHas = true
                 break
             }
+        }
+        if isHas != true {
+            currentDayString = ""
+            currentModel = nil
         }
         self.tableView.reloadData()
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         print("calendarCurrentPageDidChange\(calendar.currentPage)")
-        dataSourceArr.removeAll()
-        self.tableView.reloadData()
+        currentDayString = ""
+        currentModel = nil
+        startTime = getTimeIntervalWidhtDate(date: self.calendar.currentPage)
+        endTime = startTime + 86400 * 7
+        refreshData()
     }
     
     func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
@@ -161,7 +272,7 @@ extension RenterHouseScheduleViewController {
     }
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
         if self.datesWithEvent.contains(self.dateFormatter2.string(from: date)) {
-            return [kAppBlackColor]
+            return [kAppWhiteColor]
         }
         return nil
     }
@@ -201,8 +312,7 @@ extension RenterHouseScheduleViewController {
             self?.leftBtnClick()
         }
         titleview?.rightBtnClickBlock = { [weak self] in
-            let vc = RenterHouseScheduleViewController()
-            self?.navigationController?.pushViewController(vc, animated: true)
+            self?.isLookRecord = true
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
@@ -210,6 +320,8 @@ extension RenterHouseScheduleViewController {
         
         self.view.sendSubviewToBack(calendar)
         
+        SSLog("当前时间\(calendar.currentPage)")
+                
         let preBtn = UIButton.init(frame: CGRect(x: 0, y: kNavigationHeight, width: 50, height: 45))
         preBtn.backgroundColor = kAppWhiteColor
         preBtn.addTarget(self, action: #selector(previousClicked), for: .touchUpInside)
@@ -229,25 +341,15 @@ extension RenterHouseScheduleViewController {
         }
         self.tableView.register(RenterHouseScheduleCell.self, forCellReuseIdentifier: RenterHouseScheduleCell.reuseIdentifierStr)
         
+        
+        //第一次获取到的时间 - 比之前要替桥一周 - 所以加一周的时间戳
+        startTime = getTimeIntervalWidhtDate(date: self.calendar.currentPage) + 86400 * 6 + 86400 * 1
+        endTime = startTime + 86400 * 7
         refreshData()
     }
     
     func setUpData() {
         
-//        datesWithEvent.append("2020-05-01")
-//        datesWithEvent.append("2020-05-19")
-//        datesWithEvent.append("2020-05-20")
-//        datesWithEvent.append("2020-05-28")
-//
-//        dataSourceArr.append("111")
-//        dataSourceArr.append("2224")
-//        dataSourceArr.append("111")
-//        dataSourceArr.append("2224")
-//        dataSourceArr.append("111")
-//        dataSourceArr.append("2224")
-//        dataSourceArr.append("111")
-//        dataSourceArr.append("2224")
-//        self.tableView.reloadData()
     }
     
 }
@@ -258,8 +360,26 @@ extension RenterHouseScheduleViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: RenterHouseScheduleCell.reuseIdentifierStr) as? RenterHouseScheduleCell
         cell?.selectionStyle = .none
         if let scheduleList = currentModel?.scheduleViewModelList {
-            cell?.viewModel = scheduleList[indexPath.row]
+            
+            if scheduleList.count > indexPath.row {
+                cell?.viewModel = scheduleList[indexPath.row]
+            }
+            
+            ///线条显示处理
+            if scheduleList.count == 1 {
+                cell?.topLineView.isHidden = true
+                cell?.bottomLineView.isHidden = true
+            }else {
+                if indexPath.row == 0 {
+                    cell?.topLineView.isHidden = true
+                    cell?.bottomLineView.isHidden = false
+                }else if indexPath.row == scheduleList.count - 1 {
+                    cell?.topLineView.isHidden = false
+                    cell?.bottomLineView.isHidden = true
+                }
+            }
         }
+        
         return cell ?? RenterHouseScheduleCell.init(frame: .zero)
     }
     
@@ -275,6 +395,7 @@ extension RenterHouseScheduleViewController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = RenterHouseScheduleDetailViewController()
+        vc.scheduleId = currentModel?.scheduleViewModelList?[indexPath.row].scheduleId
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -328,14 +449,14 @@ class RenterHouseScheduleCell: BaseTableViewCell {
     lazy var companyLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_9
+        view.font = FONT_10
         view.textColor = kAppColor_666666
         return view
     }()
     
     lazy var stateLabel: UILabel = {
         let view = UILabel()
-        view.textAlignment = .left
+        view.textAlignment = .right
         view.font = FONT_MEDIUM_10
         return view
     }()
@@ -375,35 +496,22 @@ class RenterHouseScheduleCell: BaseTableViewCell {
     var viewModel: ScheduleViewModelList = ScheduleViewModelList(model: ScheduleList()) {
         didSet {
             ///行程审核状态 0预约待接受 1预约成功 2预约失败 3已看房 4未看房
-            if viewModel.auditStatus == 3 {
-                timeIcon.image = UIImage.init(named: "timeIconGray")
-                stateLabel.text = "已完成"
-                stateLabel.textColor = kAppColor_666666
-                bgView.backgroundColor = kAppColor_bgcolor_F7F7F7
-                nameLabel.textColor = kAppColor_666666
-                descLabel.textColor = kAppColor_666666
-                
-            }else if viewModel.auditStatus == 0 {
-                timeIcon.image = UIImage.init(named: "timeIcon")
-                stateLabel.text = "待接受"
-                stateLabel.textColor = kAppBlueColor
-                bgView.backgroundColor = kAppLightBlueColor
-                nameLabel.textColor = kAppColor_333333
-                descLabel.textColor = kAppColor_333333
-            }else if viewModel.auditStatus == 1 {
-                timeIcon.image = UIImage.init(named: "timeIcon")
-                stateLabel.text = "预约成功"
-                stateLabel.textColor = kAppBlueColor
-                bgView.backgroundColor = kAppLightBlueColor
-                nameLabel.textColor = kAppColor_333333
-                descLabel.textColor = kAppColor_333333
-            }
+            bgView.backgroundColor = viewModel.autitBgViewColor
+            timeIcon.image = UIImage.init(named: viewModel.autitStatusTimeIcon ?? "")
+            stateLabel.text = viewModel.auditStatusString
+            stateLabel.textColor = viewModel.autitStatusLabelColor
+            nameLabel.textColor = viewModel.autitBuildingNameColor
+            descLabel.textColor = viewModel.autitBuildingNameColor
+            
             dateLabel.text = viewModel.dateTimeString
             dateTimeLabel.text = viewModel.hourMinuterTimeString
             nameLabel.text = viewModel.contactNameString
             companyLabel.text = viewModel.companyJobString
             descLabel.text = viewModel.schedulebuildingName
             addressLabel.text = viewModel.businessDistrict
+            
+            topLineView.backgroundColor = viewModel.autitStatusLabelColor
+            bottomLineView.backgroundColor = viewModel.autitStatusLabelColor
         }
     }
     
@@ -411,9 +519,9 @@ class RenterHouseScheduleCell: BaseTableViewCell {
         
         addSubview(dateLabel)
         addSubview(dateTimeLabel)
+        addSubview(bgView)
         addSubview(topLineView)
         addSubview(bottomLineView)
-        addSubview(bgView)
         addSubview(timeIcon)
         bgView.addSubview(nameLabel)
         bgView.addSubview(companyLabel)
@@ -438,6 +546,19 @@ class RenterHouseScheduleCell: BaseTableViewCell {
             make.size.equalTo(17)
             make.centerY.equalToSuperview()
         }
+        topLineView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.centerX.equalTo(timeIcon)
+            make.bottom.equalTo(timeIcon.snp.top).offset(-4)
+            make.width.equalTo(1.0)
+        }
+        bottomLineView.snp.makeConstraints { (make) in
+            make.top.equalTo(timeIcon.snp.bottom).offset(4)
+            make.centerX.equalTo(timeIcon)
+            make.bottom.equalToSuperview()
+            make.width.equalTo(1.0)
+        }
+
         bgView.snp.makeConstraints { (make) in
             make.leading.equalTo(timeIcon.snp.trailing).offset(-8.5)
             make.top.equalTo(dateLabel)
@@ -447,8 +568,8 @@ class RenterHouseScheduleCell: BaseTableViewCell {
         stateLabel.snp.makeConstraints { (make) in
             make.top.equalTo(10)
             make.height.equalTo(23)
-            make.trailing.equalToSuperview()
-            make.width.equalTo(35)
+            make.trailing.equalToSuperview().offset(-13)
+            make.width.equalTo(55)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
