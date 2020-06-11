@@ -147,7 +147,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
             
             firstItem.titleLabel.text = viewModel.individualAreaString
             firstItem.descripLabel.text = viewModel.individualSeatsString
-            thirdItem.titleLabel.text = viewModel.openMonthPriceString ?? "0" + "/月"
+            thirdItem.titleLabel.text = viewModel.individualMonthPriceString ?? "0" + "/月"
             thirdItem.descripLabel.text = viewModel.individualDayPriceString
         }
         
