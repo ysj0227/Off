@@ -32,14 +32,6 @@ struct AppKey {
     static let RCAppSecret = "OF78PpILjjRk4"
 
     //模拟器
-//    static let rcToken = "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
-//   static let rcTargetid = "200"
-//    static let rcname = "这是手机上的用户"
-
-    //手机
-    static let rcToken = "eUzLOW4WtLJWoGBApvh/8HCrUzJkiK1E9fMM5XnpfOM=@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com"
-    static let rcTargetid = "11"
-    static let rcname = "shouji"
 
     static let InsertFYMessageTypeIdentifier = "og:insertfyinfo"
     static let PhoneExchangeMessageTypeIdentifier = "og:mobile"

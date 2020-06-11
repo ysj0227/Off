@@ -9,12 +9,26 @@
 import UIKit
 
 class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
-        
+    
     // 测试消息的内容
     var content: String = ""
     
     // 测试消息的附加信息
-    var extraMessage: String? = ""
+    var extraMessage: String?
+    ///封面图
+    var mainPic : String?
+    var createTimeAndByWho : String?
+    var isFavorite : Bool = false
+    var buildingName : String?
+    var houseName : String?
+    ///2.1km | 徐汇区 · 漕河泾
+    var distanceDistrictString: String?
+    ///步行5分钟到 | 2号线 ·东昌路站
+    var walkTimesubwayAndStationString: String?
+    ///日租金
+    var dayPriceString: String?
+    ///特色
+    var tagsString: String?
     
     // 根据参数创建消息对象
     class func messageWithContent(content: String) -> FangyuanInsertFYMessage {
@@ -37,12 +51,30 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
         super.init()
         content = aDecoder.decodeObject(forKey: "content") as? String ?? ""
         extraMessage = aDecoder.decodeObject(forKey: "extraMessage") as? String ?? ""
+        mainPic = aDecoder.decodeObject(forKey: "mainPic") as? String ?? ""
+        createTimeAndByWho = aDecoder.decodeObject(forKey: "createTimeAndByWho") as? String ?? ""
+        isFavorite = aDecoder.decodeObject(forKey: "isFavorite") as? Bool ?? false
+        buildingName = aDecoder.decodeObject(forKey: "buildingName") as? String ?? ""
+        houseName = aDecoder.decodeObject(forKey: "houseName") as? String ?? ""
+        distanceDistrictString = aDecoder.decodeObject(forKey: "distanceDistrictString") as? String ?? ""
+        walkTimesubwayAndStationString = aDecoder.decodeObject(forKey: "walkTimesubwayAndStationString") as? String ?? ""
+        dayPriceString = aDecoder.decodeObject(forKey: "dayPriceString") as? String ?? ""
+        tagsString = aDecoder.decodeObject(forKey: "tagsString") as? String ?? ""
     }
     
     // NSCoding
     func encode(with aCoder: NSCoder) {
         aCoder.encode(content, forKey: "content")
         aCoder.encode(extraMessage, forKey: "extraMessage")
+        aCoder.encode(mainPic, forKey: "mainPic")
+        aCoder.encode(createTimeAndByWho, forKey: "createTimeAndByWho")
+        aCoder.encode(isFavorite, forKey: "isFavorite")
+        aCoder.encode(buildingName, forKey: "buildingName")
+        aCoder.encode(houseName, forKey: "houseName")
+        aCoder.encode(distanceDistrictString, forKey: "distanceDistrictString")
+        aCoder.encode(walkTimesubwayAndStationString, forKey: "walkTimesubwayAndStationString")
+        aCoder.encode(dayPriceString, forKey: "dayPriceString")
+        aCoder.encode(tagsString, forKey: "tagsString")
     }
     
     // 序列化，将消息内容编码成 json
@@ -50,9 +82,36 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
         var dataDict: [String : Any] = [:]
         
         dataDict["content"] = content
+        
         if let extraMessage = extraMessage {
             dataDict["extraMessage"] = extraMessage
         }
+        if let mainPic = mainPic {
+            dataDict["mainPic"] = mainPic
+        }
+        if let createTimeAndByWho = createTimeAndByWho {
+            dataDict["createTimeAndByWho"] = createTimeAndByWho
+        }
+        dataDict["isFavorite"] = isFavorite
+        if let buildingName = buildingName {
+            dataDict["buildingName"] = buildingName
+        }
+        if let houseName = houseName {
+            dataDict["houseName"] = houseName
+        }
+        if let distanceDistrictString = distanceDistrictString {
+            dataDict["distanceDistrictString"] = distanceDistrictString
+        }
+        if let walkTimesubwayAndStationString = walkTimesubwayAndStationString {
+            dataDict["walkTimesubwayAndStationString"] = walkTimesubwayAndStationString
+        }
+        if let dayPriceString = dayPriceString {
+            dataDict["dayPriceString"] = dayPriceString
+        }
+        if let tagsString = tagsString {
+            dataDict["tagsString"] = tagsString
+        }
+        
         
         if let senderUserInfo = senderUserInfo {
             dataDict["user"] = self.encode(senderUserInfo)
@@ -73,6 +132,16 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
             let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
             content = dictionary["content"] as? String ?? ""
             extraMessage = dictionary["extraMessage"] as? String ?? ""
+            mainPic = dictionary["mainPic"]as? String ?? ""
+            createTimeAndByWho = dictionary["createTimeAndByWho"]as? String ?? ""
+            isFavorite = dictionary["isFavorite"]as? Bool ?? false
+            buildingName = dictionary["buildingName"]as? String ?? ""
+            houseName = dictionary["houseName"]as? String ?? ""
+            distanceDistrictString = dictionary["distanceDistrictString"]as? String ?? ""
+            walkTimesubwayAndStationString = dictionary["walkTimesubwayAndStationString"]as? String ?? ""
+            dayPriceString = dictionary["dayPriceString"]as? String ?? ""
+            tagsString = dictionary["tagsString"]as? String ?? ""
+            
             let userInfoDict = dictionary["user"] as? [String : Any] ?? [:]
             decodeUserInfo(userInfoDict)
         } catch {
@@ -119,8 +188,8 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         view.backgroundColor = kAppWhiteColor
         return view
     }()
-    lazy var houseMainImg: UIImageView = {
-        let view = UIImageView()
+    lazy var houseMainImg: BaseImageView = {
+        let view = BaseImageView()
         view.image = UIImage.init(named: "")
         view.clipsToBounds = true
         view.layer.cornerRadius = button_cordious_2
@@ -204,14 +273,16 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
     }
     
     private func setAutoLayout() {
-                        
-        houseMainImg.image = UIImage.init(named: "wechat")
-        houseNameLabel.text = "百平办公低价出租 距离七号线700米"
-        houseKmAndAddressLabel.text = "2.1km | 徐汇区 · 漕河泾"
-        houseTrafficLabel.text = "步行8分钟 [2号线 ·东昌路站]"
-        housePriceLabel.text = "￥2 /㎡/天起"
-        houseFeatureView.featureStringDetail = "免押金, 进地铁"
-        msgStartDescLabel.text = "3月17日13:45 由你发起沟通"
+        
+        let viewModel = model.content as? FangyuanInsertFYMessage
+
+        houseMainImg.setImage(with: viewModel?.mainPic ?? "", placeholder: UIImage.init(named: "wechat"))
+        houseNameLabel.text = viewModel?.houseName ?? ""
+        houseKmAndAddressLabel.text = viewModel?.distanceDistrictString ?? ""
+        houseTrafficLabel.text = viewModel?.walkTimesubwayAndStationString ?? ""
+        housePriceLabel.text = viewModel?.dayPriceString ?? ""
+        houseFeatureView.featureStringDetail = viewModel?.tagsString ?? ""
+        msgStartDescLabel.text = viewModel?.createTimeAndByWho ?? ""
         collectBtn.isSelected = true
         //            collectBtn.layoutButton(.imagePositionLeft, space: 10)
     }

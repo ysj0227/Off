@@ -157,13 +157,46 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         
         //找房东
         bottomBtnView.rightBtnClickBlock = { [weak self] in
-            
+            self?.requestCreateChat()
+        }
+    }
+    
+    
+    func clickToChat(chatModel: MessageFYChattedModel) {
+        SSTool.invokeInMainThread { [weak self] in
             let vc = RenterChatViewController()
-            vc.conversationType = .ConversationType_PRIVATE
-            vc.targetId = AppKey.rcTargetid
-            vc.title = "聊天房源"
+            vc.targetId = chatModel.targetId
+            vc.chatUserId = chatModel.targetId
             vc.displayUserNameInCell = false
             self?.navigationController?.pushViewController(vc, animated: true)
+
+        }
+    }
+    
+    func requestCreateChat() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["houseId"] = buildingFYDetailModel?.house?.id as AnyObject?
+        
+        
+        SSNetworkTool.SSChat.request_getCreatFirstChatApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.clickToChat(chatModel: model)
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+                                    
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
         }
     }
     

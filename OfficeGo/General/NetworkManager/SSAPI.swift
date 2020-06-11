@@ -112,6 +112,17 @@ enum DictionaryCodeEnum: String {
     case codeEnumhotKeywords = "hotKeywords"
 }
 
+//  MARK:   --聊天
+class SSChatURL: NSObject {
+    
+    //创建和业主聊天接口
+    static let getCreatFirstChatApp = "chat/chatApp"
+
+    //
+    static let getChatMsgDetailApp = "chat/firstChatApp"
+    
+}
+
 //  MARK:   --搜索
 class SSSearchURL: NSObject {
     
@@ -230,21 +241,6 @@ class SSScheduleURL: NSObject {
     //行程审核接口
     static let updateAuditStatusApp = "schedule/updateAuditStatusApp"
     
-}
-
-
-//海报
-class SSPoster: NSObject {
-    
-    static let posterBgList = "api/activity/poster/list"                  // 默认的海报地址
-    static let posterSaveToDB  = "api/activity/posterUser"                // 保存用户生成海报信息
-    static let posterUserList  = "api/activity/posterUser/list"           // 我的海报列表
-    static let recommend = "api/activity/activityRecommend/list"
-    static let getQiniuToken = "api/activity/qiniu/getUploadToken"        //七牛云获取token
-}
-
-class UUListenTestUrl: NSObject {
-    static let requestListenTest = "api/activity/superActivityUrl" //获取试听h5接口
 }
 
 extension SSAPI.AppBuildType: CustomStringConvertible {

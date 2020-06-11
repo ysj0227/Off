@@ -429,13 +429,20 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         
         //找房东
         bottomBtnView.rightBtnClickBlock = { [weak self] in
-            
-            let vc = RenterChatViewController()
-            vc.conversationType = .ConversationType_PRIVATE
-            vc.targetId = AppKey.rcTargetid
-            vc.title = "聊天房源"
-            vc.displayUserNameInCell = false
-            self?.navigationController?.pushViewController(vc, animated: true)
+            if self?.buildingDetailModel?.btype == 1 { //办公楼
+                //1
+                if self?.dataSourceArr.count ?? 0 > 1 {
+                    self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 1), at: UITableView.ScrollPosition.top, animated: true)
+                }
+
+            }else {
+                //3
+                if self?.dataSourceArr.count ?? 0 > 3 {
+                    self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 3), at: UITableView.ScrollPosition.top, animated: true)
+
+                }
+
+            }
         }
         
         requestSet()

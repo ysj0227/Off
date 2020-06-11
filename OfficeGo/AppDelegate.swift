@@ -55,8 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         //        self.networkReachabilityStatus()
-        //        UserTool.shared.user_phone = "18567111111"
-        UserTool.shared.user_phone = "18567200200"
         
         setUpSDKs()
         
@@ -194,8 +192,8 @@ extension AppDelegate {
     
     //设置当前用户信息
     func setRCUserInfo() {
-        //        let info = RCUserInfo.init(userId: "11", name: "11", portrait: "https://img.officego.com.cn/house/1589973533713.png")
-        let info = RCUserInfo.init(userId: "200", name: "200", portrait: "https://img.officego.com.cn/report/1590121741001.jpg")
+        
+        let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
         
         RCIM.shared()?.currentUserInfo = info
         
@@ -206,7 +204,7 @@ extension AppDelegate {
     //登录融云账号  -  如果之前用户登录就直接登录， 否则在登录成功之后登录
     func loginRongCloud() {
         
-        RCIM.shared()?.connect(withToken: AppKey.rcToken, success: { (userid) in
+        RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: { (userid) in
             print("登陆成功。当前登录的用户ID： \(String(describing: userid))")
         }, error: { (code) in
             print("登陆的错误码为\(code)")
@@ -255,7 +253,7 @@ extension AppDelegate {
         RCIM.shared()?.enablePersistentUserInfoCache = true
         
         //没懂什么意思Mark Mark
-        //        RCIM.shared()?.userInfoDataSource = RCDUserService.shared
+        RCIM.shared()?.userInfoDataSource = RCDUserService.shared
         //        RCIM.shared()?.userInfoDataSource = self
         
         //注册自定义消息

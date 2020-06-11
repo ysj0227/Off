@@ -65,6 +65,23 @@ class HouseListTableViewCell: BaseTableViewCell {
         }
     }
     
+    //聊天预约看房页面
+    var messageViewModel: MessageFYViewModel = MessageFYViewModel(model: MessageFYModel()) {
+        didSet {
+            setCellWithMessageViewModel(viewModel: messageViewModel)
+        }
+    }
+    
+    func setCellWithMessageViewModel(viewModel: MessageFYViewModel) {
+        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage.init(named: "wechat"))
+        houseNameLabel.text = viewModel.buildingName
+        houseDistanceLabel.text = viewModel.distanceString
+        houseAddressLabel.text = viewModel.districtString
+        houseRouteLineLabel.text = viewModel.walkTimesubwayAndStationString
+        housePriceLabel.text = viewModel.dayPriceString
+        housePriceUnitLabel.text = viewModel.unitString
+    }
+        
     override func awakeFromNib() {
         super.awakeFromNib()
 

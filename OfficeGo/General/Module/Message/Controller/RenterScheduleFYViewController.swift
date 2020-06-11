@@ -12,6 +12,12 @@ class RenterScheduleFYViewController: BaseTableViewController {
     
     var dateSelect: Date?
     
+    var messageFYViewModel: MessageFYViewModel? {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     var dateHasSelect: Bool = false {
         didSet {
             if dateHasSelect {
@@ -42,9 +48,9 @@ class RenterScheduleFYViewController: BaseTableViewController {
         let interval = Int(round(dateSelect?.timeIntervalSince1970 ?? 0 * 1000))
         
         var params = [String:AnyObject]()
-        params["buildingId"] = 55 as AnyObject?
-        params["houseIds"] = "223" as AnyObject?
-        params["chatUserId"] = 104 as AnyObject?
+        params["buildingId"] = messageFYViewModel?.buildingId as AnyObject?
+        params["houseIds"] = messageFYViewModel?.houseId as AnyObject?
+        params["chatUserId"] = messageFYViewModel?.targetId as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
 
         SSNetworkTool.SSSchedule.request_addRenterApp(params: params, success: { [weak self] (response) in
@@ -98,6 +104,7 @@ class RenterScheduleFYViewController: BaseTableViewController {
         self.tableView.register(RenterScheduleUserBasicCell.self, forCellReuseIdentifier: RenterScheduleUserBasicCell.reuseIdentifierStr)
         self.tableView.register(RenterScheduleYeZhuBasicCell.self, forCellReuseIdentifier: RenterScheduleYeZhuBasicCell.reuseIdentifierStr)
         
+        tableView.reloadData()
     }
     
 }
@@ -131,22 +138,23 @@ extension RenterScheduleFYViewController {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: HouseListTableViewCell.reuseIdentifierStr) as? HouseListTableViewCell
             cell?.selectionStyle = .none
-            let model = FangYuanListModel()
             cell?.houseFeatureView.isHidden = true
             cell?.houseOfficeNumOrSquareNumLabel.isHidden = true
             cell?.lineView.isHidden = true
-            cell?.model = model
+            if let viewModel = messageFYViewModel {
+                cell?.messageViewModel = viewModel
+            }
             return cell ?? HouseListTableViewCell.init(frame: .zero)
         }else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: RenterScheduleUserBasicCell.reuseIdentifierStr) as? RenterScheduleUserBasicCell
             cell?.selectionStyle = .none
             if indexPath.row == 0 {
                 cell?.titleLabel.text = "姓名"
-                cell?.editLabel.text = "office"
+                cell?.editLabel.text = UserTool.shared.user_name
                 cell?.detailIcon.isHidden = true
             }else if indexPath.row == 1 {
                 cell?.titleLabel.text = "联系方式"
-                cell?.editLabel.text = "19923456789"
+                cell?.editLabel.text = UserTool.shared.user_phone
                 cell?.detailIcon.isHidden = true
             }else {
                 cell?.titleLabel.text = "看房时间"
@@ -158,7 +166,7 @@ extension RenterScheduleFYViewController {
         }else {
             let cell = tableView.dequeueReusableCell(withIdentifier: RenterScheduleYeZhuBasicCell.reuseIdentifierStr) as? RenterScheduleYeZhuBasicCell
             cell?.selectionStyle = .none
-            cell?.model = ""
+            cell?.viewModel = messageFYViewModel
             return cell ?? RenterScheduleYeZhuBasicCell.init(frame: .zero)
         }
     }
@@ -315,11 +323,11 @@ class RenterScheduleYeZhuBasicCell: BaseTableViewCell {
         return 145
     }
     
-    var model: String = "" {
+    var viewModel: MessageFYViewModel? {
         didSet {
-            yezhuAvatar.setImage(with: "", placeholder: UIImage.init(named: "wechat"))
-            nameLabel.text = "那么"
-            companyLabel.text = "公司职位"
+            yezhuAvatar.setImage(with: viewModel?.avatarString ?? "", placeholder: UIImage.init(named: "wechat"))
+            nameLabel.text = viewModel?.contactNameString
+            companyLabel.text = viewModel?.companyJobString
         }
     }
     

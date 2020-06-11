@@ -82,6 +82,29 @@ extension RenterChatListViewController {
         
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        var mActionArray = [UITableViewRowAction]()
+        let deleteAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "删除") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
+            
+            print("\(indexPath.row) == 删除")
+            if let model: RCConversationModel = self?.conversationListDataSource[indexPath.row] as? RCConversationModel {
+                RCIMClient.shared()?.remove(.ConversationType_PRIVATE, targetId: model.targetId)
+            }
+        }
+        deleteAction.backgroundColor = .red
+        mActionArray.append(deleteAction)
+        
+        let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
+            if let model: RCConversationModel = self?.conversationListDataSource[indexPath.row] as? RCConversationModel {
+                RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: true)
+            }
+           print("\(indexPath.row) == 置顶")
+       }
+       setupAction.backgroundColor = kAppBlueColor
+       mActionArray.append(setupAction)
+        return mActionArray
+    }
+    
     override func onSelectedTableRow(_ conversationModelType: RCConversationModelType, conversationModel model: RCConversationModel!, at indexPath: IndexPath!) {
         
         

@@ -102,6 +102,7 @@ class SSNetworkTool: NSObject {
                         var message = ""
                         if let msg  = resp["message"]  {
                             message = (msg as? String) ?? ""
+                            AppUtilities.makeToast("\(statusCode)\n\(message)")
                         }
                         if let block = error {
                             block("\(statusCode)", message)
@@ -162,6 +163,7 @@ class SSNetworkTool: NSObject {
                         var message = ""
                         if let msg  = resp["message"]  {
                             message = (msg as? String) ?? ""
+                            AppUtilities.makeToast("\(statusCode)\n\(message)")
                         }
                         if let block = error {
                             block("\(statusCode)", message)
@@ -189,6 +191,25 @@ extension SSNetworkTool {
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:["versioncode": SSTool.getVersion() as AnyObject],success:
                 success,failed:failure,error:error)
         }
+    }
+    
+    //  MARK:   --聊天
+    class SSChat: NSObject {
+        
+        //创建和业主聊天接口
+        static func request_getCreatFirstChatApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSChatURL.getCreatFirstChatApp)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
+        
+        //获取和业主聊天详情接口
+       static func request_getChatFYDetailApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+           let url = String.init(format: SSChatURL.getChatMsgDetailApp)
+           SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+               success,failed:failure,error:error)
+       }
+        
     }
     
     //  MARK:   --行程

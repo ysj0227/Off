@@ -19,6 +19,11 @@ class RenterChatViewController: RCConversationViewController {
     ///对方用户id
     var chatUserId: String?
 
+    ///聊天详情
+    var messageFYModel: MessageFYModel?
+    
+    var messageFYViewModel: MessageFYViewModel?
+
     
     //上面四个按钮view
     var buttonView:RenterMsgBtnView = {
@@ -54,11 +59,59 @@ class RenterChatViewController: RCConversationViewController {
         
         setupView()
         
+        requestChatDetail()
+        
         addNotify()
         
-        reloadRCCompanyUserInfo()
     }
     
+    func setViewShow() {
+        
+        SSTool.invokeInMainThread { [weak self] in
+            
+            guard let weakSelf = self else {return}
+
+            ///强制刷新好友信息
+            weakSelf.reloadRCCompanyUserInfo()
+
+            ///插入聊天信息 - 判断之前有没有插入过
+            weakSelf.insertMessage()
+        }
+        
+    }
+    
+    ///获取详情
+    func requestChatDetail() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        params["uid"] = targetId as AnyObject?
+        
+        SSNetworkTool.SSChat.request_getChatFYDetailApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = MessageFYModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.messageFYModel = model
+                
+                weakSelf.messageFYViewModel = MessageFYViewModel.init(model: model)
+                    
+                weakSelf.setViewShow()
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+                                    
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
 }
 
 
@@ -69,7 +122,6 @@ extension RenterChatViewController {
         //模拟没有预约看房
         isHasSchedule = false
         
-        insertMessage()
     }
     
     func setupView() {
@@ -206,6 +258,7 @@ extension RenterChatViewController {
     //点击去预约看房页面
     func clickToScheduleVC() {
         let vc = RenterScheduleFYViewController()
+        vc.messageFYViewModel = messageFYViewModel
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -301,9 +354,26 @@ extension RenterChatViewController {
     
     //添加插入房源消息
     func insertMessage() {
-        let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "测试插入消息")
-        let message = RCIMClient.shared()?.insertOutgoingMessage(.ConversationType_PRIVATE, targetId: AppKey.rcTargetid, sentStatus: RCSentStatus.SentStatus_SENT, content: messageContent)
-        self.appendAndDisplay(message)
+        
+        let str = "\(UserTool.shared.user_uid ?? 0)-\(chatUserId ?? "")-\(messageFYModel?.house?.houseId ?? 0)"
+        let isExisted = SSTool.isKeyPresentInUserDefaults(key: str)
+        if isExisted {
+            
+        }else {
+            let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "测试插入消息")
+            messageContent.mainPic = messageFYViewModel?.mainPic
+            messageContent.createTimeAndByWho = messageFYViewModel?.createTimeAndByWho
+            messageContent.isFavorite = messageFYViewModel?.isFavorite ?? false
+            messageContent.buildingName = messageFYViewModel?.buildingName
+            messageContent.houseName = messageFYViewModel?.houseName
+            messageContent.distanceDistrictString = messageFYViewModel?.distanceDistrictString
+            messageContent.walkTimesubwayAndStationString = messageFYViewModel?.walkTimesubwayAndStationString
+            messageContent.dayPriceString = messageFYViewModel?.dayPriceString
+            messageContent.tagsString = messageFYViewModel?.tagsString
+
+            let message = RCIMClient.shared()?.insertOutgoingMessage(.ConversationType_PRIVATE, targetId: messageFYModel?.chatted?.targetId, sentStatus: RCSentStatus.SentStatus_SENT, content: messageContent)
+            self.appendAndDisplay(message)
+        }
     }
     
     //发送交换手机号自定义消息
@@ -360,8 +430,8 @@ extension RenterChatViewController {
     
     //每次进来强制刷新好友用户信息
     func reloadRCCompanyUserInfo() {
-        //        let info = RCUserInfo.init(userId: "200", name: "修改了名字", portrait: "https://img.officego.com.cn/house/1589973533713.png")
-        //        RCIM.shared()?.refreshUserInfoCache(info, withUserId: "200")
+        let info = RCUserInfo.init(userId: messageFYModel?.chatted?.targetId, name: messageFYModel?.chatted?.nickname, portrait: messageFYModel?.chatted?.avatar)
+        RCIM.shared()?.refreshUserInfoCache(info, withUserId: messageFYModel?.chatted?.targetId)
     }
     
 }
