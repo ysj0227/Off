@@ -17,6 +17,7 @@ class FangYuanListModel: BaseModel {
     var businessDistrict : String?      //所属商圈-静安区-静安市
     var createTime : Int?
     var distance : String?              //距离
+    var Isfailure : Int?                //0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
     var id: Int?                        //楼盘id
     var independenceOffice : Int?       //独立办公室数量
     var mainPic : String?               //封面图
@@ -51,6 +52,7 @@ class BuildingMap : BaseModel {
 class FangYuanListViewModel: NSObject {
     var btype: Int?                     //1是办公楼，2是联合办公
     var idString: Int?                  //房源id
+    var Isfailure : Int?                //0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
     var mainPicImgString: String?       //封面图
     var buildingName: String?           //楼盘名称
     var distanceString: String?         //距离 1.0km
@@ -65,6 +67,7 @@ class FangYuanListViewModel: NSObject {
     init(model:FangYuanListModel) {
         btype = model.btype
         idString = model.id
+        Isfailure = model.Isfailure
         mainPicImgString = model.mainPic
         buildingName = model.name
         distanceString = model.distance ?? ""

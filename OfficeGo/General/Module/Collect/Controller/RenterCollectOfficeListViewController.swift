@@ -90,9 +90,20 @@ extension RenterCollectOfficeListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //独立办公室
         if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
-            let vc = RenterOfficebuildingFYDetailVC()
-            vc.model = model
-            self.navigationController?.pushViewController(vc, animated: true)
+            if let Isfailure = model.Isfailure {
+                if Isfailure == 1 {
+                    let vc = RenterOfficebuildingFYDetailVC()
+                    vc.model = model
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else if Isfailure == 0 {
+                    AppUtilities.makeToast(SSCode.ERROR_CODE_7016.msg)
+                }else if Isfailure == 4 {
+                    AppUtilities.makeToast(SSCode.ERROR_CODE_7013.msg)
+                }else if Isfailure == 5 {
+                    AppUtilities.makeToast(SSCode.ERROR_CODE_7014.msg)
+                }
+            }
+
         }
     }
 }

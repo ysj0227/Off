@@ -460,6 +460,8 @@ class FangYuanBuildingOpenStationModel: BaseModel {
     
     var businessDistrict : String?
 
+    var Isfailure : Int?                //0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
+
     ///网点
     ///房源id
     var id : Int?
@@ -486,6 +488,8 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     ///房源id
     var id : Int?
     
+    var Isfailure : Int?                //0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
+
     /// 办公类型1是独立办公室，2是开放工位
     var officeType : Int?
     
@@ -530,6 +534,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     
     
     init(model:FangYuanBuildingOpenStationModel) {
+        Isfailure = model.Isfailure
         btype = model.btype
         id = model.id
         mainPic = model.mainPic
