@@ -14,6 +14,8 @@ class LoginModel: BaseModel {
     var rongyuntoken: String?
     var token: String?
     var uid: Int?
+    var avatar : String?
+    var nickName : String?
 }
 
 class LoginUserModel: BaseModel {
