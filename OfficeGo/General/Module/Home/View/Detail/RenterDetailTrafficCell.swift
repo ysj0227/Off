@@ -21,11 +21,6 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     //点击全部站点- block
     var trafficBtnClick: ((_ isUp: Bool) -> Void)?
     
-    let duanHeight: CGFloat = 30
-    
-    let changHeight: CGFloat = 60
-    
-    
     @IBAction func clickLookAllLineview(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         guard let blockk = trafficBtnClick else {
@@ -39,10 +34,8 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     func setBtnUpOrDown(button: UIButton?, isUp: Bool) {
         if isUp {
             button?.setImage(UIImage(named: "upDirGray"), for: .normal)
-            lineViewConstantHeight.constant = changHeight
         }else {
             button?.setImage(UIImage(named: "downDirGray"), for: .normal)
-            lineViewConstantHeight.constant = duanHeight
         }
     }
     var model: FangYuanBuildingBuildingModel = FangYuanBuildingBuildingModel() {

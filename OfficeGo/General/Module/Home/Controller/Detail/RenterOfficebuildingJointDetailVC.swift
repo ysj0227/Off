@@ -800,7 +800,11 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeTraffic:
                     if isTrafficUp == true {
                         if let arr = buildingDetailModel?.building?.nearbySubwayTime {
-                            return CGFloat(40 + 30 * arr.count + 1)
+                            if arr.count <= 0 {
+                                return CGFloat(40 + 30 * 1 + 1)
+                            }else {
+                                return CGFloat(40 + 30 * arr.count + 1)
+                            }
                         }else {
                             return 40 + 30 + 1
                         }
@@ -854,12 +858,16 @@ extension RenterOfficebuildingJointDetailVC {
                 case FYDetailItemType.FYDetailItemTypeTraffic:
                     if isTrafficUp == true {
                         if let arr = buildingDetailModel?.building?.nearbySubwayTime {
-                            return CGFloat(40 + 30 * arr.count + 1)
+                            if arr.count <= 0 {
+                                return 40 + 30 + 2
+                            }else {
+                                return CGFloat(40 + 30 * arr.count + 2)
+                            }
                         }else {
-                            return 40 + 30 + 1
+                            return 40 + 30 + 2
                         }
                     }else {
-                        return 40 + 30 + 1
+                        return 40 + 30 + 2
                     }
                 case FYDetailItemType.FYDetailItemTypeFeature:
                     if let height = buildingDetailViewModel?.tagsHeight {
