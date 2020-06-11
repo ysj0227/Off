@@ -124,17 +124,7 @@ extension RenterSearchViewController {
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<SearchHistoryModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 
-                //                weakSelf.historyDatasource = decoratedArray
-                let model = SearchHistoryModel()
-                model.keywords = "大厦"
-                weakSelf.historyDatasource.append(model)
-                weakSelf.historyDatasource.append(model)
-                weakSelf.historyDatasource.append(model)
-                weakSelf.historyDatasource.append(model)
-                weakSelf.historyDatasource.append(model)
-                weakSelf.historyDatasource.append(model)
-                weakSelf.historyDatasource.append(model)
-                
+                weakSelf.historyDatasource = decoratedArray
                 weakSelf.collectionView?.reloadData()
             }
             
@@ -216,6 +206,7 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterSearchHistoryCollectionCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterSearchHistoryCollectionCell
+            cell?.isHistory = true
             cell?.historyModel = historyDatasource[indexPath.item] ?? SearchHistoryModel()
             //点击了某个item
             cell?.buttonCallBack = {[weak self] (str) in
@@ -224,6 +215,7 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
             return cell ?? RenterSearchHistoryCollectionCell()
         }else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterSearchHistoryCollectionCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterSearchHistoryCollectionCell
+            cell?.isHistory = false
             cell?.findHotModel = findHotDatasource[indexPath.item] ?? DictionaryModel()
             //点击了某个item
             cell?.buttonCallBack = {[weak self] (str) in

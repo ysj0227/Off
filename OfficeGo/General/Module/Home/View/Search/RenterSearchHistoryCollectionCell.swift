@@ -13,16 +13,21 @@ class RenterSearchHistoryCollectionCell:  BaseCollectionViewCell {
     //按钮点击方法
     var buttonCallBack:((String) -> Void)?
     
+    var isHistory: Bool = false
+    
     @objc func btnClick() {
         guard let blockk = buttonCallBack else {
             return
         }
-        if let name = findHotModel?.dictCname {
-            blockk(name)
-        }
-        if let name = historyModel?.keywords {
-            blockk(name)
-        }
+        if isHistory == true {
+            if let name = historyModel?.keywords {
+                blockk(name)
+            }
+        }else {
+            if let name = findHotModel?.dictCname {
+                blockk(name)
+            }
+        }        
     }
     
     lazy var titleLabel: UIButton = {
