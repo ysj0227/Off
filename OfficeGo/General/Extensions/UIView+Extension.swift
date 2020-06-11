@@ -13,18 +13,20 @@ extension UIView {
     /// 添加阴影
     ///
     /// - Parameters:
-    ///   - cornerRadius: 圆角大小
-    ///   - color: 阴影颜色
+    ///   - shadowColor: 阴影颜色
     ///   - offset: 阴影偏移量
-    ///   - radius: 阴影扩散范围
+    ///   - shadowRadius: 阴影扩散范围
     ///   - opacity: 阴影的透明度
-    func shadow(cornerRadius: CGFloat, color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) {
-        self.layer.cornerRadius = cornerRadius
-        self.layer.masksToBounds = true
-        self.layer.shadowColor = color.cgColor
+    func shadow(shadowColor: CGColor = kAppColor_999999.cgColor, offset: CGSize = CGSize(width: 5, height: 5), shadowRadius: CGFloat = 5, opacity: Float = 1) {
+        self.layer.shadowColor = shadowColor
         self.layer.shadowOffset = offset
-        self.layer.shadowRadius = radius
+        self.layer.shadowRadius = shadowRadius
         self.layer.shadowOpacity = opacity
+        self.layer.masksToBounds = false
+    }
+    func setCornerRadius(cornerRadius:CGFloat, masksToBounds:Bool = true){
+        self.layer.cornerRadius = cornerRadius
+        self.layer.masksToBounds = masksToBounds
     }
     
     /// 添加部分圆角

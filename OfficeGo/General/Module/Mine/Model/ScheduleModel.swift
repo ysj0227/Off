@@ -223,8 +223,11 @@ class ScheduleListDetailBuildingViewModel : NSObject {
     ///预约时间 - 日期 时分
     var dateTimeString : String?
     var addressString : String?
-
-    var walkTimesubwayAndStationStringArr: [String]?  //2号线 ·东昌路站
+    
+    //2号线 ·东昌路站
+    var trafficString: String?
+    
+    var trafficHeight: CGFloat = 30
 
     init(model:ScheduleListDetailBuildingModel) {
         
@@ -273,8 +276,8 @@ class ScheduleListDetailBuildingViewModel : NSObject {
         let zhanStr = "站"
         
         if stationNames.count == stationline.count && stationNames.count > 0 {
-            
-            walkTimesubwayAndStationStringArr = []
+                        
+            trafficString = ""
             
             stationline.forEach { (time) in
                 var timestring = ""
@@ -285,8 +288,21 @@ class ScheduleListDetailBuildingViewModel : NSObject {
                 let stationName = stationNames[index ?? 0]
                 timestring.append(stationName)
                 timestring.append(zhanStr)
-                self.walkTimesubwayAndStationStringArr?.append(timestring)
+                
+                if index == stationline.count - 1 {
+                    trafficString?.append("\(timestring)")
+                }else {
+                    trafficString?.append("\(timestring) \n")
+                }
             }
         }
+        
+        let size = trafficString?.boundingRect(with: CGSize(width: kWidth - 35 - left_pending_space_17 * 2, height: kHeight), font: FONT_12)
+        if size?.height ?? 0 <= 30.0 {
+            trafficHeight = 30
+        }else {
+            trafficHeight = size?.height ?? 0
+        }
+        
     }
 }

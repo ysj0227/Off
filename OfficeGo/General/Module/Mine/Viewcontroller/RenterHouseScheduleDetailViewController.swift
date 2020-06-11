@@ -18,7 +18,10 @@ class RenterHouseScheduleDetailViewController: BaseViewController {
     
     let msgView: RenterScheduleDetailView = {
         let view = Bundle.main.loadNibNamed("RenterScheduleDetailView", owner: nil, options: nil)?.first as! RenterScheduleDetailView
-        view.shadow(cornerRadius: 10, color: kAppColor_999999, offset: CGSize(width: 5, height: 5), radius: 4, opacity: 0.1)
+//        view.shadow()
+        view.setCornerRadius(cornerRadius: 12)
+        view.layer.borderColor = UIColor.init(white: 0.9, alpha: 0.3).cgColor
+        view.layer.borderWidth = 5.0
         return view
     }()
     
@@ -88,7 +91,13 @@ extension RenterHouseScheduleDetailViewController {
         
         titleview?.titleLabel.text = scheduleListDetailViewModel?.buildingViewModel?.auditStatusString
 
+        let height = self.scheduleListDetailViewModel?.buildingViewModel?.trafficHeight ?? 30
         SSTool.invokeInMainThread {[weak self] in
+            self?.msgView.snp.remakeConstraints { (make) in
+                make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+                make.top.equalTo(kNavigationHeight + 47)
+                make.height.equalTo(202 - 30 + height)
+            }
             self?.msgView.buildingViewModel = self?.scheduleListDetailViewModel?.buildingViewModel
         }
     }

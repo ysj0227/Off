@@ -70,7 +70,7 @@ extension RenterMineSettingViewController {
         self.tableView.snp.remakeConstraints { (make) in
             make.top.equalTo(kNavigationHeight)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-kStatusBarHeight)
+            make.bottom.equalToSuperview()
         }
         self.tableView.tableFooterView = LogotView
         

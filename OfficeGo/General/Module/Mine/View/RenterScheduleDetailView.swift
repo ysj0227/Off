@@ -18,6 +18,7 @@ class RenterScheduleDetailView: UIView {
     @IBOutlet weak var scheduleAddressLabel: UILabel!
     @IBOutlet weak var scheduleTrafficLabel: UILabel!
     
+    @IBOutlet weak var addreddHeightConstant: NSLayoutConstraint!
     @IBAction func clickToChat(_ sender: Any) {
     }
     
@@ -40,7 +41,8 @@ class RenterScheduleDetailView: UIView {
             userCompanyLabel.text = buildingViewModel?.companyJobString
             scheduleTimeLabel.text = buildingViewModel?.dateTimeString
             scheduleAddressLabel.text = buildingViewModel?.addressString
-            scheduleTrafficLabel.text = buildingViewModel?.walkTimesubwayAndStationStringArr?.count ?? 0 > 0 ? buildingViewModel?.walkTimesubwayAndStationStringArr?[0] : ""
+            scheduleTrafficLabel.text = buildingViewModel?.trafficString ?? ""
+            addreddHeightConstant.constant = buildingViewModel?.trafficHeight ?? 0
         }
     }
     override func draw(_ rect: CGRect) {
