@@ -137,7 +137,15 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
         titleview = ThorNavigationView.init(type: .locationSearchClear)
         titleview?.locationBtn.layoutButton(.imagePositionLeft, margin: 10)
-        
+        titleview?.rightBtnClickBlock = { [weak self] in
+            //移除筛选弹框
+            self?.segmentTitleSelectview.selectView.removeShowView()
+            
+            let vc = BaseNavigationViewController.init(rootViewController: RenterSearchViewController())
+            vc.navigationBar.isHidden = true
+            vc.modalPresentationStyle = .overFullScreen
+            self?.present(vc, animated: true, completion: nil)
+        }
         titleview?.locationBtn.setTitle("  上海", for: .normal)
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
