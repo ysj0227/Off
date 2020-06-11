@@ -301,42 +301,14 @@ extension AppDelegate: RCIMConnectionStatusDelegate {
     func onRCIMConnectionStatusChanged(_ status: RCConnectionStatus) {
         
         //SDK 与融云服务器的连接状态
-        //        {
-        //            if (status == ConnectionStatus_KICKED_OFFLINE_BY_OTHER_CLIENT) {
-        //                [self showAlert:RCDLocalizedString(@"alert")
-        //                           message:RCDLocalizedString(@"accout_kicked")
-        //                    cancelBtnTitle:RCDLocalizedString(@"i_know")];
-        //                RCDLoginViewController *loginVC = [[RCDLoginViewController alloc] init];
-        //                RCDNavigationViewController *_navi = [[RCDNavigationViewController alloc] initWithRootViewController:loginVC];
-        //                self.window.rootViewController = _navi;
-        //            } else if (status == ConnectionStatus_TOKEN_INCORRECT) {
-        //                [RCDLoginManager getToken:^(BOOL success, NSString *_Nonnull token, NSString *_Nonnull userId) {
-        //                    if (success) {
-        //                        [[RCDIMService sharedService] connectWithToken:token
-        //                            dbOpened:^(RCDBErrorCode code) {
-        //                                NSLog(@"RCDBOpened %@", code ? @"failed" : @"success");
-        //                            }
-        //                            success:^(NSString *userId) {
-        //
-        //                            }
-        //                            error:^(RCConnectErrorCode status) {
-        //
-        //                            }
-        //                            tokenIncorrect:^{
-        //
-        //                            }];
-        //                    }
-        //                }];
-        //            } else if (status == ConnectionStatus_DISCONN_EXCEPTION) {
-        //                [self showAlert:RCDLocalizedString(@"alert")
-        //                           message:RCDLocalizedString(@"Your_account_has_been_banned")
-        //                    cancelBtnTitle:RCDLocalizedString(@"i_know")];
-        //                [[RCIMClient sharedRCIMClient] disconnect];
-        //                RCDLoginViewController *loginVC = [[RCDLoginViewController alloc] init];
-        //                RCDNavigationViewController *_navi = [[RCDNavigationViewController alloc] initWithRootViewController:loginVC];
-        //                self.window.rootViewController = _navi;
-        //            }
-        //        }
+        if status == RCConnectionStatus.ConnectionStatus_KICKED_OFFLINE_BY_OTHER_CLIENT {
+            AppUtilities.makeToast("您的账号在别的设备上登录了")
+        }else if status == RCConnectionStatus.ConnectionStatus_TOKEN_INCORRECT {
+            AppUtilities.makeToast("您的token不对")
+            ///重新请求token
+            
+        }
+
     }
     
 }
