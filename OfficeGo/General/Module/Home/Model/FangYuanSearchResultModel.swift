@@ -35,11 +35,11 @@ class FangYuanSearchResultViewModel: NSObject {
     var buildType: Int?
     ///楼盘id
     var bid : Int?
-    var buildingName: String?
+    var buildingAttributedName: NSMutableAttributedString?
     ///区域
     var districtBusinessString : String?
     ///地址
-    var addressAttributedString : NSMutableAttributedString?
+    var addressString : String?
     ///价格
     var dayPriceString : String?
     
@@ -49,26 +49,24 @@ class FangYuanSearchResultViewModel: NSObject {
         
         bid = model.bid
         
-        buildingName = model.buildingName
+        addressString = model.address
         
         districtBusinessString = "\(model.district ?? "")" + "-" + "\(model.business ?? "")"
-        
-//        address = NSMutableAttributedString.ini
-        
-        if let address = model.address {
+                
+        if let address = model.buildingName {
             if let str = address.removingPercentEncoding, let data = str.data(using: String.Encoding.unicode) {
                 
                 let strOptions = [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.html]
                 do {
                     
                     let attrStr = try NSMutableAttributedString.init(data: data, options: strOptions, documentAttributes: nil)
-                    addressAttributedString = attrStr
+                    buildingAttributedName = attrStr
                 } catch  {
 
                 }
             }
         }else {
-            addressAttributedString = NSMutableAttributedString.init()
+            buildingAttributedName = NSMutableAttributedString.init()
         }
         
         dayPriceString = String(format: "%.0f", model.dayPrice ?? 0) + "/m²/天起"

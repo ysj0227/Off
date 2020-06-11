@@ -116,7 +116,7 @@ enum DictionaryCodeEnum: String {
 class SSSearchURL: NSObject {
     
     //全局搜索接口
-    static let getsearchList = "esearch/searchListApp"
+    static let getsearchList = "esearch/searchList"
     
     //查询历史记录
     static let getgetSearchKeywords = "esearch/getSearchKeywords"

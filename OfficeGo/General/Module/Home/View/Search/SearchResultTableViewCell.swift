@@ -59,13 +59,31 @@ class SearchResultTableViewCell: BaseTableViewCell {
     
     var model: FangYuanSearchResultModel? {
         didSet {
-            houseNameLabel.text = model?.buildingName
-            houseDistrictBusinessLabel.text = "\(model?.district ?? "") · \(model?.business ?? "")"
-            houseAddressLabel.text = model?.address
-            housePriceLabel.text = "￥" + String(format: "%.0f", model?.dayPrice ?? 0) + "/m²/天起"
+            viewModel = FangYuanSearchResultViewModel.init(model: model ?? FangYuanSearchResultModel())
         }
     }
     
+    /*
+    ///1是办公楼，2是联合办公
+    var buildType: Int?
+    ///楼盘id
+    var bid : Int?
+    var buildingName: String?
+    ///区域
+    var c : String?
+    ///地址
+    var addressAttributedString : NSMutableAttributedString?
+    ///价格
+    var dayPriceString : String?
+    */
+    var viewModel: FangYuanSearchResultViewModel? {
+        didSet {
+            houseNameLabel.attributedText = viewModel?.buildingAttributedName
+            houseDistrictBusinessLabel.text = viewModel?.districtBusinessString
+            houseAddressLabel.text = viewModel?.addressString
+            housePriceLabel.text = viewModel?.dayPriceString
+        }
+    }
     class func rowHeight() -> CGFloat {
         return 94
     }
