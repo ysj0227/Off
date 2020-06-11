@@ -297,6 +297,9 @@ extension YLDatePicker {
     }
     // 获取小时
     func getHours() -> Array<String> {
+        let hours = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
+
+        /*
         var hours = [String]()
         
         var minHour = 0
@@ -312,13 +315,14 @@ extension YLDatePicker {
         
         for hour in minHour...maxHour {
             hours.append(hour < 10 ? ("0" + String(hour)):String(hour))
-        }
+        }*/
         return hours
     }
     // 获取分钟
     func getMinute() -> Array<String> {
-        var minutes = [String]()
-        
+        let minutes = ["00", "15", "30", "45", "59"]
+        /*
+         var minutes = [String]()
         var minMinute = 0
         if Int(dateRecord.year) == minLimitDate.getComponent(component: .year) && Int(dateRecord.month) == minLimitDate.getComponent(component: .month) &&
             Int(dateRecord.day) == minLimitDate.getComponent(component: .day) &&
@@ -334,7 +338,7 @@ extension YLDatePicker {
         
         for minute in minMinute...maxMinute {
             minutes.append(minute < 10 ? ("0" + String(minute)):String(minute))
-        }
+        }*/
         return minutes
     }
     // 获取对应年月的天数

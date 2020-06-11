@@ -859,7 +859,7 @@ extension RenterOfficebuildingJointDetailVC {
                     if isTrafficUp == true {
                         if let arr = buildingDetailModel?.building?.nearbySubwayTime {
                             if arr.count <= 0 {
-                                return 40 + 30 + 2
+                                return CGFloat(40 + 30 * 1 + 2)
                             }else {
                                 return CGFloat(40 + 30 * arr.count + 2)
                             }
