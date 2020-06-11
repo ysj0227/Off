@@ -144,7 +144,6 @@ class HouseShaixuanSelectView: UIView {
         
         //默认联合办公
         LianHeBanGongdataArray.append([
-            //            IWantToFindType.IWantToFindTypeCity,
             IWantToFindType.IWantToFindTypeHouseType])
         LianHeBanGongdataArray.append([IWantToFindType.IWantToFindTypeGongwei, IWantToFindType.IWantToFindTypeZujin])
         LianHeBanGongdataArray.append([IWantToFindType.IWantToFindTypeFeature])
@@ -153,10 +152,8 @@ class HouseShaixuanSelectView: UIView {
         XieZiLouDataArray.append([
             IWantToFindType.IWantToFindTypeHouseType])
         XieZiLouDataArray.append([
-            //            IWantToFindType.IWantToFindTypeCity,
             IWantToFindType.IWantToFindTypeMianji,
             IWantToFindType.IWantToFindTypeZujin,
-            IWantToFindType.IWantToFindTypeGongwei,
             IWantToFindType.IWantToFindTypeDocumentType,
             IWantToFindType.IWantToFindTypeFeature
         ])
