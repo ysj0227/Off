@@ -15,6 +15,8 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
     //1为楼盘网点收藏，2为房源收藏
     var type: Int?
     
+    var dataSourceViewModel: [FangYuanListViewModel?] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,6 +25,11 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
     }
     //MARK: 获取首页列表数据
     override func refreshData() {
+        if pageNo == 1 {
+            if self.dataSourceViewModel.count > 0 {
+               self.dataSourceViewModel.removeAll()
+            }
+        }
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject
@@ -35,6 +42,10 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<FangYuanListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
+                for model in decoratedArray {
+                    let viewmodel = FangYuanListViewModel.init(model: model ?? FangYuanListModel())
+                    weakSelf.dataSourceViewModel.append(viewmodel)
+                }
                 weakSelf.endRefreshWithCount(decoratedArray.count)
             }
             
@@ -94,7 +105,7 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return HouseListTableViewCell.rowHeight()
+        return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

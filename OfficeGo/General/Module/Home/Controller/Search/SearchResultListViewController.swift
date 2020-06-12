@@ -12,6 +12,8 @@ import SwiftyJSON
 
 class SearchResultListViewController: BaseTableViewController {
     
+    var dataSourceViewModel: [FangYuanListViewModel?] = []
+
     var searchString: String = "" {
         //搜索接口
         //设置上面button的title
@@ -84,6 +86,13 @@ class SearchResultListViewController: BaseTableViewController {
     
     //MARK: 获取列表数据
     override func refreshData() {
+         
+         if pageNo == 1 {
+             if self.dataSourceViewModel.count > 0 {
+                self.dataSourceViewModel.removeAll()
+             }
+         }
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -240,6 +249,10 @@ class SearchResultListViewController: BaseTableViewController {
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<FangYuanListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
+                for model in decoratedArray {
+                    let viewmodel = FangYuanListViewModel.init(model: model ?? FangYuanListModel())
+                    weakSelf.dataSourceViewModel.append(viewmodel)
+                }
                 weakSelf.endRefreshWithCount(decoratedArray.count)
             }
             
@@ -295,7 +308,7 @@ extension SearchResultListViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return HouseListTableViewCell.rowHeight()
+        return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

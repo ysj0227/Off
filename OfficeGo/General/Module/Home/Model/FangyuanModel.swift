@@ -63,6 +63,7 @@ class FangYuanListViewModel: NSObject {
     var areaString: String?             //平方米
     var tagsString: String?             //特色
     var jointDuliAndLianheNumString: String?//联合办公 独立办公室和开放工位的数量
+    var rowHeight: CGFloat = 192
     
     init(model:FangYuanListModel) {
         btype = model.btype
@@ -116,6 +117,12 @@ class FangYuanListViewModel: NSObject {
             jointArr.append("开放工位\(model.openStation ?? 0)个")
         }
         jointDuliAndLianheNumString = jointArr.joined(separator: ",")
+        
+        if model.tags?.count ?? 0 <= 0 {
+            rowHeight = 192 - 30
+        }else {
+            rowHeight = 192
+        }
     }
 }
 
