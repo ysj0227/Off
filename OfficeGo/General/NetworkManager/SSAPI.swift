@@ -214,6 +214,12 @@ class SSMineURL: NSObject {
 
     ///版本更新
     static let versionUpdate = "version/ios"
+    
+    ///注册协议
+    static let registerProtocol = "registerProtocol.html"
+    
+    ///关于我们
+    static let aboutUs = "aboutUs.html"
 
 }
 

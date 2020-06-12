@@ -132,10 +132,15 @@ extension RenterMineViewController {
         case .RenterMineTypeCusomers:
             print(typeSourceArray[indexPath.row].type)
         case .RenterMineTypeRegisterAgent:
-            print(typeSourceArray[indexPath.row].type)
+//            let url = "\(SSAPI.SSApiHost)\(SSMineURL.registerProtocol)"
+            let url = "http://test.officego.com.cn/lessee/registerProtocol.html"
+            let vc = BaseWebViewController.init(url: url)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeRegisterAgent)
+            self.navigationController?.pushViewController(vc, animated: true)
         case .RenterMineTypeAboutus:
-//            print(typeSourceArray[indexPath.row].type)
-            let vc = BaseWebViewController.init(url: "https://www.baidu.com")
+//            let url = "\(SSAPI.SSApiHost)\(SSMineURL.aboutUs)"
+            let url = "http://test.officego.com.cn/lessee/aboutUs.html"
+            let vc = BaseWebViewController.init(url: url)
             vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
             self.navigationController?.pushViewController(vc, animated: true)
 
