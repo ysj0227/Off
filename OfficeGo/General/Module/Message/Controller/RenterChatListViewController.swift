@@ -89,6 +89,8 @@ extension RenterChatListViewController {
             print("\(indexPath.row) == 删除")
             if let model: RCConversationModel = self?.conversationListDataSource[indexPath.row] as? RCConversationModel {
                 RCIMClient.shared()?.remove(.ConversationType_PRIVATE, targetId: model.targetId)
+                self?.conversationListDataSource.remove(model)
+                self?.refreshConversationTableViewIfNeeded()
             }
         }
         deleteAction.backgroundColor = .red
@@ -97,15 +99,17 @@ extension RenterChatListViewController {
         if let model: RCConversationModel = self.conversationListDataSource[indexPath.row] as? RCConversationModel {
             
             if model.isTop == true {
-                let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "取消置顶") { (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
+                let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "取消置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
                           RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: false)
+                    self?.refreshConversationTableViewIfNeeded()
                     print("\(indexPath.row) == 取消置顶")
                 }
                 setupAction.backgroundColor = kAppBlueColor
                 mActionArray.append(setupAction)
             }else {
-                let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "置顶") { (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
+                let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
                           RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: true)
+                    self?.refreshConversationTableViewIfNeeded()
                     print("\(indexPath.row) == 置顶")
                 }
                 setupAction.backgroundColor = kAppBlueColor
