@@ -85,6 +85,8 @@ class HouseListTableViewCell: BaseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        houseImageview.clipsToBounds = true
+        houseImageview.layer.cornerRadius = button_cordious_2
         houseOfficeNumOrSquareNumLabel.addSubview(mianjiOrLianheView)
         mianjiOrLianheView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()

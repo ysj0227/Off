@@ -137,7 +137,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
             amtitusMatingListARR.append("12")
             amtitusMatingListARR.append("13")
             amtitusMatingListARR.append("14")
-                        
+            
         }else if buildingDetailModel?.btype == 2 {
             
             //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
@@ -374,6 +374,39 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         
         //设置头部
         titleview = ThorNavigationView.init(type: .backMoreRightClear)
+        titleview?.rightBtnsssClickBlock = {[weak self] (index) in
+            guard let weakSelf = self else {return}
+            ///添加登录状态
+            if weakSelf.isLogin() != true {
+                return
+            }
+            
+            ///举报
+            if index == 97 {
+                
+            }
+            ///聊天
+            else if index == 98 {
+                AppUtilities.makeToast("请先选择一个房源")
+                if self?.buildingDetailModel?.btype == 1 { //办公楼
+                    //1
+                    if self?.dataSourceArr.count ?? 0 > 1 {
+                        self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 1), at: UITableView.ScrollPosition.top, animated: true)
+                    }
+                    
+                }else {
+                    //3
+                    if self?.dataSourceArr.count ?? 0 > 3 {
+                        self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 3), at: UITableView.ScrollPosition.top, animated: true)
+                        
+                    }
+                }
+            }
+            ///分享
+            else {
+                
+            }
+        }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         titleview?.leftButtonCallBack = {
@@ -429,19 +462,20 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
         
         //找房东
         bottomBtnView.rightBtnClickBlock = { [weak self] in
+            AppUtilities.makeToast("请先选择一个房源")
             if self?.buildingDetailModel?.btype == 1 { //办公楼
                 //1
                 if self?.dataSourceArr.count ?? 0 > 1 {
                     self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 1), at: UITableView.ScrollPosition.top, animated: true)
                 }
-
+                
             }else {
                 //3
                 if self?.dataSourceArr.count ?? 0 > 3 {
                     self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 3), at: UITableView.ScrollPosition.top, animated: true)
-
+                    
                 }
-
+                
             }
         }
         
@@ -451,7 +485,12 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
     
     //MARK: 收藏按钮点击 - 调用接口 0是收藏1是取消收藏
     func collectClick() {
-                
+        
+        ///添加登录状态
+        if self.isLogin() != true {
+            return
+        }
+        
         var params = [String:AnyObject]()
         
         //0 添加收藏
@@ -819,11 +858,16 @@ extension RenterOfficebuildingJointDetailVC {
                         return 40 + 30 + 1
                     }
                 case FYDetailItemType.FYDetailItemTypeFeature:
-                    if let height = buildingDetailViewModel?.tagsHeight {
-                        return RenterFeatureCell.rowHeight0() + height
+                    if buildingDetailModel?.tags?.count ?? 0 > 0 {
+                        if let height = buildingDetailViewModel?.tagsHeight {
+                            return RenterFeatureCell.rowHeight0() + height
+                        }else {
+                            return RenterFeatureCell.rowHeight0() + 30
+                        }
                     }else {
-                        return RenterFeatureCell.rowHeight0() + 30
+                        return RenterFeatureCell.rowHeight0()
                     }
+                    
                 case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                     return 0
                 case FYDetailItemType.FYDetailItemTypeFYList:
@@ -877,10 +921,14 @@ extension RenterOfficebuildingJointDetailVC {
                         return 40 + 30 + 2
                     }
                 case FYDetailItemType.FYDetailItemTypeFeature:
-                    if let height = buildingDetailViewModel?.tagsHeight {
-                        return RenterFeatureCell.rowHeight0() + height
+                    if buildingDetailModel?.tags?.count ?? 0 > 0 {
+                        if let height = buildingDetailViewModel?.tagsHeight {
+                            return RenterFeatureCell.rowHeight0() + height
+                        }else {
+                            return RenterFeatureCell.rowHeight0() + 30
+                        }
                     }else {
-                        return RenterFeatureCell.rowHeight0() + 30
+                        return RenterFeatureCell.rowHeight0()
                     }
                 case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                     return 0
@@ -1269,7 +1317,7 @@ class RenterDetailSourceView: UIView {
     //视频播放view
     lazy var videoView: UIView = {
         let view = UIView.init(frame: self.frame)
-        view.backgroundColor = kAppClearColor
+        view.backgroundColor = kAppBlackColor
         return view
     }()
     

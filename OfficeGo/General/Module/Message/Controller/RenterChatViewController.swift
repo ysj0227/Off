@@ -87,7 +87,7 @@ class RenterChatViewController: RCConversationViewController {
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-        params["uid"] = targetId as AnyObject?
+        params["uid"] = String(targetId.prefix(targetId.count - 1)) as AnyObject?
         
         SSNetworkTool.SSChat.request_getChatFYDetailApp(params: params, success: {[weak self] (response) in
             
@@ -355,7 +355,7 @@ extension RenterChatViewController {
     //添加插入房源消息
     func insertMessage() {
         
-        let str = "\(UserTool.shared.user_uid ?? 0)-\(chatUserId ?? "")-\(messageFYModel?.house?.houseId ?? 0)"
+        let str = "\(UserTool.shared.user_uid ?? 0)-\(targetId ?? "")-\(messageFYModel?.house?.buildingId ?? 0)-\(messageFYModel?.house?.houseId ?? 0)"
         let isExisted = SSTool.isKeyPresentInUserDefaults(key: str)
         if isExisted {
             
@@ -373,6 +373,8 @@ extension RenterChatViewController {
             
             let message = RCIMClient.shared()?.insertOutgoingMessage(.ConversationType_PRIVATE, targetId: messageFYModel?.chatted?.targetId, sentStatus: RCSentStatus.SentStatus_SENT, content: messageContent)
             self.appendAndDisplay(message)
+            
+            SSTool.saveDataWithUserDefault(key: str, value: "TRUE" as AnyObject)
         }
     }
     

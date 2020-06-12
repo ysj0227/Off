@@ -126,11 +126,10 @@ extension RenterChatListViewController {
             }else {
                 let vc = RenterChatViewController()
                 vc.conversationType = .ConversationType_PRIVATE
-                vc.targetId = String(model.targetId.prefix(model.targetId.count - 1))
+                vc.targetId = model.targetId
                 vc.title = model.conversationTitle
                 vc.unReadMessage = model.unreadMessageCount
                 vc.enableNewComingMessageIcon = true  //开启消息提醒
-                vc.enableNewComingMessageIcon = true
                 if model.conversationType == .ConversationType_SYSTEM {
                 }else {
                     vc.displayUserNameInCell = false

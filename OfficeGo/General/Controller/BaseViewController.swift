@@ -51,6 +51,15 @@ class BaseViewController: UIViewController {
         self.view.backgroundColor = kAppWhiteColor
     }
     
+    @objc func isLogin() -> Bool {
+        if UserTool.shared.isLogin() != true {
+            AppUtilities.makeToast("您还没有登录")
+            return false
+        }else {
+            return true
+        }
+    }
+    
     @objc func leftBtnClick() {
         
         self.navigationController?.popViewController(animated: true)

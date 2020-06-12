@@ -33,6 +33,9 @@ public enum NavgationTitleViewType {
     
     var rightBtnClickBlock: (() -> Void)?
     
+    ///详情三个按钮点击方法
+    var rightBtnsssClickBlock: ((Int) -> Void)?
+
     //空白
     lazy var noneView: UIView = {
         let sepView = UIView()
@@ -164,16 +167,6 @@ public enum NavgationTitleViewType {
         return btn
     }()
     
-    //搜索框
-    //    lazy var searchBarView: UISearchBar = {
-    //        let view = UISearchBar.init()
-    //        view.searchBarStyle = .minimal
-    //        //        view.searchTextField.isUserInteractionEnabled = false
-    //        view.backgroundColor = kAppClearColor
-    //        //        view.searchTextField.textColor = kAppBlackColor
-    //        //        view.searchTextField.font = FONT_15
-    //        return view
-    //    }()
     lazy var searchBarView: CustomerSearchBarview = {
         let view = CustomerSearchBarview.init(frame: CGRect(x: 80, y: kStatusBarHeight + (44 - 32) / 2.0, width: kWidth - 80 - left_pending_space_17, height: 32))
         return view
@@ -182,18 +175,24 @@ public enum NavgationTitleViewType {
         let view = BaseButton()
         view.backgroundColor = kAppClearColor
         view.setImage(UIImage(named: "alertWhite"), for: .normal)
+        view.tag = 97
+        view.addTarget(self, action: #selector(rightBtnssssClick(btn:)), for: .touchUpInside)
         return view
     }()
     lazy var messageButton: BaseButton = {
         let view = BaseButton()
         view.backgroundColor = kAppClearColor
         view.setImage(UIImage(named: "messageWhite"), for: .normal)
+        view.tag = 98
+        view.addTarget(self, action: #selector(rightBtnssssClick(btn:)), for: .touchUpInside)
         return view
     }()
     lazy var shareButton: BaseButton = {
         let view = BaseButton()
         view.backgroundColor = kAppClearColor
         view.setImage(UIImage(named: "shareWhite"), for: .normal)
+        view.tag = 99
+        view.addTarget(self, action: #selector(rightBtnssssClick(btn:)), for: .touchUpInside)
         return view
     }()
     
@@ -216,11 +215,19 @@ public enum NavgationTitleViewType {
         }
         blockk()
     }
-    @objc func rightBtnClick() {
+    @objc func rightBtnClick(btn: UIButton) {
         guard let blockk = rightBtnClickBlock else {
             return
         }
         blockk()
+    }
+    
+    ///详情 - 三个按钮点击方法
+    @objc func rightBtnssssClick(btn: UIButton) {
+        guard let blockk = rightBtnsssClickBlock else {
+            return
+        }
+        blockk(btn.tag)
     }
     
     private func setupView() {

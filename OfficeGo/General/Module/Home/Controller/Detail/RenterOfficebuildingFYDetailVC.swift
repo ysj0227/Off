@@ -109,6 +109,26 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         
         //设置头部
         titleview = ThorNavigationView.init(type: .backMoreRightClear)
+        titleview?.rightBtnsssClickBlock = {[weak self] (index) in
+            guard let weakSelf = self else {return}
+            ///添加登录状态
+            if weakSelf.isLogin() != true {
+                return
+            }
+            
+            ///举报
+            if index == 97 {
+                
+            }
+            ///聊天
+            else if index == 98 {
+                weakSelf.requestCreateChat()
+            }
+            ///分享
+            else {
+                
+            }
+        }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         titleview?.leftButtonCallBack = {
@@ -161,19 +181,22 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         }
     }
     
-    
     func clickToChat(chatModel: MessageFYChattedModel) {
         SSTool.invokeInMainThread { [weak self] in
             let vc = RenterChatViewController()
+            vc.conversationType = .ConversationType_PRIVATE
             vc.targetId = chatModel.targetId
-            vc.chatUserId = chatModel.targetId
             vc.displayUserNameInCell = false
             self?.navigationController?.pushViewController(vc, animated: true)
-
         }
     }
     
     func requestCreateChat() {
+               
+         ///添加登录状态
+         if self.isLogin() != true {
+             return
+         }
         
         var params = [String:AnyObject]()
         
@@ -202,6 +225,11 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     
     //MARK: 收藏按钮点击 - 调用接口 0是收藏1是取消收藏
     func collectClick() {
+        
+        ///添加登录状态
+        if self.isLogin() != true {
+            return
+        }
                 
         var params = [String:AnyObject]()
         
@@ -509,12 +537,16 @@ extension RenterOfficebuildingFYDetailVC {
                 }
                 
             case FYDetailItemType.FYDetailItemTypeFeature:
-
-                if let height = buildingFYDetailViewModel?.houseViewModel?.tagsHeight {
-                   return RenterFeatureCell.rowHeight0() + height
-               }else {
-                   return RenterFeatureCell.rowHeight0() + 30
-               }
+                if buildingFYDetailModel?.house?.tags?.count ?? 0 > 0 {
+                    if let height = buildingFYDetailViewModel?.houseViewModel?.tagsHeight {
+                        return RenterFeatureCell.rowHeight0() + height
+                    }else {
+                        return RenterFeatureCell.rowHeight0() + 30
+                    }
+                }else {
+                    return RenterFeatureCell.rowHeight0()
+                }
+                
             case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                 return 0
                 
