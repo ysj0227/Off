@@ -127,7 +127,7 @@ class SSChatURL: NSObject {
 class SSSearchURL: NSObject {
     
     //全局搜索接口
-    static let getsearchList = "esearch/searchList"
+    static let getsearchList = "esearch/searchListApp"
     
     //查询历史记录
     static let getgetSearchKeywords = "esearch/getSearchKeywords"
@@ -140,7 +140,7 @@ class SSSearchURL: NSObject {
 class SSHomeURL: NSObject {
     
     //轮播图接口
-    static let getbannerListt = "banner/bannerList"
+    static let getbannerListt = "banner/bannerListApp"
     
     //推荐列表 - 首页和搜索页面
     static let getselectBuildingApp = "building/selectBuildingApp"

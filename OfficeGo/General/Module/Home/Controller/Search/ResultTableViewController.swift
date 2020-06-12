@@ -45,6 +45,7 @@ class ResultTableViewController: UITableViewController {
         let cell = tableView.cellForRow(at: indexPath)
         print(cell?.textLabel?.text ?? "")
         
+        
         // 点击cell调用闭包
         callBack()
     }

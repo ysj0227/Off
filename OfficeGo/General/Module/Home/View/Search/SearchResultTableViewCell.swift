@@ -79,8 +79,8 @@ class SearchResultTableViewCell: BaseTableViewCell {
     var viewModel: FangYuanSearchResultViewModel? {
         didSet {
             houseNameLabel.attributedText = viewModel?.buildingAttributedName
-            houseDistrictBusinessLabel.text = viewModel?.districtBusinessString
-            houseAddressLabel.text = viewModel?.addressString
+            houseDistrictBusinessLabel.attributedText = viewModel?.districtBusinessString
+            houseAddressLabel.attributedText = viewModel?.addressString
             housePriceLabel.text = viewModel?.dayPriceString
         }
     }

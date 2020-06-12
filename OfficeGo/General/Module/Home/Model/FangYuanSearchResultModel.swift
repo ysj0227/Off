@@ -37,9 +37,13 @@ class FangYuanSearchResultViewModel: NSObject {
     var bid : Int?
     var buildingAttributedName: NSMutableAttributedString?
     ///区域
-    var districtBusinessString : String?
+    var districtBusinessString : NSMutableAttributedString?
+    var districtString : NSMutableAttributedString?
+    var businessString : NSMutableAttributedString?
+
+    
     ///地址
-    var addressString : String?
+    var addressString : NSMutableAttributedString?
     ///价格
     var dayPriceString : String?
     
@@ -49,9 +53,59 @@ class FangYuanSearchResultViewModel: NSObject {
         
         bid = model.bid
         
-        addressString = model.address
+        if let address = model.address {
+            if let str = address.removingPercentEncoding, let data = str.data(using: String.Encoding.unicode) {
+                
+                let strOptions = [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.html]
+                do {
+                    
+                    let attrStr = try NSMutableAttributedString.init(data: data, options: strOptions, documentAttributes: nil)
+                    addressString = attrStr
+                } catch  {
+
+                }
+            }
+        }else {
+            addressString = NSMutableAttributedString.init()
+        }
         
-        districtBusinessString = "\(model.district ?? "")" + "-" + "\(model.business ?? "")"
+        
+        if let address = model.district {
+            if let str = address.removingPercentEncoding, let data = str.data(using: String.Encoding.unicode) {
+                
+                let strOptions = [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.html]
+                do {
+                    
+                    let attrStr = try NSMutableAttributedString.init(data: data, options: strOptions, documentAttributes: nil)
+                    districtString = attrStr
+                } catch  {
+
+                }
+            }
+        }else {
+            districtString = NSMutableAttributedString.init()
+        }
+        
+        if let address = model.business {
+            if let str = address.removingPercentEncoding, let data = str.data(using: String.Encoding.unicode) {
+                
+                let strOptions = [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.html]
+                do {
+                    
+                    let attrStr = try NSMutableAttributedString.init(data: data, options: strOptions, documentAttributes: nil)
+                    businessString = attrStr
+                } catch  {
+
+                }
+            }
+        }else {
+            businessString = NSMutableAttributedString.init()
+        }
+        
+        districtBusinessString = NSMutableAttributedString.init()
+        districtBusinessString?.append(districtString ?? NSMutableAttributedString.init())
+        districtBusinessString?.append(NSMutableAttributedString.init(string: "-"))
+        districtBusinessString?.append(businessString ?? NSMutableAttributedString.init())
                 
         if let address = model.buildingName {
             if let str = address.removingPercentEncoding, let data = str.data(using: String.Encoding.unicode) {

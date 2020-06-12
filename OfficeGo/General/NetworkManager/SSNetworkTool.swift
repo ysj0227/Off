@@ -243,6 +243,12 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
+        //行程审核接口
+        static func request_updateAuditStatusApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSScheduleURL.updateAuditStatusApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+                success,failed:failure,error:error)
+        }
         
         
     }
