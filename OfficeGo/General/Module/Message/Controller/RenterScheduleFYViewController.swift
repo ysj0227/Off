@@ -52,10 +52,11 @@ class RenterScheduleFYViewController: BaseTableViewController {
         params["houseIds"] = messageFYViewModel?.houseId as AnyObject?
         params["chatUserId"] = messageFYViewModel?.targetId as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
-
+        params["time"] = "\(interval)" as AnyObject?
+        
         SSNetworkTool.SSSchedule.request_addRenterApp(params: params, success: { [weak self] (response) in
-            
-            
+            guard let weakSelf = self else {return}
+            weakSelf.clickToSendSchedule(interval: interval)
             }, failure: { (error) in
                 
         }) { (code, message) in
@@ -65,9 +66,15 @@ class RenterScheduleFYViewController: BaseTableViewController {
             }
         }
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleSuccess, object: interval)
         
-        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func clickToSendSchedule(interval: Int) {
+        SSTool.invokeInMainThread {
+            NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleSuccess, object: interval)
+            
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func setUpView() {
@@ -301,7 +308,7 @@ class RenterScheduleYeZhuBasicCell: BaseTableViewCell {
     lazy var companyLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_9
+        view.font = FONT_10
         view.textColor = kAppColor_666666
         return view
     }()

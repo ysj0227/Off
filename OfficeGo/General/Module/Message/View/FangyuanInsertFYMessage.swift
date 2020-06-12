@@ -254,6 +254,7 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         view.textColor = kAppColor_666666
         return view
     }()
+    /*
     lazy var collectBtn: UIButton = {
         let btn = UIButton.init()
         btn.setTitleColor(kAppColor_666666, for: .normal)
@@ -265,7 +266,7 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         btn.titleLabel?.font = FONT_LIGHT_11
         btn.addTarget(self, action: #selector(btnClick), for: .touchUpInside)
         return btn
-    }()
+    }()*/
     
     override func setDataModel(_ model: RCMessageModel!) {
         super.setDataModel(model)
@@ -283,8 +284,9 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         housePriceLabel.text = viewModel?.dayPriceString ?? ""
         houseFeatureView.featureStringDetail = viewModel?.tagsString ?? ""
         msgStartDescLabel.text = viewModel?.createTimeAndByWho ?? ""
-        collectBtn.isSelected = true
-        //            collectBtn.layoutButton(.imagePositionLeft, space: 10)
+        /*
+        /collectBtn.isSelected = true
+        //            collectBtn.layoutButton(.imagePositionLeft, space: 10)*/
     }
     
     // 自定义消息 Cell 的 Size
@@ -309,7 +311,8 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         bgcontentView.addSubview(houseFeatureView)
         bgcontentView.addSubview(lineView)
         bgcontentView.addSubview(msgStartDescLabel)
-        bgcontentView.addSubview(collectBtn)
+        /*
+        bgcontentView.addSubview(collectBtn)*/
         houseMainImg.snp.makeConstraints { (make) in
             make.leading.top.equalTo(left_pending_space_17)
             make.size.equalTo(83)
@@ -322,7 +325,7 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         houselocationIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
             make.top.equalTo(houseNameLabel.snp.bottom).offset(2)
-            make.height.equalTo(15)
+            make.height.equalTo(18)
             make.width.equalTo(10)
         }
         houseKmAndAddressLabel.snp.makeConstraints { (make) in
@@ -333,7 +336,7 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         houseTrafficIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
             make.top.equalTo(houselocationIcon.snp.bottom).offset(2)
-            make.height.equalTo(15)
+            make.height.equalTo(18)
             make.width.equalTo(10)
         }
         houseTrafficLabel.snp.makeConstraints { (make) in
@@ -361,10 +364,11 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
             make.top.equalTo(lineView.snp.bottom).offset(7)
             make.height.equalTo(13 + 9*2)
         }
+        /*
         collectBtn.snp.makeConstraints { (make) in
             make.centerY.height.equalTo(msgStartDescLabel)
             make.width.equalTo(60)
             make.trailing.equalToSuperview()
-        }
+        }*/
     }
 }

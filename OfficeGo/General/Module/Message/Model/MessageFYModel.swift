@@ -19,7 +19,7 @@ class MessageFYViewModel: NSObject {
     ///封面图
     var mainPic : String?
     var createTimeAndByWho : String?
-    var isFavorite : Bool?
+    var IsFavorite : Bool?
     var buildingName : String?
     var houseName : String?
     ///2.1km | 徐汇区 · 漕河泾
@@ -29,6 +29,7 @@ class MessageFYViewModel: NSObject {
     var walkTimesubwayAndStationString: String?
     ///日租金
     var dayPriceString: String?
+    var dayPriceNoUnitString: String?
     ///特色
     var tagsString: String?
     var avatarString : String?
@@ -47,11 +48,11 @@ class MessageFYViewModel: NSObject {
         }else {
             createTimeAndByWho = "\(dateTimeString) 由你发起沟通"
         }
-        isFavorite = model.isFavorite
+        IsFavorite = model.IsFavorite
         buildingName = model.house?.buildingName
-        houseName = "adddd"
-        distanceDistrictString = "\(10)km | \(model.house?.district ?? "")"
-        distanceString = "\(10)km"
+        houseName = model.house?.houseName
+        distanceDistrictString = "\(model.house?.distance ?? "0")km | \(model.house?.district ?? "")"
+        distanceString = model.house?.distance?.count ?? 0 > 0 ? "\(model.house?.distance ?? "0")km" : ""
         districtString = model.house?.district ?? ""
         walkTimesubwayAndStationString = "步行"
         guard let nearbySubwayTime = model.house?.nearbySubwayTime else {
@@ -70,6 +71,8 @@ class MessageFYViewModel: NSObject {
         walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
         walkTimesubwayAndStationString?.append("站")
         
+        dayPriceNoUnitString = String(format: "¥%.0f", model.house?.minSinglePrice ?? 0)
+        
         if model.house?.btype == 1 {
             dayPriceString = String(format: "¥%.0f /㎡/天", model.house?.minSinglePrice ?? 0)
             unitString = "/㎡/天"
@@ -83,11 +86,13 @@ class MessageFYViewModel: NSObject {
         }
         
         //特色
-//       var tagArr: [String] = []
-//       model.tags?.forEach({ (model) in
-//           tagArr.append(model.dictCname ?? "")
-//       })
-//       tagsString = tagArr.joined(separator: ",")
+        var tagArr: [String] = []
+        model.house?.tags?.forEach({ (model) in
+            tagArr.append(model.dictCname ?? "")
+        })
+        tagsString = tagArr.joined(separator: ",")
+
+//        tagsString = model.house?.tags
         avatarString = model.chatted?.avatar
         contactNameString = model.chatted?.nickname
         companyJobString = "\(model.chatted?.company ?? "")·\(model.chatted?.job ?? "")"
@@ -97,7 +102,7 @@ class MessageFYViewModel: NSObject {
 class MessageFYModel: BaseModel {
     ///false没有离职true离职
     var isDepartureStatus : Bool?
-    var isFavorite : Bool?
+    var IsFavorite : Bool?
     var chatted : MessageFYChattedModel?
     var createTime : Int?
     var createUser : String?
@@ -119,8 +124,10 @@ class MessageFYHouseModel: BaseModel {
     var btype : Int?
     var buildingId : Int?
     var buildingName : String?
+    var distance: String?
     var district : String?
     var houseId : Int?
+    var houseName : String?
     var latitude : String?
     var longitude : String?
     var mainPic : String?               //封面图
@@ -133,17 +140,20 @@ class MessageFYHouseModel: BaseModel {
     var stationColours : [String]?
     var stationNames : [String]?
     var stationline : [String]?
-
+    var tags : [DictionaryModel]?
 }
 class MessageFYbuildingModel: BaseModel {
     var address : String?
     var btype : Int?
     var buildingId : Int?
     var buildingName : String?
+    var distance: String?
     var district : String?
     var houseId : Int?
+    var houseName : String?
     var latitude : String?
     var longitude : String?
+    var mainPic : String?               //封面图
     var maxArea : Float?
     var maxSinglePrice : Float?
     var minSinglePrice : Float?
@@ -153,7 +163,7 @@ class MessageFYbuildingModel: BaseModel {
     var stationColours : [String]?
     var stationNames : [String]?
     var stationline : [String]?
-
+    var tags : [DictionaryModel]?
 }
 class MessageFYChattedModel: BaseModel {
     var isZD : Bool?

@@ -439,8 +439,8 @@ class ReviewLoginViewController: BaseViewController {
                 UserTool.shared.user_rongyuntoken = model.rongyuntoken
                 UserTool.shared.user_uid = model.uid
                 UserTool.shared.user_token = model.token
-                UserTool.shared.user_avatars = model.nickName
-                UserTool.shared.user_name = model.token
+                UserTool.shared.user_avatars = model.avatar
+                UserTool.shared.user_name = model.nickName
                 UserTool.shared.user_phone = self?.phoneField.text
 
             }

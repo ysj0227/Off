@@ -94,14 +94,26 @@ extension RenterChatListViewController {
         deleteAction.backgroundColor = .red
         mActionArray.append(deleteAction)
         
-        let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
-            if let model: RCConversationModel = self?.conversationListDataSource[indexPath.row] as? RCConversationModel {
-                RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: true)
+        if let model: RCConversationModel = self.conversationListDataSource[indexPath.row] as? RCConversationModel {
+            
+            if model.isTop == true {
+                let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "取消置顶") { (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
+                          RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: false)
+                    print("\(indexPath.row) == 取消置顶")
+                }
+                setupAction.backgroundColor = kAppBlueColor
+                mActionArray.append(setupAction)
+            }else {
+                let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "置顶") { (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
+                          RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: true)
+                    print("\(indexPath.row) == 置顶")
+                }
+                setupAction.backgroundColor = kAppBlueColor
+                mActionArray.append(setupAction)
             }
-           print("\(indexPath.row) == 置顶")
-       }
-       setupAction.backgroundColor = kAppBlueColor
-       mActionArray.append(setupAction)
+        }
+        
+        
         return mActionArray
     }
     
@@ -110,32 +122,16 @@ extension RenterChatListViewController {
         
         if model.conversationModelType == .CONVERSATION_MODEL_TYPE_NORMAL {
             if conversationModelType == .CONVERSATION_MODEL_TYPE_COLLECTION {
-//                let vc = RenterChatViewController()
-//                vc.displayConversationTypeArray =
-//                vc.targetId = model.targetId
-//                vc.title = model.conversationTitle
-//                vc.unReadMessage = model.unreadMessageCount
-//                vc.enableNewComingMessageIcon = true  //开启消息提醒
-//                vc.enableNewComingMessageIcon = true
-//                if model.conversationType == .ConversationType_SYSTEM {
-//                    vc.userName = "de_actionbar_sub_system"
-//                    vc.title = "de_actionbar_sub_system"
-//                }else {
-//                    vc.displayUserNameInCell = false
-//                }
-//                self.navigationController?.pushViewController(vc, animated: true)
-
+                
             }else {
                 let vc = RenterChatViewController()
                 vc.conversationType = .ConversationType_PRIVATE
-                vc.targetId = model.targetId
+                vc.targetId = String(model.targetId.prefix(model.targetId.count - 1))
                 vc.title = model.conversationTitle
                 vc.unReadMessage = model.unreadMessageCount
                 vc.enableNewComingMessageIcon = true  //开启消息提醒
                 vc.enableNewComingMessageIcon = true
                 if model.conversationType == .ConversationType_SYSTEM {
-                    vc.userName = "de_actionbar_sub_system"
-                    vc.title = "de_actionbar_sub_system"
                 }else {
                     vc.displayUserNameInCell = false
                 }

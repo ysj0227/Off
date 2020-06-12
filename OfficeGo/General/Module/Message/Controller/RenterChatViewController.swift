@@ -18,12 +18,12 @@ class RenterChatViewController: RCConversationViewController {
     
     ///对方用户id
     var chatUserId: String?
-
+    
     ///聊天详情
     var messageFYModel: MessageFYModel?
     
     var messageFYViewModel: MessageFYViewModel?
-
+    
     
     //上面四个按钮view
     var buttonView:RenterMsgBtnView = {
@@ -70,10 +70,10 @@ class RenterChatViewController: RCConversationViewController {
         SSTool.invokeInMainThread { [weak self] in
             
             guard let weakSelf = self else {return}
-
+            
             ///强制刷新好友信息
             weakSelf.reloadRCCompanyUserInfo()
-
+            
             ///插入聊天信息 - 判断之前有没有插入过
             weakSelf.insertMessage()
         }
@@ -98,14 +98,14 @@ class RenterChatViewController: RCConversationViewController {
                 weakSelf.messageFYModel = model
                 
                 weakSelf.messageFYViewModel = MessageFYViewModel.init(model: model)
-                    
+                
                 weakSelf.setViewShow()
             }
             
             }, failure: { (error) in
                 
         }) { (code, message) in
-                                    
+            
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
@@ -170,8 +170,8 @@ extension RenterChatViewController {
         register(WechatExchangeStatusMessageCell.self, forMessageClass: WechatExchangeStatusMessage.self)
         
         //约看房源状态
-         register(ScheduleViewingStatusMessageCell.self, forMessageClass: ScheduleViewingStatusMessage.self)
-             
+        register(ScheduleViewingStatusMessageCell.self, forMessageClass: ScheduleViewingStatusMessage.self)
+        
         //房源信息
         register(FangyuanInsertFYMessageCell.self, forMessageClass: FangyuanInsertFYMessage.self)
         
@@ -321,27 +321,27 @@ extension RenterChatViewController {
     
     //点击确认发送
     //弹出发送确认框弹框
-       func showBtnSureAlertview() {
-           
-           let alert = SureAlertView(frame: self.view.frame)
-           alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
-               
-           }) { [weak self] in
-               self?.sendExchangeWechat()
-           }
-       }
-       
+    func showBtnSureAlertview() {
+        
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            self?.sendExchangeWechat()
+        }
+    }
+    
     //输入微信弹框
     func showBtnWXInputAlertview(otherWechat: String) {
-           let alert = SureAlertView(frame: self.view.frame)
-           alert.inputTFView.placeholder = "请输入您的微信号"
-           alert.ShowInputAlertView(superview: self.view, message: "当前未绑定微信", cancelButtonCallClick: {
-               
-           }) { [weak self] (str) in
-               self?.requestSaveWX(wx: str)
-                self?.sendMesExchangeWechatAgreeOrReject(agree: true, otherWechat: otherWechat)
-           }
-       }
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.inputTFView.placeholder = "请输入您的微信号"
+        alert.ShowInputAlertView(superview: self.view, message: "当前未绑定微信", cancelButtonCallClick: {
+            
+        }) { [weak self] (str) in
+            self?.requestSaveWX(wx: str)
+            self?.sendMesExchangeWechatAgreeOrReject(agree: true, otherWechat: otherWechat)
+        }
+    }
     
     //保存微信接口
     func requestSaveWX(wx: String) {
@@ -363,14 +363,14 @@ extension RenterChatViewController {
             let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "测试插入消息")
             messageContent.mainPic = messageFYViewModel?.mainPic
             messageContent.createTimeAndByWho = messageFYViewModel?.createTimeAndByWho
-            messageContent.isFavorite = messageFYViewModel?.isFavorite ?? false
+            messageContent.isFavorite = messageFYViewModel?.IsFavorite ?? false
             messageContent.buildingName = messageFYViewModel?.buildingName
             messageContent.houseName = messageFYViewModel?.houseName
             messageContent.distanceDistrictString = messageFYViewModel?.distanceDistrictString
             messageContent.walkTimesubwayAndStationString = messageFYViewModel?.walkTimesubwayAndStationString
             messageContent.dayPriceString = messageFYViewModel?.dayPriceString
             messageContent.tagsString = messageFYViewModel?.tagsString
-
+            
             let message = RCIMClient.shared()?.insertOutgoingMessage(.ConversationType_PRIVATE, targetId: messageFYModel?.chatted?.targetId, sentStatus: RCSentStatus.SentStatus_SENT, content: messageContent)
             self.appendAndDisplay(message)
         }
@@ -389,10 +389,10 @@ extension RenterChatViewController {
     }
     
     //预约房源
-       func sendScheduleFY(interval: Int) {
-           let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", time: "\(interval)")
-           sendMessage(messageContent, pushContent: "我发送了一个看房邀请")
-       }
+    func sendScheduleFY(interval: Int) {
+        let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", time: "\(interval)")
+        sendMessage(messageContent, pushContent: "我发送了一个看房邀请")
+    }
     
     //交换手机号同意拒绝消息
     func sendExchangePhoneAgreeOrReject(agree: Bool, otherPhone: String) {
@@ -404,25 +404,54 @@ extension RenterChatViewController {
     func sendExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String) {
         
         if agree {
-             if UserTool.shared.isHasWX() == true {
+            if UserTool.shared.isHasWX() == true {
                 
-             }else{
+            }else{
                 showBtnWXInputAlertview(otherWechat: otherWechat)
-               }
+            }
         }else {
             sendMesExchangeWechatAgreeOrReject(agree: false, otherWechat: otherWechat)
         }
         
-       
+        
     }
     
     func sendMesExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String) {
         let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换微信": "我拒绝和您交换微信", isAgree: agree, sendNumber: otherWechat, receiveNumber: UserTool.shared.user_wechat ?? "")
-               sendMessage(messageContent, pushContent: "交换信成功回复")
+        sendMessage(messageContent, pushContent: "交换信成功回复")
     }
-
+    
     //看房邀约同意拒绝消息
     func sendScheduleViewingAgreeOrReject(agree: Bool) {
+        sendScheduleMessage(agree: agree)
+        /*
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["id"] = targetId as AnyObject?
+        if agree == true {
+            params["auditStatus"] = 1 as AnyObject?
+        }else {
+            params["auditStatus"] = 2 as AnyObject?
+        }
+        
+        SSNetworkTool.SSSchedule.request_updateAuditStatusApp(params: params, success: {[weak self] (response) in
+            
+            self?.sendScheduleMessage(agree: agree)
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+        */
+    }
+    
+    func sendScheduleMessage(agree: Bool) {
         let messageContent = ScheduleViewingStatusMessage.messageWithContent(content: agree ? "我同意您发送的看房邀请" : "我拒绝您发送的看房邀请", isAgree: agree)
         sendMessage(messageContent, pushContent: "看房邀请回复")
     }

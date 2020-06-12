@@ -78,7 +78,7 @@ class HouseListTableViewCell: BaseTableViewCell {
         houseDistanceLabel.text = viewModel.distanceString
         houseAddressLabel.text = viewModel.districtString
         houseRouteLineLabel.text = viewModel.walkTimesubwayAndStationString
-        housePriceLabel.text = viewModel.dayPriceString
+        housePriceLabel.text = viewModel.dayPriceNoUnitString
         housePriceUnitLabel.text = viewModel.unitString
     }
         
