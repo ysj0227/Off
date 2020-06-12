@@ -71,6 +71,7 @@ class RenterChatViewController: RCConversationViewController {
             
             guard let weakSelf = self else {return}
             
+            weakSelf.titleview?.titleLabel.text = weakSelf.messageFYModel?.chatted?.nickname
             ///强制刷新好友信息
             weakSelf.reloadRCCompanyUserInfo()
             
@@ -87,6 +88,8 @@ class RenterChatViewController: RCConversationViewController {
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         
+        
+        //MARK: targetid - 只有获取详情的时候 - 需要截取一下最后一位身份标识
         params["uid"] = String(targetId.prefix(targetId.count - 1)) as AnyObject?
         
         SSNetworkTool.SSChat.request_getChatFYDetailApp(params: params, success: {[weak self] (response) in
