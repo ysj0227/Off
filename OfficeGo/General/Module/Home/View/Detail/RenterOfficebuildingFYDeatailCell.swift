@@ -54,16 +54,21 @@ class RenterOfficebuildingFYDeatailCell: BaseTableViewCell {
      */
     func setCellWithViewModel(viewModel: FangYuanBuildingFYDetailBasicInformationModel) {
         officePatternLabel.text = viewModel.officePattern?.isBlankString == true ? "--" : viewModel.officePattern
-        floorLabel.text = "\(viewModel.floor ?? "0")层"
-        earliestDeliveryLabel.text = viewModel.earliestDelivery?.count ?? 0 > 0 ? "--" : viewModel.earliestDelivery
-        rentFreePeriodLabel.text = viewModel.rentFreePeriod?.count ?? 0 > 0 ? "--" : viewModel.rentFreePeriod
+        floorLabel.text = viewModel.floor?.count ?? 0 > 0 ? "\(viewModel.floor ?? "0")层" : "--"
+        earliestDeliveryLabel.text = viewModel.earliestDelivery?.count ?? 0 > 0 ? viewModel.earliestDelivery : "--"
+        rentFreePeriodLabel.text = viewModel.rentFreePeriod?.count ?? 0 > 0 ? viewModel.rentFreePeriod : "--"
         //标准下的最短租期单位是年   联合下的最短租期单位是月
         ///1是办公楼，2是联合办公 用来判断最短租期单位
-        if viewModel.btype == 1 {
-            minimumLeaseLabel.text = "\(viewModel.minimumLease ?? "0")年起"
+        if viewModel.minimumLease?.count ?? 0 > 0 {
+            if viewModel.btype == 1 {
+                minimumLeaseLabel.text = "\(viewModel.minimumLease ?? "0")年起"
+            }else {
+                minimumLeaseLabel.text = "\(viewModel.minimumLease ?? "0")个月起"
+            }
         }else {
-            minimumLeaseLabel.text = "\(viewModel.minimumLease ?? "0")个月起"
+            minimumLeaseLabel.text = "--"
         }
+        
     }
     
     
