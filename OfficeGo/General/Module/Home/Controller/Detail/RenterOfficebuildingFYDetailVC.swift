@@ -537,11 +537,15 @@ extension RenterOfficebuildingFYDetailVC {
                 }
                 
             case FYDetailItemType.FYDetailItemTypeFeature:
-                if buildingFYDetailModel?.house?.tags?.count ?? 0 > 0 {
-                    if let height = buildingFYDetailViewModel?.houseViewModel?.tagsHeight {
-                        return RenterFeatureCell.rowHeight0() + height
+                if let tags = buildingFYDetailModel?.house?.tags {
+                    if tags.count > 0 {
+                        if let height = buildingFYDetailViewModel?.houseViewModel?.tagsHeight {
+                            return RenterFeatureCell.rowHeight0() + height
+                        }else {
+                            return RenterFeatureCell.rowHeight0() + 30
+                        }
                     }else {
-                        return RenterFeatureCell.rowHeight0() + 30
+                        return RenterFeatureCell.rowHeight0()
                     }
                 }else {
                     return RenterFeatureCell.rowHeight0()

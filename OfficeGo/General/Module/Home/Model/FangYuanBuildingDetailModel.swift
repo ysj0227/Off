@@ -230,7 +230,8 @@ class FangYuanBuildingBuildingViewModel: NSObject {
         
         buildingName = model.name
         
-        addressString = model.businessDistrict ?? ""
+        ///addressString = model.businessDistrict ?? ""
+        addressString = model.address ?? ""
         
         ///是否显示开发工位的字段
         openStationFlag = model.openStationFlag

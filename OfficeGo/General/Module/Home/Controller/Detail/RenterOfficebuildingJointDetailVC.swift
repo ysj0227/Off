@@ -858,11 +858,15 @@ extension RenterOfficebuildingJointDetailVC {
                         return 40 + 30 + 1
                     }
                 case FYDetailItemType.FYDetailItemTypeFeature:
-                    if buildingDetailModel?.tags?.count ?? 0 > 0 {
-                        if let height = buildingDetailViewModel?.tagsHeight {
-                            return RenterFeatureCell.rowHeight0() + height
+                    if let tags = buildingDetailModel?.tags {
+                        if tags.count > 0 {
+                            if let height = buildingDetailViewModel?.tagsHeight {
+                                return RenterFeatureCell.rowHeight0() + height
+                            }else {
+                                return RenterFeatureCell.rowHeight0() + 30
+                            }
                         }else {
-                            return RenterFeatureCell.rowHeight0() + 30
+                            return RenterFeatureCell.rowHeight0()
                         }
                     }else {
                         return RenterFeatureCell.rowHeight0()
@@ -921,11 +925,15 @@ extension RenterOfficebuildingJointDetailVC {
                         return 40 + 30 + 2
                     }
                 case FYDetailItemType.FYDetailItemTypeFeature:
-                    if buildingDetailModel?.tags?.count ?? 0 > 0 {
-                        if let height = buildingDetailViewModel?.tagsHeight {
-                            return RenterFeatureCell.rowHeight0() + height
+                    if let tags = buildingDetailModel?.tags {
+                        if tags.count > 0 {
+                            if let height = buildingDetailViewModel?.tagsHeight {
+                                return RenterFeatureCell.rowHeight0() + height
+                            }else {
+                                return RenterFeatureCell.rowHeight0() + 30
+                            }
                         }else {
-                            return RenterFeatureCell.rowHeight0() + 30
+                            return RenterFeatureCell.rowHeight0()
                         }
                     }else {
                         return RenterFeatureCell.rowHeight0()

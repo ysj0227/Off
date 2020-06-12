@@ -84,6 +84,8 @@ class FangYuanBuildingFYDetailHouseModel: BaseModel {
     
     var businessDistrict : String?
 
+    var address : String?
+
 }
 class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     ///1是办公楼，2是联合办公
@@ -248,8 +250,9 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
             }
         }
         
-        addressString = model.businessDistrict ?? ""
-
+        ///addressString = model.businessDistrict ?? ""
+        addressString = model.address ?? ""
+        
     }
 }
 
