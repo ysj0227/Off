@@ -278,7 +278,7 @@ extension RenterHomePageViewController {
                 for model in decoratedArray {
                     arr.append(model?.img ?? "")
                 }
-                weakSelf.cycleView?.imageURLStringArr = arr
+                weakSelf.cycleView?.imageURLStringArr = ["https://img.officego.com/building/1591263008301.jpg?x-oss-process=style/large", "https://img.officego.com/building/1591263008301.jpg?x-oss-process=style/large"]
                 //                weakSelf.cycleView?.imageURLStringArr = ["loginBgImg", "IAmYezhu"]
             }
             

@@ -140,7 +140,7 @@ class SSSearchURL: NSObject {
 class SSHomeURL: NSObject {
     
     //轮播图接口
-    static let getbannerListt = "banner/bannerListApp"
+    static let getbannerListt = "banner/bannerList"
     
     //推荐列表 - 首页和搜索页面
     static let getselectBuildingApp = "building/selectBuildingApp"
