@@ -75,7 +75,7 @@ class SSNetworkTool: NSObject {
             let encoding:ParameterEncoding = (type.rawValue == HTTPMethod.get.rawValue) ? URLEncoding.default : URLEncoding.queryString
             
             let _ = worker.request(URL, method: type, parameters: para, encoding: encoding, headers: nil).responseJSON(completionHandler: { (Response) in
-                SSLog("数据地址:\(urlStr) 参数:\(para) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
+                SSLog("数据地址:\(urlStr) 方式：\(type) 参数:\(para) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
                 
                 switch Response.result {
                 case .success:
@@ -137,8 +137,8 @@ class SSNetworkTool: NSObject {
             let encoding:ParameterEncoding = (type.rawValue == HTTPMethod.get.rawValue) ? URLEncoding.default : JSONEncoding.default
             
             let _ = worker.request(URL, method: type, parameters: para, encoding: encoding, headers: headers).responseJSON(completionHandler: { (Response) in
-                SSLog("数据地址:\(urlStr) 参数:\(para) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
-                
+                SSLog("数据地址:\(urlStr) 方式：\(type) 参数:\(para) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
+
                 switch Response.result {
                 case .success:
                     guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
