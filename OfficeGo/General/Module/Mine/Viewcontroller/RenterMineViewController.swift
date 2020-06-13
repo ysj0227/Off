@@ -134,8 +134,9 @@ extension RenterMineViewController {
         case .RenterMineTypeRegisterAgent:
 //            let url = "\(SSAPI.SSApiHost)\(SSMineURL.registerProtocol)"
             let url = "http://test.officego.com.cn/lessee/registerProtocol.html"
-            let vc = BaseWebViewController.init(url: url)
-            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeRegisterAgent)
+            let vc = JHWebViewController.init(url: url)
+            vc.title = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeRegisterAgent)
+//            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeRegisterAgent)
             self.navigationController?.pushViewController(vc, animated: true)
         case .RenterMineTypeAboutus:
 //            let url = "\(SSAPI.SSApiHost)\(SSMineURL.aboutUs)"
@@ -384,9 +385,11 @@ extension RenterMineViewController {
         
         SSNetworkTool.SSMine.request_getUserMsg(params: params, success: {[weak self] (response) in
 
+            guard let weakSelf = self else {return}
+
             if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
                 
-                self?.userModel = model
+                weakSelf.userModel = model
                 
                 UserTool.shared.user_uid = model.userId
                 UserTool.shared.user_name = model.realname
@@ -398,7 +401,10 @@ extension RenterMineViewController {
                 UserTool.shared.user_phone = model.phone
                 UserTool.shared.user_wechat = model.wxId
                 
-                self?.headerView.userModel = model
+                SSTool.invokeInMainThread {
+                    weakSelf.headerView.userModel = model
+                    weakSelf.reloadRCUserInfo()
+                }
 
             }
             
@@ -412,4 +418,15 @@ extension RenterMineViewController {
             }
         }
     }
+    
+       /*
+       * 强制刷新用户信息
+       * SDK 缓存操作
+       * 1、刷新 SDK 缓存
+    */
+       func reloadRCUserInfo() {
+           let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
+           RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)")
+       }
+       
 }

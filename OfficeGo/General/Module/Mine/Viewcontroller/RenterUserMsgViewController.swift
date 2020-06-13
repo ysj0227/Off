@@ -73,16 +73,6 @@ class RenterUserMsgViewController: BaseTableViewController {
 
 
 extension RenterUserMsgViewController {
-    /*
-    * 强制刷新用户信息
-    * SDK 缓存操作
-    * 1、刷新 SDK 缓存
- */
-    func reloadRCUserInfo() {
-//        let info = RCUserInfo.init(userId: "11", name: "修改了名字", portrait: "https://img.officego.com.cn/report/1589888998797.jpg")
-//        RCIM.shared()?.refreshUserInfoCache(info, withUserId: "11")
-    }
-    
     
     func setUpView() {
         
