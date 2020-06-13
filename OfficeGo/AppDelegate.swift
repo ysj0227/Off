@@ -110,7 +110,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //不清空身份类型
         UserTool.shared.removeAll()
         
-        setTabar()
+        setLoginVC()
+        
+        ///退出登录- 跳到登录页面
+        ///setTabar()
+    }
+    
+    @objc func setLoginVC() {
+        let loginNav = BaseNavigationViewController.init(rootViewController: ReviewLoginViewController())
+        loginNav.navigationBar.isHidden = true
+        window?.rootViewController = loginNav
     }
     
     //切换身份 - 设置里边 - 切换身份字段 - 重新设置tabbar

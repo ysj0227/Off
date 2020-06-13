@@ -46,6 +46,9 @@ extension Notification.Name {
     /// 聊天页面 - 自定义预约成功 - 点击查看预约详情按钮
     public static let MsgScheduleDetail = Notification.Name("msgScheduleDetail")
     
+    /// 接口- 没登录的时候 - 弹出登录
+    public static let NoLoginClickToLogin = Notification.Name("noLoginClickToLogin")
+    
     
     public static let userChanged      = Notification.Name("kNotificationUserChanged")
     public static let inviteCodeBind   = Notification.Name("kNotificationCodeBind")

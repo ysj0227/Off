@@ -315,7 +315,7 @@ extension RenterChatViewController {
     func showWXInputAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
         alert.inputTFView.placeholder = "请输入您的微信号"
-        alert.ShowInputAlertView(superview: self.view, message: "当前未绑定微信", cancelButtonCallClick: {
+        alert.ShowInputAlertView(message: "当前未绑定微信", cancelButtonCallClick: {
             
         }) { [weak self] (str) in
             self?.requestSaveWX(wx: str)
@@ -338,7 +338,7 @@ extension RenterChatViewController {
     func showBtnWXInputAlertview(otherWechat: String) {
         let alert = SureAlertView(frame: self.view.frame)
         alert.inputTFView.placeholder = "请输入您的微信号"
-        alert.ShowInputAlertView(superview: self.view, message: "当前未绑定微信", cancelButtonCallClick: {
+        alert.ShowInputAlertView(message: "当前未绑定微信", cancelButtonCallClick: {
             
         }) { [weak self] (str) in
             self?.requestSaveWX(wx: str)

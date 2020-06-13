@@ -63,19 +63,45 @@ class BaseViewController: UIViewController {
     
     var errorView: ErrorView?
     
+    func showLoginView() {
+        let windows = UIApplication.shared.keyWindow
+        let alert = SureAlertView(frame: windows?.frame ?? CGRect(x: 0, y: 0, width: kWidth, height: kHeight))
+        alert.inputTFView.text = "您还没登录，请先登录"
+        alert.isHiddenVersionCancel = true
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
+            
+        }) {[weak self] in
+            self?.showLoginVC()
+        }
+    }
+    
+    func showLoginVC() {
+        let loginNav = BaseNavigationViewController.init(rootViewController: ReviewLoginViewController())
+        loginNav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(loginNav, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleview?.leftButton.addTarget(self, action: #selector(rightBtnClick), for: .touchUpInside)
+        titleview?.leftButton.addTarget(self, action: #selector(leftBtnClick), for: .touchUpInside)
         
         titleview?.rightButton.addTarget(self, action: #selector(rightBtnClick), for: .touchUpInside)
         
         self.view.backgroundColor = kAppWhiteColor
+        
+        //点击登录的通知
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.NoLoginClickToLogin, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
+            self?.showLoginView()
+        }
     }
     
     @objc func isLogin() -> Bool {
         if UserTool.shared.isLogin() != true {
-            AppUtilities.makeToast("您还没有登录")
+//            AppUtilities.makeToast("您还没有登录")
+            showLoginView()
             return false
         }else {
             return true

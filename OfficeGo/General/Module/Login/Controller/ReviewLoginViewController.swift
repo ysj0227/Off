@@ -202,7 +202,13 @@ class ReviewLoginViewController: BaseViewController {
         }
 
     }
-    
+    @objc override func leftBtnClick() {
+        if self.navigationController?.viewControllers.count ?? 0 > 1 {
+            self.navigationController?.popViewController(animated: true)
+        }else {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     func setupUI() {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)

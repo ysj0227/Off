@@ -96,11 +96,11 @@ class SureAlertView: UIView {
     }
     
     @objc func clickRemoveFromSuperview() {
-        guard let blockk = cancelButtonCallClick else {
-            return
-        }
-        blockk()
-        selfRemove()
+//        guard let blockk = cancelButtonCallClick else {
+//            return
+//        }
+//        blockk()
+//        selfRemove()
     }
     
     func selfRemove() {
@@ -119,25 +119,31 @@ class SureAlertView: UIView {
     }
     
     // MARK: - 弹出输入显示
-    func ShowInputAlertView(superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((String) -> Void)) -> Void {
-        selfRemove()
+    func ShowInputAlertView(message: String, cancelButtonCallClick: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((String) -> Void)) -> Void {
+        remove()
         alertMsg = message
         alertType = AlertType.AlertTypeChatInput
         self.cancelButtonCallClick = cancelButtonCallClick
         self.sureAreaaddressButtonCallBack = sureAreaaddressButtonCallBack
-        superview.addSubview(self)
+        UIApplication.shared.keyWindow?.addSubview(self)
     }
     
-    
+    func remove() {
+        UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
+           if view.isKind(of: SureAlertView.self) {
+               view.removeFromSuperview()
+           }
+       })
+    }
     // MARK: - 弹出view显示 - message - 版本更新
-    func ShowAlertView(withalertType: AlertType, superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureButtonCallClick: @escaping (() -> Void)) -> Void {
-        selfRemove()
+    func ShowAlertView(withalertType: AlertType, message: String, cancelButtonCallClick: @escaping (() -> Void), sureButtonCallClick: @escaping (() -> Void)) -> Void {
+        remove()
         alertMsg = message
         alertType = withalertType
         self.cancelButtonCallClick = cancelButtonCallClick
         self.sureButtonCallClick = sureButtonCallClick
         
-        superview.addSubview(self)
+        UIApplication.shared.keyWindow?.addSubview(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -250,6 +256,7 @@ class SureAlertView: UIView {
     func titleMessageLayoyt() {
         
         inputTFView.textAlignment = .center
+        inputTFView.isUserInteractionEnabled = false
         
         bgview.addSubview(inputTFView)
         bgview.snp.remakeConstraints { (make) in

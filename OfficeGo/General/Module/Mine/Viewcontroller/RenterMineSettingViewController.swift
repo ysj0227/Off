@@ -106,7 +106,7 @@ extension RenterMineSettingViewController {
         let alert = SureAlertView(frame: self.view.frame)
         alert.inputTFView.text = versionModel.desc ?? ""
         alert.isHiddenVersionCancel = versionModel.force ?? false
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, superview: self.view, message: "版本更新", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "版本更新", cancelButtonCallClick: {
             
         }) {
             if let url = URL(string: versionModel.uploadUrl ?? "") {
@@ -124,7 +124,7 @@ extension RenterMineSettingViewController {
     func showLogotAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
         alert.inputTFView.text = "您是否要退出登录？"
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, superview: self.view, message: "温馨提示", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
             
         }) {
             //退出登录

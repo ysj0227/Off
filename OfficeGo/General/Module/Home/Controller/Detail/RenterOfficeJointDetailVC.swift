@@ -289,6 +289,11 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         
     }
     
+    ///MARK: 隐藏无数据view
+    override func noDataViewSet() {
+        noDataView.isHidden = true
+    }
+    
     func setupUI() {
         
         self.view.backgroundColor = kAppColor_bgcolor_F7F7F7
