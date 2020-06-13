@@ -35,6 +35,20 @@ class FangYuanListViewController: BaseTableViewController {
         requestSet()
         
     }
+    
+    override func noDataViewSet() {
+        noDataView.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(120)
+            make.size.equalTo(CGSize(width: 100, height: 100))
+        }
+        if self.dataSource.count > 0 {
+            noDataView.isHidden = true
+        }else {
+            noDataView.isHidden = false
+        }
+    }
+    
     //MARK: 获取首页列表数据
     override func refreshData() {
         

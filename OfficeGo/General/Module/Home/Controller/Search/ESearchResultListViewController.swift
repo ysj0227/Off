@@ -22,7 +22,9 @@ class ESearchResultListViewController: BaseTableViewController {
         }
     }
     
-    
+    override func noDataViewSet() {
+        noDataView.isHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

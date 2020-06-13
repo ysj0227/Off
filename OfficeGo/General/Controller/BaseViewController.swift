@@ -18,6 +18,28 @@ class BaseViewController: UIViewController {
         return UIView()
     }()
     
+    
+    lazy var noDataImageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        view.image = UIImage(named: "empty_placeholde_happy_image")
+        return view
+    }()
+    lazy var noDataLabel: UILabel = {
+        let view = UILabel()
+        view.text = "暂无数据"
+        view.textColor = kAppColor_666666
+        view.font = FONT_15
+        view.textAlignment = .center
+        return view
+    }()
+    lazy var noDataView: UIView = {
+        let view = UIView()
+        view.addSubview(noDataImageView)
+        view.addSubview(noDataLabel)
+        return view
+    }()
+    
     /*
      //设置导航栏的颜色 - 可设置透明
      func setNavigationBarColor(color: UIColor) {

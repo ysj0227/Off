@@ -172,6 +172,7 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
             }
             self?.calendar.reloadData()
             self?.tableView.reloadData()
+            self?.showNoDataView()
         }
         
     }
@@ -242,6 +243,7 @@ extension RenterHouseScheduleViewController {
             AppUtilities.makeToast("没有数据～")
         }
         self.tableView.reloadData()
+        self.showNoDataView()
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
@@ -352,7 +354,14 @@ extension RenterHouseScheduleViewController {
     func setUpData() {
         
     }
-    
+
+    func showNoDataView() {
+        if currentModel?.scheduleViewModelList?.count ?? 0 > 0 {
+            noDataView.isHidden = true
+        }else {
+            noDataView.isHidden = false
+        }
+    }
 }
 
 extension RenterHouseScheduleViewController {

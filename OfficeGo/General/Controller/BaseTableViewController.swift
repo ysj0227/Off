@@ -81,6 +81,23 @@ class BaseTableViewController: BaseViewController {
             automaticallyAdjustsScrollViewInsets = false
         }
         
+        self.view.addSubview(noDataView)
+        noDataView.isHidden = true
+        noDataView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.size.equalTo(CGSize(width: 100, height: 100))
+        }
+        noDataImageView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-30)
+            make.size.equalTo(CGSize(width: 100, height: 100))
+        }
+        noDataLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.size.equalTo(CGSize(width: 100, height: 30))
+        }
+        
     }
     
     @objc func loadNewData(){
@@ -106,7 +123,18 @@ class BaseTableViewController: BaseViewController {
         endRefreshWithCount(0)
     }
     
+    func noDataViewSet() {
+        if self.dataSource.count > 0 {
+            noDataView.isHidden = true
+        }else {
+            noDataView.isHidden = false
+        }
+    }
+    
     public func endRefreshWithCount(_ count: Int) {
+        
+        noDataViewSet()
+        
         haveData = self.dataSource.count > 0 ? true : false
         reloadData()
         
