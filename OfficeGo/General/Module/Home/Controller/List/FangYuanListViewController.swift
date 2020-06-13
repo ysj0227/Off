@@ -349,10 +349,17 @@ extension FangYuanListViewController {
             return
         }
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
-            let vc = RenterOfficebuildingJointDetailVC()
-            vc.shaiXuanParams = self.getDetailParams()
-            vc.buildingModel = model
-            self.navigationController?.pushViewController(vc, animated: true)
+            if model.btype == 1 {
+                let vc = RenterOfficebuildingDetailVC()
+                vc.shaiXuanParams = self.getDetailParams()
+                vc.buildingModel = model
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model.btype == 2 {
+                let vc = RenterOfficeJointDetailVC()
+                vc.shaiXuanParams = self.getDetailParams()
+                vc.buildingModel = model
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
         
     }

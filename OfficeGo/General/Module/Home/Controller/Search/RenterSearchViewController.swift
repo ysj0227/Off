@@ -92,9 +92,16 @@ class RenterSearchViewController: BaseViewController {
         // 传递闭包 当点击’搜索结果‘的cell调用
         searchResultVC?.callBack = {[weak self] (model) in
             // 搜索完成 关闭resultVC
-            let vc = RenterOfficebuildingJointDetailVC()
-            vc.buildingModel = model
-            self?.navigationController?.pushViewController(vc, animated: true)
+            if model.btype == 1 {
+                let vc = RenterOfficebuildingDetailVC()
+                vc.buildingModel = model
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }else if model.btype == 2 {
+                let vc = RenterOfficeJointDetailVC()
+                vc.buildingModel = model
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+            
         }
         
         collectionView?.snp.makeConstraints({ (make) in

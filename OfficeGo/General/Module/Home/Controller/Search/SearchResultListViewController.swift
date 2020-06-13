@@ -320,9 +320,15 @@ extension SearchResultListViewController {
             return
         }
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
-            let vc = RenterOfficebuildingJointDetailVC()
-            vc.buildingModel = model
-            self.navigationController?.pushViewController(vc, animated: true)
+            if model.btype == 1 {
+                let vc = RenterOfficebuildingDetailVC()
+                vc.buildingModel = model
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model.btype == 2 {
+                let vc = RenterOfficeJointDetailVC()
+                vc.buildingModel = model
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
         
     }

@@ -119,10 +119,17 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
             if let Isfailure = model.Isfailure {
                 if Isfailure == 1 {
-                    let vc = RenterOfficebuildingJointDetailVC()
-                    vc.shaiXuanParams = [:]
-                    vc.buildingModel = model
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    if model.btype == 1 {
+                        let vc = RenterOfficebuildingDetailVC()
+                        vc.shaiXuanParams = [:]
+                        vc.buildingModel = model
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }else if model.btype == 2 {
+                        let vc = RenterOfficeJointDetailVC()
+                        vc.shaiXuanParams = [:]
+                        vc.buildingModel = model
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }else if Isfailure == 0 {
                     AppUtilities.makeToast(SSCode.ERROR_CODE_7012.msg)
                 }else if Isfailure == 4 {

@@ -17,6 +17,8 @@
 		042D46B7248A2138003B6305 /* ESearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */; };
 		042D46BB248F931F003B6305 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46BA248F931F003B6305 /* ScheduleModel.swift */; };
 		042D46BE24920923003B6305 /* MessageFYModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46BD24920922003B6305 /* MessageFYModel.swift */; };
+		042E5E3D249474F5008B8E14 /* RenterOfficeJointDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E3C249474F5008B8E14 /* RenterOfficeJointDetailVC.swift */; };
+		042E5E3F24947895008B8E14 /* RenterOfficeJointFYDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E3E24947895008B8E14 /* RenterOfficeJointFYDetailVC.swift */; };
 		042ECDB0247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */; };
 		04301F45247D0CD70047B70F /* WechatExchangeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */; };
 		04301F47247D0D030047B70F /* PhoneExchangeStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */; };
@@ -135,7 +137,7 @@
 		EE6070DE2468FE2A0098CAC2 /* RenterAmbitusMatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE6070DC2468FE2A0098CAC2 /* RenterAmbitusMatingCell.xib */; };
 		EE6070E02468FF010098CAC2 /* RenterDetailNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070DF2468FF010098CAC2 /* RenterDetailNameCell.swift */; };
 		EE6070E2246900120098CAC2 /* RenterFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070E1246900120098CAC2 /* RenterFeatureCell.swift */; };
-		EE6070E4246904FE0098CAC2 /* RenterOfficebuildingJointDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070E3246904FE0098CAC2 /* RenterOfficebuildingJointDetailVC.swift */; };
+		EE6070E4246904FE0098CAC2 /* RenterOfficebuildingDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070E3246904FE0098CAC2 /* RenterOfficebuildingDetailVC.swift */; };
 		EE7F54B42456685E0010073B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7F54B32456685E0010073B /* User.swift */; };
 		EE7F5576245673CE0010073B /* ReviewLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7F5575245673CE0010073B /* ReviewLoginViewController.swift */; };
 		EE97D05524581842007FF862 /* AORangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE97D05424581842007FF862 /* AORangeSlider.swift */; };
@@ -255,6 +257,8 @@
 		042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESearchResultListViewController.swift; sourceTree = "<group>"; };
 		042D46BA248F931F003B6305 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		042D46BD24920922003B6305 /* MessageFYModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFYModel.swift; sourceTree = "<group>"; };
+		042E5E3C249474F5008B8E14 /* RenterOfficeJointDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficeJointDetailVC.swift; sourceTree = "<group>"; };
+		042E5E3E24947895008B8E14 /* RenterOfficeJointFYDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficeJointFYDetailVC.swift; sourceTree = "<group>"; };
 		042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewingStatusMessage.swift; sourceTree = "<group>"; };
 		04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WechatExchangeMessage.swift; sourceTree = "<group>"; };
 		04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneExchangeStatusMessage.swift; sourceTree = "<group>"; };
@@ -383,7 +387,7 @@
 		EE6070DC2468FE2A0098CAC2 /* RenterAmbitusMatingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RenterAmbitusMatingCell.xib; sourceTree = "<group>"; };
 		EE6070DF2468FF010098CAC2 /* RenterDetailNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterDetailNameCell.swift; sourceTree = "<group>"; };
 		EE6070E1246900120098CAC2 /* RenterFeatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterFeatureCell.swift; sourceTree = "<group>"; };
-		EE6070E3246904FE0098CAC2 /* RenterOfficebuildingJointDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficebuildingJointDetailVC.swift; sourceTree = "<group>"; };
+		EE6070E3246904FE0098CAC2 /* RenterOfficebuildingDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficebuildingDetailVC.swift; sourceTree = "<group>"; };
 		EE7F54B32456685E0010073B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EE7F5575245673CE0010073B /* ReviewLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewLoginViewController.swift; sourceTree = "<group>"; };
 		EE97D05424581842007FF862 /* AORangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AORangeSlider.swift; sourceTree = "<group>"; };
@@ -658,8 +662,10 @@
 		EE6070972468F9330098CAC2 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				EE6070E3246904FE0098CAC2 /* RenterOfficebuildingJointDetailVC.swift */,
+				EE6070E3246904FE0098CAC2 /* RenterOfficebuildingDetailVC.swift */,
+				042E5E3C249474F5008B8E14 /* RenterOfficeJointDetailVC.swift */,
 				043F0425246BA1BE0070CE4B /* RenterOfficebuildingFYDetailVC.swift */,
+				042E5E3E24947895008B8E14 /* RenterOfficeJointFYDetailVC.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1460,7 +1466,7 @@
 				04301F47247D0D030047B70F /* PhoneExchangeStatusMessage.swift in Sources */,
 				EEE87B1A2455856800C03424 /* UIGestureRecognizerEx.swift in Sources */,
 				EE4914D924692D62008D5689 /* LLSegmentItemTitleView.swift in Sources */,
-				EE6070E4246904FE0098CAC2 /* RenterOfficebuildingJointDetailVC.swift in Sources */,
+				EE6070E4246904FE0098CAC2 /* RenterOfficebuildingDetailVC.swift in Sources */,
 				EEE87ACB2455854C00C03424 /* ViewController.swift in Sources */,
 				EE4914B124692D35008D5689 /* MLMSegmentManager.m in Sources */,
 				EEE0D95F24655D6800E5C77B /* PrintDefine.swift in Sources */,
@@ -1514,6 +1520,7 @@
 				04301F4B247D0D450047B70F /* ScheduleViewingMessage.swift in Sources */,
 				EE4914DA24692D62008D5689 /* LLSegmentBaseItemView.swift in Sources */,
 				EEE87B6B24559BEF00C03424 /* UserInfo.swift in Sources */,
+				042E5E3D249474F5008B8E14 /* RenterOfficeJointDetailVC.swift in Sources */,
 				042D46B32489E6D0003B6305 /* FangYuanSearchResultModel.swift in Sources */,
 				EEE87AEC2455856300C03424 /* TableViewController.swift in Sources */,
 				EEE0D96124655DE000E5C77B /* Array+Extension.swift in Sources */,
@@ -1617,6 +1624,7 @@
 				EE4914B524692D35008D5689 /* UIView+EasyFrame.m in Sources */,
 				EEB1F9D92459119B000500A3 /* BaseCollectionViewCell.swift in Sources */,
 				04EF1E45247777E400871762 /* SSTabBarItem.swift in Sources */,
+				042E5E3F24947895008B8E14 /* RenterOfficeJointFYDetailVC.swift in Sources */,
 				0436A3BB247BA6B0008A6A05 /* RenterScheduleFYViewController.swift in Sources */,
 				EE02B9E82463B34200B51D34 /* String+SoolyCitySelector.swift in Sources */,
 			);

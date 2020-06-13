@@ -1,5 +1,5 @@
 //
-//  RenterOfficebuildingJointDetailVC.swift
+//  RenterOfficebuildingDetailVC.swift
 //  OfficeGo
 //
 //  Created by DENGFei on 2020/5/11.
@@ -11,7 +11,7 @@ import WMPlayer
 import HandyJSON
 import SwiftyJSON
 
-class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelegate {
+class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     //首页带过来的面积或者工位数
     var shaixuanAreaSeatsString: String?
@@ -588,7 +588,7 @@ class RenterOfficebuildingJointDetailVC: BaseTableViewController, WMPlayerDelega
 }
 
 //MARK: CycleViewDelegate
-extension RenterOfficebuildingJointDetailVC: CycleViewDelegate{
+extension RenterOfficebuildingDetailVC: CycleViewDelegate{
     func cycleViewDidSelectedItemAtIndex(_ index: NSInteger) {
         //判断点击的是视频
         if index == 0 {
@@ -598,7 +598,7 @@ extension RenterOfficebuildingJointDetailVC: CycleViewDelegate{
 }
 
 
-extension RenterOfficebuildingJointDetailVC {
+extension RenterOfficebuildingDetailVC {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         //办公楼
@@ -1194,7 +1194,7 @@ extension RenterOfficebuildingJointDetailVC {
                 //独立办公室
                 if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
                     model.btype = 2
-                    let vc = RenterOfficebuildingFYDetailVC()
+                    let vc = RenterOfficeJointFYDetailVC()
                     vc.model = model
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
@@ -1205,7 +1205,7 @@ extension RenterOfficebuildingJointDetailVC {
     
 }
 
-extension RenterOfficebuildingJointDetailVC {
+extension RenterOfficebuildingDetailVC {
     
 }
 
