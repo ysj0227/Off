@@ -88,6 +88,10 @@ class AreaAddressView: UIView {
     var sureAreaaddressButtonCallBack:((HouseSelectModel) -> Void)?
     
     @objc func clickRemoveFromSuperview() {
+        guard let blockk = clearButtonCallBack else {
+            return
+        }
+        blockk()
         selfRemove()
     }
     

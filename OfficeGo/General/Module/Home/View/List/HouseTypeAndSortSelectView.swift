@@ -49,6 +49,10 @@ class HouseTypeAndSortSelectView: UIView {
     //筛选block
     fileprivate var sureHouseShaixuanButtonCallBack:(() -> Void)?
 
+    var typeSelectEnum: HouseTypeEnum?
+    
+    var sortSelectEnum: HouseSortEnum?
+    
     fileprivate var datasource: [Any] = [] {
         didSet {
             self.tableView.snp.updateConstraints { (make) in
@@ -75,7 +79,7 @@ class HouseTypeAndSortSelectView: UIView {
     
     // MARK: - 弹出view显示    
     // MARK: - 弹出view显示 - 类型
-    func ShowHouseTypeView(style: HouseShaixuanStyle, datasource: [HouseTypeEnum], clearButtonCallBack: @escaping (() -> Void), sureHouseTypeButtonCallBack: @escaping ((HouseTypeEnum) -> Void)) -> Void {
+    func ShowHouseTypeView(style: HouseShaixuanStyle, typeSelectEnum: HouseTypeEnum, datasource: [HouseTypeEnum], clearButtonCallBack: @escaping (() -> Void), sureHouseTypeButtonCallBack: @escaping ((HouseTypeEnum) -> Void)) -> Void {
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: AreaAddressView.self) {
                 view.removeFromSuperview()
@@ -93,12 +97,13 @@ class HouseTypeAndSortSelectView: UIView {
         self.sureHouseTypeButtonCallBack = sureHouseTypeButtonCallBack
         self.datasource = datasource
         self.alertStyle = style
+        self.typeSelectEnum = typeSelectEnum
         UIApplication.shared.keyWindow?.addSubview(self)
         
     }
     
     // MARK: - 弹出view显示 - 排序
-    func ShowHouseSortView(style: HouseShaixuanStyle, datasource: [HouseSortEnum], clearButtonCallBack: @escaping (() -> Void), sureHouseSortButtonCallBack: @escaping ((HouseSortEnum) -> Void)) -> Void {
+    func ShowHouseSortView(style: HouseShaixuanStyle, sortSelectEnum: HouseSortEnum,  datasource: [HouseSortEnum], clearButtonCallBack: @escaping (() -> Void), sureHouseSortButtonCallBack: @escaping ((HouseSortEnum) -> Void)) -> Void {
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: AreaAddressView.self) {
                 view.removeFromSuperview()
@@ -116,6 +121,7 @@ class HouseTypeAndSortSelectView: UIView {
         self.sureHouseSortButtonCallBack = sureHouseSortButtonCallBack
         self.datasource = datasource
         self.alertStyle = style
+        self.sortSelectEnum = sortSelectEnum
         UIApplication.shared.keyWindow?.addSubview(self)
     }
         
@@ -161,8 +167,21 @@ extension HouseTypeAndSortSelectView: UITableViewDelegate, UITableViewDataSource
             let model = self.datasource[indexPath.row]
             if self.alertStyle == HouseShaixuanStyle.HouseType {
                 cell?.titleLabel.text = (model as? HouseTypeEnum)?.rawValue
+
+                if model as? HouseTypeEnum == typeSelectEnum {
+                    cell?.titleLabel.textColor = kAppBlueColor
+                }else {
+                    cell?.titleLabel.textColor = kAppColor_333333
+                }
+
             }else if self.alertStyle == HouseShaixuanStyle.HouseSort {
                 cell?.titleLabel.text = (model as? HouseSortEnum)?.rawValue
+                
+                if model as? HouseSortEnum == sortSelectEnum {
+                    cell?.titleLabel.textColor = kAppBlueColor
+                }else {
+                    cell?.titleLabel.textColor = kAppColor_333333
+                }
             }
         }
         return cell ?? TypeAndSortCell()

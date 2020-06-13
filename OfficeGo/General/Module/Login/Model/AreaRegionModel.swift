@@ -12,7 +12,7 @@ import HandyJSON
 
 class AreaModel: HandyJSON {
     
-    //选中的id 判断是商圈还是地铁
+    //选中的id 判断是商圈1 还是地铁2
     var selectedCategoryID: String?
     
     var areaModelCount = AreaCategorySelectModel()

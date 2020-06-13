@@ -48,6 +48,7 @@ class HouseSelectBtnView: UIView {
         button.setTitleColor(kAppColor_666666, for: .normal)
         button.titleLabel?.font = FONT_14
         button.layoutButton(.imagePositionLeft, margin: 4)
+        button.setTitleColor(kAppBlueColor, for: .selected)
         button.addTarget(self, action: #selector(showAreaSelectView), for: .touchUpInside)
         return button
     }()
@@ -232,10 +233,17 @@ class HouseSelectBtnView: UIView {
         setBtnUpOrDown(button: houseShaixuanBtn, isUp: false)
         areaView.ShowAreaaddressView(model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] in
             self?.setBtnUpOrDown(button: self?.houseAreaSelectBtn, isUp: false)
-            
-            self?.houseAreaSelectBtn.setTitle("商圈", for: .normal)
-            self?.houseAreaSelectBtn.layoutButton(.imagePositionRight, space: 6)
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
+                if selectModel.areaModel.selectedCategoryID == "1" {
+                    self?.houseAreaSelectBtn.setTitle("商圈", for: .normal)
+                    self?.houseAreaSelectBtn.isSelected = true
+                }else if selectModel.areaModel.selectedCategoryID == "2" {
+                    self?.houseAreaSelectBtn.setTitle("地铁", for: .normal)
+                    self?.houseAreaSelectBtn.isSelected = true
+                }else {
+                    self?.houseAreaSelectBtn.setTitle("区域", for: .normal)
+                    self?.houseAreaSelectBtn.isSelected = false
+                }
                 self?.selectModel = selectModel
                 self?.setBtnUpOrDown(button: self?.houseAreaSelectBtn, isUp: false)
                 
@@ -252,7 +260,7 @@ class HouseSelectBtnView: UIView {
         setBtnUpOrDown(button: houseTypeSelectBtn, isUp: true)
         setBtnUpOrDown(button: houseSortBtn, isUp: false)
         setBtnUpOrDown(button: houseShaixuanBtn, isUp: false)
-        typeAndSortView.ShowHouseTypeView(style: HouseShaixuanStyle.HouseType, datasource: [HouseTypeEnum.allEnum, HouseTypeEnum.officeBuildingEnum, HouseTypeEnum.jointOfficeEnum], clearButtonCallBack: { [weak self] in
+        typeAndSortView.ShowHouseTypeView(style: HouseShaixuanStyle.HouseType, typeSelectEnum:self.selectModel?.typeModel.type ?? HouseTypeEnum.allEnum, datasource: [HouseTypeEnum.allEnum, HouseTypeEnum.officeBuildingEnum, HouseTypeEnum.jointOfficeEnum], clearButtonCallBack: { [weak self] in
             self?.setBtnUpOrDown(button: self?.houseTypeSelectBtn, isUp: false)
             }, sureHouseTypeButtonCallBack: { [weak self] (_ houseType: HouseTypeEnum) -> Void in
                 self?.houseTypeSelectBtn.setTitle(houseType.rawValue, for: .normal)
@@ -274,7 +282,7 @@ class HouseSelectBtnView: UIView {
         setBtnUpOrDown(button: houseTypeSelectBtn, isUp: false)
         setBtnUpOrDown(button: houseSortBtn, isUp: true)
         setBtnUpOrDown(button: houseShaixuanBtn, isUp: false)
-        typeAndSortView.ShowHouseSortView(style: HouseShaixuanStyle.HouseSort, datasource: [HouseSortEnum.defaultSortEnum, HouseSortEnum.priceTopToLowEnum, HouseSortEnum.priceLowToTopEnum, HouseSortEnum.squareTopToLowEnum, HouseSortEnum.squareLowToTopEnum], clearButtonCallBack: { [weak self] in
+        typeAndSortView.ShowHouseSortView(style: HouseShaixuanStyle.HouseSort, sortSelectEnum:self.selectModel?.sortModel.type ?? HouseSortEnum.defaultSortEnum, datasource: [HouseSortEnum.defaultSortEnum, HouseSortEnum.priceTopToLowEnum, HouseSortEnum.priceLowToTopEnum, HouseSortEnum.squareTopToLowEnum, HouseSortEnum.squareLowToTopEnum], clearButtonCallBack: { [weak self] in
             self?.setBtnUpOrDown(button: self?.houseSortBtn, isUp: false)
             }, sureHouseSortButtonCallBack: { [weak self] (_ huseSortEnum: HouseSortEnum) -> Void in
                 self?.selectModel?.sortModel.type = huseSortEnum
