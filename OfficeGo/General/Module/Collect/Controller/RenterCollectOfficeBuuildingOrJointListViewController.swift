@@ -105,7 +105,11 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
+        if dataSourceViewModel.count > 0 {
+            return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
+        }else {
+            return 192
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
