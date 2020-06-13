@@ -91,7 +91,7 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
         return pageControl
     }()
     //定时器
-    lazy var timer : Timer = {
+    lazy var timer : Timer? = {
         let timer = Timer(timeInterval: 2.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
         return timer
@@ -112,12 +112,12 @@ extension CycleView {
     
     //MARK: 开始拖拽时,停止定时器
     internal func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        timer.fireDate = Date.distantFuture
+        timer?.fireDate = Date.distantFuture
     }
     
     //MARK: 结束拖拽时,恢复定时器
     internal func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        timer.fireDate = Date(timeIntervalSinceNow: 2.0)
+        timer?.fireDate = Date(timeIntervalSinceNow: 2.0)
     }
     
     //MARK: 监听手动减速完成(停止滚动)  - 获取当前页码,滚动到下一页,如果当前页码是第一页,继续往下滚动,如果是最后一页回到第一页
@@ -151,7 +151,13 @@ extension CycleView {
     //MARK: 随父控件的消失取消定时器
     internal override func removeFromSuperview() {
         super.removeFromSuperview()
-        timer.invalidate()
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    internal func invalidateTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
@@ -178,7 +184,7 @@ extension CycleView {
         addSubview(collectionView)
         addSubview(pageControl)
         //启动定时器
-        timer.fireDate = Date(timeIntervalSinceNow: 2.0)
+        timer?.fireDate = Date(timeIntervalSinceNow: 2.0)
     }
 }
 

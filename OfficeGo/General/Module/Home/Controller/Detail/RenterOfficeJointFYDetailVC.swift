@@ -54,33 +54,16 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
     }
     
     func setItemFunc() {
-        //1是办公楼，2是联合办公
-        if model.btype == 1 {
-            //办公楼 - 办公室
-            //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
-            
-            self.dataSourceArr.append([
-                FYDetailItemType.FYDetailItemOfficeBuildingNameView,
-                FYDetailItemType.FYDetailItemTypeOfficeDeatail,
-                FYDetailItemType.FYDetailItemTypeHuxing,
-                FYDetailItemType.FYDetailItemTypeTraffic,
-                FYDetailItemType.FYDetailItemTypeFeature
-                //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
-            ])
-            
-        }else {
-            //网点 - 独立办公室
-            //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
-            
-            self.dataSourceArr.append([
-                FYDetailItemType.FYDetailItemOfficeBuildingNameView,
-                FYDetailItemType.FYDetailItemTypeOfficeDeatail,
-                FYDetailItemType.FYDetailItemTypeHuxing,
-                FYDetailItemType.FYDetailItemTypeTraffic,
-                //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
-            ])
-        }
+        //网点 - 独立办公室
+        //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
         
+        self.dataSourceArr.append([
+            FYDetailItemType.FYDetailItemOfficeBuildingNameView,
+            FYDetailItemType.FYDetailItemTypeOfficeDeatail,
+            FYDetailItemType.FYDetailItemTypeHuxing,
+            FYDetailItemType.FYDetailItemTypeTraffic,
+            //                    FYDetailItemType.FYDetailItemTypeAmbitusMating
+        ])
     }
     override func viewWillDisappear(_ animated: Bool) {
         tableHeaderView.pausePlayer()
@@ -337,279 +320,128 @@ extension RenterOfficeJointFYDetailVC {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.model.btype == 1 { //办公楼
-            //在租写字楼
-            return self.dataSourceArr[section].count
-            
-        }else if self.model.btype == 2 {
-            return self.dataSourceArr[section].count
-
-        }else {
-            return 0
-        }
+        return self.dataSourceArr[section].count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.model.btype == 1 {
-            let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
-            switch type {
-                
-            case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailNameCell.reuseIdentifierStr) as? RenterDetailNameCell
-                cell?.selectionStyle = .none
-                if let buildingViewModel = self.buildingFYDetailViewModel?.houseViewModel {
-                    cell?.fyViewModel = buildingViewModel
-                }else {
-                    cell?.fyModel = self.buildingFYDetailModel?.house ?? FangYuanBuildingFYDetailHouseModel()
-                }
-                return cell ?? RenterDetailNameCell()
-                
-            case FYDetailItemType.FYDetailItemTypeJointNameView:
-                return UITableViewCell.init(frame: .zero)
-                
-            case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr) as? RenterOfficebuildingFYDeatailCell
-                cell?.selectionStyle = .none
-                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                    cell?.model = model
-                }
-                return cell ?? RenterOfficebuildingFYDeatailCell()
-                
-            case .FYDetailItemTypeHuxing:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingDeatailHuxingCell.reuseIdentifierStr) as? RenterOfficebuildingDeatailHuxingCell
-                cell?.selectionStyle = .none
-                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                    cell?.model = model
-                }
-                return cell ?? RenterOfficebuildingDeatailHuxingCell()
-                
-            case FYDetailItemType.FYDetailItemTypeTraffic:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
-                cell?.selectionStyle = .none
-                if let houseViewModel = self.buildingFYDetailViewModel?.houseViewModel {
-                    cell?.fYViewModel = houseViewModel
-                }
-                cell?.trafficBtnClick = {[weak self] (isup) in
-                    self?.isTrafficUp = isup
-                    self?.tableView.reloadData()
-                }
-                return cell ?? RenterDetailTrafficCell.init(frame: .zero)
-                
-            case FYDetailItemType.FYDetailItemTypeFeature:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
-                cell?.selectionStyle = .none
-                cell?.featureString = self.buildingFYDetailViewModel?.houseViewModel?.tagsString ?? ""
-                return cell ?? RenterFeatureCell.init(frame: .zero)
-                
-                
-            case FYDetailItemType.FYDetailItemTypeAmbitusMating:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr) as? RenterAmbitusMatingCell
-                cell?.selectionStyle = .none
-                cell?.selectModel = HouseSelectModel()
-                return cell ?? RenterAmbitusMatingCell()
-                
-                
-            case FYDetailItemType.FYDetailItemTypeLianheOpenList:
-                return UITableViewCell.init(frame: .zero)
-                
-            case FYDetailItemType.FYDetailItemTypeFYList: //在租办公楼 -
-                return UITableViewCell.init(frame: .zero)
-                
-            case .FYDetailItemTypeShareServices:
-                return UITableViewCell()
+        let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
+        switch type {
+            
+        case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailNameCell.reuseIdentifierStr) as? RenterDetailNameCell
+            cell?.selectionStyle = .none
+            if let buildingViewModel = self.buildingFYDetailViewModel?.houseViewModel {
+                cell?.fyViewModel = buildingViewModel
+            }else {
+                cell?.fyModel = self.buildingFYDetailModel?.house ?? FangYuanBuildingFYDetailHouseModel()
             }
-        }else if self.model.btype == 2 {
-            let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
-            switch type {
-                
-            case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailNameCell.reuseIdentifierStr) as? RenterDetailNameCell
-                cell?.selectionStyle = .none
-                if let buildingViewModel = self.buildingFYDetailViewModel?.houseViewModel {
-                    cell?.fyViewModel = buildingViewModel
-                }else {
-                    cell?.fyModel = self.buildingFYDetailModel?.house ?? FangYuanBuildingFYDetailHouseModel()
-                }
-                return cell ?? RenterDetailNameCell()
-                
-            case FYDetailItemType.FYDetailItemTypeJointNameView:
-                return UITableViewCell.init(frame: .zero)
-                
-            case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr) as? RenterOfficebuildingFYDeatailCell
-                cell?.selectionStyle = .none
-                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                    cell?.model = model
-                }
-                return cell ?? RenterOfficebuildingFYDeatailCell()
-                
-            case .FYDetailItemTypeHuxing:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingDeatailHuxingCell.reuseIdentifierStr) as? RenterOfficebuildingDeatailHuxingCell
-                cell?.selectionStyle = .none
-                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                    cell?.model = model
-                }
-                return cell ?? RenterOfficebuildingDeatailHuxingCell()
-                
-            case FYDetailItemType.FYDetailItemTypeTraffic:
-               let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
-                cell?.selectionStyle = .none
-                if let houseViewModel = self.buildingFYDetailViewModel?.houseViewModel {
-                    cell?.fYViewModel = houseViewModel
-                }
-                cell?.trafficBtnClick = {[weak self] (isup) in
-                    self?.isTrafficUp = isup
-                    self?.tableView.reloadData()
-                }
-                return cell ?? RenterDetailTrafficCell.init(frame: .zero)
-                
-            case FYDetailItemType.FYDetailItemTypeFeature:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
-                cell?.selectionStyle = .none
-                cell?.featureString = self.buildingFYDetailViewModel?.houseViewModel?.tagsString ?? ""
-                return cell ?? RenterFeatureCell.init(frame: .zero)
-                
-                
-            case FYDetailItemType.FYDetailItemTypeAmbitusMating:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr) as? RenterAmbitusMatingCell
-                cell?.selectionStyle = .none
-                cell?.selectModel = HouseSelectModel()
-                return cell ?? RenterAmbitusMatingCell()
-                
-                
-            case FYDetailItemType.FYDetailItemTypeLianheOpenList:
-                return UITableViewCell.init(frame: .zero)
-                
-            case FYDetailItemType.FYDetailItemTypeFYList: //在租办公楼 -
-                return UITableViewCell.init(frame: .zero)
-                
-            case .FYDetailItemTypeShareServices:
-                return UITableViewCell()
+            return cell ?? RenterDetailNameCell()
+            
+        case FYDetailItemType.FYDetailItemTypeJointNameView:
+            return UITableViewCell.init(frame: .zero)
+            
+        case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
+            let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr) as? RenterOfficebuildingFYDeatailCell
+            cell?.selectionStyle = .none
+            if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
+                cell?.model = model
             }
-        }
-        else {
+            return cell ?? RenterOfficebuildingFYDeatailCell()
+            
+        case .FYDetailItemTypeHuxing:
+            let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingDeatailHuxingCell.reuseIdentifierStr) as? RenterOfficebuildingDeatailHuxingCell
+            cell?.selectionStyle = .none
+            if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
+                cell?.model = model
+            }
+            return cell ?? RenterOfficebuildingDeatailHuxingCell()
+            
+        case FYDetailItemType.FYDetailItemTypeTraffic:
+           let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailTrafficCell.reuseIdentifierStr) as? RenterDetailTrafficCell
+            cell?.selectionStyle = .none
+            if let houseViewModel = self.buildingFYDetailViewModel?.houseViewModel {
+                cell?.fYViewModel = houseViewModel
+            }
+            cell?.trafficBtnClick = {[weak self] (isup) in
+                self?.isTrafficUp = isup
+                self?.tableView.reloadData()
+            }
+            return cell ?? RenterDetailTrafficCell.init(frame: .zero)
+            
+        case FYDetailItemType.FYDetailItemTypeFeature:
+            let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
+            cell?.selectionStyle = .none
+            cell?.featureString = self.buildingFYDetailViewModel?.houseViewModel?.tagsString ?? ""
+            return cell ?? RenterFeatureCell.init(frame: .zero)
+            
+            
+        case FYDetailItemType.FYDetailItemTypeAmbitusMating:
+            let cell = tableView.dequeueReusableCell(withIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr) as? RenterAmbitusMatingCell
+            cell?.selectionStyle = .none
+            cell?.selectModel = HouseSelectModel()
+            return cell ?? RenterAmbitusMatingCell()
+            
+            
+        case FYDetailItemType.FYDetailItemTypeLianheOpenList:
+            return UITableViewCell.init(frame: .zero)
+            
+        case FYDetailItemType.FYDetailItemTypeFYList: //在租办公楼 -
+            return UITableViewCell.init(frame: .zero)
+            
+        case .FYDetailItemTypeShareServices:
             return UITableViewCell()
         }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if self.model.btype == 1 {
-            let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
-            switch type {
-                
-            case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
-                return RenterDetailNameCell.rowHeight()
-                
-            case FYDetailItemType.FYDetailItemTypeJointNameView:
-                return 0
-                
-            case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                return RenterOfficebuildingFYDeatailCell.rowHeight()
-                
-            case .FYDetailItemTypeHuxing:
-                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                    if let height = model.textHeight {
-                        return RenterOfficebuildingDeatailHuxingCell.rowHeight() + height
-                    }else {
-                        return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
-                    }
+        let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
+        switch type {
+            
+        case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
+            return RenterDetailNameCell.rowHeight()
+            
+        case FYDetailItemType.FYDetailItemTypeJointNameView:
+            return 0
+            
+        case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
+            return RenterOfficebuildingFYDeatailCell.rowHeight()
+            
+        case .FYDetailItemTypeHuxing:
+            if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
+                if let height = model.textHeight {
+                    return RenterOfficebuildingDeatailHuxingCell.rowHeight() + height
                 }else {
                     return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
                 }
-                
-            case FYDetailItemType.FYDetailItemTypeAmbitusMating:
-                return 79 + (41 + 10) * 3
-                
-            case FYDetailItemType.FYDetailItemTypeTraffic:
-                if isTrafficUp == true {
-                    if let arr = buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr {
-                        if arr.count <= 0 {
-                            return 40 + 30 + 2
-                        }else {
-                            return CGFloat(40 + 30 * arr.count + 2)
-                        }
-                    }else {
-                        return 40 + 30 + 2
-                    }
-                }else {
-                    return 40 + 30 + 2
-                }
-                
-            case FYDetailItemType.FYDetailItemTypeFeature:
-                if let tags = buildingFYDetailModel?.house?.tags {
-                    if tags.count > 0 {
-                        if let height = buildingFYDetailViewModel?.houseViewModel?.tagsHeight {
-                            return RenterFeatureCell.rowHeight0() + height
-                        }else {
-                            return RenterFeatureCell.rowHeight0() + 30
-                        }
-                    }else {
-                        return RenterFeatureCell.rowHeight0()
-                    }
-                }else {
-                    return RenterFeatureCell.rowHeight0()
-                }
-                
-            case FYDetailItemType.FYDetailItemTypeLianheOpenList:
-                return 0
-                
-            case FYDetailItemType.FYDetailItemTypeFYList:
-                return 0
-                
-            case .FYDetailItemTypeShareServices:
-                return 0
+            }else {
+                return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
             }
-        }else {
-            let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
-            switch type {
-                
-            case FYDetailItemType.FYDetailItemOfficeBuildingNameView:
-                return RenterDetailNameCell.rowHeight()
-                
-            case FYDetailItemType.FYDetailItemTypeJointNameView:
-                return 0
-                
-            case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                return RenterOfficebuildingFYDeatailCell.rowHeight()
-                
-            case .FYDetailItemTypeHuxing:
-                if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                    if let height = model.textHeight {
-                        return RenterOfficebuildingDeatailHuxingCell.rowHeight() + height
-                    }else {
-                        return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
-                    }
-                }else {
-                    return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
-                }
-                
-            case FYDetailItemType.FYDetailItemTypeAmbitusMating:
-                return 79 + (41 + 10) * 3
-                
-            case FYDetailItemType.FYDetailItemTypeTraffic:
-                if isTrafficUp == true {
-                    if let arr = buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr {
-                        return CGFloat(40 + 30 * arr.count + 1)
-                    }else {
-                        return 40 + 30 + 1
-                    }
+            
+        case FYDetailItemType.FYDetailItemTypeAmbitusMating:
+            return 79 + (41 + 10) * 3
+            
+        case FYDetailItemType.FYDetailItemTypeTraffic:
+            if isTrafficUp == true {
+                if let arr = buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr {
+                    return CGFloat(40 + 30 * arr.count + 1)
                 }else {
                     return 40 + 30 + 1
                 }
-                
-            case FYDetailItemType.FYDetailItemTypeFeature:
-                return 0
-                
-            case FYDetailItemType.FYDetailItemTypeLianheOpenList:
-                return 0
-                
-            case FYDetailItemType.FYDetailItemTypeFYList:
-                return 0
-                
-            case .FYDetailItemTypeShareServices:
-                return 0
+            }else {
+                return 40 + 30 + 1
             }
+            
+        case FYDetailItemType.FYDetailItemTypeFeature:
+            return 0
+            
+        case FYDetailItemType.FYDetailItemTypeLianheOpenList:
+            return 0
+            
+        case FYDetailItemType.FYDetailItemTypeFYList:
+            return 0
+            
+        case .FYDetailItemTypeShareServices:
+            return 0
         }
     }
     
