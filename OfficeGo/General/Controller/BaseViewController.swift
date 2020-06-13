@@ -76,10 +76,13 @@ class BaseViewController: UIViewController {
     }
     
     func showLoginVC() {
-        let loginNav = BaseNavigationViewController.init(rootViewController: ReviewLoginViewController())
+        let vc = ReviewLoginViewController()
+        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
         loginNav.modalPresentationStyle = .overFullScreen
         //TODO: 这块弹出要设置
-        self.present(loginNav, animated: true, completion: nil)
+        self.present(loginNav, animated: true) {
+            vc.titleview?.leftButton.isHidden = true
+        }
     }
     
     override func viewDidLoad() {
