@@ -38,6 +38,7 @@ class BaseViewController: UIViewController {
         view.isUserInteractionEnabled = true
         view.addSubview(noDataImageView)
         view.addSubview(noDataLabel)
+        view.addTarget(self, action: #selector(clickReloadData), for: .touchUpInside)
         return view
     }()
     
@@ -63,6 +64,10 @@ class BaseViewController: UIViewController {
      */
     
     var errorView: ErrorView?
+    
+    @objc func clickReloadData() {
+        
+    }
     
     func showLoginView() {
         let windows = UIApplication.shared.keyWindow

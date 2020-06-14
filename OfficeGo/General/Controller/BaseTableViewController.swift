@@ -130,7 +130,7 @@ class BaseTableViewController: BaseViewController {
         
         switch NetAlamofireReachability.shared.status {
         case .Unknown, .NotReachable:
-            noDataLabel.text = "目前无网络"
+            noDataLabel.text = "网络连接失败，请查看你的网络设置"
         case .WiFi, .Wwan:
             noDataLabel.text = "暂无数据，点击重试"
         }
@@ -144,11 +144,15 @@ class BaseTableViewController: BaseViewController {
             noDataView.isHidden = false
             switch NetAlamofireReachability.shared.status {
             case .Unknown, .NotReachable:
-                noDataLabel.text = "目前无网络"
+                noDataLabel.text = "网络连接失败，请查看你的网络设置"
             case .WiFi, .Wwan:
                 noDataLabel.text = "暂无数据，点击重试"
             }
         }
+    }
+    
+    override func clickReloadData() {
+        refreshData()
     }
     
     public func endRefreshWithCount(_ count: Int) {

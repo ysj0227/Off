@@ -12,19 +12,8 @@ import WebKit
 import RxSwift
 import RxCocoa
 import SwiftyJSON
-import Alamofire
 
 class BaseWebViewController: BaseViewController {
-    
-    var networkStatus:NetworkReachabilityManager.NetworkReachabilityStatus? {
-        didSet {
-            if networkStatus == .notReachable {
-                noDataLabel.text = "目前无网络"
-            }else {
-                noDataLabel.text = "加载失败，点击重试"
-            }
-        }
-    }
     
     let urlString: String
     var loadingBgView: UIView?
@@ -132,22 +121,22 @@ class BaseWebViewController: BaseViewController {
     }
     
     func SendNetworkStatus() {
-        NotificationCenter.default.addObserver(forName: Notification.Name(rawValue:"NetWorkStatus"), object: nil, queue: OperationQueue.main) { [weak self](noti) in
-            guard let `self` = self else { return }
-            let status = noti.object as! NetworkReachabilityManager.NetworkReachabilityStatus
-            self.networkStatus = status
-            switch status {
-            case .notReachable:
-                SSLog("当前无网络")
-            case .reachable(.wwan) ,.reachable(.ethernetOrWiFi):
-                SSLog("当前网络正常")
-            case .unknown:
-                break
-            }
-        }
         
+        switch NetAlamofireReachability.shared.status {
+        case .Unknown, .NotReachable:
+            noDataLabel.text = "网络连接失败，请查看你的网络设置"
+        case .WiFi, .Wwan:
+            noDataLabel.text = "加载失败，点击重试"
+        }
+
     }
     
+    override func clickReloadData() {
+        if let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            webView?.load(request)
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         webView?.configuration.userContentController.add(self, name: "thorJump")
