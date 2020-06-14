@@ -33,8 +33,9 @@ class BaseViewController: UIViewController {
         view.textAlignment = .center
         return view
     }()
-    lazy var noDataView: UIView = {
-        let view = UIView()
+    lazy var noDataView: UIButton = {
+        let view = UIButton()
+        view.isUserInteractionEnabled = true
         view.addSubview(noDataImageView)
         view.addSubview(noDataLabel)
         return view

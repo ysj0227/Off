@@ -8,6 +8,7 @@
 
 import UIKit
 import MJRefresh
+import Alamofire
 //import DZNEmptyDataSet
 
 class BaseTableViewController: BaseViewController {
@@ -85,7 +86,7 @@ class BaseTableViewController: BaseViewController {
         noDataView.isHidden = true
         noDataView.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(CGSize(width: 100, height: 100))
+            make.size.equalTo(CGSize(width: kWidth, height: 150))
         }
         noDataImageView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -95,9 +96,11 @@ class BaseTableViewController: BaseViewController {
         noDataLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.size.equalTo(CGSize(width: 100, height: 30))
+            make.size.equalTo(CGSize(width: kWidth, height: 60))
         }
         
+        
+        SendNetworkStatus()
     }
     
     @objc func loadNewData(){
@@ -123,11 +126,28 @@ class BaseTableViewController: BaseViewController {
         endRefreshWithCount(0)
     }
     
+    func SendNetworkStatus() {
+        
+        switch NetAlamofireReachability.shared.status {
+        case .Unknown, .NotReachable:
+            noDataLabel.text = "目前无网络"
+        case .WiFi, .Wwan:
+            noDataLabel.text = "暂无数据，点击重试"
+        }
+      
+    }
+    
     func noDataViewSet() {
         if self.dataSource.count > 0 {
             noDataView.isHidden = true
         }else {
             noDataView.isHidden = false
+            switch NetAlamofireReachability.shared.status {
+            case .Unknown, .NotReachable:
+                noDataLabel.text = "目前无网络"
+            case .WiFi, .Wwan:
+                noDataLabel.text = "暂无数据，点击重试"
+            }
         }
     }
     

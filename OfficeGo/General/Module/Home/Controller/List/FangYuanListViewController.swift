@@ -40,7 +40,7 @@ class FangYuanListViewController: BaseTableViewController {
         noDataView.snp.remakeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(120)
-            make.size.equalTo(CGSize(width: 100, height: 100))
+            make.size.equalTo(CGSize(width: kWidth, height: 150))
         }
         if self.dataSource.count > 0 {
             noDataView.isHidden = true

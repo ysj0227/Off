@@ -15,37 +15,14 @@ import IQKeyboardManagerSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
-    //    var reachable: NetworkReachabilityManager.NetworkReachabilityStatus? {
-    //        didSet {
-    //            if oldValue == reachable {
-    //                return
-    //            }
-    //            NotificationCenter.default.post(name: Notification.Name.networkStatusChanged, object: nil)
-    //        }
-    //    }
-    //    var isReachable: Bool? {
-    //        get {
-    //            if let reachable = reachable {
-    //                switch reachable {
-    //                case .notReachable:
-    //                    return false
-    //                case .unknown:
-    //                    return nil
-    //                default:
-    //                    return true
-    //                }
-    //            } else {
-    //                return nil
-    //            }
-    //        }
-    //    }
-    //
-    //    let net = NetworkReachabilityManager()
-    
     var navigationController: BaseNavigationViewController?
     
     static func shared() -> AppDelegate {
         return UIApplication.shared.delegate as? AppDelegate ?? AppDelegate()
+    }
+    
+    func listenNetworkStatus() {
+        NetAlamofireReachability.shared.start()
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -61,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         notifyObserve()
         
         runTabBarViewController()
+        
+        listenNetworkStatus()
         
         return true
     }
@@ -137,14 +116,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //登录融云
         loginRongCloud()
     }
-    
-    //    func networkReachabilityStatus() {
-    //        net?.listener = {[unowned self](status) in
-    //            self.reachable = status
-    //        }
-    //        net?.startListening()
-    //        reachable = net?.networkReachabilityStatus
-    //    }
     
     func runTabBarViewController() -> Void {
         

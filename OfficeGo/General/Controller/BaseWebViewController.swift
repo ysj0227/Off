@@ -12,8 +12,19 @@ import WebKit
 import RxSwift
 import RxCocoa
 import SwiftyJSON
+import Alamofire
 
 class BaseWebViewController: BaseViewController {
+    
+    var networkStatus:NetworkReachabilityManager.NetworkReachabilityStatus? {
+        didSet {
+            if networkStatus == .notReachable {
+                noDataLabel.text = "目前无网络"
+            }else {
+                noDataLabel.text = "加载失败，点击重试"
+            }
+        }
+    }
     
     let urlString: String
     var loadingBgView: UIView?
@@ -29,7 +40,7 @@ class BaseWebViewController: BaseViewController {
         return view
     }()
     let disposeBag = DisposeBag()
-
+    
     init(url: String) {
         urlString = url
         super.init(nibName: nil, bundle: nil)
@@ -45,12 +56,31 @@ class BaseWebViewController: BaseViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        clearCache()
     }
     
-    override func viewDidLoad() {
-                
-        titleview?.titleLabel.text = titleString
+    func clearCache() {
+        if #available(iOS 9.0, *) {
+            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
+            let date = NSDate(timeIntervalSince1970: 0)
+            WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: date as Date, completionHandler:{ })
+        } else {
+            var libraryPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.libraryDirectory, FileManager.SearchPathDomainMask.userDomainMask, false).first!
+            libraryPath += "/Cookies"
+            
+            do {
+                try FileManager.default.removeItem(atPath: libraryPath)
+            } catch {
+                print("error")
+            }
+            URLCache.shared.removeAllCachedResponses()
+        }
+    }
 
+    override func viewDidLoad() {
+        
+        titleview?.titleLabel.text = titleString
+        
         super.viewDidLoad()
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
@@ -59,7 +89,7 @@ class BaseWebViewController: BaseViewController {
             self?.leftBtnClick()
         }
         view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
-
+        
         if let webView = webView {
             view.insertSubview(webView, at: 0)
             showLoadingView()
@@ -72,13 +102,50 @@ class BaseWebViewController: BaseViewController {
                 webView.load(request)
             }
         }
-
+        
         _ = webView?.rx.observeWeakly(String.self, "title")
             .subscribe(onNext: { [weak self] (value) in
                 if let value = value, value.count > 0 {
                     self?.titleString = value
                 }
             })
+        
+        self.view.addSubview(noDataView)
+        noDataView.isHidden = true
+        noDataView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.size.equalTo(CGSize(width: kWidth, height: 150))
+        }
+        noDataImageView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-30)
+            make.size.equalTo(CGSize(width: 100, height: 100))
+        }
+        noDataLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.size.equalTo(CGSize(width: kWidth, height: 60))
+        }
+        noDataLabel.text = "加载失败，点击重试"
+        
+        SendNetworkStatus()
+    }
+    
+    func SendNetworkStatus() {
+        NotificationCenter.default.addObserver(forName: Notification.Name(rawValue:"NetWorkStatus"), object: nil, queue: OperationQueue.main) { [weak self](noti) in
+            guard let `self` = self else { return }
+            let status = noti.object as! NetworkReachabilityManager.NetworkReachabilityStatus
+            self.networkStatus = status
+            switch status {
+            case .notReachable:
+                SSLog("当前无网络")
+            case .reachable(.wwan) ,.reachable(.ethernetOrWiFi):
+                SSLog("当前网络正常")
+            case .unknown:
+                break
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,13 +153,13 @@ class BaseWebViewController: BaseViewController {
         webView?.configuration.userContentController.add(self, name: "thorJump")
         webView?.configuration.userContentController.add(self, name: "sendEventId")
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "thorJump")
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")
     }
-        
+    
     override func showLoadingView() {
         var loadingImageName: String? = nil
         if urlString.contains("/invite-code-desc") {
@@ -105,7 +172,7 @@ class BaseWebViewController: BaseViewController {
         if let name = loadingImageName {
             loadingBgView = UIView()
             loadingBgView?.backgroundColor = .white
-//            self.view.insertSubview(loadingBgView ?? UIView(), belowSubview: navigationView)
+            //            self.view.insertSubview(loadingBgView ?? UIView(), belowSubview: navigationView)
             loadingBgView?.snp.makeConstraints({ (make) in
                 make.edges.equalToSuperview()
             })
@@ -141,12 +208,13 @@ extension BaseWebViewController: UIWebViewDelegate {
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         removeLoadingView()
+        noDataView.isHidden = true
     }
 }
 
 extension BaseWebViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-//        didReceiveScriptMessage(message)
+        //        didReceiveScriptMessage(message)
     }
 }
 
@@ -159,25 +227,28 @@ extension BaseWebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         THPrint(navigationAction)
         let url = navigationAction.request.url
-//        if url?.scheme == kAPPURLScheme, let urlString = url?.absoluteString, AppLinkManager.shared.parseLinkURL(urlString) == true {
-//            decisionHandler(WKNavigationActionPolicy.cancel);
-//            return
-//        }
+        //        if url?.scheme == kAPPURLScheme, let urlString = url?.absoluteString, AppLinkManager.shared.parseLinkURL(urlString) == true {
+        //            decisionHandler(WKNavigationActionPolicy.cancel);
+        //            return
+        //        }
         if navigationAction.targetFrame == nil {
             webView.load(navigationAction.request)
         }
         decisionHandler(WKNavigationActionPolicy.allow);
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        noDataView.isHidden = true
         removeLoadingView()
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         AppUtilities.makeToast(error.localizedDescription)
+        noDataView.isHidden = false
         removeLoadingView()
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         AppUtilities.makeToast(error.localizedDescription)
+        noDataView.isHidden = false
         removeLoadingView()
     }
 }

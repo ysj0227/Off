@@ -19,6 +19,7 @@
 		042D46BE24920923003B6305 /* MessageFYModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46BD24920922003B6305 /* MessageFYModel.swift */; };
 		042E5E3D249474F5008B8E14 /* RenterOfficeJointDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E3C249474F5008B8E14 /* RenterOfficeJointDetailVC.swift */; };
 		042E5E3F24947895008B8E14 /* RenterOfficeJointFYDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E3E24947895008B8E14 /* RenterOfficeJointFYDetailVC.swift */; };
+		042E5E4324964913008B8E14 /* NetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E4224964913008B8E14 /* NetReachability.swift */; };
 		042ECDB0247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */; };
 		04301F45247D0CD70047B70F /* WechatExchangeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */; };
 		04301F47247D0D030047B70F /* PhoneExchangeStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */; };
@@ -259,6 +260,7 @@
 		042D46BD24920922003B6305 /* MessageFYModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFYModel.swift; sourceTree = "<group>"; };
 		042E5E3C249474F5008B8E14 /* RenterOfficeJointDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficeJointDetailVC.swift; sourceTree = "<group>"; };
 		042E5E3E24947895008B8E14 /* RenterOfficeJointFYDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficeJointFYDetailVC.swift; sourceTree = "<group>"; };
+		042E5E4224964913008B8E14 /* NetReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetReachability.swift; sourceTree = "<group>"; };
 		042ECDAF247F89EF00A45EF9 /* ScheduleViewingStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewingStatusMessage.swift; sourceTree = "<group>"; };
 		04301F44247D0CD70047B70F /* WechatExchangeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WechatExchangeMessage.swift; sourceTree = "<group>"; };
 		04301F46247D0D030047B70F /* PhoneExchangeStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneExchangeStatusMessage.swift; sourceTree = "<group>"; };
@@ -589,6 +591,7 @@
 		EE02BA3D24654B7800B51D34 /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
+				042E5E4224964913008B8E14 /* NetReachability.swift */,
 				0437CFB6247E1A5D0015C355 /* SSAPI.swift */,
 				0437CFB4247E18850015C355 /* SSCode.swift */,
 				0437CFB2247E17180015C355 /* SSTool.swift */,
@@ -1501,6 +1504,7 @@
 				EEB1F9D2245854AE000500A3 /* PictureShowTableViewCell.swift in Sources */,
 				EEB1F9C32458299D000500A3 /* CycleCell.swift in Sources */,
 				EE6070B42468F9A30098CAC2 /* HouseTypeAndSortSelectView.swift in Sources */,
+				042E5E4324964913008B8E14 /* NetReachability.swift in Sources */,
 				04DB5A5B247F603A00E3836F /* UserTool.swift in Sources */,
 				EEE87B142455856800C03424 /* UIButtonSnapEx.swift in Sources */,
 				EEE87B5724558F9800C03424 /* ThorTouchesEnableCollectionView.swift in Sources */,
