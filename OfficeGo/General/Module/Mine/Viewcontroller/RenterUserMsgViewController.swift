@@ -30,14 +30,14 @@ class RenterUserMsgViewController: BaseTableViewController {
     }
     
     lazy var bottomBtnView: BottomBtnView = {
-           let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
-           view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
-           view.rightSelectBtn.setTitle("保存", for: .normal)
-           view.backgroundColor = kAppWhiteColor
-           view.rightSelectBtn.isUserInteractionEnabled = false
-           view.rightSelectBtn.backgroundColor = kAppColor_btnGray_BEBEBE
-           return view
-       }()
+        let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
+        view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
+        view.rightSelectBtn.setTitle("保存", for: .normal)
+        view.backgroundColor = kAppWhiteColor
+        view.rightSelectBtn.isUserInteractionEnabled = false
+        view.rightSelectBtn.backgroundColor = kAppColor_btnGray_BEBEBE
+        return view
+    }()
     
     lazy var imagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
@@ -66,7 +66,7 @@ class RenterUserMsgViewController: BaseTableViewController {
         super.viewDidLoad()
         
         setUpView()
-                
+        
     }
     
 }
@@ -103,11 +103,7 @@ extension RenterUserMsgViewController {
         self.view.addSubview(bottomBtnView)
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             self?.requestEditUserMessage()
-            if let data = self?.selectedAvatarData {
-                if data.count > 0 {
-                    self?.upload(uploadImage: self?.headerView.headerImg.image ?? UIImage.init())
-                }
-            }
+            
         }
         bottomBtnView.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-bottomMargin())
@@ -122,7 +118,7 @@ extension RenterUserMsgViewController {
             
             var imageArr = [UIImage]()
             var index = asset.count // 标记失败的次数
-                
+            
             // 获取原图，异步
             // scale 指定压缩比
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
@@ -131,22 +127,22 @@ extension RenterUserMsgViewController {
                 self?.dealImage(imageArr: imageArr, index: index)
                 }, failedClouse: { () in
                     index = index - 1
-//                    self?.dealImage(imageArr: imageArr, index: index)
+                    //                    self?.dealImage(imageArr: imageArr, index: index)
             })
         }
     }
     @objc func dealImage(imageArr:[UIImage],index:Int) {
-
-          if imageArr.count == index {
-//              PopViewUtil.share.stopLoading()
+        
+        if imageArr.count == index {
+            //              PopViewUtil.share.stopLoading()
             
-          }
-        let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
-        self.headerView.headerImg.image = image
-        if let data = image?.jpegData(compressionQuality: 0.9) {
-            selectedAvatarData = data as NSData
         }
-      }
+        let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
+        let image2 = image?.crop(ratio: 1)
+
+        self.headerView.headerImg.image = image2
+        self.upload(uploadImage: image2 ?? UIImage.init())
+    }
     func setUpData() {
         
         //设置头像
@@ -155,15 +151,23 @@ extension RenterUserMsgViewController {
         self.tableView.reloadData()
     }
     
-  private func upload(uploadImage:UIImage) {
-
-        let url = String.init(format: SSMineURL.updateUserMessage)
-         SSNetworkTool.uploadImage(url: "\(SSAPI.SSApiHost)\(url)", image: uploadImage, params: ["token": UserTool.shared.user_token ?? ""], imageName: UserTool.shared.user_phone ?? "", isShowHud: false, progressClosure: { (progress) in
-
-         }) { _ in
-             
-         }
-
+    private func upload(uploadImage:UIImage) {
+        
+        SSNetworkTool.SSMine.request_uploadAvatar(image: uploadImage, success: {[weak self] (response) in
+            
+            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                UserTool.shared.user_avatars = model.avatar
+            }
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+        
     }
     
     func requestEditUserMessage() {
@@ -171,12 +175,10 @@ extension RenterUserMsgViewController {
         params["realname"] = userModel?.realname as AnyObject?
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
-
+        
         
         params["WX"] = userModel?.wxId as AnyObject?
-//        params["company"] = userModel?.company as AnyObject?
-//        params["job"] = userModel?.job as AnyObject?
-
+        
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
             self?.postUserMsgChangeNotify()
@@ -192,11 +194,38 @@ extension RenterUserMsgViewController {
         }
     }
     func postUserMsgChangeNotify() {
-        NotificationCenter.default.post(name: Notification.Name.userChanged, object: nil)
+//        NotificationCenter.default.post(name: Notification.Name.userChanged, object: nil)
     }
     
 }
-
+extension UIImage {
+     
+    //将图片裁剪成指定比例（多余部分自动删除）
+    func crop(ratio: CGFloat) -> UIImage {
+        //计算最终尺寸
+        var newSize:CGSize!
+        if size.width/size.height > ratio {
+            newSize = CGSize(width: size.height * ratio, height: size.height)
+        }else{
+            newSize = CGSize(width: size.width, height: size.width / ratio)
+        }
+     
+        ////图片绘制区域
+        var rect = CGRect.zero
+        rect.size.width  = size.width
+        rect.size.height = size.height
+        rect.origin.x    = (newSize.width - size.width ) / 2.0
+        rect.origin.y    = (newSize.height - size.height ) / 2.0
+         
+        //绘制并获取最终图片
+        UIGraphicsBeginImageContext(newSize)
+        draw(in: rect)
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+         
+        return scaledImage!
+    }
+}
 extension RenterUserMsgViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -307,7 +336,7 @@ class RenterMineUserMsgCell: BaseTableViewCell {
                 self.detailIcon.isHidden = true
                 self.editLabel.isUserInteractionEnabled = false
                 self.editLabel.text = userModel?.phone
-
+                
             }else {
                 self.detailIcon.isHidden = true
                 self.editLabel.isUserInteractionEnabled = true

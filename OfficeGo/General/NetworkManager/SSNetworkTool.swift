@@ -42,12 +42,9 @@ class SSNetworkTool: NSObject {
     ///   - isShowHud: 是否显示HUD
     ///   - progressClosure: 进度回调
     ///   - successClosure: 成功回调
-    static func uploadImage(url: String,image: UIImage,params: [String:String],imageName:String,isShowHud:Bool,progressClosure:@escaping((_ progress:Double) ->Void),successClosure:@escaping((_ result:[String:AnyObject]) -> ()))
-    {
+    static func uploadImage(urlStr: String,image: UIImage,params: [String: String],isShowHud:Bool,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
       //压缩图片 可自定义
         let imageData : Data = image.jpegData(compressionQuality: 0.01) ?? Data()
-        let urlString = "\(SSAPI.SSApiHost)\(SSMineURL.updateUserMessage)"
-        
 //        if isShowHud {
 //            HUD.flash(.progress)
 //
@@ -57,9 +54,59 @@ class SSNetworkTool: NSObject {
             for p in params {
                 multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
             }
-            multiPart.append(imageData, withName: "file", fileName: "\(imageName).jpg", mimeType: "image/jpg")
-        }, to: urlString, method: .post, headers: nil) { (multiPartResult) in
-            NotificationCenter.default.post(name: Notification.Name.userChanged, object: nil)
+            multiPart.append(imageData, withName: "file", fileName: "\(UserTool.shared.user_phone ?? "").jpg", mimeType: "image/jpg")
+        }, to: urlStr, method: .post, headers: nil) { (multiPartResult) in
+            switch(multiPartResult) {
+            case .success(let request, let streamingFromDisk, let streamFileURL) :
+                request.responseJSON(completionHandler: { (Response) in
+                    SSLog("数据地址:\(urlStr) 方式：post 参数:\(params) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
+                    
+                    switch Response.result {
+                    case .success:
+                        guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
+                            return
+                        }
+                        //                    let infoData = (resp["data"] as? [String: AnyObject])
+                        
+                        let statusCode = (resp["status"] as? Int) ?? -1
+                        if statusCode == SSCode.SUCCESS.code {
+                            if let block = success {
+                                block(resp)
+                            }
+                            
+                        }else if statusCode == SSCode.DEFAULT_ERROR_CODE_5000.code {
+                            var message = ""
+                            if let msg  = resp["message"]  {
+                                message = (msg as? String) ?? ""
+                            }
+                            if let block = error {
+                                block("\(statusCode)", message)
+                            }
+                        }else {
+                            var message = ""
+                            if let msg  = resp["message"]  {
+                                message = (msg as? String) ?? ""
+                                AppUtilities.makeToast("\(statusCode)\n\(message)")
+                            }
+                            ///5001 表示参数不全，就是需要登录token的 发通知 ， 弹出登录view
+                            if statusCode == SSCode.ERROR_CODE_5001.code {
+                                NotificationCenter.default.post(name: NSNotification.Name.NoLoginClickToLogin, object: nil)
+                            }
+                            if let block = error {
+                                block("\(statusCode)", message)
+                            }
+                        }
+                    case .failure(let error):
+                        if let block = failed {
+                            block(error as NSError)
+                            SSLog("url:\(urlStr) error:\(error)")
+                        }
+                    }
+                })
+            case .failure(let error) :
+                SSLog(error)
+//                NotificationCenter.default.post(name: Notification.Name.userChanged, object: false)
+            }
         }
        
     }
@@ -67,7 +114,7 @@ class SSNetworkTool: NSObject {
     
     static func request(type: HTTPMethod, urlStr: String,sessionId:String?, params:Dic, success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
         SSTool.invokeInGlobalThread {
-            var para = params == nil ? Eic() : params!
+            let para = params == nil ? Eic() : params!
             
             let handle = createUrlAndHeaders(urlStr: urlStr)
             let URL = handle.url
@@ -440,12 +487,11 @@ extension SSNetworkTool {
         
         ///修改个人资料 -头像
         static func request_uploadAvatar(image: UIImage, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-//           let url = String.init(format: SSMineURL.updateUserMessage)
-//            SSNetworkTool.uploadImage(url: "\(SSAPI.SSApiHost)\(url)", image: image, params: ["token": UserTool.shared.user_token ?? ""], imageName: UserTool.shared.user_phone ?? "", isShowHud: false, progressClosure: { (progress) in
-//
-//            }) { (<#[String : AnyObject]#>) in
-//                <#code#>
-//            }
+           let url = String.init(format: SSMineURL.updateUserMessage)
+            var params = [String:String]()
+            params["token"] = UserTool.shared.user_token
+            SSNetworkTool.uploadImage(urlStr: "\(SSAPI.SSApiHost)\(url)", image: image, params: params, isShowHud: true, success:
+                    success,failed:failure,error:error)
        }
     }
     

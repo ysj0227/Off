@@ -49,9 +49,7 @@ class RenterMineViewController: BaseTableViewController {
          let tab = self.navigationController?.tabBarController as? MainTabBarController
          tab?.customTabBar.isHidden = false
         
-        if userModel == nil {
-            requestUserMessage()
-        }
+        requestUserMessage()
      }
      
     deinit {
@@ -67,7 +65,7 @@ extension RenterMineViewController {
         
         self.navigationController?.navigationBar.isHidden = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(requestUserMessage), name: Notification.Name.userChanged, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(requestUserMessage), name: Notification.Name.userChanged, object: nil)
         
         self.view.backgroundColor = kAppBlueColor
         
@@ -95,7 +93,7 @@ extension RenterMineViewController {
     
     func setUpData() {
         
-        requestUserMessage()
+//        requestUserMessage()
                 
         self.tableView.reloadData()
     }
@@ -201,6 +199,8 @@ class RenterUserHeaderView: UIView {
         didSet {
 //            headerImg.setImage(with: userModel.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
             headerImg.kf.setImage(with: URL(string: userModel.avatar ?? ""), placeholder: UIImage.init(named: "avatar"), options: nil, progressBlock: { (receivedSize, totalSize) in
+                
+                print("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
             })
             nameLabel.text = userModel.realname ?? userModel.nickname ?? "名字"
             introductionLabel.text = "\(userModel.company ?? "公司") - \(userModel.job ?? "职位")"
