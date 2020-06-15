@@ -169,7 +169,8 @@ class MessageFYChattedModel: BaseModel {
     var isZD : Bool?
     var accountStatus : Bool?
     var avatar : String?
-    var targetId : String?
+    var targetId : String?  //1061
+    var chattedId : String? //106
     var company : String?
     var job : String?
     var nickname : String?
