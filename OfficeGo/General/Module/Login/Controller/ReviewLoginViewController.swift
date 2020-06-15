@@ -213,6 +213,7 @@ class ReviewLoginViewController: BaseViewController {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
         titleview?.backTitleRightView.backgroundColor = kAppClearColor
+        titleview?.leftButton.isHidden = true
         titleview?.rightButton.isHidden = false
         titleview?.rightButton.setTitle("跳过", for: .normal)
         titleview?.rightButton.backgroundColor = kAppBlueColor
