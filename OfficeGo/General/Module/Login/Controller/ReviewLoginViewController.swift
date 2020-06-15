@@ -14,6 +14,12 @@ import SwiftyJSON
 
 class ReviewLoginViewController: BaseViewController {
     
+    ///0 是退出登录。1是登录完成
+    public var closeViewBack:((Int) -> Void) = {_ in }
+
+    //如果从收藏 - 我的 - 聊天页面 点击 调起，点击登录成功-直接传回掉
+    var isFromOtherVC: Bool = false
+    
     var isClickVerify = false
     
     let disposeBag = DisposeBag()
@@ -206,6 +212,7 @@ class ReviewLoginViewController: BaseViewController {
         if self.navigationController?.viewControllers.count ?? 0 > 1 {
             self.navigationController?.popViewController(animated: true)
         }else {
+            closeViewBack(0)
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -213,7 +220,7 @@ class ReviewLoginViewController: BaseViewController {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
         titleview?.backTitleRightView.backgroundColor = kAppClearColor
-        titleview?.leftButton.isHidden = true
+        titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = false
         titleview?.rightButton.setTitle("跳过", for: .normal)
         titleview?.rightButton.backgroundColor = kAppBlueColor
@@ -349,9 +356,9 @@ class ReviewLoginViewController: BaseViewController {
         Observable<Int>.interval(0.1, scheduler: MainScheduler.instance)
             .takeUntil(self.rx.deallocated)
             .subscribe({ [weak self] _ in
-                guard UserInfo.shared().verifyCodeSendTime > 0 else {
-                    return
-                }
+//                guard UserInfo.shared().verifyCodeSendTime > 0 else {
+//                    return
+//                }
                 let lastSeconds: Int = Int(UserInfo.shared().verifyCodeSendTime + TimeInterval(kTimeOutNumber) - NSDate().timeIntervalSince1970)
                 self?.verifyDiscount(discount: lastSeconds)
             })
@@ -452,7 +459,11 @@ class ReviewLoginViewController: BaseViewController {
 
             }
             
-            NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+            if self?.isFromOtherVC == true {
+                self?.closeViewBack(1)
+            }else {
+                NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+            }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
                 self?.loginBtnClick()

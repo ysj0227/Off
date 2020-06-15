@@ -74,6 +74,7 @@ class BaseViewController: UIViewController {
         
     }
     
+    /*
     func showLoginView() {
         let windows = UIApplication.shared.keyWindow
         let alert = SureAlertView(frame: windows?.frame ?? CGRect(x: 0, y: 0, width: kWidth, height: kHeight))
@@ -94,7 +95,7 @@ class BaseViewController: UIViewController {
         self.present(loginNav, animated: true) {
             vc.titleview?.leftButton.isHidden = true
         }
-    }
+    }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,16 +107,15 @@ class BaseViewController: UIViewController {
         self.view.backgroundColor = kAppWhiteColor
         
         //点击登录的通知
+        /*
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NoLoginClickToLogin, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
             self?.showLoginView()
-        }
+        }*/
     }
     
     @objc func isLogin() -> Bool {
         if UserTool.shared.isLogin() != true {
-//            AppUtilities.makeToast("您还没有登录")
-            showLoginView()
             return false
         }else {
             return true
@@ -230,3 +230,80 @@ extension BaseViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
+
+
+class NoDataShowView: UIView {
+ 
+     lazy var noDataImageView: UIImageView = {
+         let view = UIImageView()
+         view.contentMode = .scaleAspectFit
+         view.image = UIImage(named: "toLoginIcon")
+         return view
+     }()
+     lazy var noDataLabel: UILabel = {
+         let view = UILabel()
+         view.text = "您当前未登录，请登录后再进行此操作"
+         view.textColor = kAppColor_666666
+         view.font = FONT_15
+         view.textAlignment = .center
+         return view
+     }()
+     lazy var noDataButton: UIButton = {
+         let view = UIButton()
+         view.setTitle("去登录", for: .normal)
+         view.titleLabel?.font = FONT_MEDIUM_15
+         view.setCornerRadius(cornerRadius: 19, masksToBounds: true)
+         view.layer.borderColor = kAppBlueColor.cgColor
+         view.layer.borderWidth = 1.0
+         view.setTitleColor(kAppBlueColor, for: .normal)
+        view.addTarget(self, action: #selector(loginBtnClick), for: .touchUpInside)
+         return view
+     }()
+     lazy var noDataView: UIView = {
+         let view = UIView()
+         view.addSubview(noDataImageView)
+         view.addSubview(noDataLabel)
+         view.addSubview(noDataButton)
+         return view
+     }()
+     
+    @objc func loginBtnClick() {
+        
+        loginCallBack()
+    }
+    
+     var loginCallBack:(() -> Void) = {}
+
+    override init(frame: CGRect)  {
+         
+         super.init(frame: frame)
+         
+         //217
+
+        addSubview(noDataView)
+        
+         noDataView.snp.makeConstraints { (make) in
+             make.centerY.equalToSuperview().offset(-60)
+             make.size.equalTo(CGSize(width: kWidth, height: 217))
+         }
+         noDataImageView.snp.makeConstraints { (make) in
+             make.centerX.equalToSuperview()
+             make.top.equalToSuperview()
+             make.size.equalTo(CGSize(width: 100, height: 100))
+         }
+         noDataLabel.snp.makeConstraints { (make) in
+             make.centerX.equalToSuperview()
+             make.top.equalTo(noDataImageView.snp.bottom)
+             make.size.equalTo(CGSize(width: kWidth, height: 80))
+         }
+         noDataButton.snp.makeConstraints { (make) in
+             make.centerX.equalToSuperview()
+             make.bottom.equalToSuperview()
+             make.size.equalTo(CGSize(width: 94, height: 38))
+         }
+     }
+     
+     required init?(coder aDecoder: NSCoder) {
+         fatalError("init(coder:) has not been implemented")
+     }
+ }

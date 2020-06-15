@@ -87,10 +87,11 @@ class SSNetworkTool: NSObject {
                                 message = (msg as? String) ?? ""
                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
                             }
+                            /*
                             ///5001 表示参数不全，就是需要登录token的 发通知 ， 弹出登录view
                             if statusCode == SSCode.ERROR_CODE_5001.code && UserTool.shared.isLogin() != true {
                                 NotificationCenter.default.post(name: NSNotification.Name.NoLoginClickToLogin, object: nil)
-                            }
+                            }*/
                             if let block = error {
                                 block("\(statusCode)", message)
                             }
@@ -157,10 +158,11 @@ class SSNetworkTool: NSObject {
                             message = (msg as? String) ?? ""
                             AppUtilities.makeToast("\(statusCode)\n\(message)")
                         }
+                        /*
                         ///5001 表示参数不全，就是需要登录token的 发通知 ， 弹出登录view
                         if statusCode == SSCode.ERROR_CODE_5001.code && UserTool.shared.isLogin() != true {
                             NotificationCenter.default.post(name: NSNotification.Name.NoLoginClickToLogin, object: nil)
-                        }
+                        }*/
                         if let block = error {
                             block("\(statusCode)", message)
                         }

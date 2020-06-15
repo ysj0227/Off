@@ -10,9 +10,47 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 
-class RenterCollectOfficeListViewController: RenterCollectOfficeBuuildingOrJointListViewController {
+class RenterCollectOfficeListViewController: BaseTableViewController {
     
-    override func requestSet() {
+    //1为楼盘网点收藏，2为房源收藏
+    var type: Int?
+    
+    //无数据view
+    var nologindataView :NoDataShowView?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        juddgeIsLogin()
+    }
+    
+    ///判断有没有登录
+    func juddgeIsLogin() {
+        //登录直接请求数据
+         if isLogin() == true {
+            
+            nologindataView?.isHidden = true
+            
+            refreshData()
+            
+        }else {
+            //没登录 - 显示登录按钮view
+            nologindataView?.isHidden = false
+            
+            if self.dataSource.count > 0 {
+                self.dataSource.removeAll()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        requestSet()
+    }
+    
+    func requestSet() {
         
         isShowRefreshHeader = false
         
@@ -20,7 +58,31 @@ class RenterCollectOfficeListViewController: RenterCollectOfficeBuuildingOrJoint
         
         self.type = 2
         
-        refreshData()
+        nologindataView?.isHidden = true
+        self.view.addSubview(nologindataView ?? NoDataShowView(frame: self.view.frame))
+        
+        
+        nologindataView = NoDataShowView.init(frame: self.view.frame)
+        nologindataView?.loginCallBack = {[weak self] in
+                
+                guard let weakSelf = self else {return}
+                
+                weakSelf.showLoginVC()
+        }
+
+    }
+    
+    func showLoginVC() {
+        let vc = ReviewLoginViewController()
+        vc.isFromOtherVC = true
+        vc.closeViewBack = {[weak self] (isClose) in
+            guard let weakSelf = self else {return}
+            weakSelf.juddgeIsLogin()
+        }
+        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
+        loginNav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(loginNav, animated: true, completion: nil)
     }
     
     //MARK: 获取首页列表数据
@@ -86,7 +148,7 @@ extension RenterCollectOfficeListViewController {
         return RenterCollectOfficeCell.rowHeight()
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //独立办公室
         if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
             if let Isfailure = model.Isfailure {
