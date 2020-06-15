@@ -56,7 +56,7 @@ class UserTool: NSObject {
             return userDefault.set(newValue, forKey: "user_rongyuntoken")
         }
     }
-    
+
     /// 用户token
     var user_token: String?{
         get{
@@ -98,7 +98,6 @@ class UserTool: NSObject {
         }
     }
     
-    
     /// 用户微信
     var user_wechat: String?{
         get{
@@ -137,7 +136,7 @@ class UserTool: NSObject {
             return userDefault.set(newValue, forKey: "user_nickname")
         }
     }
-    
+
     /// 头像
     var user_avatars:String?{
         get{
@@ -200,6 +199,21 @@ class UserTool: NSObject {
     
     
     func removeAll() {
+        userDefault.removeObject(forKey: "user_rongyuntoken")
+        userDefault.removeObject(forKey: "user_token")
+        userDefault.removeObject(forKey: "user_uid")
+        userDefault.removeObject(forKey: "user_renter_clickTap")
+        userDefault.removeObject(forKey: "user_phone")
+        userDefault.removeObject(forKey: "user_wechat")
+        userDefault.removeObject(forKey: "user_name")
+        userDefault.removeObject(forKey: "user_nickname")
+        userDefault.removeObject(forKey: "user_avatars")
+        userDefault.removeObject(forKey: "user_sex")
+        userDefault.removeObject(forKey: "user_company")
+        userDefault.removeObject(forKey: "user_job")
+        userDefault.removeObject(forKey: "user_rongyuntoken")
+        
+        /*
         userDefault.setValue(false, forKey: "isOldSystem")
         userDefault.set("", forKey: "user_rongyuntoken")
         userDefault.set("", forKey: "user_token")
@@ -209,5 +223,6 @@ class UserTool: NSObject {
         userDefault.set("", forKey: "user_uid")
 //        userDefault.set("", forKey: " user_id_type")
         userDefault.set(false, forKey: "isOldSystem")
+        */
     }
 }
