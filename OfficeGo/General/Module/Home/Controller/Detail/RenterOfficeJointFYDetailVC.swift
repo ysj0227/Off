@@ -36,8 +36,8 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
     var model: FangYuanBuildingOpenStationModel = FangYuanBuildingOpenStationModel() {
         didSet {
             
-            bottomBtnView.leftBtn.isSelected  = false
-            
+            setCollectBtnState(isCollect:false)
+
             refreshData()
         }
     }
@@ -253,7 +253,7 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
     //设置收藏按钮的状态
     func setCollectBtnState(isCollect: Bool) {
         
-        bottomBtnView.leftBtn.isSelected = isCollect
+        bottomBtnView.setCollectBtnSelect(collect: isCollect)
     }
     
     

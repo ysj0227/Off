@@ -508,6 +508,20 @@ class BottomBtnView: UIView {
         return button
     }()
     
+    lazy var collectImg: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
+    lazy var collectTitle: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .center
+        view.font = FONT_9
+        view.textColor = kAppColor_999999
+        return view
+    }()
+    
     lazy var rightSelectBtn: UIButton = {
         let button = UIButton.init()
         button.clipsToBounds = true
@@ -561,6 +575,17 @@ class BottomBtnView: UIView {
         }
     }
     
+    func setCollectBtnSelect(collect: Bool) {
+        if collect == true {
+            
+            collectImg.image = UIImage.init(named: "collectItemSel")
+            collectTitle.text = "已收藏"
+        }else {
+            collectImg.image = UIImage.init(named: "collectItemUnSel")
+            collectTitle.text = "收藏"
+        }
+    }
+    
     func updateViewFrame() {
         switch bottomType {
         case .BottomBtnViewTypeIwantToFind: //我想找页面 - 只显示一个确定按钮
@@ -600,15 +625,15 @@ class BottomBtnView: UIView {
             leftBtn.layer.cornerRadius = button_cordious_2
             rightSelectBtn.layer.cornerRadius = button_cordious_2
             leftBtn.backgroundColor = kAppWhiteColor
-            leftBtn.titleLabel?.font = FONT_9
-            leftBtn.setTitleColor(kAppColor_999999, for: .normal)
-            leftBtn.setTitle("收藏", for: .normal)
-            leftBtn.setImage(UIImage.init(named: "collectItemUnSel"), for: .normal)
-            leftBtn.setTitle("已收藏", for: .selected)
-            leftBtn.setImage(UIImage.init(named: "collectItemSel"), for: .selected)
-            leftBtn.layoutButton(.imagePositionTop, space: 10)
-
-            leftBtn.titleLabel?.textAlignment = .center
+            leftBtn.isUserInteractionEnabled = true
+            leftBtn.addSubview(collectImg)
+            leftBtn.addSubview(collectTitle)
+            //            leftBtn.setTitle("收藏", for: .normal)
+            //            leftBtn.setImage(UIImage.init(named: "collectItemUnSel"), for: .normal)
+            //            leftBtn.setTitle("已收藏", for: .selected)
+            //            leftBtn.setImage(UIImage.init(named: "collectItemSel"), for: .selected)
+            //            leftBtn.layoutButton(.imagePositionTop, space: 10)
+            //            leftBtn.titleLabel?.textAlignment = .center
             rightSelectBtn.setTitle("找房东", for: .normal)
             
             leftBtn.snp.makeConstraints { (make) in
@@ -616,6 +641,14 @@ class BottomBtnView: UIView {
                 make.height.equalTo(40)
                 make.width.equalTo(60)
                 make.leading.equalTo(left_pending_space_17)
+            }
+            collectImg.snp.makeConstraints { (make) in
+                make.top.leading.trailing.equalToSuperview()
+                make.height.equalTo(22)
+            }
+            collectTitle.snp.makeConstraints { (make) in
+                make.top.equalTo(collectImg.snp.bottom)
+                make.bottom.leading.trailing.equalToSuperview()
             }
             rightSelectBtn.snp.makeConstraints { (make) in
                 make.leading.equalTo(leftBtn.snp.trailing)

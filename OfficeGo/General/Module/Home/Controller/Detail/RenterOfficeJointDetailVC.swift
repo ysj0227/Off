@@ -70,7 +70,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     var buildingModel: FangYuanListModel = FangYuanListModel() {
         didSet {
             
-            bottomBtnView.leftBtn.isSelected  = false
+            setCollectBtnState(isCollect:false)
             refreshData()
         }
     }
@@ -95,7 +95,6 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     func setItemFunc() {
         
-        bottomBtnView.leftBtn.isSelected  = false
         //1是办公楼，2是联合办公
         //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
         if let params = shaiXuanParams {
@@ -434,7 +433,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     //设置收藏按钮的状态
     func setCollectBtnState(isCollect: Bool) {
         
-        bottomBtnView.leftBtn.isSelected = isCollect
+        bottomBtnView.setCollectBtnSelect(collect: isCollect)
     }
     
     //MARK: 加载头部的图片和视频
