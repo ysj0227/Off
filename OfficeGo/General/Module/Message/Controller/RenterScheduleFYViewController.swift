@@ -56,7 +56,12 @@ class RenterScheduleFYViewController: BaseTableViewController {
         
         SSNetworkTool.SSSchedule.request_addRenterApp(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
-            weakSelf.clickToSendSchedule(interval: interval)
+            
+            if let model = ScheduleList.deserialize(from: response, designatedPath: "data") {
+                    
+                weakSelf.clickToSendSchedule(interval: interval, fyid: model.id ?? 0)
+            }
+            
             }, failure: { (error) in
                 
         }) { (code, message) in
@@ -65,13 +70,11 @@ class RenterScheduleFYViewController: BaseTableViewController {
                 AppUtilities.makeToast(message)
             }
         }
-        
-        
     }
     
-    func clickToSendSchedule(interval: Int) {
+    func clickToSendSchedule(interval: Int, fyid: Int) {
         SSTool.invokeInMainThread {
-            NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleSuccess, object: interval)
+            NotificationCenter.default.post(name: NSNotification.Name.MsgScheduleSuccess, object: ["interval": interval, "fyid": fyid])
             
             self.navigationController?.popViewController(animated: true)
         }
@@ -381,3 +384,4 @@ class RenterScheduleYeZhuBasicCell: BaseTableViewCell {
     }
     
 }
+

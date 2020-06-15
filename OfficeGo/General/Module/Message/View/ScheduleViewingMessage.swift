@@ -17,12 +17,15 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
     var extraMessage: String? = ""
     
     // (预约成功的id)
+    var fyid: Int? = 0
+    
     var time: String? = ""
     
     // 根据参数创建消息对象
-    class func messageWithContent(content: String, time: String) -> ScheduleViewingMessage {
+    class func messageWithContent(content: String, fyid: Int, time: String) -> ScheduleViewingMessage {
         let testMessage = ScheduleViewingMessage()
         testMessage.content = content
+        testMessage.fyid = fyid
         testMessage.time = time
         return testMessage
     }
@@ -42,6 +45,7 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
         content = aDecoder.decodeObject(forKey: "content") as? String ?? ""
         extraMessage = aDecoder.decodeObject(forKey: "extraMessage") as? String ?? ""
         time = aDecoder.decodeObject(forKey: "time") as? String ?? ""
+        fyid = aDecoder.decodeObject(forKey: "fyid") as? Int ?? 0
     }
     
     // NSCoding
@@ -49,7 +53,8 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
         aCoder.encode(content, forKey: "content")
         aCoder.encode(extraMessage, forKey: "extraMessage")
         aCoder.encode(time, forKey: "time")
-        
+        aCoder.encode(fyid, forKey: "fyid")
+
     }
     
     // 序列化，将消息内容编码成 json
@@ -59,6 +64,9 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
         dataDict["content"] = content
         if let extraMessage = extraMessage {
             dataDict["extraMessage"] = extraMessage
+        }
+        if let fyid = fyid {
+            dataDict["fyid"] = fyid
         }
         if let time = time {
             dataDict["time"] = time
@@ -83,6 +91,7 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
             content = dictionary["content"] as? String ?? ""
             extraMessage = dictionary["extraMessage"] as? String ?? ""
             time = dictionary["time"] as? String ?? ""
+            fyid = dictionary["fyid"] as? Int ?? 0
             let userInfoDict = dictionary["user"] as? [String : Any] ?? [:]
             decodeUserInfo(userInfoDict)
         } catch {
@@ -183,7 +192,7 @@ class ScheduleViewingMessageCell: RCMessageCell {
         
         let message = model.content as? ScheduleViewingMessage
         
-        let size = getBubbleBackgroundViewSize(message ?? ScheduleViewingMessage.messageWithContent(content: "", time: "0"), messageDirection: model.messageDirection)
+        let size = getBubbleBackgroundViewSize(message ?? ScheduleViewingMessage.messageWithContent(content: "", fyid: 0, time: "0"), messageDirection: model.messageDirection)
         
         var messagecontentviewHeight = size.height;
         messagecontentviewHeight = messagecontentviewHeight + extraHeight;
@@ -196,11 +205,15 @@ class ScheduleViewingMessageCell: RCMessageCell {
     }
     
     @objc func agreeClick() {
-        NotificationCenter.default.post(name: NSNotification.Name.MsgViewingScheduleStatusBtnLocked, object: true)
+        let message = model.content as? ScheduleViewingMessage
+        
+        NotificationCenter.default.post(name: NSNotification.Name.MsgViewingScheduleStatusBtnLocked, object: ["isAgree": true, "fyid": message?.fyid ?? 0])
     }
     
     @objc func rejectClick() {
-        NotificationCenter.default.post(name: NSNotification.Name.MsgViewingScheduleStatusBtnLocked, object: false)
+        let message = model.content as? ScheduleViewingMessage
+        
+        NotificationCenter.default.post(name: NSNotification.Name.MsgViewingScheduleStatusBtnLocked, object: ["isAgree": false, "fyid": message?.fyid ?? 0])
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -262,7 +275,7 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let dateStr = date.localDateString()
         timeLabel.text = "约看时间：\(dateStr)"
         
-        let textLabelSize = ScheduleViewingMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", time: "0"), messageDirection: messageDirection)
+        let textLabelSize = ScheduleViewingMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", fyid: 0, time: "0"), messageDirection: messageDirection)
         let bubbleBackgroundViewSize = ScheduleViewingMessageCell.getBubbleSize(textLabelSize)
         var messageContentViewRect = messageContentView.frame
         

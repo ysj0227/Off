@@ -245,7 +245,7 @@ class SSScheduleURL: NSObject {
     static let updateFinish = "schedule/updateFinish"
     
     //行程审核接口
-    static let updateAuditStatusApp = "schedule/updateAuditStatusApp"
+    static let updateAuditStatusApp = "schedule/updateAuditStatus"
     
 }
 

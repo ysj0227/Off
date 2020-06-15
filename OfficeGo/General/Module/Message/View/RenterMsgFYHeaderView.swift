@@ -236,7 +236,7 @@ class RenterMsgBtnView: UIView {
         button.setImage(UIImage(named: "wechatBlue"), for: .selected)
         button.setTitleColor(kAppColor_666666, for: .normal)
         button.titleLabel?.font = FONT_10
-        button.setTitleColor(kAppBlueColor, for: .selected)
+        button.setTitleColor(kAppColor_666666, for: .normal)
         return button
     }()
     var scheduleFyBtn: UIButton = {

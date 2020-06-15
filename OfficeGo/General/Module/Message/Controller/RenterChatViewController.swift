@@ -28,6 +28,8 @@ class RenterChatViewController: RCConversationViewController {
     //上面四个按钮view
     var buttonView:RenterMsgBtnView = {
         let view = RenterMsgBtnView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: 60))
+        view.phoneChangeBtn.isSelected = true
+        view.wechatChangeBtn.isSelected = true
         return view
     }()
     
@@ -186,9 +188,9 @@ extension RenterChatViewController {
         
         //预约成功
         NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgScheduleSuccess, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let interval = noti.object as? Int {
-                
-                self?.sendScheduleFY(interval: interval)
+            let dic = noti.object as? [String: Any]
+            if let fyid = dic?["fyid"] as? Int, let interval = dic?["interval"] as? Int{
+                self?.sendScheduleFY(interval: interval, fyid: fyid)
             }
         }
         
@@ -219,9 +221,10 @@ extension RenterChatViewController {
         
         //约看房源拒绝同意
         NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgViewingScheduleStatusBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let type = noti.object as? Bool {
-                
-                self?.sendScheduleViewingAgreeOrReject(agree: type)
+            if let type = noti.object as? [String: Any] {
+                let agress = type["isAgree"] as? Bool
+                let fyid = type["fyid"] as? Int
+                self?.sendScheduleViewingAgreeOrReject(agree: agress ?? false, fyid: fyid ?? 0)
             }
         }
         
@@ -394,8 +397,8 @@ extension RenterChatViewController {
     }
     
     //预约房源
-    func sendScheduleFY(interval: Int) {
-        let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", time: "\(interval)")
+    func sendScheduleFY(interval: Int, fyid: Int) {
+        let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", fyid: fyid, time: "\(interval)")
         sendMessage(messageContent, pushContent: "我发送了一个看房邀请")
     }
     
@@ -427,13 +430,13 @@ extension RenterChatViewController {
     }
     
     //看房邀约同意拒绝消息
-    func sendScheduleViewingAgreeOrReject(agree: Bool) {
-        sendScheduleMessage(agree: agree)
-        /*
+    func sendScheduleViewingAgreeOrReject(agree: Bool, fyid: Int) {
+//        sendScheduleMessage(agree: agree)
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
-        params["id"] = targetId as AnyObject?
+        params["id"] = fyid as AnyObject?
         if agree == true {
             params["auditStatus"] = 1 as AnyObject?
         }else {
@@ -453,7 +456,7 @@ extension RenterChatViewController {
                 AppUtilities.makeToast(message)
             }
         }
-        */
+        
     }
     
     func sendScheduleMessage(agree: Bool) {

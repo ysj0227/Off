@@ -63,6 +63,26 @@ class ScheduleList: BaseModel {
     var simple : String?
     ///预约时间
     var time : Int?
+    
+    //var auditStatus : Int?
+    //var buildingId : Int?
+    var createTime : Int?
+    var createUser : String?
+    var id : Int? //预约看房返回的行程ID、
+    var proprietorId : Int?
+    var proprietorName : String?
+    var proprietorRemark : String?
+    var proprietorType : Int?
+    var renterId : Int?
+    var renterName : String?
+    var renterRemark : String?
+    var renterType : Int?
+    var status : Int?
+    //var time : Int?
+    var updateTime : Int?
+    var updateUser : String?
+
+
 }
 
 class ScheduleViewModelList: NSObject {
