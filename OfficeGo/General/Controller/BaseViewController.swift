@@ -13,12 +13,7 @@ import RxCocoa
 class BaseViewController: UIViewController {
     
     var titleview: ThorNavigationView?
-    
-    lazy var loadingView: UIView = {
-        return UIView()
-    }()
-    
-    
+
     lazy var noDataImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
@@ -148,18 +143,6 @@ class BaseViewController: UIViewController {
         if let naviVC = self.navigationController {
             naviVC.pushViewController(viewController, animated: true)
         }
-    }
-    
-    public func showLoadingView() {
-        view.addSubview(loadingView)
-        loadingView.snp.remakeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.width.height.equalTo(120)
-        }
-    }
-    
-    public func removeLoadingView() {
-        loadingView.removeFromSuperview()
     }
     
     public func showErrorView(topMargin: CGFloat? = 0, error: Error? = nil) {

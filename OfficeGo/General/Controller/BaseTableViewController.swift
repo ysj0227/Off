@@ -110,9 +110,7 @@ class BaseTableViewController: BaseViewController {
         if self.dataSource.count > 0 {
             self.dataSource.removeAll()
         }
-        
-        AppUtilities.makeToast("加载中")
-        
+                
         refreshData()
     }
     
@@ -123,6 +121,7 @@ class BaseTableViewController: BaseViewController {
     
     /// 结束刷新
     public func endRefreshAnimation() {
+        
         endRefreshWithCount(0)
     }
     
@@ -191,11 +190,10 @@ class BaseTableViewController: BaseViewController {
     
     /// 刷新数据
     @objc func refreshData() {
-        
+
     }
     
     @objc func loadNextPage() {
-        AppUtilities.makeToast("加载中")
         pageNo += 1
         refreshData()
     }

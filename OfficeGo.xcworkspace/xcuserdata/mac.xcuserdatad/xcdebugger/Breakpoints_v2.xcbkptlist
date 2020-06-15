@@ -5,129 +5,173 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            uuid = "101965DC-9B25-4F29-805F-6AB4634B6457"
+            uuid = "DE0602C1-B4B7-49CB-9778-689FD2ED7E82"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
+            breakpointStackSelectionBehavior = "1"
+            scope = "1"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E73F51A6-DA03-4DBA-8262-506A39AEA8D9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Message/Controller/RenterChatViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
-            landmarkName = "setUpSubviews()"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "setViewShow()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E73F51A6-DA03-4DBA-8262-506A39AEA8D9 - f2b5b17e69703f57"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OfficeGo.RenterChatViewController.setViewShow() -&gt; ()"
+                  moduleName = "OfficeGo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/officego/OfficeGo/General/Module/Message/Controller/RenterChatViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "30">
+               </Location>
+               <Location
+                  uuid = "E73F51A6-DA03-4DBA-8262-506A39AEA8D9 - 3b35197374ef6b63"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in OfficeGo.RenterChatViewController.setViewShow() -&gt; ()"
+                  moduleName = "OfficeGo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/officego/OfficeGo/General/Module/Message/Controller/RenterChatViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "41CDAF30-39C9-4B4D-9841-009662DDA0C0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OfficeGo/General/Module/Message/Controller/RenterChatViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "setViewShow()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4A487804-C3B8-4AF9-B334-9D575C875FE3"
+            uuid = "035D0F22-790C-430E-8851-51474F8D6C5D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
+            filePath = "OfficeGo/General/Module/Message/Controller/RenterChatViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
-            landmarkName = "setUpSubviews()"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "setViewShow()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8B18D532-4449-4282-BA3F-81AA8D24A151"
+            uuid = "325F02BA-38F0-406B-8BBA-17C9BCD54871"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
+            filePath = "OfficeGo/General/Module/Message/Controller/RenterChatViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
-            landmarkName = "setUpSubviews()"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
+            landmarkName = "insertMessage()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "13E0C440-C5FF-4909-B3DC-622ACFB03DBB"
+            uuid = "98EB4C74-0F19-49A6-8C31-415E1991FAD4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
+            filePath = "OfficeGo/General/Module/Login/Controller/ReviewLoginViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
-            landmarkName = "setUpSubviews()"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
+            landmarkName = "loginWithCode()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "98EB4C74-0F19-49A6-8C31-415E1991FAD4 - 76b790f965c9a96d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "OfficeGo.ReviewLoginViewController.loginWithCode() -&gt; ()"
+                  moduleName = "OfficeGo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/officego/OfficeGo/General/Module/Login/Controller/ReviewLoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "443"
+                  endingLineNumber = "443"
+                  offsetFromSymbolStart = "1088">
+               </Location>
+               <Location
+                  uuid = "98EB4C74-0F19-49A6-8C31-415E1991FAD4 - 84597d87595b161a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; () in OfficeGo.ReviewLoginViewController.loginWithCode() -&gt; ()"
+                  moduleName = "OfficeGo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/officego/OfficeGo/General/Module/Login/Controller/ReviewLoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "443"
+                  endingLineNumber = "443"
+                  offsetFromSymbolStart = "281">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EA1307A5-AD8D-49FC-A09F-4CE75C8E026A"
+            uuid = "14B9E445-7D19-445D-AA31-960ACBB79F2D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/View/List/HouseShaixuanSelectView.swift"
+            filePath = "OfficeGo/General/Controller/BaseTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "setUpSubviews()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A70FB67F-14D9-4C92-AE84-8724465842D1"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/View/List/HouseListTableViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "setCellWithViewModel(viewModel:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1343E976-E228-437E-8DE3-C83590CDC9EA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/Controller/List/FangYuanListViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "refreshData()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9E140E1C-3ABE-48D4-84A6-DEDC9733EB28"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "OfficeGo/General/Module/Home/Controller/List/FangYuanListViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "refreshData()"
             landmarkType = "7">
          </BreakpointContent>

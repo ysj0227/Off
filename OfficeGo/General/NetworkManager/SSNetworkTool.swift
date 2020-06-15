@@ -38,17 +38,13 @@ class SSNetworkTool: NSObject {
     ///   - url: 地址
     ///   - image: 图片
     ///   - params: 参数
-    ///   - imageName: 图片名字
     ///   - isShowHud: 是否显示HUD
-    ///   - progressClosure: 进度回调
-    ///   - successClosure: 成功回调
     static func uploadImage(urlStr: String,image: UIImage,params: [String: String],isShowHud:Bool,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
       //压缩图片 可自定义
         let imageData : Data = image.jpegData(compressionQuality: 0.01) ?? Data()
-//        if isShowHud {
-//            HUD.flash(.progress)
-//
-//        }
+        if isShowHud {
+            LoadingHudView.showHud()
+        }
         
         Alamofire.upload(multipartFormData: { (multiPart) in
             for p in params {
@@ -56,6 +52,9 @@ class SSNetworkTool: NSObject {
             }
             multiPart.append(imageData, withName: "file", fileName: "\(UserTool.shared.user_phone ?? "").jpg", mimeType: "image/jpg")
         }, to: urlStr, method: .post, headers: nil) { (multiPartResult) in
+            if isShowHud {
+                LoadingHudView.hideHud()
+            }
             switch(multiPartResult) {
             case .success(let request, let streamingFromDisk, let streamFileURL) :
                 request.responseJSON(completionHandler: { (Response) in
@@ -112,8 +111,13 @@ class SSNetworkTool: NSObject {
     }
                   
     
-    static func request(type: HTTPMethod, urlStr: String,sessionId:String?, params:Dic, success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
+    static func request(type: HTTPMethod, urlStr: String,sessionId:String?, params:Dic, isShowHud:Bool, success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
         SSTool.invokeInGlobalThread {
+            
+            if isShowHud {
+                LoadingHudView.showHud()
+            }
+            
             let para = params == nil ? Eic() : params!
             
             let handle = createUrlAndHeaders(urlStr: urlStr)
@@ -123,7 +127,9 @@ class SSNetworkTool: NSObject {
             
             let _ = worker.request(URL, method: type, parameters: para, encoding: encoding, headers: nil).responseJSON(completionHandler: { (Response) in
                 SSLog("数据地址:\(urlStr) 方式：\(type) 参数:\(para) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
-                
+                if isShowHud {
+                    LoadingHudView.hideHud()
+                }
                 switch Response.result {
                 case .success:
                     guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
@@ -170,72 +176,10 @@ class SSNetworkTool: NSObject {
         }
     }
     
-    static func request(type: HTTPMethod, urlStr: String, params:Dic,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!) {
-        request(type: type, urlStr: urlStr, sessionId: nil, params: params, success: success, failed: failed, error: error)
+    static func request(type: HTTPMethod, urlStr: String, params:Dic,isShowHud:Bool,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!) {
+        request(type: type, urlStr: urlStr, sessionId: nil, params: params, isShowHud:isShowHud,success: success, failed: failed, error: error)
     }
-    
-    static func requestVersion(type: HTTPMethod, urlStr: String, params:Dic,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!) {
-        SSTool.invokeInGlobalThread {
-            var para = params == nil ? Eic() : params!
-            para["appVersion"] = Device.appVersion as AnyObject
-            para["deviceType"] = Device.modelName as AnyObject
-            para["systemVersion"] = Device.sysVersion as AnyObject
-            para["deviceUUID"] = Device.deviceUUID as AnyObject
-            para["system"] =  "iOS" as AnyObject
-            let handle = createUrlAndHeaders(urlStr: urlStr)
-            let URL = handle.url
-            let headers = handle.headers
-            let encoding:ParameterEncoding = (type.rawValue == HTTPMethod.get.rawValue) ? URLEncoding.default : JSONEncoding.default
-            
-            let _ = worker.request(URL, method: type, parameters: para, encoding: encoding, headers: headers).responseJSON(completionHandler: { (Response) in
-                SSLog("数据地址:\(urlStr) 方式：\(type) 参数:\(para) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
-
-                switch Response.result {
-                case .success:
-                    guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
-                        return
-                    }
-                    let infoData = (resp["data"] as? [String: AnyObject])
-                    
-                    let statusCode = (resp["status"] as? Int) ?? -1
-                    if statusCode == SSCode.SUCCESS.code {
-                        if let block = success {
-                            block(infoData ?? [:])
-                        }
-                    }else if statusCode == SSCode.DEFAULT_ERROR_CODE_5000.code {
-                        var message = ""
-                        if let msg  = resp["message"]  {
-                            message = (msg as? String) ?? ""
-                        }
-                        if let block = error {
-                            block("\(statusCode)", message)
-                        }
-                    }else {
-                        var message = ""
-                        if let msg  = resp["message"]  {
-                            message = (msg as? String) ?? ""
-                            AppUtilities.makeToast("\(statusCode)\n\(message)")
-                        }
-                        ///5001 表示参数不全，就是需要登录token的 发通知 ， 弹出登录view
-                        if statusCode == SSCode.ERROR_CODE_5001.code {
-                            NotificationCenter.default.post(name: NSNotification.Name.NoLoginClickToLogin, object: nil)
-                        }
-                        if let block = error {
-                            block("\(statusCode)", message)
-                        }
-                    }
-                case .failure(let error):
-                    if let block = failed {
-                        block(error as NSError)
-                        SSLog("url:\(urlStr) error:\(error)")
-                    }
-                }
-            })
-            //return req
-        }
         
-    }
-    
 }
 
 extension SSNetworkTool {
@@ -243,7 +187,7 @@ extension SSNetworkTool {
     class SSVersion:NSObject {
         static func request_version(success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format: SSMineURL.versionUpdate)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:["versioncode": SSTool.getVersion() as AnyObject],success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:["versioncode": SSTool.getVersion() as AnyObject], isShowHud: true,success:
                 success,failed:failure,error:error)
         }
     }
@@ -254,14 +198,14 @@ extension SSNetworkTool {
         //创建和业主聊天接口
         static func request_getCreatFirstChatApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSChatURL.getCreatFirstChatApp)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //获取和业主聊天详情接口
        static func request_getChatFYDetailApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
            let url = String.init(format: SSChatURL.getChatMsgDetailApp)
-           SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+        SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                success,failed:failure,error:error)
        }
         
@@ -273,35 +217,35 @@ extension SSNetworkTool {
         //看房行程
         static func request_getScheduleListApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSScheduleURL.getScheduleListApp)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //看房记录
         static func request_getOldScheduleListApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSScheduleURL.getOldScheduleListApp)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //看房行程详情
         static func request_getScheduleDetailApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSScheduleURL.getScheduleApp)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //添加预约看房
         static func request_addRenterApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSScheduleURL.addRenterApp)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //行程审核接口
         static func request_updateAuditStatusApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSScheduleURL.updateAuditStatusApp)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
@@ -314,14 +258,14 @@ extension SSNetworkTool {
         //添加收藏
         static func request_addCollection(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSCollectURL.addCollection)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
         //获取收藏列表
         static func request_getFavoriteListAPP(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSCollectURL.getFavoriteListAPP)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
@@ -334,21 +278,21 @@ extension SSNetworkTool {
         //全局搜索接口
         static func request_getsearchList(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSSearchURL.getsearchList)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
         //查询历史记录
         static func request_getHistorySearchKeywords(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSSearchURL.getgetSearchKeywords)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
         //MARK: 清除历史记录
         static func request_getClearHistorySearchKeywords(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSSearchURL.getgetSearchKeywords)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         //查询发现 - 热门关键字 - 字典接口
@@ -361,21 +305,21 @@ extension SSNetworkTool {
         //楼盘网点详情
         static func request_getBuildingDetailbyBuildingId(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSFYDetailURL.getBuildingDetailbyBuildingId)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //楼盘-网点房源详情
         static func request_getBuildingFYDetailbyHouseId(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format: SSFYDetailURL.getBuildingFYDetailbyHouseId)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //楼盘-网点房源列表
         static func request_getBuildingFYList(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format: SSFYDetailURL.getBuildingFYList)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
@@ -389,14 +333,14 @@ extension SSNetworkTool {
             let url = String.init(format: SSHomeURL.getbannerListt)
             var params = [String:AnyObject]()
             params["type"] = NetworkParams.AppType as AnyObject?
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //请求首页推荐列表
         static func request_getselectBuildingApp(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format: SSHomeURL.getselectBuildingApp)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
     }
@@ -407,14 +351,14 @@ extension SSNetworkTool {
         //地铁线路接口
         static func request_getSubwayList(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format:SSBasicURL.getSubwayList)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
         //区域商圈接口
         static func request_getDistrictList(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format:SSBasicURL.getDistrictList)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
@@ -423,7 +367,7 @@ extension SSNetworkTool {
             var params = [String:AnyObject]()
             params["code"] = code.rawValue as AnyObject?
             let url = String.init(format:SSBasicURL.getDictionary)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
@@ -436,21 +380,21 @@ extension SSNetworkTool {
         //验证码
         static func request_getSmsCode(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format:SSLoginURL.getSmsCode)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
         //短信登录
         static func request_loginWithCode(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format:SSLoginURL.loginWithCode)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //我想找接口
         static func request_addWantToFind(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format:SSLoginURL.addWantToFind)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
     }
@@ -460,28 +404,28 @@ extension SSNetworkTool {
         ///绑定微信
        static func request_bindWeChat(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
            let url = String.init(format: SSMineURL.bindWeChat)
-           SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+        SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                success,failed:failure,error:error)
        }
             
         ///切换身份
         static func request_roleChange(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSMineURL.roleChange)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
         ///个人资料
         static func request_getUserMsg(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSMineURL.getUserMsg)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
         ///修改个人资料 - 不包含头像
         static func request_updateUserMessage(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSMineURL.updateUserMessage)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         

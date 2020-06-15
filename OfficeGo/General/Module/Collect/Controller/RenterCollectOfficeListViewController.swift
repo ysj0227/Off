@@ -39,7 +39,6 @@ class RenterCollectOfficeListViewController: RenterCollectOfficeBuuildingOrJoint
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
                 weakSelf.endRefreshWithCount(decoratedArray.count)
             }
-            
             }, failure: {[weak self] (error) in
                 guard let weakSelf = self
                     else {return}

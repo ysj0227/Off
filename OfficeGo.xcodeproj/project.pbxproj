@@ -59,6 +59,7 @@
 		04810B8024811DEC00F35FBE /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7F24811DEC00F35FBE /* BannerModel.swift */; };
 		0499C37F2487C987000A4EFE /* FangYuanBuildingDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499C37E2487C987000A4EFE /* FangYuanBuildingDetailModel.swift */; };
 		0499C3812487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0499C3802487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift */; };
+		04D972292497466500C87168 /* LoadingHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D972282497466500C87168 /* LoadingHudView.swift */; };
 		04D9D961246CD47A00211B40 /* RenterCollectPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D960246CD47A00211B40 /* RenterCollectPageViewController.swift */; };
 		04D9D963246CDC1400211B40 /* RenterHomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D962246CDC1400211B40 /* RenterHomePageViewController.swift */; };
 		04D9D965246CE3A900211B40 /* RenterCollectOfficeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */; };
@@ -222,7 +223,6 @@
 		EEE87B5A24558F9800C03424 /* ThorTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87B4724558F9800C03424 /* ThorTabBarItemView.swift */; };
 		EEE87B5B24558F9800C03424 /* ThorPageTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87B4824558F9800C03424 /* ThorPageTitleView.swift */; };
 		EEE87B5C24558F9800C03424 /* AnimateRefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87B4924558F9800C03424 /* AnimateRefreshHeader.swift */; };
-		EEE87B5D24558F9800C03424 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87B4A24558F9800C03424 /* LoadingView.swift */; };
 		EEE87B5E24558F9800C03424 /* BaseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87B4B24558F9800C03424 /* BaseImageView.swift */; };
 		EEE87B6024558F9800C03424 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87B4D24558F9800C03424 /* Toast.swift */; };
 		EEE87B6124558F9800C03424 /* BaseDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87B4E24558F9800C03424 /* BaseDialog.swift */; };
@@ -300,6 +300,7 @@
 		04810B7F24811DEC00F35FBE /* BannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModel.swift; sourceTree = "<group>"; };
 		0499C37E2487C987000A4EFE /* FangYuanBuildingDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FangYuanBuildingDetailModel.swift; sourceTree = "<group>"; };
 		0499C3802487C9AD000A4EFE /* FangYuanBuildingFYDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FangYuanBuildingFYDetailModel.swift; sourceTree = "<group>"; };
+		04D972282497466500C87168 /* LoadingHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHudView.swift; sourceTree = "<group>"; };
 		04D9D960246CD47A00211B40 /* RenterCollectPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectPageViewController.swift; sourceTree = "<group>"; };
 		04D9D962246CDC1400211B40 /* RenterHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterHomePageViewController.swift; sourceTree = "<group>"; };
 		04D9D964246CE3A900211B40 /* RenterCollectOfficeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCollectOfficeListViewController.swift; sourceTree = "<group>"; };
@@ -481,7 +482,6 @@
 		EEE87B4724558F9800C03424 /* ThorTabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThorTabBarItemView.swift; sourceTree = "<group>"; };
 		EEE87B4824558F9800C03424 /* ThorPageTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThorPageTitleView.swift; sourceTree = "<group>"; };
 		EEE87B4924558F9800C03424 /* AnimateRefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimateRefreshHeader.swift; sourceTree = "<group>"; };
-		EEE87B4A24558F9800C03424 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EEE87B4B24558F9800C03424 /* BaseImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseImageView.swift; sourceTree = "<group>"; };
 		EEE87B4D24558F9800C03424 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		EEE87B4E24558F9800C03424 /* BaseDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDialog.swift; sourceTree = "<group>"; };
@@ -1176,7 +1176,6 @@
 				EEE87B4724558F9800C03424 /* ThorTabBarItemView.swift */,
 				EEE87B4824558F9800C03424 /* ThorPageTitleView.swift */,
 				EEE87B4924558F9800C03424 /* AnimateRefreshHeader.swift */,
-				EEE87B4A24558F9800C03424 /* LoadingView.swift */,
 				EEE87B4B24558F9800C03424 /* BaseImageView.swift */,
 				EEE87B4D24558F9800C03424 /* Toast.swift */,
 				EEE87B4E24558F9800C03424 /* BaseDialog.swift */,
@@ -1185,6 +1184,7 @@
 				EE353ED82456FFDF00057545 /* BaseTableViewCell.swift */,
 				EEB1F9D82459119B000500A3 /* BaseCollectionViewCell.swift */,
 				047333302475322400755192 /* CustomerSearchBarview.swift */,
+				04D972282497466500C87168 /* LoadingHudView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1553,6 +1553,7 @@
 				04DB5A59247F48C700E3836F /* SureAlertView.swift in Sources */,
 				0473331B2473CDD800755192 /* RenterHouseScheduleDetailViewController.swift in Sources */,
 				EEE87B5824558F9800C03424 /* AnimateRefreshFooter.swift in Sources */,
+				04D972292497466500C87168 /* LoadingHudView.swift in Sources */,
 				EEE87B7124559F5100C03424 /* BaseViewController.swift in Sources */,
 				EE6070B82468F9A30098CAC2 /* AreaAddressView.swift in Sources */,
 				04D9D961246CD47A00211B40 /* RenterCollectPageViewController.swift in Sources */,
@@ -1566,7 +1567,6 @@
 				EEB1F9C42458299D000500A3 /* CycleView.swift in Sources */,
 				EEE87B5E24558F9800C03424 /* BaseImageView.swift in Sources */,
 				EEE87B6224558F9800C03424 /* ErrorView.swift in Sources */,
-				EEE87B5D24558F9800C03424 /* LoadingView.swift in Sources */,
 				042D46BB248F931F003B6305 /* ScheduleModel.swift in Sources */,
 				EEE87B7924559FE800C03424 /* BaseWebViewController.swift in Sources */,
 				EEB1F9D624585513000500A3 /* ZJPictureCollectionCell.swift in Sources */,

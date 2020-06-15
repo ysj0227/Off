@@ -260,14 +260,11 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         if self.dataSource.count > 0 {
             self.dataSource.removeAll()
         }
-        
-        AppUtilities.makeToast("加载中")
-        
+                
         refreshDataList()
     }
     
     @objc override func loadNextPage() {
-        AppUtilities.makeToast("加载中")
         pageNo += 1
         refreshDataList()
     }

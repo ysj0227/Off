@@ -81,7 +81,7 @@ class BaseWebViewController: BaseViewController {
         
         if let webView = webView {
             view.insertSubview(webView, at: 0)
-            showLoadingView()
+            LoadingHudView.showHud()
             webView.snp.makeConstraints { (make) in
                 make.top.equalTo(kNavigationHeight)
                 make.leading.bottom.trailing.equalToSuperview()
@@ -135,6 +135,7 @@ class BaseWebViewController: BaseViewController {
         if let url = URL(string: urlString) {
             let request = URLRequest(url: url)
             webView?.load(request)
+            LoadingHudView.showHud()
         }
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -148,45 +149,6 @@ class BaseWebViewController: BaseViewController {
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "thorJump")
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")
     }
-    
-    override func showLoadingView() {
-        var loadingImageName: String? = nil
-        if urlString.contains("/invite-code-desc") {
-            loadingImageName = "code-placeholder"
-        } else if urlString.contains("/income-ranking") {
-            loadingImageName = "income-placeholder"
-        } else if urlString.contains("/apprentice-list") {
-            loadingImageName = "invite-placeholder"
-        }
-        if let name = loadingImageName {
-            loadingBgView = UIView()
-            loadingBgView?.backgroundColor = .white
-            //            self.view.insertSubview(loadingBgView ?? UIView(), belowSubview: navigationView)
-            loadingBgView?.snp.makeConstraints({ (make) in
-                make.edges.equalToSuperview()
-            })
-            let view = UIImageView(image: UIImage(named: name))
-            loadingBgView?.addSubview(view)
-            loadingBgView?.snp.makeConstraints({ (make) in
-                make.leading.trailing.equalToSuperview()
-                if #available(iOS 11.0, *) {
-                    make.top.equalToSuperview().inset(self.view.safeAreaInsets.top)
-                } else {
-                    make.top.equalToSuperview()
-                }
-            })
-        } else {
-            super.showLoadingView()
-        }
-    }
-    
-    override func removeLoadingView() {
-        if let view = loadingBgView {
-            view.removeFromSuperview()
-        } else {
-            super.removeLoadingView()
-        }
-    }
 }
 
 extension BaseWebViewController: UIWebViewDelegate {
@@ -196,7 +158,7 @@ extension BaseWebViewController: UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        removeLoadingView()
+        LoadingHudView.hideHud()
         noDataView.isHidden = true
     }
 }
@@ -227,17 +189,17 @@ extension BaseWebViewController: WKNavigationDelegate {
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         noDataView.isHidden = true
-        removeLoadingView()
+        LoadingHudView.hideHud()
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         AppUtilities.makeToast(error.localizedDescription)
         noDataView.isHidden = false
-        removeLoadingView()
+        LoadingHudView.hideHud()
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         AppUtilities.makeToast(error.localizedDescription)
         noDataView.isHidden = false
-        removeLoadingView()
+        LoadingHudView.hideHud()
     }
 }
