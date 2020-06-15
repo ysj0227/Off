@@ -26,7 +26,7 @@ extension UIView {
     }
     func setCornerRadius(cornerRadius:CGFloat, masksToBounds:Bool = true){
         self.layer.cornerRadius = cornerRadius
-        self.layer.masksToBounds = masksToBounds
+        self.clipsToBounds = masksToBounds
     }
     
     /// 添加部分圆角

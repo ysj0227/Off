@@ -101,19 +101,25 @@ class BaseWebViewController: BaseViewController {
         
         self.view.addSubview(noDataView)
         noDataView.isHidden = true
+        noDataView.isHidden = true
         noDataView.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.size.equalTo(CGSize(width: kWidth, height: 150))
+            make.centerY.equalToSuperview().offset(-60)
+            make.size.equalTo(CGSize(width: kWidth, height: 160))
         }
         noDataImageView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-30)
+            make.centerY.equalToSuperview()
             make.size.equalTo(CGSize(width: 100, height: 100))
         }
         noDataLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
+            make.top.equalTo(noDataImageView.snp.bottom)
+            make.size.equalTo(CGSize(width: kWidth, height: 30))
+        }
+        noDataButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.size.equalTo(CGSize(width: kWidth, height: 60))
+            make.size.equalTo(CGSize(width: 80, height: 30))
         }
         noDataLabel.text = "加载失败，点击重试"
         
@@ -124,11 +130,14 @@ class BaseWebViewController: BaseViewController {
         
         switch NetAlamofireReachability.shared.status {
         case .Unknown, .NotReachable:
+            noDataButton.isHidden = false
+            noDataImageView.image = UIImage(named: "no_network_image")
             noDataLabel.text = "网络连接失败，请查看你的网络设置"
         case .WiFi, .Wwan:
-            noDataLabel.text = "加载失败，点击重试"
+            noDataButton.isHidden = true
+            noDataImageView.image = UIImage(named: "no_data_image")
+            noDataLabel.text = "暂无数据，点击重试"
         }
-
     }
     
     override func clickReloadData() {

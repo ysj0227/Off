@@ -17,7 +17,7 @@ class BaseViewController: UIViewController {
     lazy var noDataImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
-        view.image = UIImage(named: "empty_placeholde_happy_image")
+        view.image = UIImage(named: "no_data_image")
         return view
     }()
     lazy var noDataLabel: UILabel = {
@@ -28,12 +28,22 @@ class BaseViewController: UIViewController {
         view.textAlignment = .center
         return view
     }()
-    lazy var noDataView: UIButton = {
+    lazy var noDataButton: UIButton = {
         let view = UIButton()
-        view.isUserInteractionEnabled = true
+        view.isHidden = true
+        view.setTitle("点击重试", for: .normal)
+        view.titleLabel?.font = FONT_15
+        view.backgroundColor = kAppBlueColor
+        view.setCornerRadius(cornerRadius: 15, masksToBounds: true)
+        view.setTitleColor(kAppWhiteColor, for: .normal)
+        view.addTarget(self, action: #selector(clickReloadData), for: .touchUpInside)
+        return view
+    }()
+    lazy var noDataView: UIView = {
+        let view = UIView()
         view.addSubview(noDataImageView)
         view.addSubview(noDataLabel)
-//        view.addTarget(self, action: #selector(clickReloadData), for: .touchUpInside)
+        view.addSubview(noDataButton)
         return view
     }()
     

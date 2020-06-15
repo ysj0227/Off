@@ -40,7 +40,7 @@ class FangYuanListViewController: BaseTableViewController {
         noDataView.snp.remakeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(120)
-            make.size.equalTo(CGSize(width: kWidth, height: 150))
+            make.size.equalTo(CGSize(width: kWidth, height: 160))
         }
         if self.dataSource.count > 0 {
             noDataView.isHidden = true
@@ -48,8 +48,12 @@ class FangYuanListViewController: BaseTableViewController {
             noDataView.isHidden = false
             switch NetAlamofireReachability.shared.status {
             case .Unknown, .NotReachable:
+                noDataButton.isHidden = false
+                noDataImageView.image = UIImage(named: "no_network_image")
                 noDataLabel.text = "网络连接失败，请查看你的网络设置"
             case .WiFi, .Wwan:
+                noDataButton.isHidden = true
+                noDataImageView.image = UIImage(named: "no_data_image")
                 noDataLabel.text = "暂无数据，点击重试"
             }
         }
