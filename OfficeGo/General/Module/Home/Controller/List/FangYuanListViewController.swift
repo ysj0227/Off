@@ -46,6 +46,12 @@ class FangYuanListViewController: BaseTableViewController {
             noDataView.isHidden = true
         }else {
             noDataView.isHidden = false
+            switch NetAlamofireReachability.shared.status {
+            case .Unknown, .NotReachable:
+                noDataLabel.text = "网络连接失败，请查看你的网络设置"
+            case .WiFi, .Wwan:
+                noDataLabel.text = "暂无数据，点击重试"
+            }
         }
     }
     

@@ -38,7 +38,7 @@ class BaseViewController: UIViewController {
         view.isUserInteractionEnabled = true
         view.addSubview(noDataImageView)
         view.addSubview(noDataLabel)
-        view.addTarget(self, action: #selector(clickReloadData), for: .touchUpInside)
+//        view.addTarget(self, action: #selector(clickReloadData), for: .touchUpInside)
         return view
     }()
     
