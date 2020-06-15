@@ -314,8 +314,8 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
             else if index == 98 {
                 AppUtilities.makeToast("请先选择一个房源")
                 //3
-                if self?.dataSourceArr.count ?? 0 > 3 {
-                    self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 3), at: UITableView.ScrollPosition.top, animated: true)
+                if self?.dataSourceArr.count ?? 0 > 2 {
+                    self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 2), at: UITableView.ScrollPosition.top, animated: true)
                     
                 }
             }
@@ -381,8 +381,8 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             AppUtilities.makeToast("请先选择一个房源")
             //3
-            if self?.dataSourceArr.count ?? 0 > 3 {
-                self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 3), at: UITableView.ScrollPosition.top, animated: true)
+            if self?.dataSourceArr.count ?? 0 > 2 {
+                self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 2), at: UITableView.ScrollPosition.top, animated: true)
                 
             }
         }
