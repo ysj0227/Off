@@ -12,6 +12,8 @@ let kHeight:CGFloat = UIScreen.main.bounds.size.height
 
 let kWidth:CGFloat = UIScreen.main.bounds.size.width
 
+let imgScale: CGFloat = 3 / 4.0
+
 let login_left_pending_space_30 = 30
 
 let left_pending_space_17: CGFloat = 17

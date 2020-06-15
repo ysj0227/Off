@@ -37,7 +37,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     //表头
     let tableHeaderView: RenterDetailSourceView = {
-        let item = RenterDetailSourceView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kWidth * 267 / 320.0))
+        let item = RenterDetailSourceView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kWidth * imgScale))
         return item
     }()
     
@@ -866,5 +866,13 @@ extension RenterOfficeJointDetailVC {
 }
 
 extension RenterOfficeJointDetailVC {
-    
+    //MARK: 滑动- 设置标题颜色
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        SSLog("scrollViewDidScroll ----*\(scrollView.contentOffset.y)")
+        if scrollView.contentOffset.y >= kWidth * imgScale - kNavigationHeight {
+            titleview?.backgroundColor = kAppBlueColor
+        }else {
+            titleview?.backgroundColor = kAppClearColor
+        }
+    }
 }

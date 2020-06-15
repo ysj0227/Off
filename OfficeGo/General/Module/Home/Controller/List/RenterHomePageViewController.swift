@@ -155,7 +155,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
         //轮播图加载
         let pointY: CGFloat = 0
-        cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: kWidth * 267 / 320.0))
+        cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: kWidth * imgScale))
         cycleView?.delegate = self
         cycleView?.mode = .scaleAspectFill
         
