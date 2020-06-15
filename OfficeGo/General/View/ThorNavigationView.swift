@@ -455,8 +455,10 @@ public enum NavgationTitleViewType {
             }
             
             backMoreRightClearView.addSubview(leftButton)
+            /* 隐藏详情页面 举报和聊天按钮
             backMoreRightClearView.addSubview(alertButton)
             backMoreRightClearView.addSubview(messageButton)
+ */
             backMoreRightClearView.addSubview(shareButton)
             self.leftButton.setImage(UIImage.init(named: "backWhite"), for: .normal)
             leftButton.snp.makeConstraints { (make) in
@@ -472,6 +474,7 @@ public enum NavgationTitleViewType {
                 make.width.equalTo(52)
                 make.centerY.equalTo(leftButton)
             }
+            /*
             messageButton.snp.makeConstraints { (make) in
                 make.trailing.equalTo(shareButton.snp.leading).offset(left_pending_space_17)
                 make.height.equalTo(44)
@@ -483,7 +486,7 @@ public enum NavgationTitleViewType {
                 make.height.equalTo(44)
                 make.width.equalTo(52)
                 make.centerY.equalTo(leftButton)
-            }
+            }*/
         case .collectTitleSearchBtn:
             self.backgroundColor = kAppBlueColor
             collectTitleSearchBtnView.backgroundColor = kAppClearColor
