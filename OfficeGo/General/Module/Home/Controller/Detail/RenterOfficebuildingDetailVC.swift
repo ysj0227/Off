@@ -449,6 +449,9 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     //MARK: 加载头部的图片和视频
     func loadHeaderview() {
+        
+        titleview?.titleLabel.text = buildingDetailViewModel?.buildingViewModel?.buildingName
+
         tableHeaderView.model = self.buildingDetailModel ?? FangYuanBuildingDetailModel()
     }
     
@@ -1004,8 +1007,11 @@ extension RenterOfficebuildingDetailVC {
         SSLog("scrollViewDidScroll ----*\(scrollView.contentOffset.y)")
         if scrollView.contentOffset.y >= kWidth * imgScale - kNavigationHeight {
             titleview?.backgroundColor = kAppBlueColor
+            titleview?.titleLabel.isHidden = false
+
         }else {
             titleview?.backgroundColor = kAppClearColor
+            titleview?.titleLabel.isHidden = true
         }
     }
 }
