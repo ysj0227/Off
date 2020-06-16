@@ -171,7 +171,29 @@ extension RenterUserMsgViewController {
         
     }
     
+    func setSureBtnEnable(can: Bool) {
+        self.bottomBtnView.rightSelectBtn.isUserInteractionEnabled = can
+    }
+    
+    func updateSuccess() {
+        
+        AppUtilities.makeToast("个人信息已更新")
+
+        
+        SSTool.delay(time: 2) {[weak self] in
+            
+            
+            self?.leftBtnClick()
+            
+            self?.setSureBtnEnable(can: true)
+
+        }
+    }
+    
     func requestEditUserMessage() {
+        
+        setSureBtnEnable(can: false)
+
         var params = [String:AnyObject]()
         params["realname"] = userModel?.realname as AnyObject?
         params["sex"] = userModel?.sex as AnyObject?
@@ -182,21 +204,19 @@ extension RenterUserMsgViewController {
         
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
-            SSTool.delay(time: 3) {
-                
-                self?.leftBtnClick()
-                
-                AppUtilities.makeToast("个人信息已更新")
-            }
+            self?.updateSuccess()
             
-            }, failure: { (error) in
-                
-        }) { (code, message) in
+            }, failure: {[weak self] (error) in
+                self?.setSureBtnEnable(can: true)
+
+        }) {[weak self] (code, message) in
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
             }
+            self?.setSureBtnEnable(can: true)
+
         }
     }
     
