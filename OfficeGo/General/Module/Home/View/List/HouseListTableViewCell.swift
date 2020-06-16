@@ -12,7 +12,7 @@ class HouseListTableViewCell: BaseTableViewCell {
     
     lazy var houseImageview: BaseImageView = {
         let view = BaseImageView()
-        view.image = UIImage.init(named: "")
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = button_cordious_2
         return view

@@ -42,7 +42,7 @@ class RenterMsgFYHeaderView: UICollectionReusableView {
     }()
     lazy var houseMainImg: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage.init(named: "")
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = button_cordious_2
         return view
