@@ -121,7 +121,6 @@
 		EE6070B32468F9A30098CAC2 /* HouseShaixuanSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070AA2468F9A30098CAC2 /* HouseShaixuanSelectView.swift */; };
 		EE6070B42468F9A30098CAC2 /* HouseTypeAndSortSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070AB2468F9A30098CAC2 /* HouseTypeAndSortSelectView.swift */; };
 		EE6070B52468F9A30098CAC2 /* RecentCitiesableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070AC2468F9A30098CAC2 /* RecentCitiesableViewCell.swift */; };
-		EE6070B62468F9A30098CAC2 /* HouseListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE6070AD2468F9A30098CAC2 /* HouseListTableViewCell.xib */; };
 		EE6070B72468F9A30098CAC2 /* HouseSelectBtnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070AE2468F9A30098CAC2 /* HouseSelectBtnView.swift */; };
 		EE6070B82468F9A30098CAC2 /* AreaAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070AF2468F9A30098CAC2 /* AreaAddressView.swift */; };
 		EE6070BA2468FB720098CAC2 /* RenterDetailPlayerImageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6070B92468FB720098CAC2 /* RenterDetailPlayerImageHeaderView.swift */; };
@@ -372,7 +371,6 @@
 		EE6070AA2468F9A30098CAC2 /* HouseShaixuanSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HouseShaixuanSelectView.swift; sourceTree = "<group>"; };
 		EE6070AB2468F9A30098CAC2 /* HouseTypeAndSortSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HouseTypeAndSortSelectView.swift; sourceTree = "<group>"; };
 		EE6070AC2468F9A30098CAC2 /* RecentCitiesableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentCitiesableViewCell.swift; sourceTree = "<group>"; };
-		EE6070AD2468F9A30098CAC2 /* HouseListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HouseListTableViewCell.xib; sourceTree = "<group>"; };
 		EE6070AE2468F9A30098CAC2 /* HouseSelectBtnView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HouseSelectBtnView.swift; sourceTree = "<group>"; };
 		EE6070AF2468F9A30098CAC2 /* AreaAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaAddressView.swift; sourceTree = "<group>"; };
 		EE6070B92468FB720098CAC2 /* RenterDetailPlayerImageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterDetailPlayerImageHeaderView.swift; sourceTree = "<group>"; };
@@ -717,7 +715,6 @@
 				EE6070A72468F9A30098CAC2 /* HotCityTableViewCell.swift */,
 				EE6070A82468F9A30098CAC2 /* CurrentCityTableViewCell.swift */,
 				EE6070A92468F9A30098CAC2 /* HouseListTableViewCell.swift */,
-				EE6070AD2468F9A30098CAC2 /* HouseListTableViewCell.xib */,
 				EE6070AA2468F9A30098CAC2 /* HouseShaixuanSelectView.swift */,
 				EE6070AB2468F9A30098CAC2 /* HouseTypeAndSortSelectView.swift */,
 				EE6070AC2468F9A30098CAC2 /* RecentCitiesableViewCell.swift */,
@@ -1330,7 +1327,6 @@
 				EEE0D9492465584E00E5C77B /* hotCities.plist in Resources */,
 				EE6070CE2468FCC30098CAC2 /* RenterOfficeDeatailCell.xib in Resources */,
 				EEE0D9482465584E00E5C77B /* areaReion.json in Resources */,
-				EE6070B62468F9A30098CAC2 /* HouseListTableViewCell.xib in Resources */,
 				047333232473CDF100755192 /* RenterScheduleDetailView.xib in Resources */,
 				EE353ECB2456F42500057545 /* CityOrRegionSelectCell.xib in Resources */,
 				EE6070D62468FD980098CAC2 /* RenterOfficebuildingFYDeatailCell.xib in Resources */,

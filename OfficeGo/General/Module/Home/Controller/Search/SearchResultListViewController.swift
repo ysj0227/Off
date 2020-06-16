@@ -281,7 +281,7 @@ extension SearchResultListViewController {
         
         isShowRefreshHeader = false
         
-        self.tableView.register(UINib.init(nibName: HouseListTableViewCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
+        self.tableView.register(HouseListTableViewCell.self, forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
 
         refreshData()
     }

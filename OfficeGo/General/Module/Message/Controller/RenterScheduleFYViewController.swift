@@ -110,7 +110,7 @@ class RenterScheduleFYViewController: BaseTableViewController {
             make.bottom.equalTo(bottomBtnView.snp.top)
         }
         
-        self.tableView.register(UINib.init(nibName: HouseListTableViewCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
+        self.tableView.register(HouseListTableViewCell.self, forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
         self.tableView.register(RenterScheduleUserBasicCell.self, forCellReuseIdentifier: RenterScheduleUserBasicCell.reuseIdentifierStr)
         self.tableView.register(RenterScheduleYeZhuBasicCell.self, forCellReuseIdentifier: RenterScheduleYeZhuBasicCell.reuseIdentifierStr)
         
@@ -148,8 +148,8 @@ extension RenterScheduleFYViewController {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: HouseListTableViewCell.reuseIdentifierStr) as? HouseListTableViewCell
             cell?.selectionStyle = .none
-            cell?.houseFeatureView.isHidden = true
-            cell?.houseOfficeNumOrSquareNumLabel.isHidden = true
+            cell?.mianjiOrLianheView.isHidden = true
+            cell?.featureView.isHidden = true
             cell?.lineView.isHidden = true
             if let viewModel = messageFYViewModel {
                 cell?.messageViewModel = viewModel

@@ -39,6 +39,7 @@ public let FONT_MEDIUM_17 = UIFont.appMeduim(17)
 public let FONT_MEDIUM_18 = UIFont.appMeduim(18)
 public let FONT_SEMBLOD_11 = UIFont.appSemibold(11)
 public let FONT_SEMBLOD_13 = UIFont.appSemibold(13)
+public let FONT_SEMBLOD_14 = UIFont.appSemibold(14)
 public let FONT_SEMBLOD_16 = UIFont.appSemibold(16)
 public let FONT_BOLD_11 = UIFont.appBold(11)
 

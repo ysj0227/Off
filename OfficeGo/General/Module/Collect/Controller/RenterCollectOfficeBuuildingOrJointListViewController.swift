@@ -32,8 +32,8 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
             
             nologindataView?.isHidden = true
             
-            refreshData()
-            
+            loadNewData()
+
         }else {
             //没登录 - 显示登录按钮view
             nologindataView?.isHidden = false
@@ -108,7 +108,7 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
         
         isShowRefreshHeader = false
         
-        self.tableView.register(UINib.init(nibName: HouseListTableViewCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
+        self.tableView.register(HouseListTableViewCell.self, forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
         
         self.type = 1
         

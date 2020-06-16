@@ -31,7 +31,7 @@ class RenterCollectOfficeListViewController: BaseTableViewController {
             
             nologindataView?.isHidden = true
             
-            refreshData()
+            loadNewData()
             
         }else {
             //没登录 - 显示登录按钮view
