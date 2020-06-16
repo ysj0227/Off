@@ -207,11 +207,11 @@ class HouseListTableViewCell: BaseTableViewCell {
         housePriceLabel.text = viewModel.dayPriceString
         housePriceUnitLabel.text = viewModel.unitString
         if viewModel.btype == 1 {
-            mianjiOrLianheView.mianjiStringList = viewModel.areaString ?? ""
-            featureView.featureStringList = viewModel.tagsString ?? ""
+            mianjiOrLianheView.mianjiStringList = viewModel.areaString ?? []
+            featureView.featureStringList = viewModel.tagsString ?? []
         }else if viewModel.btype == 2 {
-            mianjiOrLianheView.lianheStringList = viewModel.jointDuliAndLianheNumString ?? ""
-            featureView.featureStringList = viewModel.tagsString ?? ""
+            mianjiOrLianheView.lianheStringList = viewModel.jointDuliAndLianheNumString ?? []
+            featureView.featureStringList = viewModel.tagsString ?? []
         }
     }
     

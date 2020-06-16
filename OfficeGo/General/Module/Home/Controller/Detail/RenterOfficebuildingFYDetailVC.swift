@@ -401,7 +401,7 @@ extension RenterOfficebuildingFYDetailVC {
         case FYDetailItemType.FYDetailItemTypeFeature:
             let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
             cell?.selectionStyle = .none
-            cell?.featureString = self.buildingFYDetailViewModel?.houseViewModel?.tagsString ?? ""
+            cell?.featureString = self.buildingFYDetailViewModel?.houseViewModel?.tagsString ?? []
             return cell ?? RenterFeatureCell.init(frame: .zero)
             
             

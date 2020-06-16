@@ -33,7 +33,7 @@ class RenterFeatureCell: BaseTableViewCell {
     }()
     
     
-    var featureString: String = "" {
+    var featureString: [String] = [] {
         didSet {
             featureView.featureNumofLinesStringDetail = featureString
         }
@@ -88,50 +88,50 @@ class RenterFeatureCell: BaseTableViewCell {
 class FeatureView: UIView {
       
     //办公楼面积显示 - 列表
-    var mianjiStringList: String = "" {
+    var mianjiStringList: [String] = [] {
         didSet {
             widthAdd = 30
-            setUpFeatureSubviews(str: mianjiStringList, font: FONT_10, bgColor: kAppColor_line_D8D8D8, titleColor: kAppColor_666666)
+            setUpFeatureSubviews(arr: mianjiStringList, font: FONT_10, bgColor: kAppColor_line_D8D8D8, titleColor: kAppColor_666666)
         }
     }
     
     //合作办公- 开发办公室和独立工位显示 - list
-    var lianheStringList: String = "" {
+    var lianheStringList: [String] = [] {
         didSet {
             widthAdd = 20
-            setUpFeatureSubviews(str: lianheStringList, font: FONT_10, bgColor: kAppBlueColor, titleColor: kAppWhiteColor)
+            setUpFeatureSubviews(arr: lianheStringList, font: FONT_10, bgColor: kAppBlueColor, titleColor: kAppWhiteColor)
         }
     }
     
     //特色设置 - 列表
-    var featureStringList: String = "" {
+    var featureStringList: [String] = [] {
         didSet {
             widthAdd = 40
-            setUpFeatureSubviews(str: featureStringList, font: FONT_MEDIUM_9, bgColor: kAppLightBlueColor, titleColor: kAppBlueColor)
+            setUpFeatureSubviews(arr: featureStringList, font: FONT_MEDIUM_9, bgColor: kAppLightBlueColor, titleColor: kAppBlueColor)
         }
     }
     
     //特色设置 - 详情
-       var featureStringDetail: String = "" {
+       var featureStringDetail: [String] = [] {
            didSet {
             widthAdd = 10
-               setUpFeatureSubviews(str: featureStringDetail, font: FONT_10, bgColor: kAppBlueColor, titleColor: kAppWhiteColor)
+               setUpFeatureSubviews(arr: featureStringDetail, font: FONT_10, bgColor: kAppBlueColor, titleColor: kAppWhiteColor)
            }
        }
        
     //特色设置 - 详情 - 多行显示
-    var featureNumofLinesStringDetail: String = "" {
+    var featureNumofLinesStringDetail: [String] = [] {
         didSet {
             widthAdd = 10
-            setUpNumofLinesFeatureSubviews(str: featureNumofLinesStringDetail, font: FONT_10, bgColor: kAppBlueColor, titleColor: kAppWhiteColor)
+            setUpNumofLinesFeatureSubviews(arr: featureNumofLinesStringDetail, font: FONT_10, bgColor: kAppBlueColor, titleColor: kAppWhiteColor)
         }
     }
     
-    func setUpNumofLinesFeatureSubviews(str: String, font: UIFont, bgColor: UIColor, titleColor: UIColor) {
+    func setUpNumofLinesFeatureSubviews(arr: [String], font: UIFont, bgColor: UIColor, titleColor: UIColor) {
         self.subviews.forEach { (view) in
             view.removeFromSuperview()
         }
-        let arr = str.split{$0 == ","}.map(String.init)
+//        let arr = str.split{$0 == ","}.map(String.init)
         var width: CGFloat = 0.0
         let height: CGFloat = 20.0
         var topY: CGFloat = 5.0
@@ -170,11 +170,10 @@ class FeatureView: UIView {
     //每一项宽度添加的width
     var widthAdd: CGFloat = 0
     
-    func setUpFeatureSubviews(str: String, font: UIFont, bgColor: UIColor, titleColor: UIColor) {
+    func setUpFeatureSubviews(arr: [String], font: UIFont, bgColor: UIColor, titleColor: UIColor) {
         self.subviews.forEach { (view) in
             view.removeFromSuperview()
         }
-        let arr = str.split{$0 == ","}.map(String.init)
         var width: CGFloat = 0.0
         for strs in arr {
             let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: self.height), font: font, lineSpacing: 0).width + widthAdd

@@ -36,8 +36,8 @@ class FangYuanBuildingDetailViewModel: NSObject {
     var imgUrl: [BannerModel]?       //banner图片
     var introductionViewModel : FangYuanBuildingIntroductionlViewModel?
     ///特色
-    var tagsString: String?
-    
+    var tagsString: [String]?             //特色
+
     ///特色高度
     var tagsHeight: CGFloat?
     
@@ -47,6 +47,7 @@ class FangYuanBuildingDetailViewModel: NSObject {
     var userId : String?
     
     init(model:FangYuanBuildingDetailModel) {
+        super.init()
         btype = model.btype
         IsFavorite = model.IsFavorite
         model.building?.btype = model.btype
@@ -56,35 +57,37 @@ class FangYuanBuildingDetailViewModel: NSObject {
         factorMap = model.factorMap
         imgUrl = model.imgUrl
         introductionViewModel = FangYuanBuildingIntroductionlViewModel.init(model: model.introduction ?? FangYuanBuildingIntroductionModel())
+        
         //特色
-        var tagArr: [String] = []
-        model.tags?.forEach({ (model) in
-            tagArr.append(model.dictCname ?? "")
+        tagsString = []
+        model.tags?.forEach({[weak self] (model) in
+            self?.tagsString?.append(model.dictCname ?? "")
         })
-        tagsString = tagArr.joined(separator: ",")
+        
         let widthAdd: CGFloat = 10
         let space: CGFloat = 9
         let maxWidth: CGFloat = kWidth - 50
         var width: CGFloat = 0.0
         let height: CGFloat = 20.0
         var topY: CGFloat = 5.0
-        
-        for strs in tagArr {
-            let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: height), font: FONT_10, lineSpacing: 0).width + widthAdd
-            if (width + (itemwidth + space)) > maxWidth {
-                topY += (height + 5)
-                width = 0.0
+        if let tagArr = tagsString {
+            for strs in tagArr {
+                let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: height), font: FONT_10, lineSpacing: 0).width + widthAdd
+                if (width + (itemwidth + space)) > maxWidth {
+                    topY += (height + 5)
+                    width = 0.0
+                }
+                width =  width + (itemwidth + space)
+                let index = tagArr.firstIndex(of: strs)
+                if index == tagArr.count - 1 {
+                    topY += (height + 5)
+                }
             }
-            width =  width + (itemwidth + space)
-            let index = tagArr.firstIndex(of: strs)
-            if index == tagArr.count - 1 {
-                topY += (height + 5)
+            if topY < 30 {
+                tagsHeight = 30
+            }else {
+                tagsHeight = topY
             }
-        }
-        if topY < 30 {
-            tagsHeight = 30
-        }else {
-            tagsHeight = topY
         }
         
         videoUrl = model.videoUrl

@@ -60,12 +60,13 @@ class FangYuanListViewModel: NSObject {
     var walkTimesubwayAndStationString: String?  //步行5分钟到 | 2号线 ·东昌路站
     var dayPriceString: String?         //日租金
     var unitString: String?             //单位 /m²/天起
-    var areaString: String?             //平方米
-    var tagsString: String?             //特色
-    var jointDuliAndLianheNumString: String?//联合办公 独立办公室和开放工位的数量
+    var areaString: [String]?             //平方米
+    var tagsString: [String]?             //特色
+    var jointDuliAndLianheNumString: [String]?//联合办公 独立办公室和开放工位的数量
     var rowHeight: CGFloat = 192
     
     init(model:FangYuanListModel) {
+        super.init()
         btype = model.btype
         idString = model.id
         Isfailure = model.Isfailure
@@ -94,29 +95,25 @@ class FangYuanListViewModel: NSObject {
         unitString = "/m²/天起"
         
         //面积
-        var areaArr: [String] = []
-        model.areaMap?.forEach({ (area) in
-            areaArr.append(String(format: "%.0fm²", area))
+        areaString = []
+        model.areaMap?.forEach({[weak self] (area) in
+            self?.areaString?.append(String(format: "%.0fm²", area))
         })
-        areaString = areaArr.joined(separator: ",")
-        
         //特色
-        var tagArr: [String] = []
-        model.tags?.forEach({ (model) in
-            tagArr.append(model.dictCname ?? "")
+        tagsString = []
+        model.tags?.forEach({[weak self] (model) in
+            self?.tagsString?.append(model.dictCname ?? "")
         })
-        tagsString = tagArr.joined(separator: ",")
         
         
         //开放工位数和独立办公室数量
-        var jointArr: [String] = []
+        jointDuliAndLianheNumString = []
         if model.independenceOffice ?? 0 > 0 {
-            jointArr.append("独立办公室\(model.independenceOffice ?? 0)间")
+            jointDuliAndLianheNumString?.append("独立办公室\(model.independenceOffice ?? 0)间")
         }
         if model.openStation ?? 0 > 0 {
-            jointArr.append("开放工位\(model.openStation ?? 0)个")
+            jointDuliAndLianheNumString?.append("开放工位\(model.openStation ?? 0)个")
         }
-        jointDuliAndLianheNumString = jointArr.joined(separator: ",")
         
         if model.tags?.count ?? 0 <= 0 {
             rowHeight = 192 - 30

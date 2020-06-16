@@ -580,7 +580,7 @@ extension RenterOfficebuildingDetailVC {
             case FYDetailItemType.FYDetailItemTypeFeature:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterFeatureCell.reuseIdentifierStr) as? RenterFeatureCell
                 cell?.selectionStyle = .none
-                cell?.featureString = self.buildingDetailViewModel?.tagsString ?? ""
+                cell?.featureString = self.buildingDetailViewModel?.tagsString ?? []
                 return cell ?? RenterFeatureCell.init(frame: .zero)
                 
             case FYDetailItemType.FYDetailItemTypeLianheOpenList:

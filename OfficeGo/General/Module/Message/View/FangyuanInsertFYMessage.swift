@@ -27,6 +27,7 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
     var walkTimesubwayAndStationString: String?
     ///日租金
     var dayPriceString: String?
+    //MARK: TODO: 只有插入消息 - 用字符串
     ///特色
     var tagsString: String?
     
@@ -282,7 +283,11 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         houseKmAndAddressLabel.text = viewModel?.distanceDistrictString ?? ""
         houseTrafficLabel.text = viewModel?.walkTimesubwayAndStationString ?? ""
         housePriceLabel.text = viewModel?.dayPriceString ?? ""
-        houseFeatureView.featureStringDetail = viewModel?.tagsString ?? ""
+//        houseFeatureView.featureStringDetail = viewModel?.tagsString ?? ""
+        if let str = viewModel?.tagsString {
+            let arr = str.split{$0 == ","}.map(String.init)
+            houseFeatureView.featureStringDetail = arr
+        }
         msgStartDescLabel.text = viewModel?.createTimeAndByWho ?? ""
         /*
         /collectBtn.isSelected = true

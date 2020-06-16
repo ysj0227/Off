@@ -116,8 +116,8 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     ///工位数
     var seatsString : String?
     
-    var tagsString : String?
-    
+    var tagsString: [String]?             //特色
+
     ///区域和商圈 徐汇区 · 徐家汇
     var addressString: String?
     
@@ -182,12 +182,9 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         }
         
         //特色
-        var tagArr: [String] = []
-        model.tags?.forEach({ (model) in
-            tagArr.append(model.dictCname ?? "")
+        model.tags?.forEach({[weak self] (model) in
+            self?.tagsString?.append(model.dictCname ?? "")
         })
-        tagsString = tagArr.joined(separator: ",")
-        
         let widthAdd: CGFloat = 10
         let space: CGFloat = 9
         let maxWidth: CGFloat = kWidth - 50
@@ -195,22 +192,24 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         let height: CGFloat = 20.0
         var topY: CGFloat = 5.0
         
-        for strs in tagArr {
-            let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: height), font: FONT_10, lineSpacing: 0).width + widthAdd
-            if (width + (itemwidth + space)) > maxWidth {
-                topY += (height + 5)
-                width = 0.0
+        if let tagArr = tagsString {
+            for strs in tagArr {
+                let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: height), font: FONT_10, lineSpacing: 0).width + widthAdd
+                if (width + (itemwidth + space)) > maxWidth {
+                    topY += (height + 5)
+                    width = 0.0
+                }
+                width =  width + (itemwidth + space)
+                let index = tagArr.firstIndex(of: strs)
+                if index == tagArr.count - 1 {
+                    topY += (height + 5)
+                }
             }
-            width =  width + (itemwidth + space)
-            let index = tagArr.firstIndex(of: strs)
-            if index == tagArr.count - 1 {
-                topY += (height + 5)
+            if topY < 30 {
+                tagsHeight = 30
+            }else {
+                tagsHeight = topY
             }
-        }
-        if topY < 30 {
-            tagsHeight = 30
-        }else {
-            tagsHeight = topY
         }
         
         let timeStr = "步行"
