@@ -305,11 +305,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
             }
                 ///聊天
             else if index == 98 {
-                AppUtilities.makeToast("请先选择一个房源")
-                //1
-                if self?.dataSourceArr.count ?? 0 > 0 {
-                    self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
-                }
+                self?.scrollToFY()
             }
                 ///分享
             else {
@@ -346,11 +342,8 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         //周边配套
         //        self.tableView.register(UINib.init(nibName: RenterAmbitusMatingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr)
         
-        //开放工位 - 独立办公室
-        self.tableView.register(UINib.init(nibName: RenterDetailFYListCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterDetailFYListCell.reuseIdentifierStr)
-        
         //        在租写字楼
-        self.tableView.register(UINib.init(nibName: RenterDetailOfficeListCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterDetailOfficeListCell.reuseIdentifierStr)
+        self.tableView.register(RenterDetailOfficeListCell.self, forCellReuseIdentifier: RenterDetailOfficeListCell.reuseIdentifierStr)
         
         self.view.addSubview(bottomBtnView)
         
@@ -371,17 +364,22 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         //找房东
         bottomBtnView.rightBtnClickBlock = { [weak self] in
-            AppUtilities.makeToast("请先选择一个房源")
-            //1
-            if self?.dataSourceArr.count ?? 0 > 0 {
-                self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
-            }
+            self?.scrollToFY()
         }
         
         requestSet()
         
     }
-    
+    func scrollToFY() {
+           AppUtilities.makeToast("请先选择一个房源")
+           //1
+           if dataSourceArr.count > 0 {
+               if dataSource.count > 0 {
+                   tableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
+               }
+               
+           }
+       }
     ///判断有没有登录
     func juddgeIsLogin() {
         //登录直接请求数据

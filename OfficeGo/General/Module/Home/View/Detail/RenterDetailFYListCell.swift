@@ -9,21 +9,122 @@
 import UIKit
 
 class RenterDetailFYListCell: BaseTableViewCell {
+    lazy var mainImageView: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.layer.cornerRadius = button_cordious_2
+        return view
+    }()
+    lazy var leftTopLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_11
+        view.textColor = kAppColor_333333
+        return view
+    }()
     
-    @IBOutlet weak var mainImageView: BaseImageView!
-    @IBOutlet weak var leftTopLabel: UILabel!
-    @IBOutlet weak var leftbottomLabel: UILabel!
-    @IBOutlet weak var rightPriceLabel: UILabel!
-    @IBOutlet weak var rightUnitLabel: UILabel!
-    @IBOutlet weak var rightBottomUnitLabel: UILabel!
+    lazy var leftbottomLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_9
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    lazy var rightPriceLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .right
+        view.font = FONT_11
+        view.textColor = kAppBlueColor
+        return view
+    }()
+    
+    lazy var rightUnitLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .right
+        view.font = FONT_11
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    lazy var rightBottomUnitLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .right
+        view.font = FONT_9
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
     
     class func rowHeight() -> CGFloat {
         return 84
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+        addSubview(mainImageView)
+        addSubview(leftTopLabel)
+        addSubview(leftbottomLabel)
+        addSubview(rightUnitLabel)
+        addSubview(rightPriceLabel)
+        addSubview(rightBottomUnitLabel)
+        addSubview(lineView)
+        
+        mainImageView.snp.makeConstraints { (make) in
+            make.leading.top.equalTo(left_pending_space_17)
+            make.top.bottom.equalToSuperview().inset(12)
+            make.width.equalTo(80)
+        }
+        
+        let width = (kWidth - left_pending_space_17 * 3 - 80) / 2.0
+        leftTopLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(mainImageView.snp.trailing).offset(left_pending_space_17)
+            make.top.equalTo(mainImageView.snp.top)
+            make.width.equalTo(width)
+            make.height.equalTo(30)
+        }
+        leftbottomLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(leftTopLabel)
+            make.top.equalTo(leftTopLabel.snp.bottom)
+            make.width.equalTo(width)
+            make.height.equalTo(leftTopLabel)
+        }
+        
+        rightUnitLabel.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.top.equalTo(leftTopLabel)
+            make.height.equalTo(leftTopLabel)
+        }
+        rightPriceLabel.snp.makeConstraints { (make) in
+            make.top.height.equalTo(rightUnitLabel)
+            make.trailing.equalTo(rightUnitLabel.snp.leading)
+//            make.leading.equalTo(leftTopLabel.snp.trailing)
+        }
+        rightBottomUnitLabel.snp.makeConstraints { (make) in
+            make.trailing.equalTo(rightUnitLabel)
+            make.top.equalTo(rightUnitLabel.snp.bottom)
+            make.width.equalTo(width)
+            make.height.equalTo(leftTopLabel)
+        }
+        lineView.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
+    }
+    
     /**
      ///开放工位
        ///工位数 - 30工位

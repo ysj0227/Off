@@ -147,7 +147,16 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         
         areaString = String(format: "%.0fm²", model.area ?? 0)
         
-        decorationString = model.decoration ?? ""
+        if let str = model.decoration {
+            if str.isBlankString == true {
+                decorationString = "--"
+            }else {
+                decorationString = model.decoration ?? ""
+            }
+        }else {
+            decorationString = "--"
+        }
+        
         
         monthPriceString = String(format: "%.0f/月", model.monthPrice ?? 0)
         

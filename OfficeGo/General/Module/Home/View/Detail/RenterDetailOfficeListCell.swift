@@ -9,22 +9,139 @@
 import UIKit
 
 class RenterDetailOfficeListCell: BaseTableViewCell {
-
-    @IBOutlet weak var mainImageView: BaseImageView!
-    @IBOutlet weak var leftTopLabel: UILabel!
-    @IBOutlet weak var leftbottomLabel: UILabel!
-    @IBOutlet weak var centerTopLabel: UILabel!
-    @IBOutlet weak var centerBottomLabel: UILabel!
-    @IBOutlet weak var rightDocumentLabel: UILabel!
-    @IBOutlet weak var rightBottomFloorLabel: UILabel!
-
+    
+    lazy var mainImageView: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.layer.cornerRadius = button_cordious_2
+        return view
+    }()
+    lazy var leftTopLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_11
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    
+    lazy var leftbottomLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_9
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    
+    lazy var centerTopLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .center
+        view.font = FONT_11
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    
+    lazy var centerBottomLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .center
+        view.font = FONT_9
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    
+    lazy var rightDocumentLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .right
+        view.font = FONT_11
+        view.textColor = kAppBlueColor
+        return view
+    }()
+    
+    lazy var rightBottomFloorLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .right
+        view.font = FONT_9
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
     
     class func rowHeight() -> CGFloat {
         return 84
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+        addSubview(mainImageView)
+        addSubview(leftTopLabel)
+        addSubview(leftbottomLabel)
+        addSubview(centerTopLabel)
+        addSubview(centerBottomLabel)
+        addSubview(rightDocumentLabel)
+        addSubview(rightBottomFloorLabel)
+        addSubview(lineView)
+        
+        mainImageView.snp.makeConstraints { (make) in
+            make.leading.top.equalTo(left_pending_space_17)
+            make.top.bottom.equalToSuperview().inset(12)
+            make.width.equalTo(80)
+        }
+        
+        let width = (kWidth - left_pending_space_17 * 3 - 80) / 3.0
+        leftTopLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(mainImageView.snp.trailing).offset(left_pending_space_17)
+            make.top.equalTo(mainImageView.snp.top)
+            make.width.equalTo(width)
+            make.height.equalTo(30)
+        }
+        leftbottomLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(leftTopLabel)
+            make.top.equalTo(leftTopLabel.snp.bottom)
+            make.width.equalTo(width)
+            make.height.equalTo(leftTopLabel)
+        }
+        centerTopLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(leftTopLabel.snp.trailing)
+            make.top.equalTo(leftTopLabel)
+            make.width.equalTo(width)
+            make.height.equalTo(leftTopLabel)
+        }
+        centerBottomLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(centerTopLabel)
+            make.top.equalTo(centerTopLabel.snp.bottom)
+            make.width.equalTo(width)
+            make.height.equalTo(leftTopLabel)
+        }
+        rightDocumentLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(centerTopLabel.snp.trailing)
+            make.top.equalTo(leftTopLabel)
+            make.width.equalTo(width)
+            make.height.equalTo(leftTopLabel)
+        }
+        rightBottomFloorLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(rightDocumentLabel)
+            make.top.equalTo(rightDocumentLabel.snp.bottom)
+            make.width.equalTo(width)
+            make.height.equalTo(leftTopLabel)
+        }
+        lineView.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
     }
     
     var model: FangYuanBuildingOpenStationModel = FangYuanBuildingOpenStationModel() {
@@ -48,9 +165,9 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
      ///月租金
      var buildingMonthPriceString : String?
      ///装修
-      var buildingDecoration : String?
+     var buildingDecoration : String?
      ///楼层
-      var buildingFloor : String?
+     var buildingFloor : String?
      */
     func setCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
         mainImageView.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: "wechat"))

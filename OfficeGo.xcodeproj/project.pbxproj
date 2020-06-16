@@ -11,7 +11,6 @@
 		040FACD0246E39AB001429C5 /* RenterSearchRecommendCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040FACCF246E39AB001429C5 /* RenterSearchRecommendCollectionCell.swift */; };
 		042CE446246A3387006243DD /* RenterHeaderItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CE445246A3387006243DD /* RenterHeaderItemSelectView.swift */; };
 		042CE44B246A66DD006243DD /* RenterDetailFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CE449246A66DD006243DD /* RenterDetailFYListCell.swift */; };
-		042CE44C246A66DD006243DD /* RenterDetailFYListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042CE44A246A66DD006243DD /* RenterDetailFYListCell.xib */; };
 		042D46B32489E6D0003B6305 /* FangYuanSearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B22489E6D0003B6305 /* FangYuanSearchResultModel.swift */; };
 		042D46B52489F974003B6305 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B42489F974003B6305 /* SearchResultTableViewCell.swift */; };
 		042D46B7248A2138003B6305 /* ESearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */; };
@@ -35,7 +34,6 @@
 		0437CFB5247E18850015C355 /* SSCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB4247E18850015C355 /* SSCode.swift */; };
 		0437CFB7247E1A5D0015C355 /* SSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB6247E1A5D0015C355 /* SSAPI.swift */; };
 		043F0423246AA6BF0070CE4B /* RenterDetailOfficeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043F0421246AA6BF0070CE4B /* RenterDetailOfficeListCell.swift */; };
-		043F0424246AA6BF0070CE4B /* RenterDetailOfficeListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043F0422246AA6BF0070CE4B /* RenterDetailOfficeListCell.xib */; };
 		043F0426246BA1BE0070CE4B /* RenterOfficebuildingFYDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043F0425246BA1BE0070CE4B /* RenterOfficebuildingFYDetailVC.swift */; };
 		043F0428246BC6D20070CE4B /* RenterShareServiceShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043F0427246BC6D20070CE4B /* RenterShareServiceShowView.swift */; };
 		046689222472548800A76669 /* ConfigureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046689212472548800A76669 /* ConfigureModel.swift */; };
@@ -251,7 +249,6 @@
 		040FACCF246E39AB001429C5 /* RenterSearchRecommendCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterSearchRecommendCollectionCell.swift; sourceTree = "<group>"; };
 		042CE445246A3387006243DD /* RenterHeaderItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterHeaderItemSelectView.swift; sourceTree = "<group>"; };
 		042CE449246A66DD006243DD /* RenterDetailFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterDetailFYListCell.swift; sourceTree = "<group>"; };
-		042CE44A246A66DD006243DD /* RenterDetailFYListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RenterDetailFYListCell.xib; sourceTree = "<group>"; };
 		042D46B22489E6D0003B6305 /* FangYuanSearchResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FangYuanSearchResultModel.swift; sourceTree = "<group>"; };
 		042D46B42489F974003B6305 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		042D46B6248A2138003B6305 /* ESearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESearchResultListViewController.swift; sourceTree = "<group>"; };
@@ -275,7 +272,6 @@
 		0437CFB4247E18850015C355 /* SSCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSCode.swift; sourceTree = "<group>"; };
 		0437CFB6247E1A5D0015C355 /* SSAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSAPI.swift; sourceTree = "<group>"; };
 		043F0421246AA6BF0070CE4B /* RenterDetailOfficeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterDetailOfficeListCell.swift; sourceTree = "<group>"; };
-		043F0422246AA6BF0070CE4B /* RenterDetailOfficeListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RenterDetailOfficeListCell.xib; sourceTree = "<group>"; };
 		043F0425246BA1BE0070CE4B /* RenterOfficebuildingFYDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficebuildingFYDetailVC.swift; sourceTree = "<group>"; };
 		043F0427246BC6D20070CE4B /* RenterShareServiceShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterShareServiceShowView.swift; sourceTree = "<group>"; };
 		046689212472548800A76669 /* ConfigureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureModel.swift; sourceTree = "<group>"; };
@@ -701,9 +697,7 @@
 				EE6070DC2468FE2A0098CAC2 /* RenterAmbitusMatingCell.xib */,
 				042CE445246A3387006243DD /* RenterHeaderItemSelectView.swift */,
 				042CE449246A66DD006243DD /* RenterDetailFYListCell.swift */,
-				042CE44A246A66DD006243DD /* RenterDetailFYListCell.xib */,
 				043F0421246AA6BF0070CE4B /* RenterDetailOfficeListCell.swift */,
-				043F0422246AA6BF0070CE4B /* RenterDetailOfficeListCell.xib */,
 				043F0427246BC6D20070CE4B /* RenterShareServiceShowView.swift */,
 			);
 			path = Detail;
@@ -1308,7 +1302,6 @@
 			files = (
 				EEE87AD32455854E00C03424 /* LaunchScreen.storyboard in Resources */,
 				EE6070DE2468FE2A0098CAC2 /* RenterAmbitusMatingCell.xib in Resources */,
-				043F0424246AA6BF0070CE4B /* RenterDetailOfficeListCell.xib in Resources */,
 				EEB1F9D724585513000500A3 /* ZJPictureCollectionCell.xib in Resources */,
 				EEE87B202455856800C03424 /* Images.xcassets in Resources */,
 				EEE87AD02455854E00C03424 /* Assets.xcassets in Resources */,
@@ -1320,7 +1313,6 @@
 				EE6070C62468FC5D0098CAC2 /* RenterDetailTrafficCell.xib in Resources */,
 				EE353ED32456F4A700057545 /* HouseFeatureCell.xib in Resources */,
 				EE353ED72456FBA700057545 /* HouseTypeCell.xib in Resources */,
-				042CE44C246A66DD006243DD /* RenterDetailFYListCell.xib in Resources */,
 				EEE0D9712465665E00E5C77B /* ShareViewController.xib in Resources */,
 				EE353EC52456DEBB00057545 /* RoleSelectTableViewCell.xib in Resources */,
 				EE6070D22468FD470098CAC2 /* RenterOfficebuildingDeatailHuxingCell.xib in Resources */,

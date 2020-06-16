@@ -558,7 +558,11 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
             buildingDayPriceString = String(format: "¥%.0f /㎡/天", model.dayPrice ?? 0)
             buildingMonthPriceString = String(format: "¥%.0f /月", model.monthPrice ?? 0)
             buildingDecoration = model.decoration ?? ""
-            buildingFloor = "\(model.floor ?? "0")/共\(model.totalFloor ?? "0")层"
+            if model.floor?.isBlankString ?? false == true && model.totalFloor?.isBlankString ?? false == true {
+                buildingFloor = "--"
+            }else {
+                buildingFloor = "\(model.floor ?? "0")/共\(model.totalFloor ?? "0")层"
+            }
         }else if btype == 2 {
             
             officeType = model.officeType

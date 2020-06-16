@@ -32,7 +32,7 @@
                             <constraint firstAttribute="height" constant="155" id="FwZ-Bk-9Bv"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="门朝北，窗户朝向南，2个独立办公室，1间大会议室，3间小会议室" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoJ-OW-yIH">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoJ-OW-yIH">
                         <rect key="frame" x="17" y="227" width="248" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="zhN-62-aF5"/>
