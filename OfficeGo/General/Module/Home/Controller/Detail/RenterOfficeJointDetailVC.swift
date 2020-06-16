@@ -307,7 +307,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
             if index == 97 {
                 
             }
-            ///聊天
+                ///聊天
             else if index == 98 {
                 AppUtilities.makeToast("请先选择一个房源")
                 //3
@@ -316,7 +316,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
                     
                 }
             }
-            ///分享
+                ///分享
             else {
                 
             }
@@ -369,9 +369,9 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
             make.top.equalTo(0)
             make.bottom.equalToSuperview().offset(-(bottomMargin() + 50))
         }
-        //左边收藏按钮
+        //左边收藏按钮 - 判断有没有登录 -
         bottomBtnView.leftBtnClickBlock = { [weak self] in
-            self?.collectClick()
+            self?.juddgeIsLogin()
         }
         
         //找房东
@@ -387,14 +387,33 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         requestSet()
         
     }
+    ///判断有没有登录
+    func juddgeIsLogin() {
+        //登录直接请求数据
+        if isLogin() == true {
+            
+            collectClick()
+            
+        }else {
+            //没登录 - 谈登录
+            showLoginVC()
+        }
+    }
     
+    func showLoginVC() {
+        let vc = ReviewLoginViewController()
+        vc.isFromOtherVC = true
+        vc.closeViewBack = {[weak self] (isClose) in
+            guard let weakSelf = self else {return}
+            weakSelf.juddgeIsLogin()
+        }
+        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
+        loginNav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(loginNav, animated: true, completion: nil)
+    }
     //MARK: 收藏按钮点击 - 调用接口 0是收藏1是取消收藏
     func collectClick() {
-        
-        ///添加登录状态
-        if self.isLogin() != true {
-            return
-        }
         
         var params = [String:AnyObject]()
         

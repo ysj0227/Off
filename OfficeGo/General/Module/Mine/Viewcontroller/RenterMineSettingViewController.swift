@@ -127,8 +127,19 @@ extension RenterMineSettingViewController {
         alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
             
         }) {
-            //退出登录
-            NotificationCenter.default.post(name: NSNotification.Name.UserLogout, object: nil)
+            
+            //退出登录 - 判断是业主还是租户
+            //业主- 直接退出登录 -
+            //租户- 返回个人中心 - 个人中心状态刷新为未登录
+            /// role 角色 用户身份类型,,0:租户,1:业主,9:其他
+            if UserTool.shared.user_id_type == 0 {
+                //不清空身份类型
+                UserTool.shared.removeAll()
+                self.leftBtnClick()
+
+            }else if UserTool.shared.user_id_type == 1 {
+                NotificationCenter.default.post(name: NSNotification.Name.UserLogout, object: nil)
+            }
         }
     }
 }

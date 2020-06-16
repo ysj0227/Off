@@ -15,8 +15,40 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
     //1为楼盘网点收藏，2为房源收藏
     var type: Int?
     
+    
+    //无数据view
+    var nologindataView :NoDataShowView?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        juddgeIsLogin()
+    }
+    
+    ///判断有没有登录
+    func juddgeIsLogin() {
+        //登录直接请求数据
+        if isLogin() == true {
+            
+            nologindataView?.isHidden = true
+            
+            refreshData()
+            
+        }else {
+            //没登录 - 显示登录按钮view
+            nologindataView?.isHidden = false
+            
+            if self.dataSource.count > 0 {
+                self.dataSource.removeAll()
+                self.dataSourceViewModel.removeAll()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    
     var dataSourceViewModel: [FangYuanListViewModel?] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,7 +59,7 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
     override func refreshData() {
         if pageNo == 1 {
             if self.dataSourceViewModel.count > 0 {
-               self.dataSourceViewModel.removeAll()
+                self.dataSourceViewModel.removeAll()
             }
         }
         var params = [String:AnyObject]()
@@ -80,7 +112,31 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
         
         self.type = 1
         
-        refreshData()
+        nologindataView = NoDataShowView.init(frame: CGRect(x: 0, y: -kNavigationHeight, width: self.view.width, height: self.view.height - kNavigationHeight))
+        nologindataView?.isHidden = true
+        self.view.addSubview(nologindataView ?? NoDataShowView(frame: CGRect(x: 0, y: -kNavigationHeight, width: self.view.width, height: self.view.height - kNavigationHeight)))
+        
+        nologindataView?.loginCallBack = {[weak self] in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.showLoginVC()
+        }
+        
+    }
+    
+    func showLoginVC() {
+        let vc = ReviewLoginViewController()
+        vc.isFromOtherVC = true
+        vc.closeViewBack = {[weak self] (isClose) in
+            guard let weakSelf = self else {return}
+            weakSelf.juddgeIsLogin()
+        }
+        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
+        loginNav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(loginNav, animated: true, completion: nil)
+        
     }
     
     
@@ -105,7 +161,7 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if dataSourceViewModel.count > 0 {
+        if dataSourceViewModel.count > indexPath.row {
             return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
         }else {
             return 192

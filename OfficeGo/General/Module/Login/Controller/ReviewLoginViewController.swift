@@ -192,9 +192,6 @@ class ReviewLoginViewController: BaseViewController {
     
     //登录跳过直接到tabbar - 租户设置已经点击过跳过
     override func rightBtnClick() {
-        //TODO: 添加登录token
-        //点击过 如果点击登录- 不需要设置tabbar - 直接登录刷新数据就好了
-        UserTool.shared.user_renter_clickTap = 1
         
         NotificationCenter.default.post(name: NSNotification.Name.SetTabbarViewController, object: nil)
         
@@ -202,10 +199,13 @@ class ReviewLoginViewController: BaseViewController {
     
     //登录之后 跳到我想找页面
     func loginBtnClick() {
-        SSTool.invokeInMainThread { [weak self] in
-            let iwanttovc = IWantToFindViewController()
-            self?.navigationController?.pushViewController(iwanttovc, animated: false)
-        }
+        //都是跳转到tabbar
+        NotificationCenter.default.post(name: NSNotification.Name.SetTabbarViewController, object: nil)
+        
+//        SSTool.invokeInMainThread { [weak self] in
+//            let iwanttovc = IWantToFindViewController()
+//            self?.navigationController?.pushViewController(iwanttovc, animated: false)
+//        }
 
     }
     @objc override func leftBtnClick() {
@@ -221,7 +221,7 @@ class ReviewLoginViewController: BaseViewController {
         titleview = ThorNavigationView.init(type: .backTitleRight)
         titleview?.backTitleRightView.backgroundColor = kAppClearColor
         titleview?.leftButton.isHidden = false
-        titleview?.rightButton.isHidden = false
+        titleview?.rightButton.isHidden = true
         titleview?.rightButton.setTitle("跳过", for: .normal)
         titleview?.rightButton.backgroundColor = kAppBlueColor
         titleview?.rightButton.setTitleColor(kAppWhiteColor, for: .normal)
@@ -460,15 +460,23 @@ class ReviewLoginViewController: BaseViewController {
             }
             
             if self?.isFromOtherVC == true {
-                self?.closeViewBack(1)
-            }else {
+                ///发出登录成功通知 - 登录融云
                 NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+                ///和左上角返回 - 做登录成功判断- 1为登录成功
+                self?.closeViewBack(1)
+                self?.setNextEnable()
+                self?.dismiss(animated: true, completion: nil)
+
+            }else {
+                ///发出登录成功通知 - 登录融云
+                NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+                    self?.loginBtnClick()
+                    self?.setNextEnable()
+                })
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
-                self?.loginBtnClick()
-                self?.setNextEnable()
-            })
+            
             }, failure: {[weak self] (error) in
                 self?.setNextEnable()
 
@@ -480,7 +488,7 @@ class ReviewLoginViewController: BaseViewController {
             self?.setNextEnable()
         }
     }
-    
+
     func setNextEnable() {
         SSTool.invokeInMainThread { [weak self] in
             self?.nextButton.isUserInteractionEnabled = true

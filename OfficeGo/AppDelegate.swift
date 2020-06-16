@@ -47,9 +47,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func notifyObserve() {
         //设置tabar
         NotificationCenter.default.addObserver(self, selector: #selector(setTabar), name: NSNotification.Name.SetTabbarViewController, object: nil)
-        //登录成功通知
+        //登录成功通知 - 只设置登录融云
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccess), name: NSNotification.Name.UserLogined, object: nil)
-        //退出登录
+        //退出登录 - 只有业主
         NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name.UserLogout, object: nil)
         //切换身份
         NotificationCenter.default.addObserver(self, selector: #selector(roleChange), name: NSNotification.Name.UserRoleChange, object: nil)
@@ -110,7 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    //登录成功 - 登录融云 - 设置tabbar
+    //登录成功 - 登录融云
     @objc func loginSuccess(){
         
         //登录融云
@@ -119,51 +119,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func runTabBarViewController() -> Void {
         
-        if UserTool.shared.isLogin() == true {
+        //0:租户,1:业主,9:其他
+        if UserTool.shared.user_id_type == 0 {
             
-            //登录直接登录融云 -
-            loginRongCloud()
-            
-            //然后设置tabbar
-            setTabar()
+            //登录 -
+            if UserTool.shared.isLogin() == true {
+                
+                //登录直接登录融云 -
+                loginRongCloud()
+                
+                //然后设置tabbar
+                setTabar()
+                
+            }else {
+                //然后设置tabbar
+                setTabar()
+            }
+        
+        }else if UserTool.shared.user_id_type == 1 {
             
         }else {
-            
-            //未登录判断
-            //
-            //            //0:租户,1:业主,9:其他
-            //           if UserTool.shared.user_id_type == 0 {
-            //
-            //               //不清空身份类型
-            //               //如果是租户 - 之前已经点击跳过了 - 不需要设置tabbar   user_renter_clickTap = 1点过
-            //               if UserTool.shared.user_renter_clickTap == 1{
-            //                   //不清空身份类型
-            //                   let tabbarVC = MainTabBarController()
-            //                   window?.rootViewController = tabbarVC
-            //               }else {
-            //
-            //               }
-            //               let tabbarVC = MainTabBarController()
-            //               window?.rootViewController = tabbarVC
-            //
-            //           }else if UserTool.shared.user_id_type == 1 {
-            //          }
-            
             let rolechangeVC = LoginRoleViewController()
             navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
             navigationController?.navigationBar.isHidden = true
             window?.rootViewController = navigationController
+            
         }
-        //        if !UserInfo.shared().isLogin() {
-        //            let rolechangeVC = LoginRoleViewController()
-        //            navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
-        //            navigationController?.navigationBar.isHidden = true
-        //            window?.rootViewController = navigationController
-        //            return
-        //        }else {
-        //            //登录直接登录融云 - 然后设置tabbar
-        //            loginRongCloud()
-        //        }
     }
 }
 

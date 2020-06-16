@@ -13,7 +13,7 @@ extension Notification.Name {
     public static let NetStatusChange = Notification.Name("NetStatusChange")
     /// 设置rootviewcontroller
     public static let SetTabbarViewController = Notification.Name("setTabbarViewController")
-    /// 用户登录
+    /// 用户登录 - 只是用于更新融云token登录
     public static let UserLogined = Notification.Name("userLogined")
     /// 用户推出
     public static let UserLogout = Notification.Name("userLogout")

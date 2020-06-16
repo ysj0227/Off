@@ -268,22 +268,26 @@ class NoDataShowView: UIView {
      }()
      
     @objc func loginBtnClick() {
-        
-        loginCallBack()
+        guard let blockk = loginCallBack else {
+            return
+        }
+        blockk()
     }
     
-     var loginCallBack:(() -> Void) = {}
+     var loginCallBack:(() -> Void)?
 
     override init(frame: CGRect)  {
          
          super.init(frame: frame)
+        
+        self.backgroundColor = kAppWhiteColor
          
          //217
-
+    
         addSubview(noDataView)
         
          noDataView.snp.makeConstraints { (make) in
-             make.centerY.equalToSuperview().offset(-60)
+             make.center.equalToSuperview()
              make.size.equalTo(CGSize(width: kWidth, height: 217))
          }
          noDataImageView.snp.makeConstraints { (make) in

@@ -95,7 +95,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     func setItemFunc() {
         
         //1是办公楼，2是联合办公
-
+        
         //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
         if let params = shaiXuanParams {
             if let seats = params["area"] {
@@ -260,7 +260,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         if self.dataSource.count > 0 {
             self.dataSource.removeAll()
         }
-                
+        
         refreshDataList()
     }
     
@@ -303,7 +303,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
             if index == 97 {
                 
             }
-            ///聊天
+                ///聊天
             else if index == 98 {
                 AppUtilities.makeToast("请先选择一个房源")
                 //1
@@ -311,7 +311,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
                     self?.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
                 }
             }
-            ///分享
+                ///分享
             else {
                 
             }
@@ -364,9 +364,9 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
             make.top.equalTo(0)
             make.bottom.equalToSuperview().offset(-(bottomMargin() + 50))
         }
-        //左边收藏按钮
+        //左边收藏按钮 - 判断有没有登录 - 
         bottomBtnView.leftBtnClickBlock = { [weak self] in
-            self?.collectClick()
+            self?.juddgeIsLogin()
         }
         
         //找房东
@@ -382,13 +382,34 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         
     }
     
+    ///判断有没有登录
+    func juddgeIsLogin() {
+        //登录直接请求数据
+        if isLogin() == true {
+            
+            collectClick()
+            
+        }else {
+            //没登录 - 谈登录
+            showLoginVC()
+        }
+    }
+    
+    func showLoginVC() {
+        let vc = ReviewLoginViewController()
+        vc.isFromOtherVC = true
+        vc.closeViewBack = {[weak self] (isClose) in
+            guard let weakSelf = self else {return}
+            weakSelf.juddgeIsLogin()
+        }
+        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
+        loginNav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(loginNav, animated: true, completion: nil)
+    }
+    
     //MARK: 收藏按钮点击 - 调用接口 0是收藏1是取消收藏
     func collectClick() {
-        
-        ///添加登录状态
-        if self.isLogin() != true {
-            return
-        }
         
         var params = [String:AnyObject]()
         
@@ -891,7 +912,7 @@ class RenterDetailSourceView: UIView {
         self.frame = frame
         
         cycleView.invalidateTimer()
-
+        
         addSubview(cycleView)
         addSubview(videoView)
         addSubview(changeBtnView)

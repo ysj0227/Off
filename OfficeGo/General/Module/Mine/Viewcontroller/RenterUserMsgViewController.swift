@@ -157,6 +157,7 @@ extension RenterUserMsgViewController {
             
             if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
                 UserTool.shared.user_avatars = model.avatar
+                AppUtilities.makeToast("头像已修改")
             }
             }, failure: { (error) in
                 
@@ -181,7 +182,12 @@ extension RenterUserMsgViewController {
         
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
-            self?.postUserMsgChangeNotify()
+            SSTool.delay(time: 3) {
+                
+                self?.leftBtnClick()
+                
+                AppUtilities.makeToast("个人信息已更新")
+            }
             
             }, failure: { (error) in
                 
@@ -193,9 +199,7 @@ extension RenterUserMsgViewController {
             }
         }
     }
-    func postUserMsgChangeNotify() {
-//        NotificationCenter.default.post(name: Notification.Name.userChanged, object: nil)
-    }
+    
     
 }
 extension UIImage {

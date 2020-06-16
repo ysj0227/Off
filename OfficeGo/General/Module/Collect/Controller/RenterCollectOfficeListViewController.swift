@@ -27,7 +27,7 @@ class RenterCollectOfficeListViewController: BaseTableViewController {
     ///判断有没有登录
     func juddgeIsLogin() {
         //登录直接请求数据
-         if isLogin() == true {
+        if isLogin() == true {
             
             nologindataView?.isHidden = true
             
@@ -58,18 +58,17 @@ class RenterCollectOfficeListViewController: BaseTableViewController {
         
         self.type = 2
         
+        nologindataView = NoDataShowView.init(frame: CGRect(x: 0, y: -kNavigationHeight, width: self.view.width, height: self.view.height - kNavigationHeight))
         nologindataView?.isHidden = true
-        self.view.addSubview(nologindataView ?? NoDataShowView(frame: self.view.frame))
+        self.view.addSubview(nologindataView ?? NoDataShowView(frame: CGRect(x: 0, y: -kNavigationHeight, width: self.view.width, height: self.view.height - kNavigationHeight)))
         
-        
-        nologindataView = NoDataShowView.init(frame: self.view.frame)
         nologindataView?.loginCallBack = {[weak self] in
-                
-                guard let weakSelf = self else {return}
-                
-                weakSelf.showLoginVC()
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.showLoginVC()
         }
-
+        
     }
     
     func showLoginVC() {
@@ -171,7 +170,7 @@ extension RenterCollectOfficeListViewController {
                     AppUtilities.makeToast(SSCode.ERROR_CODE_7014.msg)
                 }
             }
-
+            
         }
     }
 }

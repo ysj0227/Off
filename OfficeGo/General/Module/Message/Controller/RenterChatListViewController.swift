@@ -15,6 +15,9 @@ class RenterChatListViewController: RCConversationListViewController {
     var index: Int?
     
     var isClick: Bool?
+    
+    //无数据view
+    var nologindataView :NoDataShowView?
 
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
@@ -25,7 +28,24 @@ class RenterChatListViewController: RCConversationListViewController {
          super.viewWillAppear(animated)
          let tab = self.navigationController?.tabBarController as? MainTabBarController
          tab?.customTabBar.isHidden = false
+        juddgeIsLogin()
      }
+
+    ///判断有没有登录
+    func juddgeIsLogin() {
+        //登录直接请求数据
+        if UserTool.shared.isLogin() == true {
+            
+            nologindataView?.isHidden = true
+
+            self.refreshConversationTableViewIfNeeded()
+        }else {
+            //没登录 - 显示登录按钮view
+            nologindataView?.isHidden = false
+            
+            self.refreshConversationTableViewIfNeeded()
+        }
+    }
 
     
     func updateBadgeValueForTabBarItem() {
@@ -80,8 +100,31 @@ extension RenterChatListViewController {
             make.bottom.equalToSuperview()
         }
         
+        nologindataView = NoDataShowView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: self.view.width, height: self.view.height - kNavigationHeight))
+        nologindataView?.isHidden = true
+        self.view.addSubview(nologindataView ?? NoDataShowView(frame: CGRect(x: 0, y: kNavigationHeight, width: self.view.width, height: self.conversationListTableView.height - kTabBarHeight - kTabBarHeight)))
+        
+        nologindataView?.loginCallBack = {[weak self] in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.showLoginVC()
+        }
+
     }
-    
+    func showLoginVC() {
+        let vc = ReviewLoginViewController()
+        vc.isFromOtherVC = true
+        vc.closeViewBack = {[weak self] (isClose) in
+            guard let weakSelf = self else {return}
+            weakSelf.juddgeIsLogin()
+        }
+        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
+        loginNav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(loginNav, animated: true, completion: nil)
+
+    }
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         var mActionArray = [UITableViewRowAction]()
         let deleteAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "删除") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in

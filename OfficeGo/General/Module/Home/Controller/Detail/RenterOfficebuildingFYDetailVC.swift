@@ -37,7 +37,7 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         didSet {
             
             setCollectBtnState(isCollect:false)
-
+            
             refreshData()
         }
     }
@@ -72,11 +72,11 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     }
     
     override func leftBtnClick() {
-         tableHeaderView.cycleView.removeFromSuperview()
-         tableHeaderView.releaseWMplayer()
-         self.navigationController?.popViewController(animated: true)
-     }
-     
+        tableHeaderView.cycleView.removeFromSuperview()
+        tableHeaderView.releaseWMplayer()
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,11 +110,11 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
             if index == 97 {
                 
             }
-            ///聊天
+                ///聊天
             else if index == 98 {
                 weakSelf.requestCreateChat()
             }
-            ///分享
+                ///分享
             else {
                 
             }
@@ -160,9 +160,9 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
             make.top.equalTo(0)
             make.bottom.equalToSuperview().offset(-(bottomMargin() + 50))
         }
-        //左边收藏按钮
+        //左边收藏按钮 - 判断有没有登录 -
         bottomBtnView.leftBtnClickBlock = { [weak self] in
-            self?.collectClick()
+            self?.juddgeIsLogin()
         }
         
         //找房东
@@ -182,11 +182,11 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     }
     
     func requestCreateChat() {
-               
-         ///添加登录状态
-         if self.isLogin() != true {
-             return
-         }
+        
+        ///添加登录状态
+        if self.isLogin() != true {
+            return
+        }
         
         var params = [String:AnyObject]()
         
@@ -205,22 +205,41 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
             }, failure: { (error) in
                 
         }) { (code, message) in
-                                    
+            
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
             }
         }
     }
+    ///判断有没有登录
+    func juddgeIsLogin() {
+        //登录直接请求数据
+        if isLogin() == true {
+            
+            collectClick()
+            
+        }else {
+            //没登录 - 谈登录
+            showLoginVC()
+        }
+    }
     
+    func showLoginVC() {
+        let vc = ReviewLoginViewController()
+        vc.isFromOtherVC = true
+        vc.closeViewBack = {[weak self] (isClose) in
+            guard let weakSelf = self else {return}
+            weakSelf.juddgeIsLogin()
+        }
+        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
+        loginNav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(loginNav, animated: true, completion: nil)
+    }
     //MARK: 收藏按钮点击 - 调用接口 0是收藏1是取消收藏
     func collectClick() {
         
-        ///添加登录状态
-        if self.isLogin() != true {
-            return
-        }
-                
         var params = [String:AnyObject]()
         
         //0 添加收藏

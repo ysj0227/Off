@@ -38,7 +38,20 @@ class RenterMineViewController: BaseTableViewController {
         setUpData()
         
     }
- 
+ ///判断有没有登录
+    func juddgeIsLogin() {
+        //登录直接请求数据
+        if isLogin() == true {
+                        
+            requestUserMessage()
+            
+        }else {
+            //没登录 - 显示登录按钮view
+            //清空之前的用户信息模型
+            userModel = nil
+            headerView.isNoLoginShowView = true
+        }
+    }
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
          let tab = self.navigationController?.tabBarController as? MainTabBarController
@@ -49,7 +62,7 @@ class RenterMineViewController: BaseTableViewController {
          let tab = self.navigationController?.tabBarController as? MainTabBarController
          tab?.customTabBar.isHidden = false
         
-        requestUserMessage()
+        juddgeIsLogin()
      }
      
     deinit {
@@ -60,6 +73,31 @@ class RenterMineViewController: BaseTableViewController {
 
 
 extension RenterMineViewController {
+    
+    ///头像点击方法 - 判断有没有登录
+    func headerViewClick() {
+        if isLogin() == true {
+            let vc = RenterUserMsgViewController()
+            vc.userModel = self.userModel
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            showLoginVC()
+        }
+    }
+    
+    func showLoginVC() {
+        let vc = ReviewLoginViewController()
+        vc.isFromOtherVC = true
+        vc.closeViewBack = {[weak self] (isClose) in
+            guard let weakSelf = self else {return}
+            weakSelf.juddgeIsLogin()
+        }
+        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
+        loginNav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(loginNav, animated: true, completion: nil)
+        
+    }
     
     func setUpView() {
         
@@ -72,9 +110,7 @@ extension RenterMineViewController {
         self.view.addSubview(headerView)
         
         headerView.headerBtnClickBlock = { [weak self] in
-            let vc = RenterUserMsgViewController()
-            vc.userModel = self?.userModel
-            self?.navigationController?.pushViewController(vc, animated: true)
+            self?.headerViewClick()
         }
         
         headerView.setBtnClickBlock = { [weak self] in
@@ -123,8 +159,11 @@ extension RenterMineViewController {
         case .RenterMineTypeIWanttoFind:
             print(typeSourceArray[indexPath.row].type)
         case .RenterMineTypeHouseSchedule:
-            let vc = RenterHouseScheduleViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            if isLogin() == true {
+                let vc = RenterHouseScheduleViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
         case .RenterMineTypeHelpAndFeedback:
             print(typeSourceArray[indexPath.row].type)
         case .RenterMineTypeCusomers:
@@ -179,7 +218,7 @@ class RenterUserHeaderView: UIView {
     
     lazy var nameLabel: UILabel = {
         let view = UILabel()
-        view.font = FONT_MEDIUM_17
+        view.font = FONT_MEDIUM_18
         view.textColor = kAppWhiteColor
         return view
     }()
@@ -190,14 +229,35 @@ class RenterUserHeaderView: UIView {
         view.textColor = kAppWhiteColor
         return view
     }()
-    
+    lazy var loginbutton: UIButton = {
+        let view = UIButton()
+        view.setTitle("立即登录", for: .normal)
+        view.titleLabel?.font = FONT_12
+        view.setCornerRadius(cornerRadius: 15, masksToBounds: true)
+        view.layer.borderColor = kAppWhiteColor.cgColor
+        view.layer.borderWidth = 1.0
+        view.setTitleColor(kAppWhiteColor, for: .normal)
+        view.addTarget(self, action: #selector(leftBtnClick), for: .touchUpInside)
+        return view
+    }()
     var headerBtnClickBlock: (() -> Void)?
     
     var setBtnClickBlock: (() -> Void)?
     
+    var isNoLoginShowView: Bool = false {
+        didSet {
+            if isNoLoginShowView == true {
+                loginbutton.isHidden = false
+                headerImg.image = UIImage.init(named: "avatar")
+                nameLabel.text = "未登录"
+                introductionLabel.text = "登录开启所有精彩"
+            }
+        }
+    }
+    
     var userModel: LoginUserModel = LoginUserModel() {
         didSet {
-//            headerImg.setImage(with: userModel.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
+            loginbutton.isHidden = true
             headerImg.kf.setImage(with: URL(string: userModel.avatar ?? ""), placeholder: UIImage.init(named: "avatar"), options: nil, progressBlock: { (receivedSize, totalSize) in
                 
                 print("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
@@ -233,7 +293,7 @@ class RenterUserHeaderView: UIView {
         headerViewBtn.addSubview(headerImg)
         headerViewBtn.addSubview(nameLabel)
         headerViewBtn.addSubview(introductionLabel)
-        
+        headerViewBtn.addSubview(loginbutton)
         settingBtn.snp.makeConstraints { (make) in
             make.top.equalTo(kStatusBarHeight + 20)
             make.trailing.equalTo(-left_pending_space_17)
@@ -257,6 +317,11 @@ class RenterUserHeaderView: UIView {
             make.top.equalTo(nameLabel.snp.bottom)
             make.leading.equalTo(nameLabel)
             make.height.equalTo(introductionLabel)
+        }
+        loginbutton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(headerImg)
+            make.trailing.equalTo(settingBtn)
+            make.size.equalTo(CGSize(width: 67, height: 30))
         }
     }
     
