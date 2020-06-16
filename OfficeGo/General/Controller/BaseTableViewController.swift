@@ -82,15 +82,17 @@ class BaseTableViewController: BaseViewController {
             automaticallyAdjustsScrollViewInsets = false
         }
         
+//        self.tableView.backgroundView = noDataView
         self.view.addSubview(noDataView)
         noDataView.isHidden = true
         noDataView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(-60)
-            make.size.equalTo(CGSize(width: kWidth, height: 160))
+            make.size.equalTo(CGSize(width: 160, height: 190))
         }
         noDataImageView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview()
             make.size.equalTo(CGSize(width: 100, height: 100))
         }
         noDataLabel.snp.makeConstraints { (make) in

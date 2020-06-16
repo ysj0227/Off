@@ -66,6 +66,7 @@ class ShareViewController: UIViewController {
             wechatFriendButton.isHidden = true
             sinaButton.isHidden = true
             isShareLabel.isHidden = false
+            
         }else {
             isShareLabel.isHidden = true
             if isWXAppInstalled == true && isSinaAppInstalled == false {
