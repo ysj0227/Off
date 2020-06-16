@@ -54,7 +54,6 @@ class FangYuanBuildingFYDetailHouseModel: BaseModel {
     
     ///网点名字
     var branchesName : String?
-    
     ///价格
     var dayPrice : Float?
     var decoration : String?
@@ -102,8 +101,6 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     ///楼盘名字
     var buildingName : String?
     
-    ///网点名字
-    var branchesName : String?
     
     ///价格
     var dayPriceString : String?
@@ -142,7 +139,11 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         
         id = model.id
         
-        buildingName = model.buildingName
+        if btype == 1 {
+            buildingName = model.buildingName
+        }else {
+            buildingName = model.branchesName
+        }
         
         areaString = String(format: "%.0fm²", model.area ?? 0)
         

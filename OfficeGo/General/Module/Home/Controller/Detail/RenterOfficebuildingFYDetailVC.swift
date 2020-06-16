@@ -280,6 +280,9 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     
     //MARK: 加载头部的图片和视频
     func loadHeaderview() {
+        
+        titleview?.titleLabel.text = buildingFYDetailViewModel?.houseViewModel?.buildingName
+
         tableHeaderView.FYModel = self.buildingFYDetailModel ?? FangYuanBuildingFYDetailModel()
     }
     
@@ -497,8 +500,11 @@ extension RenterOfficebuildingFYDetailVC {
         SSLog("scrollViewDidScroll ----*\(scrollView.contentOffset.y)")
         if scrollView.contentOffset.y >= kWidth * imgScale - kNavigationHeight {
             titleview?.backgroundColor = kAppBlueColor
+            titleview?.titleLabel.isHidden = false
+
         }else {
             titleview?.backgroundColor = kAppClearColor
+            titleview?.titleLabel.isHidden = true
         }
     }
 }

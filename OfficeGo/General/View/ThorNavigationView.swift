@@ -453,7 +453,9 @@ public enum NavgationTitleViewType {
                 make.leading.trailing.bottom.equalToSuperview()
                 make.top.equalTo(kStatusBarHeight)
             }
-            
+            backMoreRightClearView.addSubview(titleLabel)
+            titleLabel.textColor = kAppWhiteColor
+            titleLabel.isHidden = true
             backMoreRightClearView.addSubview(leftButton)
             /* 隐藏详情页面 举报和聊天按钮
             backMoreRightClearView.addSubview(alertButton)
@@ -467,7 +469,10 @@ public enum NavgationTitleViewType {
                 make.width.equalTo(52)
                 make.bottom.equalToSuperview()
             }
-            
+            titleLabel.snp.makeConstraints { (make) in
+                make.center.equalToSuperview()
+                make.leading.trailing.equalToSuperview().inset(60)
+            }
             shareButton.snp.makeConstraints { (make) in
                 make.trailing.equalToSuperview().offset(-left_pending_space_17)
                 make.height.equalTo(44)
