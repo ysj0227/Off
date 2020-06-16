@@ -56,32 +56,34 @@ class ShareViewController: UIViewController {
 
     func handlePlatformInstalled() {
 
-        let isWXAppInstalled = UIApplication.shared.canOpenURL(URL(string: "wechat://")!)
+            
+        
+//        let isWXAppInstalled = UMSocialManager.isInstall(UMSPlatformNameWhatsapp)
+//
+//        let isSinaAppInstalled = UIApplication.shared.canOpenURL(URL(string: "weibo://")!)
 
-        let isSinaAppInstalled = UIApplication.shared.canOpenURL(URL(string: "weibo://")!)
+        let isWXAppInstalled = true
+        sinaButton.isHidden = true
 
         //判断微信有没有安装
-        if isWXAppInstalled == false && isSinaAppInstalled == false {
+        if isWXAppInstalled == false {
             wechatButton.isHidden = true
             wechatFriendButton.isHidden = true
-            sinaButton.isHidden = true
             isShareLabel.isHidden = false
             
         }else {
             isShareLabel.isHidden = true
-            if isWXAppInstalled == true && isSinaAppInstalled == false {
-                wechatButton.isHidden = false
-                wechatFriendButton.isHidden = false
-
-            }else if isWXAppInstalled == false && isSinaAppInstalled == true {
-                wechatButton.isHidden = true
-                wechatFriendButton.isHidden = true
-                sinaButton.isHidden = false
-            }else {
-                wechatButton.isHidden = false
-                wechatFriendButton.isHidden = false
-                sinaButton.isHidden = false
-
+            wechatButton.isHidden = false
+            wechatFriendButton.isHidden = false
+            self.wechatButton.snp.makeConstraints { (make) in
+                make.left.equalTo((kWidth - 140)/3)
+                make.top.equalTo(20)
+                make.size.equalTo(CGSize(width: 70, height: 90))
+            }
+            self.wechatFriendButton.snp.makeConstraints { (make) in
+                make.right.equalTo(-(kWidth - 140)/3)
+                make.top.equalTo(20)
+                make.size.equalTo(CGSize(width: 70, height: 90))
             }
         }
         
@@ -104,19 +106,11 @@ class ShareViewController: UIViewController {
      
   @IBAction func shareToWechat(_ sender: Any) {
        shareType = "微信好友"
-       if isPosterShare {
-           shareImageToPlatform(platformType: .wechatSession)
-       }else {
-           shareToPlatform(platformType: .wechatSession)
-       }
+      shareToPlatform(platformType: .wechatSession)
    }
   @IBAction func shareToWeChatFriend(_ sender: Any) {
       shareType = "朋友圈"
-      if isPosterShare {
-          shareImageToPlatform(platformType: .wechatTimeLine)
-      }else {
-          shareToPlatform(platformType: .wechatTimeLine)
-      }
+     shareImageToPlatform(platformType: .wechatSession)
   }
 
   @IBAction func shareToQQZone(_ sender: Any) {
@@ -134,24 +128,13 @@ class ShareViewController: UIViewController {
   }
     
     func shareToPlatform(platformType: UMSocialPlatformType) {
-//        let userModel = UserTool.shared
-//        let userId = userModel.uid
-//        var title = ""
         var content = "分享"
-        var image: AnyObject = UIImage(imageLiteralResourceName: "share_icon")
+        var image = "https://img.officego.com/head.png"
+
         var webpageUrl = ""
-//
-//        if shareStatus == "live" {
-//            title = "有趣有料的外教老师喊你来上课啦"
-//            content = "专业外教，懂教育，更懂小朋友，赶快加入体验一下吧！"
-//            webpageUrl = SSAPI.ShareHost + "share?userid=\(userId ?? "")&classid=\(classid)"
-//        }else {
-//            title = "快来看\(teacherName)老师讲\(courseName)"
-//            content = courseIntro.count == 0 ? "专业外教，懂教育，更懂小朋友，赶快加入体验一下吧！":courseIntro
-//            image = courseImage as AnyObject
-//            webpageUrl = SSAPI.ShareHost + "share/\(liveid)?userid=\(userId ?? "")&classid=\(classid)"
-//        }
-        webpageUrl = "https://baidu.com"
+        title = "分享"
+        content = "房源详情"
+        webpageUrl = "http://test.officego.com.cn/lessee/housesDetail.html?buildingId=256"
         let message = UMSocialMessageObject()
         let object = UMShareWebpageObject.shareObject(withTitle: title, descr: content, thumImage: image)
         object?.webpageUrl = webpageUrl
@@ -159,14 +142,14 @@ class ShareViewController: UIViewController {
         UMSocialManager.default().share(to: platformType, messageObject: message, currentViewController: self, completion: { (data, error) in
             if error == nil {
                 if let respose = data as? UMSocialShareResponse {
-                    print(respose.message)
+                    SSLog(respose.message ?? "")
                 }
             }else {
                 let err = error! as NSError
                 if err.code == 2009 {
-                    print("分享已取消")
+                    SSLog("分享已取消")
                 }else {
-                    print(err.userInfo["message"] as? String ?? "")
+                    SSLog(err.userInfo["message"] as? String ?? "")
                 }
             }
         })
@@ -181,22 +164,23 @@ class ShareViewController: UIViewController {
 
         if let img = imggg {
             //图片缩略图
-            shareObject.thumbImage = img
+            shareObject.thumbImage = "https://img.officego.com/head.png"
             //图片地址
-            shareObject.shareImage = img
+            shareObject.shareImage = "https://img.officego.com/head.png"
         }
+        shareObject.shareImage = "https://img.officego.com/head.png"
         messageObject.shareObject = shareObject
         UMSocialManager.default().share(to: platformType, messageObject: messageObject, currentViewController: self, completion: { (data, error) in
             if error == nil {
                 if let respose = data as? UMSocialShareResponse {
-                    print(respose.message)
+                    SSLog(respose.message)
                 }
             }else {
                 let err = error! as NSError
                 if err.code == 2009 {
-                    print("分享已取消")
+                    SSLog("分享已取消")
                 }else {
-                    print(err.userInfo["message"] as? String ?? "")
+                    SSLog(err.userInfo["message"] as? String ?? "")
                 }
             }
         })
