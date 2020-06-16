@@ -43,7 +43,7 @@ class ResultTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        print(cell?.textLabel?.text ?? "")
+        SSLog(cell?.textLabel?.text ?? "")
         
         
         // 点击cell调用闭包

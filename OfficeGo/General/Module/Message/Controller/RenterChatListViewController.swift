@@ -129,7 +129,7 @@ extension RenterChatListViewController {
         var mActionArray = [UITableViewRowAction]()
         let deleteAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "删除") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
             
-            print("\(indexPath.row) == 删除")
+            SSLog("\(indexPath.row) == 删除")
             if let model: RCConversationModel = self?.conversationListDataSource[indexPath.row] as? RCConversationModel {
                 RCIMClient.shared()?.remove(.ConversationType_PRIVATE, targetId: model.targetId)
                 self?.conversationListDataSource.remove(model)
@@ -145,7 +145,7 @@ extension RenterChatListViewController {
                 let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "取消置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
                           RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: false)
                     self?.refreshConversationTableViewIfNeeded()
-                    print("\(indexPath.row) == 取消置顶")
+                    SSLog("\(indexPath.row) == 取消置顶")
                 }
                 setupAction.backgroundColor = kAppBlueColor
                 mActionArray.append(setupAction)
@@ -153,7 +153,7 @@ extension RenterChatListViewController {
                 let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
                           RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: true)
                     self?.refreshConversationTableViewIfNeeded()
-                    print("\(indexPath.row) == 置顶")
+                    SSLog("\(indexPath.row) == 置顶")
                 }
                 setupAction.backgroundColor = kAppBlueColor
                 mActionArray.append(setupAction)

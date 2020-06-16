@@ -104,7 +104,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
                 self?.segmentTitleSelectview.selectView.selectModel = self?.nearbySelectModel
                 
             }
-            print("--------index --********---\(index)")
+            SSLog("--------index --********---\(index)")
         }
         
         //首页头部 - 筛选操作 - 判断是推荐还是附近 - 然后刷新数据
@@ -122,7 +122,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
-            print("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
+            SSLog("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
             
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
                 self?.titleview?.isHidden = true

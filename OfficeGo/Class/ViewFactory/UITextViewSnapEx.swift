@@ -116,7 +116,7 @@ public extension UITextView {
     /// 编辑事件
     @objc fileprivate func jh_textChange(noti: NSNotification) {
         let isEmpty = text.isEmpty
-        print("text:\(String(describing: text))\nisEmpty:\(isEmpty)")
+        SSLog("text:\(String(describing: text))\nisEmpty:\(isEmpty)")
         holderLabel.text = isEmpty ? placeholder : ""
         holderLabel.isHidden = !isEmpty
     }

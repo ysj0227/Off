@@ -157,7 +157,7 @@ extension RenterMineViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch typeSourceArray[indexPath.row].type {
         case .RenterMineTypeIWanttoFind:
-            print(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.row].type)
         case .RenterMineTypeHouseSchedule:
             if isLogin() == true {
                 let vc = RenterHouseScheduleViewController()
@@ -165,9 +165,9 @@ extension RenterMineViewController {
             }
             
         case .RenterMineTypeHelpAndFeedback:
-            print(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.row].type)
         case .RenterMineTypeCusomers:
-            print(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.row].type)
         case .RenterMineTypeRegisterAgent:
 //            let url = "\(SSAPI.SSApiHost)\(SSMineURL.registerProtocol)"
             let url = "http://test.officego.com.cn/lessee/registerProtocol.html"
@@ -183,7 +183,7 @@ extension RenterMineViewController {
             self.navigationController?.pushViewController(vc, animated: true)
 
         case .none:
-            print(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.row].type)
         }
     }
     
@@ -260,7 +260,7 @@ class RenterUserHeaderView: UIView {
             loginbutton.isHidden = true
             headerImg.kf.setImage(with: URL(string: userModel.avatar ?? ""), placeholder: UIImage.init(named: "avatar"), options: nil, progressBlock: { (receivedSize, totalSize) in
                 
-                print("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
+                SSLog("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
             })
             nameLabel.text = userModel.realname ?? userModel.nickname ?? "名字"
             introductionLabel.text = "\(userModel.company ?? "公司") - \(userModel.job ?? "职位")"

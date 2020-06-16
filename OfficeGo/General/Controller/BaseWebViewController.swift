@@ -60,7 +60,7 @@ class BaseWebViewController: BaseViewController {
             do {
                 try FileManager.default.removeItem(atPath: libraryPath)
             } catch {
-                print("error")
+                SSLog("error")
             }
             URLCache.shared.removeAllCachedResponses()
         }

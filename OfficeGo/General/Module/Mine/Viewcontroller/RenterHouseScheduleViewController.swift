@@ -227,7 +227,7 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
 extension RenterHouseScheduleViewController {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print("didSelect\(date)")
+        SSLog("didSelect\(date)")
         currentDayString = self.dateFormatter2.string(from: date)
         var isHas: Bool = false
         for model in dataSourceArr {
@@ -247,7 +247,7 @@ extension RenterHouseScheduleViewController {
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        print("calendarCurrentPageDidChange\(calendar.currentPage)")
+        SSLog("calendarCurrentPageDidChange\(calendar.currentPage)")
         currentDayString = ""
         currentModel = nil
         startTime = getTimeIntervalWidhtDate(date: self.calendar.currentPage)

@@ -106,7 +106,7 @@ class CitySelectorViewController: BaseViewController {
     }
     
     deinit {
-        print("我走了")
+        SSLog("我走了")
     }
 
 }
@@ -185,7 +185,7 @@ extension CitySelectorViewController: UITableViewDataSource, UITableViewDelegate
         
         tableView.deselectRow(at: indexPath, animated: false)
         let cell = tableView.cellForRow(at: indexPath)
-        print("点击了 \(cell?.textLabel?.text ?? "")")
+        SSLog("点击了 \(cell?.textLabel?.text ?? "")")
         if indexPath.section > 1 {
             guard let block = citySelected else {
                 return

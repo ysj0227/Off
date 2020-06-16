@@ -39,11 +39,11 @@ class ViewController: JHTableViewController {
             let vc = ExViewController.init()
             self.navigationController?.pushViewController(vc, animated: true)
         default:
-            print("")
+            SSLog("")
         }
     }
     deinit{
-        print("1释放")
+        SSLog("1释放")
     }
 }
 

@@ -120,17 +120,17 @@ import UIKit
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        switch self.item.type {
 //        case .read:
-//            print("查看图片")
+//            SSLog("查看图片")
 //            self.showImage(index: indexPath.item, isShowDelete: false)
 //        case .edit:
 //            if self.item.arrPictures.count == indexPath.item {
-//                print("添加图片")
+//                SSLog("添加图片")
 //                let imagePickerController = ImagePickerController()
 //                imagePickerController.delegate = self
 //                imagePickerController.imageLimit = Int(self.item.maxNumber - CGFloat(self.item.arrPictures.count))
 //                self.item.superVC.present(imagePickerController, animated: true, completion: nil)
 //            } else {
-//                print("查看图片，可删除")
+//                SSLog("查看图片，可删除")
 //                self.showImage(index: indexPath.item, isShowDelete: true)
 //            }
 //        }

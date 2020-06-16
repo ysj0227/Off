@@ -79,7 +79,7 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
             let data = try JSONSerialization.data(withJSONObject: dataDict, options: .prettyPrinted)
             return data
         } catch {
-            print(error)
+            SSLog(error)
             return Data()
         }
     }
@@ -95,7 +95,7 @@ class ScheduleViewingMessage: RCMessageContent, NSCoding {
             let userInfoDict = dictionary["user"] as? [String : Any] ?? [:]
             decodeUserInfo(userInfoDict)
         } catch {
-            print(error)
+            SSLog(error)
         }
     }
     

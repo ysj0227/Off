@@ -39,7 +39,7 @@ class RecentCitiesTableViewCell: UITableViewCell {
     }
     
     @objc private func btnClick(btn: UIButton) {
-        print(btn.titleLabel?.text!)
+        SSLog(btn.titleLabel?.text!)
     }
 
 

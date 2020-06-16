@@ -122,7 +122,7 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
             let data = try JSONSerialization.data(withJSONObject: dataDict, options: .prettyPrinted)
             return data
         } catch {
-            print(error)
+            SSLog(error)
             return Data()
         }
     }
@@ -146,7 +146,7 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
             let userInfoDict = dictionary["user"] as? [String : Any] ?? [:]
             decodeUserInfo(userInfoDict)
         } catch {
-            print(error)
+            SSLog(error)
         }
     }
     
@@ -301,7 +301,7 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
     
     
     func initialize() {
-        print("----\\\\----\(UIScreen.main.bounds.size.width)")
+        SSLog("----\\\\----\(UIScreen.main.bounds.size.width)")
         
         bgcontentView.frame = CGRect(x: 0, y:0, width: UIScreen.main.bounds.size.width, height: 188)
 

@@ -114,7 +114,7 @@ extension RenterUserMsgViewController {
     
     func pickerSelect() {
         imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
-            print("返回的asset数组是\(asset)")
+            SSLog("返回的asset数组是\(asset)")
             
             var imageArr = [UIImage]()
             var index = asset.count // 标记失败的次数

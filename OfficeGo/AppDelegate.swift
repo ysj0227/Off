@@ -166,14 +166,14 @@ extension AppDelegate {
     func loginRongCloud() {
         
         RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: { (userid) in
-            print("登陆成功。当前登录的用户ID： \(String(describing: userid))")
+            SSLog("登陆成功。当前登录的用户ID： \(String(describing: userid))")
         }, error: { (code) in
-            print("登陆的错误码为\(code)")
+            SSLog("登陆的错误码为\(code)")
         }, tokenIncorrect: {
             //token过期或者不正确。
             //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
             //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
-            print("token错误")
+            SSLog("token错误")
         })
         setRCUserInfo()
     }
