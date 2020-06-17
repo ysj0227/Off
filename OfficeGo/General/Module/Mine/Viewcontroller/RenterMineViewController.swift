@@ -85,6 +85,16 @@ extension RenterMineViewController {
         }
     }
     
+    ///设置按钮点击方法 - 判断有没有登录
+    func settingBtnClick() {
+        if isLogin() == true {
+            let vc = RenterMineSettingViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            showLoginVC()
+        }
+    }
+    
     func showLoginVC() {
         let vc = ReviewLoginViewController()
         vc.isFromOtherVC = true
@@ -114,8 +124,7 @@ extension RenterMineViewController {
         }
         
         headerView.setBtnClickBlock = { [weak self] in
-            let vc = RenterMineSettingViewController()
-            self?.navigationController?.pushViewController(vc, animated: true)
+            self?.settingBtnClick()
         }
         self.tableView.clipsToBounds = true
         self.tableView.layer.cornerRadius = 13
@@ -162,23 +171,25 @@ extension RenterMineViewController {
             if isLogin() == true {
                 let vc = RenterHouseScheduleViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                AppUtilities.makeToast("请先登录")
             }
             
         case .RenterMineTypeHelpAndFeedback:
-            SSLog(typeSourceArray[indexPath.row].type)
+            let vc = BaseWebViewController.init(protocalType: .ProtocalTypeHelpAndFeedbackUrl)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
+            self.navigationController?.pushViewController(vc, animated: true)
+            
         case .RenterMineTypeCusomers:
             SSLog(typeSourceArray[indexPath.row].type)
+            
         case .RenterMineTypeRegisterAgent:
-//            let url = "\(SSAPI.SSApiHost)\(SSMineURL.registerProtocol)"
-            let url = "http://test.officego.com.cn/lessee/registerProtocol.html"
-            let vc = JHWebViewController.init(url: url)
-            vc.title = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeRegisterAgent)
-//            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeRegisterAgent)
+            let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
             self.navigationController?.pushViewController(vc, animated: true)
+            
         case .RenterMineTypeAboutus:
-//            let url = "\(SSAPI.SSApiHost)\(SSMineURL.aboutUs)"
-            let url = "http://test.officego.com.cn/lessee/aboutUs.html"
-            let vc = BaseWebViewController.init(url: url)
+            let vc = BaseWebViewController.init(protocalType: .ProtocalTypeAboutUs)
             vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
             self.navigationController?.pushViewController(vc, animated: true)
 
