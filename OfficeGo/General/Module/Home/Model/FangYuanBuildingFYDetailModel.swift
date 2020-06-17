@@ -139,6 +139,8 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         
         id = model.id
         
+        mainPic = model.mainPic
+        
         if btype == 1 {
             buildingName = model.buildingName
         }else {
@@ -174,7 +176,7 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         //办公室
         if btype == 1 {
             
-            dayPriceString = String(format: "%.0f/m²/天", model.dayPrice ?? 0)
+            dayPriceString = String(format: "¥%.0f/m²/天", model.dayPrice ?? 0)
             let arr = model.simple?.split{$0 == ","}.map(String.init)
             if let simpleArr = arr {
                 if simpleArr.count >= 2 {
@@ -185,12 +187,13 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
             }
         }else {
             
-            dayPriceString = String(format: "%.0f/位/天", model.dayPrice ?? 0)
+            dayPriceString = String(format: "¥%.0f/位/天", model.dayPrice ?? 0)
             
             seatsString = "\(model.seats ?? 0)个工位"
         }
         
         //特色
+        tagsString = []
         model.tags?.forEach({[weak self] (model) in
             self?.tagsString?.append(model.dictCname ?? "")
         })

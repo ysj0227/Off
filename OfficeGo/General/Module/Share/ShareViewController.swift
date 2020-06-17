@@ -20,7 +20,7 @@ class ShareViewController: UIViewController {
     var buildingName: String = ""
     var descriptionString: String = ""
     var shareIDString: Int = 0
-    var thumbImage: UIImage?
+    var thumbImage: String?
     
     
     class func initialization() -> ShareViewController {
@@ -80,10 +80,10 @@ class ShareViewController: UIViewController {
     }
     
     @IBAction func shareToWechat(_ sender: Any) {
-        shareToPlatform(platformType: 0)
+        shareToPlatform(platformType: 0, sender)
     }
     @IBAction func shareToWeChatFriend(_ sender: Any) {
-        shareToPlatform(platformType: 1)
+        shareToPlatform(platformType: 1, sender)
     }
     
     @IBAction func shareToQQZone(_ sender: Any) {
@@ -95,14 +95,18 @@ class ShareViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func shareToPlatform(platformType: Int) {
+    func shareToPlatform(platformType: Int, _ sender: Any) {
         let webpageObject = WXWebpageObject()
-        webpageObject.webpageUrl = "https://baidu.com";
+        webpageObject.webpageUrl = "\(SSDelegateURL.buildingDetailShareUrl)?buildingId=\(shareIDString)"
         let message = WXMediaMessage()
         message.title = buildingName
         message.description = descriptionString
-        if let image = thumbImage {
-            message.setThumbImage(image)
+        if let url = thumbImage {
+            let imageview = BaseImageView()
+            imageview.setImage(with: url, placeholder: UIImage.init(named: ""))
+            if let image = imageview.image {
+                message.setThumbImage(image.scaleImage(scaleSize: 0.008))
+            }
         }
         message.mediaObject = webpageObject
         
@@ -111,6 +115,8 @@ class ShareViewController: UIViewController {
         req.message = message;
         req.scene = Int32(platformType);
         WXApi.send(req, completion: nil)
+        
+        cancelShare(sender)
     }
     
 }

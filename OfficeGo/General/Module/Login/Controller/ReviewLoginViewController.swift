@@ -139,8 +139,8 @@ class ReviewLoginViewController: BaseViewController {
         button.setTitle("服务条款", for: .normal)
         button.setTitleColor(kAppBlueColor, for: .normal)
         button.titleLabel?.font = FONT_12
-        button.rx.tap.subscribe(onNext: { _ in
-            print("---------服务条款");
+        button.rx.tap.subscribe(onNext: { [weak self] in
+            self?.clickToRegisterVC()
         }).disposed(by: disposeBag)
         return button
     }()
@@ -162,6 +162,12 @@ class ReviewLoginViewController: BaseViewController {
     
     
     var timer: Timer?
+    
+    func clickToRegisterVC() {
+        let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
+        vc.titleString = "服务条款"
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

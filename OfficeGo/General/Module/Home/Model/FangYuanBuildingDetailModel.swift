@@ -172,7 +172,8 @@ class FangYuanBuildingBuildingViewModel: NSObject {
     ///创业服务
     var corporateServices : [DictionaryModel]?
     
-    
+    var mainPic : String?
+
     ///楼盘
     ///房源数
     var houseCountString : String?
@@ -238,6 +239,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
         
         buildingName = model.name
         
+        mainPic = model.mainPic
         ///addressString = model.businessDistrict ?? ""
         addressString = model.address ?? ""
         
@@ -247,20 +249,32 @@ class FangYuanBuildingBuildingViewModel: NSObject {
         ///办公楼
         if btype == 1 {
             houseCountString = "\(model.houseCount ?? 0)" + "套"
-            ///最小面积-最大面积
-            houseAreaString = String(format: "%.0f", model.minArea ?? 0) + "-" + String(format: "%.0f", model.maxArea ?? 0) + "m²"
+            ///最小面积-最大面积 - 如果一样，显示一个
+            if model.minArea == model.maxArea {
+                houseAreaString = String(format: "%.0f", model.minArea ?? 0) + "m²"
+            }else {
+                houseAreaString = String(format: "%.0f", model.minArea ?? 0) + "-" + String(format: "%.0f", model.maxArea ?? 0) + "m²"
+            }
             ///价格
-            housePriceString = String(format: "%.0f", model.minDayPrice ?? 0) + "/m²/天起"
+            housePriceString =  "¥" + String(format: "%.0f", model.minDayPrice ?? 0) + "/m²/天起"
         }
             
             ///联合办公
         else if btype == 2 {
             
-            independentAreaString = String(format: "%.0f", model.minAreaIndependentOffice ?? 0) + "-" + String(format: "%.0f", model.maxAreaIndependentOffice ?? 0) + "m²"
+            if model.minAreaIndependentOffice == model.maxAreaIndependentOffice {
+                independentAreaString = String(format: "%.0f", model.minAreaIndependentOffice ?? 0) + "m²"
+            }else {
+                independentAreaString = String(format: "%.0f", model.minAreaIndependentOffice ?? 0) + "-" + String(format: "%.0f", model.maxAreaIndependentOffice ?? 0) + "m²"
+            }
             
             independentavgDayPriceString = "¥" + String(format: "%.0f", model.avgDayPriceIndependentOffice ?? 0) + "/位/月"
             
-            independentSeatsString = String(format: "%.0f", model.minSeatsIndependentOffice ?? 0) + "-" + String(format: "%.0f", model.maxSeatsIndependentOffice ?? 0) + "位"
+            if model.minSeatsIndependentOffice == model.maxSeatsIndependentOffice {
+                independentSeatsString = String(format: "%.0f", model.minSeatsIndependentOffice ?? 0) + "位"
+            }else {
+                independentSeatsString = String(format: "%.0f", model.minSeatsIndependentOffice ?? 0) + "-" + String(format: "%.0f", model.maxSeatsIndependentOffice ?? 0) + "位"
+            }
             
             seatsOpenStationString = String(format: "%.0f", model.minSeatsOpenStation ?? 0) + "位"
             
