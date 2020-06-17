@@ -14,9 +14,15 @@ import RxCocoa
 import SwiftyJSON
 
 class BaseWebViewController: BaseViewController {
+
+    //通过类型 - 设置url
+    var typeEnum: ProtocalType?
     
-    let urlString: String
-    var loadingBgView: UIView?
+    var urlString: String? {
+        didSet {
+            loadWebview()
+        }
+    }
     var titleString: String? {
         didSet {
             titleview?.titleLabel.text = titleString
@@ -30,9 +36,42 @@ class BaseWebViewController: BaseViewController {
     }()
     let disposeBag = DisposeBag()
     
-    init(url: String) {
-        urlString = url
+    init(protocalType: ProtocalType) {
         super.init(nibName: nil, bundle: nil)
+        typeEnum = protocalType
+        setUrlWithType()
+    }
+    
+    func loadWebview() {
+        if let url = URL(string: urlString ?? "") {
+            LoadingHudView.showHud()
+            let request = URLRequest(url: url)
+            self.webView?.load(request)
+        }
+    }
+    
+    func setUrlWithType() {
+        
+        if let type = typeEnum {
+            switch type {
+                
+            ///关于我们
+            case .ProtocalTypeAboutUs:
+                urlString = SSDelegateURL.aboutUsUrl
+            ///服务协议
+            case .ProtocalTypeRegisterProtocol:
+                urlString = SSDelegateURL.registerProtocolUrl
+                ///隐私条款
+            case .ProtocalTypePrivacyProtocolUrl:
+                urlString = SSDelegateURL.privacyProtocolUrl
+            ///帮助与反馈
+            case .ProtocalTypeHelpAndFeedbackUrl:
+                urlString = SSDelegateURL.helpAndFeedbackUrl
+            ///常见问题
+            case .ProtocalTypeQuestionUrl:
+                urlString = SSDelegateURL.questionUrl
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -77,18 +116,14 @@ class BaseWebViewController: BaseViewController {
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
         }
+        
         view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
         if let webView = webView {
             view.insertSubview(webView, at: 0)
-            LoadingHudView.showHud()
             webView.snp.makeConstraints { (make) in
                 make.top.equalTo(kNavigationHeight)
                 make.leading.bottom.trailing.equalToSuperview()
-            }
-            if let url = URL(string: urlString) {
-                let request = URLRequest(url: url)
-                webView.load(request)
             }
         }
         
@@ -141,7 +176,7 @@ class BaseWebViewController: BaseViewController {
     }
     
     override func clickReloadData() {
-        if let url = URL(string: urlString) {
+        if let url = URL(string: urlString ?? SSDelegateURL.aboutUsUrl) {
             let request = URLRequest(url: url)
             webView?.load(request)
             LoadingHudView.showHud()
@@ -149,14 +184,17 @@ class BaseWebViewController: BaseViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        /*
         webView?.configuration.userContentController.add(self, name: "thorJump")
         webView?.configuration.userContentController.add(self, name: "sendEventId")
+ */
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        /*
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "thorJump")
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")*/
     }
 }
 
@@ -179,23 +217,27 @@ extension BaseWebViewController: WKScriptMessageHandler {
 }
 
 extension BaseWebViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        decisionHandler(WKNavigationResponsePolicy.allow);
-        THPrint(navigationResponse)
-    }
-    
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        THPrint(navigationAction)
-        let url = navigationAction.request.url
-        //        if url?.scheme == kAPPURLScheme, let urlString = url?.absoluteString, AppLinkManager.shared.parseLinkURL(urlString) == true {
-        //            decisionHandler(WKNavigationActionPolicy.cancel);
-        //            return
-        //        }
-        if navigationAction.targetFrame == nil {
-            webView.load(navigationAction.request)
-        }
-        decisionHandler(WKNavigationActionPolicy.allow);
-    }
+//    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+//        /*
+//        decisionHandler(WKNavigationResponsePolicy.allow);
+//        THPrint(navigationResponse)
+// */
+//    }
+//
+//    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+//        /*
+//        THPrint(navigationAction)
+//        let url = navigationAction.request.url
+//        //        if url?.scheme == kAPPURLScheme, let urlString = url?.absoluteString, AppLinkManager.shared.parseLinkURL(urlString) == true {
+//        //            decisionHandler(WKNavigationActionPolicy.cancel);
+//        //            return
+//        //        }
+//        if navigationAction.targetFrame == nil {
+//            webView.load(navigationAction.request)
+//        }
+//        decisionHandler(WKNavigationActionPolicy.allow);
+//        */
+//    }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         noDataView.isHidden = true
         LoadingHudView.hideHud()
