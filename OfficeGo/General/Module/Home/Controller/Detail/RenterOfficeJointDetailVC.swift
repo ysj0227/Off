@@ -150,8 +150,6 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         super.viewDidLoad()
         setupUI()
         setData()
-        //请求列表数据
-        loadNewData()
     }
     
     ///获取点击的条件
@@ -234,7 +232,9 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
                     
                     if let dataDic = response["data"] as? [String: Any] {
                         let totalPage = dataDic["totalPage"]
-                        weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")人 \n \(totalPage ?? 0)套"
+                        SSTool.invokeInMainThread {
+                            weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")人 \n \(totalPage ?? 0)套"
+                        }
                     }
                     
                 }
@@ -264,9 +264,15 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     public override func endRefreshWithCount(_ count: Int) {
         
-        isHiddenMoreData = count < pageSize || count == 0
+        SSTool.invokeInMainThread { [weak self] in
+            
+            guard let weakSelf = self else {return}
+
+            weakSelf.isHiddenMoreData = count < weakSelf.pageSize || count == 0
+            
+            weakSelf.tableView.reloadData()
+        }
         
-        tableView.reloadData()
     }
     @objc override func loadNewData(){
         
@@ -499,11 +505,11 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
                 self?.buildingDetailModel = model
                 self?.buildingDetailViewModel = FangYuanBuildingDetailViewModel.init(model: self?.buildingDetailModel ?? FangYuanBuildingDetailModel())
                 
-                self?.setItemFunc()
-                self?.loadHeaderview()
-                self?.setCollectBtnState(isCollect: model.IsFavorite ?? false)
-                
-                self?.tableView.reloadData()
+                //只有获取详情成功 - 请求房源列表数据
+                self?.loadNewData()
+                //刷新view
+                self?.refreshTableview()
+
             }
             weakSelf.endRefreshAnimation()
             
@@ -525,6 +531,17 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
             }
         }
     }
+    
+        func refreshTableview() {
+        SSTool.invokeInMainThread { [weak self] in
+            self?.setItemFunc()
+            self?.loadHeaderview()
+            self?.setCollectBtnState(isCollect: self?.buildingDetailModel?.IsFavorite ?? false)
+            
+            self?.tableView.reloadData()
+        }
+    }
+
     
 }
 

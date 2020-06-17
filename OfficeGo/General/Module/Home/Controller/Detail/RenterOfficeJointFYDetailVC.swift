@@ -186,11 +186,12 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
     
     func clickToChat(chatModel: MessageFYChattedModel) {
         SSTool.invokeInMainThread { [weak self] in
+            guard let weakSelf = self else {return}
             let vc = RenterChatViewController()
             vc.conversationType = .ConversationType_PRIVATE
             vc.targetId = chatModel.targetId
             vc.displayUserNameInCell = false
-            self?.navigationController?.pushViewController(vc, animated: true)
+            weakSelf.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -318,11 +319,7 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
                 model.btype = self?.model.btype
                 self?.buildingFYDetailModel = model
                 self?.buildingFYDetailViewModel = FangYuanBuildingFYDetailViewModel.init(model: self?.buildingFYDetailModel ?? FangYuanBuildingFYDetailModel())
-                
-                self?.setItemFunc()
-                self?.loadHeaderview()
-                self?.setCollectBtnState(isCollect: model.IsFavorite ?? false)
-                self?.tableView.reloadData()
+                self?.refreshTableview()
             }
             weakSelf.endRefreshAnimation()
             
@@ -342,6 +339,15 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
             }
+        }
+    }
+    
+    func refreshTableview() {
+        SSTool.invokeInMainThread { [weak self] in
+            self?.setItemFunc()
+            self?.loadHeaderview()
+            self?.setCollectBtnState(isCollect: self?.buildingFYDetailViewModel?.IsFavorite ?? false)
+            self?.tableView.reloadData()
         }
     }
 }

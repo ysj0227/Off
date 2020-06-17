@@ -188,11 +188,12 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     
     func clickToChat(chatModel: MessageFYChattedModel) {
         SSTool.invokeInMainThread { [weak self] in
+            guard let weakSelf = self else {return}
             let vc = RenterChatViewController()
             vc.conversationType = .ConversationType_PRIVATE
             vc.targetId = chatModel.targetId
             vc.displayUserNameInCell = false
-            self?.navigationController?.pushViewController(vc, animated: true)
+            weakSelf.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -321,10 +322,7 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
                 self?.buildingFYDetailModel = model
                 self?.buildingFYDetailViewModel = FangYuanBuildingFYDetailViewModel.init(model: self?.buildingFYDetailModel ?? FangYuanBuildingFYDetailModel())
                 
-                self?.setItemFunc()
-                self?.loadHeaderview()
-                self?.setCollectBtnState(isCollect: model.IsFavorite ?? false)
-                self?.tableView.reloadData()
+                self?.refreshTableview()
             }
             weakSelf.endRefreshAnimation()
             
@@ -346,6 +344,16 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
             }
         }
     }
+    
+    func refreshTableview() {
+        SSTool.invokeInMainThread { [weak self] in
+            self?.setItemFunc()
+            self?.loadHeaderview()
+            self?.setCollectBtnState(isCollect: self?.buildingFYDetailModel?.IsFavorite ?? false)
+            self?.tableView.reloadData()
+        }
+    }
+
 }
 
 //MARK: CycleViewDelegate
