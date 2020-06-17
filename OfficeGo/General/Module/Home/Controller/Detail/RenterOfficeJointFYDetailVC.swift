@@ -53,6 +53,15 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
         super.viewWillAppear(animated)
     }
     
+    func shareVc() {
+        let shareVC = ShareViewController.initialization()
+        shareVC.buildingName = buildingFYDetailViewModel?.houseViewModel?.buildingName ?? ""
+        shareVC.descriptionString = buildingFYDetailViewModel?.houseViewModel?.addressString ?? ""
+        shareVC.shareIDString = buildingFYDetailViewModel?.houseViewModel?.id ?? 0
+        shareVC.modalPresentationStyle = .overFullScreen
+        self.present(shareVC, animated: true, completion: {})
+    }
+    
     func setItemFunc() {
         //网点 - 独立办公室
         //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
@@ -119,8 +128,13 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
-        titleview?.leftButtonCallBack = {
-            self.leftBtnClick()
+        titleview?.leftButtonCallBack = { [weak self] in
+            self?.leftBtnClick()
+        }
+        titleview?.rightBtnsssClickBlock = { [weak self] (index) in
+            if index == 99 {
+                self?.shareVc()
+            }
         }
         
         

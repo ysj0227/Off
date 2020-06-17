@@ -93,6 +93,15 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         tableHeaderView.pausePlayer()
     }
     
+    func shareVc() {
+        let shareVC = ShareViewController.initialization()
+        shareVC.buildingName = buildingDetailViewModel?.buildingViewModel?.buildingName ?? ""
+        shareVC.descriptionString = buildingDetailViewModel?.buildingViewModel?.addressString ?? ""
+        shareVC.shareIDString = buildingDetailViewModel?.buildingViewModel?.buildingId ?? 0
+        shareVC.modalPresentationStyle = .overFullScreen
+        self.present(shareVC, animated: true, completion: {})
+    }
+    
     func setItemFunc() {
         
         //1是办公楼，2是联合办公
@@ -318,8 +327,13 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
-        titleview?.leftButtonCallBack = {
-            self.leftBtnClick()
+        titleview?.leftButtonCallBack = { [weak self] in
+            self?.leftBtnClick()
+        }
+        titleview?.rightBtnsssClickBlock = { [weak self] (index) in
+            if index == 99 {
+                self?.shareVc()
+            }
         }
         
         //设置头部

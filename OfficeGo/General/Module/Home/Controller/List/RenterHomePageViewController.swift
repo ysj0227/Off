@@ -166,10 +166,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     
     
     func shareVc() {
-        let shareVC = ShareViewController.initialization()
-        shareVC.isPosterShare = true
-        shareVC.modalPresentationStyle = .overFullScreen
-        self.present(shareVC, animated: true, completion: {})
+        
     }
 }
 

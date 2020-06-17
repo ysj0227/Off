@@ -164,6 +164,9 @@ class FangYuanBuildingBuildingModel: BaseModel {
 class FangYuanBuildingBuildingViewModel: NSObject {
     ///1是办公楼，2是联合办公
     var btype: Int?
+    
+    var buildingId : Int?
+
     ///基础服务
     var basicServices : [DictionaryModel]?
     ///创业服务
@@ -230,6 +233,8 @@ class FangYuanBuildingBuildingViewModel: NSObject {
         super.init()
         
         btype = model.btype
+        
+        buildingId = model.buildingId
         
         buildingName = model.name
         

@@ -28,6 +28,9 @@ target 'OfficeGo' do
   #  pod 'LLSegmentViewController'
   pod 'IQKeyboardManagerSwift', '6.3.0'
   pod 'FSCalendar', '2.8.0'
+  
+  pod 'WechatOpenSDK'
+  
 #  pod 'UMCCommon'
 #  pod 'UMCSecurityPlugins'
 #  # U-Share SDK UI模块（分享面板，建议添加）

@@ -20,6 +20,16 @@ struct AppKey {
     /// 微信appid
     static let WeChatAppId = "wx0d3be0b21817123d"
     static let WeChatAppSecret = "b0e755423a190c6d7bdfb9f5efc52976"
+    
+    /*
+     服务器配置 - https://m.officego.com/apple-app-site-association
+     分享 - 设置 https://www.jianshu.com/p/363a5e492c05
+     设置universalURL
+     teamid：USX7BAW69F
+     bundleid：officego.com
+     */
+    static let UniversalLink = "https://m.officego.com/"
+    
     static let SinaAppkey = "3921700954"
     static let SinaAppSecret = "04b48b094faeb16683c32669824ebdad"
     
