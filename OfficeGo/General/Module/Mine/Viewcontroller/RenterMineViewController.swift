@@ -232,6 +232,7 @@ class RenterUserHeaderView: UIView {
     lazy var loginbutton: UIButton = {
         let view = UIButton()
         view.setTitle("立即登录", for: .normal)
+        view.isHidden = true
         view.titleLabel?.font = FONT_12
         view.setCornerRadius(cornerRadius: 15, masksToBounds: true)
         view.layer.borderColor = kAppWhiteColor.cgColor

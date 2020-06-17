@@ -232,8 +232,7 @@ class FangYuanListViewController: BaseTableViewController {
             }
             
             }, failure: {[weak self] (error) in
-                guard let weakSelf = self
-                    else {return}
+                guard let weakSelf = self else {return}
                 
                 weakSelf.endRefreshAnimation()
                 

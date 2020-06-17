@@ -170,26 +170,30 @@ class BaseTableViewController: BaseViewController {
     
     public func endRefreshWithCount(_ count: Int) {
         
-        noDataViewSet()
-        
-        haveData = self.dataSource.count > 0 ? true : false
-        reloadData()
-        
-        guard let header = tableView.mj_header else {
-            return
+        SSTool.invokeInMainThread { [weak self] in
+            
+            guard let weakSelf = self else {return}
+            weakSelf.noDataViewSet()
+            
+            weakSelf.haveData = weakSelf.dataSource.count > 0 ? true : false
+            weakSelf.reloadData()
+            
+            guard let header = weakSelf.tableView.mj_header else {
+                return
+            }
+            if (header.isRefreshing) {
+                weakSelf.tableView.mj_header?.endRefreshing()
+            }
+            guard let footer = weakSelf.tableView.mj_footer else {
+                return
+            }
+            if (footer.isRefreshing) {
+                weakSelf.tableView.mj_footer?.endRefreshing()
+            }
+            
+            let isNoMoreData = count < weakSelf.pageSize || count == 0
+            weakSelf.tableView.mj_footer?.isHidden = isNoMoreData
         }
-        if (header.isRefreshing) {
-            tableView.mj_header?.endRefreshing()
-        }
-        guard let footer = tableView.mj_footer else {
-            return
-        }
-        if (footer.isRefreshing) {
-            tableView.mj_footer?.endRefreshing()
-        }
-        
-        let isNoMoreData = count < pageSize || count == 0
-        tableView.mj_footer?.isHidden = isNoMoreData
         
     }
     /// MARK: 刷新事件
