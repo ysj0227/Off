@@ -304,6 +304,7 @@
 		04DB5A58247F48C700E3836F /* SureAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SureAlertView.swift; sourceTree = "<group>"; };
 		04DB5A5A247F603A00E3836F /* UserTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTool.swift; sourceTree = "<group>"; };
 		04DB5A5C247F65CD00E3836F /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		04E238992499BC47009DCCEC /* OfficeGo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfficeGo.entitlements; sourceTree = "<group>"; };
 		04E69B17246D4D7A00A0ABCA /* ButtonSelectItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSelectItemView.swift; sourceTree = "<group>"; };
 		04E69B60246D6BAD00A0ABCA /* RenterSearchHistoryCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterSearchHistoryCollectionCell.swift; sourceTree = "<group>"; };
 		04EF1E40247777B700871762 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -1008,6 +1009,7 @@
 		EEE87AC52455854C00C03424 /* OfficeGo */ = {
 			isa = PBXGroup;
 			children = (
+				04E238992499BC47009DCCEC /* OfficeGo.entitlements */,
 				EEE0D94C24655B2200E5C77B /* Venders */,
 				EE7F5563245673AB0010073B /* Module */,
 				EEE87B2C24558F6300C03424 /* General */,
@@ -1779,9 +1781,10 @@
 			baseConfigurationReference = 3E7878BD0BC6D50E8C42540D /* Pods-OfficeGo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OfficeGo/OfficeGo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6UEALBHQRU;
+				DEVELOPMENT_TEAM = USX7BAW69F;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = OfficeGo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1790,7 +1793,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.uuabc.EnglishMobile111111;
+				PRODUCT_BUNDLE_IDENTIFIER = officego.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
@@ -1804,9 +1807,10 @@
 			baseConfigurationReference = 5BD0AE81A9F960371D9FF994 /* Pods-OfficeGo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OfficeGo/OfficeGo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = CZN8XX9Z73;
+				DEVELOPMENT_TEAM = USX7BAW69F;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = OfficeGo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1815,7 +1819,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.rongcloud.im;
+				PRODUCT_BUNDLE_IDENTIFIER = officego.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;

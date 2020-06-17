@@ -18,8 +18,8 @@ struct AppKey {
     static let UMKey = "5ee885e8978eea085c5464c2"
 
     /// 微信appid
-    static let WeChatAppId = "wx1c9f0ee3abf3b5e8"
-    static let WeChatAppSecret = "8b6ab876c745d7cfd820617bf65debbb"
+    static let WeChatAppId = "wx0d3be0b21817123d"
+    static let WeChatAppSecret = "b0e755423a190c6d7bdfb9f5efc52976"
     static let SinaAppkey = "3921700954"
     static let SinaAppSecret = "04b48b094faeb16683c32669824ebdad"
     

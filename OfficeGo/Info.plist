@@ -25,7 +25,7 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx5fdb42ccf553b0a0</string>
+				<string>wx0d3be0b21817123d</string>
 			</array>
 		</dict>
 	</array>
@@ -63,5 +63,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>wechat</string>
+        <string>weixin</string>
+        <string>weixinULAPI</string>
+    </array>
+
 </dict>
 </plist>
