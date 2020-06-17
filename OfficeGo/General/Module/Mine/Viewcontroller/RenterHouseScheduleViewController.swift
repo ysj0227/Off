@@ -345,9 +345,9 @@ extension RenterHouseScheduleViewController {
         self.tableView.register(RenterHouseScheduleCell.self, forCellReuseIdentifier: RenterHouseScheduleCell.reuseIdentifierStr)
         
         
-        //第一次获取到的时间 - 比之前要替桥一周 - 所以加一周的时间戳
-        startTime = getTimeIntervalWidhtDate(date: self.calendar.currentPage) + 86400 * 6 + 86400 * 1
-        endTime = startTime + 86400 * 7
+        //第一次获取到的时间是上个月的最后一天 - 比之前要替桥一周 - 所以加一周的时间戳
+        startTime = getTimeIntervalWidhtDate(date: self.calendar.currentPage) + 86400 * 1
+        endTime = startTime + 86400 * 31
         refreshData()
     }
     
