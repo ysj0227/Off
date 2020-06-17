@@ -19,13 +19,13 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             NotificationCenter.default.post(name: NSNotification.Name.HomeSelectRefresh, object: recommendSelectModel)
         }
     }
-    
+    /*
     //附件房源搜索model
     var nearbySelectModel: HouseSelectModel = HouseSelectModel() {
         didSet {
             //            self.tableView.reloadData()
         }
-    }
+    }*/
     
     var titleview: ThorNavigationView?
     
@@ -99,21 +99,23 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
                 self?.segmentTitleSelectview.selectView.hiddenArea = false
                 self?.segmentTitleSelectview.selectView.selectModel = self?.recommendSelectModel
             }else if index == 2 {
+                /*
                 //附近
                 self?.segmentTitleSelectview.selectView.hiddenArea = true
                 self?.segmentTitleSelectview.selectView.selectModel = self?.nearbySelectModel
-                
+                */
             }
             SSLog("--------index --********---\(index)")
         }
         
         //首页头部 - 筛选操作 - 判断是推荐还是附近 - 然后刷新数据
         segmentTitleSelectview.selectView.sureButtonButtonCallBack = { [weak self] (_ isNearby: Bool, _ selectModel: HouseSelectModel) -> Void in
-            if isNearby == true {
+            self?.recommendSelectModel = selectModel
+            /*if isNearby == true {
                 self?.nearbySelectModel = selectModel
             }else {
                 self?.recommendSelectModel = selectModel
-            }
+            }*/
         }
         
         self.view.addSubview(segmentTitleSelectview)
@@ -225,7 +227,7 @@ extension RenterHomePageViewController {
             if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 for model in decoratedArray {
                     weakSelf.recommendSelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
-                    weakSelf.nearbySelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
+                    /*weakSelf.nearbySelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())*/
                 }
             }
             
@@ -248,7 +250,7 @@ extension RenterHomePageViewController {
             if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 for model in decoratedArray {
                     weakSelf.recommendSelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
-                    weakSelf.nearbySelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
+                    /*weakSelf.nearbySelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())*/
                 }
             }
             weakSelf.requestGetDecorate()
@@ -293,7 +295,7 @@ extension RenterHomePageViewController {
     
     func setCycleImg() {
         SSTool.invokeInMainThread { [weak self] in
-            self?.cycleView?.imageURLStringArr = ["https://img.officego.com/user/1592124271136.jpg", "https://img.officego.com/building/1591263008301.jpg?x-oss-process=style/large"]
+            self?.cycleView?.imageURLStringArr = ["http://img.officego.com/building/1590999378530.jpg", "https://cdn.maomaozu.com/4,f10fe5218f95.jpg?width=400&height=300"]
             //                weakSelf.cycleView?.imageURLStringArr = arr
         }
          
