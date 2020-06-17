@@ -112,6 +112,33 @@ enum DictionaryCodeEnum: String {
     case codeEnumhotKeywords = "hotKeywords"
 }
 
+//  MARK:   --网页
+class SSDelegateURL: NSObject {
+    
+    //楼盘地址
+    static let buildingDetailShareUrl =  "http://test.officego.com.cn/lessee/housesDetail.html"
+    
+    //房源地址
+    static let buildingFYDetailShareUrl =  "http://test.officego.com.cn/lessee/detail.html"
+    
+    //关于我们
+    static let aboutUsUrl = "http://test.officego.com.cn/lessee/aboutUs.html"
+    
+    //服务协议
+    static let registerProtocolUrl = "http://test.officego.com.cn/lessee/registerProtocol.html"
+    
+    //隐私条款：
+    static let privacyProtocolUrl = "http://test.officego.com.cn/lessee/privacy.html"
+    
+    //帮助与反馈：
+    static let helpAndFeedbackUrl = "http://test.officego.com.cn/owner/opinion.html"
+    
+    //常见问题：
+    static let questionUrl = "http://test.officego.com.cn/lessee/issueList.html"
+        
+}
+
+
 //  MARK:   --聊天
 class SSChatURL: NSObject {
     
@@ -132,8 +159,9 @@ class SSSearchURL: NSObject {
     //查询历史记录
     static let getgetSearchKeywords = "esearch/getSearchKeywords"
         
-    //查询发现 - 热门关键字 - 字典接口
-    
+    //删除搜索记录
+    static let delSearchKeywords = "esearch/delSearchKeywords"
+
 }
 
 //  MARK:   --首页

@@ -260,7 +260,7 @@ extension SSNetworkTool {
         //添加收藏
         static func request_addCollection(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSCollectURL.addCollection)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
@@ -293,8 +293,8 @@ extension SSNetworkTool {
         
         //MARK: 清除历史记录
         static func request_getClearHistorySearchKeywords(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSSearchURL.getgetSearchKeywords)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
+            let url = String.init(format: SSSearchURL.delSearchKeywords)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         //查询发现 - 热门关键字 - 字典接口
