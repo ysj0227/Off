@@ -154,7 +154,7 @@ class ReviewLoginViewController: BaseViewController {
         button.layoutButton(.imagePositionTop, space: 12)
         button.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.getAuthWithUserInfoFromPlatform(platformType: .wechatSession)
+                
             })
             .disposed(by: disposeBag)
         return button
@@ -551,33 +551,4 @@ class ReviewLoginViewController: BaseViewController {
 
 extension ReviewLoginViewController {
     
-    func getAuthWithUserInfoFromPlatform(platformType: UMSocialPlatformType) {
-        
-        let isWXAppInstalled = UIApplication.shared.canOpenURL(URL(string: "wechat://")!)
-        
-        if isWXAppInstalled {
-            AppUtilities.makeToast("微信没有安装")
-            return
-        }
-        
-        UMSocialManager.default().getUserInfo(with: platformType, currentViewController: nil) { (result: Any?, error: Error?) in
-            if (error != nil) { //打印错误信息
-                print("%@", error!)
-            } else {
-                let resp = result as! UMSocialUserInfoResponse
-                
-                //授权信息
-                print("sina uid: %@",resp.uid ?? "")
-                print("sina accesstoken: %@",resp.accessToken ?? "" as Any)
-                print("sina refreshtoken: %@",resp.refreshToken ?? "")
-                print("sina expriration: %@", resp.expiration ?? "")
-                //用户信息
-                print("sina name: %@", resp.name ?? "")
-                print("sina iconurl: %@",resp.iconurl ?? "")
-                print("sina gender: %@", resp.unionGender ?? "")
-                //第三方平台SDK源数据
-                print("sina originalResponse: %@", resp.originalResponse ?? "")
-            }
-        }
-    }
 }

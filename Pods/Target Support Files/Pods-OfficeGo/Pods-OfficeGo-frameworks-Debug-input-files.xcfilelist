@@ -1,12 +1,10 @@
 ${PODS_ROOT}/Target Support Files/Pods-OfficeGo/Pods-OfficeGo-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/CLImagePickerTool/CLImagePickerTool.framework
-${BUILT_PRODUCTS_DIR}/CocoaDebug/CocoaDebug.framework
 ${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework
 ${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework
 ${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework
 ${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
-${PODS_ROOT}/LookinServer/LookinServer.framework
 ${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
 ${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
 ${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework

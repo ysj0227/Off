@@ -98,27 +98,27 @@ class ShareViewController: UIViewController {
   @IBAction func shareToSina(_ sender: Any) {
       shareType = "新浪"
       if isPosterShare {
-          shareImageToPlatform(platformType: .QQ)
+//          shareImageToPlatform(platformType: .QQ)
       }else {
-          shareToPlatform(platformType: .QQ)
+//          shareToPlatform(platformType: .QQ)
       }
   }
      
   @IBAction func shareToWechat(_ sender: Any) {
        shareType = "微信好友"
-      shareToPlatform(platformType: .wechatSession)
+//      shareToPlatform(platformType: .wechatSession)
    }
   @IBAction func shareToWeChatFriend(_ sender: Any) {
       shareType = "朋友圈"
-     shareImageToPlatform(platformType: .wechatSession)
+//     shareImageToPlatform(platformType: .wechatSession)
   }
 
   @IBAction func shareToQQZone(_ sender: Any) {
       shareType = "QQ空间"
       if isPosterShare {
-          shareImageToPlatform(platformType: .qzone)
+//          shareImageToPlatform(platformType: .qzone)
       }else {
-          shareToPlatform(platformType: .qzone)
+//          shareToPlatform(platformType: .qzone)
       }
   }
   
@@ -126,7 +126,7 @@ class ShareViewController: UIViewController {
   @IBAction func cancelShare(_ sender: Any) {
       dismiss(animated: true, completion: nil)
   }
-    
+    /*
     func shareToPlatform(platformType: UMSocialPlatformType) {
         var content = "分享"
         var image = "https://img.officego.com/head.png"
@@ -186,6 +186,6 @@ class ShareViewController: UIViewController {
         })
     }
     
-    
+    */
     
 }

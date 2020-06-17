@@ -1,14 +1,12 @@
 PODS:
   - Alamofire (4.9.0)
   - CLImagePickerTool (3.1.3)
-  - CocoaDebug (1.2.6)
   - FSCalendar (2.8.0)
   - HandyJSON (5.0.0)
   - IQKeyboardManagerSwift (6.3.0)
   - Kingfisher (5.8.3):
     - Kingfisher/Core (= 5.8.3)
   - Kingfisher/Core (5.8.3)
-  - LookinServer (1.0.0)
   - lottie-ios (3.1.3)
   - Masonry (1.1.0)
   - MJRefresh (3.3.1)
@@ -24,39 +22,16 @@ PODS:
   - SKPhotoBrowser (6.1.0)
   - SnapKit (5.0.1)
   - SwiftyJSON (5.0.0)
-  - UMCCommon (2.1.1)
-  - UMCSecurityPlugins (1.0.6)
-  - UMCShare/Core (6.9.5):
-    - UMCCommon
-  - UMCShare/Social/ReducedSina (6.9.5):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/ReducedWeChat (6.9.5):
-    - UMCCommon
-    - UMCShare/Core
-  - UMCShare/Social/Sina (6.9.5):
-    - UMCCommon
-    - UMCShare/Core
-    - UMCShare/Social/ReducedSina
-  - UMCShare/Social/WeChat (6.9.5):
-    - UMCCommon
-    - UMCShare/Core
-    - UMCShare/Social/ReducedWeChat
-  - UMCShare/UI (6.9.5):
-    - UMCCommon
-    - UMCShare/Core
   - WMPlayer (5.0.0):
     - Masonry
 
 DEPENDENCIES:
   - Alamofire
   - CLImagePickerTool (from `https://github.com/Darren-chenchen/CLImagePickerTool.git`)
-  - CocoaDebug
   - FSCalendar (= 2.8.0)
   - HandyJSON (= 5.0.0)
   - IQKeyboardManagerSwift (= 6.3.0)
   - Kingfisher (= 5.8.3)
-  - LookinServer
   - lottie-ios (= 3.1.3)
   - Masonry (= 1.1.0)
   - MJRefresh (= 3.3.1)
@@ -67,22 +42,15 @@ DEPENDENCIES:
   - SKPhotoBrowser
   - SnapKit (= 5.0.1)
   - SwiftyJSON (= 5.0.0)
-  - UMCCommon
-  - UMCSecurityPlugins
-  - UMCShare/Social/Sina (= 6.9.5)
-  - UMCShare/Social/WeChat (= 6.9.5)
-  - UMCShare/UI (~> 6.9.5)
   - WMPlayer (= 5.0.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
-    - CocoaDebug
     - FSCalendar
     - HandyJSON
     - IQKeyboardManagerSwift
     - Kingfisher
-    - LookinServer
     - lottie-ios
     - Masonry
     - RongCloudIM
@@ -91,9 +59,6 @@ SPEC REPOS:
     - RxSwift
     - SKPhotoBrowser
     - SwiftyJSON
-    - UMCCommon
-    - UMCSecurityPlugins
-    - UMCShare
     - WMPlayer
   trunk:
     - MJRefresh
@@ -111,12 +76,10 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   CLImagePickerTool: 2ef59c6524efd493571a0ee2bc42f445b4c5b2cb
-  CocoaDebug: 51998f568ab5f15b4321fce3a4eed32faded975b
   FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
   HandyJSON: 992f2d661716d6a91de82d0056927bc7813b5770
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   Kingfisher: b7e4cb65ff24c264bd2a1284b75b974d907afd94
-  LookinServer: 0002891cd3cec5e082a910e897dfe71b4f06b89e
   lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
@@ -127,11 +90,8 @@ SPEC CHECKSUMS:
   SKPhotoBrowser: 343de95d89dc7913763c5dda243cc6e606e4a168
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
-  UMCCommon: 971f324a5a99c9d662ae040a815e7e3d7ef8b2a8
-  UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
-  UMCShare: 552b29753f1b4da87b51d96545ed19e6263df397
   WMPlayer: a914f80ed5dca7cd9e3a94ec07a2b02eec8c15c0
 
-PODFILE CHECKSUM: 9603f14a86fefa03425a9cc5bce7db9f4e1244e2
+PODFILE CHECKSUM: 15ffdd1f6e3201a5275218bdf77b30d3e911280d
 
-COCOAPODS: 1.9.2
+COCOAPODS: 1.9.1

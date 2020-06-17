@@ -7,7 +7,7 @@
 //
 
 #if DEBUG
-import CocoaDebug
+//import CocoaDebug
 #endif
 
 extension AppDelegate {
@@ -17,7 +17,7 @@ extension AppDelegate {
 //        监听网址Host  自己写
 //        CocoaDebug.onlyURLs = [APIHost.BaseUrl,APIHost.H5PageUrl]
 //        CocoaDebug.serverURL = APIHost.BaseUrl
-        CocoaDebug.enable()
+//        CocoaDebug.enable()
         #endif
     }
     

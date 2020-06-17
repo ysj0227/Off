@@ -9,8 +9,8 @@ target 'OfficeGo' do
   # Pods for OfficeGo
   
   #调试
-  pod 'LookinServer', :configurations => ['Debug']
-  pod 'CocoaDebug', :configurations => ['Debug']
+#  pod 'LookinServer', :configurations => ['Debug']
+#  pod 'CocoaDebug', :configurations => ['Debug']
   
   pod 'SnapKit',        '5.0.1'
   pod 'MJRefresh',      '3.3.1'
@@ -28,22 +28,22 @@ target 'OfficeGo' do
   #  pod 'LLSegmentViewController'
   pod 'IQKeyboardManagerSwift', '6.3.0'
   pod 'FSCalendar', '2.8.0'
-  pod 'UMCCommon'
-  pod 'UMCSecurityPlugins'
-  # U-Share SDK UI模块（分享面板，建议添加）
-  pod 'UMCShare/UI', '~> 6.9.5'
-  
-  # 集成微信(精简版0.2M)
-  #  pod 'UMCShare/Social/ReducedWeChat'
-  
-  # 集成微信(完整版14.4M)
-  pod 'UMCShare/Social/WeChat', '6.9.5'
-  
-  # 集成新浪微博(精简版1M)
-  #  pod 'UMCShare/Social/ReducedSina'
-  
-  # 集成新浪微博(完整版25.3M)
-  pod 'UMCShare/Social/Sina', '6.9.5'
+#  pod 'UMCCommon'
+#  pod 'UMCSecurityPlugins'
+#  # U-Share SDK UI模块（分享面板，建议添加）
+#  pod 'UMCShare/UI', '~> 6.9.5'
+#
+#  # 集成微信(精简版0.2M)
+#  #  pod 'UMCShare/Social/ReducedWeChat'
+#
+#  # 集成微信(完整版14.4M)
+#  pod 'UMCShare/Social/WeChat', '6.9.5'
+#
+#  # 集成新浪微博(精简版1M)
+#  #  pod 'UMCShare/Social/ReducedSina'
+#
+#  # 集成新浪微博(完整版25.3M)
+#  pod 'UMCShare/Social/Sina', '6.9.5'
   
   #  图片选择
   pod 'CLImagePickerTool', :git => 'https://github.com/Darren-chenchen/CLImagePickerTool.git'

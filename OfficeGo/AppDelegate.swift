@@ -58,11 +58,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //9.0
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         //6.3的新的API调用，是为了兼容国外平台(例如:新版facebookSDK,VK等)的调用[如果用6.2的api调用会没有回调],对国内平台没有影响
-        let result = UMSocialManager.default()?.handleOpen(url, options: options) ?? false
-        if !result {
-            //其他sdk的回调
-        }
-        return result
+//        let result = UMSocialManager.default()?.handleOpen(url, options: options) ?? false
+//        if !result {
+//            //其他sdk的回调
+//        }
+//        return result
+        return true
     }
     
     //设置导航栏 -
@@ -179,7 +180,7 @@ extension AppDelegate {
     }
     
     func setUpSDKs() {
-        
+        /*
         //友盟设置 -
         UMSocialManager.default().openLog(true)
         UMConfigure.initWithAppkey(AppKey.UMKey, channel: "App Store")
@@ -192,7 +193,7 @@ extension AppDelegate {
         UMSocialManager.default().setPlaform(.wechatTimeLine, appKey: AppKey.WeChatAppSecret, appSecret: AppKey.WeChatAppSecret, redirectURL: "http://mobile.umeng.com/social")
         /* 设置新浪的appKey和appSecret */
         UMSocialManager.default().setPlaform(.sina, appKey: AppKey.SinaAppkey, appSecret: AppKey.SinaAppSecret, redirectURL: "http://mobile.umeng.com/social")
-        
+        */
         
         //键盘弹出sdk集成
         IQKeyboardManager.shared.enable = true
