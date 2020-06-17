@@ -150,19 +150,13 @@ extension RenterSearchViewController {
     //MARK: 清除历史记录
     func requestClearHistory() {
         
-        historyDatasource.removeAll()
-        collectionView?.reloadData()
-        return
-        
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         SSNetworkTool.SSSearch.request_getClearHistorySearchKeywords(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<SearchHistoryModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                
-                weakSelf.collectionView?.reloadData()
-            }
+            weakSelf.historyDatasource.removeAll()
+            weakSelf.collectionView?.reloadData()
             
             }, failure: { (error) in
                 
