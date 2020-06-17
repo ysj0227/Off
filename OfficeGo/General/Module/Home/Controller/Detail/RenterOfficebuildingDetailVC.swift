@@ -96,6 +96,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingDetailViewModel?.buildingViewModel?.buildingName ?? ""
         shareVC.descriptionString = buildingDetailViewModel?.buildingViewModel?.addressString ?? ""
+        shareVC.thumbImage = buildingDetailViewModel?.buildingViewModel?.mainPic
         shareVC.shareIDString = buildingDetailViewModel?.buildingViewModel?.buildingId ?? 0
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
@@ -659,10 +660,12 @@ extension RenterOfficebuildingDetailVC {
                             return RenterFeatureCell.rowHeight0() + 30
                         }
                     }else {
-                        return RenterFeatureCell.rowHeight0()
+                        //return RenterFeatureCell.rowHeight0()
+                        return 0
                     }
                 }else {
-                    return RenterFeatureCell.rowHeight0()
+                    //return RenterFeatureCell.rowHeight0()
+                    return 0
                 }
                 
             case FYDetailItemType.FYDetailItemTypeLianheOpenList:

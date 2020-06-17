@@ -57,6 +57,7 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingFYDetailViewModel?.houseViewModel?.buildingName ?? ""
         shareVC.descriptionString = buildingFYDetailViewModel?.houseViewModel?.addressString ?? ""
+        shareVC.thumbImage = buildingFYDetailViewModel?.houseViewModel?.mainPic
         shareVC.shareIDString = buildingFYDetailViewModel?.houseViewModel?.id ?? 0
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
@@ -488,10 +489,12 @@ extension RenterOfficebuildingFYDetailVC {
                         return RenterFeatureCell.rowHeight0() + 30
                     }
                 }else {
-                    return RenterFeatureCell.rowHeight0()
+                    //return RenterFeatureCell.rowHeight0()
+                    return 0
                 }
             }else {
-                return RenterFeatureCell.rowHeight0()
+                //return RenterFeatureCell.rowHeight0()
+                return 0
             }
             
         case FYDetailItemType.FYDetailItemTypeLianheOpenList:

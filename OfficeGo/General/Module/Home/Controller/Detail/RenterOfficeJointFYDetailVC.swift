@@ -57,6 +57,7 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingFYDetailViewModel?.houseViewModel?.buildingName ?? ""
         shareVC.descriptionString = buildingFYDetailViewModel?.houseViewModel?.addressString ?? ""
+        shareVC.thumbImage = buildingFYDetailViewModel?.houseViewModel?.mainPic
         shareVC.shareIDString = buildingFYDetailViewModel?.houseViewModel?.id ?? 0
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
