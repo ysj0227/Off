@@ -8,6 +8,20 @@
 
 import UIKit
 
+//协议url
+public enum ProtocalType {
+    ///关于我们
+    case ProtocalTypeAboutUs
+    ///服务协议
+    case ProtocalTypeRegisterProtocol
+    ///隐私条款
+    case ProtocalTypePrivacyProtocolUrl
+    ///帮助与反馈
+    case ProtocalTypeHelpAndFeedbackUrl
+    ///常见问题
+    case ProtocalTypeQuestionUrl
+}
+
 //我想找item枚举
 public enum IWantToFindType {
     case IWantToFindTypeCity        //城市
