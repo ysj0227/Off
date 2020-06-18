@@ -240,7 +240,7 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
     }
     
     func showLoginVC() {
-        let vc = ReviewLoginViewController()
+        let vc = RenterLoginViewController()
         vc.isFromOtherVC = true
         vc.closeViewBack = {[weak self] (isClose) in
             guard let weakSelf = self else {return}
@@ -503,7 +503,7 @@ extension RenterOfficeJointFYDetailVC {
         if scrollView.contentOffset.y >= kWidth * imgScale - kNavigationHeight {
             titleview?.backgroundColor = kAppBlueColor
             titleview?.titleLabel.isHidden = false
-
+            
         }else {
             titleview?.backgroundColor = kAppClearColor
             titleview?.titleLabel.isHidden = true

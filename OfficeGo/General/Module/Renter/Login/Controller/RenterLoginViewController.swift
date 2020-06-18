@@ -1,5 +1,5 @@
 //
-//  ReviewLoginViewController.swift
+//  RenterLoginViewController.swift
 //  OfficeGo
 //
 //  Created by DENGFei on 2020/4/28.
@@ -12,7 +12,7 @@ import RxCocoa
 import HandyJSON
 import SwiftyJSON
 
-class ReviewLoginViewController: BaseViewController {
+class RenterLoginViewController: BaseViewController {
     
     ///0 是退出登录。1是登录完成
     public var closeViewBack:((Int) -> Void) = {_ in }
@@ -559,6 +559,6 @@ class ReviewLoginViewController: BaseViewController {
     }
 }
 
-extension ReviewLoginViewController {
+extension RenterLoginViewController {
     
 }

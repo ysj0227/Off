@@ -91,7 +91,7 @@ extension LoginRoleViewController {
             
             self?.tableView.reloadData()
             
-            let login = ReviewLoginViewController()
+            let login = RenterLoginViewController()
             self?.navigationController?.pushViewController(login, animated: true)
         }
         

@@ -138,7 +138,7 @@ class BaseWebViewController: BaseViewController {
         noDataView.isHidden = true
         noDataView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-60)
+            make.centerY.equalToSuperview().offset(-30)
             make.size.equalTo(CGSize(width: 160, height: 190))
         }
         noDataImageView.snp.makeConstraints { (make) in
@@ -171,7 +171,7 @@ class BaseWebViewController: BaseViewController {
         case .WiFi, .Wwan:
             noDataButton.isHidden = true
             noDataImageView.image = UIImage(named: "no_data_image")
-            noDataLabel.text = "暂无数据，点击重试"
+            noDataLabel.text = "加载失败，点击重试"
         }
     }
     

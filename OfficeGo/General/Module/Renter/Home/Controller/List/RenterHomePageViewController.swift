@@ -20,12 +20,12 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         }
     }
     /*
-    //附件房源搜索model
-    var nearbySelectModel: HouseSelectModel = HouseSelectModel() {
-        didSet {
-            //            self.tableView.reloadData()
-        }
-    }*/
+     //附件房源搜索model
+     var nearbySelectModel: HouseSelectModel = HouseSelectModel() {
+     didSet {
+     //            self.tableView.reloadData()
+     }
+     }*/
     
     var titleview: ThorNavigationView?
     
@@ -54,7 +54,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     }
     
     func setDataModel() {
-
+        
         request_getDistrict()
         
         requestGetFeature()
@@ -100,10 +100,10 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
                 self?.segmentTitleSelectview.selectView.selectModel = self?.recommendSelectModel
             }else if index == 2 {
                 /*
-                //附近
-                self?.segmentTitleSelectview.selectView.hiddenArea = true
-                self?.segmentTitleSelectview.selectView.selectModel = self?.nearbySelectModel
-                */
+                 //附近
+                 self?.segmentTitleSelectview.selectView.hiddenArea = true
+                 self?.segmentTitleSelectview.selectView.selectModel = self?.nearbySelectModel
+                 */
             }
             SSLog("--------index --********---\(index)")
         }
@@ -112,10 +112,10 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         segmentTitleSelectview.selectView.sureButtonButtonCallBack = { [weak self] (_ isNearby: Bool, _ selectModel: HouseSelectModel) -> Void in
             self?.recommendSelectModel = selectModel
             /*if isNearby == true {
-                self?.nearbySelectModel = selectModel
-            }else {
-                self?.recommendSelectModel = selectModel
-            }*/
+             self?.nearbySelectModel = selectModel
+             }else {
+             self?.recommendSelectModel = selectModel
+             }*/
         }
         
         self.view.addSubview(segmentTitleSelectview)
@@ -163,7 +163,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
         loadSegmentedConfig()
         
-//        requestGetBuildingList()
+        //        requestGetBuildingList()
     }
     
     
@@ -279,7 +279,7 @@ extension RenterHomePageViewController {
                 }
                 
                 weakSelf.setCycleImg()
-               
+                
             }
             
             }, failure: { (error) in
@@ -298,7 +298,7 @@ extension RenterHomePageViewController {
             self?.cycleView?.imageURLStringArr = ["http://img.officego.com/building/1590999378530.jpg", "https://cdn.maomaozu.com/4,f10fe5218f95.jpg?width=400&height=300"]
             //                weakSelf.cycleView?.imageURLStringArr = arr
         }
-         
+        
     }
 }
 
@@ -339,14 +339,14 @@ extension RenterHomePageViewController{
     }
     
     func loadCtls() {
-        let introCtl = FangYuanListViewController()
+        let introCtl = RenterFangYuanListViewController()
         introCtl.title = "推荐房源"
         
         /* 暂时隐藏附近房源
-        let catalogCtl = FangYuanListViewController()
-        catalogCtl.title = "附近房源"
+         let catalogCtl = RenterFangYuanListViewController()
+         catalogCtl.title = "附近房源"
          let ctls =  [introCtl,catalogCtl]
-        */
+         */
         
         let ctls =  [introCtl]
         reloadViewControllers(ctls:ctls)

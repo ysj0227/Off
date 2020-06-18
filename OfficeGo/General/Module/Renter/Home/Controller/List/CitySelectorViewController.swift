@@ -14,23 +14,23 @@ private let recentCell = "rencentCityCell"
 private let currentCell = "currentCityCell"
 
 class CitySelectorViewController: BaseViewController {
-
+    
     var citySelected:((_ city: String) -> Void)?
-
+    
     /// 表格
     lazy var tableView: UITableView = UITableView(frame: self.view.frame, style: .plain)
     /// 搜索控制器
     lazy var searchVC: UISearchController = {
-       let searchVc = UISearchController(searchResultsController: self.searchResultVC)
+        let searchVc = UISearchController(searchResultsController: self.searchResultVC)
         searchVc.delegate = self
         searchVc.searchResultsUpdater = self
         searchVc.hidesNavigationBarDuringPresentation = false
         /**
          * a、如果不添加下面这行代码，在设置hidesNavigationBarDuringPresentation这个属性为YES的时候，搜索框进入编辑模式会导致searchbar不可见，偏移-64; 在设置为NO的时候，进入编辑模式输入内容会导致高度为64的白条，猜测是导航栏没有渲染出来
-           b、如果添加了下面这行代码，在设置hidesNavigationBarDuringPresentation这个属性为YES的时候，输入框进入编辑模式正常显示和使用; 在设置为NO的时候，搜索框进入编辑模式导致向下偏移64，具体原因暂时未找到
+         b、如果添加了下面这行代码，在设置hidesNavigationBarDuringPresentation这个属性为YES的时候，输入框进入编辑模式正常显示和使用; 在设置为NO的时候，搜索框进入编辑模式导致向下偏移64，具体原因暂时未找到
          */
         searchVc.definesPresentationContext = true
-//        searchVc.dimsBackgroundDuringPresentation = false
+        //        searchVc.dimsBackgroundDuringPresentation = false
         searchVc.searchBar.frame = CGRect(x: 0, y: kStatusBarHeight, width: kWidth, height: 44)
         searchVc.searchBar.placeholder = "搜索城市"
         searchVc.searchBar.backgroundImage = UIImage.create(with: kAppColor_bgcolor_F7F7F7)
@@ -44,7 +44,7 @@ class CitySelectorViewController: BaseViewController {
         let path = Bundle.main.path(forResource: "cities.plist", ofType: nil)
         let dic = NSDictionary(contentsOfFile: path ?? "") as? [String: [String]]
         return dic ?? [:]
-        }()
+    }()
     /// 懒加载 热门城市
     lazy var hotCities: [String] = {
         let path = Bundle.main.path(forResource: "hotCities.plist", ofType: nil)
@@ -53,14 +53,14 @@ class CitySelectorViewController: BaseViewController {
     }()
     /// 懒加载 标题数组
     lazy var titleArray: [String] = { () -> [String] in
-       var array = [String]()
+        var array = [String]()
         for str in self.cityDic.keys {
             array.append(str)
         }
         // 标题排序
         array.sort()
         array.insert("热门", at: 0)
-//        array.insert("最近", at: 0)
+        //        array.insert("最近", at: 0)
         array.insert("当前", at: 0)
         return array
     }()
@@ -80,7 +80,7 @@ class CitySelectorViewController: BaseViewController {
         titleview?.leftButton.addTarget(self, action: #selector(leftBtnClick), for: .touchUpInside)
         titleview?.titleLabel.text = "选择城市"
         view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
-
+        
         // 在导航条添加searchBar
         let searchview = UIView(frame: searchVC.searchBar.frame)
         searchview.addSubview(searchVC.searchBar)
@@ -96,7 +96,7 @@ class CitySelectorViewController: BaseViewController {
         
         // 右边索引
         tableView.sectionIndexColor = kAppColor_333333
-//        tableView.sectionIndexTrackingBackgroundColor = UIColor.white
+        //        tableView.sectionIndexTrackingBackgroundColor = UIColor.white
         tableView.sectionIndexBackgroundColor = UIColor.clear
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
@@ -108,7 +108,7 @@ class CitySelectorViewController: BaseViewController {
     deinit {
         SSLog("我走了")
     }
-
+    
 }
 
 // MARK: UISearchResultsUpdating
@@ -162,11 +162,11 @@ extension CitySelectorViewController: UITableViewDataSource, UITableViewDelegate
             return cell
             
         }
-//        else if indexPath.section == 1 {
-//
-//            let cell = tableView.dequeueReusableCell(withIdentifier: recentCell, for: indexPath) as! RecentCitiesTableViewCell
-//            return cell
-//        }
+            //        else if indexPath.section == 1 {
+            //
+            //            let cell = tableView.dequeueReusableCell(withIdentifier: recentCell, for: indexPath) as! RecentCitiesTableViewCell
+            //            return cell
+            //        }
         else if indexPath.section == 1 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: hotCityCell, for: indexPath) as! HotCityTableViewCell
@@ -205,7 +205,7 @@ extension CitySelectorViewController: UITableViewDataSource, UITableViewDelegate
         let title = UILabel(frame: CGRect(x: left_pending_space_17, y: 5, width: kWidth - left_pending_space_17, height: 28))
         var titleArr = titleArray
         titleArr[0] = "当前城市"
-//        titleArr[1] = "最近选择城市"
+        //        titleArr[1] = "最近选择城市"
         titleArr[1] = "热门城市"
         title.text = titleArr[section]
         title.textColor = kAppColor_333333
@@ -225,9 +225,9 @@ extension CitySelectorViewController: UITableViewDataSource, UITableViewDelegate
         if indexPath.section == 0 {
             return 40 + 2 * btnMargin
         }
-//        else if indexPath.section == 1 {
-//            return 40 + 2 * btnMargin
-//        }
+            //        else if indexPath.section == 1 {
+            //            return 40 + 2 * btnMargin
+            //        }
         else if indexPath.section == 1 {
             let row = (hotCities.count - 1) / 3
             return (40 + 2 * btnMargin) + (btnMargin + 40) * CGFloat(row)

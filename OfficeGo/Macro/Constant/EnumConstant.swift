@@ -87,6 +87,17 @@ public enum RenterUserMsgType {
 }
 
 
+
+//业主
+//租户我的
+public enum OwnerMineType {
+    case OwnerMineTypeHelpAndFeedback  //帮助与反馈
+    case OwnerMineTypeCusomers         //客服
+    case OwnerMineTypeRegisterAgent    //注册协议与隐私条款
+    case OwnerMineTypeAboutus          //关于我们
+}
+
+
 //弹框alert
 public enum AlertType {
     case AlertTypeVersionUpdate             //版本更新 - 弹框

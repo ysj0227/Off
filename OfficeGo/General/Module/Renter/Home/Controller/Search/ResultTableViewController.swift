@@ -11,7 +11,7 @@ import UIKit
 private let resultCell = SearchResultTableViewCell.reuseIdentifierStr
 
 class ResultTableViewController: UITableViewController {
-
+    
     var resultArray:[String] = []
     var isFrameChange = false
     /// 点击cell回调闭包
@@ -29,14 +29,14 @@ class ResultTableViewController: UITableViewController {
         
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+        
         return resultArray.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       let cell =  tableView.dequeueReusableCell(withIdentifier: resultCell, for: indexPath)
+        let cell =  tableView.dequeueReusableCell(withIdentifier: resultCell, for: indexPath)
         cell.textLabel?.text = resultArray[indexPath.row]
         return cell
     }

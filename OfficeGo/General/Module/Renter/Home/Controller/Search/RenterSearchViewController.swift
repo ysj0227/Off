@@ -21,7 +21,7 @@ class RenterSearchViewController: BaseViewController {
         return ll
     }()
     
-    var searchResultVC: ESearchResultListViewController?
+    var searchResultVC: ESearchRenterResultListViewController?
     
     var collectionView: UICollectionView?
     
@@ -53,7 +53,7 @@ class RenterSearchViewController: BaseViewController {
         }else {
             searchResultVC?.view.isHidden = false
             searchResultVC?.keywords = titleview?.searchBarView.searchTextfiled.text
-
+            
         }
         
     }
@@ -85,7 +85,7 @@ class RenterSearchViewController: BaseViewController {
             make.bottom.equalToSuperview()
         }
         
-        searchResultVC = ESearchResultListViewController.init()
+        searchResultVC = ESearchRenterResultListViewController.init()
         searchResultVC?.view.isHidden = true
         self.view.addSubview(searchResultVC?.view ?? UIView())
         
@@ -116,7 +116,7 @@ class RenterSearchViewController: BaseViewController {
     }
     
     func setData() {
-                
+        
         requestGetHotFind()
     }
 }
@@ -189,7 +189,7 @@ extension RenterSearchViewController {
             }
         }
     }
-        
+    
 }
 extension RenterSearchViewController :UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

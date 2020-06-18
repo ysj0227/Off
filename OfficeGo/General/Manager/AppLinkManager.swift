@@ -132,7 +132,7 @@ class AppLinkManager: NSObject {
 //                navigationController?.present(BaseNavigationViewController(rootViewController: loginVC), animated: true, completion: nil)
 //            }
 //        } else {
-//            let loginVC = ReviewLoginViewController()
+//            let loginVC = RenterLoginViewController()
 //            if let prVC = fromVC {
 //                prVC.present(BaseNavigationViewController(rootViewController: loginVC), animated: true, completion: nil)
 //            } else {

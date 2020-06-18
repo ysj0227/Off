@@ -14,8 +14,8 @@ class ConfigureModel: NSObject {
     var isShowDetailIcon: Bool?
 }
 
-//我的
-class MineConfigureModel: ConfigureModel {
+//我的 - 租户
+class RenterMineConfigureModel: ConfigureModel {
     
     var type: RenterMineType?
     
@@ -52,6 +52,40 @@ class MineConfigureModel: ConfigureModel {
         case .RenterMineTypeRegisterAgent:
             return "agentRegular"
         case .RenterMineTypeAboutus:
+            return "aboutUS"
+        }
+    }
+}
+//我的 - 业主
+class OwnerMineConfigureModel: ConfigureModel {
+    
+    var type: OwnerMineType?
+    
+    init(types: OwnerMineType) {
+        type = types
+    }
+    
+    func getNameFormType(type: OwnerMineType) -> String{
+        switch type {
+        case .OwnerMineTypeHelpAndFeedback:
+            return "帮助与反馈"
+        case .OwnerMineTypeCusomers:
+            return "客服"
+        case .OwnerMineTypeRegisterAgent:
+            return "注册协议与隐私条款"
+        case .OwnerMineTypeAboutus:
+            return "关于我们"
+        }
+    }
+    func getIconFormType(type: OwnerMineType) -> String{
+        switch type {
+        case .OwnerMineTypeHelpAndFeedback:
+            return "helpAndFeedback"
+        case .OwnerMineTypeCusomers:
+            return "customers"
+        case .OwnerMineTypeRegisterAgent:
+            return "agentRegular"
+        case .OwnerMineTypeAboutus:
             return "aboutUS"
         }
     }

@@ -262,7 +262,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         SSTool.invokeInMainThread { [weak self] in
             
             guard let weakSelf = self else {return}
-
+            
             weakSelf.isHiddenMoreData = count < weakSelf.pageSize || count == 0
             
             weakSelf.tableView.reloadData()
@@ -393,15 +393,15 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         
     }
     func scrollToFY() {
-           AppUtilities.makeToast("请先选择一个房源")
-           //1
-           if dataSourceArr.count > 0 {
-               if dataSource.count > 0 {
-                   tableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
-               }
-               
-           }
-       }
+        AppUtilities.makeToast("请先选择一个房源")
+        //1
+        if dataSourceArr.count > 0 {
+            if dataSource.count > 0 {
+                tableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
+            }
+            
+        }
+    }
     ///判断有没有登录
     func juddgeIsLogin() {
         //登录直接请求数据
@@ -416,7 +416,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     }
     
     func showLoginVC() {
-        let vc = ReviewLoginViewController()
+        let vc = RenterLoginViewController()
         vc.isFromOtherVC = true
         vc.closeViewBack = {[weak self] (isClose) in
             guard let weakSelf = self else {return}
@@ -471,7 +471,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     func loadHeaderview() {
         
         titleview?.titleLabel.text = buildingDetailViewModel?.buildingViewModel?.buildingName
-
+        
         tableHeaderView.model = self.buildingDetailModel ?? FangYuanBuildingDetailModel()
     }
     
@@ -1038,7 +1038,7 @@ extension RenterOfficebuildingDetailVC {
         if scrollView.contentOffset.y >= kWidth * imgScale - kNavigationHeight {
             titleview?.backgroundColor = kAppBlueColor
             titleview?.titleLabel.isHidden = false
-
+            
         }else {
             titleview?.backgroundColor = kAppClearColor
             titleview?.titleLabel.isHidden = true

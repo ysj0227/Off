@@ -1,5 +1,5 @@
 //
-//  SearchResultListViewController.swift
+//  RenterSearchResultListViewController.swift
 //  OfficeGo
 //
 //  Created by mac on 2020/5/15.
@@ -10,10 +10,10 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 
-class SearchResultListViewController: BaseTableViewController {
+class RenterSearchResultListViewController: BaseTableViewController {
     
     var dataSourceViewModel: [FangYuanListViewModel?] = []
-
+    
     var searchString: String = "" {
         //搜索接口
         //设置上面button的title
@@ -81,24 +81,24 @@ class SearchResultListViewController: BaseTableViewController {
         }
         
         requestSet()
-
+        
     }
     
     //MARK: 获取列表数据
     override func refreshData() {
-         
-         if pageNo == 1 {
-             if self.dataSourceViewModel.count > 0 {
+        
+        if pageNo == 1 {
+            if self.dataSourceViewModel.count > 0 {
                 self.dataSourceViewModel.removeAll()
-             }
-         }
+            }
+        }
         
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         params["keyWord"] = searchString as AnyObject?
-
+        
         
         //商圈和地铁
         //商圈
@@ -199,7 +199,7 @@ class SearchResultListViewController: BaseTableViewController {
                 gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
                 
                 params["seats"] = gongweiExtentStr as AnyObject?
-
+                
                 zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
                 
                 //房源特色 - 两者都有
@@ -210,7 +210,7 @@ class SearchResultListViewController: BaseTableViewController {
                 }
                 
             }else if btype == 1 {
-                                
+                
                 zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
                 
                 //办公室 - 面积传值
@@ -275,21 +275,21 @@ class SearchResultListViewController: BaseTableViewController {
     }
 }
 
-extension SearchResultListViewController {
+extension RenterSearchResultListViewController {
     
     func requestSet() {
         
         isShowRefreshHeader = false
         
         self.tableView.register(HouseListTableViewCell.self, forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
-
+        
         refreshData()
     }
     
     
 }
 
-extension SearchResultListViewController {
+extension RenterSearchResultListViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HouseListTableViewCell.reuseIdentifierStr) as? HouseListTableViewCell
@@ -337,7 +337,7 @@ extension SearchResultListViewController {
 
 
 //MARK: 接口处理
-extension SearchResultListViewController {
+extension RenterSearchResultListViewController {
     
     //MARK: 获取商圈数据
     func request_getDistrict() {

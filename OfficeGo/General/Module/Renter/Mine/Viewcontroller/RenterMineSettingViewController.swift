@@ -234,7 +234,13 @@ class RenterSettingCell: BaseTableViewCell {
         view.textColor = kAppColor_333333
         return view
     }()
-    
+    lazy var numDescLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .right
+        view.font = FONT_10
+        view.textColor = kAppColor_666666
+        return view
+    }()
     lazy var detailIcon: BaseImageView = {
         let view = BaseImageView.init()
         view.contentMode = .scaleAspectFit
@@ -261,10 +267,16 @@ class RenterSettingCell: BaseTableViewCell {
     var model: SettingConfigureModel = SettingConfigureModel(types: RenterSettingType.RenterSettingTypeRoleChange) {
         didSet {
             titleLabel.text = model.getNameFormType(type: model.type ?? RenterSettingType.RenterSettingTypeRoleChange)
+            
             if model.type == RenterSettingType.RenterSettingTypeRoleChange {
                 lineView.isHidden = true
             }else {
                 lineView.isHidden = false
+                if model.type = RenterSettingType.RenterSettingTypeChangePhone {
+                    numDescLabel.text = UserTool.shared.user_phone
+                }else if model.type = RenterSettingType.RenterSettingTypeChangeWechat {
+                    numDescLabel.text = UserTool.shared.user_wechat
+                }
             }
         }
     }
@@ -272,6 +284,7 @@ class RenterSettingCell: BaseTableViewCell {
     func setupViews() {
         
         addSubview(titleLabel)
+        addSubview(numDescLabel)
         addSubview(detailIcon)
         addSubview(lineView)
         
@@ -284,6 +297,12 @@ class RenterSettingCell: BaseTableViewCell {
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
             make.centerY.equalToSuperview()
             make.width.equalTo(10)
+        }
+        
+        numDescLabel.snp.makeConstraints { (make) in
+            make.trailing.equalTo(detailIcon.snp.leading).offset(-9)
+            make.centerY.equalTo(itemIcon)
+            make.leading.equalTo(titleLabel.snp.trailing)
         }
         lineView.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

@@ -1,5 +1,5 @@
 //
-//  ESearchResultListViewController.swift
+//  ESearchRenterResultListViewController.swift
 //  OfficeGo
 //
 //  Created by mac on 2020/6/5.
@@ -10,7 +10,7 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 
-class ESearchResultListViewController: BaseTableViewController {
+class ESearchRenterResultListViewController: BaseTableViewController {
     
     /// 点击cell回调闭包
     var callBack: (FangYuanListModel) -> () = {_ in }
@@ -65,20 +65,20 @@ class ESearchResultListViewController: BaseTableViewController {
     
 }
 
-extension ESearchResultListViewController {
+extension ESearchRenterResultListViewController {
     
     @objc func requestSet() {
         
         isShowRefreshHeader = true
         
         self.tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.reuseIdentifierStr)
-                
+        
     }
     
     
 }
 
-extension ESearchResultListViewController {
+extension ESearchRenterResultListViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.reuseIdentifierStr) as? SearchResultTableViewCell

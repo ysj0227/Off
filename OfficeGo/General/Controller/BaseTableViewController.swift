@@ -87,7 +87,7 @@ class BaseTableViewController: BaseViewController {
         noDataView.isHidden = true
         noDataView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-60)
+            make.centerY.equalToSuperview().offset(-30)
             make.size.equalTo(CGSize(width: 160, height: 190))
         }
         noDataImageView.snp.makeConstraints { (make) in

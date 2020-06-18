@@ -85,7 +85,6 @@ class IWantToFindViewController: BaseViewController {
     }
 }
 
-
 //MARK:-  API调用接口
 extension IWantToFindViewController {
     
@@ -179,7 +178,7 @@ extension IWantToFindViewController {
             gongweiExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
             
             params["seats"] = gongweiExtentStr as AnyObject?
-
+            
             zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
             
             //房源特色 - 两者都有
@@ -190,7 +189,7 @@ extension IWantToFindViewController {
             }
             
         }else if btype == 1 {
-                    
+            
             zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
             
             //办公室 - 面积传值

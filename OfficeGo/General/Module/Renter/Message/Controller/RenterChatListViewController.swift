@@ -113,7 +113,7 @@ extension RenterChatListViewController {
 
     }
     func showLoginVC() {
-        let vc = ReviewLoginViewController()
+        let vc = RenterLoginViewController()
         vc.isFromOtherVC = true
         vc.closeViewBack = {[weak self] (isClose) in
             guard let weakSelf = self else {return}

@@ -27,7 +27,7 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
     
     ///显示数据
     var dataSourceArr: [ScheduleViewModel] = []
-
+    
     ///当前显示的有数据的事件 2020-09-20
     var currentDayString: String?
     
@@ -128,7 +128,7 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
                 }
             }
         }else {
-
+            
             SSNetworkTool.SSSchedule.request_getScheduleListApp(params: params, success: { [weak self] (response) in
                 guard let weakSelf = self else {return}
                 if let decoratedArray = JSONDeserializer<ScheduleModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
@@ -156,12 +156,12 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
                 }
             }
         }
-
+        
     }
     
     func loadViewShowViews() {
         SSTool.invokeInMainThread { [weak self] in
-
+            
             if let arr = self?.datesWithEvent {
                 if arr.count > 0 {
                     self?.currentDayString = arr[0]
@@ -181,7 +181,7 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
         super.viewDidLoad()
         
         currentDayString =  self.dateFormatter2.string(from: NSDate() as Date)
-
+        
         setUpView()
     }
     
@@ -190,8 +190,8 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
         ///默认显示看房行程- 为true 显示约看记录
         ///当前为约看记录
         if isLookRecord == true {
-             titleview?.rightButton.setTitle("看房行程", for: .normal)
-
+            titleview?.rightButton.setTitle("看房行程", for: .normal)
+            
             titleview?.titleLabel.text = "约看记录"
             
             ///清空之前显示的数据
@@ -200,22 +200,22 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
             currentModel = nil
             
             refreshData()
-
+            
             titleview?.rightBtnClickBlock = { [weak self] in
                 self?.isLookRecord = false
             }
         }else {
             titleview?.rightButton.setTitle("约看记录", for: .normal)
-
+            
             titleview?.titleLabel.text = "看房行程"
-
+            
             ///清空之前显示的数据
             currentDayString = ""
             
             currentModel = nil
             
             refreshData()
-
+            
             titleview?.rightBtnClickBlock = { [weak self] in
                 self?.isLookRecord = true
             }
@@ -324,7 +324,7 @@ extension RenterHouseScheduleViewController {
         self.view.sendSubviewToBack(calendar)
         
         SSLog("当前时间\(calendar.currentPage)")
-                
+        
         let preBtn = UIButton.init(frame: CGRect(x: 0, y: kNavigationHeight, width: 50, height: 45))
         preBtn.backgroundColor = kAppWhiteColor
         preBtn.addTarget(self, action: #selector(previousClicked), for: .touchUpInside)
@@ -354,7 +354,7 @@ extension RenterHouseScheduleViewController {
     func setUpData() {
         
     }
-
+    
     func showNoDataView() {
         if currentModel?.scheduleViewModelList?.count ?? 0 > 0 {
             noDataView.isHidden = true
@@ -420,7 +420,7 @@ class RenterHouseScheduleCell: BaseTableViewCell {
     lazy var dateLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_10
+        view.font = FONT_12
         view.textColor = kAppColor_666666
         return view
     }()
@@ -428,7 +428,7 @@ class RenterHouseScheduleCell: BaseTableViewCell {
     lazy var dateTimeLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_14
+        view.font = FONT_MEDIUM_15
         view.textColor = kAppColor_333333
         return view
     }()
@@ -447,19 +447,21 @@ class RenterHouseScheduleCell: BaseTableViewCell {
     //背景 - 浅灰或者浅蓝色
     lazy var bgView: UIView = {
         let view = UIView()
+        view.clipsToBounds = true
+        view.layer.cornerRadius = button_cordious_2
         return view
     }()
     lazy var nameLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_MEDIUM_14
+        view.font = FONT_MEDIUM_15
         return view
     }()
     
     lazy var companyLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_10
+        view.font = FONT_12
         view.textColor = kAppColor_666666
         return view
     }()
@@ -467,13 +469,13 @@ class RenterHouseScheduleCell: BaseTableViewCell {
     lazy var stateLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .right
-        view.font = FONT_MEDIUM_10
+        view.font = FONT_MEDIUM_12
         return view
     }()
     lazy var descLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_10
+        view.font = FONT_12
         view.textColor = kAppColor_666666
         return view
     }()
@@ -486,7 +488,7 @@ class RenterHouseScheduleCell: BaseTableViewCell {
     lazy var addressLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_9
+        view.font = FONT_10
         view.textColor = kAppColor_666666
         return view
     }()
@@ -500,7 +502,7 @@ class RenterHouseScheduleCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     class func rowHeight() -> CGFloat {
-        return 102
+        return 120
     }
     
     var viewModel: ScheduleViewModelList = ScheduleViewModelList(model: ScheduleList()) {
@@ -543,7 +545,7 @@ class RenterHouseScheduleCell: BaseTableViewCell {
         dateLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
             make.top.equalTo(19)
-            make.width.equalTo(50)
+            make.width.equalTo(52)
             make.height.equalTo(20)
         }
         dateTimeLabel.snp.makeConstraints { (make) in
@@ -553,7 +555,7 @@ class RenterHouseScheduleCell: BaseTableViewCell {
         }
         timeIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(dateLabel.snp.trailing)
-            make.size.equalTo(17)
+            make.size.equalTo(20)
             make.centerY.equalToSuperview()
         }
         topLineView.snp.makeConstraints { (make) in
@@ -568,16 +570,16 @@ class RenterHouseScheduleCell: BaseTableViewCell {
             make.bottom.equalToSuperview()
             make.width.equalTo(1.0)
         }
-
+        
         bgView.snp.makeConstraints { (make) in
-            make.leading.equalTo(timeIcon.snp.trailing).offset(-8.5)
+            make.leading.equalTo(timeIcon.snp.trailing).offset(-10)
             make.top.equalTo(dateLabel)
             make.bottom.equalToSuperview()
             make.trailing.equalTo(-left_pending_space_17)
         }
         stateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(10)
-            make.height.equalTo(23)
+            make.top.equalTo(12)
+            make.height.equalTo(28)
             make.trailing.equalToSuperview().offset(-13)
             make.width.equalTo(55)
         }
@@ -595,12 +597,12 @@ class RenterHouseScheduleCell: BaseTableViewCell {
             make.leading.equalTo(nameLabel)
             make.trailing.equalTo(stateLabel)
             make.top.equalTo(nameLabel.snp.bottom).offset(3)
-            make.height.equalTo(21)
+            make.height.equalTo(22)
         }
         addressIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(nameLabel)
             make.top.equalTo(descLabel.snp.bottom).offset(3)
-            make.height.equalTo(18)
+            make.height.equalTo(20)
         }
         addressLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(addressIcon.snp.trailing).offset(5)

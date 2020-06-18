@@ -267,7 +267,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         SSTool.invokeInMainThread { [weak self] in
             
             guard let weakSelf = self else {return}
-
+            
             weakSelf.isHiddenMoreData = count < weakSelf.pageSize || count == 0
             
             weakSelf.tableView.reloadData()
@@ -421,7 +421,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     }
     
     func showLoginVC() {
-        let vc = ReviewLoginViewController()
+        let vc = RenterLoginViewController()
         vc.isFromOtherVC = true
         vc.closeViewBack = {[weak self] (isClose) in
             guard let weakSelf = self else {return}
@@ -509,7 +509,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
                 self?.loadNewData()
                 //刷新view
                 self?.refreshTableview()
-
+                
             }
             weakSelf.endRefreshAnimation()
             
@@ -532,7 +532,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         }
     }
     
-        func refreshTableview() {
+    func refreshTableview() {
         SSTool.invokeInMainThread { [weak self] in
             self?.setItemFunc()
             self?.loadHeaderview()
@@ -541,7 +541,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
             self?.tableView.reloadData()
         }
     }
-
+    
     
 }
 
@@ -924,7 +924,7 @@ extension RenterOfficeJointDetailVC {
         if scrollView.contentOffset.y >= kWidth * imgScale - kNavigationHeight {
             titleview?.backgroundColor = kAppBlueColor
             titleview?.titleLabel.isHidden = false
-
+            
         }else {
             titleview?.backgroundColor = kAppClearColor
             titleview?.titleLabel.isHidden = true

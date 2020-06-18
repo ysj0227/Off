@@ -88,7 +88,7 @@ class BaseViewController: UIViewController {
     }
     
     func showLoginVC() {
-        let vc = ReviewLoginViewController()
+        let vc = RenterLoginViewController()
         let loginNav = BaseNavigationViewController.init(rootViewController: vc)
         loginNav.modalPresentationStyle = .overFullScreen
         //TODO: 这块弹出要设置
@@ -225,7 +225,7 @@ extension BaseViewController: UIGestureRecognizerDelegate {
 extension BaseViewController {
     //跳转到搜索结果列表
     func clickPushToSearchListVc(sarchStr: String) {
-        let vc = SearchResultListViewController()
+        let vc = RenterSearchResultListViewController()
         vc.searchString = sarchStr
         self.navigationController?.pushViewController(vc, animated: true)
     }

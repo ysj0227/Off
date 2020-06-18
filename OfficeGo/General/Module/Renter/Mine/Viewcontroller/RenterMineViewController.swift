@@ -14,14 +14,14 @@ class RenterMineViewController: BaseTableViewController {
     
     var userModel: LoginUserModel?
     
-    var typeSourceArray:[MineConfigureModel] = {
-        var arr = [MineConfigureModel]()
-//        arr.append(MineConfigureModel.init(types: .RenterMineTypeIWanttoFind))
-        arr.append(MineConfigureModel.init(types: .RenterMineTypeHouseSchedule))
-        arr.append(MineConfigureModel.init(types: .RenterMineTypeHelpAndFeedback))
-        arr.append(MineConfigureModel.init(types: .RenterMineTypeCusomers))
-        arr.append(MineConfigureModel.init(types: .RenterMineTypeRegisterAgent))
-        arr.append(MineConfigureModel.init(types: .RenterMineTypeAboutus))
+    var typeSourceArray:[RenterMineConfigureModel] = {
+        var arr = [RenterMineConfigureModel]()
+//        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeIWanttoFind))
+        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeHouseSchedule))
+        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeHelpAndFeedback))
+        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeCusomers))
+        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeRegisterAgent))
+        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeAboutus))
         return arr
     }()
     
@@ -96,7 +96,7 @@ extension RenterMineViewController {
     }
     
     func showLoginVC() {
-        let vc = ReviewLoginViewController()
+        let vc = RenterLoginViewController()
         vc.isFromOtherVC = true
         vc.closeViewBack = {[weak self] (isClose) in
             guard let weakSelf = self else {return}
@@ -146,11 +146,64 @@ extension RenterMineViewController {
 }
 
 extension RenterMineViewController {
+    @objc func requestUserMessage() {
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        SSNetworkTool.SSMine.request_getUserMsg(params: params, success: {[weak self] (response) in
+
+            guard let weakSelf = self else {return}
+
+            if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.userModel = model
+                
+                UserTool.shared.user_uid = model.userId
+                UserTool.shared.user_name = model.realname
+                UserTool.shared.user_nickname = model.nickname
+                UserTool.shared.user_avatars = model.avatar
+                UserTool.shared.user_company = model.company
+                UserTool.shared.user_job = model.job
+                UserTool.shared.user_sex = model.sex
+                UserTool.shared.user_phone = model.phone
+                UserTool.shared.user_wechat = model.wxId
+                
+                SSTool.invokeInMainThread {
+                    weakSelf.headerView.userModel = model
+                    weakSelf.reloadRCUserInfo()
+                }
+
+            }
+            
+            }, failure: {[weak self] (error) in
+                
+        }) {[weak self] (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+       /*
+       * 强制刷新用户信息
+       * SDK 缓存操作
+       * 1、刷新 SDK 缓存
+    */
+       func reloadRCUserInfo() {
+           let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
+           RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)")
+       }
+       
+}
+
+extension RenterMineViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RenterMineCell.reuseIdentifierStr) as? RenterMineCell
         cell?.selectionStyle = .none
-        cell?.model = typeSourceArray[indexPath.row]
+        cell?.renterModel = typeSourceArray[indexPath.row]
         return cell ?? HouseListTableViewCell.init(frame: .zero)
     }
     
@@ -394,10 +447,18 @@ class RenterMineCell: BaseTableViewCell {
         return 49
     }
     
-    var model: MineConfigureModel = MineConfigureModel(types: RenterMineType.RenterMineTypeAboutus) {
+    var renterModel: RenterMineConfigureModel = RenterMineConfigureModel(types: RenterMineType.RenterMineTypeAboutus) {
         didSet {
-            itemIcon.image = UIImage.init(named: model.getIconFormType(type: model.type ?? RenterMineType.RenterMineTypeAboutus))
-            titleLabel.text = model.getNameFormType(type: model.type ?? RenterMineType.RenterMineTypeAboutus)
+            itemIcon.image = UIImage.init(named: renterModel.getIconFormType(type: renterModel.type ?? RenterMineType.RenterMineTypeAboutus))
+            titleLabel.text = renterModel.getNameFormType(type: renterModel.type ?? RenterMineType.RenterMineTypeAboutus)
+            numDescLabel.text = "12"
+        }
+    }
+    
+    var ownerModel: OwnerMineConfigureModel = OwnerMineConfigureModel(types: OwnerMineType.OwnerMineTypeAboutus) {
+        didSet {
+            itemIcon.image = UIImage.init(named: ownerModel.getIconFormType(type: ownerModel.type ?? OwnerMineType.OwnerMineTypeAboutus))
+            titleLabel.text = ownerModel.getNameFormType(type: ownerModel.type ?? OwnerMineType.OwnerMineTypeAboutus)
             numDescLabel.text = "12"
         }
     }
@@ -458,56 +519,3 @@ class RenterMineCell: BaseTableViewCell {
     
 }
 
-
-extension RenterMineViewController {
-    @objc func requestUserMessage() {
-        var params = [String:AnyObject]()
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        SSNetworkTool.SSMine.request_getUserMsg(params: params, success: {[weak self] (response) in
-
-            guard let weakSelf = self else {return}
-
-            if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
-                
-                weakSelf.userModel = model
-                
-                UserTool.shared.user_uid = model.userId
-                UserTool.shared.user_name = model.realname
-                UserTool.shared.user_nickname = model.nickname
-                UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_company = model.company
-                UserTool.shared.user_job = model.job
-                UserTool.shared.user_sex = model.sex
-                UserTool.shared.user_phone = model.phone
-                UserTool.shared.user_wechat = model.wxId
-                
-                SSTool.invokeInMainThread {
-                    weakSelf.headerView.userModel = model
-                    weakSelf.reloadRCUserInfo()
-                }
-
-            }
-            
-            }, failure: {[weak self] (error) in
-                
-        }) {[weak self] (code, message) in
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-    }
-    
-       /*
-       * 强制刷新用户信息
-       * SDK 缓存操作
-       * 1、刷新 SDK 缓存
-    */
-       func reloadRCUserInfo() {
-           let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
-           RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)")
-       }
-       
-}

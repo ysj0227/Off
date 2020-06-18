@@ -136,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     
     @objc func setLoginVC() {
-        let loginvc = ReviewLoginViewController()
+        let loginvc = RenterLoginViewController()
         loginvc.titleview?.leftButton.isHidden = true
         let loginNav = BaseNavigationViewController.init(rootViewController: loginvc)
         loginNav.navigationBar.isHidden = true
