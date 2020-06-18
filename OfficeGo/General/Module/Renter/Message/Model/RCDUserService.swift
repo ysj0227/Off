@@ -18,17 +18,6 @@ extension RCDUserService: RCIMUserInfoDataSource {
     // 需返回正确的用户信息
     func getUserInfo(withUserId userId: String!, completion: ((RCUserInfo?) -> Void)!) {
         
-        //这边需要一个接口，把用户信息返回给我
-//        let model = RCIM.shared()?.getUserInfoCache(userId);
-        /*
-        if userId == "11" {
-            let model = RCUserInfo.init(userId: "11", name: "967/NX5LAZieYyTUV64E93kXj1D6gbjE@7mb1.cn.rongnav.com;7mb1.cn.rongcfg.com", portrait: "https://img.officego.com.cn/building/1589275141007.jpg")
-            completion(model)
-            return
-        }
-        let model = RCUserInfo.init(userId: "200", name: "安卓", portrait: "https://img.officego.com.cn/report/1590121741001.jpg")
-        completion(model)
- */
     }
 }
 

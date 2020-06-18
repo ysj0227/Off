@@ -21,12 +21,12 @@ class RenterChatListViewController: RCConversationListViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
-         let tab = self.navigationController?.tabBarController as? MainTabBarController
+         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
          tab?.customTabBar.isHidden = true
      }
      override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
-         let tab = self.navigationController?.tabBarController as? MainTabBarController
+         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
          tab?.customTabBar.isHidden = false
         juddgeIsLogin()
      }
@@ -50,7 +50,7 @@ class RenterChatListViewController: RCConversationListViewController {
     
     func updateBadgeValueForTabBarItem() {
         let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE]) ?? 0)
-        let tab = self.navigationController?.tabBarController as? MainTabBarController
+        let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
         tab?.setbadge(num: count)
     }
     

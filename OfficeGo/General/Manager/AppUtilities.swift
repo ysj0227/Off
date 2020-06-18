@@ -11,9 +11,7 @@ import UIKit
 import Photos
 
 class AppUtilities: NSObject {
-    
-    static var navigationController = (UIApplication.shared.delegate as? AppDelegate)?.navigationController
-    
+        
     static func makeToast(_ string: String, image: UIImage? = nil) {
         UIApplication.shared.keyWindow?.hideToast()
         UIApplication.shared.keyWindow?.makeToast(string, duration: 1.0, image: image)

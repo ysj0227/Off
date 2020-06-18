@@ -54,12 +54,12 @@ class RenterMineViewController: BaseTableViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
-         let tab = self.navigationController?.tabBarController as? MainTabBarController
+         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
          tab?.customTabBar.isHidden = true
      }
      override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
-         let tab = self.navigationController?.tabBarController as? MainTabBarController
+         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
          tab?.customTabBar.isHidden = false
         
         juddgeIsLogin()
@@ -275,7 +275,11 @@ class RenterUserHeaderView: UIView {
                 SSLog("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
             })
             nameLabel.text = userModel.realname ?? userModel.nickname ?? "名字"
-            introductionLabel.text = "\(userModel.company ?? "公司") - \(userModel.job ?? "职位")"
+            if let company = userModel.company {
+                if company.isBlankString != true {
+                    introductionLabel.text = "\(userModel.company ?? "公司") - \(userModel.job ?? "职位")"
+                }
+            }
         }
     }
     
@@ -502,8 +506,8 @@ extension RenterMineViewController {
        * 1、刷新 SDK 缓存
     */
        func reloadRCUserInfo() {
-           let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
-           RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)")
+           let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
+           RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)")
        }
        
 }

@@ -81,7 +81,7 @@ class IWantToFindViewController: BaseViewController {
     override func rightBtnClick() {
         
         //都是跳转到tabbar
-        NotificationCenter.default.post(name: NSNotification.Name.SetTabbarViewController, object: nil)
+        //NotificationCenter.default.post(name: NSNotification.Name.SetRenterTabbarViewController, object: nil)
     }
 }
 

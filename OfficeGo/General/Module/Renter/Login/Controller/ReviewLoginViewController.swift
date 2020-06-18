@@ -154,7 +154,7 @@ class ReviewLoginViewController: BaseViewController {
         button.layoutButton(.imagePositionTop, space: 12)
         button.rx.tap
             .subscribe(onNext: { [weak self] in
-                
+                self?.loginWithCode()
             })
             .disposed(by: disposeBag)
         return button
@@ -199,19 +199,23 @@ class ReviewLoginViewController: BaseViewController {
     //登录跳过直接到tabbar - 租户设置已经点击过跳过
     override func rightBtnClick() {
         
-        NotificationCenter.default.post(name: NSNotification.Name.SetTabbarViewController, object: nil)
+        //NotificationCenter.default.post(name: NSNotification.Name.SetRenterTabbarViewController, object: nil)
         
     }
     
-    //登录之后 跳到我想找页面
+    //登录之后 设置tabbar
     func loginBtnClick() {
-        //都是跳转到tabbar
-        NotificationCenter.default.post(name: NSNotification.Name.SetTabbarViewController, object: nil)
         
-//        SSTool.invokeInMainThread { [weak self] in
-//            let iwanttovc = IWantToFindViewController()
-//            self?.navigationController?.pushViewController(iwanttovc, animated: false)
-//        }
+        //租户
+        if UserTool.shared.user_id_type == 0 {
+            //都是跳转到tabbar
+            NotificationCenter.default.post(name: NSNotification.Name.SetRenterTabbarViewController, object: nil)
+            
+        }else if UserTool.shared.user_id_type == 1 {
+            
+            //都是跳转到tabbar
+            NotificationCenter.default.post(name: NSNotification.Name.SetOwnerTabbarViewController, object: nil)
+        }
 
     }
     @objc override func leftBtnClick() {
@@ -445,12 +449,12 @@ class ReviewLoginViewController: BaseViewController {
     //验证码登录接口
     func loginWithCode() {
         
-        nextButton.isUserInteractionEnabled = false
+        //nextButton.isUserInteractionEnabled = false
         
         //调用登录接口 - 成功跳转下个页面-
         var params = [String:AnyObject]()
-        params["phone"] = self.phoneField.text as AnyObject?
-        params["code"] = self.verifyCodeField.text as AnyObject?
+        params["phone"] = "18516765366" as AnyObject?
+        params["code"] = "123465" as AnyObject?
         params["channel"] = UserTool.shared.user_channel as AnyObject
         params["idType"] = UserTool.shared.user_id_type as AnyObject?
         SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in

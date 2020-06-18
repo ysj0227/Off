@@ -22,7 +22,8 @@ class SSTabBarItem: NSObject {
     var selectTitle: String?
     var unSelectTitle: String?
     
-    static func defaultTabBarItems() -> [SSTabBarItem] {
+    //租户
+    static func defaultRenterTabBarItems() -> [SSTabBarItem] {
         var tabbars: [SSTabBarItem] = []
         
         var item = SSTabBarItem()
@@ -44,6 +45,41 @@ class SSTabBarItem: NSObject {
         item.unSelectTitle = "收藏"
         item.selectImagePath = "collectSel"
         item.unSelectImagePath = "collect"
+        tabbars.append(item)
+        
+        item = SSTabBarItem()
+        item.selectTitle = "我的"
+        item.unSelectTitle = "我的"
+        item.selectImagePath = "mineSel"
+        item.unSelectImagePath = "mine"
+        tabbars.append(item)
+                
+        return tabbars
+    }
+    
+    //业主
+    static func defaultOwnerTabBarItems() -> [SSTabBarItem] {
+        var tabbars: [SSTabBarItem] = []
+        
+        var item = SSTabBarItem()
+        item.selectTitle = "首页"
+        item.unSelectTitle = "首页"
+        item.selectImagePath = "homeSel"
+        item.unSelectImagePath = "home"
+        tabbars.append(item)
+        
+        item = SSTabBarItem()
+        item.selectTitle = "消息"
+        item.unSelectTitle = "消息"
+        item.selectImagePath = "messageSel"
+        item.unSelectImagePath = "message"
+        tabbars.append(item)
+        
+        item = SSTabBarItem()
+        item.selectTitle = "行程"
+        item.unSelectTitle = "行程"
+        item.selectImagePath = "messageSel"
+        item.unSelectImagePath = "message"
         tabbars.append(item)
         
         item = SSTabBarItem()

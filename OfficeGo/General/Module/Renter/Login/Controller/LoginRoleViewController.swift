@@ -87,23 +87,14 @@ extension LoginRoleViewController {
         
         selectedIndex = indexPath.row
         
-        self.tableView.reloadData()
-        
-        if indexPath.row == 1 {
+        SSTool.invokeInMainThread { [weak self] in
             
-        }else {
+            self?.tableView.reloadData()
+            
             let login = ReviewLoginViewController()
-            self.navigationController?.pushViewController(login, animated: true)
+            self?.navigationController?.pushViewController(login, animated: true)
         }
         
-        //        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: { [weak self] in
-        //            if indexPath.row == 1 {
-        //
-        //            }else {
-        //                let login = ReviewLoginViewController()
-        //                self?.navigationController?.pushViewController(login, animated: true)
-        //            }
-        //        })
         
     }
 }

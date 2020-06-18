@@ -19,8 +19,8 @@ class UserTool: NSObject {
     }
     
     func isLogin() -> Bool {
-        if let usertoken = self.user_token, let userrytoken = self.user_rongyuntoken{
-            if usertoken.isBlankString == true || userrytoken.isBlankString == true {
+        if let usertoken = self.user_token{
+            if usertoken.isBlankString == true {
                 return false
             }else{
                 return true

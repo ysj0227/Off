@@ -1,31 +1,31 @@
 //
-//  MainTabBarController.swift
-//  UUStudent
+//  OwnerOwnerMainTabBarController.swift
+//  OfficeGo
 //
-//  Created by Fei DENG on 2018/12/12.
-//  Copyright © 2018年 bike. All rights reserved.
+//  Created by mac on 2020/6/18.
+//  Copyright © 2020 Senwei. All rights reserved.
 //
 
 import UIKit
 import RxSwift
 import RxCocoa
 
-class MainTabBarController: UITabBarController {
+class OwnerMainTabBarController: UITabBarController {
     
-   @objc var customTabBar: SSTabBarView
+    @objc var customTabBar: SSTabBarView
     
     init() {
-        customTabBar = SSTabBarView.init(tabbarItems: SSTabBarItem.defaultTabBarItems())
+        customTabBar = SSTabBarView.init(tabbarItems: SSTabBarItem.defaultOwnerTabBarItems())
         
         super.init(nibName: nil, bundle: nil)
-
+        
         self.viewControllers = [
-            BaseNavigationViewController.init(rootViewController: RenterHomePageViewController()),
-            BaseNavigationViewController.init(rootViewController: RenterChatListViewController()),
-            BaseNavigationViewController.init(rootViewController: RenterCollectPageViewController()),
-            BaseNavigationViewController.init(rootViewController: RenterMineViewController())]
+            BaseNavigationViewController.init(rootViewController: OwnerHomeViewController()),
+            BaseNavigationViewController.init(rootViewController: OwnerChatListViewController()),
+            BaseNavigationViewController.init(rootViewController: OwnerHouseScheduleViewController()),
+            BaseNavigationViewController.init(rootViewController: OwnerMineViewController())]
         self.selectedIndex = 0
-
+        
         customTabBar.currentIndex = selectedIndex
         reloadTabbarBgColor(isCenter: true)
         self.tabBar.isHidden = true
@@ -51,11 +51,6 @@ class MainTabBarController: UITabBarController {
             customTabBar.currentIndex = selectedIndex
         }
     }
-    
-    func reloadTabbar() {
-        customTabBar.items = SSTabBarItem.defaultTabBarItems()
-        customTabBar.reloadItems()
-    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -77,7 +72,7 @@ class MainTabBarController: UITabBarController {
     }
 }
 
-extension MainTabBarController: SSTabBarViewDelegate {
+extension OwnerMainTabBarController: SSTabBarViewDelegate {
     func tabbar(_ tabbar: SSTabBarView, select index: Int) {
         
         if self.selectedIndex == index {

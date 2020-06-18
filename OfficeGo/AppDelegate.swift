@@ -15,8 +15,6 @@ import IQKeyboardManagerSwift
 class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     var window: UIWindow?
     
-    var navigationController: BaseNavigationViewController?
-    
     static func shared() -> AppDelegate {
         return UIApplication.shared.delegate as? AppDelegate ?? AppDelegate()
     }
@@ -45,14 +43,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     
     func notifyObserve() {
-        //设置tabar
-        NotificationCenter.default.addObserver(self, selector: #selector(setTabar), name: NSNotification.Name.SetTabbarViewController, object: nil)
+        //设置tabar - 租户
+        NotificationCenter.default.addObserver(self, selector: #selector(setRenterTabar), name: NSNotification.Name.SetRenterTabbarViewController, object: nil)
         //登录成功通知 - 只设置登录融云
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccess), name: NSNotification.Name.UserLogined, object: nil)
-        //退出登录 - 只有业主
-        NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name.UserLogout, object: nil)
+     
         //切换身份
         NotificationCenter.default.addObserver(self, selector: #selector(roleChange), name: NSNotification.Name.UserRoleChange, object: nil)
+        
+        
+        ///设置tabar - 业主
+        NotificationCenter.default.addObserver(self, selector: #selector(setOwnerTabar), name: NSNotification.Name.SetOwnerTabbarViewController, object: nil)
+        
+        //退出登录 - 只有业主
+             NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name.OwnerUserLogout, object: nil)
     }
     
     //9.0
@@ -79,24 +83,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
     }
     
-    //设置导航栏 -
-    @objc func setTabar(){
+    //设置tabbar - 租户
+    @objc func setRenterTabar(){
         
+//        SSTool.invokeInMainThread { [weak self] in
+//
+//            guard let weakSelf = self else {return}
+//
+//            //0:租户,1:业主,9:其他
+//            if UserTool.shared.user_id_type == 0 {
+//                //不清空身份类型
+//                let tabbarVC = RenterMainTabBarController()
+//                weakSelf.window?.rootViewController = tabbarVC
+//            }
+//        }
         //0:租户,1:业主,9:其他
         if UserTool.shared.user_id_type == 0 {
-            
             //不清空身份类型
-            
-            let tabbarVC = MainTabBarController()
+            let tabbarVC = RenterMainTabBarController()
             window?.rootViewController = tabbarVC
-            
-        }else if UserTool.shared.user_id_type == 1 {
-            
-            
+        }
+    }
+    //设置tabbar - 业主
+    @objc func setOwnerTabar(){
+//        SSTool.invokeInMainThread { [weak self] in
+//
+//            guard let weakSelf = self else {return}
+//
+//            //0:租户,1:业主,9:其他
+//            if UserTool.shared.user_id_type == 1 {
+//                //不清空身份类型
+//                let tabbarVC = OwnerMainTabBarController()
+//                weakSelf.window?.rootViewController = tabbarVC
+//            }
+//        }
+        //0:租户,1:业主,9:其他
+        if UserTool.shared.user_id_type == 1 {
+            //不清空身份类型
+            let tabbarVC = OwnerMainTabBarController()
+            window?.rootViewController = tabbarVC
         }
         
     }
-    
     //退出登录
     @objc func logout(){
         
@@ -105,12 +133,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         setLoginVC()
         
-        ///退出登录- 跳到登录页面
-        ///setTabar()
     }
     
     @objc func setLoginVC() {
-        let loginNav = BaseNavigationViewController.init(rootViewController: ReviewLoginViewController())
+        let loginvc = ReviewLoginViewController()
+        loginvc.titleview?.leftButton.isHidden = true
+        let loginNav = BaseNavigationViewController.init(rootViewController: loginvc)
         loginNav.navigationBar.isHidden = true
         window?.rootViewController = loginNav
     }
@@ -118,9 +146,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     //切换身份 - 设置里边 - 切换身份字段 - 重新设置tabbar
     @objc func roleChange(){
         
-        UserTool.shared.removeAll()
+        //登录融云
+        loginRongCloud()
         
-        setTabar()
+        if UserTool.shared.user_id_type == 0 {
+            
+            setRenterTabar()
+            
+        }else if UserTool.shared.user_id_type == 1 {
+            
+            setOwnerTabar()
+        }
     }
     
     
@@ -143,20 +179,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 loginRongCloud()
                 
                 //然后设置tabbar
-                setTabar()
+                setRenterTabar()
                 
             }else {
                 //然后设置tabbar
-                setTabar()
+                setRenterTabar()
             }
-        
-        }else if UserTool.shared.user_id_type == 1 {
             
+        }else if UserTool.shared.user_id_type == 1 {
+            //登录 -
+            if UserTool.shared.isLogin() == true {
+                
+                //登录直接登录融云 -
+                loginRongCloud()
+                
+                //然后设置tabbar
+                setOwnerTabar()
+                
+            }else {
+                //登录
+                setLoginVC()
+            }
         }else {
             let rolechangeVC = LoginRoleViewController()
-            navigationController = BaseNavigationViewController.init(rootViewController: rolechangeVC)
-            navigationController?.navigationBar.isHidden = true
-            window?.rootViewController = navigationController
+            let rolechangeNav = BaseNavigationViewController.init(rootViewController: rolechangeVC)
+            rolechangeNav.navigationBar.isHidden = true
+            window?.rootViewController = rolechangeNav
             
         }
     }
@@ -166,9 +214,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
 extension AppDelegate {
     
     //设置当前用户信息
-    func setRCUserInfo() {
+    func setRCUserInfo(userId: String) {
         
-        let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
+        let info = RCUserInfo.init(userId: userId, name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
         
         RCIM.shared()?.currentUserInfo = info
         
@@ -179,8 +227,9 @@ extension AppDelegate {
     //登录融云账号  -  如果之前用户登录就直接登录， 否则在登录成功之后登录
     func loginRongCloud() {
         
-        RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: { (userid) in
+        RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: {[weak self] (userid) in
             SSLog("登陆成功。当前登录的用户ID： \(String(describing: userid))")
+            self?.setRCUserInfo(userId: userid ?? "0")
         }, error: { (code) in
             SSLog("登陆的错误码为\(code)")
         }, tokenIncorrect: {
@@ -189,7 +238,6 @@ extension AppDelegate {
             //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
             SSLog("token错误")
         })
-        setRCUserInfo()
     }
     
     func setUpSDKs() {
@@ -269,7 +317,7 @@ extension AppDelegate: RCIMConnectionStatusDelegate {
             ///重新请求token
             
         }
-
+        
     }
     
 }

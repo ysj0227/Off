@@ -29,7 +29,7 @@ class BaseNavigationViewController: UINavigationController {
     // MARK: - 重写pushViewController方法
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
 //        let appdelegate = UIApplication.shared.delegate as? AppDelegate
-//        let tab = appdelegate?.window?.rootViewController as? MainTabBarController
+//        let tab = appdelegate?.window?.rootViewController as? RenterMainTabBarController
 //        if viewControllers.count > 0 {
 //            tab?.customTabBar.isHidden = true
 //        }else {
@@ -40,7 +40,7 @@ class BaseNavigationViewController: UINavigationController {
     
     override func popViewController(animated: Bool) -> UIViewController? {
 //        let appdelegate = UIApplication.shared.delegate as? AppDelegate
-//        let tab = appdelegate?.window?.rootViewController as? MainTabBarController
+//        let tab = appdelegate?.window?.rootViewController as? RenterMainTabBarController
 //        if viewControllers.count > 0 {
 //            tab?.customTabBar.isHidden = true
 //        }else {

@@ -82,6 +82,10 @@ class SettingConfigureModel: NSObject {
             return "版本更新"
         case .RenterSettingTypeRoleChange:
             return "切换身份"
+        case .RenterSettingTypeChangePhone:
+            return "修改手机号"
+        case .RenterSettingTypeChangeWechat:
+            return "修改微信"
         }
     }
 }

@@ -73,6 +73,8 @@ public enum RenterSettingType {
     case RenterSettingTypeHello             //打招呼语
     case RenterSettingTypeVersionUpdate     //版本更新
     case RenterSettingTypeRoleChange        //切换身份
+    case RenterSettingTypeChangePhone       //修改手机号
+    case RenterSettingTypeChangeWechat      //修改微信
 }
 
 //基本信息

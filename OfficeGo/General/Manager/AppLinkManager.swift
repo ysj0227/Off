@@ -32,11 +32,7 @@ class AppLinkManager: NSObject {
     }
     
     static let shared = AppLinkManager()
-    var navigationController: BaseNavigationViewController? {
-        get {
-            return (UIApplication.shared.delegate as? AppDelegate)?.navigationController
-        }
-    }
+    var navigationController: BaseNavigationViewController? 
     
 //    public func parseLinkURL(_ urlString: String, toRoot: Bool = false, isInWebview: Bool = false) -> Bool {
 //        if let url = URL(string: urlString) {

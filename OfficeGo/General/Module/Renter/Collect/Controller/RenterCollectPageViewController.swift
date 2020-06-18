@@ -59,12 +59,12 @@ class RenterCollectPageViewController: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
-         let tab = self.navigationController?.tabBarController as? MainTabBarController
+         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
          tab?.customTabBar.isHidden = true
      }
      override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
-         let tab = self.navigationController?.tabBarController as? MainTabBarController
+         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
          tab?.customTabBar.isHidden = false
      }
      

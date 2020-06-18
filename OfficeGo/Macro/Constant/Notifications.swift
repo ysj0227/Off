@@ -11,12 +11,21 @@ import Foundation
 extension Notification.Name {
     /// 网络状态通知
     public static let NetStatusChange = Notification.Name("NetStatusChange")
-    /// 设置rootviewcontroller
-    public static let SetTabbarViewController = Notification.Name("setTabbarViewController")
+    
+    
+    /// 设置rootviewcontroller - 业主
+       public static let SetOwnerTabbarViewController = Notification.Name("SetOwnerTabbarViewController")
+    /// 用户退出 - 只有业主需要重新设置tabbar
+    public static let OwnerUserLogout = Notification.Name("OwnerUserLogout")
+    
+    
+    
+    /// 设置rootviewcontroller - 租户
+    public static let SetRenterTabbarViewController = Notification.Name("SetRenterTabbarViewController")
+   
     /// 用户登录 - 只是用于更新融云token登录
     public static let UserLogined = Notification.Name("userLogined")
-    /// 用户推出
-    public static let UserLogout = Notification.Name("userLogout")
+
     /// 用户身份切换
     public static let UserRoleChange = Notification.Name("userRoleChange")
     /// 首页登录锁定通知
