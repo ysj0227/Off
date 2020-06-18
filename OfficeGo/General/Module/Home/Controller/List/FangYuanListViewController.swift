@@ -338,6 +338,11 @@ extension FangYuanListViewController {
         
         self.tableView.register(HouseListTableViewCell.self, forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
         
+        self.tableView.snp.remakeConstraints { (make) in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-kStatusBarHeight)
+        }
+        
         refreshData()
     }
     
