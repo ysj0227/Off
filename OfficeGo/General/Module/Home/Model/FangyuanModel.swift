@@ -29,8 +29,8 @@ class FangYuanListModel: BaseModel {
     var name : String?                  //楼盘名称, 网点名称
     var officeType: String?             //逗号分隔的办公类型1是独立办公室，2是开放工位
     var openStation : Int?              //开放工位数量
-    var passengerLift : Int?
-    var releaseTime : AnyObject?        //发布时间
+    var passengerLift : String?
+    var releaseTime : Int?        //发布时间
     var remark : AnyObject?
     var seatMonthPrice : Float?
     var storeyHeight : String?

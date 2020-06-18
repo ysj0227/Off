@@ -375,11 +375,11 @@ class FangYuanBuildingIntroductionModel: BaseModel {
     ///空调
     var airConditioning : String?
     ///车位租金(元/月)
-    var ParkingSpaceRent : Int?
+    var ParkingSpaceRent : String?
     ///货梯
-    var cargoLift : Int?
+    var cargoLift : String?
     ///竣工时间
-    var completionTime : Int?
+    var completionTime : String?
     ///建筑面积
     var constructionArea : String?
     ///电信,联通
@@ -387,7 +387,7 @@ class FangYuanBuildingIntroductionModel: BaseModel {
     ///车位数量
     var parkingSpace : String?
     ///客梯
-    var passengerLift : Int?
+    var passengerLift : String?
     ///宣传口号-市中心，交通便利
     var promoteSlogan : String?
     ///物业-上海要你美物业管理有限公司"
@@ -442,17 +442,17 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
         
         airJiabanCoastConditioning = "常规:" + "--"
                 
-        completionTime = SSTool.timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(model.completionTime ?? 0), dateFormat:"yyyy年")
+        completionTime = "\(model.completionTime ?? "")年"
         
         totalFloor = "\(model.totalFloor ?? "0")" + "层"
         
         storeyHeight =  model.storeyHeight ?? ""
         
-        liftString = "\(model.passengerLift ?? 0)" + "客梯" + "\(model.cargoLift ?? 0)" + "货梯"
+        liftString = "\(model.passengerLift ?? "0")" + "客梯" + "\(model.cargoLift ?? "0")" + "货梯"
         
         parkingSpace = "\(model.parkingSpace ?? "")" + "个"
         
-        parkingSpaceRent = "\(model.ParkingSpaceRent ?? 0)" + "元/月/位"
+        parkingSpaceRent = "\(model.ParkingSpaceRent ?? "")" + "元/月/位"
         
         property = model.property ?? "--"
         
