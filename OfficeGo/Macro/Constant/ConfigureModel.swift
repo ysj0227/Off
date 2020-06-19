@@ -104,8 +104,8 @@ class SettingConfigureModel: NSObject {
     
     func getNameFormType(type: RenterSettingType) -> String{
         switch type {
-        case .RenterSettingTypeAccountAndBind:
-            return "账号与绑定"
+//        case .RenterSettingTypeAccountAndBind:
+//            return "账号与绑定"
         case .RenterSettingTypeNoticifyAndAlert:
             return "通知与提醒"
         case .RenterSettingTypePrivacySetting:
@@ -119,7 +119,7 @@ class SettingConfigureModel: NSObject {
         case .RenterSettingTypeChangePhone:
             return "修改手机号"
         case .RenterSettingTypeChangeWechat:
-            return "修改微信"
+            return "绑定微信"
         }
     }
 }

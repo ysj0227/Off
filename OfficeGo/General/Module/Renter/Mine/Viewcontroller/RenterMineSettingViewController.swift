@@ -12,12 +12,9 @@ class RenterMineSettingViewController: BaseTableViewController {
     
     var typeSourceArray:[SettingConfigureModel] = {
         var arr = [SettingConfigureModel]()
-//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeAccountAndBind))
-//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeNoticifyAndAlert))
-//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypePrivacySetting))
-//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeHello))
         arr.append(SettingConfigureModel.init(types: .RenterSettingTypeChangePhone))
-        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeChangeWechat))
+        //目前隐藏微信授权
+        //arr.append(SettingConfigureModel.init(types: .RenterSettingTypeChangeWechat))
         arr.append(SettingConfigureModel.init(types: .RenterSettingTypeVersionUpdate))
         arr.append(SettingConfigureModel.init(types: .RenterSettingTypeRoleChange))
         return arr
@@ -38,13 +35,15 @@ class RenterMineSettingViewController: BaseTableViewController {
         return view
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
-        
-        setUpData()
-        
     }
     
 }
@@ -204,8 +203,6 @@ extension RenterMineSettingViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let type = typeSourceArray[indexPath.row].type {
             switch type {
-            case .RenterSettingTypeAccountAndBind:
-                break
             case .RenterSettingTypeNoticifyAndAlert:
                 break
             case .RenterSettingTypePrivacySetting:
@@ -217,8 +214,12 @@ extension RenterMineSettingViewController {
             case .RenterSettingTypeRoleChange:
                 requestRoleChange()
             case .RenterSettingTypeChangePhone:
+                let vc = RenterChangePhoneViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
                 break
             case .RenterSettingTypeChangeWechat:
+                let vc = RenterChangeWechatViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
                 break
             }
         }
@@ -272,9 +273,9 @@ class RenterSettingCell: BaseTableViewCell {
                 lineView.isHidden = true
             }else {
                 lineView.isHidden = false
-                if model.type = RenterSettingType.RenterSettingTypeChangePhone {
+                if model.type == RenterSettingType.RenterSettingTypeChangePhone {
                     numDescLabel.text = UserTool.shared.user_phone
-                }else if model.type = RenterSettingType.RenterSettingTypeChangeWechat {
+                }else if model.type == RenterSettingType.RenterSettingTypeChangeWechat {
                     numDescLabel.text = UserTool.shared.user_wechat
                 }
             }
@@ -301,7 +302,7 @@ class RenterSettingCell: BaseTableViewCell {
         
         numDescLabel.snp.makeConstraints { (make) in
             make.trailing.equalTo(detailIcon.snp.leading).offset(-9)
-            make.centerY.equalTo(itemIcon)
+            make.centerY.equalToSuperview()
             make.leading.equalTo(titleLabel.snp.trailing)
         }
         lineView.snp.makeConstraints { (make) in

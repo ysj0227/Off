@@ -248,6 +248,12 @@ class SSMineURL: NSObject {
     
     ///关于我们
     static let aboutUs = "aboutUs.html"
+    
+    /// 修改手机号
+    static let changePhone = "user/changePhone"
+    
+    ///修改微信
+    static let changeWechat = "user/changeWechat"
 
 }
 

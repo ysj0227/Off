@@ -67,7 +67,7 @@ public enum RenterMineType {
 }
 //设置
 public enum RenterSettingType {
-    case RenterSettingTypeAccountAndBind    //账号与绑定
+//    case RenterSettingTypeAccountAndBind    //账号与绑定
     case RenterSettingTypeNoticifyAndAlert  //通知与提醒
     case RenterSettingTypePrivacySetting    //隐私设置
     case RenterSettingTypeHello             //打招呼语

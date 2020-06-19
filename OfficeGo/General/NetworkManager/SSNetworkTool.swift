@@ -113,7 +113,7 @@ class SSNetworkTool: NSObject {
                   
     
     static func request(type: HTTPMethod, urlStr: String,sessionId:String?, params:Dic, isShowHud:Bool, success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
-        SSTool.invokeInGlobalThread {
+//        SSTool.invokeInGlobalThread {
             
             if isShowHud {
                 LoadingHudView.showHud()
@@ -175,7 +175,7 @@ class SSNetworkTool: NSObject {
                 }
             })
             //return req
-        }
+//        }
     }
     
     static func request(type: HTTPMethod, urlStr: String, params:Dic,isShowHud:Bool,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!) {
@@ -439,6 +439,21 @@ extension SSNetworkTool {
             SSNetworkTool.uploadImage(urlStr: "\(SSAPI.SSApiHost)\(url)", image: image, params: params, isShowHud: true, success:
                     success,failed:failure,error:error)
        }
+        
+        ///修改手机号
+         static func request_changePhone(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+             let url = String.init(format: SSMineURL.changePhone)
+             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                 success,failed:failure,error:error)
+         }
+        
+        ///修改微信
+         static func request_changeWechat(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+             let url = String.init(format: SSMineURL.changeWechat)
+             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                 success,failed:failure,error:error)
+         }
+        
     }
     
 }

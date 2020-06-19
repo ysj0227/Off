@@ -120,6 +120,7 @@
 		04E2398B249B3F0D009DCCEC /* OwnerChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2398A249B3F0D009DCCEC /* OwnerChatListViewController.swift */; };
 		04E23995249B4745009DCCEC /* OwnerHouseScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23994249B4745009DCCEC /* OwnerHouseScheduleViewController.swift */; };
 		04E23997249B8FEC009DCCEC /* RenterChangePhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23996249B8FEC009DCCEC /* RenterChangePhoneViewController.swift */; };
+		04E23999249C61B2009DCCEC /* RenterChangeWechatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23998249C61B2009DCCEC /* RenterChangeWechatViewController.swift */; };
 		04EF1E41247777B700871762 /* RenterMainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E40247777B700871762 /* RenterMainTabBarController.swift */; };
 		04EF1E45247777E400871762 /* SSTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E42247777E200871762 /* SSTabBarItem.swift */; };
 		04EF1E46247777E400871762 /* SSTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E43247777E300871762 /* SSTabBarView.swift */; };
@@ -365,6 +366,7 @@
 		04E2398A249B3F0D009DCCEC /* OwnerChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerChatListViewController.swift; sourceTree = "<group>"; };
 		04E23994249B4745009DCCEC /* OwnerHouseScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerHouseScheduleViewController.swift; sourceTree = "<group>"; };
 		04E23996249B8FEC009DCCEC /* RenterChangePhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterChangePhoneViewController.swift; sourceTree = "<group>"; };
+		04E23998249C61B2009DCCEC /* RenterChangeWechatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterChangeWechatViewController.swift; sourceTree = "<group>"; };
 		04EF1E40247777B700871762 /* RenterMainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterMainTabBarController.swift; sourceTree = "<group>"; };
 		04EF1E42247777E200871762 /* SSTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTabBarItem.swift; sourceTree = "<group>"; };
 		04EF1E43247777E300871762 /* SSTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTabBarView.swift; sourceTree = "<group>"; };
@@ -792,6 +794,7 @@
 				04E238FF249B3ABB009DCCEC /* RenterHouseScheduleViewController.swift */,
 				04E23900249B3ABB009DCCEC /* RenterUserMsgViewController.swift */,
 				04E23996249B8FEC009DCCEC /* RenterChangePhoneViewController.swift */,
+				04E23998249C61B2009DCCEC /* RenterChangeWechatViewController.swift */,
 			);
 			path = Viewcontroller;
 			sourceTree = "<group>";
@@ -1698,6 +1701,7 @@
 				04E23974249B3ABC009DCCEC /* RoleSelectTableViewCell.swift in Sources */,
 				EEE87B5A24558F9800C03424 /* ThorTabBarItemView.swift in Sources */,
 				047333272473D86500755192 /* Object+ClassName.swift in Sources */,
+				04E23999249C61B2009DCCEC /* RenterChangeWechatViewController.swift in Sources */,
 				04E23952249B3ABB009DCCEC /* MessageFYModel.swift in Sources */,
 				0437CFB3247E17190015C355 /* SSTool.swift in Sources */,
 				EEE87B232455856800C03424 /* JHCollectionReusableView.swift in Sources */,
