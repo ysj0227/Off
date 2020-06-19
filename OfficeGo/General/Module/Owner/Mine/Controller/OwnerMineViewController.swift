@@ -13,7 +13,7 @@ import SwiftyJSON
 class OwnerMineViewController: BaseTableViewController {
     
     var userModel: LoginUserModel?
-
+    
     var typeSourceArray:[OwnerMineConfigureModel] = {
         var arr = [OwnerMineConfigureModel]()
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeHelpAndFeedback))
@@ -149,9 +149,9 @@ extension OwnerMineViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         SSNetworkTool.SSMine.request_getOwnerUserMsg(params: params, success: {[weak self] (response) in
-
+            
             guard let weakSelf = self else {return}
-
+            
             if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
                 
                 weakSelf.userModel = model
@@ -169,7 +169,7 @@ extension OwnerMineViewController {
                     weakSelf.headerView.ownerUserModel = model
                     weakSelf.reloadRCUserInfo()
                 }
-
+                
             }
             
             }, failure: {[weak self] (error) in
@@ -183,16 +183,16 @@ extension OwnerMineViewController {
         }
     }
     
-       /*
-       * 强制刷新用户信息
-       * SDK 缓存操作
-       * 1、刷新 SDK 缓存
-    */
-       func reloadRCUserInfo() {
-           let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
-           RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)")
-       }
-       
+    /*
+     * 强制刷新用户信息
+     * SDK 缓存操作
+     * 1、刷新 SDK 缓存
+     */
+    func reloadRCUserInfo() {
+        let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
+        RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)")
+    }
+    
 }
 
 extension OwnerMineViewController {

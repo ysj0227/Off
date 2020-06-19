@@ -156,6 +156,7 @@ extension RenterMineSettingViewController {
 
         SSNetworkTool.SSMine.request_roleChange(params: params, success: { (response) in
             if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                UserTool.shared.user_id_type = model.rid
                 UserTool.shared.user_rongyuntoken = model.rongyuntoken
                 UserTool.shared.user_uid = model.uid
                 UserTool.shared.user_token = model.token

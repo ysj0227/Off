@@ -19,6 +19,7 @@ class SSCode: NSObject {
     static let ERROR_CODE_5005                      = StatusStruct.init(code:5005, msg: "参数类型错误")//参数类型错误
     static let ERROR_CODE_5006                      = StatusStruct.init(code:5006, msg: "暂无数据")//暂无数据
     static let ERROR_CODE_5007                      = StatusStruct.init(code:5007, msg: "操作失败")//操作失败
+    static let ERROR_CODE_5009                      = StatusStruct.init(code:5009, msg: "当前登录失效，请重新登录")//token已失效，需要重新登录
     static let ERROR_CODE_666                       = StatusStruct.init(code:666, msg: "需要统一抛出提示的状态码")//需要统一抛出提示的状态码
     //6开头,tian
     static let ERROR_CODE_6000                      = StatusStruct.init(code:6000, msg: "密码错误")

@@ -43,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     
     func notifyObserve() {
+        //登录失效 - 5009
+        NotificationCenter.default.addObserver(self, selector: #selector(loginResignEffect), name: NSNotification.Name.LoginResignEffect, object: nil)
+        
         //设置tabar - 租户
         NotificationCenter.default.addObserver(self, selector: #selector(setRenterTabar), name: NSNotification.Name.SetRenterTabbarViewController, object: nil)
         //登录成功通知 - 只设置登录融云
@@ -86,17 +89,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     //设置tabbar - 租户
     @objc func setRenterTabar(){
         
-//        SSTool.invokeInMainThread { [weak self] in
-//
-//            guard let weakSelf = self else {return}
-//
-//            //0:租户,1:业主,9:其他
-//            if UserTool.shared.user_id_type == 0 {
-//                //不清空身份类型
-//                let tabbarVC = RenterMainTabBarController()
-//                weakSelf.window?.rootViewController = tabbarVC
-//            }
-//        }
         //0:租户,1:业主,9:其他
         if UserTool.shared.user_id_type == 0 {
             //不清空身份类型
@@ -106,17 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     //设置tabbar - 业主
     @objc func setOwnerTabar(){
-//        SSTool.invokeInMainThread { [weak self] in
-//
-//            guard let weakSelf = self else {return}
-//
-//            //0:租户,1:业主,9:其他
-//            if UserTool.shared.user_id_type == 1 {
-//                //不清空身份类型
-//                let tabbarVC = OwnerMainTabBarController()
-//                weakSelf.window?.rootViewController = tabbarVC
-//            }
-//        }
+        
         //0:租户,1:业主,9:其他
         if UserTool.shared.user_id_type == 1 {
             //不清空身份类型
@@ -207,6 +189,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             window?.rootViewController = rolechangeNav
             
         }
+    }
+    
+    ///登录失效处理 - 5009
+    @objc func loginResignEffect() {
+        //退出登录 - 判断是业主还是租户
+        //业主- 直接退出登录 -
+        //租户- 返回个人中心 - 个人中心状态刷新为未登录
+        /// role 角色 用户身份类型,,0:租户,1:业主,9:其他
+        if UserTool.shared.user_id_type == 0 {
+            //不清空身份类型
+            UserTool.shared.removeAll()
+            
+            //不清空身份类型
+            let tabbarVC = RenterMainTabBarController()
+            tabbarVC.selectedIndex = 3
+            window?.rootViewController = tabbarVC
+
+        }else if UserTool.shared.user_id_type == 1 {
+            //NotificationCenter.default.post(name: NSNotification.Name.OwnerUserLogout, object: nil)
+            logout()
+        }
+        
     }
 }
 

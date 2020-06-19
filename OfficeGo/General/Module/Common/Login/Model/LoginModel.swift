@@ -10,6 +10,7 @@ import UIKit
 
 class LoginModel: BaseModel {
 
+    ///-1：未选择角色 0：租户，1：业主
     var rid: Int?
     var rongyuntoken: String?
     var token: String?

@@ -81,6 +81,11 @@ class SSNetworkTool: NSObject {
                             if let block = error {
                                 block("\(statusCode)", message)
                             }
+                        }else if statusCode == SSCode.ERROR_CODE_5009.code {
+                            AppUtilities.makeToast("\(SSCode.ERROR_CODE_5009.msg)")
+                            SSTool.delay(time: 2) {
+                                NotificationCenter.default.post(name: NSNotification.Name.LoginResignEffect, object: nil)
+                            }
                         }else {
                             var message = ""
                             if let msg  = resp["message"]  {
@@ -151,6 +156,11 @@ class SSNetworkTool: NSObject {
                         }
                         if let block = error {
                             block("\(statusCode)", message)
+                        }
+                    }else if statusCode == SSCode.ERROR_CODE_5009.code {
+                        AppUtilities.makeToast("\(SSCode.ERROR_CODE_5009.msg)")
+                        SSTool.delay(time: 2) {
+                            NotificationCenter.default.post(name: NSNotification.Name.LoginResignEffect, object: nil)
                         }
                     }else {
                         var message = ""

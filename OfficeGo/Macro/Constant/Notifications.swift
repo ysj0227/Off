@@ -13,6 +13,11 @@ extension Notification.Name {
     public static let NetStatusChange = Notification.Name("NetStatusChange")
     
     
+    ///登录失效 - 5009
+    public static let LoginResignEffect = Notification.Name("LoginResignEffect")
+
+    
+    
     /// 设置rootviewcontroller - 业主
        public static let SetOwnerTabbarViewController = Notification.Name("SetOwnerTabbarViewController")
     /// 用户退出 - 只有业主需要重新设置tabbar
