@@ -145,6 +145,10 @@ class UserMsgConfigureModel: NSObject {
             return FuWenBen(name: "联系方式", centerStr: " *", last: " ：")
         case .RenterUserMsgTypeWechat:
             return FuWenBen(name: "微信", centerStr: "", last: " ：")
+        case .RenterUserMsgTypeCompany:
+            return FuWenBen(name: "公司", centerStr: "", last: " ：")
+        case .RenterUserMsgTypeJob:
+            return FuWenBen(name: "职位", centerStr: "", last: " ：")
         }
     }
     

@@ -63,6 +63,18 @@ class LoginUserModel: BaseModel {
     var wxId : String?
 }
 
+class LoginOwnerUserModel: LoginUserModel {
+    var accountStatus : Int?
+    var auditStatus : Int?
+    var authority : Int?
+    var flag : Int?
+    var identityType : Int?
+    var leaseType : Int?
+    var rcount : Int?
+    var remark : String?
+    var trip : Int?
+}
+
 class VersionModel: BaseModel {
     ///提示语
     var desc : String?

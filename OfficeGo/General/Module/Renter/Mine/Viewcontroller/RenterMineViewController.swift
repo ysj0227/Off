@@ -150,7 +150,7 @@ extension RenterMineViewController {
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-        SSNetworkTool.SSMine.request_getUserMsg(params: params, success: {[weak self] (response) in
+        SSNetworkTool.SSMine.request_getRenterUserMsg(params: params, success: {[weak self] (response) in
 
             guard let weakSelf = self else {return}
 
@@ -293,6 +293,16 @@ class RenterUserHeaderView: UIView {
         view.textColor = kAppWhiteColor
         return view
     }()
+    
+    lazy var aduitStatusView: UILabel = {
+        let view = UILabel()
+        view.isHidden = true
+        view.font = FONT_MEDIUM_11
+        view.textColor = kAppWhiteColor
+        view.backgroundColor = kAppDarkBlueColor
+        return view
+    }()
+    
     lazy var loginbutton: UIButton = {
         let view = UIButton()
         view.setTitle("立即登录", for: .normal)
@@ -332,6 +342,14 @@ class RenterUserHeaderView: UIView {
                 if company.isBlankString != true {
                     introductionLabel.text = "\(userModel.company ?? "公司") - \(userModel.job ?? "职位")"
                 }
+            }else {
+                introductionLabel.text = ""
+            }
+            
+            if UserTool.shared.user_id_type == 0 {
+                aduitStatusView.isHidden = true
+            }else {
+                aduitStatusView.isHidden = false
             }
         }
     }
@@ -363,6 +381,7 @@ class RenterUserHeaderView: UIView {
         headerViewBtn.addSubview(nameLabel)
         headerViewBtn.addSubview(introductionLabel)
         headerViewBtn.addSubview(loginbutton)
+        headerViewBtn.addSubview(aduitStatusView)
         settingBtn.snp.makeConstraints { (make) in
             make.top.equalTo(kStatusBarHeight + 20)
             make.trailing.equalTo(-left_pending_space_17)
@@ -381,6 +400,13 @@ class RenterUserHeaderView: UIView {
             make.top.equalTo(headerImg)
             make.leading.equalTo(headerImg.snp.trailing).offset(10)
             make.height.equalTo(32)
+        }
+        //只有业主才会出现
+        aduitStatusView.snp.makeConstraints { (make) in
+            make.leading.equalTo(nameLabel.snp.trailing).offset(6)
+            make.centerY.equalTo(nameLabel)
+            make.width.equalTo(42)
+            make.height.equalTo(18)
         }
         introductionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom)

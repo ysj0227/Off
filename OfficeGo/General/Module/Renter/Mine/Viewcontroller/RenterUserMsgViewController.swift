@@ -6,7 +6,6 @@
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
-import UIKit
 import CLImagePickerTool
 import Alamofire
 
@@ -16,7 +15,6 @@ class RenterUserMsgViewController: BaseTableViewController {
     
     var userModel: LoginUserModel? {
         didSet {
-            setUpData()
             
             ///设置下面的按钮的状态
             if userModel?.nickname?.isBlankString == true || userModel?.sex?.isBlankString == true || userModel?.phone?.isBlankString == true  {
@@ -53,20 +51,14 @@ class RenterUserMsgViewController: BaseTableViewController {
         return view
     }()
     
-    var typeSourceArray:[UserMsgConfigureModel] = {
-        var arr = [UserMsgConfigureModel]()
-        arr.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeNick))
-        arr.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
-        arr.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeTele))
-        arr.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeWechat))
-        return arr
-    }()
+    var typeSourceArray:[UserMsgConfigureModel] = [UserMsgConfigureModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
         
+        setUpData()
     }
     
 }
@@ -147,6 +139,18 @@ extension RenterUserMsgViewController {
         
         //设置头像
         headerView.userModel = userModel
+        if UserTool.shared.user_id_type == 0 {
+            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeNick))
+            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
+            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeTele))
+            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeWechat))
+        }else {
+            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeNick))
+            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
+            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeCompany))
+            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeJob))
+        }
+        
         
         self.tableView.reloadData()
     }
@@ -197,9 +201,22 @@ extension RenterUserMsgViewController {
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         
+        if let wxid = userModel?.wxId {
+            if wxid.isBlankString != true {
+                params["WX"] = wxid as AnyObject?
+            }
+        }
         
-        params["WX"] = userModel?.wxId as AnyObject?
-        
+        if let wxid = userModel?.company {
+            if wxid.isBlankString != true {
+                params["company"] = wxid as AnyObject?
+            }
+        }
+        if let wxid = userModel?.job {
+            if wxid.isBlankString != true {
+                params["job"] = wxid as AnyObject?
+            }
+        }
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
             self?.updateSuccess()
@@ -388,6 +405,10 @@ class RenterMineUserMsgCell: BaseTableViewCell {
                     self.editLabel.text = userModel?.realname
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
                     self.editLabel.text = userModel?.wxId
+                }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
+                    self.editLabel.text = userModel?.company
+                }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
+                    self.editLabel.text = userModel?.job
                 }
             }
         }
@@ -447,11 +468,19 @@ extension RenterMineUserMsgCell: UITextFieldDelegate {
             userModel?.phone = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
             userModel?.wxId = textField.text
+        }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
+            userModel?.company = textField.text
+        }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
+            userModel?.job = textField.text
         }
         guard let blockk = self.endEditingMessageCell else {
             return
         }
         blockk(userModel ?? LoginUserModel())
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
     }
 }
 

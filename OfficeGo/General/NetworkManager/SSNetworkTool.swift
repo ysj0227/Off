@@ -417,9 +417,16 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        ///个人资料
-        static func request_getUserMsg(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSMineURL.getUserMsg)
+        ///个人资料 - 租户
+        static func request_getRenterUserMsg(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSMineURL.getRenterUserMsg)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
+                success,failed:failure,error:error)
+        }
+        
+        ///个人资料 - 业主
+        static func request_getOwnerUserMsg(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSMineURL.getOwnerUserMsg)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }

@@ -84,6 +84,8 @@ public enum RenterUserMsgType {
     case RenterUserMsgTypeSex               //性别
     case RenterUserMsgTypeTele              //联系方式
     case RenterUserMsgTypeWechat            //微信
+    case RenterUserMsgTypeCompany           //公司
+    case RenterUserMsgTypeJob               //职位
 }
 
 

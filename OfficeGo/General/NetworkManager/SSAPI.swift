@@ -231,13 +231,16 @@ class SSMineURL: NSObject {
     ///绑定微信
     static let bindWeChat = "login/sms_codeApp"
     
-    ///个人资料
-    static let getUserMsg = "user/getAllMsgApp"
+    ///个人资料 - 租户  - 业主
+    static let getRenterUserMsg = "user/userMsgApp"
+    
+    ///个人资料 - 业主
+    static let getOwnerUserMsg = "user/userMsgApp"
 
     ///切换身份
     static let roleChange = "user/regTokenApp"
     
-    ///修改个人资料
+    ///修改个人资料 - 业主 - 租户
     static let updateUserMessage = "user/updateDataApp"
 
     ///版本更新

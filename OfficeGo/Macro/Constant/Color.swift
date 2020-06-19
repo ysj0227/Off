@@ -13,6 +13,8 @@ import UIKit
 
 //主色调蓝色
 let kAppBlueColor               = UIColorFromRGB(0x46C3C2)
+let kAppDarkBlueColor               = UIColorFromRGB(0x2687D3)
+
 let kAppLightBlueColor               = UIColorFromRGB(0xDAF3F3)
 let kAppLightLightBlueColor               = UIColorFromRGB(0xECFDFD)
 

@@ -148,7 +148,7 @@ extension OwnerMineViewController {
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-        SSNetworkTool.SSMine.request_getUserMsg(params: params, success: {[weak self] (response) in
+        SSNetworkTool.SSMine.request_getOwnerUserMsg(params: params, success: {[weak self] (response) in
 
             guard let weakSelf = self else {return}
 
