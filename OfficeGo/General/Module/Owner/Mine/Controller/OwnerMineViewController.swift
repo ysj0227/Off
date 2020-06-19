@@ -75,7 +75,7 @@ extension OwnerMineViewController {
     ///头像点击方法 - 判断有没有登录
     func headerViewClick() {
         if isLogin() == true {
-            let vc = RenterUserMsgViewController()
+            let vc = OwnerUserMsgViewController()
             vc.userModel = self.userModel
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
@@ -156,18 +156,17 @@ extension OwnerMineViewController {
                 
                 weakSelf.userModel = model
                 
-                UserTool.shared.user_uid = model.userId
-                UserTool.shared.user_name = model.realname
-                UserTool.shared.user_nickname = model.nickname
+                UserTool.shared.user_name = model.proprietorRealname
+                UserTool.shared.user_nickname = model.proprietorRealname
                 UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_company = model.company
-                UserTool.shared.user_job = model.job
+                UserTool.shared.user_company = model.proprietorCompany
+                UserTool.shared.user_job = model.proprietorJob
                 UserTool.shared.user_sex = model.sex
                 UserTool.shared.user_phone = model.phone
                 UserTool.shared.user_wechat = model.wxId
                 
                 SSTool.invokeInMainThread {
-                    weakSelf.headerView.userModel = model
+                    weakSelf.headerView.ownerUserModel = model
                     weakSelf.reloadRCUserInfo()
                 }
 

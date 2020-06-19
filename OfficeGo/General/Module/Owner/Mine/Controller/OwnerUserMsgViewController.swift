@@ -1,15 +1,15 @@
 //
-//  RenterUserMsgViewController.swift
+//  OwnerUserMsgViewController.swift
 //  OfficeGo
 //
-//  Created by mac on 2020/5/18.
+//  Created by mac on 2020/6/19.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
 import CLImagePickerTool
 import Alamofire
 
-class RenterUserMsgViewController: BaseTableViewController {
+class OwnerUserMsgViewController: BaseTableViewController {
     
     var selectedAvatarData: NSData?
     
@@ -64,7 +64,7 @@ class RenterUserMsgViewController: BaseTableViewController {
 }
 
 
-extension RenterUserMsgViewController {
+extension OwnerUserMsgViewController {
     
     func setUpView() {
         
@@ -90,7 +90,7 @@ extension RenterUserMsgViewController {
             self?.pickerSelect()
         }
         
-        self.tableView.register(RenterMineUserMsgCell.self, forCellReuseIdentifier: RenterMineUserMsgCell.reuseIdentifierStr)
+        self.tableView.register(OwnerMineUserMsgCell.self, forCellReuseIdentifier: OwnerMineUserMsgCell.reuseIdentifierStr)
         
         self.view.addSubview(bottomBtnView)
         bottomBtnView.rightBtnClickBlock = { [weak self] in
@@ -139,18 +139,11 @@ extension RenterUserMsgViewController {
         
         //设置头像
         headerView.userModel = userModel
-        if UserTool.shared.user_id_type == 0 {
-            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeNick))
-            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
-            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeTele))
-            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeWechat))
-        }else {
-            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeNick))
-            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
-            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeCompany))
-            typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeJob))
-        }
         
+        typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeNick))
+        typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
+        typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeCompany))
+        typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeJob))
         
         self.tableView.reloadData()
     }
@@ -197,7 +190,7 @@ extension RenterUserMsgViewController {
         setSureBtnEnable(can: false)
 
         var params = [String:AnyObject]()
-        params["realname"] = userModel?.realname as AnyObject?
+        params["realname"] = userModel?.proprietorRealname as AnyObject?
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         
@@ -207,12 +200,12 @@ extension RenterUserMsgViewController {
             }
         }
         
-        if let wxid = userModel?.company {
+        if let wxid = userModel?.proprietorCompany {
             if wxid.isBlankString != true {
                 params["company"] = wxid as AnyObject?
             }
         }
-        if let wxid = userModel?.job {
+        if let wxid = userModel?.proprietorJob {
             if wxid.isBlankString != true {
                 params["job"] = wxid as AnyObject?
             }
@@ -237,66 +230,18 @@ extension RenterUserMsgViewController {
     
     
 }
-extension UIImage {
-     
-    //将图片裁剪成指定比例（多余部分自动删除）
-    func crop(ratio: CGFloat) -> UIImage {
-        //计算最终尺寸
-        var newSize:CGSize!
-        if size.width/size.height > ratio {
-            newSize = CGSize(width: size.height * ratio, height: size.height)
-        }else{
-            newSize = CGSize(width: size.width, height: size.width / ratio)
-        }
-     
-        ////图片绘制区域
-        var rect = CGRect.zero
-        rect.size.width  = size.width
-        rect.size.height = size.height
-        rect.origin.x    = (newSize.width - size.width ) / 2.0
-        rect.origin.y    = (newSize.height - size.height ) / 2.0
-         
-        //绘制并获取最终图片
-        UIGraphicsBeginImageContext(newSize)
-        draw(in: rect)
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-         
-        return scaledImage!
-    }
-    
-    /**
-     *  等比率缩放
-     */
-    func scaleImage(scaleSize:CGFloat) -> UIImage {
-        let reSize = CGSize(width:self.size.width * scaleSize,height:self.size.height * scaleSize)
-        return reSizeImage(reSize: reSize)
-    }
-    
-    /**
-     *  重设图片大小
-     */
-    func reSizeImage(reSize:CGSize) -> UIImage {
-        //UIGraphicsBeginImageContext(reSize);
-        UIGraphicsBeginImageContextWithOptions(reSize,false,UIScreen.main.scale)
-        self.draw(in: CGRect(x:0,y:0,width:reSize.width,height:reSize.height))
-        let reSizeImage:UIImage = UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
-        UIGraphicsEndImageContext()
-        return reSizeImage
-    }
-    
-}
-extension RenterUserMsgViewController {
+
+extension OwnerUserMsgViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: RenterMineUserMsgCell.reuseIdentifierStr) as? RenterMineUserMsgCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: OwnerMineUserMsgCell.reuseIdentifierStr) as? OwnerMineUserMsgCell
         cell?.selectionStyle = .none
         cell?.userModel = userModel
         cell?.model = typeSourceArray[indexPath.row]
         cell?.endEditingMessageCell = { [weak self] (userModel) in
             self?.userModel = userModel
         }
-        return cell ?? RenterMineUserMsgCell.init(frame: .zero)
+        return cell ?? OwnerMineUserMsgCell.init(frame: .zero)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -305,7 +250,7 @@ extension RenterUserMsgViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return RenterMineUserMsgCell.rowHeight()
+        return OwnerMineUserMsgCell.rowHeight()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -332,7 +277,7 @@ extension RenterUserMsgViewController {
     }
 }
 
-class RenterMineUserMsgCell: BaseTableViewCell {
+class OwnerMineUserMsgCell: BaseTableViewCell {
     
     lazy var titleLabel: UILabel = {
         let view = UILabel()
@@ -402,13 +347,13 @@ class RenterMineUserMsgCell: BaseTableViewCell {
                 self.editLabel.isUserInteractionEnabled = true
                 
                 if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
-                    self.editLabel.text = userModel?.realname
+                    self.editLabel.text = userModel?.proprietorRealname
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
                     self.editLabel.text = userModel?.wxId
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
-                    self.editLabel.text = userModel?.company
+                    self.editLabel.text = userModel?.proprietorCompany
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
-                    self.editLabel.text = userModel?.job
+                    self.editLabel.text = userModel?.proprietorJob
                 }
             }
         }
@@ -460,18 +405,18 @@ class RenterMineUserMsgCell: BaseTableViewCell {
     
 }
 
-extension RenterMineUserMsgCell: UITextFieldDelegate {
+extension OwnerMineUserMsgCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
-            userModel?.realname = textField.text
+            userModel?.proprietorRealname = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
             userModel?.phone = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
             userModel?.wxId = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
-            userModel?.company = textField.text
+            userModel?.proprietorCompany = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
-            userModel?.job = textField.text
+            userModel?.proprietorJob = textField.text
         }
         guard let blockk = self.endEditingMessageCell else {
             return
@@ -485,90 +430,3 @@ extension RenterMineUserMsgCell: UITextFieldDelegate {
 }
 
 
-class RenterAvatarUploadHeaderView: UIView { //高度69
-    
-    lazy var headerViewBtn: UIButton = {
-        let view = UIButton.init()
-        view.isUserInteractionEnabled = true
-        view.addTarget(self, action: #selector(leftBtnClick), for: .touchUpInside)
-        return view
-    }()
-    
-    lazy var headerImg: BaseImageView = {
-        let view = BaseImageView.init()
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 19
-        return view
-    }()
-    
-    lazy var nameLabel: UILabel = {
-        let view = UILabel()
-        view.font = FONT_14
-        view.textColor = kAppColor_333333
-        view.text = "头像"
-        return view
-    }()
-    
-    lazy var introductionLabel: UILabel = {
-        let view = UILabel()
-        view.font = FONT_10
-        view.textColor = kAppColor_666666
-        view.text = "上传真实头像有助于增加信任感"
-        return view
-    }()
-    
-    var headerBtnClickBlock: (() -> Void)?
-    
-    var setBtnClickBlock: (() -> Void)?
-    
-    var userModel: LoginUserModel? {
-        didSet {
-            headerImg.setImage(with: userModel?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
-        }
-    }
-    
-    @objc func leftBtnClick() {
-        guard let blockk = headerBtnClickBlock else {
-            return
-        }
-        blockk()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-    }
-    
-    private func setupView() {
-        
-        addSubview(headerViewBtn)
-        headerViewBtn.addSubview(headerImg)
-        headerViewBtn.addSubview(nameLabel)
-        headerViewBtn.addSubview(introductionLabel)
-        
-        headerViewBtn.snp.makeConstraints { (make) in
-            make.top.leading.bottom.trailing.equalToSuperview()
-        }
-        headerImg.snp.makeConstraints { (make) in
-            make.trailing.equalTo(-left_pending_space_17)
-            make.centerY.equalToSuperview()
-            make.size.equalTo(38)
-        }
-        nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(14)
-            make.leading.equalTo(left_pending_space_17)
-            make.height.equalTo(23)
-        }
-        introductionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(nameLabel.snp.bottom).offset(2)
-            make.leading.equalTo(nameLabel)
-            make.height.equalTo(introductionLabel)
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}
