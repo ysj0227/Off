@@ -63,6 +63,7 @@ extension RenterAmbitusMatingCell: UICollectionViewDataSource, UICollectionViewD
 class RenterFeatureCollectionCell: BaseCollectionViewCell {
     lazy var itemImg: BaseImageView = {
         let view = BaseImageView()
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
@@ -84,7 +85,7 @@ class RenterFeatureCollectionCell: BaseCollectionViewCell {
     
     var model: HouseFeatureModel? {
         didSet {
-            itemImg.setImage(with: "", placeholder: UIImage.init(named: "wechat"))
+            itemImg.setImage(with: "", placeholder: UIImage.init(named: "Default_1x1"))
             titleLabel.text = "11"
             numLabel.text = "4ge"
         }

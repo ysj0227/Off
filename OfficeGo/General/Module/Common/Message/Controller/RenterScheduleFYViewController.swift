@@ -295,6 +295,7 @@ class RenterScheduleYeZhuBasicCell: BaseTableViewCell {
     
     lazy var yezhuAvatar: BaseImageView = {
         let view = BaseImageView()
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = 12
         return view
@@ -335,7 +336,7 @@ class RenterScheduleYeZhuBasicCell: BaseTableViewCell {
     
     var viewModel: MessageFYViewModel? {
         didSet {
-            yezhuAvatar.setImage(with: viewModel?.avatarString ?? "", placeholder: UIImage.init(named: "wechat"))
+            yezhuAvatar.setImage(with: viewModel?.avatarString ?? "", placeholder: UIImage.init(named: "Default_1x1"))
             nameLabel.text = viewModel?.contactNameString
             companyLabel.text = viewModel?.companyJobString
         }

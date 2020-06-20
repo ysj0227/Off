@@ -173,7 +173,7 @@ extension RenterShareServiceShowView: UICollectionViewDataSource, UICollectionVi
             make.leading.equalTo(5)
             make.size.equalTo(24)
         }
-        cell?.itemImg.setImage(with: dataSourceArr[indexPath.row].dictImg ?? "", placeholder: UIImage.init(named: "wechat"))
+        cell?.itemImg.setImage(with: dataSourceArr[indexPath.row].dictImg ?? "", placeholder: UIImage.init(named: "Default_1x1"))
         cell?.titleLabel.text = dataSourceArr[indexPath.row].dictCname ?? ""
 //        cell?.numLabel.text = "5-20人"
         if titleview.text == "特色服务" {

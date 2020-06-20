@@ -61,6 +61,12 @@ func bottomMargin() -> CGFloat {
 let kTimeOutNumber:Int = 60
 let kTabBarHeight = 49 + bottomMargin()
 
+struct DefaultImg {
+
+    static let Default_4x3 = "default4*3"
+
+    static let Default_1x1 = "default4*3"
+}
 
 extension UIView {
     var width: CGFloat {

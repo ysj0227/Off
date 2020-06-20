@@ -119,20 +119,6 @@ class RenterMsgFYHeaderView: UICollectionReusableView {
         return btn
     }()
     
-    var model: HouseFeatureModel? {
-        didSet {
-            houseMainImg.image = UIImage.init(named: "wechat")
-            houseNameLabel.text = "百平办公低价出租 距离七号线700米"
-            houseKmAndAddressLabel.text = "2.1km | 徐汇区 · 漕河泾"
-            houseTrafficLabel.text = "步行8分钟 [2号线 ·东昌路站]"
-            housePriceLabel.text = "￥2 /㎡/天起"
-            houseFeatureView.featureStringDetail = ["免押金", "进地铁"]
-            msgStartDescLabel.text = "3月17日13:45 由你发起沟通"
-            collectBtn.isSelected = true
-//            collectBtn.layoutButton(.imagePositionLeft, space: 10)
-        }
-    }
-    
     func updatelayout() {
         
     }

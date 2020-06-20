@@ -103,7 +103,7 @@ class RenterUserHeaderView: UIView {
                 introductionLabel.text = ""
             }
             
-            aduitStatusView.isHidden = false
+            aduitStatusView.isHidden = true
         }
     }
     

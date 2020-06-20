@@ -26,7 +26,7 @@
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBgImg" translatesAutoresizingMaskIntoConstraints="NO" id="by0-dW-eTW" customClass="BaseImageView" customModule="OfficeGo" customModuleProvider="target">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="by0-dW-eTW" customClass="BaseImageView" customModule="OfficeGo" customModuleProvider="target">
                         <rect key="frame" x="17" y="55" width="248" height="155"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="155" id="FwZ-Bk-9Bv"/>
@@ -71,10 +71,7 @@
                 <outlet property="unitPatternImgView" destination="by0-dW-eTW" id="Vg5-WF-h1Q"/>
                 <outlet property="unitPatternRemarkLabel" destination="xoJ-OW-yIH" id="xDh-OR-R8y"/>
             </connections>
-            <point key="canvasLocation" x="709" y="101"/>
+            <point key="canvasLocation" x="145" y="145"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="loginBgImg" width="375" height="812"/>
-    </resources>
 </document>

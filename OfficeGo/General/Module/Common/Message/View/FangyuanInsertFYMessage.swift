@@ -278,7 +278,7 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         
         let viewModel = model.content as? FangyuanInsertFYMessage
 
-        houseMainImg.setImage(with: viewModel?.mainPic ?? "", placeholder: UIImage.init(named: "wechat"))
+        houseMainImg.setImage(with: viewModel?.mainPic ?? "", placeholder: UIImage.init(named: "Default_1x1"))
         houseNameLabel.text = viewModel?.houseName ?? ""
         houseKmAndAddressLabel.text = viewModel?.distanceDistrictString ?? ""
         houseTrafficLabel.text = viewModel?.walkTimesubwayAndStationString ?? ""

@@ -12,6 +12,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
     
     lazy var houseImageview: BaseImageView = {
         let view = BaseImageView()
+        view.contentMode = .scaleAspectFill
         view.isUserInteractionEnabled = true
         return view
     }()
@@ -123,7 +124,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
      */
     func setCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
         
-        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: "wechat"))
+        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: "Default_1x1"))
         houseNameLabel.text = viewModel.buildingName
         houseAddressLabel.text = viewModel.addressString
         
@@ -149,14 +150,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
             firstItem.descripLabel.text = viewModel.individualSeatsString
             thirdItem.titleLabel.text = viewModel.individualMonthPriceString ?? "0" + "/月"
             thirdItem.descripLabel.text = viewModel.individualDayPriceString
-        }
-        
-        //        mainImageView.setImage(with: viewModel.openStationViewModel?.mainPic ?? "", placeholder: UIImage(named: "wechat"))
-        //        leftTopLabel.text = viewModel.openStationViewModel?.openSeatsString
-        //        rightPriceLabel.text = viewModel.openStationViewModel?.openMonthPriceString
-        //        rightUnitLabel.text = "/位/月"
-        //        rightBottomUnitLabel.text = viewModel.openStationViewModel?.openMinimumLeaseString
-        
+        }        
     }
     
     func setupViews() {

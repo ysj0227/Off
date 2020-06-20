@@ -74,7 +74,7 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
         collectionView.showsHorizontalScrollIndicator = false;
         collectionView.dataSource = self as UICollectionViewDataSource
         collectionView.delegate = self as UICollectionViewDelegate
-        collectionView.backgroundView = UIImageView.init(image: UIImage.init(named: "wechat"))
+        collectionView.backgroundView = UIImageView.init(image: UIImage.init(named: "Default_4x3"))
         collectionView.register(CycleCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()

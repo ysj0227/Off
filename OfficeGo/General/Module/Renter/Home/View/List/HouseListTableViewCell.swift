@@ -199,7 +199,7 @@ class HouseListTableViewCell: BaseTableViewCell {
     }
     
     func setCellWithViewModel(viewModel: FangYuanListViewModel) {
-        houseImageview.setImage(with: viewModel.mainPicImgString ?? "", placeholder: UIImage(named: "wechat"))
+        houseImageview.setImage(with: viewModel.mainPicImgString ?? "", placeholder: UIImage(named: "Default_1x1"))
         houseNameLabel.text = viewModel.buildingName
         houseDistanceLabel.text = viewModel.distanceString
         houseAddressLabel.text = viewModel.addressString
@@ -223,7 +223,7 @@ class HouseListTableViewCell: BaseTableViewCell {
     }
     
     func setCellWithMessageViewModel(viewModel: MessageFYViewModel) {
-        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage.init(named: "wechat"))
+        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage.init(named: "Default_1x1"))
         houseNameLabel.text = viewModel.buildingName
         houseDistanceLabel.text = viewModel.distanceString
         houseAddressLabel.text = viewModel.districtString

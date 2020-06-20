@@ -162,11 +162,6 @@ extension RenterMineSettingViewController {
                 UserTool.shared.user_token = model.token
                 UserTool.shared.user_avatars = model.avatar
                 UserTool.shared.user_name = model.nickName
-                if UserTool.shared.user_id_type == 0 {
-                    UserTool.shared.user_id_type = 1
-                }else if UserTool.shared.user_id_type == 1 {
-                    UserTool.shared.user_id_type = 0
-                }
                 NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
             }
         }, failure: {[weak self] (error) in

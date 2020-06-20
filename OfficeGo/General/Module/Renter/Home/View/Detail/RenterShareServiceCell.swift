@@ -114,7 +114,8 @@ class ShareItemBtnView: UIButton {
                 return
             }
             let btn = BaseImageView.init(frame: CGRect(x: width, y: 0, width: itemwidth, height: self.height))
-            btn.setImage(with: strs, placeholder: UIImage.init(named: "wechat"))
+            btn.contentMode = .scaleAspectFill
+            btn.setImage(with: strs, placeholder: UIImage.init(named: "Default_1x1"))
             width =  width + (itemwidth + space)
             self.addSubview(btn)
         }
