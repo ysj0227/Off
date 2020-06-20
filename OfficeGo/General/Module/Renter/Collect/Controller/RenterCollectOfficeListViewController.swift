@@ -151,7 +151,7 @@ extension RenterCollectOfficeListViewController {
         //独立办公室
         if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
             if let Isfailure = model.Isfailure {
-                if Isfailure == 1 {
+                if Isfailure == 1 || Isfailure == 3 {
                     if model.btype == 1 {
                         let vc = RenterOfficebuildingFYDetailVC()
                         vc.model = model
@@ -162,7 +162,7 @@ extension RenterCollectOfficeListViewController {
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                     
-                }else if Isfailure == 0 {
+                }else if Isfailure == 0 || Isfailure == 2{
                     AppUtilities.makeToast(SSCode.ERROR_CODE_7016.msg)
                 }else if Isfailure == 4 {
                     AppUtilities.makeToast(SSCode.ERROR_CODE_7013.msg)

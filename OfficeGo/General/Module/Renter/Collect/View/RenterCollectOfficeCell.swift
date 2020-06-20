@@ -13,6 +13,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
     lazy var houseImageview: BaseImageView = {
         let view = BaseImageView()
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         view.isUserInteractionEnabled = true
         return view
     }()

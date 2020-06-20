@@ -174,7 +174,7 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
         }
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
             if let Isfailure = model.Isfailure {
-                if Isfailure == 1 {
+                if Isfailure == 1 || Isfailure == 3 {
                     if model.btype == 1 {
                         let vc = RenterOfficebuildingDetailVC()
                         vc.shaiXuanParams = [:]
@@ -186,7 +186,7 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
                         vc.buildingModel = model
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-                }else if Isfailure == 0 {
+                }else if Isfailure == 0 || Isfailure == 2{
                     AppUtilities.makeToast(SSCode.ERROR_CODE_7012.msg)
                 }else if Isfailure == 4 {
                     AppUtilities.makeToast(SSCode.ERROR_CODE_7013.msg)

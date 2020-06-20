@@ -64,6 +64,7 @@ class RenterFeatureCollectionCell: BaseCollectionViewCell {
     lazy var itemImg: BaseImageView = {
         let view = BaseImageView()
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         return view
     }()
     
