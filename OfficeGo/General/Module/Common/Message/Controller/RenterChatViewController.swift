@@ -24,6 +24,8 @@ class RenterChatViewController: RCConversationViewController {
     
     var messageFYViewModel: MessageFYViewModel?
     
+    //获取房源详情接口成功 - 只有成功 - 才能跳转到预约房源页面
+    var isGetFYSuccess: Bool?
     
     //上面四个按钮view
     var buttonView:RenterMsgBtnView = {
@@ -103,13 +105,19 @@ class RenterChatViewController: RCConversationViewController {
                 weakSelf.messageFYModel = model
                 
                 weakSelf.messageFYViewModel = MessageFYViewModel.init(model: model)
-                
+                                
                 weakSelf.setViewShow()
             }
             
-            }, failure: { (error) in
+            weakSelf.isGetFYSuccess = true
+            
+            }, failure: {[weak self] (error) in
                 
-        }) { (code, message) in
+                self?.isGetFYSuccess = false
+                
+        }) {[weak self] (code, message) in
+            
+            self?.isGetFYSuccess = false
             
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
@@ -263,9 +271,26 @@ extension RenterChatViewController {
     
     //点击去预约看房页面
     func clickToScheduleVC() {
-        let vc = RenterScheduleFYViewController()
-        vc.messageFYViewModel = messageFYViewModel
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        //如果之前掉接口成功了-判断
+        //没有请求接口
+        if let isgetFYSuccess = isGetFYSuccess {
+            if isgetFYSuccess == true {
+                guard messageFYViewModel != nil else {
+                    AppUtilities.makeToast("暂无楼盘信息，没法预约")
+                    return
+                }
+                
+                let vc = RenterScheduleFYViewController()
+                vc.messageFYViewModel = messageFYViewModel
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                requestChatDetail()
+            }
+        }else {
+            requestChatDetail()
+        }
+        
     }
     
     //点击查看预约详情
@@ -299,7 +324,7 @@ extension RenterChatViewController {
             clickToScheduleVC()
             
         }else if index == 4 {
-            
+            AppUtilities.makeToast("正在开发中～")
         }
     }
     
@@ -352,7 +377,30 @@ extension RenterChatViewController {
     //保存微信接口
     func requestSaveWX(wx: String) {
         UserTool.shared.user_wechat = wx
+        addWechatId(wxid: wx)
         self.sendExchangeWechat()
+    }
+    
+    func addWechatId(wxid: String) {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["wxId"] = wxid as AnyObject?
+        params["channel"] = UserTool.shared.user_channel as AnyObject
+        
+        SSNetworkTool.SSChat.request_getAddWxID(params: params, success: { (response) in
+            
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
 }
 
@@ -431,7 +479,7 @@ extension RenterChatViewController {
     
     //看房邀约同意拒绝消息
     func sendScheduleViewingAgreeOrReject(agree: Bool, fyid: Int) {
-//        sendScheduleMessage(agree: agree)
+        //        sendScheduleMessage(agree: agree)
         
         var params = [String:AnyObject]()
         
