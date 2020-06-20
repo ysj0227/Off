@@ -295,7 +295,10 @@ extension RenterHomePageViewController {
     
     func setCycleImg() {
         SSTool.invokeInMainThread { [weak self] in
-            self?.cycleView?.imageURLStringArr = ["http://img.officego.com/building/1590999378530.jpg", "https://cdn.maomaozu.com/4,f10fe5218f95.jpg?width=400&height=300"]
+            self?.cycleView?.imageURLStringArr = ["bannerBgView.jpg"]
+
+            
+//            self?.cycleView?.imageURLStringArr = ["https://img.officego.com/building/1592531586982.jpg?x-oss-process=style/large"]
             //                weakSelf.cycleView?.imageURLStringArr = arr
         }
         
