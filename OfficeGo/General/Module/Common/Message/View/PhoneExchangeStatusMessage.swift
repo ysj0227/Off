@@ -205,6 +205,20 @@ class PhoneExchangeStatusMessageCell: RCMessageBaseCell {
         }
     }
     
+    @objc func dailPhone() {
+        
+        let testMessage = model.content as? PhoneExchangeStatusMessage
+        let sender = testMessage?.sendNumber
+        let receive = testMessage?.receiveNumber
+        if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
+            
+            SSTool.callPhoneTelpro(phone: receive ?? "")
+        }else {
+            
+            SSTool.callPhoneTelpro(phone: sender ?? "")
+        }
+    }
+    
     func initialize() {
         baseContentView.addSubview(bubbleBackgroundView)
         bubbleBackgroundView.addSubview(textLabel)
@@ -212,6 +226,8 @@ class PhoneExchangeStatusMessageCell: RCMessageBaseCell {
         bubbleBackgroundView.addSubview(lineView)
         bubbleBackgroundView.addSubview(dailBtn)
         bubbleBackgroundView.addSubview(btnlineView)
+        
+        dailBtn.addTarget(self, action: #selector(dailPhone), for: .touchUpInside)
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         bubbleBackgroundView.addGestureRecognizer(longPress)

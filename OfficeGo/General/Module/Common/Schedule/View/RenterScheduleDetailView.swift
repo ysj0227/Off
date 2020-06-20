@@ -23,6 +23,7 @@ class RenterScheduleDetailView: UIView {
     }
     
     @IBAction func clickToTelephone(_ sender: Any) {
+        SSTool.callPhoneTelpro(phone: buildingViewModel?.phone ?? "")
     }
     
         var model: ScheduleListDetailModel? {

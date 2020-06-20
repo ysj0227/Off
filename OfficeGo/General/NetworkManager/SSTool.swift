@@ -13,6 +13,21 @@ import SnapKit
 
 @objcMembers class SSTool: NSObject {
     
+    ///提示
+    static func callPhoneTelpro(phone : String){
+        let  phoneUrlStr = "telprompt://" + phone
+        
+        if let url = URL(string: phoneUrlStr) {
+            if UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler:nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+    }
+
     
     static func dispatchBlock(block: @escaping VoidClosure,complete:VoidClosure?){
         DispatchQueue.global(qos: .userInitiated).async {
