@@ -234,7 +234,7 @@ class RenterSettingCell: BaseTableViewCell {
     lazy var numDescLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .right
-        view.font = FONT_10
+        view.font = FONT_12
         view.textColor = kAppColor_666666
         return view
     }()

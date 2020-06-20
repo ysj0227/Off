@@ -20,6 +20,7 @@ class RenterUserHeaderView: UIView {
     lazy var settingBtn: UIButton = {
         let view = UIButton.init()
         view.setImage(UIImage.init(named: "setting"), for: .normal)
+        view.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: -20, right: -20)
         view.addTarget(self, action: #selector(sureSelectClick), for: .touchUpInside)
         return view
     }()
@@ -159,12 +160,12 @@ class RenterUserHeaderView: UIView {
         headerViewBtn.addSubview(loginbutton)
         headerViewBtn.addSubview(aduitStatusView)
         settingBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(kStatusBarHeight + 20)
+            make.top.equalTo(kStatusBarHeight - 15)
             make.trailing.equalTo(-left_pending_space_17)
-            make.size.equalTo(20)
+            make.size.equalTo(60)
         }
         headerViewBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(settingBtn.snp.bottom)
+            make.top.equalTo(settingBtn.snp.centerY).offset(30)
             make.leading.bottom.trailing.equalToSuperview()
         }
         headerImg.snp.makeConstraints { (make) in
