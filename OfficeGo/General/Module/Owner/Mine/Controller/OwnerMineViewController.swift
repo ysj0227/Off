@@ -221,7 +221,7 @@ extension OwnerMineViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .OwnerMineTypeCusomers:
-            SSLog(typeSourceArray[indexPath.row].type)
+            AppUtilities.makeToast("正在开发中～")
             
         case .OwnerMineTypeRegisterAgent:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)

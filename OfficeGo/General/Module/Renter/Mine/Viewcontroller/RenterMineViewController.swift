@@ -16,7 +16,7 @@ class RenterMineViewController: BaseTableViewController {
     
     var typeSourceArray:[RenterMineConfigureModel] = {
         var arr = [RenterMineConfigureModel]()
-//        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeIWanttoFind))
+        //        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeIWanttoFind))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeHouseSchedule))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeHelpAndFeedback))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeCusomers))
@@ -38,11 +38,11 @@ class RenterMineViewController: BaseTableViewController {
         setUpData()
         
     }
- ///判断有没有登录
+    ///判断有没有登录
     func juddgeIsLogin() {
         //登录直接请求数据
         if isLogin() == true {
-                        
+            
             requestUserMessage()
             
         }else {
@@ -53,18 +53,18 @@ class RenterMineViewController: BaseTableViewController {
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
-         super.viewWillDisappear(animated)
-         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
-         tab?.customTabBar.isHidden = true
-     }
-     override func viewWillAppear(_ animated: Bool) {
-         super.viewWillAppear(animated)
-         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
-         tab?.customTabBar.isHidden = false
+        super.viewWillDisappear(animated)
+        let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
+        tab?.customTabBar.isHidden = true
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
+        tab?.customTabBar.isHidden = false
         
         juddgeIsLogin()
-     }
-     
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -113,7 +113,7 @@ extension RenterMineViewController {
         
         self.navigationController?.navigationBar.isHidden = true
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(requestUserMessage), name: Notification.Name.userChanged, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(requestUserMessage), name: Notification.Name.userChanged, object: nil)
         
         self.view.backgroundColor = kAppBlueColor
         
@@ -138,8 +138,8 @@ extension RenterMineViewController {
     
     func setUpData() {
         
-//        requestUserMessage()
-                
+        //        requestUserMessage()
+        
         self.tableView.reloadData()
     }
     
@@ -151,9 +151,9 @@ extension RenterMineViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         SSNetworkTool.SSMine.request_getRenterUserMsg(params: params, success: {[weak self] (response) in
-
+            
             guard let weakSelf = self else {return}
-
+            
             if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
                 
                 weakSelf.userModel = model
@@ -171,7 +171,7 @@ extension RenterMineViewController {
                     weakSelf.headerView.userModel = model
                     weakSelf.reloadRCUserInfo()
                 }
-
+                
             }
             
             }, failure: {[weak self] (error) in
@@ -185,16 +185,16 @@ extension RenterMineViewController {
         }
     }
     
-       /*
-       * 强制刷新用户信息
-       * SDK 缓存操作
-       * 1、刷新 SDK 缓存
-    */
-       func reloadRCUserInfo() {
-           let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
-           RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)")
-       }
-       
+    /*
+     * 强制刷新用户信息
+     * SDK 缓存操作
+     * 1、刷新 SDK 缓存
+     */
+    func reloadRCUserInfo() {
+        let info = RCUserInfo.init(userId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)", name: UserTool.shared.user_name ?? "", portrait: UserTool.shared.user_avatars ?? "")
+        RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)")
+    }
+    
 }
 
 extension RenterMineViewController {
@@ -233,7 +233,7 @@ extension RenterMineViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .RenterMineTypeCusomers:
-            SSLog(typeSourceArray[indexPath.row].type)
+            AppUtilities.makeToast("正在开发中～")
             
         case .RenterMineTypeRegisterAgent:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
@@ -244,7 +244,7 @@ extension RenterMineViewController {
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeAboutUs)
             vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
             self.navigationController?.pushViewController(vc, animated: true)
-
+            
         case .none:
             SSLog(typeSourceArray[indexPath.row].type)
         }
