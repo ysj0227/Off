@@ -199,8 +199,8 @@ class RenterLoginViewController: BaseViewController {
     //登录跳过直接到tabbar - 租户设置已经点击过跳过
     override func rightBtnClick() {
         
-        //NotificationCenter.default.post(name: NSNotification.Name.SetRenterTabbarViewController, object: nil)
-        
+        //TODO: 先暂时放出租户跳过功能
+        loginBtnClick()
     }
     
     //登录之后 设置tabbar
@@ -230,9 +230,20 @@ class RenterLoginViewController: BaseViewController {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
         titleview?.backTitleRightView.backgroundColor = kAppClearColor
-        titleview?.leftButton.isHidden = false
-        titleview?.rightButton.isHidden = true
         titleview?.rightButton.setTitle("跳过", for: .normal)
+        
+        
+        //TODO: 模拟- 业主 - 隐藏 - 返回按钮
+        //模拟 - 租户可以跳过登录
+        if UserTool.shared.user_id_type == 1 {
+            titleview?.leftButton.isHidden = true
+            titleview?.rightButton.isHidden = true
+        }else {
+            titleview?.leftButton.isHidden = false
+            titleview?.rightButton.isHidden = false
+        }
+        
+        
         titleview?.rightButton.backgroundColor = kAppBlueColor
         titleview?.rightButton.setTitleColor(kAppWhiteColor, for: .normal)
         titleview?.leftButton.addTarget(self, action: #selector(leftBtnClick), for: .touchUpInside)
