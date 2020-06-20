@@ -221,6 +221,13 @@ extension SSNetworkTool {
                success,failed:failure,error:error)
        }
         
+        //保存微信
+        static func request_getAddWxID(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSChatURL.addWxID)
+         SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
     }
     
     //  MARK:   --行程
