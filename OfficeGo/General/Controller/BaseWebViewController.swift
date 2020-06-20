@@ -61,7 +61,7 @@ class BaseWebViewController: BaseViewController {
             ///服务协议
             case .ProtocalTypeRegisterProtocol:
                 urlString = SSDelegateURL.registerProtocolUrl
-                ///隐私条款
+            ///隐私条款
             case .ProtocalTypePrivacyProtocolUrl:
                 urlString = SSDelegateURL.privacyProtocolUrl
             ///帮助与反馈
