@@ -75,6 +75,7 @@ class RenterUserHeaderView: UIView {
     var isNoLoginShowView: Bool = false {
         didSet {
             if isNoLoginShowView == true {
+                aduitStatusView.isHidden = true
                 loginbutton.isHidden = false
                 headerImg.image = UIImage.init(named: "avatar")
                 nameLabel.text = "未登录"
@@ -103,7 +104,6 @@ class RenterUserHeaderView: UIView {
                 introductionLabel.text = ""
             }
             
-            aduitStatusView.isHidden = true
         }
     }
     
