@@ -107,6 +107,15 @@ class SureAlertView: UIView {
         self.removeFromSuperview()
     }
     
+    ///业主 - 我的 - 退出滑动 隐藏view
+    class func Remove() {
+        UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
+            if view.isKind(of: SureAlertView.self) {
+                view.removeFromSuperview()
+            }
+        })
+    }
+    
     // MARK: - 弹出view显示
     func ShowSureAlertView(superview: UIView, message: String, cancelButtonCallClick: @escaping (() -> Void), sureButtonCallClick: @escaping (() -> Void)) -> Void {
         selfRemove()

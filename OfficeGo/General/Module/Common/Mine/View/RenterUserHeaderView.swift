@@ -54,6 +54,7 @@ class RenterUserHeaderView: UIView {
         view.font = FONT_MEDIUM_11
         view.textColor = kAppWhiteColor
         view.backgroundColor = kAppDarkBlueColor
+        view.clipsToBounds = true
         return view
     }()
     
@@ -127,6 +128,35 @@ class RenterUserHeaderView: UIView {
                 introductionLabel.text = ""
             }
             
+            ///身份类型0个人1企业2联合
+            let identify: Int = ownerUserModel.identityType ?? -1
+            
+            var identifyString: String?
+            
+            if identify == 0 {
+                identifyString = "个人"
+            }else if identify == 1 {
+                identifyString = "企业"
+            }else if identify == 2 {
+                identifyString = "联合办公"
+            }else {
+                identifyString = "还没有认证"
+            }
+            
+            ///审核状态0待审核1审核通过2审核未通过
+            let auditStatus: Int = ownerUserModel.auditStatus ?? -1
+            
+            var auditStatusString: String?
+            if auditStatus == 0 {
+                auditStatusString = "待审核"
+            }else if auditStatus == 1 {
+                auditStatusString = "审核通过"
+            }else if auditStatus == 2 {
+                auditStatusString = "审核未通过"
+            }
+            
+            aduitStatusView.text = "  \(identifyString ?? "")\(auditStatusString ?? "")  "
+            
             aduitStatusView.isHidden = false
         }
     }
@@ -182,9 +212,11 @@ class RenterUserHeaderView: UIView {
         aduitStatusView.snp.makeConstraints { (make) in
             make.leading.equalTo(nameLabel.snp.trailing).offset(6)
             make.centerY.equalTo(nameLabel)
-            make.width.equalTo(42)
+            make.width.greaterThanOrEqualTo(42)
             make.height.equalTo(18)
         }
+        aduitStatusView.layer.cornerRadius = 9
+        
         introductionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom)
             make.leading.equalTo(nameLabel)
