@@ -31,7 +31,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
     lazy var houseNameLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_14
+        view.font = FONT_16
         view.textColor = kAppColor_333333
         return view
     }()
@@ -46,7 +46,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
     lazy var houseAddressLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_LIGHT_10
+        view.font = FONT_LIGHT_11
         view.textColor = kAppColor_333333
         return view
     }()
@@ -166,18 +166,16 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         self.addSubview(lineView)
         
         houseImageview.snp.makeConstraints { (make) in
-            make.top.equalTo(12)
-            make.leading.equalTo(left_pending_space_17)
-            make.size.equalTo(79)
+            make.top.leading.equalTo(left_pending_space_17)
+            make.size.equalTo(92)
         }
         houseTagLabel.snp.makeConstraints { (make) in
             make.top.leading.equalToSuperview()
-            make.size.equalTo(CGSize(width: 63, height: 15))
+            make.size.equalTo(CGSize(width: 74, height: 17))
         }
         houseNameLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseImageview.snp.trailing).offset(11)
+            make.leading.equalTo(houseImageview.snp.trailing).offset(13)
             make.top.equalTo(houseImageview)
-            //            make.height.equalTo(18)
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
         }
         houseaddressIcon.snp.makeConstraints { (make) in
@@ -190,10 +188,10 @@ class RenterCollectOfficeCell: BaseTableViewCell {
             make.centerY.equalTo(houseaddressIcon)
             make.trailing.equalTo(houseNameLabel.snp.trailing)
         }
-        let width = (kWidth - 79 - left_pending_space_17 * 2 - 11) / 3.0
+        let width = (kWidth - 92 - left_pending_space_17 * 2 - 13) / 3.0
         firstItem.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseaddressIcon.snp.bottom).offset(4)
+            make.top.equalTo(houseaddressIcon.snp.bottom).offset(7)
             make.width.equalTo(width)
         }
         secondItem.snp.makeConstraints { (make) in
@@ -230,7 +228,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
     }
     
     class func rowHeight() -> CGFloat {
-        return 103
+        return 126
     }
     
 }
