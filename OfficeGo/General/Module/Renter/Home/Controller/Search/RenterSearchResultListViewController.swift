@@ -77,7 +77,7 @@ class RenterSearchResultListViewController: BaseTableViewController {
         self.tableView.snp.updateConstraints { (make) in
             make.top.equalToSuperview().offset(selectView.bottom)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-bottomMargin())
         }
         
         requestSet()

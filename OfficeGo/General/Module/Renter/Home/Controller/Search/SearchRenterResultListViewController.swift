@@ -34,6 +34,11 @@ class ESearchRenterResultListViewController: BaseTableViewController {
     }
     //MARK: 获取首页列表数据
     override func refreshData() {
+        
+        if keywords?.isBlankString == true {
+            return
+        }
+        
         var params = [String:AnyObject]()
         
         params["keywords"] = keywords as AnyObject

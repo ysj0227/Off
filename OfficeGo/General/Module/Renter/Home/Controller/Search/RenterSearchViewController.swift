@@ -106,12 +106,14 @@ class RenterSearchViewController: BaseViewController {
         
         collectionView?.snp.makeConstraints({ (make) in
             make.top.equalTo(kNavigationHeight)
-            make.leading.bottom.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-bottomMargin())
         })
         
         searchResultVC?.view.snp.makeConstraints({ (make) in
             make.top.equalTo(kNavigationHeight)
-            make.leading.bottom.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-bottomMargin())
         })
     }
     
