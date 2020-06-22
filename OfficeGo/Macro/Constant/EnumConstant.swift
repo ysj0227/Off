@@ -22,6 +22,14 @@ public enum ProtocalType {
     case ProtocalTypeQuestionUrl
 }
 
+//认证- 房源url
+public enum OwnerIdentifyOrFYType {
+    ///认证
+    case ProtocalTypeIdentifyOwnerUrl
+    ///房源页面
+    case ProtocalTypeFYOwnerUrl
+}
+
 //我想找item枚举
 public enum IWantToFindType {
     case IWantToFindTypeCity        //城市

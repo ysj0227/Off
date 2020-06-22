@@ -33,8 +33,9 @@ class ViewController: JHTableViewController {
             let vc = CollectionViewController.init()
             self.navigationController?.pushViewController(vc, animated: true)
         case 2:
-            let vc = WebViewController.init(url: "https://www.qq.com")
-            self.navigationController?.pushViewController(vc, animated: true)
+            let vc = CollectionViewController.init()
+//            let vc = WebViewController.init(url: "https://www.qq.com")
+//            self.navigationController?.pushViewController(vc, animated: true)
         case 3:
             let vc = ExViewController.init()
             self.navigationController?.pushViewController(vc, animated: true)

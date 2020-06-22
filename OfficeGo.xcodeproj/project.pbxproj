@@ -184,7 +184,6 @@
 		EEE87AD02455854E00C03424 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEE87ACF2455854E00C03424 /* Assets.xcassets */; };
 		EEE87AD32455854E00C03424 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEE87AD12455854E00C03424 /* LaunchScreen.storyboard */; };
 		EEE87ADE2455854F00C03424 /* OfficeGoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87ADD2455854F00C03424 /* OfficeGoTests.swift */; };
-		EEE87AEB2455856300C03424 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AE82455856300C03424 /* WebViewController.swift */; };
 		EEE87AEC2455856300C03424 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AE92455856300C03424 /* TableViewController.swift */; };
 		EEE87AED2455856300C03424 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AEA2455856300C03424 /* CollectionViewController.swift */; };
 		EEE87B0D2455856800C03424 /* JHWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AF02455856700C03424 /* JHWebViewController.swift */; };
@@ -451,7 +450,6 @@
 		EEE87AD92455854F00C03424 /* OfficeGoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeGoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEE87ADD2455854F00C03424 /* OfficeGoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeGoTests.swift; sourceTree = "<group>"; };
 		EEE87ADF2455854F00C03424 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EEE87AE82455856300C03424 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		EEE87AE92455856300C03424 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		EEE87AEA2455856300C03424 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		EEE87AF02455856700C03424 /* JHWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JHWebViewController.swift; sourceTree = "<group>"; };
@@ -1317,7 +1315,6 @@
 				EEE87ACA2455854C00C03424 /* ViewController.swift */,
 				EEE87AEA2455856300C03424 /* CollectionViewController.swift */,
 				EEE87AE92455856300C03424 /* TableViewController.swift */,
-				EEE87AE82455856300C03424 /* WebViewController.swift */,
 				EEE87ACC2455854C00C03424 /* Main.storyboard */,
 				EEE87ACF2455854E00C03424 /* Assets.xcassets */,
 				EEE87AD12455854E00C03424 /* LaunchScreen.storyboard */,
@@ -1852,7 +1849,6 @@
 				EEE87B3824558F6A00C03424 /* DispatchExtensions.swift in Sources */,
 				04E2391F249B3ABB009DCCEC /* RenterOfficeJointFYDetailVC.swift in Sources */,
 				EEE0D93E2465581200E5C77B /* Layout.swift in Sources */,
-				EEE87AEB2455856300C03424 /* WebViewController.swift in Sources */,
 				EEE87B5824558F9800C03424 /* AnimateRefreshFooter.swift in Sources */,
 				04D972292497466500C87168 /* LoadingHudView.swift in Sources */,
 				EEE87B7124559F5100C03424 /* BaseViewController.swift in Sources */,

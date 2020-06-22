@@ -15,7 +15,7 @@ class MessageFYViewModel: NSObject {
     var distanceString: String?
     var districtString: String?
     var unitString: String?
-
+    
     ///封面图
     var mainPic : String?
     var createTimeAndByWho : String?
@@ -24,7 +24,7 @@ class MessageFYViewModel: NSObject {
     var houseName : String?
     ///2.1km | 徐汇区 · 漕河泾
     var distanceDistrictString: String?
-
+    
     ///步行5分钟到 | 2号线 ·东昌路站
     var walkTimesubwayAndStationString: String?
     ///日租金
@@ -37,64 +37,129 @@ class MessageFYViewModel: NSObject {
     var companyJobString : String?
     
     init(model:MessageFYModel) {
-        buildingId = model.house?.buildingId
-        houseId = model.house?.houseId
-        targetId = model.chatted?.targetId
         
-        mainPic = model.house?.mainPic
-        let dateTimeString = SSTool.timeIntervalChangeToYYMMHHMMTimeStr(timeInterval: TimeInterval.init(model.createTime ?? 0))
-        if model.createUser == model.chatted?.targetId {
-            createTimeAndByWho = "\(dateTimeString) 由对方发起沟通"
-        }else {
-            createTimeAndByWho = "\(dateTimeString) 由你发起沟通"
-        }
-        IsFavorite = model.IsFavorite
-        buildingName = model.house?.buildingName
-        houseName = model.house?.houseName
-        distanceDistrictString = "\(model.house?.distance ?? "0")km | \(model.house?.district ?? "")"
-        distanceString = model.house?.distance?.count ?? 0 > 0 ? "\(model.house?.distance ?? "0")km" : ""
-        districtString = model.house?.district ?? ""
-        walkTimesubwayAndStationString = "步行"
-        guard let nearbySubwayTime = model.house?.nearbySubwayTime else {
-            return
-        }
-        walkTimesubwayAndStationString?.append(nearbySubwayTime.count > 0 ? nearbySubwayTime[0] : "")
-        walkTimesubwayAndStationString?.append("分钟到 | ")
-        guard let stationline = model.house?.stationline else {
-            return
-        }
-        walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
-        walkTimesubwayAndStationString?.append("号线 ·")
-        guard let stationNames = model.house?.stationNames else {
-            return
-        }
-        walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
-        walkTimesubwayAndStationString?.append("站")
-        
-        dayPriceNoUnitString = String(format: "¥%.0f", model.house?.minSinglePrice ?? 0)
-        
-        if model.house?.btype == 1 {
-            dayPriceString = String(format: "¥%.0f /㎡/天", model.house?.minSinglePrice ?? 0)
-            unitString = "/㎡/天"
-        }else if model.house?.btype == 2 {
+        ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
+        if model.isBuildOrHouse == 1 {
+            buildingId = model.building?.buildingId
+            houseId = model.building?.houseId
+            targetId = model.chatted?.targetId
             
-            ///独立办公室
-            if model.house?.officeType == 1 {
-                dayPriceString = String(format: "¥%.0f /位/天", model.house?.minSinglePrice ?? 0)
-                unitString = "/位/天"
+            mainPic = model.building?.mainPic
+            let dateTimeString = SSTool.timeIntervalChangeToYYMMHHMMTimeStr(timeInterval: TimeInterval.init(model.createTime ?? 0))
+            if model.createUser == model.chatted?.targetId {
+                createTimeAndByWho = "\(dateTimeString) 由对方发起沟通"
+            }else {
+                createTimeAndByWho = "\(dateTimeString) 由你发起沟通"
             }
+            IsFavorite = model.IsFavorite
+            buildingName = model.building?.buildingName
+            houseName = model.building?.buildingName
+            distanceDistrictString = "\(model.building?.distance ?? "0")km | \(model.building?.district ?? "")"
+            distanceString = model.building?.distance?.count ?? 0 > 0 ? "\(model.building?.distance ?? "0")km" : ""
+            districtString = model.building?.district ?? ""
+            walkTimesubwayAndStationString = "步行"
+            guard let nearbySubwayTime = model.building?.nearbySubwayTime else {
+                return
+            }
+            walkTimesubwayAndStationString?.append(nearbySubwayTime.count > 0 ? nearbySubwayTime[0] : "")
+            walkTimesubwayAndStationString?.append("分钟到 | ")
+            guard let stationline = model.building?.stationline else {
+                return
+            }
+            walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
+            walkTimesubwayAndStationString?.append("号线 ·")
+            guard let stationNames = model.building?.stationNames else {
+                return
+            }
+            walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
+            walkTimesubwayAndStationString?.append("站")
+            
+            dayPriceNoUnitString = String(format: "¥%.0f", model.building?.minSinglePrice ?? 0)
+            
+            if model.building?.btype == 1 {
+                dayPriceString = String(format: "¥%.0f /㎡/天", model.building?.minSinglePrice ?? 0)
+                unitString = "/㎡/天"
+            }else if model.building?.btype == 2 {
+                
+                ///独立办公室
+                if model.building?.officeType == 1 {
+                    dayPriceString = String(format: "¥%.0f /位/天", model.building?.minSinglePrice ?? 0)
+                    unitString = "/位/天"
+                }
+            }
+            
+            //特色
+            var tagArr: [String] = []
+            model.building?.tags?.forEach({ (model) in
+                tagArr.append(model.dictCname ?? "")
+            })
+            tagsString = tagArr.joined(separator: ",")
+            
+            //        tagsString = model.house?.tags
+            avatarString = model.chatted?.avatar
+            contactNameString = model.chatted?.nickname
+        }else {
+            buildingId = model.house?.buildingId
+            houseId = model.house?.houseId
+            targetId = model.chatted?.targetId
+            
+            mainPic = model.house?.mainPic
+            let dateTimeString = SSTool.timeIntervalChangeToYYMMHHMMTimeStr(timeInterval: TimeInterval.init(model.createTime ?? 0))
+            if model.createUser == model.chatted?.targetId {
+                createTimeAndByWho = "\(dateTimeString) 由对方发起沟通"
+            }else {
+                createTimeAndByWho = "\(dateTimeString) 由你发起沟通"
+            }
+            IsFavorite = model.IsFavorite
+            buildingName = model.house?.buildingName
+            houseName = model.house?.houseName
+            distanceDistrictString = "\(model.house?.distance ?? "0")km | \(model.house?.district ?? "")"
+            distanceString = model.house?.distance?.count ?? 0 > 0 ? "\(model.house?.distance ?? "0")km" : ""
+            districtString = model.house?.district ?? ""
+            walkTimesubwayAndStationString = "步行"
+            guard let nearbySubwayTime = model.house?.nearbySubwayTime else {
+                return
+            }
+            walkTimesubwayAndStationString?.append(nearbySubwayTime.count > 0 ? nearbySubwayTime[0] : "")
+            walkTimesubwayAndStationString?.append("分钟到 | ")
+            guard let stationline = model.house?.stationline else {
+                return
+            }
+            walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
+            walkTimesubwayAndStationString?.append("号线 ·")
+            guard let stationNames = model.house?.stationNames else {
+                return
+            }
+            walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
+            walkTimesubwayAndStationString?.append("站")
+            
+            dayPriceNoUnitString = String(format: "¥%f", model.house?.minSinglePrice ?? 0)
+            
+            if model.house?.btype == 1 {
+                dayPriceString = String(format: "¥%f /㎡/天", model.house?.minSinglePrice ?? 0)
+                unitString = "/㎡/天"
+            }else if model.house?.btype == 2 {
+                
+                ///独立办公室
+//                if model.house?.officeType == 1 {
+                    dayPriceString = String(format: "¥%f /位/天", model.house?.minSinglePrice ?? 0)
+                    unitString = "/位/天"
+//                }
+            }
+            
+            //特色
+            var tagArr: [String] = []
+            model.house?.tags?.forEach({ (model) in
+                tagArr.append(model.dictCname ?? "")
+            })
+            tagsString = tagArr.joined(separator: ",")
+            
+            //        tagsString = model.house?.tags
+            avatarString = model.chatted?.avatar
+            contactNameString = model.chatted?.nickname
         }
         
-        //特色
-        var tagArr: [String] = []
-        model.house?.tags?.forEach({ (model) in
-            tagArr.append(model.dictCname ?? "")
-        })
-        tagsString = tagArr.joined(separator: ",")
-
-//        tagsString = model.house?.tags
-        avatarString = model.chatted?.avatar
-        contactNameString = model.chatted?.nickname
+        
         companyJobString = "\(model.chatted?.company ?? "")·\(model.chatted?.job ?? "")"
     }
 }

@@ -56,19 +56,19 @@ class OwnerHomeViewController: BaseViewController {
                 
             ///关于我们
             case .ProtocalTypeAboutUs:
-                urlString = SSDelegateURL.aboutUsUrl
+                urlString = SSDelegateURL.h5AboutUsUrl
             ///服务协议
             case .ProtocalTypeRegisterProtocol:
-                urlString = SSDelegateURL.registerProtocolUrl
-                ///隐私条款
+                urlString = SSDelegateURL.h5RegisterProtocolUrl
+            ///隐私条款
             case .ProtocalTypePrivacyProtocolUrl:
-                urlString = SSDelegateURL.privacyProtocolUrl
+                urlString = SSDelegateURL.h5PrivacyProtocolUrl
             ///帮助与反馈
             case .ProtocalTypeHelpAndFeedbackUrl:
-                urlString = SSDelegateURL.helpAndFeedbackUrl
+                urlString = SSDelegateURL.h5HelpAndFeedbackUrl
             ///常见问题
             case .ProtocalTypeQuestionUrl:
-                urlString = SSDelegateURL.questionUrl
+                urlString = SSDelegateURL.h5QuestionUrl
             }
         }
     }
@@ -176,7 +176,7 @@ class OwnerHomeViewController: BaseViewController {
     }
     
     override func clickReloadData() {
-        if let url = URL(string: urlString ?? SSDelegateURL.aboutUsUrl) {
+        if let url = URL(string: urlString ?? SSDelegateURL.h5AboutUsUrl) {
             let request = URLRequest(url: url)
             webView?.load(request)
             LoadingHudView.showHud()

@@ -4,335 +4,109 @@
 //
 //  Created by DENGFei on 2020/4/26.
 //  Copyright © 2020 dengfei. All rights reserved.
-//
 
 import UIKit
+import JavaScriptCore
 import WebKit
-import SnapKit
+import RxSwift
+import RxCocoa
+import SwiftyJSON
 
-open class JHWebViewController: JHViewController ,WKUIDelegate,WKNavigationDelegate,WKScriptMessageHandler,UIScrollViewDelegate{
-    // MARK: - 参数变量
-    public dynamic lazy var webView : WKWebView = {
-        let webView = WKWebView.init(frame: .zero, configuration: self.config)
+class JHBaseWebViewController: BaseViewController {
+
+    //通过类型 - 设置url
+    var typeEnum: OwnerIdentifyOrFYType?
+    
+    var urlString: String? {
+        didSet {
+            loadWebview()
+        }
+    }
+    var titleString: String? {
+        didSet {
+            titleview?.titleLabel.text = titleString
+        }
+    }
+    
+    lazy var webView: WKWebView? = {
+        let view = WKWebView()
+        let preferences = WKPreferences()
+        //preferences.javaScriptEnabled = true
+        let configuration = WKWebViewConfiguration()
+        configuration.preferences = preferences
+        configuration.userContentController = WKUserContentController()
+        //注册closeView这个函数,让js调用
+        configuration.userContentController.add(self, name: "closeView")
+        configuration.userContentController.add(self, name: "identifyComplete")
+        var webView = WKWebView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), configuration: configuration)
+        webView.scrollView.bounces = true
+        webView.scrollView.alwaysBounceVertical = true
         webView.navigationDelegate = self
-        webView.uiDelegate = self
-        webView.scrollView.delegate = self
-        if #available(iOS 11.0, *) {
-            webView.scrollView.contentInsetAdjustmentBehavior = .never
+        return view
+    }()
+    let disposeBag = DisposeBag()
+    
+    init(protocalType: OwnerIdentifyOrFYType) {
+        super.init(nibName: nil, bundle: nil)
+        typeEnum = protocalType
+        setUrlWithType()
+    }
+    
+    func loadWebview() {
+        if let url = URL(string: urlString ?? "") {
+            LoadingHudView.showHud()
+            let request = URLRequest(url: url)
+            self.webView?.load(request)
+        }
+    }
+    
+    func setUrlWithType() {
+        
+        if let type = typeEnum {
+            switch type {
+                
+            ///认证
+            case .ProtocalTypeIdentifyOwnerUrl:
+                urlString = SSDelegateURL.h5IdentifyOwnerUrl
+            ///房源管理
+            case .ProtocalTypeFYOwnerUrl:
+                urlString = SSDelegateURL.h5IdentifyOwnerUrl
+           
+            }
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        clearCache()
+    }
+    
+    func clearCache() {
+        if #available(iOS 9.0, *) {
+            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
+            let date = NSDate(timeIntervalSince1970: 0)
+            WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: date as Date, completionHandler:{ })
         } else {
-            // Fallback on earlier versions
-        }
-        webView.allowsBackForwardNavigationGestures = true
-        return webView
-    }()
-    
-    public lazy var reloadButton : UIButton  = {
-        let reloadButton = UIButton.init(type: .custom)
-        reloadButton.frame = self.view.bounds
-        reloadButton.setTitle("加载失败,请点击重试", for: .normal)
-        reloadButton.addTarget(self, action: #selector(reloadWebView), for: .touchUpInside)
-        return reloadButton
-    }()
-    
-    lazy var loadingProgressView : UIProgressView = {
-        let progressView = UIProgressView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 4))
-        progressView.trackTintColor = .clear
-        progressView.tintColor = .red
-        return progressView
-    }()
-    
-    lazy var config : WKWebViewConfiguration = {
-        let preferences = WKPreferences.init()
-        preferences.minimumFontSize = 0.0
-        preferences.javaScriptEnabled = true
-        preferences.javaScriptCanOpenWindowsAutomatically = true
-        
-        let processPool = WKProcessPool.init()
-        
-        let config = WKWebViewConfiguration.init()
-        config.userContentController = WKUserContentController.init()
-        config.preferences = preferences
-        config.processPool = processPool
-        config.allowsInlineMediaPlayback = true
-        config.allowsAirPlayForMediaPlayback = true
-        return config
-    }()
-    
-    public var closeWebPopGesture : Bool? {
-        didSet{
-            guard let close = closeWebPopGesture else {
-                return
-            }
-            self.webView.allowsBackForwardNavigationGestures = close
-        }
-    }
-    
-    public var injectCookie : (key :String, value :String)? {
-        didSet{
-            guard let cookie = injectCookie else {
-                return
-            }
-            let cookieStr = String.init(format: "%@=%@", cookie.key , cookie.value)
-            let jsStr = String.init(format: "document.cookie = '%@';", cookieStr)
-            ///js方式
-            let script = WKUserScript.init(source: jsStr, injectionTime: WKUserScriptInjectionTime.atDocumentStart, forMainFrameOnly: false)
-            self.config.userContentController.addUserScript(script)
-            ///PHP方式
-            self.request?.setValue(cookieStr, forHTTPHeaderField: "Cookie")
-        }
-    }
-    @objc
-    public var navTitle : String?
-    @objc
-    public var url : String?
-    @objc
-    public var agent : String? {
-        didSet{
-            guard let new = agent else {
-                return
-            }
-            let web = UIWebView.init()
-            var oldAgent = web.stringByEvaluatingJavaScript(from: "navigator.userAgent")
-            oldAgent? += ";"
-            oldAgent? += new
-            webView.customUserAgent = oldAgent 
-        }
-    }
-    
-    var request : URLRequest?
-    public var currentUrl : String?
-    
-    // MARK: - 初始化
-    public convenience init(url: String) {
-        self.init()
-        self.url = url
-    }
-    
-    public convenience init(url: String, cookie: Dictionary<String, String>) {
-        self.init()
-        guard let urlReal = URL.init(string: url) else {
-            return
-        }
-        self.url = url
-        var request = URLRequest.init(url: urlReal)
-        var cookieStr = ""
-        if cookie.count > 0 {
-            for (key,value) in cookie {
-                cookieStr += String.init(format: "%@=%@;", key , value)
-            }
-        }
-        if cookieStr.count > 1 {
-            request.addValue(cookieStr, forHTTPHeaderField: "Cookie")
-        }
-        self.request = request
-    }
-    
-    public convenience init(reqyest: URLRequest) {
-        self.init()
-        self.request = request
-    }
-    
-    // MARK: - 布局
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        self.edgesForExtendedLayout = [.left,.right,.bottom]
-        
-        self.title = self.navTitle
-        
-        self.view.addSubview(self.reloadButton)
-        
-        self.view.addSubview(self.webView)
-        if #available(iOS 11.0, *) {
-            self.webView.snp.makeConstraints({ (make) in
-                make.top.equalTo(self.view.safeAreaInsets.top );
-                make.left.equalTo(self.view.safeAreaInsets.left);
-                make.right.equalTo(self.view.safeAreaInsets.right);
-                make.bottom.equalTo(self.view.safeAreaInsets.bottom);
-            })
-        }else {
-            self.webView.snp.makeConstraints({ (make) in
-                make.top.equalToSuperview()
-                make.left.equalToSuperview()
-                make.right.equalToSuperview()
-                make.bottom.equalToSuperview()
-            })
-        }
-        
-        
-        self.extendedLayoutIncludesOpaqueBars = true
-        
-        self.view.addSubview(self.loadingProgressView)
-        
-        self.webView.configuration.userContentController.add(WeakScriptMessageDelegate.init(delegate: self), name: "JumpViewController")
-        
-        self.loadRequest()
-        //        self.webView?.evaluateJavaScript("navigator.userAgent") {[weak self] (result, error) in
-        //         if let agent = result as? String {
-        //            self?.webView?.customUserAgent = agent + " customAgent"
-        //         }
-        //        // 为estimatedProgress添加KVO
-        self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: [.old, .new], context: nil)
-    }
-    // MARK: - WKScriptMessageHandler JS调用原生交互
-    open func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        debugPrint("\(message.name)-\(message.body)")
-        switch message.name {
-        case "JumpViewController":
-            debugPrint("JumpViewController")
-        default:
-            debugPrint("")
-        }
-    }
-    // MARK: - WKNavigationDelegate
-    open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        
-        if navigationAction.targetFrame == nil{
-            webView.load(navigationAction.request)
-        }
-        
-        if let cUrl = navigationAction.request.url{
-            let urlString = cUrl.absoluteString
-            self.currentUrl = urlString
-            let scheme = cUrl.scheme
-            switch scheme {
-            case "tel":
-                if UIApplication.shared.canOpenURL(cUrl) {
-                    UIApplication.shared.open(cUrl, options: [:], completionHandler: nil)
-                    decisionHandler(.cancel)
-                    return
-                }
-            default:
-                print("")
-            }
-        }
-        
-        decisionHandler(.allow)
-    }
-    open func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        decisionHandler(.allow)
-    }
-    
-    open func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        self.webView.isHidden = false
-        self.loadingProgressView.isHidden = false
-        if webView.url?.scheme == "about" {
-            webView.isHidden = true
-        }
-    }
-    
-    open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.webView.isHidden = false
-        //        self.loadingProgressView.isHidden = true
-        webView.evaluateJavaScript("document.title") { (result, error) in
-            self.navigationItem.title = result as? String
-        }
-        webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
-            debugPrint("\(String(describing: result))")
-        }
-    }
-    
-    open func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        self.webView.isHidden = true
-        self.loadingProgressView.isHidden = false
-    }
-    
-    open func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        let cred = URLCredential(trust: challenge.protectionSpace.serverTrust!)
-        completionHandler(.useCredential, cred)
-    }
-    // MARK: - WKUIDelegate
-    
-    open func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (_)in
-            // We must call back js
-            completionHandler()
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    open func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (_)in
-            // We must call back js
-            completionHandler(true)
-        }))
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_)in
-            // We must call back js
-            completionHandler(false)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    open func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-        
-        let alert = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
-        alert.addTextField { (textField) in
-            textField.textColor = .black
-            textField.placeholder = defaultText
-        }
-        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (_)in
-            // We must call back js
-            completionHandler(alert.textFields?.last?.text)
-        }))
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_)in
-            // We must call back js
-            completionHandler(nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    // MARK: - 监听进度条
-    //    func setupObserver(){
-    //        progressObervation = self.webView.observe(\.estimatedProgress, options: .new, changeHandler: { (self, change) in
-    //            let newValue = change.newValue  ?? 0
-    //            print("new value is \(newValue)")
-    //            self.changeLoadingProgress(progress : Float(newValue))
-    //        })
-    //    }
-    // 监听网络加载进度，加载过程中在navigationBar显示加载进度，加载完成显示网站标题
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let webView = object as? WKWebView, webView == self.webView && keyPath == "estimatedProgress" {
+            var libraryPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.libraryDirectory, FileManager.SearchPathDomainMask.userDomainMask, false).first!
+            libraryPath += "/Cookies"
             
-            guard let changes = change else { return }
-            //  请注意这里读取options中数值的方法
-            let newValue = changes[NSKeyValueChangeKey.newKey] as? Double ?? 0
-            let oldValue = changes[NSKeyValueChangeKey.oldKey] as? Double ?? 0
-            
-            // 因为我们已经设置了进度条为0.1，所以只有在进度大于0.1后再进行变化
-            if newValue > oldValue && newValue > 0.1 {
-                self.loadingProgressView.setProgress(Float.init(newValue), animated: true)
+            do {
+                try FileManager.default.removeItem(atPath: libraryPath)
+            } catch {
+                SSLog("error")
             }
-            // 当进度为100%时，隐藏progressLayer并将其初始值改为0
-            if newValue == 1.0 {
-                let time1 = DispatchTime.now() + 0.4
-                let time2 = time1 + 0.1
-                DispatchQueue.main.asyncAfter(deadline: time1) {
-                    self.loadingProgressView.progress = 1
-                }
-                DispatchQueue.main.asyncAfter(deadline: time2) {
-                    self.loadingProgressView.isHidden = true
-                    self.loadingProgressView.progress = 0
-                }
-            }
+            URLCache.shared.removeAllCachedResponses()
         }
     }
-    // MARK: - 发起请求
-    open func loadRequest() {
-        
-        if let re = self.request {
-            self.webView.load(re)
-        }else if let url = self.url, let realURL = URL.init(string: url) {
-            self.webView.load(URLRequest.init(url: realURL))
-        }
-    }
-    // MARK: - 方法
-    ///重写父类返回方法
-    open override func goBack() {
-        if self.webView.canGoBack {
-            self.webView.goBack()
-        }else{
-            self.closeVC()
-        }
-    }
+
     ///关闭当前VC
     open func closeVC() {
         if let viewControllers: [UIViewController] = self.navigationController?.viewControllers {
@@ -345,47 +119,161 @@ open class JHWebViewController: JHViewController ,WKUIDelegate,WKNavigationDeleg
             self.dismiss(animated: true, completion: nil)
         }
     }
-    ///reload按钮点击
-    @objc func reloadWebView(){
-        self.loadingProgressView.progress = 0
-        self.loadingProgressView.isHidden = false
-        guard let url = self.currentUrl, let realURL = URL.init(string: url) else{
-            return
-        }
-        self.webView.load(URLRequest.init(url: realURL))
+
+    
+    ///用户信息
+    func setUserInfo() {
+        
     }
     
-    // MARK: - 生命周期结束 清理
-    deinit{
-        self.cleanAllWebsiteDataStore()
-        self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
-        self.webView.uiDelegate = nil
-        self.webView.navigationDelegate = nil
-        self.webView.scrollView.delegate = nil
+    ///用户信息
+    // MARK: - 方法
+    ///重写父类返回方法
+    @objc func closeView() {
+        if webView?.canGoBack ?? false {
+            webView?.goBack()
+        }else{
+           closeVC()
+        }
     }
     
-    func cleanAllWebsiteDataStore() {
-        let websiteDataTypes = WKWebsiteDataStore.allWebsiteDataTypes()
-        let modifiedSince = Date.init(timeIntervalSince1970: 0)
-        WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes, modifiedSince: modifiedSince) {
-            debugPrint("清理完成")
+    ///用户信息
+    func identifyComplete() {
+        
+    }
+    override func viewDidLoad() {
+        
+        titleview?.titleLabel.text = titleString
+        
+        super.viewDidLoad()
+        
+        if let webView = webView {
+            view.insertSubview(webView, at: 0)
+            webView.snp.makeConstraints { (make) in
+                make.top.equalTo(kStatusBarHeight)
+                make.leading.bottom.trailing.equalToSuperview()
+            }
         }
-        URLCache.shared.removeAllCachedResponses()
-        URLCache.shared.diskCapacity = 0
-        URLCache.shared.memoryCapacity = 0
+        
+        _ = webView?.rx.observeWeakly(String.self, "title")
+            .subscribe(onNext: { [weak self] (value) in
+                if let value = value, value.count > 0 {
+                    self?.titleString = value
+                }
+            })
+        
+        self.view.addSubview(noDataView)
+        noDataView.isHidden = true
+        noDataView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-30)
+            make.size.equalTo(CGSize(width: 160, height: 190))
+        }
+        noDataImageView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview()
+            make.size.equalTo(CGSize(width: 100, height: 100))
+        }
+        noDataLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(noDataImageView.snp.bottom)
+            make.size.equalTo(CGSize(width: kWidth, height: 30))
+        }
+        noDataButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.size.equalTo(CGSize(width: 80, height: 30))
+        }
+        noDataLabel.text = "加载失败，点击重试"
+        
+        SendNetworkStatus()
+    }
+    
+    func SendNetworkStatus() {
+        
+        switch NetAlamofireReachability.shared.status {
+        case .Unknown, .NotReachable:
+            noDataButton.isHidden = false
+            noDataImageView.image = UIImage(named: "no_network_image")
+            noDataLabel.text = "网络连接失败，请查看你的网络设置"
+        case .WiFi, .Wwan:
+            noDataButton.isHidden = true
+            noDataImageView.image = UIImage(named: "no_data_image")
+            noDataLabel.text = "加载失败，点击重试"
+        }
+    }
+    
+    override func clickReloadData() {
+        if let url = URL(string: urlString ?? SSDelegateURL.h5AboutUsUrl) {
+            let request = URLRequest(url: url)
+            webView?.load(request)
+            LoadingHudView.showHud()
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        /*
+        webView?.configuration.userContentController.add(self, name: "thorJump")
+        webView?.configuration.userContentController.add(self, name: "sendEventId")
+ */
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        /*
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "thorJump")
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")*/
     }
 }
 
-// MARK: - WeakScriptMessageDelegate
-class WeakScriptMessageDelegate : NSObject, WKScriptMessageHandler {
-    weak var delegate : WKScriptMessageHandler?
-    init(delegate:WKScriptMessageHandler) {
-        self.delegate = delegate
-        super.init()
+extension JHBaseWebViewController: UIWebViewDelegate {
+    
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+        return true
     }
-    func userContentController(_ userContentController: WKUserContentController,
-                               didReceive message: WKScriptMessage) {
-        self.delegate?.userContentController(
-            userContentController, didReceive: message)
+    
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        LoadingHudView.hideHud()
+        noDataView.isHidden = true
+    }
+}
+
+extension JHBaseWebViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+
+        ///js调用本地的方法 -
+        //如果是左上角的返回按钮 - 关闭页面
+        if message.name == "closeView" {
+           
+            closeVC()
+            
+        }else if message.name == "identifyComplete" {
+            
+            closeVC()
+        }
+    }
+}
+
+extension JHBaseWebViewController: WKNavigationDelegate {
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        noDataView.isHidden = true
+        LoadingHudView.hideHud()
+        //web加载好了才有左边按钮
+//        let leftBtton = UIButton()
+//        leftBtton.setImage(UIImage.init(named: "wechat"), for: .normal)
+//        leftBtton.addTarget(self, action: #selector(closeView), for: .touchUpInside)
+//        self.view.addSubview(leftBtton)
+    }
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        AppUtilities.makeToast(error.localizedDescription)
+        noDataView.isHidden = false
+        LoadingHudView.hideHud()
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        AppUtilities.makeToast(error.localizedDescription)
+        noDataView.isHidden = false
+        LoadingHudView.hideHud()
     }
 }

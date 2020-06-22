@@ -115,27 +115,30 @@ enum DictionaryCodeEnum: String {
 //  MARK:   --网页
 class SSDelegateURL: NSObject {
     
-    //楼盘地址
-    static let buildingDetailShareUrl =  "http://test.officego.com.cn/lessee/housesDetail.html"
+    //楼盘分享地址
+    static let h5BuildingDetailShareUrl =  "http://test.officego.com.cn/lessee/housesDetail.html"
     
-    //房源地址
-    static let buildingFYDetailShareUrl =  "http://test.officego.com.cn/lessee/detail.html"
+    //房源分享地址
+    static let h5BuildingFYDetailShareUrl =  "http://test.officego.com.cn/lessee/detail.html"
     
     //关于我们
-    static let aboutUsUrl = "http://test.officego.com.cn/lessee/aboutUs.html"
+    static let h5AboutUsUrl = "http://test.officego.com.cn/lessee/aboutUs.html"
     
     //服务协议
-    static let registerProtocolUrl = "http://test.officego.com.cn/lessee/registerProtocol.html"
+    static let h5RegisterProtocolUrl = "http://test.officego.com.cn/lessee/registerProtocol.html"
     
     //隐私条款：
-    static let privacyProtocolUrl = "http://test.officego.com.cn/lessee/privacy.html"
+    static let h5PrivacyProtocolUrl = "http://test.officego.com.cn/lessee/privacy.html"
     
     //帮助与反馈：
-    static let helpAndFeedbackUrl = "http://test.officego.com.cn/owner/opinion.html"
+    static let h5HelpAndFeedbackUrl = "http://test.officego.com.cn/owner/opinion.html"
     
     //常见问题：
-    static let questionUrl = "http://test.officego.com.cn/lessee/issueList.html"
-        
+    static let h5QuestionUrl = "http://test.officego.com.cn/lessee/issueList.html"
+    
+    ///认证业主网页接口
+    static let h5IdentifyOwnerUrl = "https://m.officego.com/owner/myHome.html"
+
 }
 
 
@@ -248,13 +251,7 @@ class SSMineURL: NSObject {
 
     ///版本更新
     static let versionUpdate = "version/ios"
-    
-    ///注册协议
-    static let registerProtocol = "registerProtocol.html"
-    
-    ///关于我们
-    static let aboutUs = "aboutUs.html"
-    
+
     /// 修改手机号
     static let changePhone = "user/changePhone"
     

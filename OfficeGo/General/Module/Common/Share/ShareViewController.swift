@@ -97,7 +97,7 @@ class ShareViewController: UIViewController {
     
     func shareToPlatform(platformType: Int, _ sender: Any) {
         let webpageObject = WXWebpageObject()
-        webpageObject.webpageUrl = "\(SSDelegateURL.buildingDetailShareUrl)?buildingId=\(shareIDString)"
+        webpageObject.webpageUrl = "\(SSDelegateURL.h5BuildingDetailShareUrl)?buildingId=\(shareIDString)"
         let message = WXMediaMessage()
         message.title = buildingName
         message.description = descriptionString
