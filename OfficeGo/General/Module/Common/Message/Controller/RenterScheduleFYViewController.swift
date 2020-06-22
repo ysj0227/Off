@@ -49,7 +49,7 @@ class RenterScheduleFYViewController: BaseTableViewController {
         
         var params = [String:AnyObject]()
         params["buildingId"] = messageFYViewModel?.buildingId as AnyObject?
-        params["houseIds"] = messageFYViewModel?.houseId as AnyObject?
+        //params["houseIds"] = messageFYViewModel?.houseId as AnyObject?
         params["chatUserId"] = messageFYViewModel?.targetId as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["time"] = "\(interval)" as AnyObject?
