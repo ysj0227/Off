@@ -334,7 +334,7 @@ class ScheduleViewingMessageCell: RCMessageCell {
             lineView.isHidden = false
             btnlineView.isHidden = false
             iconimg.frame = CGRect(x: 12, y: 7, width: 23, height: textLabelSize.height - 45 - 30 - 30 * 2)
-            textLabel.frame = CGRect(x: iconimg.right + 10, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45 - 30)
+            textLabel.frame = CGRect(x: iconimg.right + 10, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45 - 30 - 30 * 2)
             
             buildingNameLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom + 3, width: textLabelSize.width, height: 30)
             buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: textLabelSize.width, height: 30)
