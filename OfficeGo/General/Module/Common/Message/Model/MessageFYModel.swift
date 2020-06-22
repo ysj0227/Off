@@ -74,16 +74,16 @@ class MessageFYViewModel: NSObject {
             walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
             walkTimesubwayAndStationString?.append("站")
             
-            dayPriceNoUnitString = String(format: "¥%.0f", model.building?.minSinglePrice ?? 0)
+            dayPriceNoUnitString = "¥\(model.building?.minSinglePrice ?? 0)"
             
             if model.building?.btype == 1 {
-                dayPriceString = String(format: "¥%.0f /㎡/天", model.building?.minSinglePrice ?? 0)
+                dayPriceString = "¥\(model.building?.minSinglePrice ?? 0) /㎡/天"
                 unitString = "/㎡/天"
             }else if model.building?.btype == 2 {
                 
                 ///独立办公室
                 if model.building?.officeType == 1 {
-                    dayPriceString = String(format: "¥%.0f /位/天", model.building?.minSinglePrice ?? 0)
+                    dayPriceString = "¥\(model.building?.minSinglePrice ?? 0) /位/天"
                     unitString = "/位/天"
                 }
             }
@@ -133,16 +133,16 @@ class MessageFYViewModel: NSObject {
             walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
             walkTimesubwayAndStationString?.append("站")
             
-            dayPriceNoUnitString = String(format: "¥%f", model.house?.minSinglePrice ?? 0)
+            dayPriceNoUnitString = "¥\(model.house?.minSinglePrice ?? 0)"
             
             if model.house?.btype == 1 {
-                dayPriceString = String(format: "¥%f /㎡/天", model.house?.minSinglePrice ?? 0)
+                dayPriceString = "¥\(model.house?.minSinglePrice ?? 0) /㎡/天"
                 unitString = "/㎡/天"
             }else if model.house?.btype == 2 {
                 
                 ///独立办公室
 //                if model.house?.officeType == 1 {
-                    dayPriceString = String(format: "¥%f /位/天", model.house?.minSinglePrice ?? 0)
+                    dayPriceString = "¥\(model.house?.minSinglePrice ?? 0) /位/天"
                     unitString = "/位/天"
 //                }
             }

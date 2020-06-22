@@ -123,7 +123,7 @@ class FangYuanSearchResultViewModel: NSObject {
             buildingAttributedName = NSMutableAttributedString.init()
         }
         
-        dayPriceString = String(format: "¥%.0f", model.dayPrice ?? 0) + "/m²/天起"
+        dayPriceString = "¥\(model.dayPrice ?? 0)" + "/m²/天起"
 
     }
 }

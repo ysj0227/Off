@@ -256,7 +256,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
                 houseAreaString = String(format: "%.0f", model.minArea ?? 0) + "-" + String(format: "%.0f", model.maxArea ?? 0) + "m²"
             }
             ///价格
-            housePriceString =  "¥" + String(format: "%.0f", model.minDayPrice ?? 0) + "/m²/天起"
+            housePriceString =  "¥\(model.minDayPrice ?? 0)" + "/m²/天起"
         }
             
             ///联合办公
@@ -268,7 +268,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
                 independentAreaString = String(format: "%.0f", model.minAreaIndependentOffice ?? 0) + "-" + String(format: "%.0f", model.maxAreaIndependentOffice ?? 0) + "m²"
             }
             
-            independentavgDayPriceString = "¥" + String(format: "%.0f", model.avgDayPriceIndependentOffice ?? 0) + "/位/月"
+            independentavgDayPriceString = "¥\(model.avgDayPriceIndependentOffice ?? 0)" + "/位/月"
             
             if model.minSeatsIndependentOffice == model.maxSeatsIndependentOffice {
                 independentSeatsString = String(format: "%.0f", model.minSeatsIndependentOffice ?? 0) + "位"
@@ -278,7 +278,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             
             seatsOpenStationString = String(format: "%.0f", model.minSeatsOpenStation ?? 0) + "位"
             
-            avgDayPriceOpenStationString = "¥" + String(format: "%.0f", model.avgDayPriceOpenStation ?? 0) + "/位/月"
+            avgDayPriceOpenStationString = "¥\(model.avgDayPriceOpenStation ?? 0)" + "/位/月"
             
             
             ///开放工位和共享服务之后网点有
@@ -574,8 +574,8 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
             }else {
                 buildinSeats = "最多0个工位"
             }
-            buildingDayPriceString = String(format: "¥%.0f /㎡/天", model.dayPrice ?? 0)
-            buildingMonthPriceString = String(format: "¥%.0f /月", model.monthPrice ?? 0)
+            buildingDayPriceString = "¥\(model.dayPrice ?? 0) /㎡/天" 
+            buildingMonthPriceString = "¥\(model.monthPrice ?? 0) /月"
             buildingDecoration = model.decoration ?? ""
             if model.floor?.isBlankString ?? false == true && model.totalFloor?.isBlankString ?? false == true {
                 buildingFloor = "--"
@@ -589,12 +589,12 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
             ///独立办公室
             if officeType == 1 {
                 individualAreaString = String(format: "%.0f㎡", model.area ?? 0)
-                individualMonthPriceString = String(format: "¥%.0f", model.monthPrice ?? 0)
+                individualMonthPriceString = "¥\(model.monthPrice ?? 0)"
                 individualSeatsString = "\(model.seats ?? 0)" + "工位"
-                individualDayPriceString = String(format: "¥%.0f /位/天", model.dayPrice ?? 0)
+                individualDayPriceString = "¥\(model.dayPrice ?? 0) /位/天"
             }else {
                 openSeatsString = "\(model.seats ?? 0)" + "工位"
-                openMonthPriceString = String(format: "¥%.0f", model.dayPrice ?? 0)
+                openMonthPriceString = "¥\(model.dayPrice ?? 0)"
                 openMinimumLeaseString = "\(model.minimumLease ?? "")" + "个月起租"
             }
         }
