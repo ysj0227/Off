@@ -16,6 +16,8 @@ class MessageFYViewModel: NSObject {
     var districtString: String?
     var unitString: String?
     
+    var address : String?
+
     ///封面图
     var mainPic : String?
     var createTimeAndByWho : String?
@@ -43,6 +45,8 @@ class MessageFYViewModel: NSObject {
             buildingId = model.building?.buildingId
             houseId = model.building?.houseId
             targetId = model.chatted?.targetId
+            
+            address = model.building?.address
             
             mainPic = model.building?.mainPic
             let dateTimeString = SSTool.timeIntervalChangeToYYMMHHMMTimeStr(timeInterval: TimeInterval.init(model.createTime ?? 0))
@@ -103,6 +107,8 @@ class MessageFYViewModel: NSObject {
             houseId = model.house?.houseId
             targetId = model.chatted?.targetId
             
+            address = model.house?.address
+
             mainPic = model.house?.mainPic
             let dateTimeString = SSTool.timeIntervalChangeToYYMMHHMMTimeStr(timeInterval: TimeInterval.init(model.createTime ?? 0))
             if model.createUser == model.chatted?.targetId {

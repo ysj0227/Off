@@ -446,7 +446,7 @@ extension RenterChatViewController {
     
     //预约房源
     func sendScheduleFY(interval: Int, fyid: Int) {
-        let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", fyId: "\(fyid)", time: "\(interval)")
+        let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", fyId: "\(fyid)", time: "\(interval)", buildingName: messageFYViewModel?.buildingName ?? "", buildingAddress: messageFYViewModel?.address ?? "")
         sendMessage(messageContent, pushContent: "我发送了一个看房邀请")
     }
     
@@ -511,7 +511,6 @@ extension RenterChatViewController {
         let messageContent = ScheduleViewingStatusMessage.messageWithContent(content: agree ? "我同意您发送的看房邀请" : "我拒绝您发送的看房邀请", isAgree: agree)
         sendMessage(messageContent, pushContent: "看房邀请回复")
     }
-    
     
     //每次进来强制刷新好友用户信息
     func reloadRCCompanyUserInfo() {
