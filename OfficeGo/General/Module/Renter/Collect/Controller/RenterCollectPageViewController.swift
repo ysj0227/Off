@@ -29,7 +29,7 @@ class RenterCollectPageViewController: BaseViewController {
         let segHeadFrame = CGRect.init(x: 10, y: kNavigationHeight, width: self.view.width - left_pending_space_17, height: 58)
         let segScrollFrame = CGRect.init(x: 0, y: kNavigationHeight + 58, width: self.view.width, height: self.view.height - kNavigationHeight - 58 - kTabBarHeight)
         
-        let segHead = MLMSegmentHead.init(frame: segHeadFrame, titles: ["写字楼/网点～楼宇", "办公室～房源"], headStyle: .init(rawValue: 1), layoutStyle: .init(rawValue: 2))
+        let segHead = MLMSegmentHead.init(frame: segHeadFrame, titles: ["楼宇", "房源"], headStyle: .init(rawValue: 1), layoutStyle: .init(rawValue: 2))
         segHead?.fontSize = 12
         segHead?.fontScale = 1.2
         segHead?.equalSize = false

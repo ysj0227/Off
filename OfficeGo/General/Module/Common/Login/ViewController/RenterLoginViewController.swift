@@ -136,7 +136,7 @@ class RenterLoginViewController: BaseViewController {
     
     lazy var agreementButton: UIButton = {
         let button = UIButton.init(type: .custom)
-        button.setTitle("服务条款", for: .normal)
+        button.setTitle("隐私条款", for: .normal)
         button.setTitleColor(kAppBlueColor, for: .normal)
         button.titleLabel?.font = FONT_12
         button.rx.tap.subscribe(onNext: { [weak self] in
@@ -165,7 +165,7 @@ class RenterLoginViewController: BaseViewController {
     
     func clickToRegisterVC() {
         let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
-        vc.titleString = "服务条款"
+        vc.titleString = "隐私条款"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

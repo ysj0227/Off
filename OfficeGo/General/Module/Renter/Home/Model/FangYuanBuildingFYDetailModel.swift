@@ -287,6 +287,6 @@ class FangYuanBuildingFYDetailBasicInformationModel: BaseModel {
     ///"门朝北，窗户朝向南，2个独立办公室，1间大会议室，3间小会议室。",//户型格局简
     var unitPatternRemark : String?
     
-    //户型格局简介高度
+    //户型介绍高度
     var textHeight: CGFloat?
 }

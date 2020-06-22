@@ -34,7 +34,7 @@ class RenterMineConfigureModel: ConfigureModel {
         case .RenterMineTypeCusomers:
             return "客服"
         case .RenterMineTypeRegisterAgent:
-            return "注册协议与隐私条款"
+            return "隐私条款"
         case .RenterMineTypeAboutus:
             return "关于我们"
         }
@@ -72,7 +72,7 @@ class OwnerMineConfigureModel: ConfigureModel {
         case .OwnerMineTypeCusomers:
             return "客服"
         case .OwnerMineTypeRegisterAgent:
-            return "注册协议与隐私条款"
+            return "隐私条款"
         case .OwnerMineTypeAboutus:
             return "关于我们"
         }

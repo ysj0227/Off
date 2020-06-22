@@ -146,29 +146,20 @@ extension RenterMineSettingViewController {
     
     ///切换身份ui
     func roleChangeClick() {
-        let alertController = UIAlertController.init(title: "选择身份", message: nil, preferredStyle: .actionSheet)
-        let refreshAction = UIAlertAction.init(title: "租户", style: .default) {[weak self] (action: UIAlertAction) in
-            if UserTool.shared.user_id_type == 0 {
-                AppUtilities.makeToast("您目前已经是租户")
-                return
-            }
-            self?.requestRoleChange()
-        }
-        let copyAction = UIAlertAction.init(title: "业主", style: .default) {[weak self] (action: UIAlertAction) in
-            if UserTool.shared.user_id_type == 1 {
-                AppUtilities.makeToast("您目前已经是业主")
-                return
-            }
-            self?.requestRoleChange()
-        }
-        let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
-            
-        }
-        alertController.addAction(refreshAction)
-        alertController.addAction(copyAction)
-        alertController.addAction(cancelAction)
         
-        present(alertController, animated: true, completion: nil)
+        let alert = SureAlertView(frame: self.view.frame)
+        if UserTool.shared.user_id_type == 0 {
+            alert.inputTFView.text = "是否确认切换为业主"
+
+        }else if UserTool.shared.user_id_type == 1 {
+            alert.inputTFView.text = "是否确认切换为租户"
+        }
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            
+            self?.requestRoleChange()
+        }
     }
     
     ///切换身份接口
@@ -294,6 +285,11 @@ class RenterSettingCell: BaseTableViewCell {
             
             if model.type == RenterSettingType.RenterSettingTypeRoleChange {
                 lineView.isHidden = true
+                if UserTool.shared.user_id_type == 0 {
+                    numDescLabel.text = "切换为业主"
+                }else if UserTool.shared.user_id_type == 1 {
+                    numDescLabel.text = "切换为租户"
+                }
             }else {
                 lineView.isHidden = false
                 if model.type == RenterSettingType.RenterSettingTypeChangePhone {
