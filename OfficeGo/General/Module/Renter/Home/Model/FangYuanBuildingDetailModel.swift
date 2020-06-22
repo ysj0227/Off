@@ -440,7 +440,7 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
         
         airDefaultCoastConditioning = "常规:" + "--"
         
-        airJiabanCoastConditioning = "常规:" + "--"
+        airJiabanCoastConditioning = "加班:" + "--"
                 
         completionTime = "\(model.completionTime ?? "")年"
         
