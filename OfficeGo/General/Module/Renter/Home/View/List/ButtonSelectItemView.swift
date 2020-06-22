@@ -147,7 +147,7 @@ class ButtonCycleSelectItemView: UIView {
             view.tag += 1
             view.addTarget(self, action: #selector(btnCycleClick(btn:)), for: .touchUpInside)
             view.setTitleColor(kAppBlueColor, for: .normal)
-            view.frame = CGRect(x: (x + itemWidth) * (index ?? 0), y: 0, width: itemWidth, height: Int(self.height))
+            view.frame = CGRect(x: (x + itemWidth) * (index ?? 0), y: 0, width: itemWidth + 1, height: Int(self.height))
             view.clipsToBounds = true
             self.addSubview(view)
             
