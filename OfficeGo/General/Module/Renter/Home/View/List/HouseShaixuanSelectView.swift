@@ -126,11 +126,17 @@ class HouseShaixuanSelectView: UIView {
         self.sureHouseShaixuanButtonCallBack = sureHouseShaixuanButtonCallBack
         self.selectModel = model
         
+        reloadNodata()
+
         
         //        self.tableView.frame = CGRect(x: 0, y: 0, width: self.width, height: self.height - kTabBarHeight - 50)
         //        self.bottomBtnView.frame = CGRect(x: 0, y: self.tableView.bottom, width: self.width, height: 50)
         
         UIApplication.shared.keyWindow?.addSubview(self)
+    }
+    
+    func reloadNodata() {
+        self.tableView.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {

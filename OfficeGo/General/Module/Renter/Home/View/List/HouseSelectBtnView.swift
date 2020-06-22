@@ -9,6 +9,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import HandyJSON
+import SwiftyJSON
 
 enum HouseTypeEnum: String {
     case allEnum = "全部"
@@ -231,7 +233,17 @@ class HouseSelectBtnView: UIView {
         setBtnUpOrDown(button: houseTypeSelectBtn, isUp: false)
         setBtnUpOrDown(button: houseSortBtn, isUp: false)
         setBtnUpOrDown(button: houseShaixuanBtn, isUp: false)
-        areaView.ShowAreaaddressView(model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] in
+        
+        
+        if selectModel?.areaModel.areaModelCount.data.count ?? 0 > 0 {
+            self.showArea(isFrist: true)
+        }else {
+            request_getDistrict()
+        }
+    }
+    
+    func showArea(isFrist: Bool) {
+        areaView.ShowAreaaddressView(isfirst: isFrist, model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] in
             self?.setBtnUpOrDown(button: self?.houseAreaSelectBtn, isUp: false)
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
                 if selectModel.areaModel.selectedCategoryID == "1" {
@@ -300,6 +312,16 @@ class HouseSelectBtnView: UIView {
         setBtnUpOrDown(button: houseTypeSelectBtn, isUp: false)
         setBtnUpOrDown(button: houseSortBtn, isUp: false)
         setBtnUpOrDown(button: houseShaixuanBtn, isUp: true)
+        
+        if selectModel?.shaixuanModel.featureModelArr.count ?? 0 > 0 {
+            showShaixuan()
+        }else {
+            requestGetFeature()
+        }
+    }
+    
+    
+    func showShaixuan() {
         shaixuanView = HouseShaixuanSelectView.init(frame: CGRect(x: 0.0, y: self.bottom, width: kWidth, height: kHeight - self.bottom))
         
         shaixuanView?.ShowHouseShaixuanView(issubView:false, model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] in
@@ -320,5 +342,106 @@ class HouseSelectBtnView: UIView {
                 blockk(self?.hiddenArea ?? false, self?.selectModel ?? selectModel)
         })
     }
+}
+
+extension HouseSelectBtnView {
     
+    
+    //MARK: 获取装修类型
+    func requestGetDecorate() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumdecoratedType, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.selectModel?.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())
+                    /*weakSelf.nearbySelectModel.shaixuanModel.documentTypeModelArr.append(model ?? HouseFeatureModel())*/
+                }
+            }
+            
+            weakSelf.showShaixuan()
+            }, failure: {[weak self] (error) in
+                guard let weakSelf = self else {return}
+                weakSelf.showShaixuan()
+        }) {[weak self] (code, message) in
+            guard let weakSelf = self else {return}
+            weakSelf.showShaixuan()
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //MARK: 获取特色接口
+    func requestGetFeature() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.selectModel?.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())
+                    /*weakSelf.nearbySelectModel.shaixuanModel.featureModelArr.append(model ?? HouseFeatureModel())*/
+                }
+            }
+            weakSelf.requestGetDecorate()
+            
+            }, failure: {[weak self] (error) in
+                self?.requestGetDecorate()
+        }) {[weak self] (code, message) in
+            self?.requestGetDecorate()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    
+    //MARK: 获取商圈数据
+    func request_getDistrict() {
+        //查询类型，1：全部，0：系统已有楼盘的商圈
+        var params = [String:AnyObject]()
+        params["type"] = 1 as AnyObject?
+        SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
+            if let model = AreaCategorySelectModel.deserialize(from: response) {
+                model.name = "商圈"
+                self?.selectModel?.areaModel.areaModelCount = model
+            }
+            self?.request_getSubwaylist()
+            }, failure: { [weak self] (error) in
+                self?.request_getSubwaylist()
+        }) { [weak self] (code, message) in
+            
+            self?.request_getSubwaylist()
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //MARK: 获取地铁数据
+    func request_getSubwaylist() {
+        //查询类型，1：全部，0：系统已有楼盘的商圈
+        var params = [String:AnyObject]()
+        params["type"] = 1 as AnyObject?
+        SSNetworkTool.SSBasic.request_getSubwayList(params: params, success: { [weak self] (response) in
+            if let model = SubwayCategorySelectModel.deserialize(from: response) {
+                model.name = "地铁"
+                self?.selectModel?.areaModel.subwayModelCount = model
+                self?.showArea(isFrist: false)
+            }
+            
+            }, failure: {[weak self] (error) in
+                self?.showArea(isFrist: false)
+        }) {[weak self] (code, message) in
+            self?.showArea(isFrist: false)
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
 }

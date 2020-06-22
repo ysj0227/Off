@@ -101,7 +101,7 @@ class AreaAddressView: UIView {
     
     // MARK: - 弹出view显示
     // MARK: - 弹出view显示 - 筛选
-    func ShowAreaaddressView(model: HouseSelectModel, clearButtonCallBack: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((HouseSelectModel) -> Void)) -> Void {
+    func ShowAreaaddressView(isfirst: Bool, model: HouseSelectModel, clearButtonCallBack: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((HouseSelectModel) -> Void)) -> Void {
         
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: AreaAddressView.self) {
@@ -121,7 +121,15 @@ class AreaAddressView: UIView {
         self.selectModel = model
         self.areaRegionModel = model.areaModel
         
+        if isfirst != true {
+            reloadNodata()
+        }
+        
         UIApplication.shared.keyWindow?.addSubview(self)
+    }
+    
+    func reloadNodata() {
+        clearData()
     }
     
     required init?(coder aDecoder: NSCoder) {

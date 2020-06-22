@@ -78,6 +78,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         return WXApi.handleOpenUniversalLink(userActivity, delegate: self)
     }
     
+    func applicationWillResignActive(_ application: UIApplication) {
+        
+    }
+    
     func onReq(_ req: BaseReq) {
         
     }
