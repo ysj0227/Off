@@ -51,6 +51,10 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         super.viewWillAppear(animated)
         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
         tab?.customTabBar.isHidden = false
+        
+        if self.cycleView?.imageURLStringArr.count ?? 0 <= 0 {
+            request_bannerlist()
+        }
     }
     
     func setDataModel() {
