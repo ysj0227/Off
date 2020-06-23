@@ -861,13 +861,21 @@ class RenterDetailSourceView: UIView {
             
             if let videoArr = model.videoUrl {
                 if videoArr.count > 0 {
+                    videoView.isHidden = false
+                    changeBtnView.isHidden = false
                     let videoModel = videoArr[0]
                     let player = WMPlayerModel()
                     //            model.title = "视频"
                     player.videoURL = URL.init(string: videoModel.imgUrl ?? "")
                     //                model.videoURL = URL.init(string: "http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4")
                     playerModel = player
+                }else {
+                    videoView.isHidden = true
+                    changeBtnView.isHidden = true
                 }
+            }else {
+                videoView.isHidden = true
+                changeBtnView.isHidden = true
             }
         }
     }
@@ -908,6 +916,7 @@ class RenterDetailSourceView: UIView {
     //视频播放view
     lazy var videoView: UIView = {
         let view = UIView.init(frame: self.frame)
+        view.isHidden = true
         view.backgroundColor = kAppBlackColor
         return view
     }()
@@ -933,6 +942,7 @@ class RenterDetailSourceView: UIView {
     
     var changeBtnView: ButtonCycleSelectItemView = {
         let view = ButtonCycleSelectItemView.init(frame: CGRect(x: (kWidth - 45 * 3) / 2.0, y: 220, width: 45 * 3, height: 24), titleArrs: ["视频", "图片"], selectedIndex: 0)
+        view.isHidden = true
         return view
     }()
     
