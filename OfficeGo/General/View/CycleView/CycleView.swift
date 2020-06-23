@@ -33,11 +33,7 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
         didSet{
             pageControl.numberOfPages = imageURLStringArr.count
             collectionView.reloadData()
-            if imageURLStringArr.count > 0 {
-                //滚动到中间位置
-                let indexPath : IndexPath = IndexPath(item: imageURLStringArr.count * KCount, section: 0)
-                collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
-            }
+            //删除 滚动到中间的代码
         }
     }
     
