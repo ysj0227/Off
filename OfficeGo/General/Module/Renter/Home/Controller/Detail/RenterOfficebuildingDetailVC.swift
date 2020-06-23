@@ -688,7 +688,7 @@ extension RenterOfficebuildingDetailVC {
             case FYDetailItemType.FYDetailItemTypeFYList:
                 return 0
             case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                return 493 - 25 + 50
+                return RenterOfficeDeatailCell.rowHeight()
             case FYDetailItemType.FYDetailItemTypeAmbitusMating:
                 return 79 + (41 + 10) * 3
             //            return 241 + huxingConstangHeight.constant

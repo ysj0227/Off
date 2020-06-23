@@ -402,12 +402,8 @@ class FangYuanBuildingIntroductionModel: BaseModel {
 class FangYuanBuildingIntroductionlViewModel: NSObject {
     ///空调 - 常规
     var airDefaultConditioning : String?
-    ///空调 - 加班
-    var airJiabanConditioning : String?
     ///空调费 - 常规
     var airDefaultCoastConditioning : String?
-    ///空调费 - 加班
-    var airJiabanCoastConditioning : String?
     ///竣工时间
     var completionTime : String?
     ///总楼层
@@ -434,14 +430,10 @@ class FangYuanBuildingIntroductionlViewModel: NSObject {
     
     init(model:FangYuanBuildingIntroductionModel) {
         
-        airDefaultConditioning = "常规:" + "\(model.airConditioning ?? "")"
-        
-        airJiabanConditioning = "加班:" + "\(model.airConditioning ?? "")"
-        
-        airDefaultCoastConditioning = "常规:" + "--"
-        
-        airJiabanCoastConditioning = "加班:" + "--"
+        airDefaultConditioning = "\(model.airConditioning ?? "")"
                 
+        airDefaultCoastConditioning = "--"
+                        
         completionTime = "\(model.completionTime ?? "")年"
         
         totalFloor = "\(model.totalFloor ?? "0")" + "层"

@@ -756,15 +756,7 @@ extension RenterOfficeJointDetailVC {
             case FYDetailItemType.FYDetailItemTypeFYList:
                 return 0
             case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                if let introductionViewModel = self.buildingDetailViewModel?.introductionViewModel {
-                    if let height = introductionViewModel.textHeight {
-                        return RenterOfficeDeatailCell.rowHeight() + height
-                    }else {
-                        return RenterOfficeDeatailCell.rowHeight() + 25
-                    }
-                }else {
-                    return RenterOfficeDeatailCell.rowHeight() + 25
-                }
+                return RenterOfficeDeatailCell.rowHeight()
             case FYDetailItemType.FYDetailItemTypeAmbitusMating:
                 return 79 + (41 + 10) * 3
             case .FYDetailItemTypeShareServices:

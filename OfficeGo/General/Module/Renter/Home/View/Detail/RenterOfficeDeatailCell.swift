@@ -13,13 +13,9 @@ class RenterOfficeDeatailCell: BaseTableViewCell {
     @IBOutlet weak var ruzhuQiyeConstantHeight: NSLayoutConstraint!
     
     @IBOutlet weak var airDefaultConditioningLabel: UILabel!
-    
-    @IBOutlet weak var airJiabanConditioningLabel: UILabel!
-    
+        
     @IBOutlet weak var airDefaultCoastConditioningLabel: UILabel!
-    
-    @IBOutlet weak var airJiabanCoastConditioningLabel: UILabel!
-    
+        
     @IBOutlet weak var completionTimeLabel: UILabel!
     
     @IBOutlet weak var totalFloorLabel: UILabel!
@@ -55,9 +51,7 @@ class RenterOfficeDeatailCell: BaseTableViewCell {
     
     func setCellWithViewModel(viewModel: FangYuanBuildingIntroductionlViewModel) {
         airDefaultConditioningLabel.text = viewModel.airDefaultConditioning
-        airJiabanConditioningLabel.text = viewModel.airJiabanConditioning
         airDefaultCoastConditioningLabel.text = viewModel.airDefaultCoastConditioning
-        airJiabanCoastConditioningLabel.text = viewModel.airJiabanCoastConditioning
         completionTimeLabel.text = viewModel.completionTime
         totalFloorLabel.text = viewModel.totalFloor
         storeyHeightLabel.text = viewModel.storeyHeight
@@ -86,6 +80,6 @@ class RenterOfficeDeatailCell: BaseTableViewCell {
     
     
     class func rowHeight() -> CGFloat {
-        return 493 - 25
+        return 400
     }
 }
