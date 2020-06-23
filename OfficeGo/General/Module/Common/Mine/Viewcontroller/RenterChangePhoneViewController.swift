@@ -31,7 +31,7 @@ class RenterChangePhoneViewController: BaseViewController {
         view.isUserInteractionEnabled = false
         view.textColor = kAppColor_333333
         view.font = FONT_14
-        view.text = UserTool.shared.user_phone
+        view.text = UserTool.shared.user_phone?.getSecretPhoneString()
         return view
     }()
     lazy var phoneCurrentLineView: UIView = {

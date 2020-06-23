@@ -293,7 +293,7 @@ class RenterSettingCell: BaseTableViewCell {
             }else {
                 lineView.isHidden = false
                 if model.type == RenterSettingType.RenterSettingTypeChangePhone {
-                    numDescLabel.text = UserTool.shared.user_phone
+                    numDescLabel.text = UserTool.shared.user_phone?.getSecretPhoneString()
                 }else if model.type == RenterSettingType.RenterSettingTypeChangeWechat {
                     numDescLabel.text = UserTool.shared.user_wechat
                 }

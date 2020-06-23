@@ -55,4 +55,18 @@ extension String {
         }
         return[:]
     }
+    
+    func getSecretPhoneString() -> String{
+//        var re = "/^(\d{3})\d{4}(\d{4})$/"
+//        return phoneNumber.replace(re, "$1****$2")
+        if self.count > 7 {
+            let start = self.index(self.startIndex, offsetBy: 3)
+            let end = self.index(self.startIndex, offsetBy: 7)
+            let range = Range(uncheckedBounds: (lower: start, upper: end))
+            return self.replacingCharacters(in: range, with: "****")
+        }else {
+            return self
+        }
+        
+    }
 }
