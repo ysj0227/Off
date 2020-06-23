@@ -114,7 +114,7 @@ class ShareItemBtnView: UIButton {
                 return
             }
             let btn = BaseImageView.init(frame: CGRect(x: width, y: 0, width: itemwidth, height: self.height))
-            btn.contentMode = .scaleAspectFill
+            btn.contentMode = .scaleAspectFit
             btn.clipsToBounds = true
             btn.setImage(with: strs, placeholder: UIImage.init(named: "Default_1x1"))
             width =  width + (itemwidth + space)

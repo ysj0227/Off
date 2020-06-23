@@ -513,6 +513,8 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     ///开放工位
     ///工位数 - 30工位
     var openSeatsString : String?
+    ///工位
+    var openSeatsUnitLBString : String?
     ///月租金
     var openMonthPriceString : String?
     ///最短租期---6个月可租
@@ -582,6 +584,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
                 individualDayPriceString = "¥\(model.dayPrice ?? 0) /位/天"
             }else {
                 openSeatsString = "\(model.seats ?? 0)" + "工位"
+                openSeatsUnitLBString = "工位"
                 openMonthPriceString = "¥\(model.dayPrice ?? 0)"
                 openMinimumLeaseString = "\(model.minimumLease ?? "")" + "个月起租"
             }

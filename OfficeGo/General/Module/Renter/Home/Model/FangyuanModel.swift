@@ -91,7 +91,7 @@ class FangYuanListViewModel: NSObject {
         walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
         walkTimesubwayAndStationString?.append("站")
         
-        dayPriceString = "\(model.minDayPrice ?? 0)"
+        dayPriceString = "¥\(model.minDayPrice ?? 0)"
         if model.btype == 1  {
             unitString = "/m²/天起"
         }else if model.btype == 2  {

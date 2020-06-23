@@ -160,14 +160,13 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         }
         
         
-        monthPriceString = String(format: "%.0f/月", model.monthPrice ?? 0)
+        monthPriceString = "¥\(model.monthPrice ?? 0)/月"
         
         let size: CGSize = model.basicInformation?.unitPatternRemark?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_LIGHT_13, lines: 0) ?? CGSize(width: kWidth - left_pending_space_17 * 2, height: 25)
         if size.height < 25 {
             model.basicInformation?.textHeight = 25
         }else{
             model.basicInformation?.textHeight = size.height
-            
         }
         
         model.basicInformation?.btype = model.btype

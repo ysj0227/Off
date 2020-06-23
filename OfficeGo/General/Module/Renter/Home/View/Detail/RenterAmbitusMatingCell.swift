@@ -63,7 +63,7 @@ extension RenterAmbitusMatingCell: UICollectionViewDataSource, UICollectionViewD
 class RenterFeatureCollectionCell: BaseCollectionViewCell {
     lazy var itemImg: BaseImageView = {
         let view = BaseImageView()
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
         return view
     }()

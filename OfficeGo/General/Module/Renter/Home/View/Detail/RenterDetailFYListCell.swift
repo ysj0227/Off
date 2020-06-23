@@ -150,6 +150,7 @@ class RenterDetailFYListCell: BaseTableViewCell {
         
         mainImageView.setImage(with: viewModel.openStationViewModel?.mainPic ?? "", placeholder: UIImage(named: "Default_4x3"))
         leftTopLabel.text = viewModel.openStationViewModel?.openSeatsString
+        leftbottomLabel.text = viewModel.openStationViewModel?.openSeatsUnitLBString
         rightPriceLabel.text = viewModel.openStationViewModel?.openMonthPriceString
         rightUnitLabel.text = "/位/月"
         rightBottomUnitLabel.text = viewModel.openStationViewModel?.openMinimumLeaseString
