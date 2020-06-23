@@ -38,11 +38,15 @@ struct AppKey {
     static let buglyAppKey = "821d61983d"
     
     /// 融云AppKey
+    #if DEBUG
     static let RCAppKey = "kj7swf8oknm02"
     static let RCAppSecret = "OF78PpILjjRk4"
-
+    #else  //REALEASE
+    static let RCAppKey = "qf3d5gbjq94mh"
+    static let RCAppSecret = "xtDkNCjJse"
+    #endif
     //模拟器
-
+    
     static let InsertFYMessageTypeIdentifier = "og:insertfyinfo"
     static let PhoneExchangeMessageTypeIdentifier = "og:mobile"
     static let WechatExchangeMessageTypeIdentifier = "og:wx"
