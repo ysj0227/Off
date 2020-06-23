@@ -40,10 +40,7 @@ class ShareViewController: UIViewController {
     func handlePlatformInstalled() {
         
         
-        let isWXAppInstalled111 = UIApplication.shared.canOpenURL(URL.init(string: "wechat://")!)
-        
-        let isWXAppInstalled = true
-        sinaButton.isHidden = true
+        let isWXAppInstalled = WXApi.isWXAppInstalled()
         
         //判断微信有没有安装
         if isWXAppInstalled == false {
