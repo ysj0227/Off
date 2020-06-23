@@ -109,6 +109,16 @@ extension RenterMineViewController {
         
     }
     
+    ///我的 - 看房行程 添加未登录状态
+    func scheduleCellClick() {
+        if isLogin() == true {
+            let vc = RenterHouseScheduleViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            showLoginVC()
+        }
+    }
+    
     func setUpView() {
         
         self.navigationController?.navigationBar.isHidden = true
@@ -220,12 +230,7 @@ extension RenterMineViewController {
         case .RenterMineTypeIWanttoFind:
             SSLog(typeSourceArray[indexPath.row].type)
         case .RenterMineTypeHouseSchedule:
-            if isLogin() == true {
-                let vc = RenterHouseScheduleViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else {
-                AppUtilities.makeToast("请先登录")
-            }
+            scheduleCellClick()
             
         case .RenterMineTypeHelpAndFeedback:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeHelpAndFeedbackUrl)
