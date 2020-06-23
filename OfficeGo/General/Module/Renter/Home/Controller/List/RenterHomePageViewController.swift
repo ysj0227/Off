@@ -49,6 +49,11 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        SSLog(kWidth)
+        SSLog(kHeight)
+        SSLog((UIDevice.current.systemVersion as NSString).doubleValue)
+        
         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
         tab?.customTabBar.isHidden = false
         
@@ -160,8 +165,53 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         }
         
         //轮播图加载
+        //7 8 241
+        //11 241
+        //pro 240
+        //xmax 239
+        
+        var height: CGFloat = 0
+        
+        //TODO: 页面view高度修改  11和11proAMx 没法区别
+        //iPhoneX系列
+        if kStatusBarHeight == 44 {
+            
+            //11pro max 414 896     239
+            //11pro     375 812     240
+            //11        414 896     241
+            
+            if kHeight <= 812 {
+                if kWidth == 375 {
+                    //iPhone11Pro
+                    height = 240
+                }else {
+                    ///iPhoneX
+                    height = 241
+                }
+            }else {
+                //iPhone11 pro max 239 896 414
+                height = 239
+            }
+            
+        }else {
+            //SE 241 667 375
+            //iPhone7、iPhone8 241 667 375
+            if kHeight < 736 {
+                height = 241
+            }else {
+                //8plus 239 736 414
+                height = 239
+            }
+        }
+        
+        //SE 241 667 375
+        //iPhone7、iPhone8 241 667 375
+        //11 241 896 414
+        //pro 240 812 375
+        //xmax 239 896 414
+        
         let pointY: CGFloat = 0
-        cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: kWidth * imgScale))
+        cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: kWidth * height / 320.0))
         cycleView?.delegate = self
         cycleView?.mode = .scaleAspectFill
         
