@@ -544,7 +544,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     var buildingMonthPriceString : String?
     ///装修
     var buildingDecoration : String?
-    ///楼层
+    ///楼层 - 只显示8楼，不显示总层数
     var buildingFloor : String?
     
     
@@ -572,7 +572,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
             if model.floor?.isBlankString ?? false == true && model.totalFloor?.isBlankString ?? false == true {
                 buildingFloor = "--"
             }else {
-                buildingFloor = "\(model.floor ?? "0")/共\(model.totalFloor ?? "0")层"
+                buildingFloor = "\(model.floor ?? "0")楼"
             }
         }else if btype == 2 {
             
