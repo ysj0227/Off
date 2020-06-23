@@ -78,10 +78,6 @@ class FangYuanBuildingDetailViewModel: NSObject {
                     width = 0.0
                 }
                 width =  width + (itemwidth + space)
-                let index = tagArr.firstIndex(of: strs)
-//                if index == tagArr.count - 1 {
-//                    topY += (height + 5)
-//                }
             }
             if topY <= 30 {
                 tagsHeight = 30
