@@ -741,15 +741,14 @@ extension RenterOfficeJointDetailVC {
                         if let height = buildingDetailViewModel?.tagsHeight {
                             return RenterFeatureCell.rowHeight0() + height
                         }else {
-                            //return RenterFeatureCell.rowHeight0()
-                            return 0
+                            return RenterFeatureCell.rowHeight0() + 30
                         }
                     }else {
                         //return RenterFeatureCell.rowHeight0()
                         return 0
                     }
                 }else {
-                    return RenterFeatureCell.rowHeight0()
+                    return 0
                 }
             case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                 return 0

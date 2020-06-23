@@ -11,7 +11,7 @@ import UIKit
 class RenterFeatureCell: BaseTableViewCell {
     
     lazy var titleLabel: UILabel = {
-        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 17, width: 22, height: 24))
+        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 21, width: 22, height: 20))
         view.textAlignment = .left
         view.numberOfLines = 0
         view.font = FONT_11
@@ -21,7 +21,7 @@ class RenterFeatureCell: BaseTableViewCell {
     }()
     
     lazy var featureView: FeatureView = {
-        let view = FeatureView(frame: CGRect(x: 50, y: 19, width: self.width - 50, height: 20))
+        let view = FeatureView(frame: CGRect(x: 50, y: 17, width: kWidth - 50, height: 20))
 //        view.featureString = "免费停车,近地铁,近地铁1"
         return view
     }()
@@ -80,7 +80,7 @@ class RenterFeatureCell: BaseTableViewCell {
         return 58
     }
     class func rowHeight0() -> CGFloat {
-        return 58
+        return 58 - 30
     }
 }
 

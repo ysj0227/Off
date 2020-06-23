@@ -74,19 +74,19 @@ class FangYuanBuildingDetailViewModel: NSObject {
             for strs in tagArr {
                 let itemwidth:CGFloat = strs.boundingRect(with: CGSize(width: kWidth, height: height), font: FONT_10, lineSpacing: 0).width + widthAdd
                 if (width + (itemwidth + space)) > maxWidth {
-                    topY += (height + 5)
+                    topY += (height + 6)
                     width = 0.0
                 }
                 width =  width + (itemwidth + space)
                 let index = tagArr.firstIndex(of: strs)
-                if index == tagArr.count - 1 {
-                    topY += (height + 5)
-                }
+//                if index == tagArr.count - 1 {
+//                    topY += (height + 5)
+//                }
             }
-            if topY < 30 {
+            if topY <= 30 {
                 tagsHeight = 30
             }else {
-                tagsHeight = topY
+                tagsHeight = topY + height
             }
         }
         
