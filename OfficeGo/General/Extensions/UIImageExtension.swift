@@ -55,7 +55,8 @@ extension UIImage {
      *  等比率缩放
      */
     func scaleImage(scaleSize:CGFloat) -> UIImage {
-        let reSize = CGSize(width:self.size.width * scaleSize,height:self.size.height * scaleSize)
+        //let reSize = CGSize(width:self.size.width * scaleSize,height:self.size.height * scaleSize)
+        let reSize = CGSize(width:200,height:200)
         return reSizeImage(reSize: reSize)
     }
     
@@ -64,7 +65,7 @@ extension UIImage {
      */
     func reSizeImage(reSize:CGSize) -> UIImage {
         //UIGraphicsBeginImageContext(reSize);
-        UIGraphicsBeginImageContextWithOptions(reSize,false,UIScreen.main.scale)
+        UIGraphicsBeginImageContextWithOptions(reSize,false,0.7)
         self.draw(in: CGRect(x:0,y:0,width:reSize.width,height:reSize.height))
         let reSizeImage:UIImage = UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
         UIGraphicsEndImageContext()

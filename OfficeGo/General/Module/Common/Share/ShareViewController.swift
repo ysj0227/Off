@@ -100,9 +100,9 @@ class ShareViewController: UIViewController {
         message.description = descriptionString
         if let url = thumbImage {
             let imageview = BaseImageView()
-            imageview.setImage(with: url, placeholder: UIImage.init(named: ""))
+            imageview.setImage(with: url, placeholder: UIImage.init(named: "logo"))
             if let image = imageview.image {
-                message.setThumbImage(image.scaleImage(scaleSize: 0.008))
+                message.setThumbImage(image.scaleImage(scaleSize: 200))
             }
         }
         message.mediaObject = webpageObject
