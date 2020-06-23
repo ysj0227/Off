@@ -207,6 +207,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         //SE 241 667 375
         //iPhone7、iPhone8 241 667 375
         //11 241 896 414
+        //iPhoneXs 240 812 375
         //pro 240 812 375
         //xmax 239 896 414
         
