@@ -18,8 +18,8 @@ struct AppKey {
     static let UMKey = "5ee885e8978eea085c5464c2"
 
     /// 微信appid
-    static let WeChatAppId = "wx0d3be0b21817123d"
-    static let WeChatAppSecret = "b0e755423a190c6d7bdfb9f5efc52976"
+    static let WeChatAppId = "wx70ee9e90c1d62d83"
+    static let WeChatAppSecret = "acfe3227435a5698455f81294a7b078e"
     
     /*
      服务器配置 - https://m.officego.com/apple-app-site-association
