@@ -20,7 +20,7 @@ class OwnerMainTabBarController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
         
         self.viewControllers = [
-            BaseNavigationViewController.init(rootViewController: OwnerHomeViewController(protocalType: ProtocalType.ProtocalTypeAboutUs)),
+            BaseNavigationViewController.init(rootViewController: OwnerHomeViewController()),
             BaseNavigationViewController.init(rootViewController: OwnerChatListViewController()),
             BaseNavigationViewController.init(rootViewController: OwnerHouseScheduleViewController()),
             BaseNavigationViewController.init(rootViewController: OwnerMineViewController())]

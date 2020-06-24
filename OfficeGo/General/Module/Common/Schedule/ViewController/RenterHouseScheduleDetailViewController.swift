@@ -42,7 +42,7 @@ class RenterHouseScheduleDetailViewController: BaseViewController {
     func refreshData() {
         
         var params = [String:AnyObject]()
-        params["token"] = "MTA0X3N1bndlbGxfMTU5MTYwNTkwOV8w" as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
         params["scheduleId"] = scheduleId as AnyObject?
 
         SSNetworkTool.SSSchedule.request_getScheduleDetailApp(params: params, success: { [weak self] (response) in

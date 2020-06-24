@@ -247,7 +247,6 @@ extension AppDelegate {
             //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
             SSLog("token错误")
             //TODO: 融云token错误 测试提示
-            AppUtilities.makeToast("融云token错误")
         })
     }
     

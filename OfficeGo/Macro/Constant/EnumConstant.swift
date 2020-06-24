@@ -26,8 +26,10 @@ public enum ProtocalType {
 public enum OwnerIdentifyOrFYType {
     ///认证
     case ProtocalTypeIdentifyOwnerUrl
-    ///房源页面
-    case ProtocalTypeFYOwnerUrl
+    ///房源页面 - 楼盘
+    case ProtocalTypeFYBuildingOwnerUrl
+    ///房源页面 - 网点
+    case ProtocalTypeFYJointOwnerUrl
 }
 
 //我想找item枚举

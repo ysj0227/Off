@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import SwiftyJSON
 
-class JHBaseWebViewController: BaseViewController {
+class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegate  {
 
     //通过类型 - 设置url
     var typeEnum: OwnerIdentifyOrFYType?
@@ -29,19 +29,19 @@ class JHBaseWebViewController: BaseViewController {
     }
     
     lazy var webView: WKWebView? = {
-        let view = WKWebView()
         let preferences = WKPreferences()
-        //preferences.javaScriptEnabled = true
+        preferences.javaScriptEnabled = true
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
         configuration.userContentController = WKUserContentController()
         //注册closeView这个函数,让js调用
-        configuration.userContentController.add(self, name: "closeView")
-        configuration.userContentController.add(self, name: "identifyComplete")
-        var webView = WKWebView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), configuration: configuration)
-        webView.scrollView.bounces = true
-        webView.scrollView.alwaysBounceVertical = true
-        webView.navigationDelegate = self
+//           configuration.userContentController.add(self, name: "closeView")
+//           configuration.userContentController.add(self, name: "identifyComplete")
+        let view = WKWebView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHeight), configuration: configuration)
+        view.scrollView.bounces = true
+        view.scrollView.alwaysBounceVertical = true
+        view.navigationDelegate = self
+        view.uiDelegate = self
         return view
     }()
     let disposeBag = DisposeBag()
@@ -54,24 +54,31 @@ class JHBaseWebViewController: BaseViewController {
     
     func loadWebview() {
         if let url = URL(string: urlString ?? "") {
-            LoadingHudView.showHud()
+            //LoadingHudView.showHud()
             let request = URLRequest(url: url)
             self.webView?.load(request)
+            
+//            self.webView?.configuration.userContentController.add(self, name: "closeView")
+//            self.webView?.configuration.userContentController.add(self, name: "identifyComplete")
         }
     }
     
     func setUrlWithType() {
         
         if let type = typeEnum {
+            
             switch type {
                 
             ///认证
             case .ProtocalTypeIdentifyOwnerUrl:
-                urlString = SSDelegateURL.h5IdentifyOwnerUrl
-            ///房源管理
-            case .ProtocalTypeFYOwnerUrl:
-                urlString = SSDelegateURL.h5IdentifyOwnerUrl
-           
+                urlString = "http://test.officego.com.cn/owner/myHome.html?token=\(UserTool.shared.user_token ?? "")&channel=1&identity=1"
+            ///房源管理  楼盘
+            case .ProtocalTypeFYBuildingOwnerUrl:
+                urlString = "http://test.officego.com.cn/owner/houseList.html?token=\(UserTool.shared.user_token ?? "")&channel=1&identity=1"
+            ///房源管理  网点
+           case .ProtocalTypeFYJointOwnerUrl:
+               urlString = "http://test.officego.com.cn/owner/branchList.html?token=\(UserTool.shared.user_token ?? "")&channel=1&identity=1"
+
             }
         }
     }
@@ -84,6 +91,24 @@ class JHBaseWebViewController: BaseViewController {
         super.viewDidAppear(animated)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        /*
+        //注册closeView这个函数,让js调用
+        self.webView?.configuration.userContentController.add(self, name: "closeView")
+        self.webView?.configuration.userContentController.add(self, name: "identifyComplete")*/
+        
+        self.webView?.configuration.userContentController.add(self, name: "closeView")
+        self.webView?.configuration.userContentController.add(self, name: "identifyComplete")
+    }
+       
+   override func viewWillDisappear(_ animated: Bool) {
+       super.viewWillDisappear(animated)
+       
+       webView?.configuration.userContentController.removeScriptMessageHandler(forName: "closeView")
+       webView?.configuration.userContentController.removeScriptMessageHandler(forName: "identifyComplete")
+   }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         clearCache()
@@ -121,6 +146,15 @@ class JHBaseWebViewController: BaseViewController {
     }
 
     
+    open func clicktoManagerFY() {
+        
+        let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
+        if tab?.selectedIndex == 3 {
+            tab?.selectedIndex = 0
+        }
+        self.navigationController?.popViewController(animated: false)
+    }
+    
     ///用户信息
     func setUserInfo() {
         
@@ -149,10 +183,6 @@ class JHBaseWebViewController: BaseViewController {
         
         if let webView = webView {
             view.insertSubview(webView, at: 0)
-            webView.snp.makeConstraints { (make) in
-                make.top.equalTo(kStatusBarHeight)
-                make.leading.bottom.trailing.equalToSuperview()
-            }
         }
         
         _ = webView?.rx.observeWeakly(String.self, "title")
@@ -207,22 +237,12 @@ class JHBaseWebViewController: BaseViewController {
         if let url = URL(string: urlString ?? SSDelegateURL.h5AboutUsUrl) {
             let request = URLRequest(url: url)
             webView?.load(request)
-            LoadingHudView.showHud()
+            
+//            self.webView?.configuration.userContentController.add(self, name: "closeView")
+//            self.webView?.configuration.userContentController.add(self, name: "identifyComplete")
+            
+            //LoadingHudView.showHud()
         }
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        /*
-        webView?.configuration.userContentController.add(self, name: "thorJump")
-        webView?.configuration.userContentController.add(self, name: "sendEventId")
- */
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        /*
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "thorJump")
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")*/
     }
 }
 
@@ -245,12 +265,54 @@ extension JHBaseWebViewController: WKScriptMessageHandler {
         //如果是左上角的返回按钮 - 关闭页面
         if message.name == "closeView" {
            
-            closeVC()
+            closeView()
             
         }else if message.name == "identifyComplete" {
             
-            closeVC()
+            clicktoManagerFY()
         }
+    }
+}
+extension JHBaseWebViewController: WKUIDelegate {
+    //此方法作为js的alert方法接口的实现，默认弹出窗口应该只有提示消息，及一个确认按钮，当然可以添加更多按钮以及其他内容，但是并不会起到什么作用
+    //点击确认按钮的相应事件，需要执行completionHandler，这样js才能继续执行
+    ////参数 message为  js 方法 alert(<message>) 中的<message>
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        let alertViewController = UIAlertController(title: "提示", message:message, preferredStyle: UIAlertController.Style.alert)
+        alertViewController.addAction(UIAlertAction(title: "确认", style: UIAlertAction.Style.default, handler: { (action) in
+            completionHandler()
+        }))
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    // confirm
+    //作为js中confirm接口的实现，需要有提示信息以及两个相应事件， 确认及取消，并且在completionHandler中回传相应结果，确认返回YES， 取消返回NO
+    //参数 message为  js 方法 confirm(<message>) 中的<message>
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+        let alertVicwController = UIAlertController(title: "提示", message: message, preferredStyle: UIAlertController.Style.alert)
+        alertVicwController.addAction(UIAlertAction(title: "取消", style: UIAlertAction.Style.cancel, handler: { (alertAction) in
+            completionHandler(false)
+        }))
+        alertVicwController.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (alertAction) in
+            completionHandler(true)
+        }))
+        self.present(alertVicwController, animated: true, completion: nil)
+    }
+    
+    // prompt
+    //作为js中prompt接口的实现，默认需要有一个输入框一个按钮，点击确认按钮回传输入值
+    //当然可以添加多个按钮以及多个输入框，不过completionHandler只有一个参数，如果有多个输入框，需要将多个输入框中的值通过某种方式拼接成一个字符串回传，js接收到之后再做处理
+    //参数 prompt 为 prompt(<message>, <defaultValue>);中的<message>
+    //参数defaultText 为 prompt(<message>, <defaultValue>);中的 <defaultValue>
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+        let alertViewController = UIAlertController(title: prompt, message: "", preferredStyle: UIAlertController.Style.alert)
+        alertViewController.addTextField { (textField) in
+            textField.text = defaultText
+        }
+        alertViewController.addAction(UIAlertAction(title: "完成", style: UIAlertAction.Style.default, handler: { (alertAction) in
+            completionHandler(alertViewController.textFields![0].text)
+        }))
+        self.present(alertViewController, animated: true, completion: nil)
     }
 }
 
@@ -259,11 +321,6 @@ extension JHBaseWebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         noDataView.isHidden = true
         LoadingHudView.hideHud()
-        //web加载好了才有左边按钮
-//        let leftBtton = UIButton()
-//        leftBtton.setImage(UIImage.init(named: "wechat"), for: .normal)
-//        leftBtton.addTarget(self, action: #selector(closeView), for: .touchUpInside)
-//        self.view.addSubview(leftBtton)
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         AppUtilities.makeToast(error.localizedDescription)

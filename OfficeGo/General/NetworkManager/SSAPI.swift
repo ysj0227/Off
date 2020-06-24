@@ -137,7 +137,10 @@ class SSDelegateURL: NSObject {
     static let h5QuestionUrl = "http://test.officego.com.cn/lessee/issueList.html"
     
     ///认证业主网页接口
-    static let h5IdentifyOwnerUrl = "https://m.officego.com/owner/myHome.html"
+    static let h5FYOwnerUrl = "http://172.16.4.19:8080/owner/myHome.html?token=MzA4X3N1bndlbGxfMTU5Mjk3Mzk2Ml8x&channel=1&identity=1"
+    
+    
+//    static let h5IdentifyOwnerUrl = "http://172.16.4.19:8080/owner/myHome.html?token=MjcyX3N1bndlbGxfMTU5Mjk2NzI4N18x&channel=1&identity=1"
 
 }
 

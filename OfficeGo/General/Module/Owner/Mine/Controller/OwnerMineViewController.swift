@@ -59,7 +59,6 @@ class OwnerMineViewController: BaseTableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        idifyShowView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -180,14 +179,17 @@ extension OwnerMineViewController {
                 SSTool.invokeInMainThread {
                     weakSelf.headerView.ownerUserModel = model
                     weakSelf.reloadRCUserInfo()
+                    weakSelf.idifyShowView()
                 }
                 
             }
             
             }, failure: {[weak self] (error) in
-                
+                self?.idifyShowView()
+
         }) {[weak self] (code, message) in
             
+            self?.idifyShowView()
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
