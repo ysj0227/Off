@@ -122,27 +122,34 @@ class SSDelegateURL: NSObject {
     static let h5BuildingFYDetailShareUrl =  "http://test.officego.com.cn/lessee/detail.html"
     
     //关于我们
-    static let h5AboutUsUrl = "http://test.officego.com.cn/lessee/aboutUs.html"
+    static let h5AboutUsUrl = "http://test.officego.com.cn/lessee/aboutUs.html?channel=\(UserTool.shared.user_channel)"
     
     //服务协议
-    static let h5RegisterProtocolUrl = "http://test.officego.com.cn/lessee/registerProtocol.html"
+    static let h5RegisterProtocolUrl = "http://test.officego.com.cn/lessee/registerProtocol.html?channel=\(UserTool.shared.user_channel)"
     
     //隐私条款：
-    static let h5PrivacyProtocolUrl = "http://test.officego.com.cn/lessee/privacy.html"
+    static let h5PrivacyProtocolUrl = "http://test.officego.com.cn/lessee/privacy.html?channel=\(UserTool.shared.user_channel)"
     
     //帮助与反馈：
     static let h5HelpAndFeedbackUrl = "http://test.officego.com.cn/owner/opinion.html"
     
     //常见问题：
-    static let h5QuestionUrl = "http://test.officego.com.cn/lessee/issueList.html"
+    static let h5QuestionUrl = "http://test.officego.com.cn/lessee/issueList.html?channel=\(UserTool.shared.user_channel)"
     
     ///认证业主网页接口
-    static let h5FYOwnerUrl = "http://172.16.4.19:8080/owner/myHome.html?token=MzA4X3N1bndlbGxfMTU5Mjk3Mzk2Ml8x&channel=1&identity=1"
+    static let h5FYOwnerUrl = "http://test.officego.com.cn/owner/myHome.html"
     
-    
-//    static let h5IdentifyOwnerUrl = "http://172.16.4.19:8080/owner/myHome.html?token=MjcyX3N1bndlbGxfMTU5Mjk2NzI4N18x&channel=1&identity=1"
+    //房源 - 楼盘管理
+    static let h5IdentifyOwnerBuildingUrl = "http://test.officego.com.cn/owner/houseList.html"
+
+    //房源 - 网点管理
+    static let h5IdentifyOwnerJointUrl = "http://test.officego.com.cn/owner/branchList.html"
 
 }
+
+
+
+
 
 
 //  MARK:   --聊天

@@ -58,8 +58,6 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
             let request = URLRequest(url: url)
             self.webView?.load(request)
             
-//            self.webView?.configuration.userContentController.add(self, name: "closeView")
-//            self.webView?.configuration.userContentController.add(self, name: "identifyComplete")
         }
     }
     
@@ -71,14 +69,13 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
                 
             ///认证
             case .ProtocalTypeIdentifyOwnerUrl:
-                urlString = "http://test.officego.com.cn/owner/myHome.html?token=\(UserTool.shared.user_token ?? "")&channel=1&identity=1"
+                urlString = "\(SSDelegateURL.h5FYOwnerUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
             ///房源管理  楼盘
             case .ProtocalTypeFYBuildingOwnerUrl:
-                urlString = "http://test.officego.com.cn/owner/houseList.html?token=\(UserTool.shared.user_token ?? "")&channel=1&identity=1"
+                urlString = "\(SSDelegateURL.h5IdentifyOwnerBuildingUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
             ///房源管理  网点
            case .ProtocalTypeFYJointOwnerUrl:
-               urlString = "http://test.officego.com.cn/owner/branchList.html?token=\(UserTool.shared.user_token ?? "")&channel=1&identity=1"
-
+                urlString = "\(SSDelegateURL.h5IdentifyOwnerJointUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
             }
         }
     }
