@@ -95,7 +95,7 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
     override func refreshData() {
         
         var params = [String:AnyObject]()
-        params["token"] = "MTA0X3N1bndlbGxfMTU5MTYwNTkwOV8w" as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
         params["startTime"] = startTime as AnyObject?
         params["endTime"] = endTime as AnyObject?
         
