@@ -545,7 +545,7 @@ class RenterHouseScheduleCell: BaseTableViewCell {
         dateLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
             make.top.equalTo(19)
-            make.width.equalTo(52)
+            make.width.equalTo(60)
             make.height.equalTo(20)
         }
         dateTimeLabel.snp.makeConstraints { (make) in

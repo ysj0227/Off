@@ -66,10 +66,10 @@ import SnapKit
         return formatter.string(from: date as Date)
     }
     ///时间戳转成字符串 - mm:ss
-    static func timeIntervalChangeToMMSSTimeStr(timeInterval:TimeInterval) -> String {
+    static func timeIntervalChangeToHHMMTimeStr(timeInterval:TimeInterval) -> String {
         let date:NSDate = NSDate.init(timeIntervalSince1970: timeInterval)
         let formatter = DateFormatter.init()
-        formatter.dateFormat = "mm:ss"
+        formatter.dateFormat = "HH:mm"
         return formatter.string(from: date as Date)
     }
     

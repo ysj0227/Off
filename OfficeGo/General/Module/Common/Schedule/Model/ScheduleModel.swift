@@ -146,7 +146,7 @@ class ScheduleViewModelList: NSObject {
         buildingId = model.buildingId
         scheduleId = model.scheduleId
         dateTimeString = SSTool.timeIntervalChangeToYYMMTimeStr(timeInterval: TimeInterval.init(model.time ?? 0))
-        hourMinuterTimeString = SSTool.timeIntervalChangeToMMSSTimeStr(timeInterval: TimeInterval.init(model.time ?? 0))
+        hourMinuterTimeString = SSTool.timeIntervalChangeToHHMMTimeStr(timeInterval: TimeInterval.init(model.time ?? 0))
         contactNameString = model.contact
         companyJobString = "\(model.company ?? "")·\(model.job ?? "")"
         if btype == 1 {
