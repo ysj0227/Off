@@ -397,7 +397,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     }
     
     func scrollToFY() {
-        AppUtilities.makeToast("请先选择一个房源")
+        AppUtilities.makeToast("请选择一个房源，和业主聊天")
         //3
         if dataSourceArr.count > 2 {
             if dataSource.count > 0 {
@@ -744,7 +744,6 @@ extension RenterOfficeJointDetailVC {
                             return RenterFeatureCell.rowHeight0() + 30
                         }
                     }else {
-                        //return RenterFeatureCell.rowHeight0()
                         return 0
                     }
                 }else {

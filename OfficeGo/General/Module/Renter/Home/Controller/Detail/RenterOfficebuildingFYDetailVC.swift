@@ -497,11 +497,9 @@ extension RenterOfficebuildingFYDetailVC {
                         return RenterFeatureCell.rowHeight0() + 30
                     }
                 }else {
-                    //return RenterFeatureCell.rowHeight0()
                     return 0
                 }
             }else {
-                //return RenterFeatureCell.rowHeight0()
                 return 0
             }
             

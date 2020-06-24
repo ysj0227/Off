@@ -35,6 +35,11 @@ class RenterFeatureCell: BaseTableViewCell {
     
     var featureString: [String] = [] {
         didSet {
+            if featureString.count > 0 {
+                titleLabel.isHidden = false
+            }else {
+                titleLabel.isHidden = true
+            }
             featureView.featureNumofLinesStringDetail = featureString
         }
     }
