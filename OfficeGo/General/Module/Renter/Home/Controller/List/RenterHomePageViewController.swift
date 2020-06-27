@@ -164,58 +164,6 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             self?.shareVc()
         }
         
-        //轮播图加载
-        //7 8 241
-        //11 241
-        //pro 240
-        //xmax 239
-        
-        var height: CGFloat = 0
-        
-        //TODO: 页面view高度修改  11和11proAMx 没法区别
-        //iPhoneX系列
-        if kStatusBarHeight == 44 {
-            
-            //11pro max 414 896     239
-            //11pro     375 812     240
-            //11        414 896     241
-            
-            if kHeight <= 812 {
-                if kWidth == 375 {
-                    //iPhone11Pro
-                    height = 240
-                }else {
-                    ///iPhoneX
-                    height = 241
-                }
-            }else {
-                //iPhone11 pro max 239 896 414
-                height = 239
-            }
-            
-        }else {
-            //SE 241 667 375
-            //iPhone7、iPhone8 241 667 375
-            if kHeight < 736 {
-                height = 241
-            }else {
-                //8plus 239 736 414
-                height = 239
-            }
-        }
-        
-        //SE 241 667 375
-        //iPhone7、iPhone8 241 667 375
-        //11 241 896 414
-        //iPhoneXs 240 812 375
-        //pro 240 812 375
-        //xmax 239 896 414
-        
-        let pointY: CGFloat = 0
-        cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: kWidth * height / 320.0))
-        cycleView?.delegate = self
-        cycleView?.mode = .scaleAspectFill
-        
         loadSegmentedConfig()
         
         //        requestGetBuildingList()
@@ -351,9 +299,9 @@ extension RenterHomePageViewController {
     func setCycleImg() {
         SSTool.invokeInMainThread { [weak self] in
             self?.cycleView?.imageURLStringArr = ["bannerBgView"]
-
             
-//            self?.cycleView?.imageURLStringArr = ["https://img.officego.com/building/1592531586982.jpg?x-oss-process=style/large"]
+            
+            //            self?.cycleView?.imageURLStringArr = ["https://img.officego.com/building/1592531586982.jpg?x-oss-process=style/large"]
             //                weakSelf.cycleView?.imageURLStringArr = arr
         }
         
@@ -384,14 +332,25 @@ extension RenterHomePageViewController {
 
 extension RenterHomePageViewController{
     func loadSegmentedConfig() {
+        
+        let pointY: CGFloat = 0
+        cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: (CGFloat)(ceilf((Float)(kWidth * 240.0 / 320.0)))))
+        cycleView?.delegate = self
+        cycleView?.mode = .scaleAspectFill
+        
         layoutContentView()
         loadCtls()
         setUpSegmentStyle()
+        closeAutomaticallyAdjusts()
     }
     
     func layoutContentView() {
+        
         self.layoutInfo.refreshType = .list
+        
         self.layoutInfo.headView = cycleView
+        
+        self.layoutInfo.refreshType = .container
         self.layoutInfo.segmentControlPositionType = .top(size: CGSize.init(width: UIScreen.main.bounds.width, height: 44), offset: 0)
         self.relayoutSubViews()
     }

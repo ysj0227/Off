@@ -53,10 +53,19 @@ open class LLContainerScrollView: UIScrollView {
     
     public func layoutParalaxHeader(){
         if let headView = paralaxHeader.headView  {
-            self.contentInset = UIEdgeInsets.init(top: headView.bounds.height, left: 0, bottom: 0, right: 0)
-            headView.center = CGPoint.init(x: bounds.width/2, y: -headView.bounds.height/2)
+            self.contentInset = UIEdgeInsets.init(top: headView.bounds.height, left: 0, bottom: 0.0, right: 0)
+            /*
+            8 ▿ (187.5, -140.625)
+            - x : 187.5
+            - y : -140.625
+             
+             ▿ (0.0, -281.0)
+             - x : 0.0
+             - y : -281.0
+            */
+            headView.center = CGPoint.init(x: bounds.width/2.0, y: -(headView.bounds.height/2.0))
             insertSubview(headView, at: 0)
-            self.contentOffset = CGPoint.init(x: 0, y: -self.contentInset.top)
+                 self.contentOffset = CGPoint.init(x: 0.0, y: -self.contentInset.top)
         }
                 
         switch paralaxHeader.refreshType {
@@ -86,6 +95,8 @@ extension LLContainerScrollView{
             case .list:
                 //发通知监听整体scrollview的偏移量
                 NotificationCenter.default.post(name: NSNotification.Name.HomeBtnLocked, object: nil)
+//                print(Thread.callStackSymbols)
+                SSLog("-----``````----------****\(self.contentOffset.y ?? 0)")
 
                 if scrollView == self {
                     listRefreshSelfHandle(newContentOffset: newContentOffset, oldContentOffset: oldContentOffset)
@@ -152,8 +163,8 @@ extension LLContainerScrollView {
         guard let _ = paralaxHeader.headView else { return }
         
         //顶部下拉
-        let contentInsetTop = self.contentInset.top
-        let dragTopOffsetY = min(self.contentOffset.y + contentInsetTop,0)
+        let contentInsetTop: CGFloat = self.contentInset.top
+        let dragTopOffsetY: CGFloat = min(self.contentOffset.y + contentInsetTop,0.0)
         self.dragDeleage?.scrollView(scrollView: self, dragTop: abs(dragTopOffsetY))
 
         //拉到最小距离的进度
@@ -161,7 +172,7 @@ extension LLContainerScrollView {
         if self.contentInset.top != self.paralaxHeader.minimumHeight {
             minProgress = (self.contentOffset.y + self.paralaxHeader.minimumHeight) / (-self.contentInset.top + self.paralaxHeader.minimumHeight)
         }
-        minProgress = 1 - min(minProgress, 1)
+        minProgress = 1.0 - min(minProgress, 1.0)
         self.dragDeleage?.scrollView(scrollView: self, dragToMinimumHeight: minProgress)
     }
 }
