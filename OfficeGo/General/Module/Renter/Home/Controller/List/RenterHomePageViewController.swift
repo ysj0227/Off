@@ -350,7 +350,6 @@ extension RenterHomePageViewController{
         
         self.layoutInfo.headView = cycleView
         
-        self.layoutInfo.refreshType = .container
         self.layoutInfo.segmentControlPositionType = .top(size: CGSize.init(width: UIScreen.main.bounds.width, height: 44), offset: 0)
         self.relayoutSubViews()
     }
