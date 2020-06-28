@@ -12,13 +12,6 @@ import SwiftyJSON
 
 class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     
-    ///默认显示看房行程- 为true 显示约看记录
-    var isLookRecord: Bool = false {
-        didSet {
-            setDataType()
-        }
-    }
-    
     ///开始请求时间戳
     var startTime: Int = 0
     
@@ -99,61 +92,30 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
         params["startTime"] = startTime as AnyObject?
         params["endTime"] = endTime as AnyObject?
         
-        if isLookRecord == true {
-            ///请求看房记录 -
-            SSNetworkTool.SSSchedule.request_getOldScheduleListApp(params: params, success: { [weak self] (response) in
-                guard let weakSelf = self else {return}
-                if let decoratedArray = JSONDeserializer<ScheduleModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                    
-                    var arr: [ScheduleViewModel] = []
-                    var event: [String] = []
-                    for model in decoratedArray {
-                        let viewmodel = ScheduleViewModel.init(model: model ?? ScheduleModel())
-                        arr.append(viewmodel)
-                        event.append(viewmodel.day ?? "")
-                    }
-                    weakSelf.dataSourceArr = arr
-                    weakSelf.datesWithEvent = event
-                    weakSelf.loadViewShowViews()
-                    
-                }
+        SSNetworkTool.SSSchedule.request_getScheduleListApp(params: params, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<ScheduleModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 
-                }, failure: { (error) in
-                    
-            }) { (code, message) in
-                
-                //只有5000 提示给用户
-                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                    AppUtilities.makeToast(message)
+                var arr: [ScheduleViewModel] = []
+                var event: [String] = []
+                for model in decoratedArray {
+                    let viewmodel = ScheduleViewModel.init(model: model ?? ScheduleModel())
+                    arr.append(viewmodel)
+                    event.append(viewmodel.day ?? "")
                 }
+                weakSelf.dataSourceArr = arr
+                weakSelf.datesWithEvent = event
+                weakSelf.loadViewShowViews()
+                
             }
-        }else {
             
-            SSNetworkTool.SSSchedule.request_getScheduleListApp(params: params, success: { [weak self] (response) in
-                guard let weakSelf = self else {return}
-                if let decoratedArray = JSONDeserializer<ScheduleModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                    
-                    var arr: [ScheduleViewModel] = []
-                    var event: [String] = []
-                    for model in decoratedArray {
-                        let viewmodel = ScheduleViewModel.init(model: model ?? ScheduleModel())
-                        arr.append(viewmodel)
-                        event.append(viewmodel.day ?? "")
-                    }
-                    weakSelf.dataSourceArr = arr
-                    weakSelf.datesWithEvent = event
-                    weakSelf.loadViewShowViews()
-                    
-                }
+            }, failure: { (error) in
                 
-                }, failure: { (error) in
-                    
-            }) { (code, message) in
-                
-                //只有5000 提示给用户
-                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                    AppUtilities.makeToast(message)
-                }
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
             }
         }
         
@@ -183,43 +145,6 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
         currentDayString =  self.dateFormatter2.string(from: NSDate() as Date)
         
         setUpView()
-    }
-    
-    
-    func setDataType() {
-        ///默认显示看房行程- 为true 显示约看记录
-        ///当前为约看记录
-        if isLookRecord == true {
-            titleview?.rightButton.setTitle("看房行程", for: .normal)
-            
-            titleview?.titleLabel.text = "约看记录"
-            
-            ///清空之前显示的数据
-            currentDayString = ""
-            
-            currentModel = nil
-            
-            refreshData()
-            
-            titleview?.rightBtnClickBlock = { [weak self] in
-                self?.isLookRecord = false
-            }
-        }else {
-            titleview?.rightButton.setTitle("约看记录", for: .normal)
-            
-            titleview?.titleLabel.text = "看房行程"
-            
-            ///清空之前显示的数据
-            currentDayString = ""
-            
-            currentModel = nil
-            
-            refreshData()
-            
-            titleview?.rightBtnClickBlock = { [weak self] in
-                self?.isLookRecord = true
-            }
-        }
     }
 }
 
@@ -293,29 +218,44 @@ extension RenterHouseScheduleViewController {
         self.calendar.setCurrentPage(nextMonth, animated: true)
     }
     
+    //MARK: 跳转到今天
+    func scrollToDate() {
+        SSLog("didSelect\(Date())")
+        calendar.select(Date(), scrollToDate: true)
+        currentDayString = self.dateFormatter2.string(from: Date())
+        var isHas: Bool = false
+        for model in dataSourceArr {
+            if model.day == currentDayString {
+                currentModel = model
+                isHas = true
+                break
+            }
+        }
+        if isHas != true {
+            currentDayString = ""
+            currentModel = nil
+        }
+        self.tableView.reloadData()
+        self.showNoDataView()
+    }
     
     func setUpView() {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
         titleview?.rightButton.isHidden = false
-        titleview?.rightButton.setImage(UIImage.init(named: "today"), for: .normal)
-        titleview?.rightButton.setTitle("约看记录", for: .normal)
-        titleview?.rightButton.setTitleColor(kAppColor_333333, for: .normal)
-        titleview?.rightButton.titleLabel?.font = FONT_13
         titleview?.rightButton.snp.remakeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-left_pending_space_17)
-            //            make.height.equalTo(26)
-            make.width.equalTo(90)
-            //            make.centerY.equalTo(self.titleview?.leftButton.snp.centerY)
+            make.trailing.equalToSuperview()
+            make.width.equalTo(65)
             make.top.bottom.equalToSuperview()
         }
-        titleview?.rightButton.layoutButton(.imagePositionRight, margin: 2)
+        
+        titleview?.rightButton.setImage(UIImage.init(named: "today"), for: .normal)
         titleview?.titleLabel.text = "看房行程"
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
         }
         titleview?.rightBtnClickBlock = { [weak self] in
-            self?.isLookRecord = true
+            self?.scrollToDate()
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
