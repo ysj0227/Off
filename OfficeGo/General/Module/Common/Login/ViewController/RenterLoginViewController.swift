@@ -16,7 +16,7 @@ class RenterLoginViewController: BaseViewController {
     
     ///0 是退出登录。1是登录完成
     public var closeViewBack:((Int) -> Void) = {_ in }
-
+    
     //如果从收藏 - 我的 - 聊天页面 点击 调起，点击登录成功-直接传回掉
     var isFromOtherVC: Bool = false
     
@@ -154,7 +154,7 @@ class RenterLoginViewController: BaseViewController {
         button.layoutButton(.imagePositionTop, space: 12)
         button.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.loginWith18516765366Code()
+                self?.testPhoneLogin()
             })
             .disposed(by: disposeBag)
         return button
@@ -216,7 +216,7 @@ class RenterLoginViewController: BaseViewController {
             //都是跳转到tabbar
             NotificationCenter.default.post(name: NSNotification.Name.SetOwnerTabbarViewController, object: nil)
         }
-
+        
     }
     @objc override func leftBtnClick() {
         if self.navigationController?.viewControllers.count ?? 0 > 1 {
@@ -377,9 +377,9 @@ class RenterLoginViewController: BaseViewController {
         Observable<Int>.interval(0.1, scheduler: MainScheduler.instance)
             .takeUntil(self.rx.deallocated)
             .subscribe({ [weak self] _ in
-//                guard UserInfo.shared().verifyCodeSendTime > 0 else {
-//                    return
-//                }
+                //                guard UserInfo.shared().verifyCodeSendTime > 0 else {
+                //                    return
+                //                }
                 let lastSeconds: Int = Int(UserInfo.shared().verifyCodeSendTime + TimeInterval(kTimeOutNumber) - NSDate().timeIntervalSince1970)
                 self?.verifyDiscount(discount: lastSeconds)
             })
@@ -469,7 +469,7 @@ class RenterLoginViewController: BaseViewController {
         params["channel"] = UserTool.shared.user_channel as AnyObject
         params["idType"] = UserTool.shared.user_id_type as AnyObject?
         SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
- 
+            
             if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
                 UserTool.shared.user_id_type = model.rid
                 UserTool.shared.user_rongyuntoken = model.rongyuntoken
@@ -478,7 +478,7 @@ class RenterLoginViewController: BaseViewController {
                 UserTool.shared.user_avatars = model.avatar
                 UserTool.shared.user_name = model.nickName
                 UserTool.shared.user_phone = self?.phoneField.text
-
+                
             }
             
             if self?.isFromOtherVC == true {
@@ -488,7 +488,7 @@ class RenterLoginViewController: BaseViewController {
                 self?.closeViewBack(1)
                 self?.setNextEnable()
                 self?.dismiss(animated: true, completion: nil)
-
+                
             }else {
                 ///发出登录成功通知 - 登录融云
                 NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
@@ -497,11 +497,11 @@ class RenterLoginViewController: BaseViewController {
                     self?.setNextEnable()
                 })
             }
-
+            
             
             }, failure: {[weak self] (error) in
                 self?.setNextEnable()
-
+                
         }) {[weak self] (code, message) in
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
@@ -510,60 +510,71 @@ class RenterLoginViewController: BaseViewController {
             self?.setNextEnable()
         }
     }
-
-       //验证码登录接口
-       func loginWith18516765366Code() {
-           
-           //nextButton.isUserInteractionEnabled = false
-           
-           //调用登录接口 - 成功跳转下个页面-
-           var params = [String:AnyObject]()
-           params["phone"] = "18516765366" as AnyObject?
-           params["code"] = "123465" as AnyObject?
-           params["channel"] = UserTool.shared.user_channel as AnyObject
-           params["idType"] = UserTool.shared.user_id_type as AnyObject?
-           SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
     
-               if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                   UserTool.shared.user_id_type = model.rid
-                   UserTool.shared.user_rongyuntoken = model.rongyuntoken
-                   UserTool.shared.user_uid = model.uid
-                   UserTool.shared.user_token = model.token
-                   UserTool.shared.user_avatars = model.avatar
-                   UserTool.shared.user_name = model.nickName
-                   UserTool.shared.user_phone = self?.phoneField.text
-
-               }
-               
-               if self?.isFromOtherVC == true {
-                   ///发出登录成功通知 - 登录融云
-                   NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
-                   ///和左上角返回 - 做登录成功判断- 1为登录成功
-                   self?.closeViewBack(1)
-                   self?.setNextEnable()
-                   self?.dismiss(animated: true, completion: nil)
-
-               }else {
-                   ///发出登录成功通知 - 登录融云
-                   NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
-                   DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
-                       self?.loginBtnClick()
-                       self?.setNextEnable()
-                   })
-               }
-
-               
-               }, failure: {[weak self] (error) in
-                   self?.setNextEnable()
-
-           }) {[weak self] (code, message) in
-               //只有5000 提示给用户
-               if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                   AppUtilities.makeToast(message)
-               }
-               self?.setNextEnable()
-           }
-       }
+    func testPhoneLogin() {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.inputTFView.placeholder = "请输入手机号"
+        alert.ShowInputAlertView(message: "请输入手机号", cancelButtonCallClick: {
+            
+        }) { [weak self] (str) in
+            self?.loginWith18516765366Code(phone: str)
+        }
+    }
+    
+    //验证码登录接口
+    func loginWith18516765366Code(phone: String) {
+        
+        //nextButton.isUserInteractionEnabled = false
+        
+        //调用登录接口 - 成功跳转下个页面-
+        var params = [String:AnyObject]()
+        params["phone"] = phone as AnyObject?
+        //            params["phone"] = "19111111111" as AnyObject?
+        params["code"] = "123465" as AnyObject?
+        params["channel"] = UserTool.shared.user_channel as AnyObject
+        params["idType"] = UserTool.shared.user_id_type as AnyObject?
+        SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
+            
+            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                UserTool.shared.user_id_type = model.rid
+                UserTool.shared.user_rongyuntoken = model.rongyuntoken
+                UserTool.shared.user_uid = model.uid
+                UserTool.shared.user_token = model.token
+                UserTool.shared.user_avatars = model.avatar
+                UserTool.shared.user_name = model.nickName
+                UserTool.shared.user_phone = self?.phoneField.text
+                
+            }
+            
+            if self?.isFromOtherVC == true {
+                ///发出登录成功通知 - 登录融云
+                NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+                ///和左上角返回 - 做登录成功判断- 1为登录成功
+                self?.closeViewBack(1)
+                self?.setNextEnable()
+                self?.dismiss(animated: true, completion: nil)
+                
+            }else {
+                ///发出登录成功通知 - 登录融云
+                NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+                    self?.loginBtnClick()
+                    self?.setNextEnable()
+                })
+            }
+            
+            
+            }, failure: {[weak self] (error) in
+                self?.setNextEnable()
+                
+        }) {[weak self] (code, message) in
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+            self?.setNextEnable()
+        }
+    }
     
     func setNextEnable() {
         SSTool.invokeInMainThread { [weak self] in
