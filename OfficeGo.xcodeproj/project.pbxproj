@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0420BB4B24A882B00052D165 /* RenterCustomersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */; };
+		0420BB4D24A891330052D165 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420BB4C24A891330052D165 /* MessageUI.framework */; };
 		042E5E4324964913008B8E14 /* NetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E4224964913008B8E14 /* NetReachability.swift */; };
 		0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB0247E15B80015C355 /* SSNetworkTool.swift */; };
 		0437CFB3247E17190015C355 /* SSTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB2247E17180015C355 /* SSTool.swift */; };
@@ -256,6 +257,7 @@
 
 /* Begin PBXFileReference section */
 		0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCustomersViewController.swift; sourceTree = "<group>"; };
+		0420BB4C24A891330052D165 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		042E5E4224964913008B8E14 /* NetReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetReachability.swift; sourceTree = "<group>"; };
 		0437CFB0247E15B80015C355 /* SSNetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSNetworkTool.swift; sourceTree = "<group>"; };
 		0437CFB2247E17180015C355 /* SSTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTool.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0420BB4D24A891330052D165 /* MessageUI.framework in Frameworks */,
 				A7971EB22F21F910CD4CFEDE /* Pods_OfficeGo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1131,6 +1134,7 @@
 		46D57D180720F6A9190063DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0420BB4C24A891330052D165 /* MessageUI.framework */,
 				2D4A347C2B62727595AA17EB /* Pods_OfficeGo.framework */,
 				CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */,
 			);
