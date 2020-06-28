@@ -194,22 +194,28 @@ extension OwnerUserMsgViewController {
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         
+                /*
         if let wxid = userModel?.wxId {
             if wxid.isBlankString != true {
                 params["WX"] = wxid as AnyObject?
             }
         }
         
-        if let wxid = userModel?.proprietorCompany {
+        if let wxid = userModel?.company {
             if wxid.isBlankString != true {
                 params["company"] = wxid as AnyObject?
             }
         }
-        if let wxid = userModel?.proprietorJob {
+        if let wxid = userModel?.job {
             if wxid.isBlankString != true {
                 params["job"] = wxid as AnyObject?
             }
-        }
+        }*/
+        
+        params["WX"] = userModel?.wxId as AnyObject?
+        params["company"] = userModel?.company as AnyObject?
+        params["job"] = userModel?.job as AnyObject?
+        
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
             self?.updateSuccess()

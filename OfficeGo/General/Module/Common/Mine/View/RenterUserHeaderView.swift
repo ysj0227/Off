@@ -52,8 +52,8 @@ class RenterUserHeaderView: UIView {
         let view = UILabel()
         view.isHidden = true
         view.font = FONT_MEDIUM_11
-        view.textColor = kAppWhiteColor
-        view.backgroundColor = kAppDarkBlueColor
+        view.textColor = kAppBlueColor
+        view.backgroundColor = kAppWhiteColor
         view.clipsToBounds = true
         return view
     }()
@@ -96,11 +96,13 @@ class RenterUserHeaderView: UIView {
                 SSLog("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
             })
             nameLabel.text = userModel.realname ?? userModel.nickname ?? ""
-            if let company = userModel.company {
-                if company.isBlankString != true {
-                    introductionLabel.text = "\(userModel.company ?? "") - \(userModel.job ?? "")"
+            if let company = userModel.company, let job = userModel.job {
+                if company.isBlankString != true && job.isBlankString != true {
+                    introductionLabel.text = "\(company) - \(job)"
+                }else if company.isBlankString != true{
+                    introductionLabel.text = "\(company)"
                 }else {
-                    introductionLabel.text = ""
+                    introductionLabel.text = "\(job)"
                 }
             }else {
                 introductionLabel.text = ""

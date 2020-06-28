@@ -194,6 +194,7 @@ extension RenterUserMsgViewController {
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         
+        /*
         if let wxid = userModel?.wxId {
             if wxid.isBlankString != true {
                 params["WX"] = wxid as AnyObject?
@@ -209,7 +210,12 @@ extension RenterUserMsgViewController {
             if wxid.isBlankString != true {
                 params["job"] = wxid as AnyObject?
             }
-        }
+        }*/
+        
+        params["WX"] = userModel?.wxId as AnyObject?
+        params["company"] = userModel?.company as AnyObject?
+        params["job"] = userModel?.job as AnyObject?
+        
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
             self?.updateSuccess()
