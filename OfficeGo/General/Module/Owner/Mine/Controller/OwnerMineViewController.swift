@@ -274,7 +274,8 @@ extension OwnerMineViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .OwnerMineTypeCusomers:
-            AppUtilities.makeToast("正在开发中～")
+            let vc = RenterCustomersViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
             
         case .OwnerMineTypeRegisterAgent:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)

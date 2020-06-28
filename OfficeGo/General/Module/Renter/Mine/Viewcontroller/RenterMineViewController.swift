@@ -238,7 +238,8 @@ extension RenterMineViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .RenterMineTypeCusomers:
-            AppUtilities.makeToast("正在开发中～")
+            let vc = RenterCustomersViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
             
         case .RenterMineTypeRegisterAgent:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
