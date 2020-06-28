@@ -341,7 +341,8 @@ extension RenterHomePageViewController{
         layoutContentView()
         loadCtls()
         setUpSegmentStyle()
-        closeAutomaticallyAdjusts()
+        ///首页列表滑动显示问题 - 
+//        closeAutomaticallyAdjusts()
     }
     
     func layoutContentView() {
