@@ -37,7 +37,7 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
         //注册closeView这个函数,让js调用
 //           configuration.userContentController.add(self, name: "closeView")
 //           configuration.userContentController.add(self, name: "identifyComplete")
-        let view = WKWebView(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHeight), configuration: configuration)
+        let view = WKWebView(frame: CGRect.zero, configuration: configuration)
         view.scrollView.bounces = true
         view.scrollView.alwaysBounceVertical = true
         view.navigationDelegate = self
@@ -188,6 +188,11 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
                     self?.titleString = value
                 }
             })
+        
+        webView?.snp.makeConstraints({ (make) in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-bottomMargin())
+        })
         
         self.view.addSubview(noDataView)
         noDataView.isHidden = true

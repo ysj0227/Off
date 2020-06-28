@@ -51,6 +51,10 @@ class OwnerHomeViewController: BaseViewController {
                 self.view.addSubview(fyWebview?.view ?? UIView())
             }
             fyWebview?.view.snp.makeConstraints({ (make) in
+                make.top.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview().offset(-kTabBarHeight)
+            })
+            fyWebview?.webView?.snp.remakeConstraints({ (make) in
                 make.top.bottom.leading.trailing.equalToSuperview()
             })
         }

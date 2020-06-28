@@ -50,7 +50,7 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
         calendar.appearance.titleFont = FONT_13
         calendar.appearance.selectionColor = kAppBlueColor      //选中的日期的背景
         calendar.appearance.titleSelectionColor = kAppWhiteColor//选中的日期的颜色
-        calendar.appearance.todayColor = kAppBlueColor
+        calendar.appearance.todayColor = kAppColor_757575
         calendar.appearance.todaySelectionColor = kAppBlueColor
         calendar.select(Date(), scrollToDate: true)
         calendar.accessibilityIdentifier = "calendar"
@@ -194,13 +194,13 @@ extension RenterHouseScheduleViewController {
     }
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventOffsetFor date: Date) -> CGPoint {
         if self.datesWithEvent.contains(self.dateFormatter2.string(from: date)) {
-            return CGPoint(x: 0, y: -6)
+            return CGPoint(x: 0, y: 5)
         }
         return .zero
     }
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
         if self.datesWithEvent.contains(self.dateFormatter2.string(from: date)) {
-            return [kAppWhiteColor]
+            return [kAppBlueColor]
         }
         return nil
     }

@@ -123,10 +123,10 @@ class BaseWebViewController: BaseViewController {
             view.insertSubview(webView, at: 0)
             webView.snp.makeConstraints { (make) in
                 make.top.equalTo(kNavigationHeight)
-                make.leading.bottom.trailing.equalToSuperview()
+                make.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview().offset(-bottomMargin())
             }
         }
-        
         _ = webView?.rx.observeWeakly(String.self, "title")
             .subscribe(onNext: { [weak self] (value) in
                 if let value = value, value.count > 0 {
