@@ -90,7 +90,7 @@ public enum RenterSettingType {
 //基本信息
 public enum RenterUserMsgType {
     case RenterUserMsgTypeAvatar            //头像
-    case RenterUserMsgTypeNick              //昵称
+    case RenterUserMsgTypeNick              //姓名
     case RenterUserMsgTypeSex               //性别
     case RenterUserMsgTypeTele              //联系方式
     case RenterUserMsgTypeWechat            //微信

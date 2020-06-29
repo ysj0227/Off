@@ -95,7 +95,12 @@ class RenterUserHeaderView: UIView {
                 
                 SSLog("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
             })
-            nameLabel.text = userModel.realname ?? userModel.nickname ?? ""
+            if let realname = userModel.realname {
+                nameLabel.text = realname
+                if realname.count > 8 {
+                    nameLabel.text = String(realname.prefix(8)) + ".."
+                }
+            }
             introductionLabel.text = ""
         }
     }
@@ -108,11 +113,16 @@ class RenterUserHeaderView: UIView {
                 
                 SSLog("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
             })
-            nameLabel.text = ownerUserModel.proprietorRealname ?? ""
+            if let realname = ownerUserModel.proprietorRealname {
+                nameLabel.text = realname
+                if realname.count > 8 {
+                    nameLabel.text = String(realname.prefix(8)) + ".."
+                }
+            }
             if let company = ownerUserModel.proprietorCompany, let job = ownerUserModel.proprietorJob {
                 if company.isBlankString != true && job.isBlankString != true {
                     introductionLabel.text = "\(company) - \(job)"
-                }else if company.isBlankString != true{
+                }else if company.isBlankString != true {
                     introductionLabel.text = "\(company)"
                 }else {
                     introductionLabel.text = "\(job)"
@@ -133,7 +143,7 @@ class RenterUserHeaderView: UIView {
             }else if identify == 2 {
                 identifyString = "联合办公"
             }else {
-                identifyString = "还没有认证"
+                identifyString = "未认证"
             }
             
             ///审核状态0待审核1审核通过2审核未通过
@@ -143,9 +153,9 @@ class RenterUserHeaderView: UIView {
             if auditStatus == 0 {
                 auditStatusString = "待审核"
             }else if auditStatus == 1 {
-                auditStatusString = "审核通过"
+                auditStatusString = "已认证"
             }else if auditStatus == 2 {
-                auditStatusString = "审核未通过"
+                auditStatusString = "审核驳回"
             }
             
             aduitStatusView.text = "  \(identifyString ?? "")\(auditStatusString ?? "")  "

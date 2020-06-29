@@ -142,7 +142,7 @@ class UserMsgConfigureModel: NSObject {
         case .RenterUserMsgTypeAvatar:
             return FuWenBen(name: "头像", centerStr: "", last: "")
         case .RenterUserMsgTypeNick:
-            return FuWenBen(name: "昵称", centerStr: " *", last: " ：")
+            return FuWenBen(name: "姓名", centerStr: " *", last: " ：")
         case .RenterUserMsgTypeSex:
             return FuWenBen(name: "性别", centerStr: " *", last: " ：")
         case .RenterUserMsgTypeTele:
