@@ -310,9 +310,10 @@ extension AppDelegate {
     func showLogotAlertview() {
         let alert = SureAlertView(frame: window?.frame ?? CGRect.zero)
         alert.inputTFView.text = "您的账号在别的设备上登录了，是否重连"
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {[weak self] in
             
             //TOOD: 怎么操作
+            self?.logout()
         }) {[weak self] in
             
             self?.loginRongCloud()
