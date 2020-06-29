@@ -212,9 +212,9 @@ extension OwnerUserMsgViewController {
             }
         }*/
         
-        params["WX"] = userModel?.wxId as AnyObject?
-        params["company"] = userModel?.company as AnyObject?
-        params["job"] = userModel?.job as AnyObject?
+        //params["WX"] = userModel?.wxId as AnyObject?
+        params["company"] = userModel?.proprietorCompany as AnyObject?
+        params["job"] = userModel?.proprietorJob as AnyObject?
         
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             

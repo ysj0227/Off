@@ -213,8 +213,8 @@ extension RenterUserMsgViewController {
         }*/
         
         params["WX"] = userModel?.wxId as AnyObject?
-        params["company"] = userModel?.company as AnyObject?
-        params["job"] = userModel?.job as AnyObject?
+        //params["company"] = userModel?.company as AnyObject?
+        //params["job"] = userModel?.job as AnyObject?
         
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
