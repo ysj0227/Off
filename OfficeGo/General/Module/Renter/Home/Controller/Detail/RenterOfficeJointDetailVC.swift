@@ -98,7 +98,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         shareVC.buildingName = buildingDetailViewModel?.buildingViewModel?.buildingName ?? ""
         shareVC.descriptionString = buildingDetailViewModel?.buildingViewModel?.addressString ?? ""
         shareVC.thumbImage = buildingDetailViewModel?.buildingViewModel?.mainPic
-        shareVC.shareIDString = buildingDetailViewModel?.buildingViewModel?.buildingId ?? 0
+        shareVC.shareUrl = "\(SSDelegateURL.h5BuildingDetailShareUrl)?buildingId=\(buildingDetailViewModel?.buildingViewModel?.buildingId ?? 0)"
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
     }

@@ -19,7 +19,7 @@ class ShareViewController: UIViewController {
         
     var buildingName: String = ""
     var descriptionString: String = ""
-    var shareIDString: Int = 0
+    var shareUrl: String = ""
     var thumbImage: String?
     
     
@@ -94,7 +94,7 @@ class ShareViewController: UIViewController {
     
     func shareToPlatform(platformType: Int, _ sender: Any) {
         let webpageObject = WXWebpageObject()
-        webpageObject.webpageUrl = "\(SSDelegateURL.h5BuildingDetailShareUrl)?buildingId=\(shareIDString)"
+        webpageObject.webpageUrl = shareUrl
         let message = WXMediaMessage()
         message.title = buildingName
         message.description = descriptionString

@@ -115,10 +115,10 @@ enum DictionaryCodeEnum: String {
 //  MARK:   --网页
 class SSDelegateURL: NSObject {
     
-    //楼盘分享地址
+    //楼盘分享地址 buildingId
     static let h5BuildingDetailShareUrl =  "http://test.officego.com.cn/lessee/housesDetail.html"
     
-    //房源分享地址
+    //房源分享地址 buildingId houseId
     static let h5BuildingFYDetailShareUrl =  "http://test.officego.com.cn/lessee/detail.html"
     
     //关于我们

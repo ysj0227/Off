@@ -58,7 +58,7 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         shareVC.buildingName = buildingFYDetailViewModel?.houseViewModel?.buildingName ?? ""
         shareVC.descriptionString = buildingFYDetailViewModel?.houseViewModel?.addressString ?? ""
         shareVC.thumbImage = buildingFYDetailViewModel?.houseViewModel?.mainPic
-        shareVC.shareIDString = buildingFYDetailViewModel?.houseViewModel?.buildingId ?? 0
+        shareVC.shareUrl = "\(SSDelegateURL.h5BuildingFYDetailShareUrl)?buildingId=\(buildingFYDetailViewModel?.houseViewModel?.buildingId ?? 0)&houseId=\(buildingFYDetailModel?.house?.id ?? 0)"
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
     }
