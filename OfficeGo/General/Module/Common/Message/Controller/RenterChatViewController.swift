@@ -189,6 +189,9 @@ extension RenterChatViewController {
         register(FangyuanInsertFYMessageCell.self, forMessageClass: FangyuanInsertFYMessage.self)
         
         
+        //删除 发送位置功能
+        self.chatSessionInputBarControl.pluginBoardView.removeItem(withTag: Int(PLUGIN_BOARD_ITEM_LOCATION_TAG))
+        
         setupData()
     }
     
