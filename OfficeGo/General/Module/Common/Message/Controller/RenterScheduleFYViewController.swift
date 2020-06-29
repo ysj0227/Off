@@ -112,8 +112,7 @@ class RenterScheduleFYViewController: BaseTableViewController {
         
         self.tableView.register(HouseListTableViewCell.self, forCellReuseIdentifier: HouseListTableViewCell.reuseIdentifierStr)
         self.tableView.register(RenterScheduleUserBasicCell.self, forCellReuseIdentifier: RenterScheduleUserBasicCell.reuseIdentifierStr)
-        self.tableView.register(RenterScheduleYeZhuBasicCell.self, forCellReuseIdentifier: RenterScheduleYeZhuBasicCell.reuseIdentifierStr)
-        
+
         tableView.reloadData()
     }
     
@@ -121,16 +120,16 @@ class RenterScheduleFYViewController: BaseTableViewController {
 
 extension RenterScheduleFYViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
         }else if section == 1 {
-            return 3
-        }else {
             return 1
+        }else {
+            return 0
         }
     }
     
@@ -140,7 +139,7 @@ extension RenterScheduleFYViewController {
         }else if indexPath.section == 1 {
             return RenterScheduleUserBasicCell.rowHeight()
         }else {
-            return RenterScheduleYeZhuBasicCell.rowHeight()
+            return 0
         }
     }
     
@@ -158,26 +157,13 @@ extension RenterScheduleFYViewController {
         }else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: RenterScheduleUserBasicCell.reuseIdentifierStr) as? RenterScheduleUserBasicCell
             cell?.selectionStyle = .none
-            if indexPath.row == 0 {
-                cell?.titleLabel.text = "姓名"
-                cell?.editLabel.text = UserTool.shared.user_name
-                cell?.detailIcon.isHidden = true
-            }else if indexPath.row == 1 {
-                cell?.titleLabel.text = "联系方式"
-                cell?.editLabel.text = UserTool.shared.user_phone
-                cell?.detailIcon.isHidden = true
-            }else {
-                cell?.titleLabel.text = "看房时间"
-                cell?.editLabel.placeholder = "请选择看房时间"
-                cell?.editLabel.text = dateSelect?.getString(format: "MM月dd日 HH:mm")
-                cell?.detailIcon.isHidden = false
-            }
+            cell?.titleLabel.text = "看房时间"
+            cell?.editLabel.placeholder = "请选择看房时间"
+            cell?.editLabel.text = dateSelect?.getString(format: "MM月dd日 HH:mm")
+            cell?.detailIcon.isHidden = false
             return cell ?? RenterScheduleUserBasicCell.init(frame: .zero)
         }else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: RenterScheduleYeZhuBasicCell.reuseIdentifierStr) as? RenterScheduleYeZhuBasicCell
-            cell?.selectionStyle = .none
-            cell?.viewModel = messageFYViewModel
-            return cell ?? RenterScheduleYeZhuBasicCell.init(frame: .zero)
+            return UITableViewCell()
         }
     }
     
@@ -190,7 +176,7 @@ extension RenterScheduleFYViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 && indexPath.row == 2 {
+        if indexPath.section == 1 && indexPath.row == 0 {
             let datePicker = YLDatePicker(currentDate: dateSelect, minLimitDate: Date(), maxLimitDate: nil, datePickerType: .YMDHm) { [weak self] (date) in
                 self?.dateSelect = date
                 self?.dateHasSelect = true
