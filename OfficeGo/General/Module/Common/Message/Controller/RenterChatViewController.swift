@@ -190,6 +190,7 @@ extension RenterChatViewController {
         
         
         //删除 发送位置功能
+        //https://support.rongcloud.cn/ks/MzAy
         self.chatSessionInputBarControl.pluginBoardView.removeItem(withTag: Int(PLUGIN_BOARD_ITEM_LOCATION_TAG))
         
         setupData()
