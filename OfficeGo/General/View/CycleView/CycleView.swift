@@ -70,7 +70,7 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
         collectionView.showsHorizontalScrollIndicator = false;
         collectionView.dataSource = self as UICollectionViewDataSource
         collectionView.delegate = self as UICollectionViewDelegate
-        collectionView.backgroundView = UIImageView.init(image: UIImage.create(with: kAppWhiteColor))
+        collectionView.backgroundView = UIImageView.init(image: UIImage.init(named: "bannerBgImg"))
         collectionView.register(CycleCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()

@@ -281,7 +281,8 @@ extension RenterHomePageViewController {
                     arr.append(model?.img ?? "")
                 }
                 
-                weakSelf.setCycleImg()
+//                weakSelf.setCycleImg()
+                weakSelf.cycleView?.imageURLStringArr = arr
                 
             }
             
