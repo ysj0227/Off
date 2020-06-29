@@ -128,7 +128,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         }
         
         self.view.addSubview(segmentTitleSelectview)
-        segmentTitleSelectview.isHidden = true
+//        segmentTitleSelectview.isHidden = true
+        segmentTitleSelectview.alpha = 0
         self.view.bringSubviewToFront(segmentTitleSelectview)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
@@ -136,11 +137,18 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             SSLog("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
             
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
-                self?.titleview?.isHidden = true
-                self?.segmentTitleSelectview.isHidden = false
-            }else {
-                self?.titleview?.isHidden = false
-                self?.segmentTitleSelectview.isHidden = true
+                self?.segmentTitleSelectview.alpha = 1
+            } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 100){
+                                
+                //y = k * x + b
+                let k: CGFloat = 1 / 100.0
+                let b: CGFloat = 1 / 100.0 * (60 + kStatusBarHeight) + 1
+                let alpha = k * (self?.containerScrView.contentOffset.y ?? 0.0) + b
+                self?.segmentTitleSelectview.alpha = alpha
+                SSLog("*******************---****\(alpha)")
+            }
+            else {
+                self?.segmentTitleSelectview.alpha = 0
             }
         }
         
