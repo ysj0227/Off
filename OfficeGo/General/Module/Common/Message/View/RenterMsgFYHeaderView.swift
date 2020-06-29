@@ -259,9 +259,10 @@ class RenterMsgBtnView: UIView {
         addSubview(phoneChangeBtn)
         addSubview(wechatChangeBtn)
         addSubview(scheduleFyBtn)
-        addSubview(alertBtn)
+        /*
+        addSubview(alertBtn)*/
         
-        let width = self.width / 4.0
+        let width = self.width / 3.0
         
         phoneChangeBtn.snp.makeConstraints { (make) in
             make.leading.top.bottom.equalToSuperview()
@@ -277,16 +278,18 @@ class RenterMsgBtnView: UIView {
             make.top.bottom.equalToSuperview()
             make.width.equalTo(width)
         }
+        /*
         alertBtn.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
             make.trailing.equalToSuperview()
             make.width.equalTo(width)
-        }
+        }*/
         
         phoneChangeBtn.layoutButton(.imagePositionTop, space: 10)
         wechatChangeBtn.layoutButton(.imagePositionTop, space: 10)
         scheduleFyBtn.layoutButton(.imagePositionTop, space: 10)
-        alertBtn.layoutButton(.imagePositionTop, space: 10)
+        /*
+        alertBtn.layoutButton(.imagePositionTop, space: 10)*/
 
         phoneChangeBtn.addTarget(self, action: #selector(showSortSelectView(btn:)), for: .touchUpInside)
         wechatChangeBtn.addTarget(self, action: #selector(showSortSelectView(btn:)), for: .touchUpInside)

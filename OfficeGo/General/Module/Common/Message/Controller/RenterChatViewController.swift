@@ -29,7 +29,7 @@ class RenterChatViewController: RCConversationViewController {
     
     //上面四个按钮view
     var buttonView:RenterMsgBtnView = {
-        let view = RenterMsgBtnView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: 60))
+        let view = RenterMsgBtnView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: 70))
         view.phoneChangeBtn.isSelected = true
         view.wechatChangeBtn.isSelected = true
         return view
@@ -42,10 +42,10 @@ class RenterChatViewController: RCConversationViewController {
         didSet {
             if isHasSchedule == true {
                 scheduleView?.isHidden = false
-                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 60 + 43, width: kWidth, height: self.view.height - (kNavigationHeight + 60 + 43))
+                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70 + 43, width: kWidth, height: self.view.height - (kNavigationHeight + 70 + 43))
             }else {
                 scheduleView?.isHidden = true
-                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 60, width: kWidth, height: self.view.height - (kNavigationHeight + 60))
+                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: self.view.height - (kNavigationHeight + 70))
             }
         }
     }
