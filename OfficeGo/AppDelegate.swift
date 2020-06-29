@@ -241,13 +241,19 @@ extension AppDelegate {
             self?.setRCUserInfo(userId: userid ?? "0")
         }, error: { (code) in
             SSLog("登陆的错误码为\(code)")
-        }, tokenIncorrect: {
+        }, tokenIncorrect: {[weak self] in
             //token过期或者不正确。
             //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
             //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
             SSLog("token错误")
             //TODO: 融云token错误 测试提示
+            self?.refreshIMTokenAndReconnect()
         })
+    }
+    
+    //token不对，重新获取token - 融云连接
+    func refreshIMTokenAndReconnect() {
+        
     }
     
     func setUpSDKs() {
@@ -300,6 +306,18 @@ extension AppDelegate {
         RCIM.shared()?.registerMessageType(FangyuanInsertFYMessage.self)
         
     }
+    
+    func showLogotAlertview() {
+        let alert = SureAlertView(frame: window?.frame ?? CGRect.zero)
+        alert.inputTFView.text = "您的账号在别的设备上登录了，是否重连"
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
+            
+            //TOOD: 怎么操作
+        }) {[weak self] in
+            
+            self?.loginRongCloud()
+        }
+    }
 }
 
 
@@ -321,11 +339,13 @@ extension AppDelegate: RCIMConnectionStatusDelegate {
         
         //SDK 与融云服务器的连接状态
         if status == RCConnectionStatus.ConnectionStatus_KICKED_OFFLINE_BY_OTHER_CLIENT {
-            AppUtilities.makeToast("您的账号在别的设备上登录了")
+//            AppUtilities.makeToast("您的账号在别的设备上登录了")
+            showLogotAlertview()
+            
         }else if status == RCConnectionStatus.ConnectionStatus_TOKEN_INCORRECT {
             AppUtilities.makeToast("您的token不对")
-            ///重新请求token
-            
+            ///退出到登录
+            logout()
         }
         
     }
