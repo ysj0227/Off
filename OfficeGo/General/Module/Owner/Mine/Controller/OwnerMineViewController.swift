@@ -16,6 +16,7 @@ class OwnerMineViewController: BaseTableViewController {
     
     var typeSourceArray:[OwnerMineConfigureModel] = {
         var arr = [OwnerMineConfigureModel]()
+        arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeAuthority))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeHelpAndFeedback))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeCusomers))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeRegisterAgent))
@@ -40,7 +41,6 @@ class OwnerMineViewController: BaseTableViewController {
     func juddgeIsLogin() {
         //登录直接请求数据
         if isLogin() == true {
-            
             requestUserMessage()
             
         }else {
@@ -180,6 +180,7 @@ extension OwnerMineViewController {
                     weakSelf.headerView.ownerUserModel = model
                     weakSelf.reloadRCUserInfo()
                     weakSelf.idifyShowView()
+                    weakSelf.tableView.reloadRows(at: [IndexPath.init(row: 0, section: 0)], with: .none)
                 }
                 
             }
@@ -253,6 +254,7 @@ extension OwnerMineViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RenterMineCell.reuseIdentifierStr) as? RenterMineCell
         cell?.selectionStyle = .none
+        cell?.userModel = userModel
         cell?.ownerModel = typeSourceArray[indexPath.row]
         return cell ?? HouseListTableViewCell.init(frame: .zero)
     }
@@ -262,12 +264,38 @@ extension OwnerMineViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return RenterMineCell.rowHeight()
+        switch typeSourceArray[indexPath.row].type {
+            
+        case .OwnerMineTypeAuthority:
+            if userModel?.authority == 0 {
+                return 0
+            }else {
+                return RenterMineCell.rowHeight()
+            }
+            
+        case .OwnerMineTypeHelpAndFeedback:
+            return RenterMineCell.rowHeight()
+            
+        case .OwnerMineTypeCusomers:
+            return RenterMineCell.rowHeight()
+            
+        case .OwnerMineTypeRegisterAgent:
+            return RenterMineCell.rowHeight()
+            
+        case .OwnerMineTypeAboutus:
+            return RenterMineCell.rowHeight()
+            
+        case .none:
+            return RenterMineCell.rowHeight()
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch typeSourceArray[indexPath.row].type {
+            
+        case .OwnerMineTypeAuthority:
+            SSLog("")
+            
         case .OwnerMineTypeHelpAndFeedback:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeHelpAndFeedbackUrl)
             vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? OwnerMineType.OwnerMineTypeAboutus)

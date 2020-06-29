@@ -61,11 +61,20 @@ class RenterMineCell: BaseTableViewCell {
         }
     }
     
+    var userModel: LoginUserModel?
+    
     var ownerModel: OwnerMineConfigureModel = OwnerMineConfigureModel(types: OwnerMineType.OwnerMineTypeAboutus) {
         didSet {
             itemIcon.image = UIImage.init(named: ownerModel.getIconFormType(type: ownerModel.type ?? OwnerMineType.OwnerMineTypeAboutus))
             titleLabel.text = ownerModel.getNameFormType(type: ownerModel.type ?? OwnerMineType.OwnerMineTypeAboutus)
             numDescLabel.text = "12"
+            
+            if ownerModel.type == OwnerMineType.OwnerMineTypeAuthority {
+                if userModel?.authority == 0 {
+                    itemIcon.image = UIImage.init(named: "")
+                    titleLabel.text = ""
+                }
+            }
         }
     }
     

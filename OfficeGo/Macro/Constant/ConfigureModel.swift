@@ -67,6 +67,8 @@ class OwnerMineConfigureModel: ConfigureModel {
     
     func getNameFormType(type: OwnerMineType) -> String{
         switch type {
+        case .OwnerMineTypeAuthority:
+            return "员工管理"
         case .OwnerMineTypeHelpAndFeedback:
             return "帮助与反馈"
         case .OwnerMineTypeCusomers:
@@ -79,6 +81,8 @@ class OwnerMineConfigureModel: ConfigureModel {
     }
     func getIconFormType(type: OwnerMineType) -> String{
         switch type {
+        case .OwnerMineTypeAuthority:
+            return "authority"
         case .OwnerMineTypeHelpAndFeedback:
             return "helpAndFeedback"
         case .OwnerMineTypeCusomers:

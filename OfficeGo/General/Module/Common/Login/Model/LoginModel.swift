@@ -36,6 +36,7 @@ class LoginUserModel: BaseModel {
     ///身份类型0个人1企业2联和办公
     var identityType : Int?
     
+    //0员工 1是管理员
     var authority : Int?
     var channel : Int?
     

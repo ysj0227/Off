@@ -103,6 +103,7 @@ public enum RenterUserMsgType {
 //业主
 //租户我的
 public enum OwnerMineType {
+    case OwnerMineTypeAuthority         //员工管理 - 0 员工 1 管理员
     case OwnerMineTypeHelpAndFeedback  //帮助与反馈
     case OwnerMineTypeCusomers         //客服
     case OwnerMineTypeRegisterAgent    //注册协议与隐私条款
