@@ -158,11 +158,18 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             self?.present(vc, animated: true, completion: nil)
         }
         titleview?.locationBtn.setTitle("  上海", for: .normal)
-        self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
-        self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
+//        self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
+//        self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         titleview?.leftButtonCallBack = { [weak self] in
             self?.shareVc()
         }
+                
+        let pointY: CGFloat = 0
+        cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: (CGFloat)(ceilf((Float)(kWidth * 240.0 / 320.0)))))
+        cycleView?.delegate = self
+        cycleView?.mode = .scaleAspectFill
+        
+        cycleView?.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         
         loadSegmentedConfig()
         
@@ -333,11 +340,6 @@ extension RenterHomePageViewController {
 
 extension RenterHomePageViewController{
     func loadSegmentedConfig() {
-        
-        let pointY: CGFloat = 0
-        cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: (CGFloat)(ceilf((Float)(kWidth * 240.0 / 320.0)))))
-        cycleView?.delegate = self
-        cycleView?.mode = .scaleAspectFill
         
         layoutContentView()
         loadCtls()
