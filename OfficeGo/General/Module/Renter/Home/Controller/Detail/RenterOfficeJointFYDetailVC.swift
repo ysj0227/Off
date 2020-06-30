@@ -191,6 +191,7 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
             vc.conversationType = .ConversationType_PRIVATE
             vc.targetId = chatModel.targetId
             vc.displayUserNameInCell = false
+            vc.houseId = weakSelf.buildingFYDetailModel?.house?.id
             weakSelf.navigationController?.pushViewController(vc, animated: true)
         }
     }

@@ -10,8 +10,11 @@ import UIKit
 
 class RenterChatViewController: RCConversationViewController {
     
-    ///楼盘id
+    ///楼盘id 从楼盘进入聊天页面需要传递
     var buildingId: Int?
+    
+    ///房源id 从房源进入聊天页面需要传递
+    var houseId: Int?
     
     ///房源id 英文逗号分隔
     var houseIds: String?
@@ -95,6 +98,15 @@ class RenterChatViewController: RCConversationViewController {
         
         //MARK: targetid - 只有获取详情的时候 - 需要截取一下最后一位身份标识
         params["uid"] = String(targetId.prefix(targetId.count - 1)) as AnyObject?
+        
+        //从详情进入的必传id
+        if let buildingId = buildingId {
+            params["buildingId"] = buildingId as AnyObject?
+        }
+        
+        if let houseId = houseId {
+            params["houseId"] = houseId as AnyObject?
+        }
         
         SSNetworkTool.SSChat.request_getChatFYDetailApp(params: params, success: {[weak self] (response) in
             

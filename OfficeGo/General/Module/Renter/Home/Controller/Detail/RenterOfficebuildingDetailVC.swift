@@ -322,7 +322,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
             }
                 ///聊天
             else if index == 98 {
-                self?.scrollToFY()
+                self?.requestCreateChat()
             }
                 ///分享
             else {
@@ -386,22 +386,86 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         //找房东
         bottomBtnView.rightBtnClickBlock = { [weak self] in
-            self?.scrollToFY()
+            self?.requestCreateChat()
         }
         
         requestSet()
         
     }
-    func scrollToFY() {
-        AppUtilities.makeToast("请选择一个房源，和业主聊天")
-        //1
-        if dataSourceArr.count > 0 {
-            if dataSource.count > 0 {
-                tableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
+    
+    /*
+     ///调用创建聊天 -  判断是不是单业主
+     ///单业主直接跳转 多业主选择房源
+     */
+    func requestCreateChat() {
+        
+        ///添加登录状态
+        if self.isLogin() != true {
+            return
+        }
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["buildingId"] = buildingDetailModel?.building?.buildingId as AnyObject?
+        
+        
+        SSNetworkTool.SSChat.request_getCreatFirstChatApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.judgeOneOrMoreOwner(model: model)
             }
             
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
         }
     }
+    
+    ///判断是单业主还是双业主
+    func judgeOneOrMoreOwner(model: MessageFYChattedModel) {
+        //双业主
+        if model.multiOwner == 1 {
+            scrollToFY()
+        }else {
+            clickToChat(chatModel: model)
+        }
+    }
+    
+    func scrollToFY() {
+        
+        SSTool.invokeInMainThread { [weak self] in
+            guard let weakSelf = self else {return}
+            AppUtilities.makeToast("请选择一个房源，和业主聊天")
+            //1
+            if weakSelf.dataSourceArr.count > 0 {
+                if weakSelf.dataSource.count > 0 {
+                    weakSelf.tableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
+                }
+                
+            }
+        }
+    }
+    
+    func clickToChat(chatModel: MessageFYChattedModel) {
+        SSTool.invokeInMainThread { [weak self] in
+            guard let weakSelf = self else {return}
+            let vc = RenterChatViewController()
+            vc.conversationType = .ConversationType_PRIVATE
+            vc.targetId = chatModel.targetId
+            vc.displayUserNameInCell = false
+            vc.buildingId = weakSelf.buildingModel.id
+            weakSelf.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     ///判断有没有登录
     func juddgeIsLogin() {
         //登录直接请求数据
