@@ -63,31 +63,34 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
     
     func setUrlWithType() {
         
+        let dateNow = Date()//当前时间
+        let timeStamp = String.init(format: "%ld", Int(dateNow.timeIntervalSince1970))
+        
         if let type = typeEnum {
             
             switch type {
                 
             ///认证
             case .ProtocalTypeIdentifyOwnerUrl:
-                urlString = "\(SSDelegateURL.h5IdentifyOwnerUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
+                urlString = "\(SSDelegateURL.h5IdentifyOwnerUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
             ///个人认证
             case .ProtocalTypeIdentifyPersonageOwnerUrl:
-                urlString = "\(SSDelegateURL.h5IdentifyOwnerPersonageUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
+                urlString = "\(SSDelegateURL.h5IdentifyOwnerPersonageUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
             ///企业认证
             case .ProtocalTypeIdentifyBuildingOwnerUrl:
-                urlString = "\(SSDelegateURL.h5IdentifyOwnerBCompanyUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
+                urlString = "\(SSDelegateURL.h5IdentifyOwnerBCompanyUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
             ///网点认证
             case .ProtocalTypeIdentifyJointOwnerUrl:
-                urlString = "\(SSDelegateURL.h5IdentifyOwnerJointUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
+                urlString = "\(SSDelegateURL.h5IdentifyOwnerJointUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
             ///房源管理  楼盘 houseList
             case .ProtocalTypeFYBuildingOwnerUrl:
-                urlString = "\(SSDelegateURL.h5IdentifyOwnerBuildingManagerUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
+                urlString = "\(SSDelegateURL.h5IdentifyOwnerBuildingManagerUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
             ///房源管理  网点 branchList
            case .ProtocalTypeFYJointOwnerUrl:
-                urlString = "\(SSDelegateURL.h5IdentifyOwnerJointManagerUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
+                urlString = "\(SSDelegateURL.h5IdentifyOwnerJointManagerUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
              ///员工管理 staffList.html
             case .ProtocalTypeStaffListOwnerUrl:
-                 urlString = "\(SSDelegateURL.h5OwnerStaffListUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
+                 urlString = "\(SSDelegateURL.h5OwnerStaffListUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
             }
         }
     }

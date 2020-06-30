@@ -112,6 +112,7 @@ class OwnerHomeViewController: BaseViewController {
         let auditStatus: Int = userModel?.auditStatus ?? -1
         ///审核通过1不显示
         if auditStatus == 0 || auditStatus == 1 {
+            addWebview()
         }else {
             showIdifyAlertview(identify: identify, auditStatus: auditStatus, remark:  userModel?.remark ?? "")
         }
