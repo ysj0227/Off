@@ -27,7 +27,7 @@ class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
     }
 
     func setCellWithViewModel(viewModel: FangYuanBuildingFYDetailBasicInformationModel) {
-        unitPatternImgView.setImage(with: viewModel.unitPatternImg ?? "", placeholder: UIImage.init(named: "Default_4x3"))
+        unitPatternImgView.setImage(with: viewModel.unitPatternImg ?? "", placeholder: UIImage.init(named: Default_4x3_large))
         unitPatternRemarkLabel.text = viewModel.unitPatternRemark
         huxingConstangHeight.constant = viewModel.textHeight ?? 25
     }

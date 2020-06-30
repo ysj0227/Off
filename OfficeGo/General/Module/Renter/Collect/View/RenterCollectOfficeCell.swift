@@ -125,7 +125,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
      */
     func setCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
         
-        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: "Default_1x1"))
+        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_1x1))
         houseNameLabel.text = viewModel.buildingName
         houseAddressLabel.text = viewModel.addressString
         

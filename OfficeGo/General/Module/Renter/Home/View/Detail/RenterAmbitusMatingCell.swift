@@ -86,7 +86,7 @@ class RenterFeatureCollectionCell: BaseCollectionViewCell {
     
     var model: HouseFeatureModel? {
         didSet {
-            itemImg.setImage(with: "", placeholder: UIImage.init(named: "Default_1x1"))
+            itemImg.setImage(with: "", placeholder: UIImage.init(named: Default_1x1))
             titleLabel.text = "11"
             numLabel.text = "4ge"
         }

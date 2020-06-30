@@ -322,7 +322,7 @@ class RenterScheduleYeZhuBasicCell: BaseTableViewCell {
     
     var viewModel: MessageFYViewModel? {
         didSet {
-            yezhuAvatar.setImage(with: viewModel?.avatarString ?? "", placeholder: UIImage.init(named: "Default_1x1"))
+            yezhuAvatar.setImage(with: viewModel?.avatarString ?? "", placeholder: UIImage.init(named: "avatar"))
             nameLabel.text = viewModel?.contactNameString
             companyLabel.text = viewModel?.companyJobString
         }

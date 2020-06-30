@@ -148,7 +148,7 @@ class RenterDetailFYListCell: BaseTableViewCell {
         
     func setCellWithViewModel(viewModel: FangYuanBuildingBuildingViewModel) {
         
-        mainImageView.setImage(with: viewModel.openStationViewModel?.mainPic ?? "", placeholder: UIImage(named: "Default_4x3"))
+        mainImageView.setImage(with: viewModel.openStationViewModel?.mainPic ?? "", placeholder: UIImage(named: Default_80x60))
         leftTopLabel.text = viewModel.openStationViewModel?.openSeatsString
         leftbottomLabel.text = viewModel.openStationViewModel?.openSeatsUnitLBString
         rightPriceLabel.text = viewModel.openStationViewModel?.openMonthPriceString
@@ -182,7 +182,7 @@ class RenterDetailFYListCell: BaseTableViewCell {
         }
     }
     func setDuliCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
-        mainImageView.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: "Default_4x3"))
+        mainImageView.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_80x60))
         leftTopLabel.text = viewModel.individualAreaString
         leftbottomLabel.text = viewModel.individualSeatsString
         rightPriceLabel.text = viewModel.individualMonthPriceString
