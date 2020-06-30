@@ -13,7 +13,7 @@ class ButtonSelectItemView: UIView {
     var recommendBtn: UIButton = {
         let view = UIButton()
         view.setTitle("推荐房源", for: .normal)
-        view.titleLabel?.font = FONT_MEDIUM_15
+        view.titleLabel?.font = FONT_MEDIUM_16
         view.tag = 1
         view.addTarget(self, action: #selector(btnClick(btn:)), for: .touchUpInside)
         view.setTitleColor(kAppWhiteColor, for: .normal)
@@ -49,7 +49,7 @@ class ButtonSelectItemView: UIView {
     }
     
     func setselected(btn: UIButton) {
-        btn.titleLabel?.font = FONT_MEDIUM_15
+        btn.titleLabel?.font = FONT_MEDIUM_16
     }
     
     @objc func btnClick(btn: UIButton) {
@@ -73,7 +73,7 @@ class ButtonSelectItemView: UIView {
         
         recommendBtn.snp.makeConstraints { (make) in
             make.top.leading.bottom.equalToSuperview()
-            make.width.equalTo(60)
+            make.width.equalTo(80)
         }
         
         /* 暂时隐藏附近房源

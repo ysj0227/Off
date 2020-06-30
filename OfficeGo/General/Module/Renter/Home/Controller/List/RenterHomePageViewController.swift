@@ -138,11 +138,11 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
                 self?.segmentTitleSelectview.alpha = 1
-            } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 100){
+            } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 200){
                                 
                 //y = k * x + b
-                let k: CGFloat = 1 / 100.0
-                let b: CGFloat = 1 / 100.0 * (60 + kStatusBarHeight) + 1
+                let k: CGFloat = 1 / 200.0
+                let b: CGFloat = 1 / 200.0 * (60 + kStatusBarHeight) + 1
                 let alpha = k * (self?.containerScrView.contentOffset.y ?? 0.0) + b
                 self?.segmentTitleSelectview.alpha = alpha
                 SSLog("*******************---****\(alpha)")
@@ -385,8 +385,8 @@ extension RenterHomePageViewController{
         itemStyle?.selectedColor = kAppColor_333333
         itemStyle?.unSelectedColor = kAppColor_666666
         itemStyle?.selectedTitleScale = 1.2
-        itemStyle?.titleFontSize = 12
-        itemStyle?.itemWidth = 70 //如果不指定是自动适配的
+        itemStyle?.titleFontSize = 14
+        itemStyle?.itemWidth = 100 //如果不指定是自动适配的
         //这里可以继续增加itemStyle的其他配置项... ...
         
         segmentCtlView.backgroundColor = UIColor.white
