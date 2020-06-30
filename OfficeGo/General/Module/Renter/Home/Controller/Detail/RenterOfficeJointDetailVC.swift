@@ -410,7 +410,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["buildingId"] = buildingDetailModel?.building?.buildingId as AnyObject?
-        
+        params["houseId"] = "" as AnyObject?
         
         SSNetworkTool.SSChat.request_getCreatFirstChatApp(params: params, success: {[weak self] (response) in
             

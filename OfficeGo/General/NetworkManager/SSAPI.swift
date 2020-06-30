@@ -175,6 +175,9 @@ class SSChatURL: NSObject {
     //新增微信
     static let addWxID = "user/changeWxId"
     
+    //记录第一次发送
+    static let addChatApp = "chat/addChatApp"
+    
 }
 
 //  MARK:   --搜索

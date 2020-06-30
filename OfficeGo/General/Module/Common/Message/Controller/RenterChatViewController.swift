@@ -88,6 +88,52 @@ class RenterChatViewController: RCConversationViewController {
         
     }
     
+    ///第一次发送调用
+    func request_addChatApp() {
+        
+        ///isChat":0//0 :点击发送按钮的时候需要调用addChat接口，1:不需要
+        if messageFYModel?.isChat == 1 {
+            return
+        }
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //MARK: targetid - 只有获取详情的时候 - 需要截取一下最后一位身份标识
+        params["uid"] = String(targetId.prefix(targetId.count - 1)) as AnyObject?
+        
+        //从详情进入的必传id
+        if let buildingId = buildingId {
+            params["buildingId"] = buildingId as AnyObject?
+        }else {
+            params["buildingId"] = "" as AnyObject?
+        }
+        
+        if let houseId = houseId {
+            params["houseId"] = houseId as AnyObject?
+        }else {
+            params["houseId"] = "" as AnyObject?
+        }
+        
+        SSNetworkTool.SSChat.request_addChatApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = MessageFYModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.messageFYModel?.isChat = model.isChat
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+
+        }
+    }
+    
     ///获取详情
     func requestChatDetail() {
         
@@ -102,10 +148,14 @@ class RenterChatViewController: RCConversationViewController {
         //从详情进入的必传id
         if let buildingId = buildingId {
             params["buildingId"] = buildingId as AnyObject?
+        }else {
+            params["buildingId"] = "" as AnyObject?
         }
         
         if let houseId = houseId {
             params["houseId"] = houseId as AnyObject?
+        }else {
+            params["houseId"] = "" as AnyObject?
         }
         
         SSNetworkTool.SSChat.request_getChatFYDetailApp(params: params, success: {[weak self] (response) in
@@ -136,6 +186,19 @@ class RenterChatViewController: RCConversationViewController {
                 AppUtilities.makeToast(message)
             }
         }
+    }
+    
+    override func didSendMessage(_ status: Int, content messageContent: RCMessageContent!) {
+        SSLog("---*****---\(messageContent.className)")
+        
+        if messageContent.isKind(of: RCTextMessage.self) {
+            
+            SSTool.invokeInDebug { [weak self] in
+                self?.request_addChatApp()
+            }
+            
+        }
+        
     }
 }
 

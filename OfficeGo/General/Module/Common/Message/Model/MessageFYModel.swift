@@ -180,6 +180,8 @@ class MessageFYModel: BaseModel {
     var isBuildOrHouse : Int?
     var scheduleStatus : Int?
     var user : MessageFYUserModel?
+    ///0 是否调用过发送接口  0没有。1有
+    var isChat: Int?
 }
 class MessageFYUserModel: BaseModel {
     var phone : String?

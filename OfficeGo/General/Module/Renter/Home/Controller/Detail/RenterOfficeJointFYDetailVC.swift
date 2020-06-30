@@ -207,7 +207,7 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["houseId"] = buildingFYDetailModel?.house?.id as AnyObject?
-        
+        params["buildingId"] = "" as AnyObject?
         
         SSNetworkTool.SSChat.request_getCreatFirstChatApp(params: params, success: {[weak self] (response) in
             

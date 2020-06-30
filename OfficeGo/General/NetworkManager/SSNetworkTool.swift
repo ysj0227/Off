@@ -228,6 +228,13 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
+        //租户业主第一次发消息
+        static func request_addChatApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSChatURL.addChatApp)
+         SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
     }
     
     //  MARK:   --行程
