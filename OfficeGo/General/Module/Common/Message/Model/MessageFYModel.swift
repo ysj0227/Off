@@ -85,11 +85,8 @@ class MessageFYViewModel: NSObject {
                 unitString = "/㎡/天"
             }else if model.building?.btype == 2 {
                 
-                ///独立办公室
-                if model.building?.officeType == 1 {
-                    dayPriceString = "¥\(model.building?.minSinglePrice ?? 0) /位/天"
-                    unitString = "/位/天"
-                }
+                dayPriceString = "¥\(model.building?.minSinglePrice ?? 0) /位/天"
+                unitString = "/位/天"
             }
             
             //特色
