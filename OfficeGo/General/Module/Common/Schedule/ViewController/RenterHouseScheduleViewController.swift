@@ -124,19 +124,33 @@ class RenterHouseScheduleViewController: BaseTableViewController, FSCalendarData
     func loadViewShowViews() {
         SSTool.invokeInMainThread { [weak self] in
             
-            if let arr = self?.datesWithEvent {
-                if arr.count > 0 {
-                    self?.currentDayString = arr[0]
-                    let date = SSTool.timeStrChangeToDateYYYYMMdd(timeStr: self?.currentDayString)
-                    self?.calendar.select(date, scrollToDate: true)
-                    self?.currentModel = self?.dataSourceArr[0]
-                }
-            }
-            self?.calendar.reloadData()
-            self?.tableView.reloadData()
-            self?.showNoDataView()
+            guard let weakSelf = self else {return}
+            
+            weakSelf.requestDataDetail()
         }
         
+    }
+    ///请求到的数据日历显示处理
+    func requestDataDetail() {
+        if datesWithEvent.count > 0 {
+            if let current = currentDayString {
+                if datesWithEvent.contains(current) {
+                    let findIndex = datesWithEvent.firstIndex(of: current)
+                    let date = SSTool.timeStrChangeToDateYYYYMMdd(timeStr: current)
+                    calendar.select(date, scrollToDate: true)
+                    currentModel = dataSourceArr[findIndex ?? 0]
+                }else {
+                    currentDayString = datesWithEvent[0]
+                    let date = SSTool.timeStrChangeToDateYYYYMMdd(timeStr: currentDayString)
+                    calendar.select(date, scrollToDate: true)
+                    currentModel = dataSourceArr[0]
+                }
+            }
+            
+        }
+        calendar.reloadData()
+        tableView.reloadData()
+        showNoDataView()
     }
     
     override func viewDidLoad() {
