@@ -450,7 +450,7 @@ extension RenterChatViewController {
     
     //预约房源
     func sendScheduleFY(interval: Int, fyid: Int) {
-        let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", fyId: "\(fyid)", time: "\(interval)", buildingName: messageFYViewModel?.buildingName ?? "", buildingAddress: messageFYViewModel?.address ?? "")
+        let messageContent = ScheduleViewingMessage.messageWithContent(content: "我发送了一个看房邀请", fyId: "\(fyid)", time: "\(interval*1000)", buildingName: messageFYViewModel?.buildingName ?? "", buildingAddress: messageFYViewModel?.address ?? "")
         sendMessage(messageContent, pushContent: "我发送了一个看房邀请")
     }
     

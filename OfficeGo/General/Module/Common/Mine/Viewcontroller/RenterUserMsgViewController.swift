@@ -336,6 +336,7 @@ class RenterMineUserMsgCell: BaseTableViewCell {
             if model.type == RenterUserMsgType.RenterUserMsgTypeSex {
                 self.detailIcon.isHidden = false
                 self.editLabel.isUserInteractionEnabled = false
+                self.editLabel.textColor = kAppColor_333333
                 if userModel?.sex == "1" {
                     self.editLabel.text = "男"
                 }else if userModel?.sex == "0" {
@@ -346,12 +347,14 @@ class RenterMineUserMsgCell: BaseTableViewCell {
             }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
                 self.detailIcon.isHidden = true
                 self.editLabel.isUserInteractionEnabled = false
+                self.editLabel.textColor = kAppColor_999999
                 self.editLabel.text = userModel?.phone
                 
             }else {
                 self.detailIcon.isHidden = true
                 self.editLabel.isUserInteractionEnabled = true
-                
+                self.editLabel.textColor = kAppColor_333333
+
                 if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
                     self.editLabel.text = userModel?.realname
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {

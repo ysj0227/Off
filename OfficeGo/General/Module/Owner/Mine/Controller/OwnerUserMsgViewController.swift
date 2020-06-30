@@ -326,6 +326,7 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
     class func rowHeight() -> CGFloat {
         return 49
     }
+    //判断是否显示显示员工管理
     var userModel: LoginUserModel?
     
     var endEditingMessageCell:((LoginUserModel) -> Void)?
@@ -336,6 +337,7 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
             if model.type == RenterUserMsgType.RenterUserMsgTypeSex {
                 self.detailIcon.isHidden = false
                 self.editLabel.isUserInteractionEnabled = false
+                self.editLabel.textColor = kAppColor_333333
                 if userModel?.sex == "1" {
                     self.editLabel.text = "男"
                 }else if userModel?.sex == "0" {
@@ -346,17 +348,21 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
             }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
                 self.detailIcon.isHidden = true
                 self.editLabel.isUserInteractionEnabled = false
+                self.editLabel.textColor = kAppColor_999999
                 self.editLabel.text = userModel?.phone
                 
             }else {
                 self.detailIcon.isHidden = true
                 self.editLabel.isUserInteractionEnabled = true
-                
+                self.editLabel.textColor = kAppColor_333333
+
                 if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
                     self.editLabel.text = userModel?.proprietorRealname
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
                     self.editLabel.text = userModel?.wxId
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
+                    self.editLabel.isUserInteractionEnabled = false
+                    self.editLabel.textColor = kAppColor_999999
                     self.editLabel.text = userModel?.proprietorCompany
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
                     self.editLabel.text = userModel?.proprietorJob
