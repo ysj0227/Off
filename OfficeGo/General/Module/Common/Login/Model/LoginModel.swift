@@ -30,7 +30,7 @@ class LoginUserModel: BaseModel {
     var accountStatus : Int?
     var address : String?
     
-    ///审核状态0待审核1审核通过2审核未通过 - 没有提交过为null
+    ///审核状态0待审核1审核通过2审核未通过 - 没有提交过为-1
     var auditStatus : Int?
     
     ///身份类型0个人1企业2联和办公

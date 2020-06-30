@@ -24,12 +24,20 @@ public enum ProtocalType {
 
 //认证- 房源url
 public enum OwnerIdentifyOrFYType {
-    ///认证
+    ///认证 - 三种
     case ProtocalTypeIdentifyOwnerUrl
+    ///个人认证  attestationPersonage.html
+    case ProtocalTypeIdentifyPersonageOwnerUrl
+    ///企业认证 company.html
+    case ProtocalTypeIdentifyBuildingOwnerUrl
+    ///网点认证 company2.html
+    case ProtocalTypeIdentifyJointOwnerUrl
     ///房源页面 - 楼盘
     case ProtocalTypeFYBuildingOwnerUrl
     ///房源页面 - 网点
     case ProtocalTypeFYJointOwnerUrl
+    ///员工管理 staffList.html
+    case ProtocalTypeStaffListOwnerUrl
 }
 
 //我想找item枚举

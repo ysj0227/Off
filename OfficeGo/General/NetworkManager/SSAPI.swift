@@ -137,14 +137,25 @@ class SSDelegateURL: NSObject {
     static let h5QuestionUrl = "http://test.officego.com.cn/lessee/issueList.html?channel=\(UserTool.shared.user_channel)"
     
     ///认证业主网页接口
-    static let h5FYOwnerUrl = "http://test.officego.com.cn/owner/myHome.html"
+    static let h5IdentifyOwnerUrl = "http://test.officego.com.cn/owner/myHome.html"
+
+    ///个人认证  attestationPersonage.html
+    static let h5IdentifyOwnerPersonageUrl = "http://test.officego.com.cn/owner/attestationPersonage.html"
     
-    //房源 - 楼盘管理
-    static let h5IdentifyOwnerBuildingUrl = "http://test.officego.com.cn/owner/houseList.html"
+    ///企业认证 company.html
+    static let h5IdentifyOwnerBCompanyUrl = "http://test.officego.com.cn/owner/company.html"
+    
+    ///网点认证 company2.html
+    static let h5IdentifyOwnerJointUrl = "http://test.officego.com.cn/owner/company2.html"
+    
+    //房源 - 楼盘管理 houseList
+    static let h5IdentifyOwnerBuildingManagerUrl = "http://test.officego.com.cn/owner/houseList.html"
 
-    //房源 - 网点管理
-    static let h5IdentifyOwnerJointUrl = "http://test.officego.com.cn/owner/branchList.html"
+    //房源 - 网点管理 branchList
+    static let h5IdentifyOwnerJointManagerUrl = "http://test.officego.com.cn/owner/branchList.html"
 
+    //员工管理 staffList.html
+    static let h5OwnerStaffListUrl = "http://test.officego.com.cn/owner/staffList.html"
 }
 
 
