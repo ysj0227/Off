@@ -551,7 +551,7 @@ extension RenterChatViewController {
         
         if agree {
             if UserTool.shared.isHasWX() == true {
-                
+                sendMesExchangeWechatAgreeOrReject(agree: true, otherWechat: otherWechat)
             }else{
                 showBtnWXInputAlertview(otherWechat: otherWechat)
             }
