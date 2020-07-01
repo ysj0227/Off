@@ -110,8 +110,6 @@ class BaseWebViewController: BaseViewController {
 
     override func viewDidLoad() {
         
-        titleview?.titleLabel.text = titleString
-        
         super.viewDidLoad()
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
@@ -122,6 +120,8 @@ class BaseWebViewController: BaseViewController {
         
         view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
+        titleview?.titleLabel.text = titleString
+
         if let webView = webView {
             view.insertSubview(webView, at: 0)
             webView.snp.makeConstraints { (make) in
@@ -130,12 +130,13 @@ class BaseWebViewController: BaseViewController {
                 make.bottom.equalToSuperview().offset(-bottomMargin())
             }
         }
+        /*
         _ = webView?.rx.observeWeakly(String.self, "title")
             .subscribe(onNext: { [weak self] (value) in
                 if let value = value, value.count > 0 {
                     self?.titleString = value
                 }
-            })
+            })*/
         
         self.view.addSubview(noDataView)
         noDataView.isHidden = true
