@@ -131,7 +131,7 @@ class SSDelegateURL: NSObject {
     static let h5PrivacyProtocolUrl = "http://test.officego.com.cn/lessee/privacy.html?channel=\(UserTool.shared.user_channel)"
     
     //帮助与反馈：
-    static let h5HelpAndFeedbackUrl = "http://test.officego.com.cn/owner/opinion.html"
+    static let h5HelpAndFeedbackUrl = "http://test.officego.com.cn/owner/opinion.html?channel=\(UserTool.shared.user_channel)"
     
     //常见问题：
     static let h5QuestionUrl = "http://test.officego.com.cn/lessee/issueList.html?channel=\(UserTool.shared.user_channel)"

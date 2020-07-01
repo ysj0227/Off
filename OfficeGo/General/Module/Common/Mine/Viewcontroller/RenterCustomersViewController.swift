@@ -39,7 +39,7 @@ class RenterCustomersViewController: BaseViewController, MFMailComposeViewContro
     func setUpView() {
     
         titleview = ThorNavigationView.init(type: .backTitleRight)
-        titleview?.titleLabel.text = "联系客服"
+        titleview?.titleLabel.text = "客服"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
