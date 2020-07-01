@@ -105,9 +105,8 @@ extension RenterMineSettingViewController {
     //弹出版本更新弹框
     func showUpdateAlertview(versionModel: VersionModel) {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.inputTFView.text = versionModel.desc ?? ""
         alert.isHiddenVersionCancel = versionModel.force ?? false
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "版本更新", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {
             
         }) {
             if let url = URL(string: versionModel.uploadUrl ?? "") {
@@ -124,8 +123,7 @@ extension RenterMineSettingViewController {
     
     func showLogotAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.inputTFView.text = "您是否要退出登录？"
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: "您是否要退出登录？", cancelButtonCallClick: {
             
         }) {
             
@@ -148,13 +146,14 @@ extension RenterMineSettingViewController {
     func roleChangeClick() {
         
         let alert = SureAlertView(frame: self.view.frame)
+        var aelrtMsg: String = ""
         if UserTool.shared.user_id_type == 0 {
-            alert.inputTFView.text = "是否确认切换为业主"
+            aelrtMsg = "是否确认切换为业主"
 
         }else if UserTool.shared.user_id_type == 1 {
-            alert.inputTFView.text = "是否确认切换为租户"
+            aelrtMsg = "是否确认切换为租户"
         }
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
             
         }) { [weak self] in
             

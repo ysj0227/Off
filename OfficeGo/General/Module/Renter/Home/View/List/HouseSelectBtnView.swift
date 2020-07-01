@@ -14,7 +14,7 @@ import SwiftyJSON
 
 enum HouseTypeEnum: String {
     case allEnum = "全部"
-    case officeBuildingEnum = "办公楼"
+    case officeBuildingEnum = "写字楼"
     case jointOfficeEnum = "联合办公"
 }
 

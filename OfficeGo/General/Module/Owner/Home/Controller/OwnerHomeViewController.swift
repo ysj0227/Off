@@ -33,7 +33,11 @@ class OwnerHomeViewController: BaseViewController {
         requestUserMessage()
         
     }
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        ///移除业主弹框
+        SureAlertView.Remove()
+    }
     func addWebview() {
         ///身份类型0个人1企业2联合
         let identify: Int = userModel?.identityType ?? -1
@@ -114,7 +118,7 @@ class OwnerHomeViewController: BaseViewController {
         if auditStatus == 0 || auditStatus == 1 {
             addWebview()
         }else {
-            showIdifyAlertview(identify: identify, auditStatus: auditStatus, remark:  userModel?.remark ?? "")
+            showIdifyAlertview(identify: identify, auditStatus: auditStatus, remark: userModel?.remark ?? "")
         }
     }
     
@@ -124,22 +128,34 @@ class OwnerHomeViewController: BaseViewController {
         var identifyType: OwnerIdentifyOrFYType?
         if auditStatus == -1 {
             descString = "您还没有认证，请先认证～"
+            alert.messageLabel.textAlignment = .center
             identifyType = .ProtocalTypeIdentifyOwnerUrl
         }else if auditStatus == 2 {
+            alert.messageLabel.textAlignment = .left
             if identify == 0 {
-                descString = "您个人认证被驳回 \n \(remark)"
+                if remark.count > 0 {
+                    descString = "您个人认证被驳回 \n\n驳回原因：\(remark)"
+                }else {
+                    descString = "您个人认证被驳回"
+                }
                 identifyType = .ProtocalTypeIdentifyPersonageOwnerUrl
             }else if identify == 1 {
-                descString = "您企业认证被驳回 \n \(remark)"
+                if remark.count > 0 {
+                    descString = "您企业认证被驳回 \n\n驳回原因：\(remark)"
+                }else {
+                    descString = "您企业认证被驳回"
+                }
                 identifyType = .ProtocalTypeIdentifyBuildingOwnerUrl
             }else if identify == 2 {
-                descString = "您联合办公认证被驳回 \n \(remark)"
+                if remark.count > 0 {
+                    descString = "您联合办公认证被驳回 \n\n驳回原因：\(remark)"
+                }else {
+                    descString = "您联合办公认证被驳回"
+                }
                 identifyType = .ProtocalTypeIdentifyJointOwnerUrl
             }
         }
-        
-        alert.inputTFView.text = descString
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: descString, cancelButtonCallClick: {
             
         }) {
             

@@ -80,7 +80,7 @@ class BaseViewController: UIViewController {
         let alert = SureAlertView(frame: windows?.frame ?? CGRect(x: 0, y: 0, width: kWidth, height: kHeight))
         alert.inputTFView.text = "您还没登录，请先登录"
         alert.isHiddenVersionCancel = true
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, message: "温馨提示", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, message: "温馨提示", cancelButtonCallClick: {
             
         }) {[weak self] in
             self?.showLoginVC()
