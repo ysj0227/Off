@@ -70,10 +70,17 @@ class RenterMineCell: BaseTableViewCell {
             numDescLabel.text = "12"
             
             if ownerModel.type == OwnerMineType.OwnerMineTypeAuthority {
-                if userModel?.authority == 0 {
+                //个人认证没有员工管理
+                if userModel?.identityType == 0 {
                     itemIcon.image = UIImage.init(named: "")
                     titleLabel.text = ""
+                }else {
+                    if userModel?.authority == 0 {
+                        itemIcon.image = UIImage.init(named: "")
+                        titleLabel.text = ""
+                    }
                 }
+                
             }
         }
     }

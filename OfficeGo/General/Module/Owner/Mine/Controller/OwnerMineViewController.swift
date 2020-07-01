@@ -186,7 +186,7 @@ extension OwnerMineViewController {
             }
             
             }, failure: { (error) in
-
+                
         }) { (code, message) in
             
             //只有5000 提示给用户
@@ -285,10 +285,15 @@ extension OwnerMineViewController {
         switch typeSourceArray[indexPath.row].type {
             
         case .OwnerMineTypeAuthority:
-            if userModel?.authority == 0 {
+            //个人认证没有员工管理
+            if userModel?.identityType == 0 {
                 return 0
             }else {
-                return RenterMineCell.rowHeight()
+                if userModel?.authority == 0 {
+                    return 0
+                }else {
+                    return RenterMineCell.rowHeight()
+                }
             }
             
         case .OwnerMineTypeHelpAndFeedback:
