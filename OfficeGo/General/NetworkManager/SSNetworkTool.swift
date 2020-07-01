@@ -268,9 +268,16 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        //添加预约看房
+        //添加预约看房 - 租户像业主申请预约看房
         static func request_addRenterApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSScheduleURL.addRenterApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        //添加预约看房 - 业主像租户预约看房
+        static func request_addProprietorApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSScheduleURL.addProprietorApp)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }

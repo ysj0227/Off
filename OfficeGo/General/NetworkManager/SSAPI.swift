@@ -302,8 +302,11 @@ class SSScheduleURL: NSObject {
     //预约看房
     static let selectScheduleHouseApp = "schedule/selectScheduleHouseApp"
     
-    //保存预约行程
+    //保存预约行程  租户像业主申请
     static let addRenterApp = "schedule/addRenterApp"
+    
+    //保存预约行程  业主像租户申请
+    static let addProprietorApp = "schedule/addProprietorApp"
     
     //结束行程
     static let updateFinish = "schedule/updateFinish"

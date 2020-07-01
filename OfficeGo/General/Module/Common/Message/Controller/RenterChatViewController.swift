@@ -387,12 +387,12 @@ extension RenterChatViewController {
     func clicktoBtn(index: Int) {
         if index == 1 {
             
-            sendExchangePhone()
+            showPhoneSureAlertview()
             
         }else if index == 2 {
             
             if UserTool.shared.isHasWX() == true {
-                showSureAlertview()
+                showWechatSureAlertview()
             }else{
                 showWXInputAlertview()
             }
@@ -407,8 +407,19 @@ extension RenterChatViewController {
         }
     }
     
-    //弹出发送确认框弹框
-    func showSureAlertview() {
+    //弹出发送手机号确认框弹框
+    func showPhoneSureAlertview() {
+        
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换手机号吗？", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            self?.sendExchangePhone()
+        }
+    }
+    
+    //弹出发送微信确认框弹框
+    func showWechatSureAlertview() {
         
         let alert = SureAlertView(frame: self.view.frame)
         alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {

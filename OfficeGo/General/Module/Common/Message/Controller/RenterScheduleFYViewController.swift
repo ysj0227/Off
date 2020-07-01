@@ -43,7 +43,38 @@ class RenterScheduleFYViewController: BaseTableViewController {
         setUpView()
     }
     
-    func sendYuyueNotify() {
+    //业主申请看房
+    func sendOwnerYuyueNotify() {
+        
+        let interval = Int(round(dateSelect?.timeIntervalSince1970 ?? 0 * 1000))
+        
+        var params = [String:AnyObject]()
+        params["buildingId"] = messageFYViewModel?.buildingId as AnyObject?
+        //params["houseIds"] = messageFYViewModel?.houseId as AnyObject?
+        params["chatUserId"] = messageFYViewModel?.targetId as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["time"] = "\(interval)" as AnyObject?
+        
+        SSNetworkTool.SSSchedule.request_addProprietorApp(params: params, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            
+            if let model = ScheduleList.deserialize(from: response, designatedPath: "data") {
+                    
+                weakSelf.clickToSendSchedule(interval: interval, fyid: model.id ?? 0)
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //租户申请看房
+    func sendRenterYuyueNotify() {
         
         let interval = Int(round(dateSelect?.timeIntervalSince1970 ?? 0 * 1000))
         
@@ -96,7 +127,13 @@ class RenterScheduleFYViewController: BaseTableViewController {
         
         self.view.addSubview(bottomBtnView)
         bottomBtnView.rightBtnClickBlock = { [weak self] in
-            self?.sendYuyueNotify()
+            /// role 角色 用户身份类型,,0:租户,1:业主,9:其他
+            //组合业主调用的方法不一样
+            if UserTool.shared.user_id_type == 0 {
+                self?.sendRenterYuyueNotify()
+            }else if UserTool.shared.user_id_type == 1 {
+                self?.sendOwnerYuyueNotify()
+            }
         }
         bottomBtnView.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-bottomMargin())
