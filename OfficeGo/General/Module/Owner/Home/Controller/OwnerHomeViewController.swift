@@ -22,7 +22,6 @@ class OwnerHomeViewController: BaseViewController {
         super.viewWillDisappear(animated)
         let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
         tab?.customTabBar.isHidden = true
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -33,11 +32,35 @@ class OwnerHomeViewController: BaseViewController {
         requestUserMessage()
         
     }
+    
+    deinit {
+        //消失的时候清空缓存
+        fyWebview?.clearCache()
+        fyWebview = nil
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         ///移除业主弹框
-        SureAlertView.Remove()
+        SureAlertView.Remove()        
     }
+    
+    override func viewDidLoad() {
+        
+        //点击下面的tabbar的时候的判断
+        NotificationCenter.default.addObserver(self, selector: #selector(clearCache), name: NSNotification.Name.OwnerClearFYManagerCache, object: nil)
+
+    }
+    
+    @objc func clearCache() {
+        let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
+        
+        if tab?.selectedIndex == 0 {
+            fyWebview?.loadWebview()
+        }else {
+            fyWebview?.clearCache()
+        }
+    }
+    
     func addWebview() {
         ///身份类型0个人1企业2联合
         let identify: Int = userModel?.identityType ?? -1

@@ -131,7 +131,7 @@ extension OwnerUserMsgViewController {
         }
         let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
         let image2 = image?.crop(ratio: 1)
-
+        
         self.headerView.headerImg.image = image2
         self.upload(uploadImage: image2 ?? UIImage.init())
     }
@@ -181,36 +181,36 @@ extension OwnerUserMsgViewController {
             self?.leftBtnClick()
             
             self?.setSureBtnEnable(can: true)
-
+            
         }
     }
     
     func requestEditUserMessage() {
         
         setSureBtnEnable(can: false)
-
+        
         var params = [String:AnyObject]()
         params["realname"] = userModel?.proprietorRealname as AnyObject?
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-                /*
-        if let wxid = userModel?.wxId {
-            if wxid.isBlankString != true {
-                params["WX"] = wxid as AnyObject?
-            }
-        }
-        
-        if let wxid = userModel?.company {
-            if wxid.isBlankString != true {
-                params["company"] = wxid as AnyObject?
-            }
-        }
-        if let wxid = userModel?.job {
-            if wxid.isBlankString != true {
-                params["job"] = wxid as AnyObject?
-            }
-        }*/
+        /*
+         if let wxid = userModel?.wxId {
+         if wxid.isBlankString != true {
+         params["WX"] = wxid as AnyObject?
+         }
+         }
+         
+         if let wxid = userModel?.company {
+         if wxid.isBlankString != true {
+         params["company"] = wxid as AnyObject?
+         }
+         }
+         if let wxid = userModel?.job {
+         if wxid.isBlankString != true {
+         params["job"] = wxid as AnyObject?
+         }
+         }*/
         
         //params["WX"] = userModel?.wxId as AnyObject?
         params["company"] = userModel?.proprietorCompany as AnyObject?
@@ -222,7 +222,7 @@ extension OwnerUserMsgViewController {
             
             }, failure: {[weak self] (error) in
                 self?.setSureBtnEnable(can: true)
-
+                
         }) {[weak self] (code, message) in
             
             //只有5000 提示给用户
@@ -230,7 +230,7 @@ extension OwnerUserMsgViewController {
                 AppUtilities.makeToast(message)
             }
             self?.setSureBtnEnable(can: true)
-
+            
         }
     }
     
@@ -355,7 +355,7 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
                 self.detailIcon.isHidden = true
                 self.editLabel.isUserInteractionEnabled = true
                 self.editLabel.textColor = kAppColor_333333
-
+                
                 if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
                     self.editLabel.text = userModel?.proprietorRealname
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {

@@ -23,7 +23,8 @@ extension Notification.Name {
     /// 用户退出 - 只有业主需要重新设置tabbar
     public static let OwnerUserLogout = Notification.Name("OwnerUserLogout")
     
-    
+    /// 清楚房源管理缓存 - 只有业主需要首页
+    public static let OwnerClearFYManagerCache = Notification.Name("OwnerClearFYManagerCache")
     
     /// 设置rootviewcontroller - 租户
     public static let SetRenterTabbarViewController = Notification.Name("SetRenterTabbarViewController")

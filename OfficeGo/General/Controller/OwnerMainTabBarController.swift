@@ -49,6 +49,9 @@ class OwnerMainTabBarController: UITabBarController {
         set {
             super.selectedIndex = newValue
             customTabBar.currentIndex = selectedIndex
+            
+            //当不在首页房源管理的时候，要刷新网页
+            NotificationCenter.default.post(name: NSNotification.Name.OwnerClearFYManagerCache, object: nil)
         }
     }
     required init?(coder aDecoder: NSCoder) {

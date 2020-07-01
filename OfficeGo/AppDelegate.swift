@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(setRenterTabar), name: NSNotification.Name.SetRenterTabbarViewController, object: nil)
         //登录成功通知 - 只设置登录融云
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccess), name: NSNotification.Name.UserLogined, object: nil)
-     
+        
         //切换身份
         NotificationCenter.default.addObserver(self, selector: #selector(roleChange), name: NSNotification.Name.UserRoleChange, object: nil)
         
@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(setOwnerTabar), name: NSNotification.Name.SetOwnerTabbarViewController, object: nil)
         
         //退出登录 - 只有业主
-             NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name.OwnerUserLogout, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name.OwnerUserLogout, object: nil)
     }
     
     //9.0
@@ -210,7 +210,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             let tabbarVC = RenterMainTabBarController()
             tabbarVC.selectedIndex = 3
             window?.rootViewController = tabbarVC
-
+            
         }else if UserTool.shared.user_id_type == 1 {
             //NotificationCenter.default.post(name: NSNotification.Name.OwnerUserLogout, object: nil)
             logout()
@@ -239,8 +239,8 @@ extension AppDelegate {
         RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: {[weak self] (userid) in
             SSLog("登陆成功。当前登录的用户ID： \(String(describing: userid))")
             self?.setRCUserInfo(userId: userid ?? "0")
-        }, error: { (code) in
-            SSLog("登陆的错误码为\(code)")
+            }, error: { (code) in
+                SSLog("登陆的错误码为\(code)")
         }, tokenIncorrect: {[weak self] in
             //token过期或者不正确。
             //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
@@ -255,25 +255,25 @@ extension AppDelegate {
     func refreshIMTokenAndReconnect() {
         
         var params = [String:AnyObject]()
-
+        
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         SSNetworkTool.SSChat.request_getRongYunToken(params: params, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
-                    
+            
             if let rctoken = response["data"] {
                 UserTool.shared.user_rongyuntoken = rctoken as? String
                 RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: {[weak self] (userid) in
                     SSLog("登陆成功。当前登录的用户ID： \(String(describing: userid))")
                     self?.setRCUserInfo(userId: userid ?? "0")
-                }, error: { (code) in
-                    SSLog("登陆的错误码为\(code)")
+                    }, error: { (code) in
+                        SSLog("登陆的错误码为\(code)")
                 }, tokenIncorrect: {[weak self] in
                     SSLog("token错误")
                 })
             }
-                        
+            
             }, failure: { (error) in
                 
         }) { (code, message) in
@@ -365,7 +365,7 @@ extension AppDelegate: RCIMConnectionStatusDelegate {
         
         //SDK 与融云服务器的连接状态
         if status == RCConnectionStatus.ConnectionStatus_KICKED_OFFLINE_BY_OTHER_CLIENT {
-//            AppUtilities.makeToast("您的账号在别的设备上登录了")
+            //            AppUtilities.makeToast("您的账号在别的设备上登录了")
             showLogotAlertview()
             
         }else if status == RCConnectionStatus.ConnectionStatus_TOKEN_INCORRECT {

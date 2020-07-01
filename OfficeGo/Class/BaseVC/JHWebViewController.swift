@@ -57,7 +57,6 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
             //LoadingHudView.showHud()
             let request = URLRequest(url: url)
             self.webView?.load(request)
-            
         }
     }
     
@@ -95,7 +94,10 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    deinit {
+        clearCache()
+        webView = nil
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
