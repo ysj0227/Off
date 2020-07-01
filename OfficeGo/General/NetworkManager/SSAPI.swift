@@ -166,10 +166,13 @@ class SSDelegateURL: NSObject {
 //  MARK:   --聊天
 class SSChatURL: NSObject {
     
+    //获取融云token
+    static let getRongYunToken = "user/rongYunToken"
+    
     //创建和业主聊天接口
     static let getCreatFirstChatApp = "chat/chatApp"
 
-    //
+    //获取聊天关联房源
     static let getChatMsgDetailApp = "chat/firstChatApp"
     
     //新增微信

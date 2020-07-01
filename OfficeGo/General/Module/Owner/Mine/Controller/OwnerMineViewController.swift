@@ -303,12 +303,13 @@ extension OwnerMineViewController {
             
         case .OwnerMineTypeAuthority:
             
-            let vc = JHBaseWebViewController.init(protocalType: OwnerIdentifyOrFYType.ProtocalTypeStaffListOwnerUrl)
+            let vc = BaseWebViewController.init(protocalType: .ProtocalTypeStaffListOwnerUrl)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? OwnerMineType.OwnerMineTypeAuthority)
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .OwnerMineTypeHelpAndFeedback:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeHelpAndFeedbackUrl)
-            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? OwnerMineType.OwnerMineTypeAboutus)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? OwnerMineType.OwnerMineTypeHelpAndFeedback)
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .OwnerMineTypeCusomers:
@@ -317,7 +318,7 @@ extension OwnerMineViewController {
             
         case .OwnerMineTypeRegisterAgent:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
-            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? OwnerMineType.OwnerMineTypeAboutus)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? OwnerMineType.OwnerMineTypeRegisterAgent)
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .OwnerMineTypeAboutus:

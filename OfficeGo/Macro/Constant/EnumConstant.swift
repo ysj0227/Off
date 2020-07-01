@@ -10,6 +10,8 @@ import UIKit
 
 //协议url
 public enum ProtocalType {
+    ///员工管理 staffList.html
+    case ProtocalTypeStaffListOwnerUrl
     ///关于我们
     case ProtocalTypeAboutUs
     ///服务协议
@@ -36,8 +38,7 @@ public enum OwnerIdentifyOrFYType {
     case ProtocalTypeFYBuildingOwnerUrl
     ///房源页面 - 网点
     case ProtocalTypeFYJointOwnerUrl
-    ///员工管理 staffList.html
-    case ProtocalTypeStaffListOwnerUrl
+
 }
 
 //我想找item枚举

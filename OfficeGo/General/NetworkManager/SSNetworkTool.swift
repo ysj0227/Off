@@ -207,10 +207,17 @@ extension SSNetworkTool {
     //  MARK:   --聊天
     class SSChat: NSObject {
         
+        //获取融云token
+        static func request_getRongYunToken(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSChatURL.getRongYunToken)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
         //创建和业主聊天接口
         static func request_getCreatFirstChatApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSChatURL.getCreatFirstChatApp)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
