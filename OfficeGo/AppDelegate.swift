@@ -254,6 +254,32 @@ extension AppDelegate {
     //token不对，重新获取token - 融云连接
     func refreshIMTokenAndReconnect() {
         
+        var params = [String:AnyObject]()
+
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        SSNetworkTool.SSChat.request_getRongYunToken(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+                    
+            if let rctoken = response["data"] {
+                UserTool.shared.user_rongyuntoken = rctoken as? String
+                RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: {[weak self] (userid) in
+                    SSLog("登陆成功。当前登录的用户ID： \(String(describing: userid))")
+                    self?.setRCUserInfo(userId: userid ?? "0")
+                }, error: { (code) in
+                    SSLog("登陆的错误码为\(code)")
+                }, tokenIncorrect: {[weak self] in
+                    SSLog("token错误")
+                })
+            }
+                        
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            
+        }
     }
     
     func setUpSDKs() {
