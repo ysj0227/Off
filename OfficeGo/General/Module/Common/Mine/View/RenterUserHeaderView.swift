@@ -101,7 +101,16 @@ class RenterUserHeaderView: UIView {
                     nameLabel.text = String(realname.prefix(8)) + ".."
                 }
             }
-            introductionLabel.text = ""
+            let company = userModel.company
+            let job = userModel.job
+            
+            if company?.isBlankString != true && job?.isBlankString != true {
+                introductionLabel.text = "\(company ?? "") - \(job ?? "")"
+            }else if company?.isBlankString != true {
+                introductionLabel.text = "\(company ?? "")"
+            }else {
+                introductionLabel.text = "\(job ?? "")"
+            }
         }
     }
     
@@ -119,16 +128,16 @@ class RenterUserHeaderView: UIView {
                     nameLabel.text = String(realname.prefix(8)) + ".."
                 }
             }
-            if let company = ownerUserModel.proprietorCompany, let job = ownerUserModel.proprietorJob {
-                if company.isBlankString != true && job.isBlankString != true {
-                    introductionLabel.text = "\(company) - \(job)"
-                }else if company.isBlankString != true {
-                    introductionLabel.text = "\(company)"
-                }else {
-                    introductionLabel.text = "\(job)"
-                }
+            
+            let company = ownerUserModel.proprietorCompany
+            let job = ownerUserModel.proprietorJob
+            
+            if company?.isBlankString != true && company?.isBlankString != nil && job?.isBlankString != true && job?.isBlankString != nil {
+                introductionLabel.text = "\(company ?? "") - \(job ?? "")"
+            }else if company?.isBlankString != true {
+                introductionLabel.text = "\(company ?? "")"
             }else {
-                introductionLabel.text = ""
+                introductionLabel.text = "\(job ?? "")"
             }
             
             ///身份类型0个人1企业2联合
