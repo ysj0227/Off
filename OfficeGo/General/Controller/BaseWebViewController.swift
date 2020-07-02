@@ -57,22 +57,22 @@ class BaseWebViewController: BaseViewController {
             switch type {
             ///员工管理 staffList.html
            case .ProtocalTypeStaffListOwnerUrl:
-                urlString = "\(SSDelegateURL.h5OwnerStaffListUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
+                urlString = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5OwnerStaffListUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
             ///关于我们
             case .ProtocalTypeAboutUs:
-                urlString = SSDelegateURL.h5AboutUsUrl
+                urlString = SSAPI.SSH5Host + SSDelegateURL.h5AboutUsUrl
             ///服务协议
             case .ProtocalTypeRegisterProtocol:
-                urlString = SSDelegateURL.h5RegisterProtocolUrl
+                urlString = SSAPI.SSH5Host + SSDelegateURL.h5RegisterProtocolUrl
             ///隐私条款
             case .ProtocalTypePrivacyProtocolUrl:
-                urlString = SSDelegateURL.h5PrivacyProtocolUrl
+                urlString = SSAPI.SSH5Host + SSDelegateURL.h5PrivacyProtocolUrl
             ///帮助与反馈
             case .ProtocalTypeHelpAndFeedbackUrl:
-                urlString = SSDelegateURL.h5HelpAndFeedbackUrl
+                urlString = SSAPI.SSH5Host + SSDelegateURL.h5HelpAndFeedbackUrl
             ///常见问题
             case .ProtocalTypeQuestionUrl:
-                urlString = SSDelegateURL.h5QuestionUrl
+                urlString = SSAPI.SSH5Host + SSDelegateURL.h5QuestionUrl
             }
         }
     }
@@ -180,7 +180,7 @@ class BaseWebViewController: BaseViewController {
     }
     
     override func clickReloadData() {
-        if let url = URL(string: urlString ?? SSDelegateURL.h5AboutUsUrl) {
+        if let url = URL(string: urlString ?? "\(SSAPI.SSH5Host)\(SSDelegateURL.h5AboutUsUrl)") {
             let request = URLRequest(url: url)
             webView?.load(request)
             LoadingHudView.showHud()

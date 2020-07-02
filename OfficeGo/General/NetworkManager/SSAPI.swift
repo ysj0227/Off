@@ -20,7 +20,7 @@ import Foundation
     
     enum BackgroundServerType: Int {
         case SSApiHost
-        case ShareHost
+        case SSH5Host
     }
     
     // DEBUG 开发环境,供技术内部联调
@@ -31,17 +31,11 @@ import Foundation
     
     
     
-    static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/api/",
-                             "Test": "http://admin.officego.com.cn/api/",
-                             "Uat": "http://admin.officego.com.cn/api/",
-                             "Tag": "http://admin.officego.com.cn/api/",
-                             "Release": "http://admin.officego.com.cn/api/"]
+    static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
+                             "Release": "https://api.officego.com/"]
     
-    static var ShareHosts = ["Dev": "http://admin.officego.com.cn/api/",
-                             "Test": "http://admin.officego.com.cn/api/",
-                             "Uat": "http://admin.officego.com.cn/api/",
-                             "Tag": "http://admin.officego.com.cn/api/",
-                             "Release": "admin://api.officego.com.cn/api/"]
+    static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
+                             "Release": "https://m.officego.com/"]
     
     static func getUrlAddress(buildType:AppBuildType,serverType:BackgroundServerType) -> String {
         let buildType =  "\(buildType)"
@@ -51,8 +45,8 @@ import Foundation
         case .SSApiHost:
             addrese = SSApiHosts[buildType]!
             
-        case .ShareHost:
-            addrese = ShareHosts[buildType]!
+        case .SSH5Host:
+            addrese = SSH5Hosts[buildType]!
         }
         return addrese
     }
@@ -83,8 +77,8 @@ import Foundation
         switch serverType {
         case .SSApiHost:
             url = SSApiHosts[releaseBuildType]!
-        case .ShareHost:
-            url = ShareHosts[releaseBuildType]!
+        case .SSH5Host:
+            url = SSH5Hosts[releaseBuildType]!
         }
         SSLog("url:\(url)")
         return url
@@ -96,8 +90,8 @@ import Foundation
         return getUrlByServerType(serverType: .SSApiHost)
     }
     
-    static var ShareHost: String {
-        return getUrlByServerType(serverType: .ShareHost)
+    static var SSH5Host: String {
+        return getUrlByServerType(serverType: .SSH5Host)
     }
 }
 enum DictionaryCodeEnum: String {
@@ -116,46 +110,46 @@ enum DictionaryCodeEnum: String {
 class SSDelegateURL: NSObject {
     
     //楼盘分享地址 buildingId
-    static let h5BuildingDetailShareUrl =  "http://test.officego.com.cn/lessee/housesDetail.html"
+    static let h5BuildingDetailShareUrl =  "lessee/housesDetail.html"
     
     //房源分享地址 buildingId houseId
-    static let h5BuildingFYDetailShareUrl =  "http://test.officego.com.cn/lessee/detail.html"
+    static let h5BuildingFYDetailShareUrl =  "lessee/detail.html"
     
     //关于我们
-    static let h5AboutUsUrl = "http://test.officego.com.cn/lessee/aboutUs.html?channel=\(UserTool.shared.user_channel)"
+    static let h5AboutUsUrl = "lessee/aboutUs.html?channel=\(UserTool.shared.user_channel)"
     
     //服务协议
-    static let h5RegisterProtocolUrl = "http://test.officego.com.cn/lessee/registerProtocol.html?channel=\(UserTool.shared.user_channel)"
+    static let h5RegisterProtocolUrl = "lessee/registerProtocol.html?channel=\(UserTool.shared.user_channel)"
     
     //隐私条款：
-    static let h5PrivacyProtocolUrl = "http://test.officego.com.cn/lessee/privacy.html?channel=\(UserTool.shared.user_channel)"
+    static let h5PrivacyProtocolUrl = "lessee/privacy.html?channel=\(UserTool.shared.user_channel)"
     
     //帮助与反馈：
-    static let h5HelpAndFeedbackUrl = "http://test.officego.com.cn/owner/opinion.html?channel=\(UserTool.shared.user_channel)"
+    static let h5HelpAndFeedbackUrl = "owner/opinion.html?channel=\(UserTool.shared.user_channel)"
     
     //常见问题：
-    static let h5QuestionUrl = "http://test.officego.com.cn/lessee/issueList.html?channel=\(UserTool.shared.user_channel)"
+    static let h5QuestionUrl = "lessee/issueList.html?channel=\(UserTool.shared.user_channel)"
     
     ///认证业主网页接口
-    static let h5IdentifyOwnerUrl = "http://test.officego.com.cn/owner/myHome.html"
+    static let h5IdentifyOwnerUrl = "owner/myHome.html"
 
     ///个人认证  attestationPersonage.html
-    static let h5IdentifyOwnerPersonageUrl = "http://test.officego.com.cn/owner/attestationPersonage.html"
+    static let h5IdentifyOwnerPersonageUrl = "owner/attestationPersonage.html"
     
     ///企业认证 company.html
-    static let h5IdentifyOwnerBCompanyUrl = "http://test.officego.com.cn/owner/company.html"
+    static let h5IdentifyOwnerBCompanyUrl = "owner/company.html"
     
     ///网点认证 company2.html
-    static let h5IdentifyOwnerJointUrl = "http://test.officego.com.cn/owner/company2.html"
+    static let h5IdentifyOwnerJointUrl = "owner/company2.html"
     
     //房源 - 楼盘管理 houseList
-    static let h5IdentifyOwnerBuildingManagerUrl = "http://test.officego.com.cn/owner/houseList.html"
+    static let h5IdentifyOwnerBuildingManagerUrl = "owner/houseList.html"
 
     //房源 - 网点管理 branchList
-    static let h5IdentifyOwnerJointManagerUrl = "http://test.officego.com.cn/owner/branchList.html"
+    static let h5IdentifyOwnerJointManagerUrl = "owner/branchList.html"
 
     //员工管理 staffList.html
-    static let h5OwnerStaffListUrl = "http://test.officego.com.cn/owner/staffList.html"
+    static let h5OwnerStaffListUrl = "owner/staffList.html"
 }
 
 
@@ -167,19 +161,19 @@ class SSDelegateURL: NSObject {
 class SSChatURL: NSObject {
     
     //获取融云token
-    static let getRongYunToken = "user/rongYunToken"
+    static let getRongYunToken = "api/user/rongYunToken"
     
     //创建和业主聊天接口
-    static let getCreatFirstChatApp = "chat/chatApp"
+    static let getCreatFirstChatApp = "api/chat/chatApp"
 
     //获取聊天关联房源
-    static let getChatMsgDetailApp = "chat/firstChatApp"
+    static let getChatMsgDetailApp = "api/chat/firstChatApp"
     
     //新增微信
-    static let addWxID = "user/changeWxId"
+    static let addWxID = "api/user/changeWxId"
     
     //记录第一次发送
-    static let addChatApp = "chat/addChatApp"
+    static let addChatApp = "api/chat/addChatApp"
     
 }
 
@@ -187,13 +181,13 @@ class SSChatURL: NSObject {
 class SSSearchURL: NSObject {
     
     //全局搜索接口
-    static let getsearchList = "esearch/searchListApp"
+    static let getsearchList = "api/esearch/searchListApp"
     
     //查询历史记录
-    static let getgetSearchKeywords = "esearch/getSearchKeywords"
+    static let getgetSearchKeywords = "api/esearch/getSearchKeywords"
         
     //删除搜索记录
-    static let delSearchKeywords = "esearch/delSearchKeywords"
+    static let delSearchKeywords = "api/esearch/delSearchKeywords"
 
 }
 
@@ -201,10 +195,10 @@ class SSSearchURL: NSObject {
 class SSHomeURL: NSObject {
     
     //轮播图接口
-    static let getbannerListt = "banner/bannerList"
+    static let getbannerListt = "api/banner/bannerList"
     
     //推荐列表 - 首页和搜索页面
-    static let getselectBuildingApp = "building/selectBuildingApp"
+    static let getselectBuildingApp = "api/building/selectBuildingApp"
        
 }
 
@@ -212,10 +206,10 @@ class SSHomeURL: NSObject {
 class SSCollectURL: NSObject {
     
     //添加收藏
-    static let addCollection = "favorite/addCollectionAPP"
+    static let addCollection = "api/favorite/addCollectionAPP"
     
     //收藏列表
-    static let getFavoriteListAPP = "favorite/getFavoriteListApp"
+    static let getFavoriteListAPP = "api/favorite/getFavoriteListApp"
        
 }
 
@@ -223,13 +217,13 @@ class SSCollectURL: NSObject {
 class SSFYDetailURL: NSObject {
     
     //楼盘网点详情
-    static let getBuildingDetailbyBuildingId = "building/selectBuildingbyBuildingIdApp"
+    static let getBuildingDetailbyBuildingId = "api/building/selectBuildingbyBuildingIdApp"
     
     //楼盘-网点房源详情
-    static let getBuildingFYDetailbyHouseId = "house/selectHousebyHouseIdApp"
+    static let getBuildingFYDetailbyHouseId = "api/house/selectHousebyHouseIdApp"
     
     //楼盘-网点房源列表
-    static let getBuildingFYList = "building/selectHouseApp"
+    static let getBuildingFYList = "api/building/selectHouseApp"
        
 }
 
@@ -237,24 +231,24 @@ class SSFYDetailURL: NSObject {
 class SSBasicURL: NSObject {
     
     //地铁线路接口
-    static let getSubwayList = "dictionary/getSubwayList"
+    static let getSubwayList = "api/dictionary/getSubwayList"
     
     //区域商圈接口
-    static let getDistrictList = "dictionary/getDistrictList"
+    static let getDistrictList = "api/dictionary/getDistrictList"
     
     //获取字典接口
-    static let getDictionary = "dictionary/getDictionary"
+    static let getDictionary = "api/dictionary/getDictionary"
     
 }
 
 //  MARK:   --登录
 class SSLoginURL: NSObject {
     
-    static let getSmsCode = "login/sms_code"
+    static let getSmsCode = "api/login/sms_code"
     
-    static let loginWithCode = "login/loginCode"
+    static let loginWithCode = "api/login/loginCode"
     
-    static let addWantToFind = "building/addWantGoBuild"
+    static let addWantToFind = "api/building/addWantGoBuild"
     
 }
 
@@ -262,28 +256,28 @@ class SSLoginURL: NSObject {
 class SSMineURL: NSObject {
     
     ///绑定微信
-    static let bindWeChat = "login/sms_codeApp"
+    static let bindWeChat = "api/login/sms_codeApp"
     
     ///个人资料 - 租户  - 业主
-    static let getRenterUserMsg = "user/userMsgApp"
+    static let getRenterUserMsg = "api/user/userMsgApp"
     
     ///个人资料 - 业主
-    static let getOwnerUserMsg = "user/userMsgApp"
+    static let getOwnerUserMsg = "api/user/userMsgApp"
 
     ///切换身份
-    static let roleChange = "user/regTokenApp"
+    static let roleChange = "api/user/regTokenApp"
     
     ///修改个人资料 - 业主 - 租户
-    static let updateUserMessage = "user/updateDataApp"
+    static let updateUserMessage = "api/user/updateDataApp"
 
     ///版本更新
-    static let versionUpdate = "version/ios"
+    static let versionUpdate = "api/version/ios"
 
     /// 修改手机号
-    static let changePhone = "user/changePhone"
+    static let changePhone = "api/user/changePhone"
     
     ///修改微信
-    static let changeWechat = "user/changeWechat"
+    static let changeWechat = "api/user/changeWechat"
 
 }
 
@@ -291,28 +285,28 @@ class SSMineURL: NSObject {
 class SSScheduleURL: NSObject {
     
     //看房行程
-    static let getScheduleListApp = "schedule/getScheduleListApp"
+    static let getScheduleListApp = "api/schedule/getScheduleListApp"
     
     //约看房记录
-    static let getOldScheduleListApp = "schedule/getOldScheduleListApp"
+    static let getOldScheduleListApp = "api/schedule/getOldScheduleListApp"
     
     //看房行程详情
-    static let getScheduleApp = "schedule/getScheduleApp"
+    static let getScheduleApp = "api/schedule/getScheduleApp"
     
     //预约看房
-    static let selectScheduleHouseApp = "schedule/selectScheduleHouseApp"
+    static let selectScheduleHouseApp = "api/schedule/selectScheduleHouseApp"
     
     //保存预约行程  租户像业主申请
-    static let addRenterApp = "schedule/addRenterApp"
+    static let addRenterApp = "api/schedule/addRenterApp"
     
     //保存预约行程  业主像租户申请
-    static let addProprietorApp = "schedule/addProprietorApp"
+    static let addProprietorApp = "api/schedule/addProprietorApp"
     
     //结束行程
-    static let updateFinish = "schedule/updateFinish"
+    static let updateFinish = "api/schedule/updateFinish"
     
     //行程审核接口
-    static let updateAuditStatusApp = "schedule/updateAuditStatus"
+    static let updateAuditStatusApp = "api/schedule/updateAuditStatus"
     
 }
 
@@ -337,8 +331,8 @@ extension SSAPI.BackgroundServerType: CustomStringConvertible {
         switch self {
         case .SSApiHost:
             return "SSAPIHost"
-        case .ShareHost:
-            return "ShareHost"
+        case .SSH5Host:
+            return "SSH5Host"
         }
     }
 }

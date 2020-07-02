@@ -46,6 +46,8 @@ class OwnerHomeViewController: BaseViewController {
     
     override func viewDidLoad() {
         
+        self.view.backgroundColor = kAppWhiteColor
+        
         //点击下面的tabbar的时候的判断
         NotificationCenter.default.addObserver(self, selector: #selector(clearCache), name: NSNotification.Name.OwnerClearFYManagerCache, object: nil)
 
