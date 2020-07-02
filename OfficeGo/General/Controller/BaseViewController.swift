@@ -75,28 +75,46 @@ class BaseViewController: UIViewController {
         
     }
     
-    /*
-    func showLoginView() {
-        let windows = UIApplication.shared.keyWindow
-        let alert = SureAlertView(frame: windows?.frame ?? CGRect(x: 0, y: 0, width: kWidth, height: kHeight))
-        alert.inputTFView.text = "您还没登录，请先登录"
-        alert.isHiddenVersionCancel = true
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, message: "温馨提示", cancelButtonCallClick: {
-            
-        }) {[weak self] in
-            self?.showLoginVC()
+    ///版本更新判断
+    func requestVersionUpdate() {
+        showUpdateAlertview(versionModel: VersionModel())
+
+       SSNetworkTool.SSVersion.request_version(success: { [weak self] (response) in
+
+           if let model = VersionModel.deserialize(from: response, designatedPath: "data") {
+            self?.showUpdateAlertview(versionModel: model)
+           }
+           }, failure: { (error) in
+
+       }) {(code, message) in
+        
+           //只有5000 提示给用户
+           if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+               AppUtilities.makeToast(message)
+           }
+
         }
+               
     }
     
-    func showLoginVC() {
-        let vc = RenterLoginViewController()
-        let loginNav = BaseNavigationViewController.init(rootViewController: vc)
-        loginNav.modalPresentationStyle = .overFullScreen
-        //TODO: 这块弹出要设置
-        self.present(loginNav, animated: true) {
-            vc.titleview?.leftButton.isHidden = true
+    //弹出版本更新弹框
+    func showUpdateAlertview(versionModel: VersionModel) {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.isHiddenVersionCancel = versionModel.force ?? false
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {
+            
+        }) {
+            if let url = URL(string: versionModel.uploadUrl ?? "") {
+                if UIApplication.shared.canOpenURL(url) {
+                    if #available(iOS 10, *) {
+                        UIApplication.shared.open(url, options: [:], completionHandler:nil)
+                    } else {
+                        UIApplication.shared.openURL(url)
+                    }
+                }
+            }
         }
-    }*/
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

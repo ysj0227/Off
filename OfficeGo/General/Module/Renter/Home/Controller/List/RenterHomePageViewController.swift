@@ -60,6 +60,49 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         if self.cycleView?.imageURLStringArr.count ?? 0 <= 0 {
             request_bannerlist()
         }
+        
+        requestVersionUpdate()
+    }
+    
+    ///版本更新判断
+    func requestVersionUpdate() {
+        showUpdateAlertview(versionModel: VersionModel())
+        
+        SSNetworkTool.SSVersion.request_version(success: { [weak self] (response) in
+            
+            if let model = VersionModel.deserialize(from: response, designatedPath: "data") {
+                self?.showUpdateAlertview(versionModel: model)
+            }
+            }, failure: { (error) in
+                
+        }) {(code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+            
+        }
+        
+    }
+    
+    //弹出版本更新弹框
+    func showUpdateAlertview(versionModel: VersionModel) {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.isHiddenVersionCancel = versionModel.force ?? false
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {
+            
+        }) {
+            if let url = URL(string: versionModel.uploadUrl ?? "") {
+                if UIApplication.shared.canOpenURL(url) {
+                    if #available(iOS 10, *) {
+                        UIApplication.shared.open(url, options: [:], completionHandler:nil)
+                    } else {
+                        UIApplication.shared.openURL(url)
+                    }
+                }
+            }
+        }
     }
     
     func setDataModel() {
@@ -128,7 +171,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         }
         
         self.view.addSubview(segmentTitleSelectview)
-//        segmentTitleSelectview.isHidden = true
+        //        segmentTitleSelectview.isHidden = true
         segmentTitleSelectview.alpha = 0
         self.view.bringSubviewToFront(segmentTitleSelectview)
         
@@ -139,7 +182,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
                 self?.segmentTitleSelectview.alpha = 1
             } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 200){
-                                
+                
                 //y = k * x + b
                 let k: CGFloat = 1 / 200.0
                 let b: CGFloat = 1 / 200.0 * (60 + kStatusBarHeight) + 1
@@ -166,12 +209,12 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             self?.present(vc, animated: true, completion: nil)
         }
         titleview?.locationBtn.setTitle("  上海", for: .normal)
-//        self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
-//        self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
+        //        self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
+        //        self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         titleview?.leftButtonCallBack = { [weak self] in
             self?.shareVc()
         }
-                
+        
         let pointY: CGFloat = 0
         cycleView = CycleView(frame: CGRect(x: 0, y: pointY, width: kWidth, height: (CGFloat)(ceilf((Float)(kWidth * 240.0 / 320.0)))))
         cycleView?.delegate = self
@@ -296,7 +339,7 @@ extension RenterHomePageViewController {
                     arr.append(model?.img ?? "")
                 }
                 
-//                weakSelf.setCycleImg()
+                //                weakSelf.setCycleImg()
                 weakSelf.cycleView?.imageURLStringArr = arr
                 
             }
@@ -353,7 +396,7 @@ extension RenterHomePageViewController{
         loadCtls()
         setUpSegmentStyle()
         ///首页列表滑动显示问题 - 
-//        closeAutomaticallyAdjusts()
+        //        closeAutomaticallyAdjusts()
     }
     
     func layoutContentView() {

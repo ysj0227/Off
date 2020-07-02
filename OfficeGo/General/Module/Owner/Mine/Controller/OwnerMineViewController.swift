@@ -39,16 +39,7 @@ class OwnerMineViewController: BaseTableViewController {
     }
     ///判断有没有登录
     func juddgeIsLogin() {
-        //登录直接请求数据
-        if isLogin() == true {
-            requestUserMessage()
-            
-        }else {
-            //没登录 - 显示登录按钮view
-            //清空之前的用户信息模型
-            userModel = nil
-            headerView.isNoLoginShowView = true
-        }
+        requestUserMessage()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -71,9 +62,50 @@ class OwnerMineViewController: BaseTableViewController {
         let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
         tab?.customTabBar.isHidden = false
         
-        juddgeIsLogin()
+        requestVersionUpdate()
+        
     }
     
+    override func requestVersionUpdate() {
+        
+        SSNetworkTool.SSVersion.request_version(success: { [weak self] (response) in
+            
+            if let model = VersionModel.deserialize(from: response, designatedPath: "data") {
+                self?.showUpdateAlertview(versionModel: model)
+            }
+            }, failure: { (error) in
+                
+        }) {(code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+            
+        }
+        
+    }
+    
+    //弹出版本更新弹框
+    override func showUpdateAlertview(versionModel: VersionModel) {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.isHiddenVersionCancel = versionModel.force ?? false
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {[weak self] in
+            self?.juddgeIsLogin()
+            
+        }) { [weak self] in
+            if let url = URL(string: versionModel.uploadUrl ?? "") {
+                if UIApplication.shared.canOpenURL(url) {
+                    if #available(iOS 10, *) {
+                        UIApplication.shared.open(url, options: [:], completionHandler:nil)
+                    } else {
+                        UIApplication.shared.openURL(url)
+                    }
+                }
+            }
+            self?.juddgeIsLogin()
+        }
+    }
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
