@@ -9,7 +9,7 @@
 import UIKit
 
 struct TitleStringEnum {
-    static let noDataString = "暂无数据\n页面被外星人带走了"
+    static let noDataString = "暂无数据\n数据被外星人带走了"
     static let noNetworkString = "没有检测到网络\n请检查您的手机是否成功连上网络"
     
 }

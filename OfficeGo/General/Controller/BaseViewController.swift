@@ -22,7 +22,7 @@ class BaseViewController: UIViewController {
     }()
     lazy var noDataLabel: UILabel = {
         let view = UILabel()
-        view.text = "暂无数据\n页面被外星人带走了"
+        view.text = "暂无数据\n数据被外星人带走了"
         view.numberOfLines = 0
         view.textColor = kAppColor_666666
         view.font = FONT_14
