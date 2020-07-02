@@ -22,9 +22,9 @@ class FangYuanListModel: BaseModel {
     var independenceOffice : Int?       //独立办公室数量
     var mainPic : String?               //封面图
     var maxArea : Float?
-    var maxDayPrice : String?
+    var maxDayPrice : Float?
     var maxSeats : Int?
-    var minDayPrice : String?
+    var minDayPrice : Float?
     var minSeats : Int?
     var name : String?                  //楼盘名称, 网点名称
     var officeType: String?             //逗号分隔的办公类型1是独立办公室，2是开放工位
@@ -32,7 +32,7 @@ class FangYuanListModel: BaseModel {
     var passengerLift : String?
     var releaseTime : Int?        //发布时间
     var remark : AnyObject?
-    var seatMonthPrice : String?
+    var seatMonthPrice : Float?
     var storeyHeight : String?
     var tags : [DictionaryModel]?       //楼盘网点特色
     var totalFloor : String?
@@ -91,7 +91,7 @@ class FangYuanListViewModel: NSObject {
         walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
         walkTimesubwayAndStationString?.append("站")
         
-        dayPriceString = "¥\(model.minDayPrice ?? "")"
+        dayPriceString = "¥\(model.minDayPrice ?? 0)"
         if model.btype == 1  {
             unitString = "/m²/天起"
         }else if model.btype == 2  {
