@@ -150,8 +150,8 @@ class OwnerHomeViewController: BaseViewController {
         var descString: String = ""
         var identifyType: OwnerIdentifyOrFYType?
         if auditStatus == -1 {
-            descString = "您还没有认证，请先认证～"
             alert.messageLabel.textAlignment = .center
+            descString = "您还没有认证，请先认证～"
             identifyType = .ProtocalTypeIdentifyOwnerUrl
         }else if auditStatus == 2 {
             alert.messageLabel.textAlignment = .left
@@ -159,6 +159,7 @@ class OwnerHomeViewController: BaseViewController {
                 if remark.count > 0 {
                     descString = "您个人认证被驳回 \n\n驳回原因：\(remark)"
                 }else {
+                    alert.messageLabel.textAlignment = .center
                     descString = "您个人认证被驳回"
                 }
                 identifyType = .ProtocalTypeIdentifyPersonageOwnerUrl
@@ -166,6 +167,7 @@ class OwnerHomeViewController: BaseViewController {
                 if remark.count > 0 {
                     descString = "您企业认证被驳回 \n\n驳回原因：\(remark)"
                 }else {
+                    alert.messageLabel.textAlignment = .center
                     descString = "您企业认证被驳回"
                 }
                 identifyType = .ProtocalTypeIdentifyBuildingOwnerUrl
@@ -173,6 +175,7 @@ class OwnerHomeViewController: BaseViewController {
                 if remark.count > 0 {
                     descString = "您联合办公认证被驳回 \n\n驳回原因：\(remark)"
                 }else {
+                    alert.messageLabel.textAlignment = .center
                     descString = "您联合办公认证被驳回"
                 }
                 identifyType = .ProtocalTypeIdentifyJointOwnerUrl
