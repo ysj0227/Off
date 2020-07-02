@@ -126,6 +126,10 @@ extension RenterSearchViewController {
     
     //MARK: 历史记录
     func requestGetHistory() {
+        
+        if UserTool.shared.isLogin() != true {
+            return
+        }
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
         
