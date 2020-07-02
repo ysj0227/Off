@@ -177,12 +177,12 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         }
         //左边收藏按钮 - 判断有没有登录 -
         bottomBtnView.leftBtnClickBlock = { [weak self] in
-            self?.juddgeIsLogin()
+            self?.juddgeIsLogin(isCollect: true)
         }
         
         //找房东
         bottomBtnView.rightBtnClickBlock = { [weak self] in
-            self?.requestCreateChat()
+            self?.juddgeIsLogin(isCollect: false)
         }
     }
     
@@ -199,11 +199,6 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     }
     
     func requestCreateChat() {
-        
-        ///添加登录状态
-        if self.isLogin() != true {
-            return
-        }
         
         var params = [String:AnyObject]()
         
@@ -230,24 +225,34 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         }
     }
     ///判断有没有登录
-    func juddgeIsLogin() {
+    func juddgeIsLogin(isCollect: Bool) {
         //登录直接请求数据
         if isLogin() == true {
-            
-            collectClick()
+            if isCollect == true {
+                collectClick()
+            }else {
+                requestCreateChat()
+            }
             
         }else {
             //没登录 - 谈登录
-            showLoginVC()
+            showLoginVC(isCollect: isCollect)
         }
     }
     
-    func showLoginVC() {
+    func showLoginVC(isCollect: Bool) {
         let vc = RenterLoginViewController()
         vc.isFromOtherVC = true
         vc.closeViewBack = {[weak self] (isClose) in
             guard let weakSelf = self else {return}
-            weakSelf.juddgeIsLogin()
+            //登录直接请求数据
+            if weakSelf.isLogin() == true {
+                if isCollect == true {
+                    weakSelf.collectClick()
+                }else {
+                    weakSelf.requestCreateChat()
+                }
+            }
         }
         let loginNav = BaseNavigationViewController.init(rootViewController: vc)
         loginNav.modalPresentationStyle = .overFullScreen

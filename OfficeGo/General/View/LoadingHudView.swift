@@ -45,7 +45,9 @@ class LoadingHudView: UIView {
     
     /// show in window
     @objc public class func showHud() {
-        self.showHud(inView: UIApplication.shared.keyWindow!)
+        DispatchQueue.main.async {
+            self.showHud(inView: UIApplication.shared.keyWindow!)
+        }
     }
     
     /// show in a view
@@ -67,7 +69,9 @@ class LoadingHudView: UIView {
     
     /// hide from window
     @objc public class func hideHud(){
-        self.hideHud(inView: UIApplication.shared.keyWindow!)
+        DispatchQueue.main.async {
+            self.hideHud(inView: UIApplication.shared.keyWindow!)
+        }
     }
     
     /// hide from a view
