@@ -396,7 +396,7 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
             case .IWantToFindTypeFeature:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HouseFeatureCell.reuseIdentifierStr) as? HouseFeatureCell
                 cell?.selectionStyle = .none
-                cell?.categoryTitleLabel.text = "装修特色"
+                cell?.categoryTitleLabel.text = "房源特色"
                 cell?.isDocumentType = false
                 cell?.selectModel = self.selectModel
                 return cell ?? HouseFeatureCell.init(frame: .zero)
@@ -473,7 +473,7 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
             case .IWantToFindTypeFeature:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HouseFeatureCell.reuseIdentifierStr) as? HouseFeatureCell
                 cell?.selectionStyle = .none
-                cell?.categoryTitleLabel.text = "装修特色"
+                cell?.categoryTitleLabel.text = "房源特色"
                 cell?.isDocumentType = false
                 cell?.selectModel = self.selectModel
                 return cell ?? HouseFeatureCell.init(frame: .zero)
