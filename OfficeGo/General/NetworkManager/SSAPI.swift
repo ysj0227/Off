@@ -124,8 +124,11 @@ class SSDelegateURL: NSObject {
     //隐私条款：
     static let h5PrivacyProtocolUrl = "lessee/privacy.html?channel=\(UserTool.shared.user_channel)"
     
-    //帮助与反馈：
-    static let h5HelpAndFeedbackUrl = "owner/opinion.html?channel=\(UserTool.shared.user_channel)"
+    //帮助与反馈 - 租户：
+    static let h5RenterHelpAndFeedbackUrl = "lessee/opinion.html?channel=\(UserTool.shared.user_channel)"
+    
+    //帮助与反馈 - 租户：
+    static let h5OwnerHelpAndFeedbackUrl = "owner/opinion.html?channel"
     
     //常见问题：
     static let h5QuestionUrl = "lessee/issueList.html?channel=\(UserTool.shared.user_channel)"

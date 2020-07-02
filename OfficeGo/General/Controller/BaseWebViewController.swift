@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 import SwiftyJSON
 
-class BaseWebViewController: BaseViewController {
+class BaseWebViewController: BaseViewController, UINavigationControllerDelegate {
     
     //通过类型 - 设置url
     var typeEnum: ProtocalType?
@@ -30,8 +30,19 @@ class BaseWebViewController: BaseViewController {
     }
     
     lazy var webView: WKWebView? = {
-        let view = WKWebView()
+        let preferences = WKPreferences()
+        preferences.javaScriptEnabled = true
+        let configuration = WKWebViewConfiguration()
+        configuration.preferences = preferences
+        configuration.userContentController = WKUserContentController()
+        //注册closeView这个函数,让js调用
+//           configuration.userContentController.add(self, name: "closeView")
+//           configuration.userContentController.add(self, name: "identifyComplete")
+        let view = WKWebView(frame: CGRect.zero, configuration: configuration)
+        view.scrollView.bounces = true
+        view.scrollView.alwaysBounceVertical = true
         view.navigationDelegate = self
+        view.uiDelegate = self
         return view
     }()
     let disposeBag = DisposeBag()
@@ -69,7 +80,12 @@ class BaseWebViewController: BaseViewController {
                 urlString = SSAPI.SSH5Host + SSDelegateURL.h5PrivacyProtocolUrl
             ///帮助与反馈
             case .ProtocalTypeHelpAndFeedbackUrl:
-                urlString = SSAPI.SSH5Host + SSDelegateURL.h5HelpAndFeedbackUrl
+                //租户
+                if UserTool.shared.user_id_type == 0 {
+                    urlString = SSAPI.SSH5Host + SSDelegateURL.h5RenterHelpAndFeedbackUrl
+                }else if UserTool.shared.user_id_type == 1 {
+                    urlString = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5OwnerHelpAndFeedbackUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
+                }
             ///常见问题
             case .ProtocalTypeQuestionUrl:
                 urlString = SSAPI.SSH5Host + SSDelegateURL.h5QuestionUrl
@@ -188,17 +204,15 @@ class BaseWebViewController: BaseViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        /*
-         webView?.configuration.userContentController.add(self, name: "thorJump")
-         webView?.configuration.userContentController.add(self, name: "sendEventId")
-         */
+        
+        self.webView?.configuration.userContentController.add(self, name: "closeView")
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        /*
-         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "thorJump")
-         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")*/
+        
+           webView?.configuration.userContentController.removeScriptMessageHandler(forName: "closeView")
     }
 }
 
@@ -216,32 +230,60 @@ extension BaseWebViewController: UIWebViewDelegate {
 
 extension BaseWebViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        //        didReceiveScriptMessage(message)
+
+        ///js调用本地的方法 -
+        //如果是左上角的返回按钮 - 关闭页面
+        if message.name == "closeView" {
+           
+            leftBtnClick()
+        }
+    }
+}
+extension BaseWebViewController: WKUIDelegate {
+    //此方法作为js的alert方法接口的实现，默认弹出窗口应该只有提示消息，及一个确认按钮，当然可以添加更多按钮以及其他内容，但是并不会起到什么作用
+    //点击确认按钮的相应事件，需要执行completionHandler，这样js才能继续执行
+    ////参数 message为  js 方法 alert(<message>) 中的<message>
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        let alertViewController = UIAlertController(title: "提示", message:message, preferredStyle: UIAlertController.Style.alert)
+        alertViewController.addAction(UIAlertAction(title: "确认", style: UIAlertAction.Style.default, handler: { (action) in
+            completionHandler()
+        }))
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    // confirm
+    //作为js中confirm接口的实现，需要有提示信息以及两个相应事件， 确认及取消，并且在completionHandler中回传相应结果，确认返回YES， 取消返回NO
+    //参数 message为  js 方法 confirm(<message>) 中的<message>
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+        let alertVicwController = UIAlertController(title: "提示", message: message, preferredStyle: UIAlertController.Style.alert)
+        alertVicwController.addAction(UIAlertAction(title: "取消", style: UIAlertAction.Style.cancel, handler: { (alertAction) in
+            completionHandler(false)
+        }))
+        alertVicwController.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (alertAction) in
+            completionHandler(true)
+        }))
+        self.present(alertVicwController, animated: true, completion: nil)
+    }
+    
+    // prompt
+    //作为js中prompt接口的实现，默认需要有一个输入框一个按钮，点击确认按钮回传输入值
+    //当然可以添加多个按钮以及多个输入框，不过completionHandler只有一个参数，如果有多个输入框，需要将多个输入框中的值通过某种方式拼接成一个字符串回传，js接收到之后再做处理
+    //参数 prompt 为 prompt(<message>, <defaultValue>);中的<message>
+    //参数defaultText 为 prompt(<message>, <defaultValue>);中的 <defaultValue>
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+        let alertViewController = UIAlertController(title: prompt, message: "", preferredStyle: UIAlertController.Style.alert)
+        alertViewController.addTextField { (textField) in
+            textField.text = defaultText
+        }
+        alertViewController.addAction(UIAlertAction(title: "完成", style: UIAlertAction.Style.default, handler: { (alertAction) in
+            completionHandler(alertViewController.textFields![0].text)
+        }))
+        self.present(alertViewController, animated: true, completion: nil)
     }
 }
 
 extension BaseWebViewController: WKNavigationDelegate {
-    //    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-    //        /*
-    //        decisionHandler(WKNavigationResponsePolicy.allow);
-    //        THPrint(navigationResponse)
-    // */
-    //    }
-    //
-    //    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-    //        /*
-    //        THPrint(navigationAction)
-    //        let url = navigationAction.request.url
-    //        //        if url?.scheme == kAPPURLScheme, let urlString = url?.absoluteString, AppLinkManager.shared.parseLinkURL(urlString) == true {
-    //        //            decisionHandler(WKNavigationActionPolicy.cancel);
-    //        //            return
-    //        //        }
-    //        if navigationAction.targetFrame == nil {
-    //            webView.load(navigationAction.request)
-    //        }
-    //        decisionHandler(WKNavigationActionPolicy.allow);
-    //        */
-    //    }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         noDataView.isHidden = true
         LoadingHudView.hideHud()
