@@ -213,22 +213,22 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
         noDataView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(-30)
-            make.size.equalTo(CGSize(width: 160, height: 190))
+            make.size.equalTo(CGSize(width: kWidth, height: 247))
         }
         noDataImageView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
-            make.size.equalTo(CGSize(width: 100, height: 100))
+            make.size.equalTo(CGSize(width: 165, height: 145))
         }
         noDataLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(noDataImageView.snp.bottom)
-            make.size.equalTo(CGSize(width: kWidth, height: 30))
+            make.size.equalTo(CGSize(width: kWidth, height: 48))
         }
         noDataButton.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.size.equalTo(CGSize(width: 80, height: 30))
+            make.size.equalTo(CGSize(width: 108, height: 34))
         }
         noDataLabel.text = "加载失败，点击重试"
         
@@ -239,17 +239,19 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
         
         switch NetAlamofireReachability.shared.status {
         case .Unknown, .NotReachable:
-            noDataButton.isHidden = false
             noDataImageView.image = UIImage(named: "no_network_image")
-            noDataLabel.text = "网络连接失败，请查看你的网络设置"
+            noDataLabel.text = TitleStringEnum.noNetworkString
         case .WiFi, .Wwan:
-            noDataButton.isHidden = true
             noDataImageView.image = UIImage(named: "no_data_image")
-            noDataLabel.text = "加载失败，点击重试"
+            noDataLabel.text = TitleStringEnum.noDataString
         }
     }
     
+    
     override func clickReloadData() {
+        
+        SendNetworkStatus()
+        
         if let url = URL(string: urlString ?? "\(SSAPI.SSH5Host )\(SSDelegateURL.h5AboutUsUrl)") {
             let request = URLRequest(url: url)
             webView?.load(request)

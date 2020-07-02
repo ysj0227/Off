@@ -14,7 +14,7 @@ import RxCocoa
 import SwiftyJSON
 
 class BaseWebViewController: BaseViewController {
-
+    
     //通过类型 - 设置url
     var typeEnum: ProtocalType?
     
@@ -56,7 +56,7 @@ class BaseWebViewController: BaseViewController {
         if let type = typeEnum {
             switch type {
             ///员工管理 staffList.html
-           case .ProtocalTypeStaffListOwnerUrl:
+            case .ProtocalTypeStaffListOwnerUrl:
                 urlString = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5OwnerStaffListUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
             ///关于我们
             case .ProtocalTypeAboutUs:
@@ -107,7 +107,7 @@ class BaseWebViewController: BaseViewController {
             URLCache.shared.removeAllCachedResponses()
         }
     }
-
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -121,7 +121,7 @@ class BaseWebViewController: BaseViewController {
         view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
         titleview?.titleLabel.text = titleString
-
+        
         if let webView = webView {
             view.insertSubview(webView, at: 0)
             webView.snp.makeConstraints { (make) in
@@ -131,36 +131,35 @@ class BaseWebViewController: BaseViewController {
             }
         }
         /*
-        _ = webView?.rx.observeWeakly(String.self, "title")
-            .subscribe(onNext: { [weak self] (value) in
-                if let value = value, value.count > 0 {
-                    self?.titleString = value
-                }
-            })*/
+         _ = webView?.rx.observeWeakly(String.self, "title")
+         .subscribe(onNext: { [weak self] (value) in
+         if let value = value, value.count > 0 {
+         self?.titleString = value
+         }
+         })*/
         
         self.view.addSubview(noDataView)
         noDataView.isHidden = true
-        noDataView.snp.makeConstraints { (make) in
+                noDataView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(-30)
-            make.size.equalTo(CGSize(width: 160, height: 190))
+            make.size.equalTo(CGSize(width: kWidth, height: 247))
         }
         noDataImageView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
-            make.size.equalTo(CGSize(width: 100, height: 100))
+            make.size.equalTo(CGSize(width: 165, height: 145))
         }
         noDataLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(noDataImageView.snp.bottom)
-            make.size.equalTo(CGSize(width: kWidth, height: 30))
+            make.size.equalTo(CGSize(width: kWidth, height: 48))
         }
         noDataButton.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.size.equalTo(CGSize(width: 80, height: 30))
+            make.size.equalTo(CGSize(width: 108, height: 34))
         }
-        noDataLabel.text = "加载失败，点击重试"
         
         SendNetworkStatus()
     }
@@ -169,17 +168,18 @@ class BaseWebViewController: BaseViewController {
         
         switch NetAlamofireReachability.shared.status {
         case .Unknown, .NotReachable:
-            noDataButton.isHidden = false
             noDataImageView.image = UIImage(named: "no_network_image")
-            noDataLabel.text = "网络连接失败，请查看你的网络设置"
+            noDataLabel.text = TitleStringEnum.noNetworkString
         case .WiFi, .Wwan:
-            noDataButton.isHidden = true
             noDataImageView.image = UIImage(named: "no_data_image")
-            noDataLabel.text = "加载失败，点击重试"
+            noDataLabel.text = TitleStringEnum.noDataString
         }
     }
     
     override func clickReloadData() {
+        
+        SendNetworkStatus()
+        
         if let url = URL(string: urlString ?? "\(SSAPI.SSH5Host)\(SSDelegateURL.h5AboutUsUrl)") {
             let request = URLRequest(url: url)
             webView?.load(request)
@@ -189,16 +189,16 @@ class BaseWebViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         /*
-        webView?.configuration.userContentController.add(self, name: "thorJump")
-        webView?.configuration.userContentController.add(self, name: "sendEventId")
- */
+         webView?.configuration.userContentController.add(self, name: "thorJump")
+         webView?.configuration.userContentController.add(self, name: "sendEventId")
+         */
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         /*
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "thorJump")
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")*/
+         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "thorJump")
+         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "sendEventId")*/
     }
 }
 
@@ -221,27 +221,27 @@ extension BaseWebViewController: WKScriptMessageHandler {
 }
 
 extension BaseWebViewController: WKNavigationDelegate {
-//    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-//        /*
-//        decisionHandler(WKNavigationResponsePolicy.allow);
-//        THPrint(navigationResponse)
-// */
-//    }
-//
-//    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-//        /*
-//        THPrint(navigationAction)
-//        let url = navigationAction.request.url
-//        //        if url?.scheme == kAPPURLScheme, let urlString = url?.absoluteString, AppLinkManager.shared.parseLinkURL(urlString) == true {
-//        //            decisionHandler(WKNavigationActionPolicy.cancel);
-//        //            return
-//        //        }
-//        if navigationAction.targetFrame == nil {
-//            webView.load(navigationAction.request)
-//        }
-//        decisionHandler(WKNavigationActionPolicy.allow);
-//        */
-//    }
+    //    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+    //        /*
+    //        decisionHandler(WKNavigationResponsePolicy.allow);
+    //        THPrint(navigationResponse)
+    // */
+    //    }
+    //
+    //    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    //        /*
+    //        THPrint(navigationAction)
+    //        let url = navigationAction.request.url
+    //        //        if url?.scheme == kAPPURLScheme, let urlString = url?.absoluteString, AppLinkManager.shared.parseLinkURL(urlString) == true {
+    //        //            decisionHandler(WKNavigationActionPolicy.cancel);
+    //        //            return
+    //        //        }
+    //        if navigationAction.targetFrame == nil {
+    //            webView.load(navigationAction.request)
+    //        }
+    //        decisionHandler(WKNavigationActionPolicy.allow);
+    //        */
+    //    }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         noDataView.isHidden = true
         LoadingHudView.hideHud()

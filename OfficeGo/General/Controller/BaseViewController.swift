@@ -22,19 +22,20 @@ class BaseViewController: UIViewController {
     }()
     lazy var noDataLabel: UILabel = {
         let view = UILabel()
-        view.text = "暂无数据"
+        view.text = "暂无数据\n页面被外星人带走了"
+        view.numberOfLines = 0
         view.textColor = kAppColor_666666
-        view.font = FONT_15
+        view.font = FONT_14
         view.textAlignment = .center
         return view
     }()
     lazy var noDataButton: UIButton = {
         let view = UIButton()
-        view.isHidden = true
-        view.setTitle("点击重试", for: .normal)
-        view.titleLabel?.font = FONT_15
+        view.isHidden = false
+        view.setTitle("再试一次", for: .normal)
+        view.titleLabel?.font = FONT_16
         view.backgroundColor = kAppBlueColor
-        view.setCornerRadius(cornerRadius: 15, masksToBounds: true)
+        view.setCornerRadius(cornerRadius: 17, masksToBounds: true)
         view.setTitleColor(kAppWhiteColor, for: .normal)
         view.addTarget(self, action: #selector(clickReloadData), for: .touchUpInside)
         return view

@@ -32,7 +32,7 @@ class ShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         platformView.clipsToBounds = true
-        platformView.layer.cornerRadius = 15
+        platformView.layer.cornerRadius = button_cordious_2
         handlePlatformInstalled()
         
     }

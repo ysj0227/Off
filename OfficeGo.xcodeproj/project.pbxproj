@@ -19,6 +19,7 @@
 		047333272473D86500755192 /* Object+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333262473D86500755192 /* Object+ClassName.swift */; };
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
+		049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */; };
 		04CB46C0249CAF3A001BCC8F /* LoginRoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB46BE249CAF3A001BCC8F /* LoginRoleViewController.swift */; };
 		04CB46C1249CAF3A001BCC8F /* RenterLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB46BF249CAF3A001BCC8F /* RenterLoginViewController.swift */; };
 		04CB46D3249CAFE9001BCC8F /* HouseFeatureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04CB46C3249CAFE9001BCC8F /* HouseFeatureCell.xib */; };
@@ -268,6 +269,7 @@
 		047333262473D86500755192 /* Object+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Object+ClassName.swift"; sourceTree = "<group>"; };
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStringEnum.swift; sourceTree = "<group>"; };
 		04CB46BE249CAF3A001BCC8F /* LoginRoleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRoleViewController.swift; sourceTree = "<group>"; };
 		04CB46BF249CAF3A001BCC8F /* RenterLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterLoginViewController.swift; sourceTree = "<group>"; };
 		04CB46C3249CAFE9001BCC8F /* HouseFeatureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HouseFeatureCell.xib; sourceTree = "<group>"; };
@@ -1440,6 +1442,7 @@
 				EEE87B3424558F6A00C03424 /* UIScrollViewExtension.swift */,
 				EEE87B3524558F6A00C03424 /* UIImageExtension.swift */,
 				EEE87B3624558F6A00C03424 /* DateExtension.swift */,
+				049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1844,6 +1847,7 @@
 				EEE87B232455856800C03424 /* JHCollectionReusableView.swift in Sources */,
 				EEE87B162455856800C03424 /* UICollectionViewSnapEx.swift in Sources */,
 				0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */,
+				049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */,
 				EEE87B1C2455856800C03424 /* StatusBaEx.swift in Sources */,
 				04CB46FF249CB02C001BCC8F /* RenterMsgFYHeaderView.swift in Sources */,
 				EE4914B324692D35008D5689 /* UIView+ViewController.m in Sources */,

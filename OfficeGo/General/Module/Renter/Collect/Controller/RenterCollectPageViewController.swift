@@ -30,8 +30,8 @@ class RenterCollectPageViewController: BaseViewController {
         let segScrollFrame = CGRect.init(x: 0, y: kNavigationHeight + 58, width: self.view.width, height: self.view.height - kNavigationHeight - 58 - kTabBarHeight)
         
         let segHead = MLMSegmentHead.init(frame: segHeadFrame, titles: ["楼宇", "房源"], headStyle: .init(rawValue: 1), layoutStyle: .init(rawValue: 2))
-        segHead?.fontSize = 12
-        segHead?.fontScale = 1.2
+        segHead?.fontSize = 13
+        segHead?.fontScale = 1.3
         segHead?.equalSize = false
         segHead?.selectedBold = true
         segHead?.gradualChangeTitleColor = false
