@@ -471,6 +471,28 @@ class RenterLoginViewController: BaseViewController {
         SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
             
             if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                
+                if UserTool.shared.user_id_type != model.rid {
+                    NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
+                    
+                    if self?.isFromOtherVC == true {
+                        ///发出登录成功通知 - 登录融云
+                        NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+                        ///和左上角返回 - 做登录成功判断- 1为登录成功
+                        self?.closeViewBack(1)
+                        self?.setNextEnable()
+                        self?.dismiss(animated: true, completion: nil)
+                        
+                    }else {
+                        ///发出登录成功通知 - 登录融云
+                        NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+                            self?.loginBtnClick()
+                            self?.setNextEnable()
+                        })
+                    }
+                    
+                }
                 UserTool.shared.user_id_type = model.rid
                 UserTool.shared.user_rongyuntoken = model.rongyuntoken
                 UserTool.shared.user_uid = model.uid
@@ -480,25 +502,7 @@ class RenterLoginViewController: BaseViewController {
                 UserTool.shared.user_phone = self?.phoneField.text
                 
             }
-            
-            if self?.isFromOtherVC == true {
-                ///发出登录成功通知 - 登录融云
-                NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
-                ///和左上角返回 - 做登录成功判断- 1为登录成功
-                self?.closeViewBack(1)
-                self?.setNextEnable()
-                self?.dismiss(animated: true, completion: nil)
-                
-            }else {
-                ///发出登录成功通知 - 登录融云
-                NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
-                    self?.loginBtnClick()
-                    self?.setNextEnable()
-                })
-            }
-            
-            
+                        
             }, failure: {[weak self] (error) in
                 self?.setNextEnable()
                 
@@ -536,7 +540,6 @@ class RenterLoginViewController: BaseViewController {
         SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
             
             if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                UserTool.shared.user_id_type = model.rid
                 UserTool.shared.user_rongyuntoken = model.rongyuntoken
                 UserTool.shared.user_uid = model.uid
                 UserTool.shared.user_token = model.token
@@ -544,25 +547,29 @@ class RenterLoginViewController: BaseViewController {
                 UserTool.shared.user_name = model.nickName
                 UserTool.shared.user_phone = self?.phoneField.text
                 
+                if UserTool.shared.user_id_type != model.rid {
+                    UserTool.shared.user_id_type = model.rid
+                    NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
+                }else {
+                    UserTool.shared.user_id_type = model.rid
+                    if self?.isFromOtherVC == true {
+                        ///发出登录成功通知 - 登录融云
+                        NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+                        ///和左上角返回 - 做登录成功判断- 1为登录成功
+                        self?.closeViewBack(1)
+                        self?.setNextEnable()
+                        self?.dismiss(animated: true, completion: nil)
+                        
+                    }else {
+                        ///发出登录成功通知 - 登录融云
+                        NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+                            self?.loginBtnClick()
+                            self?.setNextEnable()
+                        })
+                    }
+                }
             }
-            
-            if self?.isFromOtherVC == true {
-                ///发出登录成功通知 - 登录融云
-                NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
-                ///和左上角返回 - 做登录成功判断- 1为登录成功
-                self?.closeViewBack(1)
-                self?.setNextEnable()
-                self?.dismiss(animated: true, completion: nil)
-                
-            }else {
-                ///发出登录成功通知 - 登录融云
-                NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
-                    self?.loginBtnClick()
-                    self?.setNextEnable()
-                })
-            }
-            
             
             }, failure: {[weak self] (error) in
                 self?.setNextEnable()
