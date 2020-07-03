@@ -368,8 +368,8 @@ extension OwnerMineViewController {
             
         case .OwnerMineTypeAuthority:
             //没有认证过不展示
-            ///只有2 通过才会可能
-            if userModel?.auditStatus == 2 {
+            ///只有1 通过才会可能
+            if userModel?.auditStatus == 1 {
                 //个人认证没有员工管理
                 if userModel?.identityType == 0 {
                     return 0
