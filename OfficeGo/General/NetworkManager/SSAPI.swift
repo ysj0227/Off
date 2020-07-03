@@ -112,8 +112,14 @@ class SSDelegateURL: NSObject {
     //楼盘分享地址 buildingId
     static let h5BuildingDetailShareUrl =  "lessee/housesDetail.html"
     
+    //网点分享地址 buildingId
+    static let h5JointDetailShareUrl =  "lessee/housesDetail2.html"
+    
     //房源分享地址 buildingId houseId
     static let h5BuildingFYDetailShareUrl =  "lessee/detail.html"
+    
+    //网点下的房源分享地址 buildingId houseId
+    static let h5BJointFYDetailShareUrl =  "lessee/detail2.html"
     
     //关于我们
     static let h5AboutUsUrl = "lessee/aboutUs.html?channel=\(UserTool.shared.user_channel)"
@@ -125,7 +131,7 @@ class SSDelegateURL: NSObject {
     static let h5PrivacyProtocolUrl = "lessee/privacy.html?channel=\(UserTool.shared.user_channel)"
     
     //帮助与反馈 - 租户：
-    static let h5RenterHelpAndFeedbackUrl = "lessee/opinion.html?channel=\(UserTool.shared.user_channel)"
+    static let h5RenterHelpAndFeedbackUrl = "lessee/opinion.html?channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)"
     
     //帮助与反馈 - 租户：
     static let h5OwnerHelpAndFeedbackUrl = "owner/opinion.html?channel"

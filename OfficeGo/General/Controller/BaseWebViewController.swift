@@ -82,13 +82,13 @@ class BaseWebViewController: BaseViewController, UINavigationControllerDelegate 
             case .ProtocalTypeHelpAndFeedbackUrl:
                 //租户
                 if UserTool.shared.user_id_type == 0 {
-                    urlString = SSAPI.SSH5Host + SSDelegateURL.h5RenterHelpAndFeedbackUrl
+                    urlString = SSAPI.SSH5Host + SSDelegateURL.h5RenterHelpAndFeedbackUrl + "?time=\(timeStamp)"
                 }else if UserTool.shared.user_id_type == 1 {
                     urlString = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5OwnerHelpAndFeedbackUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
                 }
             ///常见问题
             case .ProtocalTypeQuestionUrl:
-                urlString = SSAPI.SSH5Host + SSDelegateURL.h5QuestionUrl
+                urlString = SSAPI.SSH5Host + SSDelegateURL.h5QuestionUrl + "?time=\(timeStamp)"
             }
         }
     }
