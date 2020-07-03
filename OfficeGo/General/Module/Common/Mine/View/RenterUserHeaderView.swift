@@ -48,12 +48,13 @@ class RenterUserHeaderView: UIView {
         return view
     }()
     
-    lazy var aduitStatusView: UILabel = {
-        let view = UILabel()
+    lazy var aduitStatusView: UIButton = {
+        let view = UIButton()
         view.isHidden = true
-        view.font = FONT_MEDIUM_11
-        view.textColor = kAppBlueColor
+        view.titleLabel?.font = FONT_MEDIUM_11
+        view.setTitleColor(kAppBlueColor, for: .normal)
         view.backgroundColor = kAppWhiteColor
+        view.addTarget(self, action: #selector(identifyBtnClick), for: .touchUpInside)
         view.clipsToBounds = true
         return view
     }()
@@ -73,6 +74,9 @@ class RenterUserHeaderView: UIView {
     var headerBtnClickBlock: (() -> Void)?
     
     var setBtnClickBlock: (() -> Void)?
+    
+    var identifyBtnClickBlock: (() -> Void)?
+
     
     var isNoLoginShowView: Bool = false {
         didSet {
@@ -167,8 +171,7 @@ class RenterUserHeaderView: UIView {
                 auditStatusString = "审核未通过"
             }
             
-            aduitStatusView.text = "  \(identifyString ?? "")\(auditStatusString ?? "")  "
-            
+            aduitStatusView.setTitle("  \(identifyString ?? "")\(auditStatusString ?? "")  ", for: .normal)
             aduitStatusView.isHidden = false
         }
     }
@@ -187,6 +190,13 @@ class RenterUserHeaderView: UIView {
         blockk()
     }
     
+    @objc func identifyBtnClick() {
+         guard let blockk = identifyBtnClickBlock else {
+             return
+         }
+         blockk()
+     }
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()

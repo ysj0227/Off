@@ -183,6 +183,10 @@ extension OwnerMineViewController {
         headerView.setBtnClickBlock = { [weak self] in
             self?.settingBtnClick()
         }
+        ///跳转到认证
+        headerView.identifyBtnClickBlock = { [weak self] in
+            self?.idifyClickToView()
+        }
         self.tableView.clipsToBounds = true
         self.tableView.layer.cornerRadius = 13
         self.tableView.snp.remakeConstraints { (make) in
@@ -301,6 +305,35 @@ extension OwnerMineViewController {
             ///点击跳转认证页面
             let vc = JHBaseWebViewController.init(protocalType: identifyType ?? OwnerIdentifyOrFYType.ProtocalTypeIdentifyOwnerUrl)
             self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    
+    func idifyClickToView() {
+        
+        ///身份类型0个人1企业2联合
+        let identify: Int = userModel?.identityType ?? -1
+        
+        ///审核状态0待审核1审核通过2审核未通过-1未审核
+        let auditStatus: Int = userModel?.auditStatus ?? -1
+        ///审核通过1不显示
+        if auditStatus == 0 || auditStatus == 1 {
+        }else {
+                    
+            var identifyType: OwnerIdentifyOrFYType?
+            if auditStatus == -1 {
+                identifyType = .ProtocalTypeIdentifyOwnerUrl
+            }else if auditStatus == 2 {
+                    identifyType = .ProtocalTypeIdentifyPersonageOwnerUrl
+                }else if identify == 1 {
+                    identifyType = .ProtocalTypeIdentifyBuildingOwnerUrl
+                }else if identify == 2 {
+                    identifyType = .ProtocalTypeIdentifyJointOwnerUrl
+                }
+            
+            ///点击跳转认证页面
+           let vc = JHBaseWebViewController.init(protocalType: identifyType ?? OwnerIdentifyOrFYType.ProtocalTypeIdentifyOwnerUrl)
+           self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
