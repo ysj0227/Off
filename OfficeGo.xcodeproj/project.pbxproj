@@ -189,7 +189,7 @@
 		EEE87ADE2455854F00C03424 /* OfficeGoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87ADD2455854F00C03424 /* OfficeGoTests.swift */; };
 		EEE87AEC2455856300C03424 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AE92455856300C03424 /* TableViewController.swift */; };
 		EEE87AED2455856300C03424 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AEA2455856300C03424 /* CollectionViewController.swift */; };
-		EEE87B0D2455856800C03424 /* JHWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AF02455856700C03424 /* JHWebViewController.swift */; };
+		EEE87B0D2455856800C03424 /* JHBaseWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AF02455856700C03424 /* JHBaseWebViewController.swift */; };
 		EEE87B0E2455856800C03424 /* JHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AF12455856700C03424 /* JHViewController.swift */; };
 		EEE87B0F2455856800C03424 /* JHCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AF22455856700C03424 /* JHCollectionViewController.swift */; };
 		EEE87B102455856800C03424 /* JHTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE87AF32455856700C03424 /* JHTableViewController.swift */; };
@@ -458,7 +458,7 @@
 		EEE87ADF2455854F00C03424 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEE87AE92455856300C03424 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		EEE87AEA2455856300C03424 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
-		EEE87AF02455856700C03424 /* JHWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JHWebViewController.swift; sourceTree = "<group>"; };
+		EEE87AF02455856700C03424 /* JHBaseWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JHBaseWebViewController.swift; sourceTree = "<group>"; };
 		EEE87AF12455856700C03424 /* JHViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JHViewController.swift; sourceTree = "<group>"; };
 		EEE87AF22455856700C03424 /* JHCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JHCollectionViewController.swift; sourceTree = "<group>"; };
 		EEE87AF32455856700C03424 /* JHTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JHTableViewController.swift; sourceTree = "<group>"; };
@@ -1356,7 +1356,7 @@
 		EEE87AEF2455856700C03424 /* BaseVC */ = {
 			isa = PBXGroup;
 			children = (
-				EEE87AF02455856700C03424 /* JHWebViewController.swift */,
+				EEE87AF02455856700C03424 /* JHBaseWebViewController.swift */,
 				EEE87AF12455856700C03424 /* JHViewController.swift */,
 				EEE87AF22455856700C03424 /* JHCollectionViewController.swift */,
 				EEE87AF32455856700C03424 /* JHTableViewController.swift */,
@@ -1892,7 +1892,7 @@
 				047333252473D77700755192 /* UIView+Extension.swift in Sources */,
 				04E23924249B3ABB009DCCEC /* RenterFangYuanListViewController.swift in Sources */,
 				04CB46FD249CB02C001BCC8F /* WechatExchangeMessage.swift in Sources */,
-				EEE87B0D2455856800C03424 /* JHWebViewController.swift in Sources */,
+				EEE87B0D2455856800C03424 /* JHBaseWebViewController.swift in Sources */,
 				04E23929249B3ABB009DCCEC /* BannerModel.swift in Sources */,
 				04EF1E41247777B700871762 /* RenterMainTabBarController.swift in Sources */,
 				EEE87B152455856800C03424 /* UIViewSnapEx.swift in Sources */,
