@@ -121,6 +121,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        closeAutomaticallyAdjusts()
+        
         request_bannerlist()
         
         //模拟数据 - 推荐和附近 - 不同的数据
@@ -186,11 +188,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
                 self?.segmentTitleSelectview.alpha = 1
-                self?.titleview?.isHidden = true
             } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 180){
                 
-                self?.titleview?.isHidden = true
-
                 //y = k * x + b
                 let k: CGFloat = 1 / 180.0
                 let b: CGFloat = 1 / 180.0 * (60 + kStatusBarHeight) + 1
@@ -200,9 +199,15 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
                 
             }
             else {
-                self?.titleview?.isHidden = false
-
                 self?.segmentTitleSelectview.alpha = 0
+            }
+            
+            if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 150){
+                
+                self?.titleview?.isHidden = true
+            }
+            else {
+                self?.titleview?.isHidden = false
             }
         }
         
