@@ -257,7 +257,7 @@ class RenterSettingCell: BaseTableViewCell {
                 }else if model.type == RenterSettingType.RenterSettingTypeChangeWechat {
                     numDescLabel.text = UserTool.shared.user_wechat
                 }else if model.type == RenterSettingType.RenterSettingTypeVersionUpdate {
-                    numDescLabel.text = SSTool.getVersion()
+                    numDescLabel.text = "v" + SSTool.getVersion()
                 }
             }
         }
