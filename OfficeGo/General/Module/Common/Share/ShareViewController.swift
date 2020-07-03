@@ -100,7 +100,7 @@ class ShareViewController: UIViewController {
         message.description = descriptionString
         if let url = thumbImage {
             let imageview = BaseImageView()
-            imageview.setImage(with: url, placeholder: UIImage.init(named: "logo"))
+            imageview.setImage(with: url, placeholder: UIImage(named: Default_1x1))
             if let image = imageview.image {
                 message.setThumbImage(image.scaleImage(scaleSize: 200))
             }
