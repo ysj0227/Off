@@ -35,6 +35,7 @@ class ShareViewController: UIViewController {
         platformView.layer.cornerRadius = button_cordious_2
         handlePlatformInstalled()
         
+        wechatButton.setImage(UIImage.init(named: "wechat"), for: .normal)
     }
     
     func handlePlatformInstalled() {
