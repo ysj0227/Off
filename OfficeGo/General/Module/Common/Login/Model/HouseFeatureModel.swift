@@ -58,14 +58,6 @@ class HouseSortSelectModel: HandyJSON {
 class HouseShaixuanModel: HandyJSON {
     /*
      联合办公
-     租金：    范围 0 - 10万         默认 2000 - 20000
-     工位：    范围 0 - 20          默认 2 -10
-     写字楼
-     租金：    范围 0- 10          默认 0 - 4
-     工位：    范围 0 - 500           默认 0 - 100
-     面积：    范围 0 - 1000          默认 0 - 200
-
-     联合办公
      租金：    范围 0 - 10万
      工位：    范围 0 - 30
      写字楼
@@ -82,17 +74,17 @@ class HouseShaixuanModel: HandyJSON {
     var mianjiofficeBuildingExtentModel: SliderExtentModel = {
         var model = SliderExtentModel()
         model.minimumValue = 0
-        model.maximumValue = 1000
+        model.maximumValue = 2000
         model.lowValue = 0
-        model.highValue = 1000
+        model.highValue = 2000
         return model
     }()
     var zujinofficeBuildingExtentModel: SliderExtentModel = {
         var model = SliderExtentModel()
         model.minimumValue = 0
-        model.maximumValue = 10
+        model.maximumValue = 50
         model.lowValue = 0
-        model.highValue = 10
+        model.highValue = 50
         return model
     }()
     var gongweiofficeBuildingExtentModel: SliderExtentModel = {
@@ -116,9 +108,9 @@ class HouseShaixuanModel: HandyJSON {
     var gongweijointOfficeExtentModel: SliderExtentModel = {
         var model = SliderExtentModel()
         model.minimumValue = 0
-        model.maximumValue = 20
+        model.maximumValue = 30
         model.lowValue = 0
-        model.highValue = 20
+        model.highValue = 30
         return model
     }()
     //装修 - 写字楼特有
@@ -141,6 +133,7 @@ class SliderExtentModel: HandyJSON {
     var maximumValue: Double?
     var lowValue: Double?
     var highValue: Double?
+    var noLimitNum: Double = 999999
     required init() {
     }
 }
