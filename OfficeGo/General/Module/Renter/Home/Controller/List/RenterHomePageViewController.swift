@@ -186,16 +186,22 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
                 self?.segmentTitleSelectview.alpha = 1
-            } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 200){
+                self?.titleview?.isHidden = true
+            } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 180){
                 
+                self?.titleview?.isHidden = true
+
                 //y = k * x + b
-                let k: CGFloat = 1 / 200.0
-                let b: CGFloat = 1 / 200.0 * (60 + kStatusBarHeight) + 1
+                let k: CGFloat = 1 / 180.0
+                let b: CGFloat = 1 / 180.0 * (60 + kStatusBarHeight) + 1
                 let alpha = k * (self?.containerScrView.contentOffset.y ?? 0.0) + b
                 self?.segmentTitleSelectview.alpha = alpha
                 SSLog("*******************---****\(alpha)")
+                
             }
             else {
+                self?.titleview?.isHidden = false
+
                 self?.segmentTitleSelectview.alpha = 0
             }
         }
@@ -214,8 +220,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             self?.present(vc, animated: true, completion: nil)
         }
         titleview?.locationBtn.setTitle("  上海", for: .normal)
-        //        self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
-        //        self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
+        self.view.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
+        self.view.bringSubviewToFront(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         titleview?.leftButtonCallBack = { [weak self] in
             self?.shareVc()
         }
@@ -225,7 +231,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         cycleView?.delegate = self
         cycleView?.mode = .scaleAspectFill
         
-        cycleView?.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
+        //cycleView?.addSubview(titleview ?? ThorNavigationView.init(type: .locationSearchClear))
         
         loadSegmentedConfig()
         
