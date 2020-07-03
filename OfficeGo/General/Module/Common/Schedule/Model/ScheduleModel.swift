@@ -130,6 +130,12 @@ class ScheduleViewModelList: NSObject {
                 auditStatusString = "已预约"
                 autitStatusLabelColor = kAppBlueColor
                 autitBuildingNameColor = kAppColor_333333
+            case 2:
+                autitBgViewColor = kAppColor_bgcolor_F7F7F7
+                autitStatusTimeIcon = "timeIconGray"
+                auditStatusString = "预约失败"
+                autitStatusLabelColor = kAppColor_line_D8D8D8
+                autitBuildingNameColor = kAppColor_666666
             case 3:
                 autitBgViewColor = kAppColor_bgcolor_F7F7F7
                 autitStatusTimeIcon = "timeIconGray"
