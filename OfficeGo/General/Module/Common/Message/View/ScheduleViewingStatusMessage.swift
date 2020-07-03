@@ -214,13 +214,13 @@ class ScheduleViewingStatusMessageCell: RCMessageBaseCell {
         //接收 -
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
             if testMessage?.isAgree == true {
-                testMessage?.content = "已同意看房邀约"
+                testMessage?.content = "对方已同意看房邀约"
             }else {
-                testMessage?.content = "已拒绝看房邀约"
+                testMessage?.content = "对方已拒绝看房邀约"
             }
         }else {
             if testMessage?.isAgree == true {
-                testMessage?.content = "看房邀约已经发送给对方"
+                testMessage?.content = "已同意"
             }else {
                 testMessage?.content = "已拒绝"
             }
