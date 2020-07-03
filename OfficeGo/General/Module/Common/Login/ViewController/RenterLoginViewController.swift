@@ -147,6 +147,7 @@ class RenterLoginViewController: BaseViewController {
     
     lazy var wechatBtn: UIButton = {
         let button = BaseButton.init(textColors: nil, imageNames: nil, texts: nil)
+        button.isHidden = true
         button.setTitle("微信登录", for: .normal)
         button.titleLabel?.font = FONT_14
         button.setTitleColor(kAppColor_666666, for: .normal)
@@ -262,7 +263,8 @@ class RenterLoginViewController: BaseViewController {
         (verifyView).addSubview(getCodeButton)
         view.addSubview(agreementLabel)
         view.addSubview(agreementButton)
-        view.addSubview(wechatBtn)
+        /*
+        view.addSubview(wechatBtn)*/
         
         areaLabel.text = "+" + areaCode
         
@@ -351,12 +353,13 @@ class RenterLoginViewController: BaseViewController {
             make.left.equalTo(agreementLabel.snp.right)
         }
         
+        /*
         wechatBtn.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-bottomMargin())
             make.width.equalTo(56)
             make.height.equalTo(60)
             make.centerX.equalToSuperview()
-        }
+        }*/
         
         areaLabel.addGestureRecognizer(areaGesture)
     }

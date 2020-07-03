@@ -30,11 +30,18 @@ import Foundation
     // 激光推送 App 是 ad-hoc 打包或者App Store 版本（发布证书 Production）https://docs.jiguang.cn/jpush/client/iOS/ios_debug_guide/
     
     
-    
+    /*
     static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
                              "Release": "https://api.officego.com/"]
-    
+
     static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
+                             "Release": "https://m.officego.com/"]
+ */
+    
+    static var SSApiHosts = ["Dev": "https://api.officego.com/",
+                             "Release": "https://api.officego.com/"]
+    
+    static var SSH5Hosts = ["Dev": "https://m.officego.com/",
                              "Release": "https://m.officego.com/"]
     
     static func getUrlAddress(buildType:AppBuildType,serverType:BackgroundServerType) -> String {

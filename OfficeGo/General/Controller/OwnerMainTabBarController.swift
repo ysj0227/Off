@@ -66,7 +66,7 @@ class OwnerMainTabBarController: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateBadgeValueForTabBarItem()
+//        updateBadgeValueForTabBarItem()
     }
     
     func updateBadgeValueForTabBarItem() {

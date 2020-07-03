@@ -41,9 +41,10 @@ struct Device {
 //打印信息
 func SSLog<T>(_ message: T, method: String = #function, line: Int = #line,fileName:String = #file)
 {
+    /*
     let timeInterval: TimeInterval = Date().timeIntervalSince1970
 
     #if DEBUG
         print("[\(timeInterval)|\((fileName as NSString).lastPathComponent)|\(method)|\(line)]:\(message)")
-    #endif
+    #endif*/
 }
