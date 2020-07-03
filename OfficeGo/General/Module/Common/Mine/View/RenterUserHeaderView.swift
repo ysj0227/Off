@@ -146,11 +146,11 @@ class RenterUserHeaderView: UIView {
             var identifyString: String?
             
             if identify == 0 {
-                identifyString = "个人"
+                identifyString = ""
             }else if identify == 1 {
-                identifyString = "企业"
+                identifyString = ""
             }else if identify == 2 {
-                identifyString = "联合办公"
+                identifyString = ""
             }else {
                 identifyString = "未认证"
             }
@@ -160,11 +160,11 @@ class RenterUserHeaderView: UIView {
             
             var auditStatusString: String?
             if auditStatus == 0 {
-                auditStatusString = "待审核"
+                auditStatusString = "认证待审核"
             }else if auditStatus == 1 {
                 auditStatusString = "已认证"
             }else if auditStatus == 2 {
-                auditStatusString = "审核驳回"
+                auditStatusString = "审核未通过"
             }
             
             aduitStatusView.text = "  \(identifyString ?? "")\(auditStatusString ?? "")  "

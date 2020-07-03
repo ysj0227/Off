@@ -440,7 +440,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         SSTool.invokeInMainThread { [weak self] in
             guard let weakSelf = self else {return}
             
-            AppUtilities.makeToast("请选择一个房源，和业主聊天")
+            AppUtilities.makeToast("请先选择房源，再和业主聊")
             //3
             if weakSelf.dataSourceArr.count > 3 {
                 if weakSelf.dataSource.count > 0 {

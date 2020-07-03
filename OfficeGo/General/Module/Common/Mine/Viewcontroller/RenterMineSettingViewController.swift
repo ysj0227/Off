@@ -84,7 +84,7 @@ extension RenterMineSettingViewController {
     
     func showLogotAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: "您是否要退出登录？", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: "是否确定退出？", cancelButtonCallClick: {
             
         }) {
             
@@ -109,10 +109,10 @@ extension RenterMineSettingViewController {
         let alert = SureAlertView(frame: self.view.frame)
         var aelrtMsg: String = ""
         if UserTool.shared.user_id_type == 0 {
-            aelrtMsg = "是否确认切换为业主"
+            aelrtMsg = "是否确认切换为业主？"
 
         }else if UserTool.shared.user_id_type == 1 {
-            aelrtMsg = "是否确认切换为租户"
+            aelrtMsg = "是否确认切换为租户？"
         }
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
             
@@ -256,6 +256,8 @@ class RenterSettingCell: BaseTableViewCell {
                     numDescLabel.text = UserTool.shared.user_phone?.getSecretPhoneString()
                 }else if model.type == RenterSettingType.RenterSettingTypeChangeWechat {
                     numDescLabel.text = UserTool.shared.user_wechat
+                }else if model.type == RenterSettingType.RenterSettingTypeVersionUpdate {
+                    numDescLabel.text = SSTool.getVersion()
                 }
             }
         }

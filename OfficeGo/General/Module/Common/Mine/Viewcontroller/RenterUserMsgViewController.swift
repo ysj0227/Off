@@ -174,7 +174,7 @@ extension RenterUserMsgViewController {
     
     func updateSuccess() {
         
-        AppUtilities.makeToast("个人信息已更新")
+        AppUtilities.makeToast("保存成功")
         
         SSTool.delay(time: 2) {[weak self] in
             

@@ -380,10 +380,10 @@ class ScheduleViewingMessageCell: RCMessageCell {
         
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
             //            message.content = "我想要与您约看房源，您是否同意？\n 约看时间：\(dateStr)"
-            message.content = "我想要与您约看房源，您是否同意？"
+            message.content = "我想到现场看房，是否同意？"
             
         }else {
-            message.content = "你发起了一个看房邀约，等待对方接受"
+            message.content = "你发起的看房邀约，等待对方接受"
         }
         
         if !message.content.isEmpty {

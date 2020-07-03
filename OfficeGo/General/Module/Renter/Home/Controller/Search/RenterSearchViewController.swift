@@ -200,7 +200,7 @@ extension RenterSearchViewController {
 extension RenterSearchViewController :UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.text?.isBlankString == true {
-            AppUtilities.makeToast("请输入搜索内容")
+            AppUtilities.makeToast("请输入搜索关键词")
             return false
         }
         clickPushToSearchListVc(sarchStr: textField.text ?? "")

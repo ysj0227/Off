@@ -270,7 +270,7 @@ class SureAlertView: UIView {
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             
             if self?.inputTFView.text?.isBlankString == true {
-                AppUtilities.makeToast("微信号为空")
+                AppUtilities.makeToast("请输入微信号")
                 return
             }
             

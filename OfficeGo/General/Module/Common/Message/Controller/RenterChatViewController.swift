@@ -356,7 +356,7 @@ extension RenterChatViewController {
         if let isgetFYSuccess = isGetFYSuccess {
             if isgetFYSuccess == true {
                 guard messageFYViewModel != nil else {
-                    AppUtilities.makeToast("暂无楼盘信息，没法预约")
+                    AppUtilities.makeToast("暂无楼盘信息，无法预约")
                     return
                 }
                 
@@ -411,7 +411,7 @@ extension RenterChatViewController {
     func showPhoneSureAlertview() {
         
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换手机号吗？", cancelButtonCallClick: {
+        alert.ShowSureAlertView(superview: self.view, message: "是否确认与对方交换手机号？", cancelButtonCallClick: {
             
         }) { [weak self] in
             self?.sendExchangePhone()
@@ -422,7 +422,7 @@ extension RenterChatViewController {
     func showWechatSureAlertview() {
         
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
+        alert.ShowSureAlertView(superview: self.view, message: "是否确认与对方交换微信？", cancelButtonCallClick: {
             
         }) { [weak self] in
             self?.sendExchangeWechat()
@@ -445,7 +445,7 @@ extension RenterChatViewController {
     func showBtnSureAlertview() {
         
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowSureAlertView(superview: self.view, message: "确认与对方交换微信吗？", cancelButtonCallClick: {
+        alert.ShowSureAlertView(superview: self.view, message: "是否确认与对方交换微信？", cancelButtonCallClick: {
             
         }) { [weak self] in
             self?.sendExchangeWechat()

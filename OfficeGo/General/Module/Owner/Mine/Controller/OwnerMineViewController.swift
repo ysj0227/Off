@@ -100,7 +100,7 @@ class OwnerMineViewController: BaseTableViewController {
         
         let alert = SureAlertView(frame: self.view.frame)
         alert.isHiddenVersionCancel = versionModel.force ?? false
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {[weak self] in
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, title: "发现新版本", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {[weak self] in
             UserTool.shared.isCloseCancelVersionUpdate = true
             self?.juddgeIsLogin()
             
@@ -262,32 +262,30 @@ extension OwnerMineViewController {
         var identifyType: OwnerIdentifyOrFYType?
         if auditStatus == -1 {
             alert.messageLabel.textAlignment = .center
-            descString = "您还没有认证，请先认证～"
+            descString = "请先认证身份"
             identifyType = .ProtocalTypeIdentifyOwnerUrl
         }else if auditStatus == 2 {
             alert.messageLabel.textAlignment = .left
+            var descString = "你的认证审核未通过"
             if identify == 0 {
                 if remark.count > 0 {
-                    descString = " 您个人认证被驳回 \n 驳回原因：\(remark)"
+                    descString = " \(descString) \n 原因：\(remark)"
                 }else {
                     alert.messageLabel.textAlignment = .center
-                    descString = "您个人认证被驳回"
                 }
                 identifyType = .ProtocalTypeIdentifyPersonageOwnerUrl
             }else if identify == 1 {
                 if remark.count > 0 {
-                    descString = " 您企业认证被驳回 \n 驳回原因：\(remark)"
+                    descString = " \(descString) \n 原因：\(remark)"
                 }else {
                     alert.messageLabel.textAlignment = .center
-                    descString = "您企业认证被驳回"
                 }
                 identifyType = .ProtocalTypeIdentifyBuildingOwnerUrl
             }else if identify == 2 {
                 if remark.count > 0 {
-                    descString = " 您联合办公认证被驳回 \n 驳回原因：\(remark)"
+                    descString = " \(descString) \n 原因：\(remark)"
                 }else {
                     alert.messageLabel.textAlignment = .center
-                    descString = "您联合办公认证被驳回"
                 }
                 identifyType = .ProtocalTypeIdentifyJointOwnerUrl
             }

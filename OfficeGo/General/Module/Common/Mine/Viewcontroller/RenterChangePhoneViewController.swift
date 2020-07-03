@@ -247,7 +247,7 @@ extension RenterChangePhoneViewController {
     @objc func requestChangePhone() {
         
         if phoneNewField.text?.isBlankString ?? false {
-            AppUtilities.makeToast("请输入手机号")
+            AppUtilities.makeToast("请输入新手机号")
             return
         }
         
@@ -267,14 +267,14 @@ extension RenterChangePhoneViewController {
             self?.setNewPhone()
             
             }, failure: { (error) in
-                AppUtilities.makeToast("修改失败")
+                AppUtilities.makeToast("修改失败，请重新提交")
         }) { (code, message) in
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
             }else {
-                AppUtilities.makeToast("修改失败")
+                AppUtilities.makeToast("修改失败，请重新提交")
             }
         }
     }
