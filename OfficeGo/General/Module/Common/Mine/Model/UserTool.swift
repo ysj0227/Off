@@ -158,12 +158,12 @@ class UserTool: NSObject {
     }
     
     /// 是否是老系统
-    var isOldSystem:Bool? {
+    var isCloseCancelVersionUpdate:Bool? {
         get{
-            return userDefault.value(forKey: "isOldSystem") as? Bool
+            return userDefault.value(forKey: "isCloseCancelVersionUpdate") as? Bool
         }
         set(newValue){
-            return userDefault.set(newValue, forKey: "isOldSystem")
+            return userDefault.set(newValue, forKey: "isCloseCancelVersionUpdate")
         }
     }
     
@@ -197,7 +197,7 @@ class UserTool: NSObject {
     }
     
     
-    
+    ///不需要移除角色。和 版本更新是否展示过
     func removeAll() {
         userDefault.removeObject(forKey: "user_rongyuntoken")
         userDefault.removeObject(forKey: "user_token")
@@ -214,7 +214,7 @@ class UserTool: NSObject {
         userDefault.removeObject(forKey: "user_rongyuntoken")
         
         /*
-        userDefault.setValue(false, forKey: "isOldSystem")
+        userDefault.setValue(false, forKey: "isCloseCancelVersionUpdate")
         userDefault.set("", forKey: "user_rongyuntoken")
         userDefault.set("", forKey: "user_token")
         userDefault.set("", forKey: "user_phone")
@@ -222,7 +222,7 @@ class UserTool: NSObject {
         userDefault.set("", forKey: "user_avatars")
         userDefault.set("", forKey: "user_uid")
 //        userDefault.set("", forKey: " user_id_type")
-        userDefault.set(false, forKey: "isOldSystem")
+        userDefault.set(false, forKey: "isCloseCancelVersionUpdate")
         */
     }
 }

@@ -62,7 +62,12 @@ class OwnerMineViewController: BaseTableViewController {
         let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
         tab?.customTabBar.isHidden = false
         
-        requestVersionUpdate()
+        //如果已经点击过了 - 不展示版本更新
+        if UserTool.shared.isCloseCancelVersionUpdate == true {
+            juddgeIsLogin()
+        }else {
+            requestVersionUpdate()
+        }
         
     }
     
@@ -88,12 +93,19 @@ class OwnerMineViewController: BaseTableViewController {
     
     //弹出版本更新弹框
     override func showUpdateAlertview(versionModel: VersionModel) {
+        
+        if UserTool.shared.isCloseCancelVersionUpdate == true {
+            return
+        }
+        
         let alert = SureAlertView(frame: self.view.frame)
         alert.isHiddenVersionCancel = versionModel.force ?? false
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {[weak self] in
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {[weak self] in
+            UserTool.shared.isCloseCancelVersionUpdate = true
             self?.juddgeIsLogin()
             
         }) { [weak self] in
+            UserTool.shared.isCloseCancelVersionUpdate = true
             if let url = URL(string: versionModel.uploadUrl ?? "") {
                 if UIApplication.shared.canOpenURL(url) {
                     if #available(iOS 10, *) {

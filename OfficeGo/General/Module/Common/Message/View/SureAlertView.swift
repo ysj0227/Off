@@ -16,6 +16,9 @@ class SureAlertView: UIView {
             if let type = alertType {
                 switch type {
                     
+                case .AlertTypeVersionUpdate:
+                    versionUpdateLayoyt()
+
                 case .AlertTypeMessageAlert:
                     titleMessageLayoyt()
                     
@@ -278,8 +281,52 @@ class SureAlertView: UIView {
             self?.selfRemove()
         }
     }
-    
     ///版本更新 - 有标题和文本说明
+    func versionUpdateLayoyt() {
+        
+        bgview.addSubview(messageLabel)
+        
+        let size = alertDescMsg.boundingRect(with: CGSize(width: kMessageAlertWidth - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_12], context: nil)
+        
+        var height: CGFloat = 20
+        if size.height > 20 {
+            height = size.height
+        }
+        
+        bgview.snp.remakeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageInputAlertHeight - 20 + height))
+        }
+        bottomBtnView.snp.remakeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(btnHeight_50)
+        }
+        alertMessageLabel.snp.remakeConstraints { (make) in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(btnHeight_50)
+        }
+
+        messageLabel.snp.makeConstraints { (make) in
+            make.height.equalTo(height)
+            make.top.equalTo(alertMessageLabel.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview().inset(15)
+        }
+        bottomBtnView.leftBtnClickBlock = { [weak self] in
+            guard let blockk = self?.cancelButtonCallClick else {
+                return
+            }
+            blockk()
+            self?.selfRemove()
+        }
+        bottomBtnView.rightBtnClickBlock = { [weak self] in
+            guard let blockk = self?.sureButtonCallClick else {
+                return
+            }
+            blockk()
+        }
+    }
+    ///正常弹框 - 有标题和文本说明
     func titleMessageLayoyt() {
         
         bgview.addSubview(messageLabel)

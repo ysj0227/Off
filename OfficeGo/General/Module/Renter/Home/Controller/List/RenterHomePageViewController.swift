@@ -66,7 +66,6 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     
     ///版本更新判断
     func requestVersionUpdate() {
-        showUpdateAlertview(versionModel: VersionModel())
         
         SSNetworkTool.SSVersion.request_version(success: { [weak self] (response) in
             
@@ -88,11 +87,17 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     
     //弹出版本更新弹框
     func showUpdateAlertview(versionModel: VersionModel) {
+        
+        if UserTool.shared.isCloseCancelVersionUpdate == true {
+            return
+        }
+        
         let alert = SureAlertView(frame: self.view.frame)
         alert.isHiddenVersionCancel = versionModel.force ?? false
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {
-            
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {
+            UserTool.shared.isCloseCancelVersionUpdate = true
         }) {
+            UserTool.shared.isCloseCancelVersionUpdate = true
             if let url = URL(string: versionModel.uploadUrl ?? "") {
                 if UIApplication.shared.canOpenURL(url) {
                     if #available(iOS 10, *) {
