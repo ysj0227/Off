@@ -269,10 +269,10 @@ extension AppDelegate {
                 UserTool.shared.user_rongyuntoken = rctoken as? String
                 RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: {[weak self] (userid) in
                     SSLog("登陆成功。当前登录的用户ID： \(String(describing: userid))")
-                    self?.setRCUserInfo(userId: userid ?? "0")
+                    weakSelf.setRCUserInfo(userId: userid ?? "0")
                     }, error: { (code) in
                         SSLog("登陆的错误码为\(code)")
-                }, tokenIncorrect: {[weak self] in
+                }, tokenIncorrect: {
                     SSLog("token错误")
                 })
             }
