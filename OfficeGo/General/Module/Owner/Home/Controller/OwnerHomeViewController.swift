@@ -154,7 +154,7 @@ class OwnerHomeViewController: BaseViewController {
             alert.messageLabel.textAlignment = .left
             if identify == 0 {
                 if remark.count > 0 {
-                    descString = "您个人认证被驳回 \n\n驳回原因：\(remark)"
+                    descString = " 您个人认证被驳回 \n 驳回原因：\(remark)"
                 }else {
                     alert.messageLabel.textAlignment = .center
                     descString = "您个人认证被驳回"
@@ -162,7 +162,7 @@ class OwnerHomeViewController: BaseViewController {
                 identifyType = .ProtocalTypeIdentifyPersonageOwnerUrl
             }else if identify == 1 {
                 if remark.count > 0 {
-                    descString = "您企业认证被驳回 \n\n驳回原因：\(remark)"
+                    descString = " 您企业认证被驳回 \n 驳回原因：\(remark)"
                 }else {
                     alert.messageLabel.textAlignment = .center
                     descString = "您企业认证被驳回"
@@ -170,7 +170,7 @@ class OwnerHomeViewController: BaseViewController {
                 identifyType = .ProtocalTypeIdentifyBuildingOwnerUrl
             }else if identify == 2 {
                 if remark.count > 0 {
-                    descString = "您联合办公认证被驳回 \n\n驳回原因：\(remark)"
+                    descString = " 您联合办公认证被驳回 \n 驳回原因：\(remark)"
                 }else {
                     alert.messageLabel.textAlignment = .center
                     descString = "您联合办公认证被驳回"
