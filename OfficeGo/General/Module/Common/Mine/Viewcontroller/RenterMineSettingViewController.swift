@@ -140,6 +140,7 @@ extension RenterMineSettingViewController {
                 UserTool.shared.user_token = model.token
                 UserTool.shared.user_avatars = model.avatar
                 UserTool.shared.user_name = model.nickName
+                UserTool.shared.synchronize()
                 NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
             }
         }, failure: {[weak self] (error) in
