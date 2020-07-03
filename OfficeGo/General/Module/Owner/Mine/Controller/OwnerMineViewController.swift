@@ -77,11 +77,15 @@ class OwnerMineViewController: BaseTableViewController {
             
             if let model = VersionModel.deserialize(from: response, designatedPath: "data") {
                 self?.showUpdateAlertview(versionModel: model)
+            }else {
+                self?.juddgeIsLogin()
             }
-            }, failure: { (error) in
-                
-        }) {(code, message) in
-            
+            }, failure: {[weak self] (error) in
+                self?.juddgeIsLogin()
+
+        }) {[weak self] (code, message) in
+            self?.juddgeIsLogin()
+
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
