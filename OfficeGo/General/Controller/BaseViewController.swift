@@ -77,7 +77,6 @@ class BaseViewController: UIViewController {
     
     ///版本更新判断
     func requestVersionUpdate() {
-        showUpdateAlertview(versionModel: VersionModel())
 
        SSNetworkTool.SSVersion.request_version(success: { [weak self] (response) in
 
@@ -101,7 +100,7 @@ class BaseViewController: UIViewController {
     func showUpdateAlertview(versionModel: VersionModel) {
         let alert = SureAlertView(frame: self.view.frame)
         alert.isHiddenVersionCancel = versionModel.force ?? false
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeVersionUpdate, title: "版本更新", descMsg: versionModel.desc ?? "", cancelButtonCallClick: {
             
         }) {
             if let url = URL(string: versionModel.uploadUrl ?? "") {
