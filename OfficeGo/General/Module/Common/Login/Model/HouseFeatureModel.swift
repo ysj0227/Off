@@ -58,7 +58,7 @@ class HouseSortSelectModel: HandyJSON {
 class HouseShaixuanModel: HandyJSON {
     /*
      联合办公
-     租金：    范围 0 - 10万
+     租金：    范围 0 - 5万
      工位：    范围 0 - 30
      写字楼
      租金：    范围 0- 50
@@ -100,9 +100,9 @@ class HouseShaixuanModel: HandyJSON {
     var zujinjointOfficeExtentModel: SliderExtentModel = {
         var model = SliderExtentModel()
         model.minimumValue = 0
-        model.maximumValue = 100000
+        model.maximumValue = 50000
         model.lowValue = 0
-        model.highValue = 100000
+        model.highValue = 50000
         return model
     }()
     var gongweijointOfficeExtentModel: SliderExtentModel = {
