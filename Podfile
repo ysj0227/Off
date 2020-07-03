@@ -14,8 +14,8 @@ target 'OfficeGo' do
   
   pod 'SnapKit',        '5.0.1'
   pod 'MJRefresh',      '3.3.1'
-  pod 'RxCocoa',        '5'
-  pod 'RxSwift',        '5'
+  pod 'RxCocoa',        '~> 5.1.1'
+  pod 'RxSwift',        '~> 5.1.1'
   pod 'HandyJSON',      '5.0.0'
   pod 'SwiftyJSON',     '5.0.0'
   pod 'Kingfisher',     '5.8.3'

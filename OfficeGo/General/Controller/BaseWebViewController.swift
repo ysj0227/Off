@@ -36,8 +36,8 @@ class BaseWebViewController: BaseViewController, UINavigationControllerDelegate 
         configuration.preferences = preferences
         configuration.userContentController = WKUserContentController()
         //注册closeView这个函数,让js调用
-//           configuration.userContentController.add(self, name: "closeView")
-//           configuration.userContentController.add(self, name: "identifyComplete")
+        //           configuration.userContentController.add(self, name: "closeView")
+        //           configuration.userContentController.add(self, name: "identifyComplete")
         let view = WKWebView(frame: CGRect.zero, configuration: configuration)
         view.scrollView.bounces = true
         view.scrollView.alwaysBounceVertical = true
@@ -158,7 +158,7 @@ class BaseWebViewController: BaseViewController, UINavigationControllerDelegate 
         
         self.view.addSubview(noDataView)
         noDataView.isHidden = true
-                noDataView.snp.makeConstraints { (make) in
+        noDataView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(-30)
             make.size.equalTo(CGSize(width: kWidth, height: 247))
@@ -208,35 +208,24 @@ class BaseWebViewController: BaseViewController, UINavigationControllerDelegate 
         super.viewWillAppear(animated)
         
         self.webView?.configuration.userContentController.add(self, name: "closeView")
-
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-           webView?.configuration.userContentController.removeScriptMessageHandler(forName: "closeView")
-    }
-}
-
-extension BaseWebViewController: UIWebViewDelegate {
-    
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        return true
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "closeView")
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        LoadingHudView.hideHud()
-        noDataView.isHidden = true
-    }
 }
 
 extension BaseWebViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-
+        
         ///js调用本地的方法 -
         //如果是左上角的返回按钮 - 关闭页面
         if message.name == "closeView" {
-           
+            
             leftBtnClick()
         }
     }
@@ -286,20 +275,25 @@ extension BaseWebViewController: WKUIDelegate {
 
 extension BaseWebViewController: WKNavigationDelegate {
     
+    // 页面开始加载时调用
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        
+    }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         noDataView.isHidden = true
         LoadingHudView.hideHud()
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         /*
-        AppUtilities.makeToast(error.localizedDescription)*/
+         AppUtilities.makeToast(error.localizedDescription)*/
         noDataView.isHidden = false
         LoadingHudView.hideHud()
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         /*
-        AppUtilities.makeToast(error.localizedDescription)*/
+         AppUtilities.makeToast(error.localizedDescription)*/
         noDataView.isHidden = false
         LoadingHudView.hideHud()
     }

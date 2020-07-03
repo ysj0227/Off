@@ -272,18 +272,6 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
     }
 }
 
-extension JHBaseWebViewController: UIWebViewDelegate {
-    
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        return true
-    }
-    
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        LoadingHudView.hideHud()
-        noDataView.isHidden = true
-    }
-}
-
 extension JHBaseWebViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 
