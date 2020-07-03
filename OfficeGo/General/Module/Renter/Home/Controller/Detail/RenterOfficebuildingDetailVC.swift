@@ -225,11 +225,8 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
                 //显示带过来的筛选条件
                 if weakSelf.isClearCondition != true {
                     
-                    if let dataDic = response["data"] as? [String: Any] {
-                        let totalPage = dataDic["totalPage"]
-                        SSTool.invokeInMainThread {
-                            weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")㎡ \n \(totalPage ?? 0)套"
-                        }
+                    SSTool.invokeInMainThread {
+                        weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")㎡ \n \(weakSelf.dataSource.count)套"
                     }
                     
                 }
