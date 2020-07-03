@@ -367,15 +367,21 @@ extension OwnerMineViewController {
         switch typeSourceArray[indexPath.row].type {
             
         case .OwnerMineTypeAuthority:
-            //个人认证没有员工管理
-            if userModel?.identityType == 0 {
-                return 0
-            }else {
-                if userModel?.authority == 0 {
+            //没有认证过不展示
+            ///只有2 通过才会可能
+            if userModel?.auditStatus == 2 {
+                //个人认证没有员工管理
+                if userModel?.identityType == 0 {
                     return 0
                 }else {
-                    return RenterMineCell.rowHeight()
+                    if userModel?.authority == 0 {
+                        return 0
+                    }else {
+                        return RenterMineCell.rowHeight()
+                    }
                 }
+            }else {
+                return 0
             }
             
         case .OwnerMineTypeHelpAndFeedback:

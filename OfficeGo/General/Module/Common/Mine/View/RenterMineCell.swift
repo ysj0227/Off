@@ -57,7 +57,6 @@ class RenterMineCell: BaseTableViewCell {
         didSet {
             itemIcon.image = UIImage.init(named: renterModel.getIconFormType(type: renterModel.type ?? RenterMineType.RenterMineTypeAboutus))
             titleLabel.text = renterModel.getNameFormType(type: renterModel.type ?? RenterMineType.RenterMineTypeAboutus)
-            numDescLabel.text = "12"
         }
     }
     
@@ -67,10 +66,28 @@ class RenterMineCell: BaseTableViewCell {
         didSet {
             itemIcon.image = UIImage.init(named: ownerModel.getIconFormType(type: ownerModel.type ?? OwnerMineType.OwnerMineTypeAboutus))
             titleLabel.text = ownerModel.getNameFormType(type: ownerModel.type ?? OwnerMineType.OwnerMineTypeAboutus)
-            numDescLabel.text = "12"
             
             if ownerModel.type == OwnerMineType.OwnerMineTypeAuthority {
                 //个人认证没有员工管理
+                //没有认证过不展示
+                ///只有2 通过才会可能
+                if userModel?.auditStatus == 2 {
+                    //个人认证没有员工管理
+                    if userModel?.identityType == 0 {
+                        itemIcon.image = UIImage.init(named: "")
+                        titleLabel.text = ""
+                    }else {
+                        if userModel?.authority == 0 {
+                            itemIcon.image = UIImage.init(named: "")
+                            titleLabel.text = ""
+                        }else {
+                            
+                        }
+                    }
+                }else {
+                    itemIcon.image = UIImage.init(named: "")
+                    titleLabel.text = ""
+                }
                 if userModel?.identityType == 0 {
                     itemIcon.image = UIImage.init(named: "")
                     titleLabel.text = ""
