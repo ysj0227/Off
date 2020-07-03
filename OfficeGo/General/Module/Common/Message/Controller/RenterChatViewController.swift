@@ -504,7 +504,7 @@ extension RenterChatViewController {
         if isExisted {
             
         }else {
-            let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "测试插入消息")
+            let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "")
             messageContent.mainPic = messageFYViewModel?.mainPic
             messageContent.createTimeAndByWho = messageFYViewModel?.createTimeAndByWho
             messageContent.isFavorite = messageFYViewModel?.IsFavorite ?? false

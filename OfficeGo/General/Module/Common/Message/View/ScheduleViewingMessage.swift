@@ -304,7 +304,7 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let testMessage = model.content as? ScheduleViewingMessage
         
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            testMessage?.content = "我想要与您约看房源，您是否同意？"
+            testMessage?.content = "我想到现场看房，是否同意？"
         }else {
             testMessage?.content = "你发起了一个看房邀约，等待对方接受"
         }
