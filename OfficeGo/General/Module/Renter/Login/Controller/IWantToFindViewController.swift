@@ -175,11 +175,19 @@ extension IWantToFindViewController {
         //联合办公
         if btype == 2 {
             
-            gongweiExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
+            if self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                gongweiExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum)
+            }else {
+                gongweiExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
+            }
             
             params["seats"] = gongweiExtentStr as AnyObject?
             
-            zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
+            if self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue == self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue {
+                zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.noLimitNum)
+            }else {
+                zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
+            }
             /*
             //房源特色 - 两者都有
             for model in self.selectModel.shaixuanModel.featureModelArr {
@@ -190,10 +198,20 @@ extension IWantToFindViewController {
             
         }else if btype == 1 {
             
-            zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
+            if self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue == self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue {
+                zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.noLimitNum)
+            }else {
+                zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
+            }
             
             //办公室 - 面积传值
-            let mianjiStr: String = String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
+            var mianjiStr: String?
+            if self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                mianjiStr = String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum)
+            }else {
+                mianjiStr = String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
+            }
+            
             params["area"] = mianjiStr as AnyObject?
             
             //办公室 - 装修类型传值

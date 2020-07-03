@@ -164,20 +164,26 @@ class RenterFangYuanListViewController: BaseTableViewController {
             
             //租金 - 两者都有
             var zujinExtentStr: String?
-            
             /*
             //房源特色 - 两者都有
             var featureArr: [String] = []*/
             
             //联合办公
             if btype == 2 {
-                
-                gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
+                 
+                if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                    gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum)
+                }else {
+                    gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
+                }
                 
                 params["seats"] = gongweiExtentStr as AnyObject?
                 
-                zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
-                
+                if self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.noLimitNum)
+                }else {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
+                }
                 /*
                 //房源特色 - 两者都有
                 for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
@@ -188,10 +194,20 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 
             }else if btype == 1 {
                 
-                zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
+                if self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.noLimitNum)
+                }else {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
+                }
                 
                 //办公室 - 面积传值
-                let mianjiStr: String = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
+                var mianjiStr: String?
+                    
+                if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                    mianjiStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum)
+                }else {
+                    mianjiStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
+                }
                 params["area"] = mianjiStr as AnyObject?
                 
                 //办公室 - 装修类型传值
@@ -216,7 +232,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
             /*
             //房源特色 - 两者都有
             let featureStr: String = featureArr.joined(separator: ",")
-            params["houseTags"] = featureStr as AnyObject? */
+            params["houseTags"] = featureStr as AnyObject?*/
         }
         
         params["pageNo"] = self.pageNo as AnyObject
@@ -281,11 +297,19 @@ class RenterFangYuanListViewController: BaseTableViewController {
             //联合办公
             if btype == 2 {
                 
-                gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
+                if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                    gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum)
+                }else {
+                    gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
+                }
                 
                 params["seats"] = gongweiExtentStr as AnyObject?
                 
-                zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
+                if self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.noLimitNum)
+                }else {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
+                }
                 /*
                 //房源特色 - 两者都有
                 for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
@@ -296,10 +320,20 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 
             }else if btype == 1 {
                 
-                zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
+                if self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.noLimitNum)
+                }else {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
+                }
                 
                 //办公室 - 面积传值
-                let mianjiStr: String = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
+                var mianjiStr: String?
+                    
+                if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                    mianjiStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum)
+                }else {
+                    mianjiStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
+                }
                 params["area"] = mianjiStr as AnyObject?
                 
                 //办公室 - 装修类型传值
