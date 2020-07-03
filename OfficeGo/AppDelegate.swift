@@ -29,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         window?.makeKeyAndVisible()
         
+        //每次启动，如果有版本更新只显示一次
+        UserTool.shared.isCloseCancelVersionUpdate = false
+        
         //        self.networkReachabilityStatus()
         
         setUpSDKs()
