@@ -165,8 +165,9 @@ class RenterFangYuanListViewController: BaseTableViewController {
             //租金 - 两者都有
             var zujinExtentStr: String?
             
+            /*
             //房源特色 - 两者都有
-            var featureArr: [String] = []
+            var featureArr: [String] = []*/
             
             //联合办公
             if btype == 2 {
@@ -177,12 +178,13 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 
                 zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
                 
+                /*
                 //房源特色 - 两者都有
                 for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
                     if model.isOfficejointOfficeSelected {
                         featureArr.append("\(model.dictValue ?? 0)")
                     }
-                }
+                }*/
                 
             }else if btype == 1 {
                 
@@ -201,20 +203,20 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 }
                 let documentStr: String = documentArr.joined(separator: ",")
                 params["decoration"] = documentStr as AnyObject?
-                
+                /*
                 //房源特色 - 两者都有
                 for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
                     if model.isOfficeBuildingSelected {
                         featureArr.append("\(model.dictValue ?? 0)")
                     }
-                }
+                }*/
             }
             
             params["dayPrice"] = zujinExtentStr as AnyObject?
-            
+            /*
             //房源特色 - 两者都有
             let featureStr: String = featureArr.joined(separator: ",")
-            params["houseTags"] = featureStr as AnyObject?
+            params["houseTags"] = featureStr as AnyObject? */
         }
         
         params["pageNo"] = self.pageNo as AnyObject
@@ -271,9 +273,9 @@ class RenterFangYuanListViewController: BaseTableViewController {
             
             //租金 - 两者都有
             var zujinExtentStr: String?
-            
+            /*
             //房源特色 - 两者都有
-            var featureArr: [String] = []
+            var featureArr: [String] = []*/
             
             //楼盘不要工位数 - 网点要
             //联合办公
@@ -284,13 +286,13 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 params["seats"] = gongweiExtentStr as AnyObject?
                 
                 zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
-                
+                /*
                 //房源特色 - 两者都有
                 for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
                     if model.isOfficejointOfficeSelected {
                         featureArr.append("\(model.dictValue ?? 0)")
                     }
-                }
+                }*/
                 
             }else if btype == 1 {
                 
@@ -309,20 +311,20 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 }
                 let documentStr: String = documentArr.joined(separator: ",")
                 params["decoration"] = documentStr as AnyObject?
-                
+                /*
                 //房源特色 - 两者都有
                 for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
                     if model.isOfficeBuildingSelected {
                         featureArr.append("\(model.dictValue ?? 0)")
                     }
-                }
+                }*/
             }
             
             params["dayPrice"] = zujinExtentStr as AnyObject?
-            
+            /*
             //房源特色 - 两者都有
             let featureStr: String = featureArr.joined(separator: ",")
-            params["houseTags"] = featureStr as AnyObject?
+            params["houseTags"] = featureStr as AnyObject?*/
         }
         
         return params

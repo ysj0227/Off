@@ -167,9 +167,9 @@ extension IWantToFindViewController {
         
         //租金 - 两者都有
         var zujinExtentStr: String?
-        
+        /*
         //房源特色 - 两者都有
-        var featureArr: [String] = []
+        var featureArr: [String] = []*/
         
         
         //联合办公
@@ -180,13 +180,13 @@ extension IWantToFindViewController {
             params["seats"] = gongweiExtentStr as AnyObject?
             
             zujinExtentStr = String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
-            
+            /*
             //房源特色 - 两者都有
             for model in self.selectModel.shaixuanModel.featureModelArr {
                 if model.isOfficejointOfficeSelected {
                     featureArr.append("\(model.dictValue ?? 0)")
                 }
-            }
+            }*/
             
         }else if btype == 1 {
             
@@ -205,20 +205,20 @@ extension IWantToFindViewController {
             }
             let documentStr: String = documentArr.joined(separator: ",")
             params["decoration"] = documentStr as AnyObject?
-            
+            /*
             //房源特色 - 两者都有
             for model in self.selectModel.shaixuanModel.featureModelArr {
                 if model.isOfficeBuildingSelected {
                     featureArr.append("\(model.dictValue ?? 0)")
                 }
-            }
+            }*/
         }
         
         params["dayPrice"] = zujinExtentStr as AnyObject?
-        
+        /*
         //房源特色 - 两者都有
         let featureStr: String = featureArr.joined(separator: ",")
-        params["houseTags"] = featureStr as AnyObject?
+        params["houseTags"] = featureStr as AnyObject?*/
         
         SSNetworkTool.SSLogin.request_addWantToFind(params: params, success: { [weak self] (response) in
             self?.rightBtnClick()
