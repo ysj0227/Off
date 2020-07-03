@@ -122,6 +122,7 @@ public enum OwnerMineType {
 
 //弹框alert
 public enum AlertType {
+    case AlertTypeVersionUpdate             //版本更新
     case AlertTypeMessageAlert              //弹框展示
     case AlertTypeChatInput                 //聊天- 微信输入框
     case AlertTypeChatSure                  //聊天- 微信交换弹框
