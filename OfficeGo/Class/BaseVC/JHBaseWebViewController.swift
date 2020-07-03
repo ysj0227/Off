@@ -188,9 +188,11 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
     }
     override func viewDidLoad() {
         
-        titleview?.titleLabel.text = titleString
-        
         super.viewDidLoad()
+        
+        self.view.backgroundColor = kAppWhiteColor
+        
+        titleview?.titleLabel.text = titleString
         
         if let webView = webView {
             view.insertSubview(webView, at: 0)
@@ -203,8 +205,14 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
                 }
             })
         
+        if #available(iOS 11.0, *) {
+            webView?.scrollView.contentInsetAdjustmentBehavior = .never
+        }else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
         webView?.snp.makeConstraints({ (make) in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalTo(kStatusBarHeight)
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().offset(-bottomMargin())
         })
         

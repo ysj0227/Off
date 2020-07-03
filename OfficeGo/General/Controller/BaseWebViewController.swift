@@ -128,6 +128,8 @@ class BaseWebViewController: BaseViewController, UINavigationControllerDelegate 
         
         super.viewDidLoad()
         
+        self.view.backgroundColor = kAppWhiteColor
+        
         titleview = ThorNavigationView.init(type: .backTitleRight)
         titleview?.backgroundColor = kAppWhiteColor
         titleview?.leftButtonCallBack = { [weak self] in

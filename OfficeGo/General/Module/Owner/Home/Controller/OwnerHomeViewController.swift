@@ -83,9 +83,6 @@ class OwnerHomeViewController: BaseViewController {
                 make.top.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview().offset(-kTabBarHeight)
             })
-            fyWebview?.webView?.snp.remakeConstraints({ (make) in
-                make.top.bottom.leading.trailing.equalToSuperview()
-            })
         }
     }
     
