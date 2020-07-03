@@ -471,10 +471,18 @@ class RenterLoginViewController: BaseViewController {
         SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
             
             if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                UserTool.shared.user_rongyuntoken = model.rongyuntoken
+                UserTool.shared.user_uid = model.uid
+                UserTool.shared.user_token = model.token
+                UserTool.shared.user_avatars = model.avatar
+                UserTool.shared.user_name = model.nickName
+                UserTool.shared.user_phone = self?.phoneField.text
                 
                 if UserTool.shared.user_id_type != model.rid {
+                    UserTool.shared.user_id_type = model.rid
                     NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
-                    
+                }else {
+                    UserTool.shared.user_id_type = model.rid
                     if self?.isFromOtherVC == true {
                         ///发出登录成功通知 - 登录融云
                         NotificationCenter.default.post(name: NSNotification.Name.UserLogined, object: nil)
@@ -491,16 +499,7 @@ class RenterLoginViewController: BaseViewController {
                             self?.setNextEnable()
                         })
                     }
-                    
                 }
-                UserTool.shared.user_id_type = model.rid
-                UserTool.shared.user_rongyuntoken = model.rongyuntoken
-                UserTool.shared.user_uid = model.uid
-                UserTool.shared.user_token = model.token
-                UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_name = model.nickName
-                UserTool.shared.user_phone = self?.phoneField.text
-                
             }
                         
             }, failure: {[weak self] (error) in
