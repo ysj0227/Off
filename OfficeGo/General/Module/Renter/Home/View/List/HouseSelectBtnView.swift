@@ -57,9 +57,9 @@ class HouseSelectBtnView: UIView {
     
     var houseTypeSelectBtn: UIButton = {
         let button = UIButton.init()
-        button.setTitle("类型", for: .normal)
+        button.setTitle("全部", for: .normal)
         button.setImage(UIImage(named: "downIcon"), for: .normal)
-        button.setTitleColor(kAppColor_666666, for: .normal)
+        button.setTitleColor(kAppBlueColor, for: .normal)
         button.titleLabel?.font = FONT_14
         button.setTitleColor(kAppBlueColor, for: .selected)
         button.layoutButton(.imagePositionLeft, margin: 4)
