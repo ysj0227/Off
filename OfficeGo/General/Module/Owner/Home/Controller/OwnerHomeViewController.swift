@@ -152,7 +152,7 @@ class OwnerHomeViewController: BaseViewController {
             identifyType = .ProtocalTypeIdentifyOwnerUrl
         }else if auditStatus == 2 {
             alert.messageLabel.textAlignment = .left
-            var descString = "你的认证审核未通过"
+            descString = "你的认证审核未通过"
             if identify == 0 {
                 if remark.count > 0 {
                     descString = " \(descString) \n 原因：\(remark)"
