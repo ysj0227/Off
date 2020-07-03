@@ -144,39 +144,26 @@ class OwnerHomeViewController: BaseViewController {
     
     func showIdifyAlertview(identify: Int, auditStatus: Int, remark: String) {
         let alert = SureAlertView(frame: self.view.frame)
+        var titleString: String = ""
         var descString: String = ""
         var identifyType: OwnerIdentifyOrFYType?
         if auditStatus == -1 {
             alert.messageLabel.textAlignment = .center
-            descString = "请先认证身份"
+            titleString = "审核未通过"
             identifyType = .ProtocalTypeIdentifyOwnerUrl
         }else if auditStatus == 2 {
-            alert.messageLabel.textAlignment = .left
-            descString = "你的认证审核未通过"
+            titleString = "审核未通过"
+            descString = remark
+            alert.messageLabel.textAlignment = .center
             if identify == 0 {
-                if remark.count > 0 {
-                    descString = " \(descString) \n 原因：\(remark)"
-                }else {
-                    alert.messageLabel.textAlignment = .center
-                }
                 identifyType = .ProtocalTypeIdentifyPersonageOwnerUrl
             }else if identify == 1 {
-                if remark.count > 0 {
-                    descString = " \(descString) \n 原因：\(remark)"
-                }else {
-                    alert.messageLabel.textAlignment = .center
-                }
                 identifyType = .ProtocalTypeIdentifyBuildingOwnerUrl
             }else if identify == 2 {
-                if remark.count > 0 {
-                    descString = " \(descString) \n 原因：\(remark)"
-                }else {
-                    alert.messageLabel.textAlignment = .center
-                }
                 identifyType = .ProtocalTypeIdentifyJointOwnerUrl
             }
         }
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: descString, cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: titleString, descMsg: descString, cancelButtonCallClick: {
             
         }) {
             

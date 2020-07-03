@@ -331,16 +331,19 @@ class SureAlertView: UIView {
         
         bgview.addSubview(messageLabel)
         
-        let size = alertDescMsg.boundingRect(with: CGSize(width: kMessageAlertWidth - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_12], context: nil)
+        var height: CGFloat = 0
         
-        var height: CGFloat = 20
-        if size.height > 20 {
+        if alertDescMsg.isBlankString {
+            
+        }else {
+            let size = alertDescMsg.boundingRect(with: CGSize(width: kMessageAlertWidth - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_12], context: nil)
+            
             height = size.height
         }
-        
+
         bgview.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageInputAlertHeight - 20 + height))
+            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageAlertHeight + height))
         }
         bottomBtnView.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview()
@@ -354,7 +357,7 @@ class SureAlertView: UIView {
 
         messageLabel.snp.makeConstraints { (make) in
             make.height.equalTo(height)
-            make.top.equalTo(alertMessageLabel.snp.bottom).offset(10)
+            make.top.equalTo(alertMessageLabel.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview().inset(15)
         }
         bottomBtnView.leftBtnClickBlock = { [weak self] in
