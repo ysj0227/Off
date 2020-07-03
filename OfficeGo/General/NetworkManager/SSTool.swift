@@ -55,7 +55,7 @@ import SnapKit
    static func timeIntervalChangeToYYMMHHMMTimeStr(timeInterval:TimeInterval) -> String {
        let date:NSDate = NSDate.init(timeIntervalSince1970: timeInterval)
        let formatter = DateFormatter.init()
-       formatter.dateFormat = "MM月dd日mm:ss"
+       formatter.dateFormat = "MM月dd日HH:mm"
        return formatter.string(from: date as Date)
    }
     ///时间戳转成字符串 - MM月dd日

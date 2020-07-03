@@ -2115,7 +2115,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = dis_boshu_company_0702;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Debug;
@@ -2143,7 +2143,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = dis_boshu_company_0702;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Release;
