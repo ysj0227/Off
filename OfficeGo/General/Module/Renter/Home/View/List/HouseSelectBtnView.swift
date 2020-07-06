@@ -243,9 +243,26 @@ class HouseSelectBtnView: UIView {
     }
     
     func showArea(isFrist: Bool) {
-        areaView.ShowAreaaddressView(isfirst: isFrist, model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] in
-            self?.setBtnUpOrDown(button: self?.houseAreaSelectBtn, isUp: false)
-            }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
+        areaView.ShowAreaaddressView(isfirst: isFrist, model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
+                if selectModel.areaModel.selectedCategoryID == "1" {
+                    self?.houseAreaSelectBtn.setTitle("商圈", for: .normal)
+                    self?.houseAreaSelectBtn.isSelected = true
+                }else if selectModel.areaModel.selectedCategoryID == "2" {
+                    self?.houseAreaSelectBtn.setTitle("地铁", for: .normal)
+                    self?.houseAreaSelectBtn.isSelected = true
+                }else {
+                    self?.houseAreaSelectBtn.setTitle("区域", for: .normal)
+                    self?.houseAreaSelectBtn.isSelected = false
+                }
+                self?.selectModel = selectModel
+                self?.setBtnUpOrDown(button: self?.houseAreaSelectBtn, isUp: false)
+                
+                //把筛选条件带到页面上去
+                guard let blockk = self?.sureButtonButtonCallBack else {
+                    return
+                }
+                blockk(self?.hiddenArea ?? false, self?.selectModel ?? selectModel)
+        }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
                 if selectModel.areaModel.selectedCategoryID == "1" {
                     self?.houseAreaSelectBtn.setTitle("商圈", for: .normal)
                     self?.houseAreaSelectBtn.isSelected = true
@@ -324,9 +341,21 @@ class HouseSelectBtnView: UIView {
     func showShaixuan() {
         shaixuanView = HouseShaixuanSelectView.init(frame: CGRect(x: 0.0, y: self.bottom, width: kWidth, height: kHeight - self.bottom))
         
-        shaixuanView?.ShowHouseShaixuanView(issubView:false, model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] in
-            self?.setBtnUpOrDown(button: self?.houseShaixuanBtn, isUp: false)
-            }, sureHouseShaixuanButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
+        shaixuanView?.ShowHouseShaixuanView(issubView:false, model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
+                self?.selectModel = selectModel
+                self?.setBtnUpOrDown(button: self?.houseShaixuanBtn, isUp: false)
+                
+                ///点击筛选后，更改类型的文字和颜色
+                  self?.houseTypeSelectBtn.setTitle(self?.selectModel?.typeModel.type?.rawValue, for: .normal)
+                  self?.houseTypeSelectBtn.isSelected = true
+                  self?.houseTypeSelectBtn.layoutButton(.imagePositionRight, space: 6)
+                
+                //把筛选条件带到页面上去
+                guard let blockk = self?.sureButtonButtonCallBack else {
+                    return
+                }
+                blockk(self?.hiddenArea ?? false, self?.selectModel ?? selectModel)
+        }, sureHouseShaixuanButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
                 self?.selectModel = selectModel
                 self?.setBtnUpOrDown(button: self?.houseShaixuanBtn, isUp: false)
                 

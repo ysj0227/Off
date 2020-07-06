@@ -20,6 +20,7 @@ class AreaModel: HandyJSON {
     var subwayModelCount = SubwayCategorySelectModel()
     
     required init() {
+        selectedCategoryID = "1"
     }
     
 }
