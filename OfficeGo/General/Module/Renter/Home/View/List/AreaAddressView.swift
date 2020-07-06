@@ -82,16 +82,12 @@ class AreaAddressView: UIView {
     
     // MARK: - block
     //清除block
-    var clearButtonCallBack:(() -> Void)?
+    var clearButtonCallBack:((HouseSelectModel) -> Void)?
     
     //筛选block
     var sureAreaaddressButtonCallBack:((HouseSelectModel) -> Void)?
     
     @objc func clickRemoveFromSuperview() {
-        guard let blockk = clearButtonCallBack else {
-            return
-        }
-        blockk()
         selfRemove()
     }
     
@@ -101,7 +97,7 @@ class AreaAddressView: UIView {
     
     // MARK: - 弹出view显示
     // MARK: - 弹出view显示 - 筛选
-    func ShowAreaaddressView(isfirst: Bool, model: HouseSelectModel, clearButtonCallBack: @escaping (() -> Void), sureAreaaddressButtonCallBack: @escaping ((HouseSelectModel) -> Void)) -> Void {
+    func ShowAreaaddressView(isfirst: Bool, model: HouseSelectModel, clearButtonCallBack: @escaping ((HouseSelectModel) -> Void), sureAreaaddressButtonCallBack: @escaping ((HouseSelectModel) -> Void)) -> Void {
         
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: AreaAddressView.self) {
@@ -121,9 +117,9 @@ class AreaAddressView: UIView {
         selectModel = model
         areaRegionModel = model.areaModel
         areaCategoryLevelModel = areaRegionModel.areaModelCount
-//        areaFirstLevelModel = areaCategoryLevelModel.data[0]
+        //        areaFirstLevelModel = areaCategoryLevelModel.data[0]
         subwayCategoryLevelModel = areaRegionModel.subwayModelCount
-//        subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+        //        subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
         
         if isfirst != true {
             reloadNodata()
@@ -156,8 +152,12 @@ class AreaAddressView: UIView {
         self.addSubview(bottomBtnView)
         
         bottomBtnView.leftBtnClickBlock = { [weak self] in
-            
             self?.clearData()
+            guard let blockk = self?.clearButtonCallBack else {
+                return
+            }
+            blockk(self?.selectModel ?? HouseSelectModel())
+            self?.selfRemove()
         }
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             guard let blockk = self?.sureAreaaddressButtonCallBack else {
@@ -201,22 +201,31 @@ class AreaAddressView: UIView {
     
     //MARK: 清除数据操作
     func clearData() {
-
-        
         
         if areaRegionModel.selectedCategoryID == "1" {
-                  
-            areaCategoryLevelModel = areaRegionModel.areaModelCount
-            areaFirstLevelModel = areaCategoryLevelModel.data[0]
             for model in areaFirstLevelModel.list {
                 model.isSelected = false
             }
+            areaRegionModel.areaModelCount.isFirstSelectedModel = nil
+            areaCategoryLevelModel = areaRegionModel.areaModelCount
+            areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
+
+            areaRegionModel.subwayModelCount.isFirstSelectedModel = nil
+            subwayCategoryLevelModel = areaRegionModel.subwayModelCount            
+            subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+            
         }else {
-            subwayCategoryLevelModel = areaRegionModel.subwayModelCount
-            subwayFirstLevelModel = subwayCategoryLevelModel.data[0]
             for model in subwayFirstLevelModel.list {
                 model.isSelected = false
             }
+            areaRegionModel.areaModelCount.isFirstSelectedModel = nil
+            areaCategoryLevelModel = areaRegionModel.areaModelCount
+            areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
+
+            areaRegionModel.subwayModelCount.isFirstSelectedModel = nil
+            subwayCategoryLevelModel = areaRegionModel.subwayModelCount
+            subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+            
         }
         //清除操作
         categoryTableview.reloadData()
@@ -390,32 +399,41 @@ extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
                     
                 }else {
                     areaRegionModel.selectedCategoryID = areaCategoryLevelModel.id
-                    areaCategoryLevelModel = areaRegionModel.areaModelCount
-                    areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
-                    subwayCategoryLevelModel = areaRegionModel.subwayModelCount
-                    subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
                     for model in areaFirstLevelModel.list {
                         model.isSelected = false
                     }
+                    
+                    areaRegionModel.areaModelCount.isFirstSelectedModel = nil
+                    areaCategoryLevelModel = areaRegionModel.areaModelCount
+                    areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
+
+                    areaRegionModel.subwayModelCount.isFirstSelectedModel = nil
+                    subwayCategoryLevelModel = areaRegionModel.subwayModelCount
+                    subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+                    
                     categoryTableview.reloadData()
                     firstLevelTableView.reloadData()
                     secondLevelTableView.reloadData()
                 }
-                                
+                
             }else if indexPath.row == 1 {
                 
                 if areaRegionModel.selectedCategoryID == subwayCategoryLevelModel.id {
                     
                 }else {
                     areaRegionModel.selectedCategoryID = subwayCategoryLevelModel.id
-                    
-                    areaCategoryLevelModel = areaRegionModel.areaModelCount
-                    areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
-                    subwayCategoryLevelModel = areaRegionModel.subwayModelCount
-                    subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
                     for model in subwayFirstLevelModel.list {
                         model.isSelected = false
                     }
+                    
+                    areaRegionModel.areaModelCount.isFirstSelectedModel = nil
+                    areaCategoryLevelModel = areaRegionModel.areaModelCount
+                    areaFirstLevelModel = AreaCategoryFirstLevelSelectModel()
+
+                    areaRegionModel.subwayModelCount.isFirstSelectedModel = nil
+                    subwayCategoryLevelModel = areaRegionModel.subwayModelCount
+                    subwayFirstLevelModel = SubwayCategoryFirstLevelSelectModel()
+                    
                     categoryTableview.reloadData()
                     firstLevelTableView.reloadData()
                     secondLevelTableView.reloadData()
@@ -430,11 +448,12 @@ extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
                 if areaFirstLevelModel.districtID == areaCategoryLevelModel.data[indexPath.row].districtID {
                     
                 }else {
-                    areaFirstLevelModel = areaCategoryLevelModel.data[indexPath.row]
-                    areaRegionModel.areaModelCount.isFirstSelectedModel = areaFirstLevelModel
                     for model in areaFirstLevelModel.list {
                         model.isSelected = false
                     }
+                    areaFirstLevelModel = areaCategoryLevelModel.data[indexPath.row]
+                    areaRegionModel.areaModelCount.isFirstSelectedModel = areaFirstLevelModel
+                    
                     categoryTableview.reloadData()
                     firstLevelTableView.reloadData()
                     secondLevelTableView.reloadData()
@@ -442,13 +461,14 @@ extension AreaAddressView: UITableViewDelegate, UITableViewDataSource {
                 
             }else {
                 if subwayFirstLevelModel.lid == subwayCategoryLevelModel.data[indexPath.row].lid {
-
+                    
                 }else {
-                    subwayFirstLevelModel = subwayCategoryLevelModel.data[indexPath.row]
-                    areaRegionModel.subwayModelCount.isFirstSelectedModel = subwayFirstLevelModel
                     for model in subwayFirstLevelModel.list {
                         model.isSelected = false
                     }
+                    subwayFirstLevelModel = subwayCategoryLevelModel.data[indexPath.row]
+                    areaRegionModel.subwayModelCount.isFirstSelectedModel = subwayFirstLevelModel
+                    
                     categoryTableview.reloadData()
                     firstLevelTableView.reloadData()
                     secondLevelTableView.reloadData()

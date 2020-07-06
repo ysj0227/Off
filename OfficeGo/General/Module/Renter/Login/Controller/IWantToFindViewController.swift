@@ -139,8 +139,9 @@ extension IWantToFindViewController {
     
     //MARK:-  页面显示
     func setModelShow() {
-        shaixuanView.ShowHouseShaixuanView(issubView:true, model: self.selectModel, clearButtonCallBack: {
-            
+        shaixuanView.ShowHouseShaixuanView(issubView:true, model: self.selectModel, clearButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
+            self?.selectModel = selectModel
+            self?.request_addWantToFind()
         }, sureHouseShaixuanButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
             self?.selectModel = selectModel
             self?.request_addWantToFind()
