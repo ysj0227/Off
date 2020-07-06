@@ -338,7 +338,7 @@ extension AppDelegate {
     
     func showLogotAlertview() {
         let alert = SureAlertView(frame: window?.frame ?? CGRect.zero)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: "你的账号已在其他设备上登录，是否重连", cancelButtonCallClick: {[weak self] in
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: "你的账号已在其他设备上登录，是否重连，如果不是你的操作，请尽快修改密码", cancelButtonCallClick: {[weak self] in
             
             //TOOD: 怎么操作
             self?.logout()
