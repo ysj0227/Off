@@ -11,7 +11,7 @@ import UIKit
 class RenterFeatureCell: BaseTableViewCell {
     
     lazy var titleLabel: UILabel = {
-        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 19, width: 22, height: 20))
+        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 19, width: 24, height: 20))
         view.textAlignment = .left
         view.numberOfLines = 0
         view.font = FONT_11

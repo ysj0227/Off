@@ -36,14 +36,14 @@ class RenterUserHeaderView: UIView {
     
     lazy var nameLabel: UILabel = {
         let view = UILabel()
-        view.font = FONT_MEDIUM_18
+        view.font = FONT_MEDIUM_19
         view.textColor = kAppWhiteColor
         return view
     }()
     
     lazy var introductionLabel: UILabel = {
         let view = UILabel()
-        view.font = FONT_12
+        view.font = FONT_13
         view.textColor = kAppWhiteColor
         return view
     }()
@@ -63,7 +63,7 @@ class RenterUserHeaderView: UIView {
         let view = UIButton()
         view.setTitle("立即登录", for: .normal)
         view.isHidden = true
-        view.titleLabel?.font = FONT_12
+        view.titleLabel?.font = FONT_13
         view.setCornerRadius(cornerRadius: 15, masksToBounds: true)
         view.layer.borderColor = kAppWhiteColor.cgColor
         view.layer.borderWidth = 1.0
@@ -223,12 +223,12 @@ class RenterUserHeaderView: UIView {
         headerImg.snp.makeConstraints { (make) in
             make.top.equalTo(10)
             make.leading.equalTo(left_pending_space_17)
-            make.size.equalTo(64)
+            make.size.equalTo(72)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(headerImg)
             make.leading.equalTo(headerImg.snp.trailing).offset(10)
-            make.height.equalTo(32)
+            make.height.equalTo(40)
         }
         //只有业主才会出现
         aduitStatusView.snp.makeConstraints { (make) in
@@ -242,7 +242,7 @@ class RenterUserHeaderView: UIView {
         introductionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom)
             make.leading.equalTo(nameLabel)
-            make.height.equalTo(introductionLabel)
+            make.height.equalTo(28)
         }
         loginbutton.snp.makeConstraints { (make) in
             make.centerY.equalTo(headerImg)

@@ -55,6 +55,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         let view = detailItemView(frame: CGRect(x: 0, y: 0, width: (kWidth - 79 - left_pending_space_17 * 2 - 11) / 3.0, height: 40))
         view.titleLabel.textAlignment = .left
         view.descripLabel.textAlignment = .left
+        view.titleLabel.font = FONT_14
         view.titleLabel.textColor = kAppColor_333333
         view.lineView.isHidden = true
         return view

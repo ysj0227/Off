@@ -31,7 +31,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     //筛选条件
     let shaixuanConditionView: ShaixuanConditionSelectView = {
-        let item = ShaixuanConditionSelectView(frame: CGRect(x: left_pending_space_17, y: 44, width: kWidth - left_pending_space_17 * 2, height: 40))
+        let item = ShaixuanConditionSelectView(frame: CGRect(x: left_pending_space_17, y: 61, width: kWidth - left_pending_space_17 * 2, height: 46))
         return item
     }()
     
@@ -45,7 +45,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     //tableview头部
     let itemview: RenterHeaderItemSelectView = {
-        let item = RenterHeaderItemSelectView(frame: CGRect(x: left_pending_space_17, y: 44, width: kWidth - left_pending_space_17, height: 40))
+        let item = RenterHeaderItemSelectView(frame: CGRect(x: left_pending_space_17, y: 61, width: kWidth - left_pending_space_17, height: 46))
         item.backgroundColor = kAppBlueColor
         return item
     }()
@@ -792,15 +792,15 @@ extension RenterOfficeJointDetailVC {
                 if isTrafficUp == true {
                     if let arr = buildingDetailModel?.building?.nearbySubwayTime {
                         if arr.count <= 0 {
-                            return CGFloat(40 + 30 * 1 + 2)
+                            return CGFloat(45 + 30 * 1 + 2)
                         }else {
-                            return CGFloat(40 + 30 * arr.count + 2)
+                            return CGFloat(45 + 30 * arr.count + 2)
                         }
                     }else {
-                        return 40 + 30 + 2
+                        return 45 + 30 + 2
                     }
                 }else {
-                    return 40 + 30 + 2
+                    return 45 + 30 + 2
                 }
             case FYDetailItemType.FYDetailItemTypeFeature:
                 if let tags = buildingDetailModel?.tags {
@@ -845,7 +845,7 @@ extension RenterOfficeJointDetailVC {
             }
         }else if section == 3 {
             //如果独立办公室数据数组大于0显示
-            return 52 + 39 + 15
+            return 61 + 46 + 15
         }else {
             return 0
         }
@@ -861,7 +861,7 @@ extension RenterOfficeJointDetailVC {
             title.frame = CGRect(x: left_pending_space_17, y: 15, width: kWidth - left_pending_space_17, height: 25)
             title.textColor = kAppColor_333333
             title.text = self.buildingDetailViewModel?.buildingViewModel?.buildingName
-            title.font = FONT_15
+            title.font = FONT_16
             view.addSubview(title)
             return view
         }else if section == 2 {
@@ -885,7 +885,7 @@ extension RenterOfficeJointDetailVC {
             let view = UIView()
             view.backgroundColor = kAppWhiteColor
             let title = UILabel()
-            title.frame = CGRect(x: left_pending_space_17, y: 15, width: kWidth - left_pending_space_17, height: 25)
+            title.frame = CGRect(x: left_pending_space_17, y: 9, width: kWidth - left_pending_space_17, height: 44)
             title.textColor = kAppColor_333333
             title.text = "独立办公室"
             title.font = FONT_15

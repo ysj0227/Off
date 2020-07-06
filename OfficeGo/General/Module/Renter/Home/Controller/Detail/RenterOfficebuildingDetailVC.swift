@@ -31,7 +31,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     //筛选条件
     let shaixuanConditionView: ShaixuanConditionSelectView = {
-        let item = ShaixuanConditionSelectView(frame: CGRect(x: left_pending_space_17, y: 44, width: kWidth - left_pending_space_17 * 2, height: 40))
+        let item = ShaixuanConditionSelectView(frame: CGRect(x: left_pending_space_17, y: 61, width: kWidth - left_pending_space_17 * 2, height: 46))
         return item
     }()
     
@@ -45,7 +45,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     //tableview头部
     let itemview: RenterHeaderItemSelectView = {
-        let item = RenterHeaderItemSelectView(frame: CGRect(x: left_pending_space_17, y: 44, width: kWidth - left_pending_space_17, height: 40))
+        let item = RenterHeaderItemSelectView(frame: CGRect(x: left_pending_space_17, y: 61, width: kWidth - left_pending_space_17, height: 46))
         item.backgroundColor = kAppBlueColor
         return item
     }()
@@ -722,15 +722,15 @@ extension RenterOfficebuildingDetailVC {
                 if isTrafficUp == true {
                     if let arr = buildingDetailModel?.building?.nearbySubwayTime {
                         if arr.count <= 0 {
-                            return CGFloat(40 + 30 * 1 + 1)
+                            return CGFloat(45 + 30 * 1 + 1)
                         }else {
-                            return CGFloat(40 + 30 * arr.count + 1)
+                            return CGFloat(45 + 30 * arr.count + 1)
                         }
                     }else {
-                        return 40 + 30 + 1
+                        return 45 + 30 + 1
                     }
                 }else {
-                    return 40 + 30 + 1
+                    return 45 + 30 + 1
                 }
             case FYDetailItemType.FYDetailItemTypeFeature:
                 if let tags = buildingDetailModel?.tags {
@@ -766,7 +766,7 @@ extension RenterOfficebuildingDetailVC {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { //办公楼
         if section == 1 {
-            return 52 + 39 + 15
+            return 61 + 46 + 15
         }else {
             return 0
         }
@@ -778,7 +778,7 @@ extension RenterOfficebuildingDetailVC {
             let view = UIView()
             view.backgroundColor = kAppWhiteColor
             let title = UILabel()
-            title.frame = CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17, height: 44)
+            title.frame = CGRect(x: left_pending_space_17, y: 9, width: kWidth - left_pending_space_17, height: 44)
             title.textColor = kAppColor_333333
             title.text = "在租写字楼"
             title.font = FONT_15

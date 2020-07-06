@@ -21,13 +21,13 @@ class RenterAvatarUploadHeaderView: UIView { //高度69
         let view = BaseImageView.init()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
-        view.layer.cornerRadius = 19
+        view.layer.cornerRadius = 22.5
         return view
     }()
     
     lazy var nameLabel: UILabel = {
         let view = UILabel()
-        view.font = FONT_14
+        view.font = FONT_15
         view.textColor = kAppColor_333333
         view.text = "头像"
         return view
@@ -35,7 +35,7 @@ class RenterAvatarUploadHeaderView: UIView { //高度69
     
     lazy var introductionLabel: UILabel = {
         let view = UILabel()
-        view.font = FONT_10
+        view.font = FONT_11
         view.textColor = kAppColor_666666
         view.text = "上传真实头像有助于增加信任感"
         return view
@@ -76,10 +76,10 @@ class RenterAvatarUploadHeaderView: UIView { //高度69
         headerImg.snp.makeConstraints { (make) in
             make.trailing.equalTo(-left_pending_space_17)
             make.centerY.equalToSuperview()
-            make.size.equalTo(38)
+            make.size.equalTo(45)
         }
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(14)
+            make.top.equalTo(16)
             make.leading.equalTo(left_pending_space_17)
             make.height.equalTo(23)
         }

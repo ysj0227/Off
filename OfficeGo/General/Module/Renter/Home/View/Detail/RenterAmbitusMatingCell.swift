@@ -71,7 +71,7 @@ class RenterFeatureCollectionCell: BaseCollectionViewCell {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_11
+        view.font = FONT_13
         view.textColor = kAppColor_333333
         return view
     }()
@@ -79,7 +79,7 @@ class RenterFeatureCollectionCell: BaseCollectionViewCell {
     lazy var numLabel: UILabel = {
        let view = UILabel()
        view.textAlignment = .left
-       view.font = FONT_LIGHT_11
+       view.font = FONT_LIGHT_13
        view.textColor = kAppColor_666666
        return view
    }()

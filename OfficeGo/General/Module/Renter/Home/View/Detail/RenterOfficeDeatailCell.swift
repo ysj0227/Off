@@ -10,6 +10,8 @@ import UIKit
 
 class RenterOfficeDeatailCell: BaseTableViewCell {
     
+    @IBOutlet weak var titleLabel: UILabel!
+    
     @IBOutlet weak var ruzhuQiyeConstantHeight: NSLayoutConstraint!
     
     @IBOutlet weak var airDefaultConditioningLabel: UILabel!
@@ -69,7 +71,7 @@ class RenterOfficeDeatailCell: BaseTableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        titleLabel.font = FONT_15
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -80,6 +82,6 @@ class RenterOfficeDeatailCell: BaseTableViewCell {
     
     
     class func rowHeight() -> CGFloat {
-        return 400
+        return 486
     }
 }

@@ -10,7 +10,9 @@ import UIKit
 
 class RenterOfficebuildingFYDeatailCell: BaseTableViewCell {
     
+    @IBOutlet weak var titleLabel: UILabel!
     ///办公格局
+    
     @IBOutlet weak var officePatternLabel: UILabel!
     
     @IBOutlet weak var floorLabel: UILabel!
@@ -26,7 +28,8 @@ class RenterOfficebuildingFYDeatailCell: BaseTableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        titleLabel.font = FONT_15
     }
     
     var model: FangYuanBuildingFYDetailBasicInformationModel = FangYuanBuildingFYDetailBasicInformationModel() {
@@ -79,6 +82,6 @@ class RenterOfficebuildingFYDeatailCell: BaseTableViewCell {
     }
     
     class func rowHeight() -> CGFloat {
-        return 236
+        return 277
     }
 }

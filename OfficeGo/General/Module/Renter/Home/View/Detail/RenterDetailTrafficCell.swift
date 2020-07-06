@@ -105,10 +105,10 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     
     
     class func rowHeight() -> CGFloat {
-        return 40 + 30
+        return 45 + 30
     }
     
     func rowHeight() -> CGFloat {
-        return 40 + 30 * 2
+        return 45 + 30 * 2
     }
 }

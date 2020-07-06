@@ -47,7 +47,7 @@ class OwnerUserMsgViewController: BaseTableViewController {
     }()
     
     var headerView: RenterAvatarUploadHeaderView = {
-        let view = RenterAvatarUploadHeaderView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 68))
+        let view = RenterAvatarUploadHeaderView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 80))
         return view
     }()
     
@@ -288,7 +288,7 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_14
+        view.font = FONT_15
         view.textColor = kAppColor_333333
         return view
     }()
@@ -297,7 +297,7 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
     lazy var editLabel: UITextField = {
         let view = UITextField()
         view.textAlignment = .left
-        view.font = FONT_14
+        view.font = FONT_15
         view.delegate = self
         view.textColor = kAppColor_333333
         return view
@@ -324,7 +324,7 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     class func rowHeight() -> CGFloat {
-        return 49
+        return 58
     }
     //判断是否显示显示员工管理
     var userModel: LoginUserModel?

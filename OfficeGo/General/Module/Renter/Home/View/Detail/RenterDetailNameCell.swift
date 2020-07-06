@@ -11,30 +11,35 @@ import UIKit
 class RenterDetailNameCell: BaseTableViewCell {
     
     lazy var titleLabel: UILabel = {
-        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17, height: 21 + 18 * 2))
+        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17, height: 25 + 22 * 2))
         view.textAlignment = .left
         view.numberOfLines = 0
-        view.font = FONT_15
+        view.font = FONT_17
         view.textColor = kAppColor_333333
         return view
     }()
     
     lazy var firstItem: detailItemView = {
-        let view = detailItemView(frame: CGRect(x: left_pending_space_17, y: 21 + 18 * 2, width: (kWidth - left_pending_space_17 * 2) / 3.0, height: 40))
+        let view = detailItemView(frame: CGRect(x: left_pending_space_17, y: 25 + 22 * 2, width: (kWidth - left_pending_space_17 * 2) / 3.0, height: 50))
         return view
     }()
 
     lazy var secondItem: detailItemView = {
-        let view = detailItemView(frame: CGRect(x: left_pending_space_17 + (kWidth - left_pending_space_17 * 2) / 3.0, y: 21 + 18 * 2, width: kWidth / 3.0, height: 40))
+        let view = detailItemView(frame: CGRect(x: left_pending_space_17 + (kWidth - left_pending_space_17 * 2) / 3.0, y: 25 + 22 * 2, width: kWidth / 3.0, height: 50))
         return view
     }()
 
     lazy var thirdItem: detailItemView = {
-        let view = detailItemView(frame: CGRect(x: left_pending_space_17 + (kWidth - left_pending_space_17 * 2) / 3.0 * 2, y: 21 + 18 * 2, width: kWidth / 3.0, height: 40))
+        let view = detailItemView(frame: CGRect(x: left_pending_space_17 + (kWidth - left_pending_space_17 * 2) / 3.0 * 2, y: 25 + 22 * 2, width: kWidth / 3.0, height: 50))
         view.lineView.isHidden = true
         return view
     }()
 
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -50,6 +55,13 @@ class RenterDetailNameCell: BaseTableViewCell {
         self.addSubview(firstItem)
         self.addSubview(secondItem)
         self.addSubview(thirdItem)
+        self.addSubview(lineView)
+        
+        lineView.snp.makeConstraints { (make) in
+            make.height.equalTo(1)
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.bottom.equalToSuperview().offset(-1)
+        }
     }
     
     override func awakeFromNib() {
@@ -112,7 +124,7 @@ class RenterDetailNameCell: BaseTableViewCell {
        
     
     class func rowHeight() -> CGFloat {
-        return 107
+        return 125
     }
     
 }
@@ -121,7 +133,7 @@ class RenterDetailNameCell: BaseTableViewCell {
 class RenterJointDetailNameCell: BaseTableViewCell {
     
     lazy var tagLabel: UILabel = {
-        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 5, width: 52, height: 21))
+        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 5, width: 60, height: 21))
         view.textAlignment = .center
         view.font = FONT_10
         view.textColor = kAppWhiteColor
@@ -130,21 +142,26 @@ class RenterJointDetailNameCell: BaseTableViewCell {
     }()
     
     lazy var firstItem: detailItemView = {
-        let view = detailItemView(frame: CGRect(x: left_pending_space_17, y: 26 + 5, width: (kWidth - left_pending_space_17 * 2) / 3.0, height: 40))
+        let view = detailItemView(frame: CGRect(x: left_pending_space_17, y: 27 + 5, width: (kWidth - left_pending_space_17 * 2) / 3.0, height: 50))
         return view
     }()
 
     lazy var secondItem: detailItemView = {
-        let view = detailItemView(frame: CGRect(x: left_pending_space_17 + (kWidth - left_pending_space_17 * 2) / 3.0, y: 26 + 5, width: kWidth / 3.0, height: 40))
+        let view = detailItemView(frame: CGRect(x: left_pending_space_17 + (kWidth - left_pending_space_17 * 2) / 3.0, y: 27 + 5, width: kWidth / 3.0, height: 50))
         return view
     }()
 
     lazy var thirdItem: detailItemView = {
-        let view = detailItemView(frame: CGRect(x: left_pending_space_17 + (kWidth - left_pending_space_17 * 2) / 3.0 * 2, y: 26 + 5, width: kWidth / 3.0, height: 40))
+        let view = detailItemView(frame: CGRect(x: left_pending_space_17 + (kWidth - left_pending_space_17 * 2) / 3.0 * 2, y: 27 + 5, width: kWidth / 3.0, height: 50))
         view.lineView.isHidden = true
         return view
     }()
 
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -160,6 +177,13 @@ class RenterJointDetailNameCell: BaseTableViewCell {
         self.addSubview(firstItem)
         self.addSubview(secondItem)
         self.addSubview(thirdItem)
+        self.addSubview(lineView)
+        
+        lineView.snp.makeConstraints { (make) in
+            make.height.equalTo(1)
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.bottom.equalToSuperview().offset(-1)
+        }
     }
     
     override func awakeFromNib() {
@@ -215,7 +239,9 @@ class RenterJointDetailNameCell: BaseTableViewCell {
         else if viewModel.btype == 2 {
             //开放工位
             if isOpenSeats == true {
+                lineView.isHidden = true
                 if viewModel.openStationFlag == true {
+                    lineView.isHidden = false
                     thirdItem.isHidden = true
                     firstItem.isHidden = false
                     secondItem.isHidden = false
@@ -233,7 +259,11 @@ class RenterJointDetailNameCell: BaseTableViewCell {
                 }
                 
             }else {
-                thirdItem.isHidden = false
+                if viewModel.openStationFlag == true {
+                    lineView.isHidden = true
+                }else {
+                    lineView.isHidden = false
+                }
                 firstItem.isHidden = false
                 secondItem.isHidden = false
                 tagLabel.isHidden = false
@@ -252,7 +282,7 @@ class RenterJointDetailNameCell: BaseTableViewCell {
     }
     
     class func rowHeight() -> CGFloat {
-        return 72
+        return 88
     }
     
 }

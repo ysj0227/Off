@@ -17,7 +17,7 @@ class RenterMineCell: BaseTableViewCell {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_14
+        view.font = FONT_15
         view.textColor = kAppColor_333333
         return view
     }()
@@ -26,7 +26,7 @@ class RenterMineCell: BaseTableViewCell {
         let view = UILabel()
         view.isHidden = true
         view.textAlignment = .right
-        view.font = FONT_10
+        view.font = FONT_11
         view.textColor = kAppColor_666666
         return view
     }()
@@ -50,7 +50,7 @@ class RenterMineCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     class func rowHeight() -> CGFloat {
-        return 49
+        return 58
     }
     
     var renterModel: RenterMineConfigureModel = RenterMineConfigureModel(types: RenterMineType.RenterMineTypeAboutus) {

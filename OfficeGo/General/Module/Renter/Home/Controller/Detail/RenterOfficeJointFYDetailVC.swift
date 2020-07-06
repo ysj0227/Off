@@ -478,12 +478,12 @@ extension RenterOfficeJointFYDetailVC {
         case FYDetailItemType.FYDetailItemTypeTraffic:
             if isTrafficUp == true {
                 if let arr = buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr {
-                    return CGFloat(40 + 30 * arr.count + 1)
+                    return CGFloat(45 + 30 * arr.count + 1)
                 }else {
-                    return 40 + 30 + 1
+                    return 45 + 30 + 1
                 }
             }else {
-                return 40 + 30 + 1
+                return 45 + 30 + 1
             }
             
         case FYDetailItemType.FYDetailItemTypeFeature:

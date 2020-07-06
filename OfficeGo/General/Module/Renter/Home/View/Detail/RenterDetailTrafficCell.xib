@@ -48,11 +48,11 @@
                         <state key="normal" image="moreDetail"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gt3-CN-oVQ">
-                        <rect key="frame" x="281" y="43.5" width="37" height="25"/>
+                        <rect key="frame" x="273" y="43.5" width="45" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="YQ9-po-vLO"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="9"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                         <state key="normal" title="全部站点">
                             <color key="titleColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
@@ -68,7 +68,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gus-0f-8y3">
-                        <rect key="frame" x="37" y="40.5" width="236" height="25"/>
+                        <rect key="frame" x="37" y="40.5" width="228" height="25"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="JJg-pU-3ER"/>
@@ -101,7 +101,7 @@
                 <outlet property="lookAllButton" destination="Gt3-CN-oVQ" id="iFF-7d-caF"/>
                 <outlet property="trafficLineView" destination="gus-0f-8y3" id="xg8-zA-UQz"/>
             </connections>
-            <point key="canvasLocation" x="263" y="62"/>
+            <point key="canvasLocation" x="1" y="41"/>
         </tableViewCell>
     </objects>
     <resources>

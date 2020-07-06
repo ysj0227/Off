@@ -10,12 +10,13 @@ import UIKit
 
 class RenterShareServiceCell: BaseTableViewCell {
     
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var chuangyeServiceView: ShareItemBtnView!
     @IBOutlet weak var featureServiceView: ShareItemBtnView!
     @IBOutlet weak var basicServiceView: ShareItemBtnView!
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        titleLabel.font = FONT_15
     }
     
     //创业服务
@@ -58,7 +59,7 @@ class RenterShareServiceCell: BaseTableViewCell {
     
     
     class func rowHeight() -> CGFloat {
-        return 260 - 70
+        return 300 - 70
     }
 }
 

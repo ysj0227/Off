@@ -35,6 +35,7 @@ class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        unitPatternRemarkLabel.font = FONT_LIGHT_11
         huxingImgConstantHeight.constant = (kWidth - left_pending_space_17 * 2) * (2 / 3.0)
     }
 
