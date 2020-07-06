@@ -21,7 +21,7 @@ class RenterAvatarUploadHeaderView: UIView { //高度69
         let view = BaseImageView.init()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
-        view.layer.cornerRadius = 22.5
+        view.layer.cornerRadius = 22
         return view
     }()
     
@@ -76,7 +76,7 @@ class RenterAvatarUploadHeaderView: UIView { //高度69
         headerImg.snp.makeConstraints { (make) in
             make.trailing.equalTo(-left_pending_space_17)
             make.centerY.equalToSuperview()
-            make.size.equalTo(45)
+            make.size.equalTo(44)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(16)

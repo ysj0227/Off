@@ -28,7 +28,7 @@ let btnHeight_50: CGFloat = 50
 let button_cordious_2: CGFloat = 2
 
 //头像的圆角
-let heder_cordious_32: CGFloat = 32
+let heder_cordious_36: CGFloat = 36
 
 let button_cordious_15: CGFloat = 15
 

@@ -30,13 +30,13 @@ class RenterUserHeaderView: UIView {
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.image = UIImage.init(named: "avatar")
-        view.layer.cornerRadius = heder_cordious_32
+        view.layer.cornerRadius = heder_cordious_36
         return view
     }()
     
     lazy var nameLabel: UILabel = {
         let view = UILabel()
-        view.font = FONT_MEDIUM_19
+        view.font = FONT_MEDIUM_18
         view.textColor = kAppWhiteColor
         return view
     }()
