@@ -121,7 +121,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        closeAutomaticallyAdjusts()
+        //closeAutomaticallyAdjusts()
         
         request_bannerlist()
         
