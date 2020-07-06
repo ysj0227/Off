@@ -169,6 +169,8 @@ class RenterChatViewController: RCConversationViewController {
                 weakSelf.messageFYViewModel = MessageFYViewModel.init(model: model)
                                 
                 weakSelf.setViewShow()
+                
+                weakSelf.sengSayHelloMessage()
             }
             
             weakSelf.isGetFYSuccess = true
@@ -495,6 +497,18 @@ extension RenterChatViewController {
 }
 
 extension RenterChatViewController {
+    
+    //发送打招呼语第一次创建聊天 - 租户给业主发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
+    func sengSayHelloMessage() {
+        
+        ///isChat":0//0 :点击发送按钮的时候需要调用addChat接口，1:不需要
+        if messageFYModel?.isChat == 1 {
+            return
+        }
+        
+        let message = RCTextMessage(content: "我对你发布的房源有兴趣，能聊聊吗？")
+        sendMessage(message, pushContent: "打招呼")
+    }
     
     //添加插入房源消息
     func insertMessage() {
