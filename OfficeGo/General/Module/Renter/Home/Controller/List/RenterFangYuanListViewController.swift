@@ -36,6 +36,10 @@ class RenterFangYuanListViewController: BaseTableViewController {
         
     }
     
+    override func layoutSet () {
+        
+    }
+    
     override func noDataViewSet() {
         //        noDataView.snp.remakeConstraints { (make) in
         //            make.centerX.equalToSuperview()
