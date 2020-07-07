@@ -94,8 +94,7 @@ class RenterCustomersViewController: BaseViewController, MFMailComposeViewContro
         mailComposeVC.mailComposeDelegate = self
 
         //设置邮件地址、主题及正文
-        mailComposeVC.setToRecipients(["Clientservice@officego.com"])
-//        mailComposeVC.setToRecipients(["995924226@qq.com"])
+        mailComposeVC.setToRecipients([CustomerService.CustomerEmail])
 
         mailComposeVC.setSubject("")
         mailComposeVC.setMessageBody("", isHTML: false)
@@ -135,10 +134,10 @@ class RenterCustomersViewController: BaseViewController, MFMailComposeViewContro
     @objc func phoneClick() {
         let alertController = UIAlertController.init(title: "联系客服", message: nil, preferredStyle: .actionSheet)
         let refreshAction = UIAlertAction.init(title: "业务咨询", style: .default) { (action: UIAlertAction) in
-            SSTool.callPhoneTelpro(phone: "13817176560")
+            SSTool.callPhoneTelpro(phone: CustomerService.CustomerYeWuZiXunTel)
         }
         let copyAction = UIAlertAction.init(title: "技术支持", style: .default) { (action: UIAlertAction) in
-            SSTool.callPhoneTelpro(phone: "13052007068")
+            SSTool.callPhoneTelpro(phone: CustomerService.CustomerJiShuZhiChiTel)
         }
         let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
 
