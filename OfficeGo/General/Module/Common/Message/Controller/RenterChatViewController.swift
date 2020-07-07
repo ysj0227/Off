@@ -505,8 +505,11 @@ extension RenterChatViewController {
 //            return
 //        }
         
-        let message = RCTextMessage(content: "我对你发布的房源有兴趣，能聊聊吗？")
-        sendMessage(message, pushContent: "打招呼")
+        //只有租户才会发这个消息
+        if UserTool.shared.user_id_type == 0 {
+            let message = RCTextMessage(content: "我对你发布的房源有兴趣，能聊聊吗？")
+            sendMessage(message, pushContent: "打招呼")
+        }
     }
     
     //添加插入房源消息
