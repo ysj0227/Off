@@ -290,7 +290,7 @@ class SureAlertView: UIView {
         
         var height: CGFloat = 20
         if size.height > 20 {
-            height = size.height
+            height = size.height + 1
         }
         
         bgview.snp.remakeConstraints { (make) in
@@ -338,7 +338,7 @@ class SureAlertView: UIView {
         }else {
             let size = alertDescMsg.boundingRect(with: CGSize(width: kMessageAlertWidth - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_12], context: nil)
             
-            height = size.height
+            height = size.height + 1
         }
 
         bgview.snp.remakeConstraints { (make) in
