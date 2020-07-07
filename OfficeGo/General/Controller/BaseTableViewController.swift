@@ -76,11 +76,7 @@ class BaseTableViewController: BaseViewController {
         tableView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
-        if #available(iOS 11.0, *) {
-            tableView.contentInsetAdjustmentBehavior = .never
-        }else {
-            automaticallyAdjustsScrollViewInsets = false
-        }
+        layoutSet()
         
 //        self.tableView.backgroundView = noDataView
         self.view.addSubview(noDataView)
@@ -107,6 +103,14 @@ class BaseTableViewController: BaseViewController {
         }
         
         SendNetworkStatus()
+    }
+    
+    func layoutSet() {
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        }else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
     }
     
     @objc func loadNewData(){
