@@ -954,16 +954,23 @@ class RenterDetailSourceView: UIView {
                 }
                 self.cycleView.imageURLStringArr = arr
             }
-            
             if let videoArr = FYModel.videoUrl {
                 if videoArr.count > 0 {
+                    videoView.isHidden = false
+                    changeBtnView.isHidden = false
                     let videoModel = videoArr[0]
                     let player = WMPlayerModel()
                     //            model.title = "视频"
                     player.videoURL = URL.init(string: videoModel.imgUrl ?? "")
                     //                model.videoURL = URL.init(string: "http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4")
                     playerModel = player
+                }else {
+                    videoView.isHidden = true
+                    changeBtnView.isHidden = true
                 }
+            }else {
+                videoView.isHidden = true
+                changeBtnView.isHidden = true
             }
         }
     }
