@@ -145,8 +145,8 @@ class MessageFYViewModel: NSObject {
                 
                 ///独立办公室
 //                if model.house?.officeType == 1 {
-                    dayPriceString = "¥\(model.house?.minSinglePrice ?? 0) /位/天"
-                    unitString = "/位/天"
+                    dayPriceString = "¥\(model.house?.minSinglePrice ?? 0) /位/月"
+                    unitString = "/位/月"
 //                }
             }
             
