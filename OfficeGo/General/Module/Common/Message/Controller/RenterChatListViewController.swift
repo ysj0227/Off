@@ -99,7 +99,9 @@ extension RenterChatListViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-        
+        if Device.isIPad == true {
+            self.conversationListTableView.contentInset = UIEdgeInsets(top: kNavigationHeight - kStatusBarHeight, left: 0, bottom: kTabBarHeight, right: 0)
+        }
         nologindataView = NoDataShowView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: self.view.width, height: self.view.height - kNavigationHeight))
         nologindataView?.isHidden = true
         self.view.addSubview(nologindataView ?? NoDataShowView(frame: CGRect(x: 0, y: kNavigationHeight, width: self.view.width, height: self.conversationListTableView.height - kTabBarHeight - kTabBarHeight)))

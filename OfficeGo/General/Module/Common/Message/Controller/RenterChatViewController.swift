@@ -242,6 +242,9 @@ extension RenterChatViewController {
         
         self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 60, width: kWidth, height: self.view.height - (kNavigationHeight + 60))
         
+        if Device.isIPad == true {
+            self.conversationMessageCollectionView.contentInset = UIEdgeInsets(top: kNavigationHeight + 4, left: 0, bottom: 0, right: 0)
+        }
         // 注册自定义消息的Cell
         //交换手机
         register(PhoneExchangeMessageCell.self, forMessageClass: PhoneExchangeMessage.self)

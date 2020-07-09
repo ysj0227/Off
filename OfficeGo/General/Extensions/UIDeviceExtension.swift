@@ -12,7 +12,7 @@ import UIKit
 public extension UIDevice {
     
     var isIpad: Bool {
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.model == "iPad" {
             return true
         }else {
             return false
