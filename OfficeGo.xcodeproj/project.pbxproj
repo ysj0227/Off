@@ -20,6 +20,7 @@
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
 		049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */; };
+		04B2BE7C24B5D1FA00D0F963 /* HHGuidePageHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B2BE7B24B5D1F900D0F963 /* HHGuidePageHUD.swift */; };
 		04CB46C0249CAF3A001BCC8F /* LoginRoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB46BE249CAF3A001BCC8F /* LoginRoleViewController.swift */; };
 		04CB46C1249CAF3A001BCC8F /* RenterLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB46BF249CAF3A001BCC8F /* RenterLoginViewController.swift */; };
 		04CB46D3249CAFE9001BCC8F /* HouseFeatureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04CB46C3249CAFE9001BCC8F /* HouseFeatureCell.xib */; };
@@ -270,6 +271,7 @@
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStringEnum.swift; sourceTree = "<group>"; };
+		04B2BE7B24B5D1F900D0F963 /* HHGuidePageHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHGuidePageHUD.swift; sourceTree = "<group>"; };
 		04CB46BE249CAF3A001BCC8F /* LoginRoleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRoleViewController.swift; sourceTree = "<group>"; };
 		04CB46BF249CAF3A001BCC8F /* RenterLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterLoginViewController.swift; sourceTree = "<group>"; };
 		04CB46C3249CAFE9001BCC8F /* HouseFeatureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HouseFeatureCell.xib; sourceTree = "<group>"; };
@@ -537,6 +539,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04B2BE7A24B5D1EE00D0F963 /* GuideScrollview */ = {
+			isa = PBXGroup;
+			children = (
+				04B2BE7B24B5D1F900D0F963 /* HHGuidePageHUD.swift */,
+			);
+			path = GuideScrollview;
+			sourceTree = "<group>";
+		};
 		04CB46AD249CADF8001BCC8F /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -1283,6 +1293,7 @@
 		EEE0D94C24655B2200E5C77B /* Venders */ = {
 			isa = PBXGroup;
 			children = (
+				04B2BE7A24B5D1EE00D0F963 /* GuideScrollview */,
 				EE4914C724692D62008D5689 /* LLSegmentViewController */,
 				EE4914A524692D35008D5689 /* MLMSegmentPageView */,
 			);
@@ -1833,6 +1844,7 @@
 				04E2392C249B3ABB009DCCEC /* RenterSearchHistoryCollectionCell.swift in Sources */,
 				04E2392E249B3ABB009DCCEC /* RenterShareServiceCell.swift in Sources */,
 				EE4914E024692D62008D5689 /* LLToolFunc.swift in Sources */,
+				04B2BE7C24B5D1FA00D0F963 /* HHGuidePageHUD.swift in Sources */,
 				04E23943249B3ABB009DCCEC /* HouseListTableViewCell.swift in Sources */,
 				EE4914DA24692D62008D5689 /* LLSegmentBaseItemView.swift in Sources */,
 				04CB46E1249CAFE9001BCC8F /* HouseFeatureModel.swift in Sources */,
@@ -2098,7 +2110,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OfficeGo/OfficeGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = YES;
@@ -2113,7 +2125,7 @@
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boshu.officego;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = dis_boshu_company_0702;
+				PROVISIONING_PROFILE_SPECIFIER = dev_boshu_company_0702;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2127,7 +2139,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OfficeGo/OfficeGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = YES;
@@ -2142,7 +2154,7 @@
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boshu.officego;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = dis_boshu_company_0702;
+				PROVISIONING_PROFILE_SPECIFIER = dev_boshu_company_0702;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

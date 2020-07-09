@@ -12,6 +12,8 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     
     @IBOutlet weak var addressLabel: UILabel!
     
+    @IBOutlet weak var trafficIcon: UIImageView!
+    
     @IBOutlet weak var trafficLineView: UIView!
     
     @IBOutlet weak var lookAllButton: UIButton!
@@ -54,7 +56,16 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     func setCellWithViewModel(viewModel: FangYuanBuildingBuildingViewModel) {
         
         addressLabel.text = viewModel.addressString
-        addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
+        if viewModel.walkTimesubwayAndStationStringArr?.count ?? 0 <= 0 {
+            trafficIcon.isHidden = true
+            lookAllButton.isHidden = true
+            trafficLineView.isHidden = true
+        }else {
+            trafficIcon.isHidden = false
+            lookAllButton.isHidden = false
+            trafficLineView.isHidden = false
+            addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
+        }
     }
     
     
@@ -69,9 +80,18 @@ class RenterDetailTrafficCell: BaseTableViewCell {
     func setfYCellWithViewModel(viewModel: FangYuanBuildingFYDetailHouseViewModel) {
         
         addressLabel.text = viewModel.addressString
-        addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
+        if viewModel.walkTimesubwayAndStationStringArr?.count ?? 0 <= 0 {
+            trafficIcon.isHidden = true
+            lookAllButton.isHidden = true
+            trafficLineView.isHidden = true
+        }else {
+            trafficIcon.isHidden = false
+            lookAllButton.isHidden = false
+            trafficLineView.isHidden = false
+            addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
+        }
     }
-
+    
     func addLineLabels(str: [String]) {
         trafficLineView.subviews.forEach { (view) in
             view.removeFromSuperview()

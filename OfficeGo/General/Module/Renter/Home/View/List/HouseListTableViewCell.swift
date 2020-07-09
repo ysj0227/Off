@@ -131,37 +131,35 @@ class HouseListTableViewCell: BaseTableViewCell {
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
             make.top.equalTo(houseImageview)
         }
-        houselocationIcon.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseNameLabel.snp.bottom).offset(6)
-            make.height.equalTo(16)
-            make.width.equalTo(12)
-        }
+        
         houseAddressLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(houselocationIcon.snp.trailing).offset(8)
-            make.centerY.equalTo(houselocationIcon)
+            make.top.equalTo(houseNameLabel.snp.bottom)
+            make.leading.equalTo(houseNameLabel).offset(12 + 8)
             make.trailing.equalTo(houseNameLabel)
         }
-        
+        houselocationIcon.snp.makeConstraints { (make) in
+            make.leading.equalTo(houseNameLabel)
+            make.centerY.height.equalTo(houseAddressLabel)
+            make.width.equalTo(12)
+        }
         houseDistanceLabel.snp.makeConstraints { (make) in
             make.trailing.equalTo(houseNameLabel)
             make.centerY.equalTo(houselocationIcon)
         }
         
+        houseRouteLineLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(houseNameLabel).offset(12 + 8)
+            make.top.equalTo(houseAddressLabel.snp.bottom)
+            make.trailing.equalTo(houseNameLabel)
+        }
         houseTrafficIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houselocationIcon.snp.bottom).offset(6)
-            make.height.equalTo(16)
+            make.centerY.height.equalTo(houseRouteLineLabel)
             make.width.equalTo(12)
-        }
-        houseRouteLineLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseTrafficIcon.snp.trailing).offset(8)
-            make.centerY.equalTo(houseTrafficIcon)
-            make.trailing.equalTo(houseNameLabel)
         }
         housePriceLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseTrafficIcon.snp.bottom).offset(6)
+            make.top.equalTo(houseRouteLineLabel.snp.bottom).offset(4)
         }
         housePriceUnitLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(housePriceLabel.snp.trailing).offset(1)
@@ -205,7 +203,38 @@ class HouseListTableViewCell: BaseTableViewCell {
         houseNameLabel.text = viewModel.buildingName
         houseDistanceLabel.text = viewModel.distanceString
         houseAddressLabel.text = viewModel.addressString
+        if viewModel.addressString?.count ?? 0 > 0 {
+            houseAddressLabel.snp.remakeConstraints { (make) in
+                make.top.equalTo(houseNameLabel.snp.bottom)
+                make.leading.equalTo(houseNameLabel).offset(12 + 8)
+                make.height.equalTo(16 + 12)
+                make.trailing.equalTo(houseNameLabel)
+            }
+        }else {
+            houseAddressLabel.snp.remakeConstraints { (make) in
+                make.top.equalTo(houseNameLabel.snp.bottom)
+                make.leading.equalTo(houseNameLabel).offset(12 + 8)
+                make.height.equalTo(0)
+                make.trailing.equalTo(houseNameLabel)
+            }
+        }
         houseRouteLineLabel.text = viewModel.walkTimesubwayAndStationString
+        
+        if viewModel.walkTimesubwayAndStationString?.count ?? 0 > 0 {
+            houseRouteLineLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(houseNameLabel).offset(12 + 8)
+                make.top.equalTo(houseAddressLabel.snp.bottom)
+                make.height.lessThanOrEqualTo(16 + 12)
+                make.trailing.equalTo(houseNameLabel)
+            }
+        }else {
+            houseRouteLineLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(houseNameLabel).offset(12 + 8)
+                make.top.equalTo(houseAddressLabel.snp.bottom)
+                make.height.lessThanOrEqualTo(0)
+                make.trailing.equalTo(houseNameLabel)
+            }
+        }
         housePriceLabel.text = viewModel.dayPriceString
         housePriceUnitLabel.text = viewModel.unitString
         if viewModel.btype == 1 {
@@ -229,7 +258,38 @@ class HouseListTableViewCell: BaseTableViewCell {
         houseNameLabel.text = viewModel.buildingName
         houseDistanceLabel.text = viewModel.distanceString
         houseAddressLabel.text = viewModel.districtString
+        if viewModel.districtString?.count ?? 0 > 0 {
+            houseAddressLabel.snp.remakeConstraints { (make) in
+                make.top.equalTo(houseNameLabel.snp.bottom)
+                make.leading.equalTo(houseNameLabel).offset(12 + 8)
+                make.height.equalTo(16 + 12)
+                make.trailing.equalTo(houseNameLabel)
+            }
+        }else {
+            houseAddressLabel.snp.remakeConstraints { (make) in
+                make.top.equalTo(houseNameLabel.snp.bottom)
+                make.leading.equalTo(houseNameLabel).offset(12 + 8)
+                make.height.equalTo(0)
+                make.trailing.equalTo(houseNameLabel)
+            }
+        }
         houseRouteLineLabel.text = viewModel.walkTimesubwayAndStationString
+        
+        if viewModel.walkTimesubwayAndStationString?.count ?? 0 > 0 {
+            houseRouteLineLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(houseNameLabel).offset(12 + 8)
+                make.top.equalTo(houseAddressLabel.snp.bottom)
+                make.height.lessThanOrEqualTo(16 + 12)
+                make.trailing.equalTo(houseNameLabel)
+            }
+        }else {
+            houseRouteLineLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(houseNameLabel).offset(12 + 8)
+                make.top.equalTo(houseAddressLabel.snp.bottom)
+                make.height.lessThanOrEqualTo(0)
+                make.trailing.equalTo(houseNameLabel)
+            }
+        }
         housePriceLabel.text = viewModel.dayPriceNoUnitString
         housePriceUnitLabel.text = viewModel.unitString
     }

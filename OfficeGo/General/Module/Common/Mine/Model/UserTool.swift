@@ -43,6 +43,16 @@ class UserTool: NSObject {
         
     }
     
+    /// 是否已经显示过引导图
+    var isShowGuide: Bool?{
+        get{
+            return userDefault.value(forKey: "guide_isShowGuide") as? Bool
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "guide_isShowGuide")
+        }
+    }
+    
     //终端渠道,1:IOS,2:安卓,3:H5
     var user_channel: Int = 1
     

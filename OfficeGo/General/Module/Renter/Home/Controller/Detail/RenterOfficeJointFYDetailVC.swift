@@ -197,7 +197,7 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
     }
     
     func requestCreateChat() {
-    
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -478,12 +478,16 @@ extension RenterOfficeJointFYDetailVC {
         case FYDetailItemType.FYDetailItemTypeTraffic:
             if isTrafficUp == true {
                 if let arr = buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr {
-                    return CGFloat(45 + 30 * arr.count + 1)
+                    return CGFloat(45 + 30 * arr.count + 2)
                 }else {
-                    return 45 + 30 + 1
+                    return 45 + 2
                 }
             }else {
-                return 45 + 30 + 1
+                if buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr?.count ?? 0 > 0 {
+                    return 45 + 30 + 2
+                }else {
+                    return 45 + 2
+                }
             }
             
         case FYDetailItemType.FYDetailItemTypeFeature:

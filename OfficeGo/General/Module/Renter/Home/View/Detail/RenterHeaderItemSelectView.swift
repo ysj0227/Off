@@ -8,6 +8,12 @@
 
 import UIKit
 
+class BuildingItemModel : BaseModel {
+    
+    var title : String?     //标题
+    var index : Int?        //index，第几项
+}
+
 class RenterHeaderItemSelectView: UIView {
     
     var headerCollectionView: UICollectionView = {
@@ -21,13 +27,111 @@ class RenterHeaderItemSelectView: UIView {
         return view
     }()
     
+    var dataArray:[BuildingItemModel] = []
+    
     func reloadData() {
         headerCollectionView.reloadData()
     }
 
     var factorMap: FangYuanBuildingFactorModel = FangYuanBuildingFactorModel() {
         didSet {
-            
+            if factorMap.btype == 1 {
+                dataArray.removeAll()
+                let model = BuildingItemModel()
+                model.title = "全部 \n \(self.factorMap.buildingItem0 ?? 0)套"
+                model.index = 0
+                dataArray.append(model)
+                if self.factorMap.buildingItem1 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "0-100㎡ \n \(self.factorMap.buildingItem1 ?? 0)套"
+                    model.index = 1
+                    dataArray.append(model)
+                }
+                if self.factorMap.buildingItem2 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "100-200 \n \(self.factorMap.buildingItem2 ?? 0)套"
+                    model.index = 2
+                    dataArray.append(model)
+                }
+                if self.factorMap.buildingItem3 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "200-300㎡ \n \(self.factorMap.buildingItem3 ?? 0)套"
+                    model.index = 3
+                    dataArray.append(model)
+                }
+                if self.factorMap.buildingItem4 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "300-400㎡ \n \(self.factorMap.buildingItem4 ?? 0)套"
+                    model.index = 4
+                    dataArray.append(model)
+                }
+                if self.factorMap.buildingItem5 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "400-500㎡ \n \(self.factorMap.buildingItem5 ?? 0)套"
+                    model.index = 5
+                    dataArray.append(model)
+                }
+                if self.factorMap.buildingItem6 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "500-1000㎡ \n \(self.factorMap.buildingItem6 ?? 0)套"
+                    model.index = 6
+                    dataArray.append(model)
+                }
+                if self.factorMap.buildingItem7 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "1000㎡以上 \n \(self.factorMap.buildingItem7 ?? 0)套"
+                    model.index = 7
+                    dataArray.append(model)
+                }
+            }else if factorMap.btype == 2 {
+                dataArray.removeAll()
+                let model = BuildingItemModel()
+                model.title = "全部 \n \(self.factorMap.jointworkItem0 ?? 0)套"
+                model.index = 0
+                dataArray.append(model)
+                if self.factorMap.jointworkItem1 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "1人 \n \(self.factorMap.jointworkItem1 ?? 0)套"
+                    model.index = 1
+                    dataArray.append(model)
+                }
+                if self.factorMap.jointworkItem2 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "2～3人 \n \(self.factorMap.jointworkItem2 ?? 0)套"
+                    model.index = 2
+                    dataArray.append(model)
+                }
+                if self.factorMap.jointworkItem3 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "4～6人 \n \(self.factorMap.jointworkItem3 ?? 0)套"
+                    model.index = 3
+                    dataArray.append(model)
+                }
+                if self.factorMap.jointworkItem4 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "7～10人 \n \(self.factorMap.jointworkItem4 ?? 0)套"
+                    model.index = 4
+                    dataArray.append(model)
+                }
+                if self.factorMap.jointworkItem5 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "11～15人 \n \(self.factorMap.jointworkItem5 ?? 0)套"
+                    model.index = 5
+                    dataArray.append(model)
+                }
+                if self.factorMap.jointworkItem6 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "16～20人 \n \(self.factorMap.jointworkItem6 ?? 0)套"
+                    model.index = 6
+                    dataArray.append(model)
+                }
+                if self.factorMap.jointworkItem7 ?? 0 > 0 {
+                    let model = BuildingItemModel()
+                    model.title = "20人以上 \n \(self.factorMap.jointworkItem7 ?? 0)套"
+                    model.index = 7
+                    dataArray.append(model)
+                }
+            }
             reloadData()
         }
     }
@@ -40,7 +144,7 @@ class RenterHeaderItemSelectView: UIView {
             guard let blockk = itemSelectCallBack else {
                 return
             }
-            blockk(selectedIndex)
+            blockk(dataArray[selectedIndex].index ?? 0)
         }
     }
     
@@ -63,7 +167,6 @@ class RenterHeaderItemSelectView: UIView {
         headerCollectionView.delegate = self
         headerCollectionView.dataSource = self
         self.addSubview(headerCollectionView)
-        reloadData()
     }
 }
 
@@ -72,48 +175,8 @@ extension RenterHeaderItemSelectView: UICollectionViewDataSource, UICollectionVi
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterHeaderItemCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterHeaderItemCell
         
-        if let btype = self.factorMap.btype {
-            ///办公楼
-            if btype == 1 {
-                if indexPath.item == 0 {
-                    cell?.titleString = "全部 \n \(self.factorMap.buildingItem0 ?? 0)套"
-                }else if indexPath.item == 1 {
-                    cell?.titleString = "0-100㎡ \n \(self.factorMap.buildingItem1 ?? 0)套"
-                }else if indexPath.item == 2 {
-                    cell?.titleString
-                        = "100-200 \n \(self.factorMap.buildingItem2 ?? 0)套"
-                }else if indexPath.item == 3 {
-                    cell?.titleString = "200-300㎡ \n \(self.factorMap.buildingItem3 ?? 0)套"
-                }else if indexPath.item == 4 {
-                    cell?.titleString = "300-400㎡ \n \(self.factorMap.buildingItem4 ?? 0)套"
-                }else if indexPath.item == 5 {
-                    cell?.titleString = "400-500㎡ \n \(self.factorMap.buildingItem5 ?? 0)套"
-                }else if indexPath.item == 6 {
-                    cell?.titleString = "500-1000㎡ \n \(self.factorMap.buildingItem6 ?? 0)套"
-                }else if indexPath.item == 7 {
-                    cell?.titleString = "1000㎡以上 \n \(self.factorMap.buildingItem7 ?? 0)套"
-                }
-            }else {
-                if indexPath.item == 0 {
-                    cell?.titleString = "全部 \n \(self.factorMap.jointworkItem0 ?? 0)套"
-                }else if indexPath.item == 1 {
-                    cell?.titleString = "1人 \n \(self.factorMap.jointworkItem1 ?? 0)套"
-                }else if indexPath.item == 2 {
-                    cell?.titleString = "2～3人 \n \(self.factorMap.jointworkItem2 ?? 0)套"
-                }else if indexPath.item == 3 {
-                    cell?.titleString = "4～6人 \n \(self.factorMap.jointworkItem3 ?? 0)套"
-                }else if indexPath.item == 4 {
-                    cell?.titleString = "7～10人 \n \(self.factorMap.jointworkItem4 ?? 0)套"
-                }else if indexPath.item == 5 {
-                    cell?.titleString = "11～15人 \n \(self.factorMap.jointworkItem5 ?? 0)套"
-                }else if indexPath.item == 6 {
-                    cell?.titleString = "16～20人 \n \(self.factorMap.jointworkItem6 ?? 0)套"
-                }else if indexPath.item == 7 {
-                    cell?.titleString = "20人以上 \n \(self.factorMap.jointworkItem7 ?? 0)套"
-                }
-            }
-        }
-        
+        cell?.titleString = dataArray[indexPath.item].title ?? ""
+    
         if indexPath.item == selectedIndex {
             cell?.itemView.backgroundColor = kAppBlueColor
             cell?.itemView.textColor = kAppWhiteColor
@@ -130,17 +193,8 @@ extension RenterHeaderItemSelectView: UICollectionViewDataSource, UICollectionVi
     }
     //返回多少个cell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let btype = self.factorMap.btype {
-            ///办公楼
-            if btype == 1 {
-                return 8
-
-            }else {
-                return 8
-
-            }
-        }
-        return 0
+        
+        return dataArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

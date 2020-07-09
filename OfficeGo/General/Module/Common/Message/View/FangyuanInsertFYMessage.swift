@@ -281,6 +281,21 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         houseMainImg.setImage(with: viewModel?.mainPic ?? "", placeholder: UIImage.init(named: Default_1x1))
         houseNameLabel.text = viewModel?.houseName ?? ""
         houseKmAndAddressLabel.text = viewModel?.distanceDistrictString ?? ""
+        if viewModel?.walkTimesubwayAndStationString?.count ?? 0 > 0 {
+            houseTrafficLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(houseNameLabel).offset(10 + 4)
+                make.top.equalTo(houselocationIcon.snp.bottom)
+                make.trailing.equalTo(houseNameLabel)
+                make.height.equalTo(18 + 6)
+            }
+        }else {
+            houseTrafficLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(houseNameLabel).offset(10 + 4)
+                make.top.equalTo(houselocationIcon.snp.bottom)
+                make.trailing.equalTo(houseNameLabel)
+                make.height.equalTo(0)
+            }
+        }
         houseTrafficLabel.text = viewModel?.walkTimesubwayAndStationString ?? ""
         housePriceLabel.text = viewModel?.dayPriceString ?? ""
 //        houseFeatureView.featureStringDetail = viewModel?.tagsString ?? ""
@@ -320,54 +335,55 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         bgcontentView.addSubview(collectBtn)*/
         houseMainImg.snp.makeConstraints { (make) in
             make.leading.top.equalTo(left_pending_space_17)
-            make.size.equalTo(83)
+            make.size.equalTo(88)
         }
         houseNameLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(houseMainImg.snp.trailing).offset(6)
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
             make.top.equalTo(houseMainImg)
         }
+        houseKmAndAddressLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(houseNameLabel).offset(10 + 4)
+            make.top.equalTo(houseNameLabel.snp.bottom)
+            make.trailing.equalTo(houseNameLabel)
+            make.height.equalTo(18 + 6)
+        }
         houselocationIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseNameLabel.snp.bottom).offset(2)
-            make.height.equalTo(18)
+            make.centerY.height.equalTo(houseKmAndAddressLabel)
             make.width.equalTo(10)
         }
-        houseKmAndAddressLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(houselocationIcon.snp.trailing).offset(4)
-            make.centerY.equalTo(houselocationIcon)
+        
+        houseTrafficLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(houseNameLabel).offset(10 + 4)
+            make.top.equalTo(houseKmAndAddressLabel.snp.bottom)
             make.trailing.equalTo(houseNameLabel)
         }
         houseTrafficIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houselocationIcon.snp.bottom).offset(2)
-            make.height.equalTo(18)
+            make.centerY.height.equalTo(houseTrafficLabel)
             make.width.equalTo(10)
         }
-        houseTrafficLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseTrafficIcon.snp.trailing).offset(4)
-            make.centerY.equalTo(houseTrafficIcon)
-            make.trailing.equalTo(houseNameLabel)
-        }
+        
         housePriceLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalTo(houseNameLabel)
             make.top.equalTo(houseTrafficIcon.snp.bottom).offset(2)
         }
         houseFeatureView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
-            make.top.equalTo(houseMainImg.snp.bottom).offset(7)
+            make.top.equalTo(houseMainImg.snp.bottom).offset(9)
             make.height.equalTo(18)
         }
         lineView.snp.makeConstraints { (make) in
             make.leading.trailing.equalTo(houseFeatureView)
-            make.top.equalTo(houseFeatureView.snp.bottom).offset(7)
+            make.top.equalTo(houseFeatureView.snp.bottom).offset(9)
             make.height.equalTo(1)
         }
         msgStartDescLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(houseFeatureView)
             make.trailing.equalTo(60)
-            make.top.equalTo(lineView.snp.bottom).offset(7)
-            make.height.equalTo(13 + 9*2)
+            make.top.equalTo(lineView.snp.bottom).offset(9)
+            make.height.equalTo(13 + 9)
         }
         /*
         collectBtn.snp.makeConstraints { (make) in

@@ -397,7 +397,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     func requestCreateChat() {
         
         var params = [String:AnyObject]()
-
+        
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["buildingId"] = buildingDetailModel?.building?.buildingId as AnyObject?
         params["houseId"] = "" as AnyObject?
@@ -721,16 +721,16 @@ extension RenterOfficebuildingDetailVC {
             case FYDetailItemType.FYDetailItemTypeTraffic:
                 if isTrafficUp == true {
                     if let arr = buildingDetailModel?.building?.nearbySubwayTime {
-                        if arr.count <= 0 {
-                            return CGFloat(45 + 30 * 1 + 1)
-                        }else {
-                            return CGFloat(45 + 30 * arr.count + 1)
-                        }
+                        return CGFloat(45 + 30 * arr.count + 2)
                     }else {
-                        return 45 + 30 + 1
+                        return 45 + 2
                     }
                 }else {
-                    return 45 + 30 + 1
+                    if buildingDetailModel?.building?.nearbySubwayTime?.count ?? 0 > 0 {
+                        return 45 + 30 + 2
+                    }else {
+                        return 45 + 2
+                    }
                 }
             case FYDetailItemType.FYDetailItemTypeFeature:
                 if let tags = buildingDetailModel?.tags {
@@ -801,7 +801,12 @@ extension RenterOfficebuildingDetailVC {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { //办公楼
         if section == 1 {
-            return 78
+            //如果办公楼数据数组大于0显示
+            if isHiddenMoreData ?? false == true {
+                return 0
+            }else {
+                return 78
+            }
         }else {
             return 0
         }

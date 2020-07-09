@@ -170,7 +170,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         case 6:
             clickItemString = "16,20"
         case 7:
-            clickItemString = "20,99999"
+            clickItemString = "21,99999"
         default:
             clickItemString = ""
         }
@@ -791,16 +791,16 @@ extension RenterOfficeJointDetailVC {
             case FYDetailItemType.FYDetailItemTypeTraffic:
                 if isTrafficUp == true {
                     if let arr = buildingDetailModel?.building?.nearbySubwayTime {
-                        if arr.count <= 0 {
-                            return CGFloat(45 + 30 * 1 + 2)
-                        }else {
-                            return CGFloat(45 + 30 * arr.count + 2)
-                        }
+                        return CGFloat(45 + 30 * arr.count + 2)
                     }else {
-                        return 45 + 30 + 2
+                        return 45 + 2
                     }
                 }else {
-                    return 45 + 30 + 2
+                    if buildingDetailModel?.building?.nearbySubwayTime?.count ?? 0 > 0 {
+                        return 45 + 30 + 2
+                    }else {
+                        return 45 + 2
+                    }
                 }
             case FYDetailItemType.FYDetailItemTypeFeature:
                 if let tags = buildingDetailModel?.tags {
@@ -912,7 +912,11 @@ extension RenterOfficeJointDetailVC {
             return 0
         }else if section == 3 {
             //如果独立办公室数据数组大于0显示
-            return 78
+            if isHiddenMoreData ?? false == true {
+                return 0
+            }else {
+                return 78
+            }
         }else {
             return 0
         }

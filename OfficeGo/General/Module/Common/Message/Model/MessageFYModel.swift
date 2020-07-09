@@ -61,22 +61,24 @@ class MessageFYViewModel: NSObject {
             distanceDistrictString = "\(model.building?.distance ?? "0")km | \(model.building?.district ?? "")"
             distanceString = model.building?.distance?.count ?? 0 > 0 ? "\(model.building?.distance ?? "0")km" : ""
             districtString = model.building?.district ?? ""
-            walkTimesubwayAndStationString = "步行"
             guard let nearbySubwayTime = model.building?.nearbySubwayTime else {
                 return
             }
-            walkTimesubwayAndStationString?.append(nearbySubwayTime.count > 0 ? nearbySubwayTime[0] : "")
-            walkTimesubwayAndStationString?.append("分钟到 | ")
-            guard let stationline = model.building?.stationline else {
-                return
+            if nearbySubwayTime.count > 0 {
+                walkTimesubwayAndStationString = "步行"
+                walkTimesubwayAndStationString?.append(nearbySubwayTime.count > 0 ? nearbySubwayTime[0] : "")
+                walkTimesubwayAndStationString?.append("分钟到 | ")
+                guard let stationline = model.building?.stationline else {
+                    return
+                }
+                walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
+                walkTimesubwayAndStationString?.append("号线 ·")
+                guard let stationNames = model.building?.stationNames else {
+                    return
+                }
+                walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
+                walkTimesubwayAndStationString?.append("站")
             }
-            walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
-            walkTimesubwayAndStationString?.append("号线 ·")
-            guard let stationNames = model.building?.stationNames else {
-                return
-            }
-            walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
-            walkTimesubwayAndStationString?.append("站")
             
             dayPriceNoUnitString = "¥\(model.building?.minSinglePrice ?? 0)"
             

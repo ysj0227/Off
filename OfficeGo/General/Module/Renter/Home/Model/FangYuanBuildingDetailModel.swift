@@ -303,44 +303,44 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             corporateServices = model.corporateServices
         }
         
-        let timeStr = "步行"
         guard let nearbySubwayTime = model.nearbySubwayTime else {
             return
         }
-        
-        let miniuteStr = "分钟到 | "
-        
-        guard let stationline = model.stationline else {
-            return
-        }
-        
-        let xianStr = "号线 ·"
-        guard let stationNames = model.stationNames else {
-            return
-        }
-        
-        let zhanStr = "站"
-        
-        if nearbySubwayTime.count == stationline.count && nearbySubwayTime.count == stationNames.count && nearbySubwayTime.count > 0 {
+        if nearbySubwayTime.count > 0 {
+            let timeStr = "步行"
+            let miniuteStr = "分钟到 | "
             
-            walkTimesubwayAndStationStringArr = []
+            guard let stationline = model.stationline else {
+                return
+            }
             
-            nearbySubwayTime.forEach { (time) in
-                let index = nearbySubwayTime.firstIndex(of: time)
-                var timestring = timeStr
-                timestring.append(time)
-                timestring.append(miniuteStr)
-                let stationlineStr = stationline[index ?? 0]
-                timestring.append(stationlineStr)
-                timestring.append(xianStr)
-                let stationName = stationNames[index ?? 0]
-                timestring.append(stationName)
-                timestring.append(zhanStr)
-                self.walkTimesubwayAndStationStringArr?.append(timestring)
+            let xianStr = "号线 ·"
+            guard let stationNames = model.stationNames else {
+                return
+            }
+            
+            let zhanStr = "站"
+            
+            if nearbySubwayTime.count == stationline.count && nearbySubwayTime.count == stationNames.count && nearbySubwayTime.count > 0 {
                 
+                walkTimesubwayAndStationStringArr = []
+                
+                nearbySubwayTime.forEach { (time) in
+                    let index = nearbySubwayTime.firstIndex(of: time)
+                    var timestring = timeStr
+                    timestring.append(time)
+                    timestring.append(miniuteStr)
+                    let stationlineStr = stationline[index ?? 0]
+                    timestring.append(stationlineStr)
+                    timestring.append(xianStr)
+                    let stationName = stationNames[index ?? 0]
+                    timestring.append(stationName)
+                    timestring.append(zhanStr)
+                    self.walkTimesubwayAndStationStringArr?.append(timestring)
+                    
+                }
             }
         }
-        
     }
 }
 class FangYuanBuildingFactorModel: BaseModel {

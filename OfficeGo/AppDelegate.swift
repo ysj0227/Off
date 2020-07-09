@@ -40,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         runTabBarViewController()
         
+        setStaticGuidePage()
+        
         listenNetworkStatus()
         
         return true
@@ -345,6 +347,17 @@ extension AppDelegate {
         }) {[weak self] in
             
             self?.loginRongCloud()
+        }
+    }
+    
+    // MARK: - 静态图片引导页
+    func setStaticGuidePage() {
+        if UserTool.shared.isShowGuide != true {
+            let imageNameArray: [String] = ["guide1", "guide2", "guide3", "guide4"]
+            let guideView = HHGuidePageHUD.init(imageNameArray: imageNameArray, isHiddenSkipButton: false)
+            window?.addSubview(guideView)
+        }else {
+            
         }
     }
 }

@@ -482,16 +482,16 @@ extension RenterOfficebuildingFYDetailVC {
         case FYDetailItemType.FYDetailItemTypeTraffic:
             if isTrafficUp == true {
                 if let arr = buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr {
-                    if arr.count <= 0 {
-                        return 45 + 30 + 2
-                    }else {
-                        return CGFloat(45 + 30 * arr.count + 2)
-                    }
+                    return CGFloat(45 + 30 * arr.count + 2)
                 }else {
-                    return 45 + 30 + 2
+                    return 45 + 2
                 }
             }else {
-                return 45 + 30 + 2
+                if buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr?.count ?? 0 > 0 {
+                    return 45 + 30 + 2
+                }else {
+                    return 45 + 2
+                }
             }
             
         case FYDetailItemType.FYDetailItemTypeFeature:

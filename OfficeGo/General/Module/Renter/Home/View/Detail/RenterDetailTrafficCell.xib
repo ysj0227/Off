@@ -99,6 +99,7 @@
                 <outlet property="addressLabel" destination="EVj-A9-Pdv" id="T0T-KA-2rq"/>
                 <outlet property="lineViewConstantHeight" destination="JJg-pU-3ER" id="NXW-26-pGq"/>
                 <outlet property="lookAllButton" destination="Gt3-CN-oVQ" id="iFF-7d-caF"/>
+                <outlet property="trafficIcon" destination="iHc-7I-7I7" id="zbj-rD-vUn"/>
                 <outlet property="trafficLineView" destination="gus-0f-8y3" id="xg8-zA-UQz"/>
             </connections>
             <point key="canvasLocation" x="1" y="41"/>
