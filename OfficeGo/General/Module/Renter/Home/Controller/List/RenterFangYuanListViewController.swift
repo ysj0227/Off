@@ -380,7 +380,7 @@ extension RenterFangYuanListViewController {
         
         self.tableView.snp.remakeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-kStatusBarHeight)
+            make.bottom.equalToSuperview().offset(-kTabBarHeight)
         }
         
         refreshData()
