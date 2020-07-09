@@ -71,7 +71,7 @@ extension HHGuidePageHUD {
         UIView.animate(withDuration: 1, animations: {
             self.alpha = 0
         }) { (finish) in
-//            UserTool.shared.isShowGuide = true
+            UserTool.shared.isShowGuide = true
             self.removeFromSuperview()
         }
     }
