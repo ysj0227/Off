@@ -11,6 +11,14 @@ import UIKit
 
 public extension UIDevice {
     
+    var isIpad: Bool {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return true
+        }else {
+            return false
+        }
+    }
+    
     var modelName: String {
         var systemInfo = utsname()
         uname(&systemInfo)
