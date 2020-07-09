@@ -108,6 +108,7 @@ class ScheduleViewModelList: NSObject {
     var hourMinuterTimeString : String?
     var contactNameString : String?
     var companyJobString : String?
+    var jobString : String?
 
     var btype : Int?
     var schedulebuildingName : String?
@@ -155,6 +156,7 @@ class ScheduleViewModelList: NSObject {
         hourMinuterTimeString = SSTool.timeIntervalChangeToHHMMTimeStr(timeInterval: TimeInterval.init(model.time ?? 0))
         contactNameString = model.contact
         companyJobString = "\(model.company ?? "")·\(model.job ?? "")"
+        jobString = model.job
         if btype == 1 {
             schedulebuildingName = "约看 「\(model.buildingName ?? "")」"
         }else if btype == 2 {

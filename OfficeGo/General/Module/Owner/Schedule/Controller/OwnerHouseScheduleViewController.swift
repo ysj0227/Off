@@ -311,7 +311,7 @@ extension OwnerHouseScheduleViewController {
         self.tableView.snp.remakeConstraints { (make) in
             make.top.equalTo(kNavigationHeight + 128)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-bottomMargin())
+            make.bottom.equalToSuperview().offset(-kTabBarHeight)
         }
         self.tableView.register(RenterHouseScheduleCell.self, forCellReuseIdentifier: RenterHouseScheduleCell.reuseIdentifierStr)
         
@@ -357,6 +357,9 @@ extension OwnerHouseScheduleViewController {
                 }else if indexPath.row == scheduleList.count - 1 {
                     cell?.topLineView.isHidden = false
                     cell?.bottomLineView.isHidden = true
+                }else {
+                    cell?.topLineView.isHidden = false
+                    cell?.bottomLineView.isHidden = false
                 }
             }
         }

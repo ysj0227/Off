@@ -340,6 +340,9 @@ extension RenterHouseScheduleViewController {
                 }else if indexPath.row == scheduleList.count - 1 {
                     cell?.topLineView.isHidden = false
                     cell?.bottomLineView.isHidden = true
+                }else {
+                    cell?.topLineView.isHidden = false
+                    cell?.bottomLineView.isHidden = false
                 }
             }
         }
@@ -472,7 +475,7 @@ class RenterHouseScheduleCell: BaseTableViewCell {
             dateLabel.text = viewModel.dateTimeString
             dateTimeLabel.text = viewModel.hourMinuterTimeString
             nameLabel.text = viewModel.contactNameString
-            companyLabel.text = viewModel.companyJobString
+            companyLabel.text = viewModel.jobString
             descLabel.text = viewModel.schedulebuildingName
             addressLabel.text = viewModel.businessDistrict
             
