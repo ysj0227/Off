@@ -37,6 +37,23 @@ class OwnerIdenfySelectVC: BaseTableViewController {
         titleview?.titleLabel.text = "业主认证"
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
+        
+        let backBtn = UIButton()
+        backBtn.titleLabel?.font = FONT_16
+        backBtn.backgroundColor = kAppRedColor
+        backBtn.setTitle("返回租户", for: .normal)
+        backBtn.setImage(UIImage.init(named: "downDirGray"), for: .normal)
+        backBtn.setTitleColor(kAppBlueColor, for: .normal)
+        self.view.addSubview(backBtn)
+        backBtn.layoutButton(.imagePositionLeft, margin: 4)
+
+        backBtn.snp.makeConstraints { (make) in
+            make.leading.equalTo(29+14)
+            make.width.equalTo(85+29)
+            make.height.equalTo(30)
+            make.bottom.equalToSuperview().offset(-bottomMargin() - 34)
+        }
+        
         let bgView = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: 64))
         let view = UILabel(frame: CGRect(x: 0, y: 20, width: kWidth, height: 44))
         view.textAlignment = .center
@@ -46,9 +63,10 @@ class OwnerIdenfySelectVC: BaseTableViewController {
         bgView.addSubview(view)
         self.tableView.tableHeaderView = bgView
         
-        self.tableView.snp.updateConstraints { (make) in
-            make.leading.trailing.bottom.equalToSuperview()
+        self.tableView.snp.remakeConstraints { (make) in
+            make.leading.trailing.equalToSuperview()
             make.top.equalTo(kNavigationHeight)
+            make.bottom.equalTo(backBtn.snp.top)
         }
         self.tableView.register(OwnerIdentifySelectCell.self, forCellReuseIdentifier: OwnerIdentifySelectCell.reuseIdentifierStr)
     }
@@ -94,7 +112,7 @@ extension OwnerIdenfySelectVC {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (kWidth - 29 * 2) * 156 / 317.0 + 26
+        return (kWidth - 29 * 2) * 156 / 317.0 + 29
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -120,7 +138,7 @@ extension OwnerIdenfySelectVC {
 //        bgView.addSubview(view)
 //        return bgView
 //    }
-//    
+//
 //    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 //        return 64
 //    }
