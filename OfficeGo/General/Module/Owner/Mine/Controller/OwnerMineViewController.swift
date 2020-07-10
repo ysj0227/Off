@@ -290,8 +290,10 @@ extension OwnerMineViewController {
         }) {
             
             ///点击跳转认证页面
-            let vc = JHBaseWebViewController.init(protocalType: identifyType ?? OwnerIdentifyOrFYType.ProtocalTypeIdentifyOwnerUrl)
+            let vc = OwnerIdenfySelectVC()
             self.navigationController?.pushViewController(vc, animated: true)
+//            let vc = JHBaseWebViewController.init(protocalType: identifyType ?? OwnerIdentifyOrFYType.ProtocalTypeIdentifyOwnerUrl)
+//            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     

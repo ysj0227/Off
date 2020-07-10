@@ -197,6 +197,19 @@ class UserTool: NSObject {
         }
     }
     
+    
+    
+    
+    //身份类型0个人1企业2联合
+    var user_owner_identifytype: Int?{
+        get{
+            return userDefault.value(forKey: "user_owner_identifytype") as? Int
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "user_owner_identifytype")
+        }
+    }
+    
     func forwardLogin() {
         UserTool.shared.removeAll()
         

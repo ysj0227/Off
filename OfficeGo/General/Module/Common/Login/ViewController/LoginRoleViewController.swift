@@ -6,8 +6,6 @@
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
-import UIKit
-
 class LoginRoleViewController: BaseTableViewController {
     
     //0:租户,1:业主,9:其他

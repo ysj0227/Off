@@ -19,6 +19,7 @@
 		047333272473D86500755192 /* Object+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333262473D86500755192 /* Object+ClassName.swift */; };
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
+		04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */; };
 		049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */; };
 		04B2BE7C24B5D1FA00D0F963 /* HHGuidePageHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B2BE7B24B5D1F900D0F963 /* HHGuidePageHUD.swift */; };
 		04CB46C0249CAF3A001BCC8F /* LoginRoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB46BE249CAF3A001BCC8F /* LoginRoleViewController.swift */; };
@@ -270,6 +271,7 @@
 		047333262473D86500755192 /* Object+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Object+ClassName.swift"; sourceTree = "<group>"; };
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerIdenfySelectVC.swift; sourceTree = "<group>"; };
 		049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStringEnum.swift; sourceTree = "<group>"; };
 		04B2BE7B24B5D1F900D0F963 /* HHGuidePageHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHGuidePageHUD.swift; sourceTree = "<group>"; };
 		04CB46BE249CAF3A001BCC8F /* LoginRoleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRoleViewController.swift; sourceTree = "<group>"; };
@@ -539,6 +541,142 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04990B7924B870E5008CDE6C /* Identification */ = {
+			isa = PBXGroup;
+			children = (
+				04990B8624B87194008CDE6C /* Basic */,
+				04990B7A24B870E5008CDE6C /* Personal */,
+				04990B7E24B870E5008CDE6C /* Joint */,
+				04990B8224B870E5008CDE6C /* Company */,
+			);
+			path = Identification;
+			sourceTree = "<group>";
+		};
+		04990B7A24B870E5008CDE6C /* Personal */ = {
+			isa = PBXGroup;
+			children = (
+				04990B7B24B870E5008CDE6C /* Controller */,
+				04990B7C24B870E5008CDE6C /* Model */,
+				04990B7D24B870E5008CDE6C /* View */,
+			);
+			path = Personal;
+			sourceTree = "<group>";
+		};
+		04990B7B24B870E5008CDE6C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		04990B7C24B870E5008CDE6C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04990B7D24B870E5008CDE6C /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		04990B7E24B870E5008CDE6C /* Joint */ = {
+			isa = PBXGroup;
+			children = (
+				04990B7F24B870E5008CDE6C /* Controller */,
+				04990B8024B870E5008CDE6C /* Model */,
+				04990B8124B870E5008CDE6C /* View */,
+			);
+			path = Joint;
+			sourceTree = "<group>";
+		};
+		04990B7F24B870E5008CDE6C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		04990B8024B870E5008CDE6C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04990B8124B870E5008CDE6C /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		04990B8224B870E5008CDE6C /* Company */ = {
+			isa = PBXGroup;
+			children = (
+				04990B8324B870E5008CDE6C /* Controller */,
+				04990B8424B870E5008CDE6C /* Model */,
+				04990B8524B870E5008CDE6C /* View */,
+			);
+			path = Company;
+			sourceTree = "<group>";
+		};
+		04990B8324B870E5008CDE6C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		04990B8424B870E5008CDE6C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04990B8524B870E5008CDE6C /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		04990B8624B87194008CDE6C /* Basic */ = {
+			isa = PBXGroup;
+			children = (
+				04990B8724B87194008CDE6C /* Controller */,
+				04990B8824B87194008CDE6C /* Model */,
+				04990B8924B87194008CDE6C /* View */,
+			);
+			path = Basic;
+			sourceTree = "<group>";
+		};
+		04990B8724B87194008CDE6C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		04990B8824B87194008CDE6C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04990B8924B87194008CDE6C /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		04B2BE7A24B5D1EE00D0F963 /* GuideScrollview */ = {
 			isa = PBXGroup;
 			children = (
@@ -772,6 +910,7 @@
 		04E2389C249B3ABA009DCCEC /* Owner */ = {
 			isa = PBXGroup;
 			children = (
+				04990B7924B870E5008CDE6C /* Identification */,
 				04E2397E249B3C3D009DCCEC /* Home */,
 				04E23990249B4728009DCCEC /* Schedule */,
 				04E2397A249B3C3D009DCCEC /* Message */,
@@ -1923,6 +2062,7 @@
 				04CB4782249CB1D9001BCC8F /* RenterHouseScheduleViewController.swift in Sources */,
 				EEE0D9402465581200E5C77B /* EnumConstant.swift in Sources */,
 				EEE87B3B24558F6A00C03424 /* UIScrollViewExtension.swift in Sources */,
+				04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */,
 				EEE87B6324558F9800C03424 /* BaseButton.swift in Sources */,
 				04E2393A249B3ABB009DCCEC /* RenterOfficeDeatailCell.swift in Sources */,
 				EEE87B1F2455856800C03424 /* UIButtonEx.swift in Sources */,
@@ -2110,7 +2250,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OfficeGo/OfficeGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -2125,7 +2265,7 @@
 				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boshu.officego;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = dis_boshu_company_0702;
+				PROVISIONING_PROFILE_SPECIFIER = dev_boshu_company_0702;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2139,7 +2279,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OfficeGo/OfficeGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -2154,7 +2294,7 @@
 				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boshu.officego;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = dis_boshu_company_0702;
+				PROVISIONING_PROFILE_SPECIFIER = dev_boshu_company_0702;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
