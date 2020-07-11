@@ -20,6 +20,9 @@
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
 		04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */; };
+		04990B7624B861B8008CDE6C /* DXIDCardCamera.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04990B7124B861B6008CDE6C /* DXIDCardCamera.bundle */; };
+		04990B7724B861B8008CDE6C /* ZKIDCardFloatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04990B7224B861B7008CDE6C /* ZKIDCardFloatingView.m */; };
+		04990B7824B861B8008CDE6C /* ZKIDCardCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04990B7524B861B8008CDE6C /* ZKIDCardCameraController.m */; };
 		049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */; };
 		04B2BE7C24B5D1FA00D0F963 /* HHGuidePageHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B2BE7B24B5D1F900D0F963 /* HHGuidePageHUD.swift */; };
 		04CB46C0249CAF3A001BCC8F /* LoginRoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB46BE249CAF3A001BCC8F /* LoginRoleViewController.swift */; };
@@ -272,6 +275,11 @@
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerIdenfySelectVC.swift; sourceTree = "<group>"; };
+		04990B7124B861B6008CDE6C /* DXIDCardCamera.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DXIDCardCamera.bundle; sourceTree = "<group>"; };
+		04990B7224B861B7008CDE6C /* ZKIDCardFloatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKIDCardFloatingView.m; sourceTree = "<group>"; };
+		04990B7324B861B7008CDE6C /* ZKIDCardFloatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKIDCardFloatingView.h; sourceTree = "<group>"; };
+		04990B7424B861B7008CDE6C /* ZKIDCardCameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKIDCardCameraController.h; sourceTree = "<group>"; };
+		04990B7524B861B8008CDE6C /* ZKIDCardCameraController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKIDCardCameraController.m; sourceTree = "<group>"; };
 		049EA2D524AD86B1004EC1F5 /* TitleStringEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStringEnum.swift; sourceTree = "<group>"; };
 		04B2BE7B24B5D1F900D0F963 /* HHGuidePageHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHGuidePageHUD.swift; sourceTree = "<group>"; };
 		04CB46BE249CAF3A001BCC8F /* LoginRoleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRoleViewController.swift; sourceTree = "<group>"; };
@@ -675,6 +683,16 @@
 			children = (
 			);
 			path = View;
+		04990B7024B8619D008CDE6C /* IDCardSelectView */ = {
+			isa = PBXGroup;
+			children = (
+				04990B7124B861B6008CDE6C /* DXIDCardCamera.bundle */,
+				04990B7424B861B7008CDE6C /* ZKIDCardCameraController.h */,
+				04990B7524B861B8008CDE6C /* ZKIDCardCameraController.m */,
+				04990B7324B861B7008CDE6C /* ZKIDCardFloatingView.h */,
+				04990B7224B861B7008CDE6C /* ZKIDCardFloatingView.m */,
+			);
+			path = IDCardSelectView;
 			sourceTree = "<group>";
 		};
 		04B2BE7A24B5D1EE00D0F963 /* GuideScrollview */ = {
@@ -1432,6 +1450,7 @@
 		EEE0D94C24655B2200E5C77B /* Venders */ = {
 			isa = PBXGroup;
 			children = (
+				04990B7024B8619D008CDE6C /* IDCardSelectView */,
 				04B2BE7A24B5D1EE00D0F963 /* GuideScrollview */,
 				EE4914C724692D62008D5689 /* LLSegmentViewController */,
 				EE4914A524692D35008D5689 /* MLMSegmentPageView */,
@@ -1768,6 +1787,7 @@
 				EEB1F9D3245854AE000500A3 /* PictureShowTableViewCell.xib in Resources */,
 				04E2392F249B3ABB009DCCEC /* RenterShareServiceCell.xib in Resources */,
 				EEE0D9472465584E00E5C77B /* cities.plist in Resources */,
+				04990B7624B861B8008CDE6C /* DXIDCardCamera.bundle in Resources */,
 				EEE87ACE2455854C00C03424 /* Main.storyboard in Resources */,
 				04E2393F249B3ABB009DCCEC /* RenterOfficeDeatailCell.xib in Resources */,
 				EEE0D9492465584E00E5C77B /* hotCities.plist in Resources */,
@@ -1958,6 +1978,7 @@
 				EEE87B1E2455856800C03424 /* CALayerEx.swift in Sources */,
 				04E2391B249B3ABB009DCCEC /* SearchRenterResultListViewController.swift in Sources */,
 				EEE87B0E2455856800C03424 /* JHViewController.swift in Sources */,
+				04990B7724B861B8008CDE6C /* ZKIDCardFloatingView.m in Sources */,
 				EEE87B282455864300C03424 /* ExViewController.swift in Sources */,
 				04E23935249B3ABB009DCCEC /* RenterFeatureCell.swift in Sources */,
 				EEE87AC72455854C00C03424 /* AppDelegate.swift in Sources */,
@@ -2080,6 +2101,7 @@
 				EEE87B6024558F9800C03424 /* Toast.swift in Sources */,
 				EEE0D9412465581200E5C77B /* Badge.swift in Sources */,
 				EEE87B242455856800C03424 /* JHCollectionViewCell.swift in Sources */,
+				04990B7824B861B8008CDE6C /* ZKIDCardCameraController.m in Sources */,
 				EE4914D824692D62008D5689 /* LLSegmentItemTabbarView.swift in Sources */,
 				0437CFB5247E18850015C355 /* SSCode.swift in Sources */,
 				EEE87B192455856800C03424 /* JHSnapKitTool.swift in Sources */,
