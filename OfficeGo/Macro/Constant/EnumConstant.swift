@@ -127,3 +127,17 @@ public enum AlertType {
     case AlertTypeChatInput                 //聊天- 微信输入框
     case AlertTypeChatSure                  //聊天- 微信交换弹框
 }
+
+//业主
+//公司认证
+public enum OwnerCompanyIedntifyType {
+    case OwnerCompanyIedntifyTypeIdentigy           //认证身份：
+    case OwnerCompanyIedntifyTypeCompanyname        //公司名称：
+    case OwnerCompanyIedntifyTypeBuildingName       //写字楼名称：
+    case OwnerCompanyIedntifyTypeBuildingAddress    //写字楼地址：上海市静安区胶州路699号
+    case OwnerCompanyIedntifyTypeBuildingFCType     //房产类型：租赁房产
+    case OwnerCompanyIedntifyTypeUploadFangchanzheng//上传房产证
+    case OwnerCompanyIedntifyTypeUploadZulinAgent   //上传租赁协议
+    case OwnerCompanyIedntifyTypeUploadMainimg      //上传楼盘封面图
+}
+

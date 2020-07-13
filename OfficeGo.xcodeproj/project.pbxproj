@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0407F92A24BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */; };
+		0407F92C24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */; };
+		0407F92E24BC3CE200C9F581 /* OwnerImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */; };
 		0420BB4B24A882B00052D165 /* RenterCustomersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */; };
 		0420BB4D24A891330052D165 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420BB4C24A891330052D165 /* MessageUI.framework */; };
 		042E5E4324964913008B8E14 /* NetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E4224964913008B8E14 /* NetReachability.swift */; };
@@ -262,6 +265,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyIdentifyCell.swift; sourceTree = "<group>"; };
+		0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyIeditnfyVC.swift; sourceTree = "<group>"; };
+		0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerImagePickerCell.swift; sourceTree = "<group>"; };
 		0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCustomersViewController.swift; sourceTree = "<group>"; };
 		0420BB4C24A891330052D165 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		042E5E4224964913008B8E14 /* NetReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetReachability.swift; sourceTree = "<group>"; };
@@ -667,6 +673,7 @@
 			isa = PBXGroup;
 			children = (
 				04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */,
+				0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -681,6 +688,8 @@
 		04990B8924B87194008CDE6C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */,
+				0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1951,6 +1960,7 @@
 				EE4914B124692D35008D5689 /* MLMSegmentManager.m in Sources */,
 				EEE0D95F24655D6800E5C77B /* PrintDefine.swift in Sources */,
 				04CB46F9249CB02C001BCC8F /* PhoneExchangeStatusMessage.swift in Sources */,
+				0407F92E24BC3CE200C9F581 /* OwnerImagePickerCell.swift in Sources */,
 				04E23989249B3ED2009DCCEC /* OwnerMineViewController.swift in Sources */,
 				EEE87B3A24558F6A00C03424 /* UIDeviceExtension.swift in Sources */,
 				04E2394B249B3ABB009DCCEC /* RenterCollectOfficeListViewController.swift in Sources */,
@@ -2089,6 +2099,7 @@
 				04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */,
 				EEE87B6324558F9800C03424 /* BaseButton.swift in Sources */,
 				04E2393A249B3ABB009DCCEC /* RenterOfficeDeatailCell.swift in Sources */,
+				0407F92A24BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift in Sources */,
 				EEE87B1F2455856800C03424 /* UIButtonEx.swift in Sources */,
 				04E23987249B3C75009DCCEC /* OwnerHomeViewController.swift in Sources */,
 				04CB46FB249CB02C001BCC8F /* PhoneExchangeMessage.swift in Sources */,
@@ -2104,6 +2115,7 @@
 				EEE87B6024558F9800C03424 /* Toast.swift in Sources */,
 				EEE0D9412465581200E5C77B /* Badge.swift in Sources */,
 				EEE87B242455856800C03424 /* JHCollectionViewCell.swift in Sources */,
+				0407F92C24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift in Sources */,
 				EE4914D824692D62008D5689 /* LLSegmentItemTabbarView.swift in Sources */,
 				0437CFB5247E18850015C355 /* SSCode.swift in Sources */,
 				EEE87B192455856800C03424 /* JHSnapKitTool.swift in Sources */,

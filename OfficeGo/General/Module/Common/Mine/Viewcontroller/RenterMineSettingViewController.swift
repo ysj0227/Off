@@ -237,7 +237,7 @@ class RenterSettingCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     class func rowHeight() -> CGFloat {
-        return 58
+        return cell_height_58
     }
     
     var model: SettingConfigureModel = SettingConfigureModel(types: RenterSettingType.RenterSettingTypeRoleChange) {

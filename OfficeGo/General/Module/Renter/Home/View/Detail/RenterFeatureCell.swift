@@ -82,10 +82,10 @@ class RenterFeatureCell: BaseTableViewCell {
     }
     
     class func rowHeight() -> CGFloat {
-        return 58
+        return cell_height_58
     }
     class func rowHeight0() -> CGFloat {
-        return 58 - 30
+        return cell_height_58 - 30
     }
 }
 

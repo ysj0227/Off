@@ -14,6 +14,72 @@ class ConfigureModel: NSObject {
     var isShowDetailIcon: Bool?
 }
 
+
+//业主
+// 业主 - 公司任职
+class OwnerCompanyIedntifyConfigureModel: ConfigureModel {
+    
+    var type: OwnerCompanyIedntifyType?
+    
+    init(types: OwnerCompanyIedntifyType) {
+        type = types
+    }
+    func getNameFormType(type: OwnerCompanyIedntifyType) -> String{
+        switch type {
+        case .OwnerCompanyIedntifyTypeIdentigy:
+            return "认证身份："
+        case .OwnerCompanyIedntifyTypeCompanyname:
+            return "公司名称："
+        case .OwnerCompanyIedntifyTypeBuildingName:
+            return "写字楼名称："
+        case .OwnerCompanyIedntifyTypeBuildingAddress:
+            return "写字楼地址："
+        case .OwnerCompanyIedntifyTypeBuildingFCType:
+            return "房产类型："
+        case .OwnerCompanyIedntifyTypeUploadFangchanzheng:
+            return "上传房产证"
+        case .OwnerCompanyIedntifyTypeUploadZulinAgent:
+            return "上传租赁协议"
+        case .OwnerCompanyIedntifyTypeUploadMainimg:
+            return "上传楼盘封面图"
+        }
+    }
+    func getDescFormType(type: OwnerCompanyIedntifyType) -> String{
+        switch type {
+        case .OwnerCompanyIedntifyTypeIdentigy:
+            return ""
+        case .OwnerCompanyIedntifyTypeCompanyname:
+            return ""
+        case .OwnerCompanyIedntifyTypeBuildingName:
+            return ""
+        case .OwnerCompanyIedntifyTypeBuildingAddress:
+            return ""
+        case .OwnerCompanyIedntifyTypeBuildingFCType:
+            return ""
+        case .OwnerCompanyIedntifyTypeUploadFangchanzheng:
+            return "请确保所上传的房产信息与公司信息一致"
+        case .OwnerCompanyIedntifyTypeUploadZulinAgent:
+            return "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
+        case .OwnerCompanyIedntifyTypeUploadMainimg:
+            return ""
+        }
+    }
+    func getIconFormType(type: OwnerMineType) -> String{
+        switch type {
+        case .OwnerMineTypeAuthority:
+            return "authority"
+        case .OwnerMineTypeHelpAndFeedback:
+            return "helpAndFeedback"
+        case .OwnerMineTypeCusomers:
+            return "customers"
+        case .OwnerMineTypeRegisterAgent:
+            return "agentRegular"
+        case .OwnerMineTypeAboutus:
+            return "aboutUS"
+        }
+    }
+}
+
 //我的 - 租户
 class RenterMineConfigureModel: ConfigureModel {
     

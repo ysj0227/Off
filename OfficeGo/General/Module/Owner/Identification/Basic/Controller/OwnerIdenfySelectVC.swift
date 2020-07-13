@@ -40,9 +40,8 @@ class OwnerIdenfySelectVC: BaseTableViewController {
         
         let backBtn = UIButton()
         backBtn.titleLabel?.font = FONT_16
-        backBtn.backgroundColor = kAppRedColor
         backBtn.setTitle("返回租户", for: .normal)
-        backBtn.setImage(UIImage.init(named: "downDirGray"), for: .normal)
+        backBtn.setImage(UIImage.init(named: "backRenter"), for: .normal)
         backBtn.setTitleColor(kAppBlueColor, for: .normal)
         self.view.addSubview(backBtn)
         backBtn.layoutButton(.imagePositionLeft, margin: 4)
@@ -81,25 +80,25 @@ extension OwnerIdenfySelectVC {
         if indexPath.row == 0 {
             cell?.typeLabel.text = "我是公司业主"
             if selectedIndex == indexPath.row {
-                img = ""
+                img = "companyIdentify"
             }else {
-                img = ""
+                img = "companyIdentify"
             }
             cell?.typeImg.image = UIImage(named: img)
         }else if indexPath.row == 1 {
             cell?.typeLabel.text = "我是联合办公业主"
             if selectedIndex == indexPath.row {
-                img = ""
+                img = "jointIdentify"
             }else {
-                img = ""
+                img = "jointIdentify"
             }
             cell?.typeImg.image = UIImage(named: img)
         }else if indexPath.row == 2 {
             cell?.typeLabel.text = "我是个人业主"
             if selectedIndex == indexPath.row {
-                img = ""
+                img = "personalIedntify"
             }else {
-                img = ""
+                img = "personalIedntify"
             }
             cell?.typeImg.image = UIImage(named: img)
         }
@@ -119,36 +118,18 @@ extension OwnerIdenfySelectVC {
         
         selectedIndex = indexPath.row
         
-        SSTool.invokeInMainThread { [weak self] in
-            
-            self?.tableView.reloadData()
-            
-            let login = RenterLoginViewController()
-            self?.navigationController?.pushViewController(login, animated: true)
+        if indexPath.row == 0 {
+            let vc = OwnerCompanyIeditnfyVC()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
+
     }
-    
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let bgView = UIView()
-//        let view = UILabel(frame: CGRect(x: 0, y: 20, width: kWidth, height: 44))
-//        view.textAlignment = .center
-//        view.font = FONT_16
-//        view.textColor = kAppColor_333333
-//        view.text = "请选择您的身份"
-//        bgView.addSubview(view)
-//        return bgView
-//    }
-//
-//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 64
-//    }
 }
 class OwnerIdentifySelectCell: BaseTableViewCell {
     
     lazy var typeImg: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
-        view.backgroundColor = kAppBlueColor
         return view
     }()
     
@@ -172,17 +153,17 @@ class OwnerIdentifySelectCell: BaseTableViewCell {
     func setupViews() {
         
         addSubview(typeImg)
-        addSubview(typeLabel)
+//        addSubview(typeLabel)
         
         typeImg.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.size.equalTo(CGSize(width: kWidth - 29 * 2, height: (kWidth - 29 * 2) * 156 / 317.0))
         }
         
-        typeLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(typeImg.snp.bottom).offset(-15)
-            make.centerX.equalToSuperview()
-        }
+//        typeLabel.snp.makeConstraints { (make) in
+//            make.bottom.equalTo(typeImg.snp.bottom).offset(-15)
+//            make.centerX.equalToSuperview()
+//        }
     }
     
 

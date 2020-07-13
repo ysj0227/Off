@@ -324,7 +324,7 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     class func rowHeight() -> CGFloat {
-        return 58
+        return cell_height_58
     }
     //判断是否显示显示员工管理
     var userModel: LoginUserModel?

@@ -46,7 +46,7 @@ func SSLog<T>(_ message: T, method: String = #function, line: Int = #line,fileNa
     
     let timeInterval: TimeInterval = Date().timeIntervalSince1970
 
-    #if DEBUG
+//    #if DEBUG
         print("[\(timeInterval)|\((fileName as NSString).lastPathComponent)|\(method)|\(line)]:\(message)")
-    #endif
+//    #endif
 }

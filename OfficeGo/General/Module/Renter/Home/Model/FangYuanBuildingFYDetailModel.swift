@@ -245,13 +245,13 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
                 
                 walkTimesubwayAndStationStringArr = []
                 
-                nearbySubwayTime.forEach { (time) in
-                    let index = nearbySubwayTime.firstIndex(of: time)
+                stationline.forEach { (time) in
+                    let index = stationline.firstIndex(of: time)
+                    let miniter = nearbySubwayTime[index ?? 0]
                     var timestring = timeStr
-                    timestring.append(time)
+                    timestring.append(miniter)
                     timestring.append(miniuteStr)
-                    let stationlineStr = stationline[index ?? 0]
-                    timestring.append(stationlineStr)
+                    timestring.append(time)
                     timestring.append(xianStr)
                     let stationName = stationNames[index ?? 0]
                     timestring.append(stationName)

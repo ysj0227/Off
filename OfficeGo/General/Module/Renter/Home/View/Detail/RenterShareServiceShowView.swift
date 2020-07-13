@@ -195,7 +195,7 @@ extension RenterShareServiceShowView: UICollectionViewDataSource, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if titleview.text == "特色服务" {
-            return CGSize(width: (kWidth - left_pending_space_17 - 10 - kWidth * 50 / 320.0) / 2.0, height: 58)
+            return CGSize(width: (kWidth - left_pending_space_17 - 10 - kWidth * 50 / 320.0) / 2.0, height: cell_height_58)
         }else {
             return CGSize(width: (kWidth - left_pending_space_17 - 10 - kWidth * 50 / 320.0) / 2.0, height: 46)
         }
