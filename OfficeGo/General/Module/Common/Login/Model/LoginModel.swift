@@ -91,3 +91,70 @@ class VersionModel: BaseModel {
     ///最新版本号
     var ver : String?
 }
+
+
+class OwnerIdentifyUserModel: BaseModel {
+    
+    //0 直租   1转租
+    var renterType: Int?
+    
+    var buildingName: String?
+    
+    var avatar : String?
+    var phone : String?
+    ///性别1男性 0女性
+    var sex : String?
+    var wxId : String?
+    
+    var accountStatus : Int?
+    var address : String?
+    
+    ///审核状态0待审核1审核通过2审核未通过 - 没有提交过为-1
+    var auditStatus : Int?
+    
+    ///身份类型0个人1企业2联和办公
+    var identityType : Int?
+    
+    //0员工 1是管理员
+    var authority : Int?
+    var channel : Int?
+    
+    ///租户公司 职位 姓名
+    var company : String?
+    var job : String?
+    var realname : String?
+    var nickname : String?
+
+    var companyVerify : String?
+    var createTime : Int?
+    var createUser : String?
+    
+
+    
+    
+    ///1已认证 0未认证 2待认证 3驳回
+    var isEnterprise : Int?
+    ///1已认证 0未认证 2待认证 3驳回
+    var isPersonal : Int?
+    
+    
+    ///租赁类型0直租1转租 - 默认转租
+    var leaseType : Int?
+    
+    
+    ///业主公司
+    var proprietorCompany : String?
+    ///业主职位
+    var proprietorJob : String?
+    ///业主姓名
+    var proprietorRealname : String?
+    var remark : String?
+
+    
+    ///行程条数
+    var trip : Int?
+    
+    ///收藏数
+    var favorite : Int?
+
+}

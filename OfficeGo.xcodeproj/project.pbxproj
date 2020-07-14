@@ -10,8 +10,15 @@
 		0407F92A24BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */; };
 		0407F92C24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */; };
 		0407F92E24BC3CE200C9F581 /* OwnerImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */; };
+		0407F93024BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92F24BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift */; };
+		0407F93224BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93124BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift */; };
+		0407F93424BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93324BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift */; };
+		0407F93624BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */; };
+		0407F93824BD94D800C9F581 /* OwnerESCompanySearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */; };
+		0407F93A24BD963400C9F581 /* OwnerESBuildingSearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */; };
 		0420BB4B24A882B00052D165 /* RenterCustomersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */; };
 		0420BB4D24A891330052D165 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420BB4C24A891330052D165 /* MessageUI.framework */; };
+		042D73D524BDAC600062FA7B /* OwnerCreateCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */; };
 		042E5E4324964913008B8E14 /* NetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E4224964913008B8E14 /* NetReachability.swift */; };
 		0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB0247E15B80015C355 /* SSNetworkTool.swift */; };
 		0437CFB3247E17190015C355 /* SSTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB2247E17180015C355 /* SSTool.swift */; };
@@ -268,8 +275,15 @@
 		0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyIdentifyCell.swift; sourceTree = "<group>"; };
 		0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyIeditnfyVC.swift; sourceTree = "<group>"; };
 		0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerImagePickerCell.swift; sourceTree = "<group>"; };
+		0407F92F24BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyESSearchIdentifyCell.swift; sourceTree = "<group>"; };
+		0407F93124BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyESearchResultListViewController.swift; sourceTree = "<group>"; };
+		0407F93324BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNameESearchResultListViewController.swift; sourceTree = "<group>"; };
+		0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNameESSearchIdentifyCell.swift; sourceTree = "<group>"; };
+		0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerESCompanySearchModel.swift; sourceTree = "<group>"; };
+		0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerESBuildingSearchModel.swift; sourceTree = "<group>"; };
 		0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCustomersViewController.swift; sourceTree = "<group>"; };
 		0420BB4C24A891330052D165 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCreateCompanyViewController.swift; sourceTree = "<group>"; };
 		042E5E4224964913008B8E14 /* NetReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetReachability.swift; sourceTree = "<group>"; };
 		0437CFB0247E15B80015C355 /* SSNetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSNetworkTool.swift; sourceTree = "<group>"; };
 		0437CFB2247E17180015C355 /* SSTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTool.swift; sourceTree = "<group>"; };
@@ -674,6 +688,9 @@
 			children = (
 				04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */,
 				0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */,
+				0407F93124BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift */,
+				0407F93324BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift */,
+				042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -681,6 +698,8 @@
 		04990B8824B87194008CDE6C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */,
+				0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -688,8 +707,10 @@
 		04990B8924B87194008CDE6C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */,
 				0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */,
+				0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */,
+				0407F92F24BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift */,
+				0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1941,6 +1962,7 @@
 				EEE87B5C24558F9800C03424 /* AnimateRefreshHeader.swift in Sources */,
 				04E23927249B3ABB009DCCEC /* FangyuanModel.swift in Sources */,
 				EEE87B6124558F9800C03424 /* BaseDialog.swift in Sources */,
+				0407F93624BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift in Sources */,
 				EE02BA4724654BA600B51D34 /* NetworkErrorManager.swift in Sources */,
 				EEE87B1B2455856800C03424 /* UINavigationControllerEx.swift in Sources */,
 				EEE0D93C2465581200E5C77B /* Notifications.swift in Sources */,
@@ -2019,6 +2041,7 @@
 				04E23943249B3ABB009DCCEC /* HouseListTableViewCell.swift in Sources */,
 				EE4914DA24692D62008D5689 /* LLSegmentBaseItemView.swift in Sources */,
 				04CB46E1249CAFE9001BCC8F /* HouseFeatureModel.swift in Sources */,
+				0407F93424BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift in Sources */,
 				EEE87B6B24559BEF00C03424 /* UserInfo.swift in Sources */,
 				04990B9224BBF719008CDE6C /* ZKIDCardFloatingView.m in Sources */,
 				04E23946249B3ABB009DCCEC /* ButtonSelectItemView.swift in Sources */,
@@ -2030,6 +2053,7 @@
 				0437CFB3247E17190015C355 /* SSTool.swift in Sources */,
 				EEE87B232455856800C03424 /* JHCollectionReusableView.swift in Sources */,
 				EEE87B162455856800C03424 /* UICollectionViewSnapEx.swift in Sources */,
+				0407F93024BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift in Sources */,
 				0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */,
 				049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */,
 				EEE87B1C2455856800C03424 /* StatusBaEx.swift in Sources */,
@@ -2079,6 +2103,7 @@
 				04CB46FD249CB02C001BCC8F /* WechatExchangeMessage.swift in Sources */,
 				EEE87B0D2455856800C03424 /* JHBaseWebViewController.swift in Sources */,
 				04E23929249B3ABB009DCCEC /* BannerModel.swift in Sources */,
+				0407F93224BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift in Sources */,
 				04EF1E41247777B700871762 /* RenterMainTabBarController.swift in Sources */,
 				EEE87B152455856800C03424 /* UIViewSnapEx.swift in Sources */,
 				04EF1E46247777E400871762 /* SSTabBarView.swift in Sources */,
@@ -2101,6 +2126,7 @@
 				04E2393A249B3ABB009DCCEC /* RenterOfficeDeatailCell.swift in Sources */,
 				0407F92A24BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift in Sources */,
 				EEE87B1F2455856800C03424 /* UIButtonEx.swift in Sources */,
+				0407F93A24BD963400C9F581 /* OwnerESBuildingSearchModel.swift in Sources */,
 				04E23987249B3C75009DCCEC /* OwnerHomeViewController.swift in Sources */,
 				04CB46FB249CB02C001BCC8F /* PhoneExchangeMessage.swift in Sources */,
 				EEE87B172455856800C03424 /* UITextViewSnapEx.swift in Sources */,
@@ -2113,10 +2139,12 @@
 				EEE87B5324558F9800C03424 /* ThorPlayerMediaControlInfoView.swift in Sources */,
 				EE4914DF24692D62008D5689 /* LLCtlPageView.swift in Sources */,
 				EEE87B6024558F9800C03424 /* Toast.swift in Sources */,
+				0407F93824BD94D800C9F581 /* OwnerESCompanySearchModel.swift in Sources */,
 				EEE0D9412465581200E5C77B /* Badge.swift in Sources */,
 				EEE87B242455856800C03424 /* JHCollectionViewCell.swift in Sources */,
 				0407F92C24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift in Sources */,
 				EE4914D824692D62008D5689 /* LLSegmentItemTabbarView.swift in Sources */,
+				042D73D524BDAC600062FA7B /* OwnerCreateCompanyViewController.swift in Sources */,
 				0437CFB5247E18850015C355 /* SSCode.swift in Sources */,
 				EEE87B192455856800C03424 /* JHSnapKitTool.swift in Sources */,
 				EE4914B524692D35008D5689 /* UIView+EasyFrame.m in Sources */,

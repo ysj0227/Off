@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias IdentifyEditingClickClouse = (String)->()
+
 class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     
     lazy var titleLabel: UILabel = {
@@ -49,21 +51,59 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     class func rowHeight() -> CGFloat {
         return cell_height_58
     }
+    //公司名字
+    @objc var companyNameClickClouse: IdentifyEditingClickClouse?
+
+    //大楼名称
+    @objc var buildingNameClickClouse: IdentifyEditingClickClouse?
     
+    //写字楼地址
+    var buildingAddresEndEditingMessageCell:((String) -> Void)?
+
+    //模拟认证模型
+    var userModel: OwnerIdentifyUserModel?
+
     var model: OwnerCompanyIedntifyConfigureModel = OwnerCompanyIedntifyConfigureModel(types: .OwnerCompanyIedntifyTypeIdentigy) {
         didSet {
             titleLabel.text = model.getNameFormType(type: model.type ?? .OwnerCompanyIedntifyTypeIdentigy)
-            if model.type == .OwnerCompanyIedntifyTypeIdentigy || model.type == .OwnerCompanyIedntifyTypeBuildingFCType {
+            if model.type == .OwnerCompanyIedntifyTypeIdentigy {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
                 lineView.isHidden = false
-            }else {
+                ///身份类型0个人1企业2联合
+                if UserTool.shared.user_owner_identifytype == 0 {
+                    numDescTF.text = "个人"
+                }else if UserTool.shared.user_owner_identifytype == 1 {
+                    numDescTF.text = "公司"
+                }else if UserTool.shared.user_owner_identifytype == 2 {
+                    numDescTF.text = "联合办公"
+                }
+            }else if model.type == .OwnerCompanyIedntifyTypeBuildingFCType{
+                numDescTF.isUserInteractionEnabled = false
+                detailIcon.isHidden = false
+                lineView.isHidden = false
+                if userModel?.renterType == 0 {
+                    numDescTF.text = "直租"
+                }else if userModel?.renterType == 1 {
+                    numDescTF.text = "转租"
+                }else {
+                    numDescTF.text = ""
+                }
+            }else if model.type == .OwnerCompanyIedntifyTypeCompanyname{
+                numDescTF.isUserInteractionEnabled = true
+                detailIcon.isHidden = true
+                lineView.isHidden = true
+                numDescTF.text = userModel?.company
+            }else if model.type == .OwnerCompanyIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 lineView.isHidden = false
-                if model.type == .OwnerCompanyIedntifyTypeCompanyname {
-                    lineView.isHidden = true
-                }
+                numDescTF.text = userModel?.buildingName
+            }else if model.type == .OwnerCompanyIedntifyTypeBuildingAddress{
+                numDescTF.isUserInteractionEnabled = true
+                detailIcon.isHidden = true
+                lineView.isHidden = false
+                numDescTF.text = userModel?.address
             }
         }
     }
@@ -97,6 +137,26 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
+        
+        numDescTF.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+
+    }
+    @objc func valueDidChange() {
+        
+        //只有办公楼地址要在编辑结束的时候传过去
+        if model.type == .OwnerCompanyIedntifyTypeCompanyname {
+            guard let blockk = self.companyNameClickClouse else {
+                return
+            }
+            blockk(numDescTF.text ?? "")
+        }
+        //只有办公楼地址要在编辑结束的时候传过去
+        else if model.type == .OwnerCompanyIedntifyTypeBuildingName {
+            guard let blockk = self.buildingNameClickClouse else {
+                return
+            }
+            blockk(numDescTF.text ?? "")
+        }
     }
     
     override func awakeFromNib() {
@@ -112,7 +172,13 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
 
 extension OwnerCompanyIdentifyCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
+        //只有办公楼地址要在编辑结束的时候传过去
+        if model.type == .OwnerCompanyIedntifyTypeBuildingAddress {
+            guard let blockk = self.buildingAddresEndEditingMessageCell else {
+                return
+            }
+            blockk(textField.text ?? "")
+        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

@@ -283,8 +283,7 @@ extension RenterUserMsgViewController {
     }
 }
 
-class RenterMineUserMsgCell: BaseTableViewCell {
-    
+class BaseEditCell: BaseTableViewCell {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
@@ -298,7 +297,6 @@ class RenterMineUserMsgCell: BaseTableViewCell {
         let view = UITextField()
         view.textAlignment = .left
         view.font = FONT_15
-        view.delegate = self
         view.textColor = kAppColor_333333
         return view
     }()
@@ -325,43 +323,6 @@ class RenterMineUserMsgCell: BaseTableViewCell {
     }
     class func rowHeight() -> CGFloat {
         return cell_height_58
-    }
-    var userModel: LoginUserModel?
-    
-    var endEditingMessageCell:((LoginUserModel) -> Void)?
-    
-    var model: UserMsgConfigureModel = UserMsgConfigureModel(types: RenterUserMsgType.RenterUserMsgTypeAvatar) {
-        didSet {
-            titleLabel.attributedText = model.getNameFormType(type: model.type ?? RenterUserMsgType.RenterUserMsgTypeAvatar)
-            if model.type == RenterUserMsgType.RenterUserMsgTypeSex {
-                self.detailIcon.isHidden = false
-                self.editLabel.isUserInteractionEnabled = false
-                self.editLabel.textColor = kAppColor_333333
-                if userModel?.sex == "1" {
-                    self.editLabel.text = "男"
-                }else if userModel?.sex == "0" {
-                    self.editLabel.text = "女"
-                }else {
-                    self.editLabel.text = ""
-                }
-            }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
-                self.detailIcon.isHidden = true
-                self.editLabel.isUserInteractionEnabled = false
-                self.editLabel.textColor = kAppColor_999999
-                self.editLabel.text = userModel?.phone
-                
-            }else {
-                self.detailIcon.isHidden = true
-                self.editLabel.isUserInteractionEnabled = true
-                self.editLabel.textColor = kAppColor_333333
-
-                if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
-                    self.editLabel.text = userModel?.realname
-                }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
-                    self.editLabel.text = userModel?.wxId
-                }
-            }
-        }
     }
     func setupViews() {
         
@@ -408,6 +369,47 @@ class RenterMineUserMsgCell: BaseTableViewCell {
         
     }
     
+}
+
+class RenterMineUserMsgCell: BaseEditCell {
+    
+    var userModel: LoginUserModel?
+    
+    var endEditingMessageCell:((LoginUserModel) -> Void)?
+    
+    var model: UserMsgConfigureModel = UserMsgConfigureModel(types: RenterUserMsgType.RenterUserMsgTypeAvatar) {
+        didSet {
+            titleLabel.attributedText = model.getNameFormType(type: model.type ?? RenterUserMsgType.RenterUserMsgTypeAvatar)
+            if model.type == RenterUserMsgType.RenterUserMsgTypeSex {
+                self.detailIcon.isHidden = false
+                self.editLabel.isUserInteractionEnabled = false
+                self.editLabel.textColor = kAppColor_333333
+                if userModel?.sex == "1" {
+                    self.editLabel.text = "男"
+                }else if userModel?.sex == "0" {
+                    self.editLabel.text = "女"
+                }else {
+                    self.editLabel.text = ""
+                }
+            }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
+                self.detailIcon.isHidden = true
+                self.editLabel.isUserInteractionEnabled = false
+                self.editLabel.textColor = kAppColor_999999
+                self.editLabel.text = userModel?.phone
+                
+            }else {
+                self.detailIcon.isHidden = true
+                self.editLabel.isUserInteractionEnabled = true
+                self.editLabel.textColor = kAppColor_333333
+
+                if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
+                    self.editLabel.text = userModel?.realname
+                }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
+                    self.editLabel.text = userModel?.wxId
+                }
+            }
+        }
+    }
 }
 
 extension RenterMineUserMsgCell: UITextFieldDelegate {

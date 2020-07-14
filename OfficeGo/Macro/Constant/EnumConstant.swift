@@ -141,3 +141,12 @@ public enum OwnerCompanyIedntifyType {
     case OwnerCompanyIedntifyTypeUploadMainimg      //上传楼盘封面图
 }
 
+//业主
+//创建公司
+public enum OwnerCreteCompanyType {
+    case OwnerCreteCompanyTypeIedntify              //认证身份：
+    case OwnerCreteCompanyTypeCompanyName           //公司名称
+    case OwnerCreteCompanyTypeCompanyAddress        //公司地址
+    case OwnerCreteCompanyTypeYingyeCode            //营业执照注册号
+    case OwnerCreteCompanyTypeUploadYingyePhoto     //上传营业执照
+}

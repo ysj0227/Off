@@ -9,6 +9,60 @@ import CLImagePickerTool
 
 class OwnerCompanyIeditnfyVC: BaseViewController {
     
+    var userModel: OwnerIdentifyUserModel?
+    
+    //公司名称搜索结果vc
+    var companySearchResultVC: OwnerCompanyESearchResultListViewController?
+    
+    //写字楼名称搜索结果vc
+    var buildingNameSearchResultVC: OwnerBuildingNameESearchResultListViewController?
+    
+    var companyName: String? {
+        didSet {
+            let rect = headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 1, section: 0))
+            let cellRect = rect?.frame ?? CGRect.zero
+            let cellFrame = headerCollectionView.convert(cellRect, to: self.view)
+            SSLog("companyNamerect-\(rect)------cellRect\(cellRect)------cellFrame\(cellFrame)")
+            if companyName?.isBlankString == true {
+                companySearchResultVC?.view.isHidden = true
+                companySearchResultVC?.keywords = ""
+            }else {
+                companySearchResultVC?.view.isHidden = false
+                companySearchResultVC?.keywords = companyName
+            }
+            companySearchResultVC?.view.snp.remakeConstraints({ (make) in
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
+                make.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview().offset(-bottomMargin())
+            })
+            //隐藏写字楼搜索的框
+            buildingNameSearchResultVC?.view.isHidden = true
+        }
+    }
+    
+    var buildingName: String? {
+        didSet {
+            let rect = headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 0, section: 1))
+            let cellRect = rect?.frame ?? CGRect.zero
+            let cellFrame = headerCollectionView.convert(cellRect, to: self.view)
+            SSLog("buildingNamerect-\(rect)------cellRect\(cellRect)------cellFrame\(cellFrame)")
+            if buildingName?.isBlankString == true {
+                buildingNameSearchResultVC?.view.isHidden = true
+                buildingNameSearchResultVC?.keywords = ""
+            }else {
+                buildingNameSearchResultVC?.view.isHidden = false
+                buildingNameSearchResultVC?.keywords = buildingName
+            }
+            buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
+                make.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview().offset(-bottomMargin())
+            })
+            //隐藏公司搜索的框
+            companySearchResultVC?.view.isHidden = true
+        }
+    }
+    
     @objc var uploadPicFCZArr = [UIImage]()  // 在实际的项目中可能用于存储图片的url
     
     @objc var uploadPicZLAgentArr = [UIImage]()  // 在实际的项目中可能用于存储图片的url
@@ -63,13 +117,24 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setUpData()
+        loadCollectionData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setUpData()
         setUpView()
+    }
+    
+    override func leftBtnClick() {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "企业认证未完成，点击保存下次可继续编辑。点击离开，已编辑信息不保存", cancelButtonCallClick: { [weak self] in
+            
+            self?.navigationController?.popViewController(animated: true)
+        }) { [weak self] in
+            
+            self?.navigationController?.popViewController(animated: true)
+        }
     }
     
 }
@@ -79,9 +144,11 @@ extension OwnerCompanyIeditnfyVC {
     
     @objc func logotClick() {
         
-        showLogotAlertview()
+        showCommitAlertview()
     }
-    
+    func setUpData() {
+        userModel = OwnerIdentifyUserModel()
+    }
     func setUpView() {
         
         uploadPicFCZArr.append(UIImage.init(named: "addImgBg") ?? UIImage())
@@ -112,30 +179,60 @@ extension OwnerCompanyIeditnfyVC {
         headerCollectionView.register(OwnerImagePickerCell.self, forCellWithReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
         
+        //公司名
+        companySearchResultVC = OwnerCompanyESearchResultListViewController.init()
+        companySearchResultVC?.view.isHidden = true
+        self.view.addSubview(companySearchResultVC?.view ?? UIView())
+        
+        // 传递闭包 当点击’搜索结果‘的cell调用
+        companySearchResultVC?.callBack = {[weak self] (model) in
+            // 搜索完成 关闭resultVC
+            
+            self?.userModel?.company = model.companyString?.string
+            self?.companySearchResultVC?.view.isHidden = true
+            self?.loadCollectionData()
+        }
+        
+        // 创建按钮 - 跳转到创建公司页面
+        companySearchResultVC?.creatButtonCallClick = {[weak self] in
+            self?.companySearchResultVC?.view.isHidden = true
+            let vc = OwnerCreateCompanyViewController()
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        //办公楼
+        buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
+        buildingNameSearchResultVC?.view.isHidden = true
+        self.view.addSubview(buildingNameSearchResultVC?.view ?? UIView())
+        
+        // 传递闭包 当点击’搜索结果‘的cell调用
+        buildingNameSearchResultVC?.callBack = {[weak self] (model) in
+            // 搜索完成 关闭resultVC
+            
+            self?.userModel?.buildingName = model.buildingAttributedName?.string
+            self?.userModel?.address = model.addressString?.string
+            self?.buildingNameSearchResultVC?.view.isHidden = true
+            self?.loadCollectionData()
+        }
+        
+        // 创建按钮 - 隐藏 - 展示下面的楼盘地址
+        buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
+            self?.buildingNameSearchResultVC?.view.isHidden = true
+            self?.loadCollectionData()
+        }
     }
     
-    func setUpData() {
+    func loadCollectionData() {
         headerCollectionView.reloadData()
     }
     
-    func showLogotAlertview() {
+    func showCommitAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: "是否确定退出？", cancelButtonCallClick: {
-            
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "提交成功", descMsg: "我们会在1-2个工作日完成审核\n你还可以", cancelButtonCallClick: {
+            let vc = OwnerCreateCompanyViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         }) {
             
-            //退出登录 - 判断是业主还是租户
-            //业主- 直接退出登录 -
-            //租户- 返回个人中心 - 个人中心状态刷新为未登录
-            /// role 角色 用户身份类型,,0:租户,1:业主,9:其他
-            if UserTool.shared.user_id_type == 0 {
-                //不清空身份类型
-                UserTool.shared.removeAll()
-                self.leftBtnClick()
-                
-            }else if UserTool.shared.user_id_type == 1 {
-                NotificationCenter.default.post(name: NSNotification.Name.OwnerUserLogout, object: nil)
-            }
         }
     }
     
@@ -196,6 +293,8 @@ extension OwnerCompanyIeditnfyVC {
 extension OwnerCompanyIeditnfyVC {
     func selectFCZPicker() {
         let imagePickTool = CLImagePickerTool()
+        imagePickTool.cameraOut = true
+        imagePickTool.isHiddenVideo = true
         imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicFCZArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
@@ -203,12 +302,14 @@ extension OwnerCompanyIeditnfyVC {
                 }, failedClouse: { () in
                     
             })
-            self?.headerCollectionView.reloadData()
+            self?.loadCollectionData()
         }
     }
     
     func selectZLAgentPicker() {
         let imagePickTool = CLImagePickerTool()
+        imagePickTool.cameraOut = true
+        imagePickTool.isHiddenVideo = true
         imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicZLAgentArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
@@ -216,12 +317,15 @@ extension OwnerCompanyIeditnfyVC {
                 }, failedClouse: { () in
                     
             })
-            self?.headerCollectionView.reloadData()
+            self?.loadCollectionData()
         }
     }
     
     func selectMainPagePicker() {
         let imagePickTool = CLImagePickerTool()
+        imagePickTool.cameraOut = true
+        imagePickTool.isHiddenVideo = true
+        imagePickTool.singleImageChooseType = .singlePicture   //设置单选
         imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 1) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
@@ -229,7 +333,7 @@ extension OwnerCompanyIeditnfyVC {
                 }, failedClouse: { () in
                     
             })
-            self?.headerCollectionView.reloadData()
+            self?.loadCollectionData()
         }
     }
 }
@@ -239,7 +343,18 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 || indexPath.section == 1{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerCompanyIdentifyCell
+            cell?.userModel = self.userModel
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
+            cell?.companyNameClickClouse = { [weak self] (companyName) in
+                self?.companyName = companyName
+            }
+            cell?.buildingNameClickClouse = { [weak self] (buildingName) in
+                self?.buildingName = buildingName
+            }
+            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
+                self?.userModel?.address = buildingAddres
+                self?.loadCollectionData()
+            }
             return cell ?? OwnerCompanyIdentifyCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
@@ -248,7 +363,7 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 cell?.image.image = uploadPicFCZArr[indexPath.item]
                 cell?.closeBtnClickClouse = { [weak self] (index) in
                     self?.uploadPicFCZArr.remove(at: index)
-                    self?.headerCollectionView.reloadData()
+                    self?.loadCollectionData()
                 }
                 if indexPath.item == uploadPicFCZArr.count - 1 {
                     cell?.closeBtn.isHidden = true
@@ -256,25 +371,34 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                     cell?.closeBtn.isHidden = false
                 }
             }else if indexPath.section == 3 {
-               cell?.image.image = uploadPicZLAgentArr[indexPath.item]
-               cell?.closeBtnClickClouse = { [weak self] (index) in
-                   self?.uploadPicZLAgentArr.remove(at: index)
-                   self?.headerCollectionView.reloadData()
-               }
-               if indexPath.item == uploadPicZLAgentArr.count - 1 {
-                   cell?.closeBtn.isHidden = true
-               }else {
-                   cell?.closeBtn.isHidden = false
-               }
+                cell?.image.image = uploadPicZLAgentArr[indexPath.item]
+                cell?.closeBtnClickClouse = { [weak self] (index) in
+                    self?.uploadPicZLAgentArr.remove(at: index)
+                    self?.loadCollectionData()
+                }
+                if indexPath.item == uploadPicZLAgentArr.count - 1 {
+                    cell?.closeBtn.isHidden = true
+                }else {
+                    cell?.closeBtn.isHidden = false
+                }
             }else if indexPath.section == 4 {
-               cell?.image.image = uplaodMainPageimg
-              cell?.closeBtn.isHidden = true
+                cell?.image.image = uplaodMainPageimg
+                cell?.closeBtn.isHidden = true
             }
             return cell ?? OwnerImagePickerCell()
         }
         
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+//        if let company = userModel?.company {
+//            if company.isBlankString == true {
+//                return 1
+//            }else {
+//                return typeSourceArray.count
+//            }
+//        }else {
+//            return 1
+//        }
         return typeSourceArray.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -318,7 +442,7 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 || indexPath.section == 1 {
-
+            
         }else {
             if indexPath.section == 2 {
                 if indexPath.item == uploadPicFCZArr.count - 1 {
@@ -393,5 +517,11 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         }else {
             return left_pending_space_17
         }
+    }
+}
+extension OwnerCompanyIeditnfyVC {
+    //MARK: 滑动- 设置标题颜色
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        SSLog("scrollViewDidScroll ----*\(scrollView.contentOffset.y)")
     }
 }

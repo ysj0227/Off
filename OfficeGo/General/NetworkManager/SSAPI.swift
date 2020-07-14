@@ -163,6 +163,20 @@ class SSDelegateURL: NSObject {
 }
 
 
+//  MARK:   --业主认证接口
+class SSOwnerIdentifyURL: NSObject {
+    
+    //搜索企业接口
+    static let getESCompany = "api/esearch/searchListByLicence"
+    
+    //搜索企业大楼接口
+    static let getESBuild = "api/esearch/searchListBuild"
+
+    //搜索网点接口
+    static let getESBranch = "api/esearch/searchListBranch"
+
+    
+}
 
 
 

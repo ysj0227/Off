@@ -13,6 +13,63 @@ class ConfigureModel: NSObject {
     var icon: String?
     var isShowDetailIcon: Bool?
 }
+//业主
+//公司创建
+class OwnerCreatCompanyConfigureModel: NSObject {
+    
+    //业主
+    //创建公司
+
+    var type: OwnerCreteCompanyType?
+    
+    init(types: OwnerCreteCompanyType) {
+        type = types
+    }
+    
+    func getNameFormType(type: OwnerCreteCompanyType) -> NSMutableAttributedString{
+        switch type {
+        case .OwnerCreteCompanyTypeIedntify:
+            return FuWenBen(name: "认证身份", centerStr: "", last: " ：")
+        case .OwnerCreteCompanyTypeCompanyName:
+            return FuWenBen(name: "公司名称", centerStr: " *", last: " ：")
+        case .OwnerCreteCompanyTypeCompanyAddress:
+            return FuWenBen(name: "公司地址", centerStr: " *", last: " ：")
+        case .OwnerCreteCompanyTypeYingyeCode:
+            return FuWenBen(name: "营业执照注册号", centerStr: " *", last: " ：")
+        case .OwnerCreteCompanyTypeUploadYingyePhoto:
+            return FuWenBen(name: "上传营业执照", centerStr: " *", last: "")
+        }
+    }
+    
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
+}
 
 
 //业主

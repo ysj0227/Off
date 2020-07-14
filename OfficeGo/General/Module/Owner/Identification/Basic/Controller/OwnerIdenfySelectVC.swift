@@ -10,7 +10,13 @@ class OwnerIdenfySelectVC: BaseTableViewController {
     //身份类型0个人1企业2联合
     var selectedIndex: Int = 999 {
         didSet {
-            UserTool.shared.user_owner_identifytype = selectedIndex
+            if selectedIndex == 0 {
+                UserTool.shared.user_owner_identifytype = 1
+            }else if selectedIndex == 1 {
+                UserTool.shared.user_owner_identifytype = 2
+            }else if selectedIndex == 2 {
+                UserTool.shared.user_owner_identifytype = 0
+            }
         }
     }
     
@@ -119,6 +125,9 @@ extension OwnerIdenfySelectVC {
         selectedIndex = indexPath.row
         
         if indexPath.row == 0 {
+            let vc = OwnerCompanyIeditnfyVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
             let vc = OwnerCompanyIeditnfyVC()
             self.navigationController?.pushViewController(vc, animated: true)
         }
