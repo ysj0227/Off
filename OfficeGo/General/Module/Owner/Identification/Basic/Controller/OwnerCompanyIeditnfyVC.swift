@@ -117,13 +117,33 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadCollectionData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpData()
         setUpView()
+        addNotify()
+    }
+    
+    func addNotify() {
+        //公司认证 - 发送加入公司通知
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerApplyEnterCompany, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            if let model = noti.object as? OwnerESCompanySearchViewModel {
+                self?.userModel?.company = model.companyString?.string
+                self?.companySearchResultVC?.view.isHidden = true
+                self?.loadCollectionData()
+            }
+        }
+        
+        //公司认证 - 创建公司成功通知
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateCompany, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            if let model = noti.object as? OwnerESCompanySearchViewModel {
+                self?.userModel?.company = model.companyString?.string
+                self?.companySearchResultVC?.view.isHidden = true
+                self?.loadCollectionData()
+            }
+        }
     }
     
     override func leftBtnClick() {
@@ -186,16 +206,13 @@ extension OwnerCompanyIeditnfyVC {
         
         // 传递闭包 当点击’搜索结果‘的cell调用
         companySearchResultVC?.callBack = {[weak self] (model) in
-            // 搜索完成 关闭resultVC
-            
-            self?.userModel?.company = model.companyString?.string
-            self?.companySearchResultVC?.view.isHidden = true
-            self?.loadCollectionData()
+            let vc = OwnerApplyEnterCompanyViewController()
+            vc.companyModel = model
+            self?.navigationController?.pushViewController(vc, animated: true)
         }
         
         // 创建按钮 - 跳转到创建公司页面
         companySearchResultVC?.creatButtonCallClick = {[weak self] in
-            self?.companySearchResultVC?.view.isHidden = true
             let vc = OwnerCreateCompanyViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
         }
@@ -215,11 +232,15 @@ extension OwnerCompanyIeditnfyVC {
             self?.loadCollectionData()
         }
         
-        // 创建按钮 - 隐藏 - 展示下面的楼盘地址
+        // 创建按钮 - 隐藏 - 展示下面的楼盘地址 - 地址置空
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
             self?.buildingNameSearchResultVC?.view.isHidden = true
+            self?.userModel?.address = ""
             self?.loadCollectionData()
         }
+        
+        //第一次刷新列表
+        loadCollectionData()
     }
     
     func loadCollectionData() {
@@ -390,28 +411,62 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        if let company = userModel?.company {
-//            if company.isBlankString == true {
-//                return 1
-//            }else {
-//                return typeSourceArray.count
-//            }
-//        }else {
-//            return 1
-//        }
-        return typeSourceArray.count
+        if let company = userModel?.company {
+            if company.isBlankString == true {
+                return 1
+            }else {
+                return typeSourceArray.count
+            }
+        }else {
+            return 1
+        }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return typeSourceArray[0].count
         }else if section == 1 {
-            return typeSourceArray[1].count
+            if let buildingName = userModel?.buildingName {
+                if buildingName.isBlankString == true {
+                    return 2
+                }else {
+                    return typeSourceArray[1].count
+                }
+            }else {
+                return 2
+            }
         }else if section == 2 {
-            return uploadPicFCZArr.count
+            if let buildingName = userModel?.buildingName {
+                if buildingName.isBlankString == true {
+                    return 0
+                }else {
+                    return uploadPicFCZArr.count
+                }
+            }else {
+                return 0
+            }
+            
         }else if section == 3 {
-            return uploadPicZLAgentArr.count
+            if let buildingName = userModel?.buildingName {
+                if buildingName.isBlankString == true {
+                    return 0
+                }else {
+                    return uploadPicZLAgentArr.count
+                }
+            }else {
+                return 0
+            }
+            
         }else if section == 4 {
-            return 1
+            if let buildingName = userModel?.buildingName {
+                if buildingName.isBlankString == true {
+                    return 0
+                }else {
+                    return 1
+                }
+            }else {
+                return 0
+            }
+            
         }
         return 0
     }
@@ -493,9 +548,28 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
             return CGSize(width: kWidth, height: 10)
             
         }else if section == 2 || section == 3 {
-            return CGSize(width: kWidth, height: 68)
+            if let buildingName = userModel?.buildingName {
+                if buildingName.isBlankString == true {
+                    return CGSize(width: kWidth, height: 0)
+                }else {
+                    return CGSize(width: kWidth, height: 68)
+                }
+            }else {
+                return CGSize(width: kWidth, height: 0)
+            }
+            
         }else if section == 4 {
-            return CGSize(width: kWidth, height: 46)
+            if let buildingName = userModel?.buildingName {
+                if buildingName.isBlankString == true {
+                    return CGSize(width: kWidth, height: 0)
+                }else {
+                    return CGSize(width: kWidth, height: 46)
+                }
+                
+            }else {
+                return CGSize(width: kWidth, height: 0)
+            }
+            
         }else {
             return CGSize.zero
         }

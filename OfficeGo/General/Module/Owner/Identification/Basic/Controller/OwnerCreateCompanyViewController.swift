@@ -16,10 +16,6 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
         let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: 158))
         view.backgroundColor = kAppLightBlueColor
         view.isUserInteractionEnabled = true
-        let textMessageTap = UITapGestureRecognizer(target: self, action: #selector(imgClickGesture(_:)))
-        textMessageTap.numberOfTapsRequired = 1
-        textMessageTap.numberOfTouchesRequired = 1
-        view.addGestureRecognizer(textMessageTap)
         return view
     }()
     
@@ -60,6 +56,8 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
     
     var typeSourceArray:[OwnerCreatCompanyConfigureModel] = [OwnerCreatCompanyConfigureModel]()
     
+    var companyModel: OwnerESCompanySearchViewModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -94,15 +92,20 @@ extension OwnerCreateCompanyViewController {
         self.tableView.register(OwnerCreateCompanyCell.self, forCellReuseIdentifier: OwnerCreateCompanyCell.reuseIdentifierStr)
         
         self.view.addSubview(bottomBtnView)
+        
         bottomBtnView.rightBtnClickBlock = { [weak self] in
-            self?.requestEditUserMessage()
-            
+            self?.requestCreateCompany()
         }
         bottomBtnView.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-bottomMargin())
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
+        
+        let textMessageTap = UITapGestureRecognizer(target: self, action: #selector(imgClickGesture(_:)))
+         textMessageTap.numberOfTapsRequired = 1
+         textMessageTap.numberOfTouchesRequired = 1
+         yingYeZhiZhaoPhoto.addGestureRecognizer(textMessageTap)
     }
     @objc private func imgClickGesture(_ tap: UITapGestureRecognizer) {
         
@@ -134,9 +137,13 @@ extension OwnerCreateCompanyViewController {
             
         }
         let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
+        yingYeZhiZhaoPhoto.image = image
+        
+        /*
         let image2 = image?.crop(ratio: 1)
         
         self.upload(uploadImage: image2 ?? UIImage.init())
+ */
     }
     func setUpData() {
         
@@ -186,33 +193,20 @@ extension OwnerCreateCompanyViewController {
         }
     }
     
-    func requestEditUserMessage() {
+    //发送加入公司和网点公司的通知
+   func addNotify() {
+       ///身份类型0个人1企业2联合
+       if UserTool.shared.user_owner_identifytype == 1 {
+           NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompany, object: companyModel)
+       }else if UserTool.shared.user_owner_identifytype == 2 {
+           NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompanyJoint, object: companyModel)
+       }
+   }
+    
+    ///创建公司接口 -
+    func requestCreateCompany() {
         
-        setSureBtnEnable(can: false)
-        
-        var params = [String:AnyObject]()
-        params["realname"] = userModel?.realname as AnyObject?
-        params["sex"] = userModel?.sex as AnyObject?
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        params["WX"] = userModel?.wxId as AnyObject?
-        
-        SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
-            
-            self?.updateSuccess()
-            
-            }, failure: {[weak self] (error) in
-                self?.setSureBtnEnable(can: true)
-                
-        }) {[weak self] (code, message) in
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-            self?.setSureBtnEnable(can: true)
-            
-        }
+        addNotify()
     }
     
     
