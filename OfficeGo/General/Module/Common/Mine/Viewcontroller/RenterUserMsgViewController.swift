@@ -324,7 +324,14 @@ class BaseEditCell: BaseTableViewCell {
     class func rowHeight() -> CGFloat {
         return cell_height_58
     }
+    
+    func setDelegate() {
+        
+    }
+    
     func setupViews() {
+        
+        setDelegate()
         
         addSubview(titleLabel)
         addSubview(editLabel)

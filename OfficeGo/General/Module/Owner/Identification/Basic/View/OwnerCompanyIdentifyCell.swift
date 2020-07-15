@@ -59,6 +59,9 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     
     //写字楼地址
     var buildingAddresEndEditingMessageCell:((String) -> Void)?
+    
+    //写字楼名称址
+    var buildingNameEndEditingMessageCell:((String) -> Void)?
 
     //模拟认证模型
     var userModel: OwnerIdentifyUserModel?
@@ -82,10 +85,10 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
                 lineView.isHidden = false
-                if userModel?.renterType == 0 {
-                    numDescTF.text = "直租"
-                }else if userModel?.renterType == 1 {
-                    numDescTF.text = "转租"
+                if userModel?.leaseType == 0 {
+                    numDescTF.text = "自有房产"
+                }else if userModel?.leaseType == 1 {
+                    numDescTF.text = "租赁房产"
                 }else {
                     numDescTF.text = ""
                 }
@@ -175,6 +178,13 @@ extension OwnerCompanyIdentifyCell: UITextFieldDelegate {
         //只有办公楼地址要在编辑结束的时候传过去
         if model.type == .OwnerCompanyIedntifyTypeBuildingAddress {
             guard let blockk = self.buildingAddresEndEditingMessageCell else {
+                return
+            }
+            blockk(textField.text ?? "")
+        }
+        //只有办公楼名称要在编辑结束的时候传过去
+        if model.type == .OwnerCompanyIedntifyTypeBuildingName {
+            guard let blockk = self.buildingNameEndEditingMessageCell else {
                 return
             }
             blockk(textField.text ?? "")

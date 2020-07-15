@@ -95,9 +95,6 @@ class VersionModel: BaseModel {
 
 class OwnerIdentifyUserModel: BaseModel {
     
-    //0 直租   1转租
-    var renterType: Int?
-    
     var buildingName: String?
     
     var avatar : String?

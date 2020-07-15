@@ -43,8 +43,8 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
 extension OwnerApplyEnterCompanyViewController {
     
     func setData() {
-        topview.userModel = OwnerIdentifyUserModel()
-        bottomView.userModel = OwnerIdentifyUserModel()
+        topview.userModel = companyModel
+        bottomView.userModel = companyModel
     }
     
     func setView() {
@@ -228,11 +228,11 @@ extension OwnerApplyEnterCompanyViewController {
         }
     }
     
-    var userModel: OwnerIdentifyUserModel? {
+    var userModel: OwnerESCompanySearchViewModel? {
         didSet {
             
-            titleLabel.text = userModel?.buildingName
-            addressLabel.text = userModel?.address
+            titleLabel.text = userModel?.companyString?.string
+            addressLabel.text = userModel?.addressString?.string
             avatarImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
             nameLabel.text = "管理员：杨先生"
             jobLabel.text = "CED"
@@ -337,7 +337,8 @@ extension OwnerApplyEnterCompanyViewController {
             make.bottom.equalTo(numOfCharLabel.snp.top)
         }
     }
-    var userModel: OwnerIdentifyUserModel? {
+    
+    var userModel: OwnerESCompanySearchViewModel? {
         didSet {
             
             ///身份类型0个人1企业2联合

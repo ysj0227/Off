@@ -24,14 +24,6 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
     var userModel: OwnerIdentifyUserModel? {
         didSet {
             
-            ///设置下面的按钮的状态
-            if userModel?.company?.isBlankString == true || userModel?.address?.isBlankString == true  {
-                bottomBtnView.rightSelectBtn.isUserInteractionEnabled = false
-                bottomBtnView.rightSelectBtn.backgroundColor = kAppColor_btnGray_BEBEBE
-            }else {
-                bottomBtnView.rightSelectBtn.isUserInteractionEnabled = true
-                bottomBtnView.rightSelectBtn.backgroundColor = kAppBlueColor
-            }
         }
     }
     
@@ -40,8 +32,6 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
         view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
         view.rightSelectBtn.setTitle("确认创建", for: .normal)
         view.backgroundColor = kAppWhiteColor
-        view.rightSelectBtn.isUserInteractionEnabled = false
-        view.rightSelectBtn.backgroundColor = kAppColor_btnGray_BEBEBE
         return view
     }()
     
@@ -56,7 +46,7 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
     
     var typeSourceArray:[OwnerCreatCompanyConfigureModel] = [OwnerCreatCompanyConfigureModel]()
     
-    var companyModel: OwnerESCompanySearchViewModel?
+    var companyModel: OwnerESCompanySearchModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,9 +63,8 @@ extension OwnerCreateCompanyViewController {
     
     func setUpView() {
         
-        
         titleview = ThorNavigationView.init(type: .backTitleRight)
-        titleview?.titleLabel.text = "基本信息"
+        titleview?.titleLabel.text = "创建公司"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
@@ -103,9 +92,9 @@ extension OwnerCreateCompanyViewController {
         }
         
         let textMessageTap = UITapGestureRecognizer(target: self, action: #selector(imgClickGesture(_:)))
-         textMessageTap.numberOfTapsRequired = 1
-         textMessageTap.numberOfTouchesRequired = 1
-         yingYeZhiZhaoPhoto.addGestureRecognizer(textMessageTap)
+        textMessageTap.numberOfTapsRequired = 1
+        textMessageTap.numberOfTouchesRequired = 1
+        yingYeZhiZhaoPhoto.addGestureRecognizer(textMessageTap)
     }
     @objc private func imgClickGesture(_ tap: UITapGestureRecognizer) {
         
@@ -140,10 +129,10 @@ extension OwnerCreateCompanyViewController {
         yingYeZhiZhaoPhoto.image = image
         
         /*
-        let image2 = image?.crop(ratio: 1)
-        
-        self.upload(uploadImage: image2 ?? UIImage.init())
- */
+         let image2 = image?.crop(ratio: 1)
+         
+         self.upload(uploadImage: image2 ?? UIImage.init())
+         */
     }
     func setUpData() {
         
@@ -152,6 +141,12 @@ extension OwnerCreateCompanyViewController {
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeCompanyAddress))
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeYingyeCode))
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeUploadYingyePhoto))
+        
+        if companyModel != nil {
+            
+        }else {
+            companyModel = OwnerESCompanySearchModel()
+        }
         
         self.tableView.reloadData()
     }
@@ -194,14 +189,16 @@ extension OwnerCreateCompanyViewController {
     }
     
     //发送加入公司和网点公司的通知
-   func addNotify() {
-       ///身份类型0个人1企业2联合
-       if UserTool.shared.user_owner_identifytype == 1 {
-           NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompany, object: companyModel)
-       }else if UserTool.shared.user_owner_identifytype == 2 {
-           NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompanyJoint, object: companyModel)
-       }
-   }
+    func addNotify() {
+        ///身份类型0个人1企业2联合
+        if UserTool.shared.user_owner_identifytype == 1 {
+            NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompany, object: companyModel)
+            leftBtnClick()
+        }else if UserTool.shared.user_owner_identifytype == 2 {
+            NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompanyJoint, object: companyModel)
+            leftBtnClick()
+        }
+    }
     
     ///创建公司接口 -
     func requestCreateCompany() {
@@ -221,6 +218,8 @@ extension OwnerCreateCompanyViewController {
         cell?.model = typeSourceArray[indexPath.row]
         cell?.endEditingMessageCell = { [weak self] (userModel) in
             self?.userModel = userModel
+            self?.companyModel?.company = "gongsisis"
+            self?.companyModel?.address = "地址"
         }
         return cell ?? OwnerCreateCompanyCell.init(frame: .zero)
     }
@@ -255,6 +254,10 @@ class OwnerCreateCompanyCell: BaseEditCell {
     var userModel: OwnerIdentifyUserModel?
     
     var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
+    
+    override func setDelegate() {
+        editLabel.delegate = self
+    }
     
     var model: OwnerCreatCompanyConfigureModel = OwnerCreatCompanyConfigureModel(types: OwnerCreteCompanyType.OwnerCreteCompanyTypeIedntify) {
         didSet {

@@ -138,8 +138,8 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
         
         //公司认证 - 创建公司成功通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateCompany, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let model = noti.object as? OwnerESCompanySearchViewModel {
-                self?.userModel?.company = model.companyString?.string
+            if let model = noti.object as? OwnerESCompanySearchModel {
+                self?.userModel?.company = model.company
                 self?.companySearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
@@ -213,6 +213,7 @@ extension OwnerCompanyIeditnfyVC {
         
         // 创建按钮 - 跳转到创建公司页面
         companySearchResultVC?.creatButtonCallClick = {[weak self] in
+            self?.userModel?.company = ""
             let vc = OwnerCreateCompanyViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
         }
@@ -376,6 +377,10 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 self?.userModel?.address = buildingAddres
                 self?.loadCollectionData()
             }
+            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
+                self?.userModel?.buildingName = buildingNAme
+                self?.loadCollectionData()
+            }
             return cell ?? OwnerCompanyIdentifyCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
@@ -496,8 +501,25 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 || indexPath.section == 1 {
+        if indexPath.section == 0 {
             
+        }else if indexPath.section == 1 {
+            if indexPath.item == 2 {
+                
+                let alertController = UIAlertController.init(title: "房产类型", message: nil, preferredStyle: .actionSheet)
+                let refreshAction = UIAlertAction.init(title: "自有房产", style: .default) {[weak self] (action: UIAlertAction) in
+                    self?.userModel?.leaseType = 0
+                    self?.loadCollectionData()
+                }
+                let copyAction = UIAlertAction.init(title: "租赁房产", style: .default) {[weak self] (action: UIAlertAction) in
+                    self?.userModel?.leaseType = 1
+                    self?.loadCollectionData()
+                }
+                alertController.addAction(refreshAction)
+                alertController.addAction(copyAction)
+                
+                present(alertController, animated: true, completion: nil)
+            }
         }else {
             if indexPath.section == 2 {
                 if indexPath.item == uploadPicFCZArr.count - 1 {
