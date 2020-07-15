@@ -127,8 +127,8 @@ extension OwnerIdenfySelectVC {
         if indexPath.row == 0 {
             let vc = OwnerCompanyIeditnfyVC()
             self.navigationController?.pushViewController(vc, animated: true)
-        }else {
-            let vc = OwnerCompanyIeditnfyVC()
+        }else if indexPath.row == 1 {
+            let vc = OwnerJointIeditnfyVC()
             self.navigationController?.pushViewController(vc, animated: true)
         }
 

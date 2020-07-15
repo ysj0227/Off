@@ -11,6 +11,9 @@ import Alamofire
 
 class OwnerCreateCompanyViewController: BaseTableViewController {
     
+    var isBranch: Bool? = false
+
+    
     var yingYeZhiZhaoPhoto: UIImageView = {
         
         let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: 158))
@@ -195,8 +198,17 @@ extension OwnerCreateCompanyViewController {
             NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompany, object: companyModel)
             leftBtnClick()
         }else if UserTool.shared.user_owner_identifytype == 2 {
-            NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompanyJoint, object: companyModel)
-            leftBtnClick()
+            
+            //联合 - 网点名称
+            if isBranch == true {
+                NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompanyJoint, object: companyModel)
+                leftBtnClick()
+            }else {
+
+                //联合 - 公司名称
+                NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompany, object: companyModel)
+                leftBtnClick()
+            }
         }
     }
     

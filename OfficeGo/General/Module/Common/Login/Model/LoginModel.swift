@@ -97,6 +97,9 @@ class OwnerIdentifyUserModel: BaseModel {
     
     var buildingName: String?
     
+    var branchName: String?
+
+    
     var avatar : String?
     var phone : String?
     ///性别1男性 0女性

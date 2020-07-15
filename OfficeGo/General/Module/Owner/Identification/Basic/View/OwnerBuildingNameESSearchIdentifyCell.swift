@@ -53,6 +53,17 @@ class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
     }
     var viewModel: OwnerESBuildingSearchViewModel? {
         didSet {
+            ///身份类型0个人1企业2联合
+            //展示楼盘名字 楼盘地址 关联按钮
+            if UserTool.shared.user_owner_identifytype == 0 || UserTool.shared.user_owner_identifytype == 1 {
+                numDescLabel.isHidden = false
+                addBtn.isHidden = false
+            }
+            //只展示大楼名称
+            else if UserTool.shared.user_owner_identifytype == 2 {
+                numDescLabel.isHidden = true
+                addBtn.isHidden = true
+            }
             titleLabel.attributedText = viewModel?.buildingAttributedName
             numDescLabel.attributedText = viewModel?.addressString
         }

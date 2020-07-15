@@ -45,33 +45,8 @@ class OwnerBuildingNameESearchResultListViewController: BaseTableViewController 
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject
         params["keywords"] = keywords as AnyObject
-        ///身份类型0个人1企业2联合
-        if UserTool.shared.user_owner_identifytype == 2 {
-            SSNetworkTool.SSOwnerIdentify.request_getESBranch(params: params, success: { [weak self] (response) in
-                guard let weakSelf = self else {return}
-                if let decoratedArray = JSONDeserializer<OwnerESBuildingSearchModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                    weakSelf.dataSource = decoratedArray
-                    weakSelf.tableView.reloadData()
-                }
-                
-                }, failure: {[weak self] (error) in
-                    guard let weakSelf = self
-                        else {return}
-                    
-                    weakSelf.endRefreshAnimation()
-                    
-            }) {[weak self] (code, message) in
-                
-                guard let weakSelf = self else {return}
-                
-                weakSelf.endRefreshAnimation()
-                
-                //只有5000 提示给用户
-                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                    AppUtilities.makeToast(message)
-                }
-            }
-        }else {
+        ///身份类型0个人1企业2联合 - 楼盘和网点一个接口
+
             SSNetworkTool.SSOwnerIdentify.request_getESBuild(params: params, success: { [weak self] (response) in
                 guard let weakSelf = self else {return}
                 if let decoratedArray = JSONDeserializer<OwnerESBuildingSearchModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
@@ -96,7 +71,7 @@ class OwnerBuildingNameESearchResultListViewController: BaseTableViewController 
                     AppUtilities.makeToast(message)
                 }
             }
-        }
+        
     }
     
 }

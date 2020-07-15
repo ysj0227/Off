@@ -16,6 +16,8 @@
 		0407F93624BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */; };
 		0407F93824BD94D800C9F581 /* OwnerESCompanySearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */; };
 		0407F93A24BD963400C9F581 /* OwnerESBuildingSearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */; };
+		04121F2F24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04121F2E24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift */; };
+		04121F3124BF0CE900864E51 /* OwnerJointIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04121F3024BF0CE900864E51 /* OwnerJointIdentifyCell.swift */; };
 		0420BB4B24A882B00052D165 /* RenterCustomersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */; };
 		0420BB4D24A891330052D165 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420BB4C24A891330052D165 /* MessageUI.framework */; };
 		042D73D524BDAC600062FA7B /* OwnerCreateCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */; };
@@ -282,6 +284,8 @@
 		0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNameESSearchIdentifyCell.swift; sourceTree = "<group>"; };
 		0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerESCompanySearchModel.swift; sourceTree = "<group>"; };
 		0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerESBuildingSearchModel.swift; sourceTree = "<group>"; };
+		04121F2E24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerJointIeditnfyVC.swift; sourceTree = "<group>"; };
+		04121F3024BF0CE900864E51 /* OwnerJointIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerJointIdentifyCell.swift; sourceTree = "<group>"; };
 		0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCustomersViewController.swift; sourceTree = "<group>"; };
 		0420BB4C24A891330052D165 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCreateCompanyViewController.swift; sourceTree = "<group>"; };
@@ -626,6 +630,7 @@
 		04990B7F24B870E5008CDE6C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				04121F2E24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -640,6 +645,7 @@
 		04990B8124B870E5008CDE6C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				04121F3024BF0CE900864E51 /* OwnerJointIdentifyCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -657,6 +663,7 @@
 		04990B8324B870E5008CDE6C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -671,6 +678,7 @@
 		04990B8524B870E5008CDE6C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -689,7 +697,6 @@
 			isa = PBXGroup;
 			children = (
 				04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */,
-				0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */,
 				0407F93124BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift */,
 				0407F93324BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift */,
 				042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */,
@@ -711,7 +718,6 @@
 			isa = PBXGroup;
 			children = (
 				0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */,
-				0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */,
 				0407F92F24BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift */,
 				0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */,
 			);
@@ -1951,6 +1957,7 @@
 				04CB46FE249CB02C001BCC8F /* YLDatePicker.swift in Sources */,
 				EEE87B212455856800C03424 /* JHTableViewCell.swift in Sources */,
 				04CB479C249CC76B001BCC8F /* OwnerUserMsgViewController.swift in Sources */,
+				04121F2F24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift in Sources */,
 				EEE0D93B2465581200E5C77B /* FontConstant.swift in Sources */,
 				04E23923249B3ABB009DCCEC /* RenterHomePageViewController.swift in Sources */,
 				04E23938249B3ABB009DCCEC /* RenterDetailOfficeListCell.swift in Sources */,
@@ -2136,6 +2143,7 @@
 				EEE87B172455856800C03424 /* UITextViewSnapEx.swift in Sources */,
 				EEE87B102455856800C03424 /* JHTableViewController.swift in Sources */,
 				EEE87B3C24558F6A00C03424 /* UIImageExtension.swift in Sources */,
+				04121F3124BF0CE900864E51 /* OwnerJointIdentifyCell.swift in Sources */,
 				EE4914DD24692D62008D5689 /* LLSegmentViewController.swift in Sources */,
 				EE4914DC24692D62008D5689 /* LLIndicatorView.swift in Sources */,
 				EEE87B262455856800C03424 /* JHToolsDefine.swift in Sources */,

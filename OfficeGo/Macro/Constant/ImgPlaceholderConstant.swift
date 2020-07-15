@@ -15,9 +15,11 @@ let Default_80x60 = "Default_80x60"
 
 
 class CustomerService: NSObject {
-
+    ///业务咨询
     static let CustomerYeWuZiXunTel = "17321221162"
+    ///技术支持
     static let CustomerJiShuZhiChiTel = "13052007068"
+    ///邮箱
     static let CustomerEmail = "Clientservice@officego.com"
 
 }

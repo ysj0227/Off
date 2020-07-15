@@ -34,7 +34,6 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
     }()
     lazy var addBtn: UIButton = {
         let view = UIButton()
-        view.setTitle("申请加入", for: .normal)
         view.setTitleColor(kAppBlueColor, for: .normal)
         view.titleLabel?.font = FONT_12
         return view
@@ -60,10 +59,56 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
             viewModel = OwnerESCompanySearchViewModel.init(model: model ?? OwnerESCompanySearchModel())
         }
     }
+    
+    var isBranch: Bool? = false
+    
     var viewModel: OwnerESCompanySearchViewModel? {
         didSet {
+            ///身份类型0个人1企业2联合
+            //没有公司
+            if UserTool.shared.user_owner_identifytype == 0 {
+                
+            }
+                //展示认证标签 公司名字 描述 加入按钮
+            else if UserTool.shared.user_owner_identifytype == 1 {
+                itemIcon.isHidden = false
+                titleLabel.isHidden = false
+                numDescLabel.isHidden = false
+                addBtn.isHidden = false
+                addBtn.setTitle("申请加入", for: .normal)
+                numDescLabel.text = "加入公司，即可共同管理公司房源"
+            }
+                //只展示大楼名称
+            else if UserTool.shared.user_owner_identifytype == 2 {
+                //判断是否是网点
+                //隐藏标签 展示网点名字 描述 加入按钮
+                if isBranch == true {
+                    itemIcon.isHidden = true
+                    titleLabel.isHidden = false
+                    numDescLabel.isHidden = false
+                    addBtn.isHidden = false
+                    addBtn.setTitle("申请加入", for: .normal)
+                    numDescLabel.text = "加入网点，即可共同管理网点房源"
+                }else {
+                    //网点公司
+                    //隐藏标签 描述  展示网点名字  加入按钮
+                    itemIcon.isHidden = true
+                    titleLabel.isHidden = false
+                    
+                    //认证过显示- 否则不展示 - 按钮和提示展示一个
+//                    addBtn.isHidden = true
+//                    numDescLabel.isHidden = false
+//                    addBtn.setTitle("关联公司", for: .normal)
+//                    numDescLabel.text = "该公司已认证为标准办公，不可重复认证"
+                    
+                    //没有认证过，展示按钮
+                    addBtn.isHidden = false
+                    numDescLabel.isHidden = true
+                    addBtn.setTitle("关联公司", for: .normal)
+                    numDescLabel.text = "该公司已认证为标准办公，不可重复认证"
+                }
+            }
             titleLabel.attributedText = viewModel?.companyString
-            numDescLabel.text = "加入公司，即可共同管理公司房源"
         }
     }
     

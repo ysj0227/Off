@@ -150,3 +150,15 @@ public enum OwnerCreteCompanyType {
     case OwnerCreteCompanyTypeYingyeCode            //营业执照注册号
     case OwnerCreteCompanyTypeUploadYingyePhoto     //上传营业执照
 }
+
+//业主
+//联合办公认证
+public enum OwnerJointIedntifyType {
+    case OwnerJointIedntifyTypeIdentigy           //认证身份：
+    case OwnerJointIedntifyTypeBranchname         //网点名称：
+    case OwnerJointIedntifyTypeCompanyname        //所属公司
+    case OwnerJointIedntifyTypeBuildingName       //所在楼盘：
+    case OwnerJointIedntifyTypeUploadFangchanzheng//上传房产证
+    case OwnerJointIedntifyTypeUploadZulinAgent   //上传租赁协议
+    case OwnerJointIedntifyTypeUploadMainimg      //上传楼盘封面图
+}

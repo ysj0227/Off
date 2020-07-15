@@ -10,6 +10,9 @@ import UIKit
 
 class OwnerApplyEnterCompanyViewController: BaseViewController {
     
+    var isBranch: Bool? = false
+
+    
     let topview: OwnerApplyEnterConpanyTopview = {
         let view = OwnerApplyEnterConpanyTopview(frame: CGRect(x: left_pending_space_17, y: kNavigationHeight + 10, width: kWidth - left_pending_space_17 * 2, height: 150))
         return view
@@ -99,7 +102,14 @@ extension OwnerApplyEnterCompanyViewController {
         if UserTool.shared.user_owner_identifytype == 1 {
             NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompany, object: companyModel)
         }else if UserTool.shared.user_owner_identifytype == 2 {
-            NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: companyModel)
+            //联合 - 网点名称
+            if isBranch == true {
+                NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: companyModel)
+            }else {
+
+                //联合 - 公司名称
+                NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompany, object: companyModel)
+            }
         }
     }
 }

@@ -121,18 +121,51 @@ class OwnerCompanyIedntifyConfigureModel: ConfigureModel {
             return ""
         }
     }
-    func getIconFormType(type: OwnerMineType) -> String{
+}
+
+//业主
+//联合办公认证
+class OwnerJointIedntifyConfigureModel: ConfigureModel {
+    
+    var type: OwnerJointIedntifyType?
+    
+    init(types: OwnerJointIedntifyType) {
+        type = types
+    }
+    func getNameFormType(type: OwnerJointIedntifyType) -> String{
         switch type {
-        case .OwnerMineTypeAuthority:
-            return "authority"
-        case .OwnerMineTypeHelpAndFeedback:
-            return "helpAndFeedback"
-        case .OwnerMineTypeCusomers:
-            return "customers"
-        case .OwnerMineTypeRegisterAgent:
-            return "agentRegular"
-        case .OwnerMineTypeAboutus:
-            return "aboutUS"
+        case .OwnerJointIedntifyTypeIdentigy:
+            return "认证身份："
+        case .OwnerJointIedntifyTypeBranchname:
+            return "网点名称："
+        case .OwnerJointIedntifyTypeCompanyname:
+            return "所属公司："
+        case .OwnerJointIedntifyTypeBuildingName:
+            return "所在楼盘："
+        case .OwnerJointIedntifyTypeUploadFangchanzheng:
+            return "上传房产证"
+        case .OwnerJointIedntifyTypeUploadZulinAgent:
+            return "上传租赁协议"
+        case .OwnerJointIedntifyTypeUploadMainimg:
+            return "上传楼盘封面图"
+        }
+    }
+    func getDescFormType(type: OwnerJointIedntifyType) -> String{
+        switch type {
+        case .OwnerJointIedntifyTypeIdentigy:
+            return ""
+        case .OwnerJointIedntifyTypeBranchname:
+            return ""
+        case .OwnerJointIedntifyTypeCompanyname:
+            return ""
+        case .OwnerJointIedntifyTypeBuildingName:
+            return ""
+        case .OwnerJointIedntifyTypeUploadFangchanzheng:
+            return "请确保所上传的房产信息与公司信息一致"
+        case .OwnerJointIedntifyTypeUploadZulinAgent:
+            return "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
+        case .OwnerJointIedntifyTypeUploadMainimg:
+            return ""
         }
     }
 }
