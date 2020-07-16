@@ -48,8 +48,7 @@ class OwnerImagePickerCell: BaseCollectionViewCell {
     
     let closeBtn: UIButton = {
         let view = UIButton()
-        view.backgroundColor = kAppRedColor
-        view.setImage(UIImage.init(named: "close"), for: .normal)
+        view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
         return view
     }()
     
@@ -67,10 +66,11 @@ class OwnerImagePickerCell: BaseCollectionViewCell {
         addSubview(image)
         addSubview(closeBtn)
         image.snp.makeConstraints { (make) in
-            make.top.leading.bottom.trailing.equalToSuperview()
+            make.top.leading.bottom.trailing.equalToSuperview().inset(5)
         }
         closeBtn.snp.makeConstraints { (make) in
-            make.top.trailing.equalTo(image)
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview()
             make.size.equalTo(20)
         }
 //        image.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(clickChooseImage(index:))))

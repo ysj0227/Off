@@ -21,15 +21,16 @@ extension Notification.Name {
     /// 身份认证 - 业主 - 企业认证 - 加入公司申请的通知
     public static let OwnerApplyEnterCompany = Notification.Name("OwnerApplyEnterCompany")
     
-    /// 身份认证 - 业主 - 企业认证 - 创建公司成功的通知
+    /// 身份认证 - 业主 - 企业认证 - 创建公司成功的通知(包括企业认证 和 网点认证)
     public static let OwnerCreateCompany = Notification.Name("OwnerCreateCompany")
     
     /// 身份认证 - 业主 - 联合办公认证 - 加入网点申请的通知
     public static let OwnerApplyEnterCompanyJoint = Notification.Name("OwnerApplyEnterCompanyJoint")
     
-    /// 身份认证 - 业主 - 联合办公认证 - 创建网点成功的通知
+    /// 身份认证 - 业主 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
     public static let OwnerCreateCompanyJoint = Notification.Name("OwnerCreateCompanyJoint")
     
+
     
     
     /// 设置rootviewcontroller - 业主

@@ -87,7 +87,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             }else if model.type == .OwnerJointIedntifyTypeCompanyname{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                lineView.isHidden = false
+                lineView.isHidden = true
                 numDescTF.text = userModel?.company
             }else if model.type == .OwnerJointIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true

@@ -16,7 +16,7 @@ class OwnerBuildingNameESearchResultListViewController: BaseTableViewController 
     
     
     /// 点击cell回调闭包
-    var callBack: (OwnerESBuildingSearchViewModel) -> () = {_ in }
+    var buildingCallBack: (OwnerESBuildingSearchViewModel) -> () = {_ in }
     
     var keywords: String? = "" {
         didSet {
@@ -96,7 +96,7 @@ extension OwnerBuildingNameESearchResultListViewController {
         cell?.selectionStyle = .none
         if self.dataSource.count > 0 {
             if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as? OwnerESBuildingSearchModel
+                cell?.buildingModel = model as? OwnerESBuildingSearchModel
             }
         }
         return cell ?? OwnerBuildingNameESSearchIdentifyCell.init(frame: .zero)
@@ -118,7 +118,7 @@ extension OwnerBuildingNameESearchResultListViewController {
         if let model = self.dataSource[indexPath.row] as? OwnerESBuildingSearchModel {
             // 点击cell调用闭包
             let viewModel = OwnerESBuildingSearchViewModel.init(model: model)
-            callBack(viewModel)
+            buildingCallBack(viewModel)
         }
         
     }

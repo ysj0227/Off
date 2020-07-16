@@ -18,8 +18,11 @@ class OwnerCompanyESearchResultListViewController: BaseTableViewController {
     var creatButtonCallClick:(() -> Void)?
     
     /// 点击cell回调闭包
-    var callBack: (OwnerESCompanySearchViewModel) -> () = {_ in }
+    var companyCallBack: (OwnerESCompanySearchViewModel) -> () = {_ in }
     
+    ///网点搜索回调
+    var branchCallBack: (OwnerESBuildingSearchViewModel) -> () = {_ in }
+
     var keywords: String? = "" {
         didSet {
             dataSource.removeAll()
@@ -156,11 +159,20 @@ extension OwnerCompanyESearchResultListViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: OwnerCompanyESSearchIdentifyCell.reuseIdentifierStr) as? OwnerCompanyESSearchIdentifyCell
         cell?.isBranch = isBranch
         cell?.selectionStyle = .none
-        if self.dataSource.count > 0 {
-            if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as? OwnerESCompanySearchModel
-            }
+        if isBranch == true {
+            if self.dataSource.count > 0 {
+                       if let model = self.dataSource[indexPath.row]  {
+                           cell?.buildingModel = model as? OwnerESBuildingSearchModel
+                       }
+                   }
+        }else {
+            if self.dataSource.count > 0 {
+                       if let model = self.dataSource[indexPath.row]  {
+                           cell?.companyModel = model as? OwnerESCompanySearchModel
+                       }
+                   }
         }
+       
         return cell ?? OwnerCompanyESSearchIdentifyCell.init(frame: .zero)
     }
     
@@ -177,11 +189,20 @@ extension OwnerCompanyESearchResultListViewController {
         if self.dataSource.count <= 0 {
             return
         }
-        if let model = self.dataSource[indexPath.row] as? OwnerESCompanySearchModel {
-            // 点击cell调用闭包
-            let viewModel = OwnerESCompanySearchViewModel.init(model: model)
-            callBack(viewModel)
+        if isBranch == true {
+            if let model = self.dataSource[indexPath.row] as? OwnerESBuildingSearchModel {
+                // 点击cell调用闭包
+                let viewModel = OwnerESBuildingSearchViewModel.init(model: model)
+                branchCallBack(viewModel)
+            }
+        }else {
+            if let model = self.dataSource[indexPath.row] as? OwnerESCompanySearchModel {
+                // 点击cell调用闭包
+                let viewModel = OwnerESCompanySearchViewModel.init(model: model)
+                companyCallBack(viewModel)
+            }
         }
+        
         
     }
     
@@ -267,8 +288,10 @@ class OwnerCreateView: UIView {
             }
                 //联合办公没有写字楼创建按钮
             else if UserTool.shared.user_owner_identifytype == 2 {
-                descLabel.text = ""
-                creatBtn.setTitle("", for: .normal)
+//                descLabel.text = ""
+//                creatBtn.setTitle("", for: .normal)
+                descLabel.text = "写字楼不存在，去创建写字楼"
+                creatBtn.setTitle("创建写字楼", for: .normal)
                 
             }
         }

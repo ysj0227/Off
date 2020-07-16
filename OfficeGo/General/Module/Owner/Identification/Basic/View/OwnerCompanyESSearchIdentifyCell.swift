@@ -54,15 +54,37 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
     class func rowHeight() -> CGFloat {
         return cell_height_58
     }
-    var model: OwnerESCompanySearchModel? {
-        didSet {
-            viewModel = OwnerESCompanySearchViewModel.init(model: model ?? OwnerESCompanySearchModel())
-        }
-    }
+    
     
     var isBranch: Bool? = false
     
-    var viewModel: OwnerESCompanySearchViewModel? {
+   var buildingModel: OwnerESBuildingSearchModel? {
+       didSet {
+           buildingViewModel = OwnerESBuildingSearchViewModel.init(model: buildingModel ?? OwnerESBuildingSearchModel())
+       }
+   }
+   var buildingViewModel: OwnerESBuildingSearchViewModel? {
+       didSet {
+           itemIcon.isHidden = true
+           titleLabel.isHidden = false
+           numDescLabel.isHidden = false
+           addBtn.isHidden = false
+            itemIcon.image = UIImage.init(named: "")
+           addBtn.setTitle("申请加入", for: .normal)
+           numDescLabel.text = "加入网点，即可共同管理网点房源"
+           titleLabel.attributedText = buildingViewModel?.buildingAttributedName
+       }
+   }
+    
+    //公司认证 -
+    //网点认证 - 公司认证
+    var companyModel: OwnerESCompanySearchModel? {
+        didSet {
+            companyViewModel = OwnerESCompanySearchViewModel.init(model: companyModel ?? OwnerESCompanySearchModel())
+        }
+    }
+    
+    var companyViewModel: OwnerESCompanySearchViewModel? {
         didSet {
             ///身份类型0个人1企业2联合
             //没有公司
@@ -75,6 +97,7 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
                 titleLabel.isHidden = false
                 numDescLabel.isHidden = false
                 addBtn.isHidden = false
+                itemIcon.image = UIImage.init(named: "companyIedntify")
                 addBtn.setTitle("申请加入", for: .normal)
                 numDescLabel.text = "加入公司，即可共同管理公司房源"
             }
@@ -87,6 +110,7 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
                     titleLabel.isHidden = false
                     numDescLabel.isHidden = false
                     addBtn.isHidden = false
+                    itemIcon.image = UIImage.init(named: "")
                     addBtn.setTitle("申请加入", for: .normal)
                     numDescLabel.text = "加入网点，即可共同管理网点房源"
                 }else {
@@ -104,11 +128,12 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
                     //没有认证过，展示按钮
                     addBtn.isHidden = false
                     numDescLabel.isHidden = true
+                    itemIcon.image = UIImage.init(named: "")
                     addBtn.setTitle("关联公司", for: .normal)
                     numDescLabel.text = "该公司已认证为标准办公，不可重复认证"
                 }
             }
-            titleLabel.attributedText = viewModel?.companyString
+            titleLabel.attributedText = companyViewModel?.companyString
         }
     }
     

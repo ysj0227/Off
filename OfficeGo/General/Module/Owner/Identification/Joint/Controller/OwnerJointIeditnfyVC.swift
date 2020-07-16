@@ -33,7 +33,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
                    branchSearchResultVC?.keywords = ""
                }else {
                    branchSearchResultVC?.view.isHidden = false
-                   branchSearchResultVC?.keywords = buildingName
+                   branchSearchResultVC?.keywords = branchName
                }
                branchSearchResultVC?.view.snp.remakeConstraints({ (make) in
                    make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
@@ -163,8 +163,8 @@ class OwnerJointIeditnfyVC: BaseViewController {
         
          //公司认证 - 发送加入网点通知
        NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-           if let model = noti.object as? OwnerESCompanySearchViewModel {
-               self?.userModel?.branchName = model.companyString?.string
+           if let model = noti.object as? OwnerESBuildingSearchViewModel {
+               self?.userModel?.branchName = model.buildingAttributedName?.string
                self?.branchSearchResultVC?.view.isHidden = true
                self?.loadCollectionData()
            }
@@ -172,8 +172,8 @@ class OwnerJointIeditnfyVC: BaseViewController {
        
        //公司认证 - 创建网点成功通知
        NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateCompanyJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-           if let model = noti.object as? OwnerESCompanySearchModel {
-               self?.userModel?.branchName = model.company
+           if let model = noti.object as? OwnerESBuildingSearchModel {
+               self?.userModel?.branchName = model.buildingName
                self?.branchSearchResultVC?.view.isHidden = true
                self?.loadCollectionData()
            }
@@ -259,20 +259,18 @@ extension OwnerJointIeditnfyVC {
         self.view.addSubview(branchSearchResultVC?.view ?? UIView())
         
         // 传递闭包 当点击’搜索结果‘的cell调用
-        branchSearchResultVC?.callBack = {[weak self] (model) in
+        branchSearchResultVC?.branchCallBack = {[weak self] (model) in
             let vc = OwnerApplyEnterCompanyViewController()
             //区分网点和公司
             vc.isBranch = true
-            vc.companyModel = model
+            vc.branchModel = model
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
-        // 创建按钮 - 跳转到创建公司页面
+        // 网点创建按钮 - 跳转到创建网点页面
         branchSearchResultVC?.creatButtonCallClick = {[weak self] in
             self?.userModel?.company = ""
-            let vc = OwnerCreateCompanyViewController()
-            //区分网点和公司
-            vc.isBranch = true
+            let vc = OwnerCreateBranchViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
@@ -283,15 +281,17 @@ extension OwnerJointIeditnfyVC {
         companySearchResultVC?.view.isHidden = true
         self.view.addSubview(companySearchResultVC?.view ?? UIView())
         
-        // 传递闭包 当点击’搜索结果‘的cell调用
-        companySearchResultVC?.callBack = {[weak self] (model) in
-            let vc = OwnerApplyEnterCompanyViewController()
-            vc.companyModel = model
-            self?.navigationController?.pushViewController(vc, animated: true)
+        // 传递闭包 当点击’搜索结果‘的cell调用 - 点击关联公司
+        companySearchResultVC?.companyCallBack = {[weak self] (model) in
+            self?.userModel?.company = model.companyString?.string
+            self?.userModel?.address = model.addressString?.string
+            self?.companySearchResultVC?.view.isHidden = true
+            self?.loadCollectionData()
         }
         
         // 创建按钮 - 跳转到创建公司页面
         companySearchResultVC?.creatButtonCallClick = {[weak self] in
+            
             self?.userModel?.company = ""
             let vc = OwnerCreateCompanyViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
@@ -305,7 +305,7 @@ extension OwnerJointIeditnfyVC {
         self.view.addSubview(buildingNameSearchResultVC?.view ?? UIView())
         
         // 传递闭包 当点击’搜索结果‘的cell调用
-        buildingNameSearchResultVC?.callBack = {[weak self] (model) in
+        buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
             // 搜索完成 关闭resultVC
             
             self?.userModel?.buildingName = model.buildingAttributedName?.string
@@ -314,6 +314,7 @@ extension OwnerJointIeditnfyVC {
             self?.loadCollectionData()
         }
         
+        //网点 - 楼盘没有创建
         // 创建按钮 - 隐藏 - 展示下面的楼盘地址 - 地址置空
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
             self?.buildingNameSearchResultVC?.view.isHidden = true
@@ -332,8 +333,7 @@ extension OwnerJointIeditnfyVC {
     func showCommitAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "提交成功", descMsg: "我们会在1-2个工作日完成审核\n你还可以", cancelButtonCallClick: {
-            let vc = OwnerCreateCompanyViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            
         }) {
             
         }
@@ -574,11 +574,11 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
         }else if indexPath.section == 1 {
             return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
         }else if indexPath.section == 2 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1)
+            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 3 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1)
+            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 4 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1)
+            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }
         return CGSize(width: 0, height: 0)
     }
@@ -677,8 +677,9 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
         if section == 0 || section == 1 {
             return 0
         }else {
-            return left_pending_space_17
-        }
+        //            return left_pending_space_17
+                    return 5
+                }
     }
     
     ////两个cell之间的间距（同一行的cell的间距）
@@ -686,8 +687,9 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
         if section == 0 || section == 1 {
             return 0
         }else {
-            return left_pending_space_17
-        }
+        //            return left_pending_space_17
+                    return 5
+                }
     }
 }
 extension OwnerJointIeditnfyVC {

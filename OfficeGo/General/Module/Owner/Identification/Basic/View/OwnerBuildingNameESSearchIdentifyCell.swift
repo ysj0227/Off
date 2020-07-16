@@ -46,12 +46,12 @@ class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
     class func rowHeight() -> CGFloat {
         return cell_height_58
     }
-    var model: OwnerESBuildingSearchModel? {
+    var buildingModel: OwnerESBuildingSearchModel? {
         didSet {
-            viewModel = OwnerESBuildingSearchViewModel.init(model: model ?? OwnerESBuildingSearchModel())
+            buildingViewModel = OwnerESBuildingSearchViewModel.init(model: buildingModel ?? OwnerESBuildingSearchModel())
         }
     }
-    var viewModel: OwnerESBuildingSearchViewModel? {
+    var buildingViewModel: OwnerESBuildingSearchViewModel? {
         didSet {
             ///身份类型0个人1企业2联合
             //展示楼盘名字 楼盘地址 关联按钮
@@ -64,8 +64,8 @@ class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
                 numDescLabel.isHidden = true
                 addBtn.isHidden = true
             }
-            titleLabel.attributedText = viewModel?.buildingAttributedName
-            numDescLabel.attributedText = viewModel?.addressString
+            titleLabel.attributedText = buildingViewModel?.buildingAttributedName
+            numDescLabel.attributedText = buildingViewModel?.addressString
         }
     }
     

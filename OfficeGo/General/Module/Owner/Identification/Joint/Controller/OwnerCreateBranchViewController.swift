@@ -1,21 +1,20 @@
 //
-//  OwnerCreateCompanyViewController.swift
+//  OwnerCreateBranchViewController.swift
 //  OfficeGo
 //
-//  Created by mac on 2020/7/14.
+//  Created by mac on 2020/7/16.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
 import CLImagePickerTool
 import Alamofire
 
-class OwnerCreateCompanyViewController: BaseTableViewController {
+class OwnerCreateBranchViewController: BaseTableViewController {
         
     var yingYeZhiZhaoPhoto: UIImageView = {
         
-        let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: 158))
-        view.backgroundColor = kAppLightBlueColor
-        view.contentMode = .scaleAspectFill
+        let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        view.image = UIImage.init(named: "addImgBg")
         view.isUserInteractionEnabled = true
         return view
     }()
@@ -39,9 +38,9 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
         return picker
     }()
     
-    var typeSourceArray:[OwnerCreatCompanyConfigureModel] = [OwnerCreatCompanyConfigureModel]()
+    var typeSourceArray:[OwnerCreatBranchConfigureModel] = [OwnerCreatBranchConfigureModel]()
     
-    var companyModel: OwnerESCompanySearchModel?
+    var branchModel: OwnerESBuildingSearchModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,12 +53,12 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
 }
 
 
-extension OwnerCreateCompanyViewController {
+extension OwnerCreateBranchViewController {
     
     func setUpView() {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
-        titleview?.titleLabel.text = "创建公司"
+        titleview?.titleLabel.text = "创建网点"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
@@ -73,7 +72,7 @@ extension OwnerCreateCompanyViewController {
             make.bottom.equalToSuperview().offset(-kStatusBarHeight)
         }
         
-        self.tableView.register(OwnerCreateCompanyCell.self, forCellReuseIdentifier: OwnerCreateCompanyCell.reuseIdentifierStr)
+        self.tableView.register(OwnerCreateBranchCell.self, forCellReuseIdentifier: OwnerCreateBranchCell.reuseIdentifierStr)
         
         self.view.addSubview(bottomBtnView)
         
@@ -136,16 +135,14 @@ extension OwnerCreateCompanyViewController {
     }
     func setUpData() {
         
-        //typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeIedntify))
-        typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeCompanyName))
-        typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeCompanyAddress))
-        //typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeYingyeCode))
-        typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeUploadYingyePhoto))
+        typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeBranchName))
+        typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeBranchAddress))
+        typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeUploadYingyePhoto))
         
-        if companyModel != nil {
+        if branchModel != nil {
             
         }else {
-            companyModel = OwnerESCompanySearchModel()
+            branchModel = OwnerESBuildingSearchModel()
         }
         
         self.tableView.reloadData()
@@ -191,15 +188,8 @@ extension OwnerCreateCompanyViewController {
     //发送加入公司和网点公司的通知
     func addNotify() {
         ///身份类型0个人1企业2联合
-        if UserTool.shared.user_owner_identifytype == 1 {
-            NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompany, object: companyModel)
-            leftBtnClick()
-        }else if UserTool.shared.user_owner_identifytype == 2 {
-            
-            //联合 - 公司名称
-            NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompany, object: companyModel)
-            leftBtnClick()
-        }
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompanyJoint, object: branchModel)
+        leftBtnClick()
     }
     
     ///创建公司接口 -
@@ -211,19 +201,17 @@ extension OwnerCreateCompanyViewController {
     
 }
 
-extension OwnerCreateCompanyViewController {
+extension OwnerCreateBranchViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: OwnerCreateCompanyCell.reuseIdentifierStr) as? OwnerCreateCompanyCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: OwnerCreateBranchCell.reuseIdentifierStr) as? OwnerCreateBranchCell
         cell?.selectionStyle = .none
-        cell?.companyModel = companyModel
+        cell?.branchModel = branchModel
         cell?.model = typeSourceArray[indexPath.row]
-        cell?.endEditingMessageCell = { [weak self] (companyModel) in
-            self?.companyModel = companyModel
-            self?.companyModel?.company = companyModel.company
-            self?.companyModel?.address = companyModel.address
+        cell?.endEditingMessageCell = { [weak self] (branchModel) in
+            self?.branchModel = branchModel
         }
-        return cell ?? OwnerCreateCompanyCell.init(frame: .zero)
+        return cell ?? OwnerCreateBranchCell.init(frame: .zero)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -232,7 +220,7 @@ extension OwnerCreateCompanyViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return OwnerCreateCompanyCell.rowHeight()
+        return OwnerCreateBranchCell.rowHeight()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -240,46 +228,32 @@ extension OwnerCreateCompanyViewController {
     }
 }
 
-
-class OwnerCreateCompanyCell: BaseEditCell {
+class OwnerCreateBranchCell: BaseEditCell {
     
-    var companyModel: OwnerESCompanySearchModel?
+    var branchModel: OwnerESBuildingSearchModel?
 
-    var endEditingMessageCell:((OwnerESCompanySearchModel) -> Void)?
+    var endEditingMessageCell:((OwnerESBuildingSearchModel) -> Void)?
     
     override func setDelegate() {
         editLabel.delegate = self
     }
     
-    var model: OwnerCreatCompanyConfigureModel = OwnerCreatCompanyConfigureModel(types: OwnerCreteCompanyType.OwnerCreteCompanyTypeIedntify) {
+    var model: OwnerCreatBranchConfigureModel = OwnerCreatBranchConfigureModel(types: OwnerCreteBranchType.OwnerCreteBranchTypeBranchName) {
         didSet {
             
-            titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerCreteCompanyType.OwnerCreteCompanyTypeIedntify)
+            titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerCreteBranchType.OwnerCreteBranchTypeBranchName)
             
             detailIcon.isHidden = true
             
-            if model.type == .OwnerCreteCompanyTypeIedntify {
-                editLabel.isUserInteractionEnabled = false
-                lineView.isHidden = false
-                 ///身份类型0个人1企业2联合
-               if UserTool.shared.user_owner_identifytype == 1 {
-                   editLabel.text = "公司"
-               }else if UserTool.shared.user_owner_identifytype == 2 {
-                editLabel.text = "联合办公"
-               }
-            }else if model.type == .OwnerCreteCompanyTypeCompanyName{
+            if model.type == .OwnerCreteBranchTypeBranchName{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
-                editLabel.text = companyModel?.company
-            }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
+                editLabel.text = branchModel?.buildingName
+            }else if model.type == .OwnerCreteBranchTypeBranchAddress{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
-                editLabel.text = companyModel?.address
-            }else if model.type == .OwnerCreteCompanyTypeYingyeCode {
-                editLabel.isUserInteractionEnabled = true
-                lineView.isHidden = false
-                editLabel.text = ""
-            }else if model.type == .OwnerCreteCompanyTypeUploadYingyePhoto{
+                editLabel.text = branchModel?.address
+            }else if model.type == .OwnerCreteBranchTypeUploadYingyePhoto{
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true
                 editLabel.text = ""
@@ -288,23 +262,22 @@ class OwnerCreateCompanyCell: BaseEditCell {
     }
 }
 
-extension OwnerCreateCompanyCell: UITextFieldDelegate {
+extension OwnerCreateBranchCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        if model.type == .OwnerCreteCompanyTypeCompanyName{
-            companyModel?.company = textField.text
-        }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
-            companyModel?.address = textField.text
+        if model.type == .OwnerCreteBranchTypeBranchName{
+            branchModel?.buildingName = textField.text
+        }else if model.type == .OwnerCreteBranchTypeBranchAddress{
+            branchModel?.address = textField.text
         }
         
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(companyModel ?? OwnerESCompanySearchModel())
+        blockk(branchModel ?? OwnerESBuildingSearchModel())
     }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
     }
 }
-
-

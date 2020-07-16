@@ -152,6 +152,14 @@ public enum OwnerCreteCompanyType {
 }
 
 //业主
+//创建网点
+public enum OwnerCreteBranchType {
+    case OwnerCreteBranchTypeBranchName           //网点名称
+    case OwnerCreteBranchTypeBranchAddress        //网点地址
+    case OwnerCreteBranchTypeUploadYingyePhoto     //上传营业执照
+}
+
+//业主
 //联合办公认证
 public enum OwnerJointIedntifyType {
     case OwnerJointIedntifyTypeIdentigy           //认证身份：

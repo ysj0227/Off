@@ -205,7 +205,7 @@ extension OwnerCompanyIeditnfyVC {
         self.view.addSubview(companySearchResultVC?.view ?? UIView())
         
         // 传递闭包 当点击’搜索结果‘的cell调用
-        companySearchResultVC?.callBack = {[weak self] (model) in
+        companySearchResultVC?.companyCallBack = {[weak self] (model) in
             let vc = OwnerApplyEnterCompanyViewController()
             vc.companyModel = model
             self?.navigationController?.pushViewController(vc, animated: true)
@@ -224,7 +224,7 @@ extension OwnerCompanyIeditnfyVC {
         self.view.addSubview(buildingNameSearchResultVC?.view ?? UIView())
         
         // 传递闭包 当点击’搜索结果‘的cell调用
-        buildingNameSearchResultVC?.callBack = {[weak self] (model) in
+        buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
             // 搜索完成 关闭resultVC
             
             self?.userModel?.buildingName = model.buildingAttributedName?.string
@@ -251,8 +251,7 @@ extension OwnerCompanyIeditnfyVC {
     func showCommitAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "提交成功", descMsg: "我们会在1-2个工作日完成审核\n你还可以", cancelButtonCallClick: {
-            let vc = OwnerCreateCompanyViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            
         }) {
             
         }
@@ -484,11 +483,11 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         }else if indexPath.section == 1 {
             return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
         }else if indexPath.section == 2 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1)
+            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 3 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1)
+            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 4 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1)
+            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }
         return CGSize(width: 0, height: 0)
     }
@@ -602,7 +601,8 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         if section == 0 || section == 1 {
             return 0
         }else {
-            return left_pending_space_17
+//            return left_pending_space_17
+            return 5
         }
     }
     
@@ -611,7 +611,8 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         if section == 0 || section == 1 {
             return 0
         }else {
-            return left_pending_space_17
+//            return left_pending_space_17
+            return 5
         }
     }
 }

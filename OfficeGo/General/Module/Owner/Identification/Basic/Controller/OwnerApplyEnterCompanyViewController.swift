@@ -11,7 +11,6 @@ import UIKit
 class OwnerApplyEnterCompanyViewController: BaseViewController {
     
     var isBranch: Bool? = false
-
     
     let topview: OwnerApplyEnterConpanyTopview = {
         let view = OwnerApplyEnterConpanyTopview(frame: CGRect(x: left_pending_space_17, y: kNavigationHeight + 10, width: kWidth - left_pending_space_17 * 2, height: 150))
@@ -31,8 +30,12 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
         return view
     }()
     
+    //公司认证 - 公司
     var companyModel: OwnerESCompanySearchViewModel?
     
+    //网点认证 - 网点
+    var branchModel: OwnerESBuildingSearchViewModel?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,8 +49,13 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
 extension OwnerApplyEnterCompanyViewController {
     
     func setData() {
-        topview.userModel = companyModel
-        bottomView.userModel = companyModel
+        if isBranch == true {
+            topview.branchModel = branchModel
+            bottomView.userModel = companyModel
+        }else {
+            topview.companyModel = companyModel
+            bottomView.userModel = companyModel
+        }
     }
     
     func setView() {
@@ -104,7 +112,7 @@ extension OwnerApplyEnterCompanyViewController {
         }else if UserTool.shared.user_owner_identifytype == 2 {
             //联合 - 网点名称
             if isBranch == true {
-                NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: companyModel)
+                NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: branchModel)
             }else {
 
                 //联合 - 公司名称
@@ -238,11 +246,22 @@ extension OwnerApplyEnterCompanyViewController {
         }
     }
     
-    var userModel: OwnerESCompanySearchViewModel? {
+    var companyModel: OwnerESCompanySearchViewModel? {
         didSet {
             
-            titleLabel.text = userModel?.companyString?.string
-            addressLabel.text = userModel?.addressString?.string
+            titleLabel.text = companyModel?.companyString?.string
+            addressLabel.text = companyModel?.addressString?.string
+            avatarImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
+            nameLabel.text = "管理员：杨先生"
+            jobLabel.text = "CED"
+        }
+    }
+    
+    var branchModel: OwnerESBuildingSearchViewModel? {
+        didSet {
+            
+            titleLabel.text = branchModel?.buildingAttributedName?.string
+            addressLabel.text = branchModel?.addressString?.string
             avatarImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
             nameLabel.text = "管理员：杨先生"
             jobLabel.text = "CED"
@@ -265,7 +284,7 @@ extension OwnerApplyEnterCompanyViewController {
         ///身份类型0个人1企业2联合
         if UserTool.shared.user_owner_identifytype == 1 {
             view.text = "申请加入公司"
-        }else if UserTool.shared.user_owner_identifytype == 1 {
+        }else if UserTool.shared.user_owner_identifytype == 2 {
             view.text = "申请加入网点"
         }
         view.textColor = kAppColor_333333
@@ -348,13 +367,15 @@ extension OwnerApplyEnterCompanyViewController {
         }
     }
     
+    var isBranch: Bool? = false
+
     var userModel: OwnerESCompanySearchViewModel? {
         didSet {
             
             ///身份类型0个人1企业2联合
             if UserTool.shared.user_owner_identifytype == 1 {
                 intruductionTextview.text = "我是用户\(userModel?.realname ?? "")，希望加入公司，请通过。"
-            }else if UserTool.shared.user_owner_identifytype == 1 {
+            }else if UserTool.shared.user_owner_identifytype == 2 {
                 intruductionTextview.text = "我是用户\(userModel?.realname ?? "")，希望加入网点，请通过。"
             }
             numOfCharLabel.text = String(format: "%ld/100",intruductionTextview.text.count)
