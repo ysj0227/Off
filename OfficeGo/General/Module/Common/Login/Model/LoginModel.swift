@@ -98,6 +98,8 @@ class OwnerIdentifyUserModel: BaseModel {
     var buildingName: String?
     
     var branchName: String?
+    
+    var idCard : String?
 
     
     var avatar : String?

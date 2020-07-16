@@ -87,6 +87,9 @@
 		04CB479A249CC5A3001BCC8F /* RenterAvatarUploadHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB4799249CC5A3001BCC8F /* RenterAvatarUploadHeaderView.swift */; };
 		04CB479C249CC76B001BCC8F /* OwnerUserMsgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB479B249CC76B001BCC8F /* OwnerUserMsgViewController.swift */; };
 		04CBB64E24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB64D24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift */; };
+		04CBB65024C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB64F24C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift */; };
+		04CBB65224C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB65124C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift */; };
+		04CBB65424C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB65324C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift */; };
 		04D972292497466500C87168 /* LoadingHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D972282497466500C87168 /* LoadingHudView.swift */; };
 		04E2389B249B3926009DCCEC /* OwnerMainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2389A249B3925009DCCEC /* OwnerMainTabBarController.swift */; };
 		04E2391A249B3ABB009DCCEC /* RenterSearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238A1249B3ABA009DCCEC /* RenterSearchResultListViewController.swift */; };
@@ -358,6 +361,9 @@
 		04CB4799249CC5A3001BCC8F /* RenterAvatarUploadHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterAvatarUploadHeaderView.swift; sourceTree = "<group>"; };
 		04CB479B249CC76B001BCC8F /* OwnerUserMsgViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerUserMsgViewController.swift; sourceTree = "<group>"; };
 		04CBB64D24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCreateBranchViewController.swift; sourceTree = "<group>"; };
+		04CBB64F24C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerPersonalIeditnfyVC.swift; sourceTree = "<group>"; };
+		04CBB65124C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerPersonalIdentifyCell.swift; sourceTree = "<group>"; };
+		04CBB65324C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerIdCardImagePickerCell.swift; sourceTree = "<group>"; };
 		04D972282497466500C87168 /* LoadingHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHudView.swift; sourceTree = "<group>"; };
 		04E238992499BC47009DCCEC /* OfficeGo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfficeGo.entitlements; sourceTree = "<group>"; };
 		04E2389A249B3925009DCCEC /* OwnerMainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerMainTabBarController.swift; sourceTree = "<group>"; };
@@ -601,6 +607,7 @@
 		04990B7B24B870E5008CDE6C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				04CBB64F24C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -615,6 +622,8 @@
 		04990B7D24B870E5008CDE6C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				04CBB65124C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift */,
+				04CBB65324C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2010,6 +2019,7 @@
 				EEE87B252455856800C03424 /* JHTableViewHeaderFooterView.swift in Sources */,
 				04E23948249B3ABB009DCCEC /* HouseSelectBtnView.swift in Sources */,
 				04E23926249B3ABB009DCCEC /* FangYuanSearchResultModel.swift in Sources */,
+				04CBB65024C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift in Sources */,
 				04CB4701249CB02C001BCC8F /* RenterChatViewController.swift in Sources */,
 				04CB4796249CB43F001BCC8F /* RenterUserHeaderView.swift in Sources */,
 				04CB4781249CB1D9001BCC8F /* RenterHouseScheduleDetailViewController.swift in Sources */,
@@ -2111,6 +2121,7 @@
 				04E2394D249B3ABB009DCCEC /* RenterCollectOfficeCell.swift in Sources */,
 				04E2391E249B3ABB009DCCEC /* RenterOfficebuildingFYDetailVC.swift in Sources */,
 				047333312475322400755192 /* CustomerSearchBarview.swift in Sources */,
+				04CBB65424C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift in Sources */,
 				046689222472548800A76669 /* ConfigureModel.swift in Sources */,
 				047333252473D77700755192 /* UIView+Extension.swift in Sources */,
 				04E23924249B3ABB009DCCEC /* RenterFangYuanListViewController.swift in Sources */,
@@ -2154,6 +2165,7 @@
 				04CB4790249CB250001BCC8F /* RenterUserMsgViewController.swift in Sources */,
 				EEE87B5324558F9800C03424 /* ThorPlayerMediaControlInfoView.swift in Sources */,
 				EE4914DF24692D62008D5689 /* LLCtlPageView.swift in Sources */,
+				04CBB65224C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift in Sources */,
 				EEE87B6024558F9800C03424 /* Toast.swift in Sources */,
 				0407F93824BD94D800C9F581 /* OwnerESCompanySearchModel.swift in Sources */,
 				EEE0D9412465581200E5C77B /* Badge.swift in Sources */,

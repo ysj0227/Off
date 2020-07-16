@@ -142,6 +142,32 @@ public enum OwnerCompanyIedntifyType {
 }
 
 //业主
+//联合办公认证
+public enum OwnerJointIedntifyType {
+    case OwnerJointIedntifyTypeIdentigy           //认证身份：
+    case OwnerJointIedntifyTypeBranchname         //网点名称：
+    case OwnerJointIedntifyTypeCompanyname        //所属公司
+    case OwnerJointIedntifyTypeBuildingName       //所在楼盘：
+    case OwnerJointIedntifyTypeUploadFangchanzheng//上传房产证
+    case OwnerJointIedntifyTypeUploadZulinAgent   //上传租赁协议
+    case OwnerJointIedntifyTypeUploadMainimg      //上传楼盘封面图
+}
+
+//业主
+//个人认证
+public enum OwnerPersonalIedntifyType {
+    case OwnerPersonalIedntifyTypeIdentify                  //认证身份：
+    case OwnerPersonalIedntifyTypeUserName                  //姓名：赵捷
+    case OwnerPersonalIedntifyTypeUserIdentifyCode          //身份证号：620303100309589209
+    case OwnerPersonalIedntifyTypeUploadIdentifyPhoto       //上传身份证
+    case OwnerPersonalIedntifyTypeBuildingName              //写字楼名称：恒森大厦
+    case OwnerPersonalIedntifyTypeBuildingAddress           //写字楼地址
+    case OwnerPersonalIedntifyTypeBuildingFCType            //房产类型：自有房产
+    case OwnerPersonalIedntifyTypeUploadFangchanzheng       //上传房产证
+}
+
+
+//业主
 //创建公司
 public enum OwnerCreteCompanyType {
     case OwnerCreteCompanyTypeIedntify              //认证身份：
@@ -157,16 +183,4 @@ public enum OwnerCreteBranchType {
     case OwnerCreteBranchTypeBranchName           //网点名称
     case OwnerCreteBranchTypeBranchAddress        //网点地址
     case OwnerCreteBranchTypeUploadYingyePhoto     //上传营业执照
-}
-
-//业主
-//联合办公认证
-public enum OwnerJointIedntifyType {
-    case OwnerJointIedntifyTypeIdentigy           //认证身份：
-    case OwnerJointIedntifyTypeBranchname         //网点名称：
-    case OwnerJointIedntifyTypeCompanyname        //所属公司
-    case OwnerJointIedntifyTypeBuildingName       //所在楼盘：
-    case OwnerJointIedntifyTypeUploadFangchanzheng//上传房产证
-    case OwnerJointIedntifyTypeUploadZulinAgent   //上传租赁协议
-    case OwnerJointIedntifyTypeUploadMainimg      //上传楼盘封面图
 }

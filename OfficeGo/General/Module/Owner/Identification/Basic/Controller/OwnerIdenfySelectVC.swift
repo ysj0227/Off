@@ -130,6 +130,9 @@ extension OwnerIdenfySelectVC {
         }else if indexPath.row == 1 {
             let vc = OwnerJointIeditnfyVC()
             self.navigationController?.pushViewController(vc, animated: true)
+        }else if indexPath.row == 2 {
+            let vc = OwnerPersonalIeditnfyVC()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
 
     }

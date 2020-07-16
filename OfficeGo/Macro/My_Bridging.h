@@ -25,4 +25,7 @@
 //融云
 #import <RongIMKit/RongIMKit.h>
 
+//身份证拍照
+#import "ZKIDCardCameraController.h"
+
 #endif /* My_Bridging_h */

@@ -126,7 +126,7 @@ class OwnerCreatCompanyConfigureModel: NSObject {
 
 
 //业主
-// 业主 - 公司任职
+// 业主 - 公司认证
 class OwnerCompanyIedntifyConfigureModel: ConfigureModel {
     
     var type: OwnerCompanyIedntifyType?
@@ -219,6 +219,45 @@ class OwnerJointIedntifyConfigureModel: ConfigureModel {
             return "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
         case .OwnerJointIedntifyTypeUploadMainimg:
             return ""
+        }
+    }
+}
+
+//业主
+//个人认证
+class OwnerPersonalIedntifyConfigureModel: ConfigureModel {
+    
+    var type: OwnerPersonalIedntifyType?
+    
+    init(types: OwnerPersonalIedntifyType) {
+        type = types
+    }
+    func getNameFormType(type: OwnerPersonalIedntifyType) -> String{
+        switch type {
+        case .OwnerPersonalIedntifyTypeIdentify:
+            return "认证身份："
+        case .OwnerPersonalIedntifyTypeUserName:
+            return "姓名："
+        case .OwnerPersonalIedntifyTypeUserIdentifyCode:
+            return "身份证号："
+        case .OwnerPersonalIedntifyTypeUploadIdentifyPhoto:
+            return "上传身份证"
+        case .OwnerPersonalIedntifyTypeBuildingName:
+            return "写字楼名称："
+        case .OwnerPersonalIedntifyTypeBuildingAddress:
+            return "写字楼地址："
+        case .OwnerPersonalIedntifyTypeBuildingFCType:
+            return "房产类型："
+        case .OwnerPersonalIedntifyTypeUploadFangchanzheng:
+            return "上传房产证"
+        }
+    }
+    func getDescFormType(type: OwnerPersonalIedntifyType) -> String{
+        switch type {
+        case .OwnerPersonalIedntifyTypeIdentify, .OwnerPersonalIedntifyTypeUserName, .OwnerPersonalIedntifyTypeUserIdentifyCode, .OwnerPersonalIedntifyTypeUploadIdentifyPhoto, .OwnerPersonalIedntifyTypeBuildingName, .OwnerPersonalIedntifyTypeBuildingAddress, .OwnerPersonalIedntifyTypeBuildingFCType:
+            return ""
+        case .OwnerPersonalIedntifyTypeUploadFangchanzheng:
+            return "请确保所上传的房产信息与公司信息一致"
         }
     }
 }
