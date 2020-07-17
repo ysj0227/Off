@@ -36,6 +36,7 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
         let view = UIButton()
         view.setTitleColor(kAppBlueColor, for: .normal)
         view.titleLabel?.font = FONT_12
+        view.isUserInteractionEnabled = false
         return view
     }()
     lazy var lineView: UIView = {

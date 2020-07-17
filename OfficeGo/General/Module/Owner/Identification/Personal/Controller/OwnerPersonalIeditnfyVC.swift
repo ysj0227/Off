@@ -75,7 +75,7 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeIdentify),
                     OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeUserName),
                     OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeUserIdentifyCode)
-                    ])
+        ])
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeUploadIdentifyPhoto)])
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingName),
                     OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingAddress),
@@ -112,22 +112,22 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         addNotify()
     }
     func addNotify() {
-           
-           //个人认证 - 创建办公楼通知
-           NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-               if let model = noti.object as? OwnerESBuildingSearchModel {
-                   self?.userModel?.buildingName = model.buildingName
-                   self?.userModel?.address = model.address
-                   self?.buildingNameSearchResultVC?.view.isHidden = true
-                   self?.loadCollectionData()
-               }
-           }
-           
-           
-       }
+        
+        //个人认证 - 创建办公楼通知
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            if let model = noti.object as? OwnerESBuildingSearchModel {
+                self?.userModel?.buildingName = model.buildingName
+                self?.userModel?.address = model.address
+                self?.buildingNameSearchResultVC?.view.isHidden = true
+                self?.loadCollectionData()
+            }
+        }
+        
+        
+    }
     override func leftBtnClick() {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "企业认证未完成，点击保存下次可继续编辑。点击离开，已编辑信息不保存", cancelButtonCallClick: { [weak self] in
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "个人认证未完成，点击保存下次可继续编辑。点击离开，已编辑信息不保存", cancelButtonCallClick: { [weak self] in
             
             self?.navigationController?.popViewController(animated: true)
         }) { [weak self] in
@@ -153,7 +153,7 @@ extension OwnerPersonalIeditnfyVC {
         uploadPicFCZArr.append(UIImage.init(named: "addImgBg") ?? UIImage())
         uploadPicZLAgentArr.append(UIImage.init(named: "addImgBg") ?? UIImage())
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
-        titleview?.titleLabel.text = "公司业主认证"
+        titleview?.titleLabel.text = "个人业主认证"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
@@ -177,7 +177,7 @@ extension OwnerPersonalIeditnfyVC {
         headerCollectionView.register(OwnerPersonalIdentifyCell.self, forCellWithReuseIdentifier: OwnerPersonalIdentifyCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerImagePickerCell.self, forCellWithReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerIdCardImagePickerCell.self, forCellWithReuseIdentifier: OwnerIdCardImagePickerCell.reuseIdentifierStr)
-
+        
         headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
         
         //办公楼
@@ -219,58 +219,6 @@ extension OwnerPersonalIeditnfyVC {
         }
     }
     
-    ///切换身份ui
-    func roleChangeClick() {
-        
-        let alert = SureAlertView(frame: self.view.frame)
-        var aelrtMsg: String = ""
-        if UserTool.shared.user_id_type == 0 {
-            aelrtMsg = "是否确认切换为业主？"
-            
-        }else if UserTool.shared.user_id_type == 1 {
-            aelrtMsg = "是否确认切换为租户？"
-        }
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
-            
-        }) { [weak self] in
-            
-            self?.requestRoleChange()
-        }
-    }
-    
-    ///切换身份接口
-    func requestRoleChange() {
-        var params = [String:AnyObject]()
-        if UserTool.shared.user_id_type == 0 {
-            params["roleType"] = "1" as AnyObject?
-        }else if UserTool.shared.user_id_type == 1 {
-            params["roleType"] = "0" as AnyObject?
-        }
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        SSNetworkTool.SSMine.request_roleChange(params: params, success: { (response) in
-            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                UserTool.shared.user_id_type = model.rid
-                UserTool.shared.user_rongyuntoken = model.rongyuntoken
-                UserTool.shared.user_uid = model.uid
-                UserTool.shared.user_token = model.token
-                UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_name = model.nickName
-                UserTool.shared.synchronize()
-                NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
-            }
-        }, failure: {[weak self] (error) in
-            
-            
-        }) {[weak self] (code, message) in
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-        
-        
-    }
 }
 
 extension OwnerPersonalIeditnfyVC {
@@ -288,22 +236,90 @@ extension OwnerPersonalIeditnfyVC {
     
     
     func pickerSelectIDCard() {
-        isFront = false
-        let vc = ZKIDCardCameraController.init(type: .reverse)
-        vc.modalPresentationStyle = .overFullScreen
-        vc.delegate = self
-        self.present(vc, animated: true, completion: nil)
+        let alertController = UIAlertController.init(title: "", message: nil, preferredStyle: .actionSheet)
+        let refreshAction = UIAlertAction.init(title: "拍照", style: .default) {[weak self] (action: UIAlertAction) in
+            self?.isFront = false
+            let vc = ZKIDCardCameraController.init(type: .reverse)
+            vc.modalPresentationStyle = .overFullScreen
+            vc.delegate = self
+            self?.present(vc, animated: true, completion: nil)
+        }
+        let copyAction = UIAlertAction.init(title: "从手机相册选择", style: .default) {[weak self] (action: UIAlertAction) in
+            let picker = CLImagePickerTool()
+            picker.cameraOut = false
+            picker.isHiddenVideo = true
+            picker.singleImageChooseType = .singlePicture   //设置单选
+            picker.singleModelImageCanEditor = false        //单选不可编辑
+            picker.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+                SSLog("返回的asset数组是\(asset)")
+                
+                var index = asset.count // 标记失败的次数
+                
+                // 获取原图，异步
+                // scale 指定压缩比
+                // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+                CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                    self?.reverseImage = image
+                    self?.loadCollectionData()
+                    
+                    }, failedClouse: { () in
+                        index = index - 1
+                        //                    self?.dealImage(imageArr: imageArr, index: index)
+                })
+            }
+        }
+        let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
+            
+        }
+        alertController.addAction(refreshAction)
+        alertController.addAction(copyAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     func pickerSelectIDCardFront() {
-        isFront = true
-        let vc = ZKIDCardCameraController.init(type: .front)
-        vc.modalPresentationStyle = .overFullScreen
-        vc.delegate = self
-        self.present(vc, animated: true, completion: nil)
+        let alertController = UIAlertController.init(title: "", message: nil, preferredStyle: .actionSheet)
+        let refreshAction = UIAlertAction.init(title: "拍照", style: .default) {[weak self] (action: UIAlertAction) in
+            self?.isFront = true
+            let vc = ZKIDCardCameraController.init(type: .front)
+            vc.modalPresentationStyle = .overFullScreen
+            vc.delegate = self
+            self?.present(vc, animated: true, completion: nil)
+        }
+        let copyAction = UIAlertAction.init(title: "从手机相册选择", style: .default) {[weak self] (action: UIAlertAction) in
+            let picker = CLImagePickerTool()
+            picker.cameraOut = false
+            picker.isHiddenVideo = true
+            picker.singleImageChooseType = .singlePicture   //设置单选
+            picker.singleModelImageCanEditor = false        //单选不可编辑
+            picker.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+                SSLog("返回的asset数组是\(asset)")
+                
+                var index = asset.count // 标记失败的次数
+                
+                // 获取原图，异步
+                // scale 指定压缩比
+                // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+                CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                    self?.frontImage = image
+                    self?.loadCollectionData()
+                    
+                    }, failedClouse: { () in
+                        index = index - 1
+                        //                    self?.dealImage(imageArr: imageArr, index: index)
+                })
+            }
+        }
+        let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
+            
+        }
+        alertController.addAction(refreshAction)
+        alertController.addAction(copyAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
     }
     
-
+    
 }
 extension OwnerPersonalIeditnfyVC: ZKIDCardCameraControllerDelegate {
     func cameraDidFinishShoot(withCameraImage image: UIImage) {
@@ -325,7 +341,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerPersonalIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerPersonalIdentifyCell
             cell?.userModel = self.userModel
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
-
+            
             cell?.buildingUserNameEndEditingMessageCell = { [weak self] (nickname) in
                 self?.userModel?.nickname = nickname
                 self?.loadCollectionData()
@@ -339,7 +355,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerPersonalIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerPersonalIdentifyCell
             cell?.userModel = self.userModel
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
-
+            
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
                 self?.buildingName = buildingName
             }
@@ -451,7 +467,9 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            
+            if indexPath.item == 0 {
+                leftBtnClick()
+            }
         }else if indexPath.section == 1 {
             
             //上传身份证人像面
@@ -545,7 +563,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
         if section != 3 {
             return 0
         }else {
-//            return left_pending_space_17
+            //            return left_pending_space_17
             return 5
         }
     }
@@ -555,14 +573,8 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
         if section != 3 {
             return 0
         }else {
-//            return left_pending_space_17
+            //            return left_pending_space_17
             return 5
         }
-    }
-}
-extension OwnerPersonalIeditnfyVC {
-    //MARK: 滑动- 设置标题颜色
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        SSLog("scrollViewDidScroll ----*\(scrollView.contentOffset.y)")
     }
 }

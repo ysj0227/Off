@@ -23,29 +23,29 @@ class OwnerJointIeditnfyVC: BaseViewController {
     
     ///网点名称
     var branchName: String? {
-           didSet {
-               let rect = headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 1, section: 0))
-               let cellRect = rect?.frame ?? CGRect.zero
-               let cellFrame = headerCollectionView.convert(cellRect, to: self.view)
-               SSLog("buildingNamerect-\(rect)------cellRect\(cellRect)------cellFrame\(cellFrame)")
-               if branchName?.isBlankString == true {
-                   branchSearchResultVC?.view.isHidden = true
-                   branchSearchResultVC?.keywords = ""
-               }else {
-                   branchSearchResultVC?.view.isHidden = false
-                   branchSearchResultVC?.keywords = branchName
-               }
-               branchSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                   make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
-                   make.leading.trailing.equalToSuperview()
-                   make.bottom.equalToSuperview().offset(-bottomMargin())
-               })
-               //隐藏公司搜索的框
-               companySearchResultVC?.view.isHidden = true
+        didSet {
+            let rect = headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 1, section: 0))
+            let cellRect = rect?.frame ?? CGRect.zero
+            let cellFrame = headerCollectionView.convert(cellRect, to: self.view)
+            SSLog("buildingNamerect-\(rect)------cellRect\(cellRect)------cellFrame\(cellFrame)")
+            if branchName?.isBlankString == true {
+                branchSearchResultVC?.view.isHidden = true
+                branchSearchResultVC?.keywords = ""
+            }else {
+                branchSearchResultVC?.view.isHidden = false
+                branchSearchResultVC?.keywords = branchName
+            }
+            branchSearchResultVC?.view.snp.remakeConstraints({ (make) in
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
+                make.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview().offset(-bottomMargin())
+            })
+            //隐藏公司搜索的框
+            companySearchResultVC?.view.isHidden = true
             
-               buildingNameSearchResultVC?.view.isHidden = true
-           }
-       }
+            buildingNameSearchResultVC?.view.isHidden = true
+        }
+    }
     
     var companyName: String? {
         didSet {
@@ -68,7 +68,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
             //隐藏写字楼搜索的框
             
             branchSearchResultVC?.view.isHidden = true
-
+            
             buildingNameSearchResultVC?.view.isHidden = true
         }
     }
@@ -104,24 +104,24 @@ class OwnerJointIeditnfyVC: BaseViewController {
     @objc var uplaodMainPageimg = UIImage.init(named: "addImgBg")  // 在实际的项目中可能用于存储图片的url
     
     lazy var fczImagePickTool: CLImagePickerTool = {
-          let picker = CLImagePickerTool()
-           picker.cameraOut = true
-           picker.isHiddenVideo = true
-           return picker
-       }()
-       lazy var zlAgentImagePickTool: CLImagePickerTool = {
-           let picker = CLImagePickerTool()
-           picker.cameraOut = true
-           picker.isHiddenVideo = true
-           return picker
-       }()
-       lazy var mainPicImagePickTool: CLImagePickerTool = {
-           let picker = CLImagePickerTool()
-           picker.cameraOut = true
-           picker.isHiddenVideo = true
-           picker.singleImageChooseType = .singlePicture   //设置单选
-           return picker
-       }()
+        let picker = CLImagePickerTool()
+        picker.cameraOut = true
+        picker.isHiddenVideo = true
+        return picker
+    }()
+    lazy var zlAgentImagePickTool: CLImagePickerTool = {
+        let picker = CLImagePickerTool()
+        picker.cameraOut = true
+        picker.isHiddenVideo = true
+        return picker
+    }()
+    lazy var mainPicImagePickTool: CLImagePickerTool = {
+        let picker = CLImagePickerTool()
+        picker.cameraOut = true
+        picker.isHiddenVideo = true
+        picker.singleImageChooseType = .singlePicture   //设置单选
+        return picker
+    }()
     
     var headerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -181,23 +181,23 @@ class OwnerJointIeditnfyVC: BaseViewController {
     
     func addNotify() {
         
-         //公司认证 - 发送加入网点通知
-       NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-           if let model = noti.object as? OwnerESBuildingSearchViewModel {
-               self?.userModel?.branchName = model.buildingAttributedName?.string
-               self?.branchSearchResultVC?.view.isHidden = true
-               self?.loadCollectionData()
-           }
-       }
-       
-       //公司认证 - 创建网点成功通知
-       NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-           if let model = noti.object as? OwnerESBuildingSearchModel {
-               self?.userModel?.branchName = model.buildingName
-               self?.branchSearchResultVC?.view.isHidden = true
-               self?.loadCollectionData()
-           }
-       }
+        //公司认证 - 发送加入网点通知
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            if let model = noti.object as? OwnerESBuildingSearchViewModel {
+                self?.userModel?.branchName = model.buildingAttributedName?.string
+                self?.branchSearchResultVC?.view.isHidden = true
+                self?.loadCollectionData()
+            }
+        }
+        
+        //公司认证 - 创建网点成功通知
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            if let model = noti.object as? OwnerESBuildingSearchModel {
+                self?.userModel?.branchName = model.buildingName
+                self?.branchSearchResultVC?.view.isHidden = true
+                self?.loadCollectionData()
+            }
+        }
         
         //公司认证 - 发送加入公司通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerApplyEnterCompany, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
@@ -358,59 +358,6 @@ extension OwnerJointIeditnfyVC {
             
         }
     }
-    
-    ///切换身份ui
-    func roleChangeClick() {
-        
-        let alert = SureAlertView(frame: self.view.frame)
-        var aelrtMsg: String = ""
-        if UserTool.shared.user_id_type == 0 {
-            aelrtMsg = "是否确认切换为业主？"
-            
-        }else if UserTool.shared.user_id_type == 1 {
-            aelrtMsg = "是否确认切换为租户？"
-        }
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
-            
-        }) { [weak self] in
-            
-            self?.requestRoleChange()
-        }
-    }
-    
-    ///切换身份接口
-    func requestRoleChange() {
-        var params = [String:AnyObject]()
-        if UserTool.shared.user_id_type == 0 {
-            params["roleType"] = "1" as AnyObject?
-        }else if UserTool.shared.user_id_type == 1 {
-            params["roleType"] = "0" as AnyObject?
-        }
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        SSNetworkTool.SSMine.request_roleChange(params: params, success: { (response) in
-            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                UserTool.shared.user_id_type = model.rid
-                UserTool.shared.user_rongyuntoken = model.rongyuntoken
-                UserTool.shared.user_uid = model.uid
-                UserTool.shared.user_token = model.token
-                UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_name = model.nickName
-                UserTool.shared.synchronize()
-                NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
-            }
-        }, failure: {[weak self] (error) in
-            
-            
-        }) {[weak self] (code, message) in
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-        
-        
-    }
 }
 
 extension OwnerJointIeditnfyVC {
@@ -520,7 +467,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             if let branchName = userModel?.branchName {
-
+                
                 if branchName.isBlankString == true {
                     return 2
                 }else {
@@ -602,7 +549,9 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            
+            if indexPath.item == 0 {
+                leftBtnClick()
+            }
         }else if indexPath.section == 1 {
             
         }else {
@@ -687,9 +636,9 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
         if section == 0 || section == 1 {
             return 0
         }else {
-        //            return left_pending_space_17
-                    return 5
-                }
+            //            return left_pending_space_17
+            return 5
+        }
     }
     
     ////两个cell之间的间距（同一行的cell的间距）
@@ -697,14 +646,8 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
         if section == 0 || section == 1 {
             return 0
         }else {
-        //            return left_pending_space_17
-                    return 5
-                }
-    }
-}
-extension OwnerJointIeditnfyVC {
-    //MARK: 滑动- 设置标题颜色
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        SSLog("scrollViewDidScroll ----*\(scrollView.contentOffset.y)")
+            //            return left_pending_space_17
+            return 5
+        }
     }
 }

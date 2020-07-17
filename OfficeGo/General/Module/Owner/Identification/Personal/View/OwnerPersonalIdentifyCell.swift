@@ -73,7 +73,6 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
             if model.type == .OwnerPersonalIedntifyTypeIdentify {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
-                lineView.isHidden = false
                 ///身份类型0个人1企业2联合
                 if UserTool.shared.user_owner_identifytype == 0 {
                     numDescTF.text = "个人"
@@ -85,32 +84,26 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
             }else if model.type == .OwnerPersonalIedntifyTypeUserName{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                lineView.isHidden = false
                 numDescTF.text = userModel?.nickname
             }else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                lineView.isHidden = false
                 numDescTF.text = userModel?.idCard
             }else if model.type == .OwnerPersonalIedntifyTypeUploadIdentifyPhoto{
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
-                lineView.isHidden = false
                 numDescTF.text = userModel?.idCard
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                lineView.isHidden = false
                 numDescTF.text = userModel?.buildingName
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingAddress{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                lineView.isHidden = false
                 numDescTF.text = userModel?.address
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingFCType{
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
-                lineView.isHidden = false
                 if userModel?.leaseType == 0 {
                     numDescTF.text = "自有房产"
                 }else if userModel?.leaseType == 1 {

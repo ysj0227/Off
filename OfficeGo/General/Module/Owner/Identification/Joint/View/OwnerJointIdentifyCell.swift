@@ -70,7 +70,6 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             if model.type == .OwnerJointIedntifyTypeIdentigy {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
-                lineView.isHidden = false
                 ///身份类型0个人1企业2联合
                 if UserTool.shared.user_owner_identifytype == 0 {
                     numDescTF.text = "个人"
@@ -82,17 +81,14 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             }else if model.type == .OwnerJointIedntifyTypeBranchname{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                lineView.isHidden = false
                 numDescTF.text = userModel?.branchName
             }else if model.type == .OwnerJointIedntifyTypeCompanyname{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                lineView.isHidden = true
                 numDescTF.text = userModel?.company
             }else if model.type == .OwnerJointIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                lineView.isHidden = false
                 numDescTF.text = userModel?.buildingName
             }
         }

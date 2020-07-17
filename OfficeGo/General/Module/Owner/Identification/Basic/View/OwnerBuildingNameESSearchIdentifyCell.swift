@@ -28,6 +28,7 @@ class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
         view.setTitle("关联写字楼", for: .normal)
         view.setTitleColor(kAppBlueColor, for: .normal)
         view.titleLabel?.font = FONT_12
+        view.isUserInteractionEnabled = false
         return view
     }()
     lazy var lineView: UIView = {

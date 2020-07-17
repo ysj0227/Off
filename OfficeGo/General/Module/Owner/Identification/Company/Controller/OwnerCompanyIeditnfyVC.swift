@@ -70,7 +70,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
     @objc var uplaodMainPageimg = UIImage.init(named: "addImgBg")  // 在实际的项目中可能用于存储图片的url
     
     lazy var fczImagePickTool: CLImagePickerTool = {
-       let picker = CLImagePickerTool()
+        let picker = CLImagePickerTool()
         picker.cameraOut = true
         picker.isHiddenVideo = true
         return picker
@@ -289,59 +289,6 @@ extension OwnerCompanyIeditnfyVC {
             
         }
     }
-    
-    ///切换身份ui
-    func roleChangeClick() {
-        
-        let alert = SureAlertView(frame: self.view.frame)
-        var aelrtMsg: String = ""
-        if UserTool.shared.user_id_type == 0 {
-            aelrtMsg = "是否确认切换为业主？"
-            
-        }else if UserTool.shared.user_id_type == 1 {
-            aelrtMsg = "是否确认切换为租户？"
-        }
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
-            
-        }) { [weak self] in
-            
-            self?.requestRoleChange()
-        }
-    }
-    
-    ///切换身份接口
-    func requestRoleChange() {
-        var params = [String:AnyObject]()
-        if UserTool.shared.user_id_type == 0 {
-            params["roleType"] = "1" as AnyObject?
-        }else if UserTool.shared.user_id_type == 1 {
-            params["roleType"] = "0" as AnyObject?
-        }
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        SSNetworkTool.SSMine.request_roleChange(params: params, success: { (response) in
-            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                UserTool.shared.user_id_type = model.rid
-                UserTool.shared.user_rongyuntoken = model.rongyuntoken
-                UserTool.shared.user_uid = model.uid
-                UserTool.shared.user_token = model.token
-                UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_name = model.nickName
-                UserTool.shared.synchronize()
-                NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
-            }
-        }, failure: {[weak self] (error) in
-            
-            
-        }) {[weak self] (code, message) in
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-        
-        
-    }
 }
 
 extension OwnerCompanyIeditnfyVC {
@@ -356,7 +303,7 @@ extension OwnerCompanyIeditnfyVC {
             self?.loadCollectionData()
         }
     }
-
+    
     func selectZLAgentPicker() {
         zlAgentImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicZLAgentArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
@@ -525,7 +472,9 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            
+            if indexPath.item == 0 {
+                leftBtnClick()
+            }
         }else if indexPath.section == 1 {
             if indexPath.item == 2 {
                 
@@ -629,7 +578,7 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         if section == 0 || section == 1 {
             return 0
         }else {
-//            return left_pending_space_17
+            //            return left_pending_space_17
             return 5
         }
     }
@@ -639,14 +588,9 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         if section == 0 || section == 1 {
             return 0
         }else {
-//            return left_pending_space_17
+            //            return left_pending_space_17
             return 5
         }
     }
 }
-extension OwnerCompanyIeditnfyVC {
-    //MARK: 滑动- 设置标题颜色
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        SSLog("scrollViewDidScroll ----*\(scrollView.contentOffset.y)")
-    }
-}
+
