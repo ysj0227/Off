@@ -193,7 +193,7 @@
     NSLog(@"%@",NSStringFromCGRect(self.floatingView.IDCardWindowLayer.frame));
     //    CGFloat orignWidth = 226-50;//226 -50
     //    CGFloat orginHeight = 360;//360
-    CGFloat orignWidth = self.floatingView.IDCardWindowLayer.bounds.size.width;
+    CGFloat orignWidth = self.floatingView.IDCardWindowLayer.bounds.size.width - 50;
     CGFloat orginHeight = self.floatingView.IDCardWindowLayer.bounds.size.height;
     
     //我们要裁剪出实际边框内的图片，但是实际的图片和我们看见的屏幕上的img，size是不一样，可以打印一下image的size看看起码好几千的像素，要不然手机拍的照片怎么都是好几兆的呢？

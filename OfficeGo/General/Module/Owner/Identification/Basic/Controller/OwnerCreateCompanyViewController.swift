@@ -91,7 +91,7 @@ extension OwnerCreateCompanyViewController {
         textMessageTap.numberOfTouchesRequired = 1
         yingYeZhiZhaoPhoto.addGestureRecognizer(textMessageTap)
         
-        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        let footerview = UIView(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
         footerview.addSubview(yingYeZhiZhaoPhoto)
         
         self.tableView.tableFooterView = footerview

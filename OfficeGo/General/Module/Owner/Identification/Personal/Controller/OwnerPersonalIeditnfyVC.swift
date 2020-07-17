@@ -236,7 +236,7 @@ extension OwnerPersonalIeditnfyVC {
     
     
     func pickerSelectIDCard() {
-        let alertController = UIAlertController.init(title: "", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
         let refreshAction = UIAlertAction.init(title: "拍照", style: .default) {[weak self] (action: UIAlertAction) in
             self?.isFront = false
             let vc = ZKIDCardCameraController.init(type: .reverse)
@@ -259,7 +259,7 @@ extension OwnerPersonalIeditnfyVC {
                 // scale 指定压缩比
                 // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
                 CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                    self?.reverseImage = image
+                    self?.reverseImage = image.crop(ratio: 4 / 3.0)
                     self?.loadCollectionData()
                     
                     }, failedClouse: { () in
@@ -278,7 +278,7 @@ extension OwnerPersonalIeditnfyVC {
     }
     
     func pickerSelectIDCardFront() {
-        let alertController = UIAlertController.init(title: "", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
         let refreshAction = UIAlertAction.init(title: "拍照", style: .default) {[weak self] (action: UIAlertAction) in
             self?.isFront = true
             let vc = ZKIDCardCameraController.init(type: .front)
@@ -301,7 +301,7 @@ extension OwnerPersonalIeditnfyVC {
                 // scale 指定压缩比
                 // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
                 CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                    self?.frontImage = image
+                    self?.frontImage = image.crop(ratio: 4 / 3.0)
                     self?.loadCollectionData()
                     
                     }, failedClouse: { () in

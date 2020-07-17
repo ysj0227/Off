@@ -172,13 +172,13 @@ extension OwnerApplyEnterCompanyViewController {
         view.textColor = kAppColor_333333
         return view
     }()
-    lazy var jobLabel: UILabel = {
-        let view = UILabel()
-        view.textAlignment = .left
-        view.font = FONT_9
-        view.textColor = kAppColor_666666
-        return view
-    }()
+//    lazy var jobLabel: UILabel = {
+//        let view = UILabel()
+//        view.textAlignment = .left
+//        view.font = FONT_9
+//        view.textColor = kAppColor_666666
+//        return view
+//    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -202,7 +202,6 @@ extension OwnerApplyEnterCompanyViewController {
         addSubview(lineView)
         addSubview(avatarImg)
         addSubview(nameLabel)
-        addSubview(jobLabel)
         
         itemIcon.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 48, height: 22))
@@ -238,10 +237,6 @@ extension OwnerApplyEnterCompanyViewController {
         nameLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(avatarImg.snp.trailing).offset(13)
             make.centerY.equalTo(avatarImg)
-        }
-        jobLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(nameLabel.snp.trailing).offset(10)
-            make.centerY.equalTo(avatarImg)
             make.trailing.equalToSuperview()
         }
     }
@@ -250,10 +245,20 @@ extension OwnerApplyEnterCompanyViewController {
         didSet {
             
             titleLabel.text = companyModel?.companyString?.string
-            addressLabel.text = companyModel?.addressString?.string
             avatarImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
-            nameLabel.text = "管理员：杨先生"
-            jobLabel.text = "CED"
+            nameLabel.text = "管理员：杨先生 CED"
+            if let address = companyModel?.addressString?.string {
+                if address.isBlankString == true {
+                    addressICon.isHidden = true
+                    addressLabel.text = ""
+                }else {
+                    addressICon.isHidden = false
+                    addressLabel.text = address
+                }
+            }else {
+                addressICon.isHidden = true
+                addressLabel.text = ""
+            }
         }
     }
     
@@ -261,10 +266,31 @@ extension OwnerApplyEnterCompanyViewController {
         didSet {
             
             titleLabel.text = branchModel?.buildingAttributedName?.string
-            addressLabel.text = branchModel?.addressString?.string
             avatarImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
-            nameLabel.text = "管理员：杨先生"
-            jobLabel.text = "CED"
+            nameLabel.text = "管理员：杨先生 CED"
+            itemIcon.isHidden = true
+            itemIcon.snp.makeConstraints { (make) in
+                make.size.equalTo(CGSize(width: 0, height: 22))
+                make.leading.equalTo(21)
+                make.top.equalTo(26)
+            }
+            titleLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(itemIcon.snp.trailing).offset(0)
+                make.trailing.equalToSuperview()
+                make.centerY.equalTo(itemIcon)
+            }
+            if let address = branchModel?.addressString?.string {
+                if address.isBlankString == true {
+                    addressICon.isHidden = true
+                    addressLabel.text = ""
+                }else {
+                    addressICon.isHidden = false
+                    addressLabel.text = address
+                }
+            }else {
+                addressICon.isHidden = true
+                addressLabel.text = ""
+            }
         }
     }
     
