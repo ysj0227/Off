@@ -51,24 +51,47 @@ class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
             buildingViewModel = OwnerESBuildingSearchViewModel.init(model: buildingModel ?? OwnerESBuildingSearchModel())
         }
     }
+    
+    
+    ///公司认证 楼盘
+    ///个人认证 - 楼盘
+    ///联合办公认证 - 楼盘
     var buildingViewModel: OwnerESBuildingSearchViewModel? {
         didSet {
-            ///身份类型0个人1企业2联合
-            //展示楼盘名字 楼盘地址 关联按钮
-            if UserTool.shared.user_owner_identifytype == 0 || UserTool.shared.user_owner_identifytype == 1 {
-                numDescLabel.isHidden = false
-                addBtn.isHidden = false
-            }
-            //只展示大楼名称
-            else if UserTool.shared.user_owner_identifytype == 2 {
-                numDescLabel.isHidden = true
-                addBtn.isHidden = true
-            }
-            titleLabel.attributedText = buildingViewModel?.buildingAttributedName
-            numDescLabel.attributedText = buildingViewModel?.addressString
+            setShowView()
         }
     }
     
+    //个人 - 公司
+    //展示楼盘名字 楼盘地址 关联按钮
+    func buildingIdentifyLayout() {
+        numDescLabel.isHidden = false
+        addBtn.isHidden = false
+    }
+    ///网点 - //只展示大楼名称
+    func branchIdentifyLayout() {
+        numDescLabel.isHidden = true
+        addBtn.isHidden = true
+        titleLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(left_pending_space_17)
+            make.top.equalTo(10)
+            make.height.greaterThanOrEqualTo(cell_height_58 - 20)
+            make.trailing.equalTo(-(60 + left_pending_space_17))
+        }
+    }
+    func setShowView() {
+           ///身份类型0个人1企业2联合
+           //展示楼盘名字 楼盘地址 关联按钮
+           if UserTool.shared.user_owner_identifytype == 0 || UserTool.shared.user_owner_identifytype == 1 {
+               buildingIdentifyLayout()
+           }
+           //只展示大楼名称
+           else if UserTool.shared.user_owner_identifytype == 2 {
+               branchIdentifyLayout()
+           }
+           titleLabel.attributedText = buildingViewModel?.buildingAttributedName
+           numDescLabel.attributedText = buildingViewModel?.addressString
+       }
     var userModel: LoginUserModel?
     
     func setupViews() {

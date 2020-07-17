@@ -13,7 +13,7 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
         
     var yingYeZhiZhaoPhoto: UIImageView = {
         
-        let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: 158))
+        let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
         view.backgroundColor = kAppLightBlueColor
         view.contentMode = .scaleAspectFill
         view.isUserInteractionEnabled = true
@@ -136,10 +136,7 @@ extension OwnerCreateCompanyViewController {
     }
     func setUpData() {
         
-        //typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeIedntify))
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeCompanyName))
-        typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeCompanyAddress))
-        //typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeYingyeCode))
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeUploadYingyePhoto))
         
         if companyModel != nil {
@@ -221,7 +218,6 @@ extension OwnerCreateCompanyViewController {
         cell?.endEditingMessageCell = { [weak self] (companyModel) in
             self?.companyModel = companyModel
             self?.companyModel?.company = companyModel.company
-            self?.companyModel?.address = companyModel.address
         }
         return cell ?? OwnerCreateCompanyCell.init(frame: .zero)
     }
@@ -258,27 +254,10 @@ class OwnerCreateCompanyCell: BaseEditCell {
             
             detailIcon.isHidden = true
             
-            if model.type == .OwnerCreteCompanyTypeIedntify {
-                editLabel.isUserInteractionEnabled = false
-                lineView.isHidden = false
-                 ///身份类型0个人1企业2联合
-               if UserTool.shared.user_owner_identifytype == 1 {
-                   editLabel.text = "公司"
-               }else if UserTool.shared.user_owner_identifytype == 2 {
-                editLabel.text = "联合办公"
-               }
-            }else if model.type == .OwnerCreteCompanyTypeCompanyName{
+            if model.type == .OwnerCreteCompanyTypeCompanyName{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
                 editLabel.text = companyModel?.company
-            }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
-                editLabel.isUserInteractionEnabled = true
-                lineView.isHidden = false
-                editLabel.text = companyModel?.address
-            }else if model.type == .OwnerCreteCompanyTypeYingyeCode {
-                editLabel.isUserInteractionEnabled = true
-                lineView.isHidden = false
-                editLabel.text = ""
             }else if model.type == .OwnerCreteCompanyTypeUploadYingyePhoto{
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true
@@ -293,8 +272,6 @@ extension OwnerCreateCompanyCell: UITextFieldDelegate {
         
         if model.type == .OwnerCreteCompanyTypeCompanyName{
             companyModel?.company = textField.text
-        }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
-            companyModel?.address = textField.text
         }
         
         guard let blockk = self.endEditingMessageCell else {

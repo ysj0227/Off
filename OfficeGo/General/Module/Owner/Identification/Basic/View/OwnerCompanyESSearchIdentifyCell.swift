@@ -12,7 +12,7 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
     
     lazy var itemIcon: BaseImageView = {
         let view = BaseImageView.init()
-        view.image = UIImage.init(named: "companyIedntify")
+        view.image = UIImage.init(named: "")
         view.contentMode = .scaleAspectFit
         return view
     }()
@@ -58,23 +58,17 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
     
     var isBranch: Bool? = false
     
-   var buildingModel: OwnerESBuildingSearchModel? {
-       didSet {
-           buildingViewModel = OwnerESBuildingSearchViewModel.init(model: buildingModel ?? OwnerESBuildingSearchModel())
-       }
-   }
-   var buildingViewModel: OwnerESBuildingSearchViewModel? {
-       didSet {
-           itemIcon.isHidden = true
-           titleLabel.isHidden = false
-           numDescLabel.isHidden = false
-           addBtn.isHidden = false
-            itemIcon.image = UIImage.init(named: "")
-           addBtn.setTitle("申请加入", for: .normal)
-           numDescLabel.text = "加入网点，即可共同管理网点房源"
-           titleLabel.attributedText = buildingViewModel?.buildingAttributedName
-       }
-   }
+    var buildingModel: OwnerESBuildingSearchModel? {
+        didSet {
+            buildingViewModel = OwnerESBuildingSearchViewModel.init(model: buildingModel ?? OwnerESBuildingSearchModel())
+        }
+    }
+    var buildingViewModel: OwnerESBuildingSearchViewModel? {
+        didSet {
+            branchIdentifyLayout()
+            titleLabel.attributedText = buildingViewModel?.buildingAttributedName
+        }
+    }
     
     //公司认证 -
     //网点认证 - 公司认证
@@ -86,55 +80,108 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
     
     var companyViewModel: OwnerESCompanySearchViewModel? {
         didSet {
-            ///身份类型0个人1企业2联合
-            //没有公司
-            if UserTool.shared.user_owner_identifytype == 0 {
-                
-            }
-                //展示认证标签 公司名字 描述 加入按钮
-            else if UserTool.shared.user_owner_identifytype == 1 {
-                itemIcon.isHidden = false
-                titleLabel.isHidden = false
-                numDescLabel.isHidden = false
-                addBtn.isHidden = false
-                itemIcon.image = UIImage.init(named: "companyIedntify")
-                addBtn.setTitle("申请加入", for: .normal)
-                numDescLabel.text = "加入公司，即可共同管理公司房源"
-            }
-                //只展示大楼名称
-            else if UserTool.shared.user_owner_identifytype == 2 {
-                //判断是否是网点
-                //隐藏标签 展示网点名字 描述 加入按钮
-                if isBranch == true {
-                    itemIcon.isHidden = true
-                    titleLabel.isHidden = false
-                    numDescLabel.isHidden = false
-                    addBtn.isHidden = false
-                    itemIcon.image = UIImage.init(named: "")
-                    addBtn.setTitle("申请加入", for: .normal)
-                    numDescLabel.text = "加入网点，即可共同管理网点房源"
-                }else {
-                    //网点公司
-                    //隐藏标签 描述  展示网点名字  加入按钮
-                    itemIcon.isHidden = true
-                    titleLabel.isHidden = false
-                    
-                    //认证过显示- 否则不展示 - 按钮和提示展示一个
-//                    addBtn.isHidden = true
-//                    numDescLabel.isHidden = false
-//                    addBtn.setTitle("关联公司", for: .normal)
-//                    numDescLabel.text = "该公司已认证为标准办公，不可重复认证"
-                    
-                    //没有认证过，展示按钮
-                    addBtn.isHidden = false
-                    numDescLabel.isHidden = true
-                    itemIcon.image = UIImage.init(named: "")
-                    addBtn.setTitle("关联公司", for: .normal)
-                    numDescLabel.text = "该公司已认证为标准办公，不可重复认证"
-                }
-            }
-            titleLabel.attributedText = companyViewModel?.companyString
+            setShowView()
         }
+    }
+    
+    ///公司认证 - 公司布局
+    func compannyIdentifyLayout() {
+        itemIcon.isHidden = false
+        titleLabel.isHidden = false
+        numDescLabel.isHidden = false
+        addBtn.isHidden = false
+        itemIcon.image = UIImage.init(named: "companyIedntify")
+        addBtn.setTitle("申请加入", for: .normal)
+        numDescLabel.text = "加入公司，即可共同管理公司房源"
+    }
+    
+    ///网点认证 - 网点布局
+    func branchIdentifyLayout() {
+        //判断是否是网点
+        //隐藏标签 展示网点名字 描述 加入按钮
+        itemIcon.isHidden = true
+        titleLabel.isHidden = false
+        numDescLabel.isHidden = false
+        addBtn.isHidden = false
+        itemIcon.image = UIImage.init(named: "")
+        itemIcon.snp.remakeConstraints { (make) in
+            make.leading.equalTo(left_pending_space_17 - 4)
+            make.centerY.equalToSuperview()
+            make.size.equalTo(CGSize(width: 0, height: 20))
+        }
+        addBtn.setTitle("申请加入", for: .normal)
+        numDescLabel.text = "加入网点，即可共同管理网点房源"
+    }
+    
+    ///网点认证 - 公司布局
+    func branchCompanyIdentifyLayout() {
+        //网点公司
+        //隐藏标签 描述  展示网点名字  加入按钮
+        itemIcon.isHidden = true
+        titleLabel.isHidden = false
+        itemIcon.image = UIImage.init(named: "")
+        
+        itemIcon.snp.remakeConstraints { (make) in
+            make.leading.equalTo(left_pending_space_17 - 4)
+            make.centerY.equalToSuperview()
+            make.size.equalTo(CGSize(width: 0, height: 20))
+        }
+        
+        let index = 0
+        if index == 0 {
+            //没有认证过，展示按钮
+            addBtn.isHidden = false
+            numDescLabel.isHidden = true
+            addBtn.setTitle("关联公司", for: .normal)
+            numDescLabel.text = ""
+            titleLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(itemIcon.snp.trailing).offset(4)
+                make.top.equalTo(10)
+                make.height.greaterThanOrEqualTo(cell_height_58 - 20)
+                make.trailing.equalTo(-(60 + left_pending_space_17))
+            }
+        }else {
+            //认证过显示- 否则不展示 - 按钮和提示展示一个
+            addBtn.isHidden = true
+            numDescLabel.isHidden = false
+            addBtn.setTitle("关联公司", for: .normal)
+            numDescLabel.text = "⚠️该公司已认证为标准办公，不可重复认证"
+            titleLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(itemIcon.snp.trailing).offset(4)
+                make.top.equalTo(10)
+                make.height.greaterThanOrEqualTo(20)
+                make.trailing.equalTo(-(60 + left_pending_space_17))
+            }
+            numDescLabel.snp.remakeConstraints { (make) in
+                make.leading.trailing.equalTo(titleLabel)
+                make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            }
+        }
+    }
+    
+    func setShowView() {
+        ///身份类型0个人1企业2联合
+        //没有公司
+        if UserTool.shared.user_owner_identifytype == 0 {
+            
+        }
+            //展示认证标签 公司名字 描述 加入按钮
+        else if UserTool.shared.user_owner_identifytype == 1 {
+            compannyIdentifyLayout()
+        }
+            //只展示大楼名称
+        else if UserTool.shared.user_owner_identifytype == 2 {
+            //判断是否是网点
+            //隐藏标签 展示网点名字 描述 加入按钮
+            if isBranch == true {
+                branchIdentifyLayout()
+            }else {
+                //网点公司
+                //隐藏标签 描述  展示网点名字  加入按钮
+                branchCompanyIdentifyLayout()
+            }
+        }
+        titleLabel.attributedText = companyViewModel?.companyString
     }
     
     var userModel: LoginUserModel?
