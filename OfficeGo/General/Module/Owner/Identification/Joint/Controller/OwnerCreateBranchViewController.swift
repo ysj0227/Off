@@ -136,6 +136,7 @@ extension OwnerCreateBranchViewController {
     func setUpData() {
         
         typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeBranchName))
+        typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeBranchDistrictArea))
         typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeBranchAddress))
         typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeUploadYingyePhoto))
         
@@ -188,7 +189,7 @@ extension OwnerCreateBranchViewController {
     //发送加入公司和网点公司的通知
     func addNotify() {
         ///身份类型0个人1企业2联合
-        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateCompanyJoint, object: branchModel)
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateBranchJoint, object: branchModel)
         leftBtnClick()
     }
     
@@ -225,6 +226,10 @@ extension OwnerCreateBranchViewController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if typeSourceArray[indexPath.row].type == .OwnerCreteBranchTypeBranchDistrictArea{
+            ///区域商圈选择
+            
+        }
     }
 }
 
@@ -249,6 +254,11 @@ class OwnerCreateBranchCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
                 editLabel.text = branchModel?.buildingName
+            }else if model.type == .OwnerCreteBranchTypeBranchDistrictArea{
+                editLabel.isUserInteractionEnabled = false
+                lineView.isHidden = false
+                detailIcon.isHidden = false
+                editLabel.text = branchModel?.address
             }else if model.type == .OwnerCreteBranchTypeBranchAddress{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false

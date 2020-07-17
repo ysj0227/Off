@@ -28,8 +28,11 @@ extension Notification.Name {
     public static let OwnerApplyEnterCompanyJoint = Notification.Name("OwnerApplyEnterCompanyJoint")
     
     /// 身份认证 - 业主 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
-    public static let OwnerCreateCompanyJoint = Notification.Name("OwnerCreateCompanyJoint")
+    public static let OwnerCreateBranchJoint = Notification.Name("OwnerCreateBranchJoint")
     
+    /// 身份认证 - 业主 - 联合办公认证 - 创建写字楼的通知 - 公司和个人认证独有
+       public static let OwnerCreateBuilding = Notification.Name("OwnerCreateBuilding")
+       
 
     
     

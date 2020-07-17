@@ -103,6 +103,26 @@ class OwnerJointIeditnfyVC: BaseViewController {
     
     @objc var uplaodMainPageimg = UIImage.init(named: "addImgBg")  // 在实际的项目中可能用于存储图片的url
     
+    lazy var fczImagePickTool: CLImagePickerTool = {
+          let picker = CLImagePickerTool()
+           picker.cameraOut = true
+           picker.isHiddenVideo = true
+           return picker
+       }()
+       lazy var zlAgentImagePickTool: CLImagePickerTool = {
+           let picker = CLImagePickerTool()
+           picker.cameraOut = true
+           picker.isHiddenVideo = true
+           return picker
+       }()
+       lazy var mainPicImagePickTool: CLImagePickerTool = {
+           let picker = CLImagePickerTool()
+           picker.cameraOut = true
+           picker.isHiddenVideo = true
+           picker.singleImageChooseType = .singlePicture   //设置单选
+           return picker
+       }()
+    
     var headerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -171,7 +191,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
        }
        
        //公司认证 - 创建网点成功通知
-       NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateCompanyJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+       NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
            if let model = noti.object as? OwnerESBuildingSearchModel {
                self?.userModel?.branchName = model.buildingName
                self?.branchSearchResultVC?.view.isHidden = true
@@ -395,10 +415,7 @@ extension OwnerJointIeditnfyVC {
 
 extension OwnerJointIeditnfyVC {
     func selectFCZPicker() {
-        let imagePickTool = CLImagePickerTool()
-        imagePickTool.cameraOut = true
-        imagePickTool.isHiddenVideo = true
-        imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicFCZArr.count) {[weak self] (asset,cutImage) in
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicFCZArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 self?.uploadPicFCZArr.insert(image, at: 0)
@@ -410,10 +427,7 @@ extension OwnerJointIeditnfyVC {
     }
     
     func selectZLAgentPicker() {
-        let imagePickTool = CLImagePickerTool()
-        imagePickTool.cameraOut = true
-        imagePickTool.isHiddenVideo = true
-        imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicZLAgentArr.count) {[weak self] (asset,cutImage) in
+        zlAgentImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicZLAgentArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 self?.uploadPicZLAgentArr.insert(image, at: 0)
@@ -425,11 +439,7 @@ extension OwnerJointIeditnfyVC {
     }
     
     func selectMainPagePicker() {
-        let imagePickTool = CLImagePickerTool()
-        imagePickTool.cameraOut = true
-        imagePickTool.isHiddenVideo = true
-        imagePickTool.singleImageChooseType = .singlePicture   //设置单选
-        imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 1) {[weak self] (asset,cutImage) in
+        mainPicImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 1) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 self?.uplaodMainPageimg = image

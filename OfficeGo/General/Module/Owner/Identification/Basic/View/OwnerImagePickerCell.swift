@@ -85,7 +85,7 @@ class OwnerImgPickerCollectionViewHeader: UICollectionReusableView {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.font = FONT_14
-        view.textColor = kAppColor_333333
+        view.textColor = kAppColor_999999
         return view
     }()
     

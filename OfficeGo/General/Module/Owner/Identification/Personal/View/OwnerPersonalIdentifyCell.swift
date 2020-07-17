@@ -12,7 +12,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
         let view = UILabel()
         view.textAlignment = .left
         view.font = FONT_14
-        view.textColor = kAppColor_333333
+        view.textColor = kAppColor_999999
         return view
     }()
     lazy var numDescTF: UITextField = {
