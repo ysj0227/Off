@@ -142,13 +142,15 @@ class OwnerJointIeditnfyVC: BaseViewController {
                     OwnerJointIedntifyConfigureModel.init(types: .OwnerJointIedntifyTypeBranchname),
                     OwnerJointIedntifyConfigureModel.init(types: .OwnerJointIedntifyTypeCompanyname)])
         
-        arr.append([OwnerJointIedntifyConfigureModel.init(types: .OwnerJointIedntifyTypeBuildingName)])
+        arr.append([OwnerJointIedntifyConfigureModel.init(types: .OwnerJointIedntifyTypeBuildingName),
+                    OwnerJointIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingFCType)])
         
         arr.append([OwnerJointIedntifyConfigureModel.init(types: .OwnerJointIedntifyTypeUploadFangchanzheng)])
         
         arr.append([OwnerJointIedntifyConfigureModel.init(types: .OwnerJointIedntifyTypeUploadZulinAgent)])
         
-        arr.append([OwnerJointIedntifyConfigureModel.init(types: .OwnerJointIedntifyTypeUploadMainimg)])
+        /*
+         arr.append([OwnerJointIedntifyConfigureModel.init(types: .OwnerJointIedntifyTypeUploadMainimg)])*/
         
         return arr
     }()
@@ -241,6 +243,7 @@ extension OwnerJointIeditnfyVC {
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
+        userModel?.leaseType = 1
     }
     func setUpView() {
         
@@ -417,10 +420,10 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
                 self?.buildingName = buildingName
             }
-//            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
-//                self?.userModel?.buildingName = buildingNAme
-//                self?.loadCollectionData()
-//            }
+            //            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
+            //                self?.userModel?.buildingName = buildingNAme
+            //                self?.loadCollectionData()
+            //            }
             return cell ?? OwnerJointIdentifyCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
@@ -447,10 +450,11 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 }else {
                     cell?.closeBtn.isHidden = false
                 }
-            }else if indexPath.section == 4 {
-                cell?.image.image = uplaodMainPageimg
-                cell?.closeBtn.isHidden = true
             }
+            /*else if indexPath.section == 4 {
+             cell?.image.image = uplaodMainPageimg
+             cell?.closeBtn.isHidden = true
+             }*/
             return cell ?? OwnerImagePickerCell()
         }
         
@@ -460,7 +464,14 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             if company.isBlankString == true {
                 return 1
             }else {
-                return typeSourceArray.count
+                //直租
+                if userModel?.leaseType == 0 {
+                    return typeSourceArray.count - 1
+                }else if userModel?.leaseType == 1 {
+                    return typeSourceArray.count
+                }else {
+                    return typeSourceArray.count - 1
+                }
             }
         }else {
             return 1
@@ -510,18 +521,19 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 return 0
             }
             
-        }else if section == 4 {
-            if let buildingName = userModel?.buildingName {
-                if buildingName.isBlankString == true {
-                    return 0
-                }else {
-                    return 1
-                }
-            }else {
-                return 0
-            }
-            
         }
+        /*else if section == 4 {
+         if let buildingName = userModel?.buildingName {
+         if buildingName.isBlankString == true {
+         return 0
+         }else {
+         return 1
+         }
+         }else {
+         return 0
+         }
+         
+         }*/
         return 0
     }
     
@@ -536,9 +548,10 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 3 {
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
-        }else if indexPath.section == 4 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }
+        /*else if indexPath.section == 4 {
+         return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
+         }*/
         return CGSize(width: 0, height: 0)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -565,9 +578,10 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 if indexPath.item == uploadPicZLAgentArr.count - 1 {
                     selectZLAgentPicker()
                 }
-            }else if indexPath.section == 4 {
-                selectMainPagePicker()
             }
+            /*else if indexPath.section == 4 {
+             selectMainPagePicker()
+             }*/
             
         }
     }
@@ -586,11 +600,12 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 header?.backgroundColor = kAppWhiteColor
                 header?.titleLabel.text = "上传租赁协议"
                 header?.descLabel.text = "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
-            }else if indexPath.section == 4{
-                header?.backgroundColor = kAppWhiteColor
-                header?.titleLabel.text = "上传楼盘封面图"
-                header?.descLabel.text = ""
             }
+            /*else if indexPath.section == 4{
+             header?.backgroundColor = kAppWhiteColor
+             header?.titleLabel.text = "上传楼盘封面图"
+             header?.descLabel.text = ""
+             }*/
             
             return header ?? UICollectionReusableView()
         }
@@ -616,19 +631,21 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 return CGSize(width: kWidth, height: 0)
             }
             
-        }else if section == 4 {
-            if let buildingName = userModel?.buildingName {
-                if buildingName.isBlankString == true {
-                    return CGSize(width: kWidth, height: 0)
-                }else {
-                    return CGSize(width: kWidth, height: 46)
-                }
-                
-            }else {
-                return CGSize(width: kWidth, height: 0)
-            }
-            
-        }else {
+        }
+            /*else if section == 4 {
+             if let buildingName = userModel?.buildingName {
+             if buildingName.isBlankString == true {
+             return CGSize(width: kWidth, height: 0)
+             }else {
+             return CGSize(width: kWidth, height: 46)
+             }
+             
+             }else {
+             return CGSize(width: kWidth, height: 0)
+             }
+             
+             }*/
+        else {
             return CGSize.zero
         }
     }

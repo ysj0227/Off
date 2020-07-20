@@ -138,7 +138,7 @@ public enum OwnerCompanyIedntifyType {
     case OwnerCompanyIedntifyTypeBuildingFCType     //房产类型：租赁房产
     case OwnerCompanyIedntifyTypeUploadFangchanzheng//上传房产证
     case OwnerCompanyIedntifyTypeUploadZulinAgent   //上传租赁协议
-    case OwnerCompanyIedntifyTypeUploadMainimg      //上传楼盘封面图
+    //case OwnerCompanyIedntifyTypeUploadMainimg      //上传楼盘封面图
 }
 
 //业主
@@ -148,9 +148,10 @@ public enum OwnerJointIedntifyType {
     case OwnerJointIedntifyTypeBranchname         //网点名称：
     case OwnerJointIedntifyTypeCompanyname        //所属公司
     case OwnerJointIedntifyTypeBuildingName       //所在楼盘：
+    case OwnerPersonalIedntifyTypeBuildingFCType            //房产类型：自有房产
     case OwnerJointIedntifyTypeUploadFangchanzheng//上传房产证
     case OwnerJointIedntifyTypeUploadZulinAgent   //上传租赁协议
-    case OwnerJointIedntifyTypeUploadMainimg      //上传楼盘封面图
+    //case OwnerJointIedntifyTypeUploadMainimg      //上传楼盘封面图
 }
 
 //业主
@@ -164,6 +165,7 @@ public enum OwnerPersonalIedntifyType {
     case OwnerPersonalIedntifyTypeBuildingAddress           //写字楼地址
     case OwnerPersonalIedntifyTypeBuildingFCType            //房产类型：自有房产
     case OwnerPersonalIedntifyTypeUploadFangchanzheng       //上传房产证
+    case OwnerPersonalIedntifyTypeUploadZulinAgent          //上传租赁协议
 }
 
 

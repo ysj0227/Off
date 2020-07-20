@@ -49,6 +49,13 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     
     @objc var uplaodMainPageimg = UIImage.init(named: "addImgBg")  // 在实际的项目中可能用于存储图片的url
     
+    lazy var zlAgentImagePickTool: CLImagePickerTool = {
+        let picker = CLImagePickerTool()
+        picker.cameraOut = true
+        picker.isHiddenVideo = true
+        return picker
+    }()
+    
     lazy var mainPicImagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
         picker.cameraOut = true
@@ -78,10 +85,12 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         ])
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeUploadIdentifyPhoto)])
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingName),
-//                    OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingAddress),
-                    OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingFCType)])
+                    //                    OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingAddress),
+            OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingFCType)])
         
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeUploadFangchanzheng)])
+        
+        arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeUploadZulinAgent)])
         
         return arr
     }()
@@ -147,6 +156,7 @@ extension OwnerPersonalIeditnfyVC {
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
+        userModel?.leaseType = 0
     }
     func setUpView() {
         
@@ -234,6 +244,17 @@ extension OwnerPersonalIeditnfyVC {
         }
     }
     
+    func selectZLAgentPicker() {
+        zlAgentImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicZLAgentArr.count) {[weak self] (asset,cutImage) in
+            // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                self?.uploadPicZLAgentArr.insert(image, at: 0)
+                }, failedClouse: { () in
+                    
+            })
+            self?.loadCollectionData()
+        }
+    }
     
     func pickerSelectIDCard() {
         let alertController = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -360,14 +381,14 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 self?.userModel?.address = ""
                 self?.buildingName = buildingName
             }
-//            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
-//                self?.userModel?.address = buildingAddres
-//                self?.loadCollectionData()
-//            }
-//            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
-//                self?.userModel?.buildingName = buildingNAme
-//                self?.loadCollectionData()
-//            }
+            //            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
+            //                self?.userModel?.address = buildingAddres
+            //                self?.loadCollectionData()
+            //            }
+            //            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
+            //                self?.userModel?.buildingName = buildingNAme
+            //                self?.loadCollectionData()
+            //            }
             return cell ?? OwnerPersonalIdentifyCell()
         }else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerIdCardImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerIdCardImagePickerCell
@@ -382,15 +403,28 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
             cell?.indexPath = indexPath
-            cell?.image.image = uploadPicFCZArr[indexPath.item]
-            cell?.closeBtnClickClouse = { [weak self] (index) in
-                self?.uploadPicFCZArr.remove(at: index)
-                self?.loadCollectionData()
-            }
-            if indexPath.item == uploadPicFCZArr.count - 1 {
-                cell?.closeBtn.isHidden = true
-            }else {
-                cell?.closeBtn.isHidden = false
+            if indexPath.section == 3 {
+                cell?.image.image = uploadPicFCZArr[indexPath.item]
+                cell?.closeBtnClickClouse = { [weak self] (index) in
+                    self?.uploadPicFCZArr.remove(at: index)
+                    self?.loadCollectionData()
+                }
+                if indexPath.item == uploadPicFCZArr.count - 1 {
+                    cell?.closeBtn.isHidden = true
+                }else {
+                    cell?.closeBtn.isHidden = false
+                }
+            }else if indexPath.section == 4 {
+                cell?.image.image = uploadPicZLAgentArr[indexPath.item]
+                cell?.closeBtnClickClouse = { [weak self] (index) in
+                    self?.uploadPicZLAgentArr.remove(at: index)
+                    self?.loadCollectionData()
+                }
+                if indexPath.item == uploadPicZLAgentArr.count - 1 {
+                    cell?.closeBtn.isHidden = true
+                }else {
+                    cell?.closeBtn.isHidden = false
+                }
             }
             return cell ?? OwnerImagePickerCell()
         }
@@ -401,7 +435,12 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             if idCard.isBlankString == true {
                 return 2
             }else {
-                return typeSourceArray.count
+                //直租
+                if userModel?.leaseType == 0 {
+                    return typeSourceArray.count - 1
+                }else {
+                    return typeSourceArray.count
+                }
             }
         }else {
             return 2
@@ -435,6 +474,17 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 return 0
             }
             return uploadPicFCZArr.count
+        }else if section == 4 {
+            if let buildingName = userModel?.buildingName {
+                if buildingName.isBlankString == true {
+                    return 2
+                }else {
+                    return uploadPicZLAgentArr.count
+                }
+            }else {
+                return 0
+            }
+            return uploadPicZLAgentArr.count
         }
         return 0
     }
@@ -449,7 +499,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             return CGSize(width: width, height: width * 3 / 4.0)
         }else if indexPath.section == 2 {
             return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
-        }else if indexPath.section == 3 {
+        }else if indexPath.section == 3 || indexPath.section == 4 {
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }
         return CGSize(width: 0, height: 0)
@@ -460,7 +510,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             
         }else if section == 1{
             return UIEdgeInsets(top: 0, left: left_pending_space_17, bottom: 26, right: left_pending_space_17)
-        }else if section == 3{
+        }else if section == 3 || section == 4 {
             return UIEdgeInsets(top: 0, left: left_pending_space_17, bottom: 0, right: left_pending_space_17)
         }else {
             return .zero
@@ -506,6 +556,10 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 if indexPath.item == uploadPicFCZArr.count - 1 {
                     selectFCZPicker()
                 }
+            }else if indexPath.section == 4 {
+                if indexPath.item == uploadPicZLAgentArr.count - 1 {
+                    selectZLAgentPicker()
+                }
             }
             
         }
@@ -525,6 +579,10 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 header?.backgroundColor = kAppWhiteColor
                 header?.titleLabel.text = "上传房产证"
                 header?.descLabel.text = "请确保所上传的房产信息与公司信息一致"
+            }else if indexPath.section == 4{
+                header?.backgroundColor = kAppWhiteColor
+                header?.titleLabel.text = "上传租赁协议"
+                header?.descLabel.text = "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
             }
             
             return header ?? UICollectionReusableView()
@@ -543,7 +601,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
         }else if section == 2 {
             return CGSize(width: kWidth, height: 10)
             
-        }else if section == 3 {
+        }else if section == 3 || section == 4 {
             if let buildingName = userModel?.buildingName {
                 if buildingName.isBlankString == true {
                     return CGSize(width: kWidth, height: 0)

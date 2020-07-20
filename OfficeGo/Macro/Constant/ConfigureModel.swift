@@ -204,8 +204,8 @@ class OwnerCompanyIedntifyConfigureModel: ConfigureModel {
             return "上传房产证"
         case .OwnerCompanyIedntifyTypeUploadZulinAgent:
             return "上传租赁协议"
-        case .OwnerCompanyIedntifyTypeUploadMainimg:
-            return "上传楼盘封面图"
+//        case .OwnerCompanyIedntifyTypeUploadMainimg:
+//            return "上传楼盘封面图"
         }
     }
     func getDescFormType(type: OwnerCompanyIedntifyType) -> String{
@@ -224,8 +224,8 @@ class OwnerCompanyIedntifyConfigureModel: ConfigureModel {
             return "请确保所上传的房产信息与公司信息一致"
         case .OwnerCompanyIedntifyTypeUploadZulinAgent:
             return "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
-        case .OwnerCompanyIedntifyTypeUploadMainimg:
-            return ""
+//        case .OwnerCompanyIedntifyTypeUploadMainimg:
+//            return ""
         }
     }
 }
@@ -253,8 +253,10 @@ class OwnerJointIedntifyConfigureModel: ConfigureModel {
             return "上传房产证"
         case .OwnerJointIedntifyTypeUploadZulinAgent:
             return "上传租赁协议"
-        case .OwnerJointIedntifyTypeUploadMainimg:
-            return "上传楼盘封面图"
+        case .OwnerPersonalIedntifyTypeBuildingFCType:
+            return "房产类型："
+//        case .OwnerJointIedntifyTypeUploadMainimg:
+//            return "上传楼盘封面图"
         }
     }
     func getDescFormType(type: OwnerJointIedntifyType) -> String{
@@ -267,12 +269,14 @@ class OwnerJointIedntifyConfigureModel: ConfigureModel {
             return ""
         case .OwnerJointIedntifyTypeBuildingName:
             return ""
+        case .OwnerPersonalIedntifyTypeBuildingFCType:
+            return ""
         case .OwnerJointIedntifyTypeUploadFangchanzheng:
             return "请确保所上传的房产信息与公司信息一致"
         case .OwnerJointIedntifyTypeUploadZulinAgent:
             return "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
-        case .OwnerJointIedntifyTypeUploadMainimg:
-            return ""
+//        case .OwnerJointIedntifyTypeUploadMainimg:
+//            return ""
         }
     }
 }
@@ -304,6 +308,8 @@ class OwnerPersonalIedntifyConfigureModel: ConfigureModel {
             return "房产类型："
         case .OwnerPersonalIedntifyTypeUploadFangchanzheng:
             return "上传房产证"
+        case .OwnerPersonalIedntifyTypeUploadZulinAgent:
+            return "上传租赁协议"
         }
     }
     func getDescFormType(type: OwnerPersonalIedntifyType) -> String{
@@ -312,6 +318,8 @@ class OwnerPersonalIedntifyConfigureModel: ConfigureModel {
             return ""
         case .OwnerPersonalIedntifyTypeUploadFangchanzheng:
             return "请确保所上传的房产信息与公司信息一致"
+        case .OwnerPersonalIedntifyTypeUploadZulinAgent:
+            return "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
         }
     }
 }

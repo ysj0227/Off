@@ -108,14 +108,14 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                     OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeCompanyname)])
         
         arr.append([OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingName),
-//                    OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingAddress),
-                    OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingFCType)])
+                    //                    OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingAddress),
+            OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingFCType)])
         
         arr.append([OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeUploadFangchanzheng)])
         
         arr.append([OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeUploadZulinAgent)])
-        
-        arr.append([OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeUploadMainimg)])
+        /*
+         arr.append([OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeUploadMainimg)])*/
         
         return arr
     }()
@@ -200,6 +200,7 @@ extension OwnerCompanyIeditnfyVC {
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
+        userModel?.leaseType = 0
     }
     func setUpView() {
         
@@ -344,14 +345,14 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 self?.userModel?.address = ""
                 self?.buildingName = buildingName
             }
-//            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
-//                self?.userModel?.address = buildingAddres
-//                self?.loadCollectionData()
-//            }
-//            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
-//                self?.userModel?.buildingName = buildingNAme
-//                self?.loadCollectionData()
-//            }
+            //            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
+            //                self?.userModel?.address = buildingAddres
+            //                self?.loadCollectionData()
+            //            }
+            //            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
+            //                self?.userModel?.buildingName = buildingNAme
+            //                self?.loadCollectionData()
+            //            }
             return cell ?? OwnerCompanyIdentifyCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
@@ -378,10 +379,11 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 }else {
                     cell?.closeBtn.isHidden = false
                 }
-            }else if indexPath.section == 4 {
-                cell?.image.image = uplaodMainPageimg
-                cell?.closeBtn.isHidden = true
             }
+            /*else if indexPath.section == 4 {
+             cell?.image.image = uplaodMainPageimg
+             cell?.closeBtn.isHidden = true
+             }*/
             return cell ?? OwnerImagePickerCell()
         }
         
@@ -391,7 +393,14 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
             if company.isBlankString == true {
                 return 1
             }else {
-                return typeSourceArray.count
+                //直租
+                if userModel?.leaseType == 0 {
+                    return typeSourceArray.count - 1
+                }else if userModel?.leaseType == 1 {
+                    return typeSourceArray.count
+                }else {
+                    return typeSourceArray.count - 1
+                }
             }
         }else {
             return 1
@@ -432,18 +441,19 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 return 0
             }
             
-        }else if section == 4 {
-            if let buildingName = userModel?.buildingName {
-                if buildingName.isBlankString == true {
-                    return 0
-                }else {
-                    return 1
-                }
-            }else {
-                return 0
-            }
-            
         }
+        /*else if section == 4 {
+         if let buildingName = userModel?.buildingName {
+         if buildingName.isBlankString == true {
+         return 0
+         }else {
+         return 1
+         }
+         }else {
+         return 0
+         }
+         
+         }*/
         return 0
     }
     
@@ -458,9 +468,10 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 3 {
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
-        }else if indexPath.section == 4 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }
+        /*else if indexPath.section == 4 {
+         return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
+         }*/
         return CGSize(width: 0, height: 0)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -506,10 +517,10 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 if indexPath.item == uploadPicZLAgentArr.count - 1 {
                     selectZLAgentPicker()
                 }
-            }else if indexPath.section == 4 {
-                selectMainPagePicker()
             }
-            
+            /*else if indexPath.section == 4 {
+             selectMainPagePicker()
+             }*/
         }
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -527,11 +538,12 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 header?.backgroundColor = kAppWhiteColor
                 header?.titleLabel.text = "上传租赁协议"
                 header?.descLabel.text = "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
-            }else if indexPath.section == 4{
-                header?.backgroundColor = kAppWhiteColor
-                header?.titleLabel.text = "上传楼盘封面图"
-                header?.descLabel.text = ""
             }
+            /*else if indexPath.section == 4{
+             header?.backgroundColor = kAppWhiteColor
+             header?.titleLabel.text = "上传楼盘封面图"
+             header?.descLabel.text = ""
+             }*/
             
             return header ?? UICollectionReusableView()
         }
@@ -557,19 +569,20 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 return CGSize(width: kWidth, height: 0)
             }
             
-        }else if section == 4 {
-            if let buildingName = userModel?.buildingName {
-                if buildingName.isBlankString == true {
-                    return CGSize(width: kWidth, height: 0)
-                }else {
-                    return CGSize(width: kWidth, height: 46)
-                }
-                
-            }else {
-                return CGSize(width: kWidth, height: 0)
-            }
-            
-        }else {
+        }
+            /*else if section == 4 {
+             if let buildingName = userModel?.buildingName {
+             if buildingName.isBlankString == true {
+             return CGSize(width: kWidth, height: 0)
+             }else {
+             return CGSize(width: kWidth, height: 46)
+             }
+             
+             }else {
+             return CGSize(width: kWidth, height: 0)
+             }
+             }*/
+        else {
             return CGSize.zero
         }
     }

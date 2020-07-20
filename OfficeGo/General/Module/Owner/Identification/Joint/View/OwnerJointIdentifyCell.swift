@@ -87,6 +87,17 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                 }else if UserTool.shared.user_owner_identifytype == 2 {
                     numDescTF.text = "联合办公"
                 }
+            }else if model.type == .OwnerPersonalIedntifyTypeBuildingFCType{
+                numDescTF.isUserInteractionEnabled = false
+                detailIcon.isHidden = true
+                addressLabel.isHidden = true
+                if userModel?.leaseType == 0 {
+                    numDescTF.text = "自有房产"
+                }else if userModel?.leaseType == 1 {
+                    numDescTF.text = "租赁房产"
+                }else {
+                    numDescTF.text = ""
+                }
             }else if model.type == .OwnerJointIedntifyTypeBranchname{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
