@@ -11,7 +11,7 @@ import Alamofire
 
 class OwnerCreateBranchViewController: BaseTableViewController {
         
-    var yingYeZhiZhaoPhoto: UIImageView = {
+    var mainPicPhoto: UIImageView = {
         
         let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
         view.image = UIImage.init(named: "addImgBg")
@@ -88,10 +88,10 @@ extension OwnerCreateBranchViewController {
         let textMessageTap = UITapGestureRecognizer(target: self, action: #selector(imgClickGesture(_:)))
         textMessageTap.numberOfTapsRequired = 1
         textMessageTap.numberOfTouchesRequired = 1
-        yingYeZhiZhaoPhoto.addGestureRecognizer(textMessageTap)
+        mainPicPhoto.addGestureRecognizer(textMessageTap)
         
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
-        footerview.addSubview(yingYeZhiZhaoPhoto)
+        footerview.addSubview(mainPicPhoto)
         
         self.tableView.tableFooterView = footerview
     }
@@ -125,7 +125,7 @@ extension OwnerCreateBranchViewController {
             
         }
         let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
-        yingYeZhiZhaoPhoto.image = image
+        mainPicPhoto.image = image
         
         /*
          let image2 = image?.crop(ratio: 1)

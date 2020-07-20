@@ -6,9 +6,19 @@
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
+import CLImagePickerTool
 import Alamofire
-
 class OwnerCreateBuildingViewController: BaseTableViewController {
+    
+    var mainPicPhoto: UIImageView = {
+           
+           let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+           view.image = UIImage.init(named: "addImgBg")
+           view.isUserInteractionEnabled = true
+           return view
+       }()
+       
+       var selectedAvatarData: NSData?
     
     lazy var bottomBtnView: BottomBtnView = {
         let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
@@ -16,6 +26,15 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
         view.rightSelectBtn.setTitle("确认创建", for: .normal)
         view.backgroundColor = kAppWhiteColor
         return view
+    }()
+    
+    lazy var imagePickTool: CLImagePickerTool = {
+        let picker = CLImagePickerTool()
+        picker.cameraOut = true
+        picker.isHiddenVideo = true
+        picker.singleImageChooseType = .singlePicture   //设置单选
+        picker.singleModelImageCanEditor = false        //单选不可编辑
+        return picker
     }()
     
     var typeSourceArray:[OwnerCreatBuildingConfigureModel] = [OwnerCreatBuildingConfigureModel]()
@@ -65,13 +84,60 @@ extension OwnerCreateBuildingViewController {
             make.height.equalTo(50)
         }
         
+        let textMessageTap = UITapGestureRecognizer(target: self, action: #selector(imgClickGesture(_:)))
+               textMessageTap.numberOfTapsRequired = 1
+               textMessageTap.numberOfTouchesRequired = 1
+               mainPicPhoto.addGestureRecognizer(textMessageTap)
+               
+               let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+               footerview.addSubview(mainPicPhoto)
+               
+               self.tableView.tableFooterView = footerview
     }
-    
+    @objc private func imgClickGesture(_ tap: UITapGestureRecognizer) {
+           
+           pickerSelect()
+       }
+       func pickerSelect() {
+           imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+               SSLog("返回的asset数组是\(asset)")
+               
+               var imageArr = [UIImage]()
+               var index = asset.count // 标记失败的次数
+               
+               // 获取原图，异步
+               // scale 指定压缩比
+               // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+               CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                   imageArr.append(image)
+                   self?.dealImage(imageArr: imageArr, index: index)
+                   }, failedClouse: { () in
+                       index = index - 1
+                       //                    self?.dealImage(imageArr: imageArr, index: index)
+               })
+           }
+       }
+       @objc func dealImage(imageArr:[UIImage],index:Int) {
+           
+           if imageArr.count == index {
+               //              PopViewUtil.share.stopLoading()
+               
+           }
+           let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
+           mainPicPhoto.image = image
+           
+           /*
+            let image2 = image?.crop(ratio: 1)
+            
+            self.upload(uploadImage: image2 ?? UIImage.init())
+            */
+       }
     func setUpData() {
         
         typeSourceArray.append(OwnerCreatBuildingConfigureModel.init(types: .OwnerCreteBuildingTypeBranchName))
         typeSourceArray.append(OwnerCreatBuildingConfigureModel.init(types: .OwnerCreteBuildingTypeBranchDistrictArea))
         typeSourceArray.append(OwnerCreatBuildingConfigureModel.init(types: .OwnerCreteBuildingTypeBranchAddress))
+        typeSourceArray.append(OwnerCreatBuildingConfigureModel.init(types: .OwnerCreteBuildingTypeUploadYingyePhoto))
         
         if buildingModel != nil {
             
@@ -81,6 +147,26 @@ extension OwnerCreateBuildingViewController {
         
         self.tableView.reloadData()
     }
+    
+    private func upload(uploadImage:UIImage) {
+          
+          SSNetworkTool.SSMine.request_uploadAvatar(image: uploadImage, success: {[weak self] (response) in
+              
+              if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                  UserTool.shared.user_avatars = model.avatar
+                  AppUtilities.makeToast("头像已修改")
+              }
+              }, failure: { (error) in
+                  
+          }) { (code, message) in
+              
+              //只有5000 提示给用户
+              if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                  AppUtilities.makeToast(message)
+              }
+          }
+          
+      }
     
     func setSureBtnEnable(can: Bool) {
         self.bottomBtnView.rightSelectBtn.isUserInteractionEnabled = can
@@ -176,6 +262,10 @@ class OwnerCreateBuildingCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
                 editLabel.text = buildingModel?.address
+            }else if model.type == .OwnerCreteBuildingTypeUploadYingyePhoto{
+                editLabel.isUserInteractionEnabled = false
+                lineView.isHidden = true
+                editLabel.text = ""
             }
         }
     }

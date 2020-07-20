@@ -192,4 +192,5 @@ public enum OwnerCreteBuildingType {
     case OwnerCreteBuildingTypeBranchName             //写字楼名称
     case OwnerCreteBuildingTypeBranchDistrictArea     //所在区域
     case OwnerCreteBuildingTypeBranchAddress          //网点地址
+    case OwnerCreteBuildingTypeUploadYingyePhoto          //网点地址
 }

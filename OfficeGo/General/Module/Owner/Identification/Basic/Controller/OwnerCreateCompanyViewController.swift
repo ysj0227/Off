@@ -137,6 +137,8 @@ extension OwnerCreateCompanyViewController {
     func setUpData() {
         
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeCompanyName))
+        typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeCompanyAddress))
+        typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeYingyeCode))
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeUploadYingyePhoto))
         
         if companyModel != nil {
@@ -218,6 +220,7 @@ extension OwnerCreateCompanyViewController {
         cell?.endEditingMessageCell = { [weak self] (companyModel) in
             self?.companyModel = companyModel
             self?.companyModel?.company = companyModel.company
+            self?.companyModel?.address = companyModel.address
         }
         return cell ?? OwnerCreateCompanyCell.init(frame: .zero)
     }
@@ -258,6 +261,14 @@ class OwnerCreateCompanyCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
                 editLabel.text = companyModel?.company
+            }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
+                editLabel.isUserInteractionEnabled = true
+                lineView.isHidden = false
+                editLabel.text = companyModel?.address
+            }else if model.type == .OwnerCreteCompanyTypeYingyeCode {
+                editLabel.isUserInteractionEnabled = true
+                lineView.isHidden = false
+                editLabel.text = ""
             }else if model.type == .OwnerCreteCompanyTypeUploadYingyePhoto{
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true
@@ -272,8 +283,9 @@ extension OwnerCreateCompanyCell: UITextFieldDelegate {
         
         if model.type == .OwnerCreteCompanyTypeCompanyName{
             companyModel?.company = textField.text
+        }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
+            companyModel?.address = textField.text
         }
-        
         guard let blockk = self.endEditingMessageCell else {
             return
         }
