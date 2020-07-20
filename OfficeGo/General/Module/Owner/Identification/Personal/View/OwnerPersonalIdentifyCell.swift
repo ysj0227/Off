@@ -23,6 +23,14 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
         view.textColor = kAppColor_333333
         return view
     }()
+    lazy var addressLabel: UILabel = {
+        let view = UILabel()
+        view.isHidden = true
+        view.textAlignment = .left
+        view.font = FONT_11
+        view.textColor = kAppColor_666666
+        return view
+    }()
     lazy var detailIcon: BaseImageView = {
         let view = BaseImageView.init()
         view.contentMode = .scaleAspectFit
@@ -73,6 +81,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
             if model.type == .OwnerPersonalIedntifyTypeIdentify {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
+                addressLabel.isHidden = true
                 ///身份类型0个人1企业2联合
                 if UserTool.shared.user_owner_identifytype == 0 {
                     numDescTF.text = "个人"
@@ -84,26 +93,33 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
             }else if model.type == .OwnerPersonalIedntifyTypeUserName{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
+                addressLabel.isHidden = true
                 numDescTF.text = userModel?.nickname
             }else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
+                addressLabel.isHidden = true
                 numDescTF.text = userModel?.idCard
             }else if model.type == .OwnerPersonalIedntifyTypeUploadIdentifyPhoto{
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
+                addressLabel.isHidden = true
                 numDescTF.text = userModel?.idCard
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
+                addressLabel.isHidden = false
                 numDescTF.text = userModel?.buildingName
+                addressLabel.text = userModel?.address
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingAddress{
-                numDescTF.isUserInteractionEnabled = true
-                detailIcon.isHidden = true
-                numDescTF.text = userModel?.address
+//                numDescTF.isUserInteractionEnabled = true
+//                detailIcon.isHidden = true
+//                addressLabel.isHidden = true
+//                numDescTF.text = userModel?.address
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingFCType{
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
+                addressLabel.isHidden = true
                 if userModel?.leaseType == 0 {
                     numDescTF.text = "自有房产"
                 }else if userModel?.leaseType == 1 {
@@ -121,7 +137,8 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
         addSubview(numDescTF)
         addSubview(detailIcon)
         addSubview(lineView)
-        
+        addSubview(addressLabel)
+
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -137,6 +154,10 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
             make.trailing.equalTo(detailIcon.snp.leading).offset(-9)
             make.centerY.equalToSuperview()
             make.leading.equalTo(titleLabel.snp.trailing)
+        }
+        addressLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(numDescTF.snp.bottom)
+            make.leading.equalTo(numDescTF)
         }
         lineView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
@@ -155,6 +176,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
             guard let blockk = self.buildingNameClickClouse else {
                 return
             }
+            addressLabel.text = ""
             blockk(numDescTF.text ?? "")
         }
     }
@@ -186,20 +208,20 @@ extension OwnerPersonalIdentifyCell: UITextFieldDelegate {
             }
             blockk(textField.text ?? "")
         }
-        //只有办公楼地址要在编辑结束的时候传过去
-        else if model.type == .OwnerPersonalIedntifyTypeBuildingAddress {
-            guard let blockk = self.buildingAddresEndEditingMessageCell else {
-                return
-            }
-            blockk(textField.text ?? "")
-        }
-        //只有办公楼名称要在编辑结束的时候传过去
-        else if model.type == .OwnerPersonalIedntifyTypeBuildingName {
-            guard let blockk = self.buildingNameEndEditingMessageCell else {
-                return
-            }
-            blockk(textField.text ?? "")
-        }
+//        //只有办公楼地址要在编辑结束的时候传过去
+//        else if model.type == .OwnerPersonalIedntifyTypeBuildingAddress {
+//            guard let blockk = self.buildingAddresEndEditingMessageCell else {
+//                return
+//            }
+//            blockk(textField.text ?? "")
+//        }
+//        //只有办公楼名称要在编辑结束的时候传过去
+//        else if model.type == .OwnerPersonalIedntifyTypeBuildingName {
+//            guard let blockk = self.buildingNameEndEditingMessageCell else {
+//                return
+//            }
+//            blockk(textField.text ?? "")
+//        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

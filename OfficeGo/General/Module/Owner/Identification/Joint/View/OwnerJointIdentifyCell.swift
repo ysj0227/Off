@@ -30,6 +30,14 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
         view.image = UIImage.init(named: "moreDetail")
         return view
     }()
+    lazy var addressLabel: UILabel = {
+        let view = UILabel()
+        view.isHidden = true
+        view.textAlignment = .left
+        view.font = FONT_11
+        view.textColor = kAppColor_666666
+        return view
+    }()
     lazy var lineView: UIView = {
         let view = UIView()
         view.backgroundColor = kAppColor_line_EEEEEE
@@ -70,6 +78,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             if model.type == .OwnerJointIedntifyTypeIdentigy {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
+                addressLabel.isHidden = true
                 ///身份类型0个人1企业2联合
                 if UserTool.shared.user_owner_identifytype == 0 {
                     numDescTF.text = "个人"
@@ -81,15 +90,20 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             }else if model.type == .OwnerJointIedntifyTypeBranchname{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
+                addressLabel.isHidden = false
                 numDescTF.text = userModel?.branchName
+                addressLabel.text = userModel?.address
             }else if model.type == .OwnerJointIedntifyTypeCompanyname{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
+                addressLabel.isHidden = true
                 numDescTF.text = userModel?.company
             }else if model.type == .OwnerJointIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
+                addressLabel.isHidden = false
                 numDescTF.text = userModel?.buildingName
+                addressLabel.text = userModel?.address
             }
         }
     }
@@ -100,7 +114,8 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
         addSubview(numDescTF)
         addSubview(detailIcon)
         addSubview(lineView)
-        
+        addSubview(addressLabel)
+
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -116,6 +131,10 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             make.trailing.equalTo(detailIcon.snp.leading).offset(-9)
             make.centerY.equalToSuperview()
             make.leading.equalTo(titleLabel.snp.trailing)
+        }
+        addressLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(numDescTF.snp.bottom)
+            make.leading.equalTo(numDescTF)
         }
         lineView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
@@ -134,6 +153,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             guard let blockk = self.branchNameClickClouse else {
                 return
             }
+            addressLabel.text = ""
             blockk(numDescTF.text ?? "")
         }
         
@@ -149,6 +169,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             guard let blockk = self.buildingNameClickClouse else {
                 return
             }
+            addressLabel.text = ""
             blockk(numDescTF.text ?? "")
         }
     }
@@ -167,13 +188,13 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
 extension OwnerJointIdentifyCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        //只有网点名称要在编辑结束的时候传过去
-        if model.type == .OwnerJointIedntifyTypeBuildingName {
-            guard let blockk = self.buildingNameEndEditingMessageCell else {
-                return
-            }
-            blockk(textField.text ?? "")
-        }
+//        //只有网点名称要在编辑结束的时候传过去
+//        if model.type == .OwnerJointIedntifyTypeBuildingName {
+//            guard let blockk = self.buildingNameEndEditingMessageCell else {
+//                return
+//            }
+//            blockk(textField.text ?? "")
+//        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

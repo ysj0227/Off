@@ -407,6 +407,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.branchNameClickClouse = { [weak self] (branchName) in
+                self?.userModel?.address = ""
                 self?.branchName = branchName
             }
             cell?.companyNameClickClouse = { [weak self] (companyName) in
@@ -415,10 +416,10 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
                 self?.buildingName = buildingName
             }
-            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
-                self?.userModel?.buildingName = buildingNAme
-                self?.loadCollectionData()
-            }
+//            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
+//                self?.userModel?.buildingName = buildingNAme
+//                self?.loadCollectionData()
+//            }
             return cell ?? OwnerJointIdentifyCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell

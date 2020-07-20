@@ -108,7 +108,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                     OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeCompanyname)])
         
         arr.append([OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingName),
-                    OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingAddress),
+//                    OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingAddress),
                     OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeBuildingFCType)])
         
         arr.append([OwnerCompanyIedntifyConfigureModel.init(types: .OwnerCompanyIedntifyTypeUploadFangchanzheng)])
@@ -341,16 +341,17 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 self?.companyName = companyName
             }
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
+                self?.userModel?.address = ""
                 self?.buildingName = buildingName
             }
-            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
-                self?.userModel?.address = buildingAddres
-                self?.loadCollectionData()
-            }
-            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
-                self?.userModel?.buildingName = buildingNAme
-                self?.loadCollectionData()
-            }
+//            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
+//                self?.userModel?.address = buildingAddres
+//                self?.loadCollectionData()
+//            }
+//            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
+//                self?.userModel?.buildingName = buildingNAme
+//                self?.loadCollectionData()
+//            }
             return cell ?? OwnerCompanyIdentifyCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
@@ -476,7 +477,7 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 leftBtnClick()
             }
         }else if indexPath.section == 1 {
-            if indexPath.item == 2 {
+            if indexPath.item == 1 {
                 
                 let alertController = UIAlertController.init(title: "房产类型", message: nil, preferredStyle: .actionSheet)
                 let refreshAction = UIAlertAction.init(title: "自有房产", style: .default) {[weak self] (action: UIAlertAction) in

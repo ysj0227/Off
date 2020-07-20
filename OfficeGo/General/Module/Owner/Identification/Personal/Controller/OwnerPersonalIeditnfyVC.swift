@@ -78,7 +78,7 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         ])
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeUploadIdentifyPhoto)])
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingName),
-                    OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingAddress),
+//                    OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingAddress),
                     OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeBuildingFCType)])
         
         arr.append([OwnerPersonalIedntifyConfigureModel.init(types: .OwnerPersonalIedntifyTypeUploadFangchanzheng)])
@@ -357,16 +357,17 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
+                self?.userModel?.address = ""
                 self?.buildingName = buildingName
             }
-            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
-                self?.userModel?.address = buildingAddres
-                self?.loadCollectionData()
-            }
-            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
-                self?.userModel?.buildingName = buildingNAme
-                self?.loadCollectionData()
-            }
+//            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
+//                self?.userModel?.address = buildingAddres
+//                self?.loadCollectionData()
+//            }
+//            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
+//                self?.userModel?.buildingName = buildingNAme
+//                self?.loadCollectionData()
+//            }
             return cell ?? OwnerPersonalIdentifyCell()
         }else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerIdCardImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerIdCardImagePickerCell
@@ -481,7 +482,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             }
             
         }else if indexPath.section == 2 {
-            if indexPath.item == 2 {
+            if indexPath.item == 1 {
                 
                 let alertController = UIAlertController.init(title: "房产类型", message: nil, preferredStyle: .actionSheet)
                 let refreshAction = UIAlertAction.init(title: "自有房产", style: .default) {[weak self] (action: UIAlertAction) in
