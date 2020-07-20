@@ -111,3 +111,51 @@ class SubwayCategorySecondLevelSelectModel: HandyJSON {
     required init() {
     }
 }
+
+
+//城市区域商圈选择
+//商圈模型
+class CityAreaCategorySelectModel: HandyJSON {
+    
+    ///商圈
+    var name: String?
+    
+    //用来标记 选中的商圈区
+    var isFirstSelectedModel: CityAreaCategoryFirstLevelSelectModel?
+
+    ///商圈数组
+    var data = [CityAreaCategoryFirstLevelSelectModel]()
+    
+    required init() {
+    }
+    
+}
+
+//商圈选择model
+class CityAreaCategoryFirstLevelSelectModel: HandyJSON {
+    ///1号线
+    var district: String?
+    
+    var districtID: String?
+
+    
+    //用来标记 选中的商圈区
+    var isSencondSelectedModel: CityAreaCategorySecondLevelSelectModel?
+    
+    ///商圈数组
+    var list = [CityAreaCategorySecondLevelSelectModel]()
+    
+    required init() {
+    }
+}
+
+//商圈选择model
+class CityAreaCategorySecondLevelSelectModel: HandyJSON {
+    var id: String?
+    var area: String?
+    var district: String?
+    var districtNum: String?
+    var isSelected: Bool? //商圈区，可以多选
+    required init() {
+    }
+}

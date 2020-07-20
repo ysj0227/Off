@@ -11,6 +11,10 @@ import Alamofire
 
 class OwnerCreateBranchViewController: BaseTableViewController {
         
+    var districtAreaString: String?
+    
+    var areaModelCount = CityAreaCategorySelectModel()
+    
     var mainPicPhoto: UIImageView = {
         
         let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
@@ -42,12 +46,26 @@ class OwnerCreateBranchViewController: BaseTableViewController {
     
     var branchModel: OwnerESBuildingSearchModel?
     
+    lazy var areaView: CityDistrictAddressSelectView = {
+        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: kNavigationHeight + cell_height_58 * 2, width: kWidth, height: kHeight - kNavigationHeight - cell_height_58 * 2 - bottomMargin()))
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
         
         setUpData()
+            
+        request_getDistrict()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        //移除弹框
+        CityDistrictAddressSelectView.removeShowView()
+
     }
     
 }
@@ -198,7 +216,49 @@ extension OwnerCreateBranchViewController {
         
         addNotify()
     }
+    //MARK: 获取商圈数据
+    func request_getDistrict() {
+        //查询类型，1：全部，0：系统已有楼盘的商圈
+        var params = [String:AnyObject]()
+        params["type"] = 1 as AnyObject?
+        SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
+            if let model = CityAreaCategorySelectModel.deserialize(from: response) {
+                model.name = "上海"
+                self?.areaModelCount = model
+            }
+            
+            }, failure: { [weak self] (error) in
+                
+        }) { [weak self] (code, message) in
+            
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    func judgeHasData() {
+        if areaModelCount.data.count  > 0 {
+            self.showArea(isFrist: true)
+        }else {
+            request_getDistrict()
+        }
+    }
     
+    func showArea(isFrist: Bool) {
+        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount, clearButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+            self?.districtAreaString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区 \(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+            self?.areaModelCount = selectModel
+            
+            }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+                self?.districtAreaString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区 \(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+                self?.branchModel?.buildingAddress = self?.districtAreaString
+                self?.areaModelCount = selectModel
+                self?.tableView.reloadData()
+                
+        })
+    }
     
 }
 
@@ -228,7 +288,7 @@ extension OwnerCreateBranchViewController {
         
         if typeSourceArray[indexPath.row].type == .OwnerCreteBranchTypeBranchDistrictArea{
             ///区域商圈选择
-            
+            judgeHasData()
         }
     }
 }
@@ -258,7 +318,7 @@ class OwnerCreateBranchCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = false
                 detailIcon.isHidden = false
-                editLabel.text = branchModel?.address
+                editLabel.text = branchModel?.buildingAddress
             }else if model.type == .OwnerCreteBranchTypeBranchAddress{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false

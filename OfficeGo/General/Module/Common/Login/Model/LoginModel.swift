@@ -109,6 +109,16 @@ class OwnerIdentifyUserModel: BaseModel {
     var wxId : String?
     
     var accountStatus : Int?
+    
+    //公司地址
+    var companyAddress : String?
+
+    //办公楼地址
+    var buildingAddress : String?
+
+    //网点名字
+    var jointAddress : String?
+
     var address : String?
     
     ///审核状态0待审核1审核通过2审核未通过 - 没有提交过为-1

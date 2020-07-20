@@ -10,15 +10,19 @@ import CLImagePickerTool
 import Alamofire
 class OwnerCreateBuildingViewController: BaseTableViewController {
     
+    var districtAreaString: String?
+    
+    var areaModelCount = CityAreaCategorySelectModel()
+    
     var mainPicPhoto: UIImageView = {
-           
-           let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
-           view.image = UIImage.init(named: "addImgBg")
-           view.isUserInteractionEnabled = true
-           return view
-       }()
-       
-       var selectedAvatarData: NSData?
+        
+        let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        view.image = UIImage.init(named: "addImgBg")
+        view.isUserInteractionEnabled = true
+        return view
+    }()
+    
+    var selectedAvatarData: NSData?
     
     lazy var bottomBtnView: BottomBtnView = {
         let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
@@ -41,12 +45,26 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
     
     var buildingModel: OwnerESBuildingSearchModel?
     
+    
+    lazy var areaView: CityDistrictAddressSelectView = {
+        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: kNavigationHeight + cell_height_58 * 2, width: kWidth, height: kHeight - kNavigationHeight - cell_height_58 * 2 - bottomMargin()))
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
         
         setUpData()
+        
+        request_getDistrict()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        //移除弹框
+        CityDistrictAddressSelectView.removeShowView()
     }
     
 }
@@ -85,53 +103,53 @@ extension OwnerCreateBuildingViewController {
         }
         
         let textMessageTap = UITapGestureRecognizer(target: self, action: #selector(imgClickGesture(_:)))
-               textMessageTap.numberOfTapsRequired = 1
-               textMessageTap.numberOfTouchesRequired = 1
-               mainPicPhoto.addGestureRecognizer(textMessageTap)
-               
-               let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
-               footerview.addSubview(mainPicPhoto)
-               
-               self.tableView.tableFooterView = footerview
+        textMessageTap.numberOfTapsRequired = 1
+        textMessageTap.numberOfTouchesRequired = 1
+        mainPicPhoto.addGestureRecognizer(textMessageTap)
+        
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        footerview.addSubview(mainPicPhoto)
+        
+        self.tableView.tableFooterView = footerview
     }
     @objc private func imgClickGesture(_ tap: UITapGestureRecognizer) {
-           
-           pickerSelect()
-       }
-       func pickerSelect() {
-           imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
-               SSLog("返回的asset数组是\(asset)")
-               
-               var imageArr = [UIImage]()
-               var index = asset.count // 标记失败的次数
-               
-               // 获取原图，异步
-               // scale 指定压缩比
-               // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
-               CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                   imageArr.append(image)
-                   self?.dealImage(imageArr: imageArr, index: index)
-                   }, failedClouse: { () in
-                       index = index - 1
-                       //                    self?.dealImage(imageArr: imageArr, index: index)
-               })
-           }
-       }
-       @objc func dealImage(imageArr:[UIImage],index:Int) {
-           
-           if imageArr.count == index {
-               //              PopViewUtil.share.stopLoading()
-               
-           }
-           let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
-           mainPicPhoto.image = image
-           
-           /*
-            let image2 = image?.crop(ratio: 1)
+        
+        pickerSelect()
+    }
+    func pickerSelect() {
+        imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+            SSLog("返回的asset数组是\(asset)")
             
-            self.upload(uploadImage: image2 ?? UIImage.init())
-            */
-       }
+            var imageArr = [UIImage]()
+            var index = asset.count // 标记失败的次数
+            
+            // 获取原图，异步
+            // scale 指定压缩比
+            // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                imageArr.append(image)
+                self?.dealImage(imageArr: imageArr, index: index)
+                }, failedClouse: { () in
+                    index = index - 1
+                    //                    self?.dealImage(imageArr: imageArr, index: index)
+            })
+        }
+    }
+    @objc func dealImage(imageArr:[UIImage],index:Int) {
+        
+        if imageArr.count == index {
+            //              PopViewUtil.share.stopLoading()
+            
+        }
+        let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
+        mainPicPhoto.image = image
+        
+        /*
+         let image2 = image?.crop(ratio: 1)
+         
+         self.upload(uploadImage: image2 ?? UIImage.init())
+         */
+    }
     func setUpData() {
         
         typeSourceArray.append(OwnerCreatBuildingConfigureModel.init(types: .OwnerCreteBuildingTypeBranchName))
@@ -149,24 +167,24 @@ extension OwnerCreateBuildingViewController {
     }
     
     private func upload(uploadImage:UIImage) {
-          
-          SSNetworkTool.SSMine.request_uploadAvatar(image: uploadImage, success: {[weak self] (response) in
-              
-              if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                  UserTool.shared.user_avatars = model.avatar
-                  AppUtilities.makeToast("头像已修改")
-              }
-              }, failure: { (error) in
-                  
-          }) { (code, message) in
-              
-              //只有5000 提示给用户
-              if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                  AppUtilities.makeToast(message)
-              }
-          }
-          
-      }
+        
+        SSNetworkTool.SSMine.request_uploadAvatar(image: uploadImage, success: {[weak self] (response) in
+            
+            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                UserTool.shared.user_avatars = model.avatar
+                AppUtilities.makeToast("头像已修改")
+            }
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+        
+    }
     
     func setSureBtnEnable(can: Bool) {
         self.bottomBtnView.rightSelectBtn.isUserInteractionEnabled = can
@@ -196,6 +214,49 @@ extension OwnerCreateBuildingViewController {
     func requestCreateCompany() {
         
         addNotify()
+    }
+    //MARK: 获取商圈数据
+    func request_getDistrict() {
+        //查询类型，1：全部，0：系统已有楼盘的商圈
+        var params = [String:AnyObject]()
+        params["type"] = 1 as AnyObject?
+        SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
+            if let model = CityAreaCategorySelectModel.deserialize(from: response) {
+                model.name = "上海"
+                self?.areaModelCount = model
+            }
+            
+            }, failure: { [weak self] (error) in
+                
+        }) { [weak self] (code, message) in
+            
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    func judgeHasData() {
+        if areaModelCount.data.count  > 0 {
+            self.showArea(isFrist: true)
+        }else {
+            request_getDistrict()
+        }
+    }
+    
+    func showArea(isFrist: Bool) {
+        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount, clearButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+            self?.districtAreaString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区 \(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+            self?.areaModelCount = selectModel
+            
+            }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+                self?.districtAreaString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区 \(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+                self?.buildingModel?.buildingAddress = self?.districtAreaString
+                self?.areaModelCount = selectModel
+                self?.tableView.reloadData()
+                
+        })
     }
     
     
@@ -227,7 +288,7 @@ extension OwnerCreateBuildingViewController {
         
         if typeSourceArray[indexPath.row].type == .OwnerCreteBuildingTypeBranchDistrictArea{
             ///区域商圈选择
-            
+            judgeHasData()
         }
     }
 }
@@ -235,7 +296,7 @@ extension OwnerCreateBuildingViewController {
 class OwnerCreateBuildingCell: BaseEditCell {
     
     var buildingModel: OwnerESBuildingSearchModel?
-
+    
     var endEditingMessageCell:((OwnerESBuildingSearchModel) -> Void)?
     
     override func setDelegate() {
@@ -257,7 +318,7 @@ class OwnerCreateBuildingCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = false
                 detailIcon.isHidden = false
-                editLabel.text = buildingModel?.address
+                editLabel.text = buildingModel?.buildingAddress
             }else if model.type == .OwnerCreteBuildingTypeBranchAddress{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false

@@ -9,6 +9,7 @@
 import UIKit
 
 class OwnerESBuildingSearchModel: BaseModel {
+    //详细地址
     var address : String?
     var bid : Int?
     var buildType : Int?
@@ -17,6 +18,8 @@ class OwnerESBuildingSearchModel: BaseModel {
     var dayPrice : Float?
     var district : String?
     var mainPic : String?
+    //城市商圈地址
+    var buildingAddress : String?
 }
 class OwnerESBuildingSearchViewModel: NSObject {
     ///1是办公楼，2是联合办公

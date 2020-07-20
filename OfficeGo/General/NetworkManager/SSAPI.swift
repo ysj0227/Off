@@ -41,7 +41,7 @@ import Foundation
                                "Release": "https://api.officego.com/"]
 
       static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
-                               "Release": "https://m.officego.com/"]
+                              "Release": "https://m.officego.com/"]
  
 //    调试接口地址:debug.officego.com.cn
 //    调试前端地址:test1.officego.com.cn

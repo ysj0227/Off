@@ -194,6 +194,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             if let model = noti.object as? OwnerESBuildingSearchModel {
                 self?.userModel?.branchName = model.buildingName
+                self?.userModel?.address = "\(model.buildingAddress ?? "")\(model.address ?? "")"
                 self?.branchSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
