@@ -288,11 +288,8 @@ class OwnerCreateView: UIView {
             }
                 //联合办公没有写字楼创建按钮
             else if UserTool.shared.user_owner_identifytype == 2 {
-//                descLabel.text = ""
-//                creatBtn.setTitle("", for: .normal)
-                descLabel.text = "写字楼不存在，去创建写字楼"
-                creatBtn.setTitle("创建写字楼", for: .normal)
-                
+                descLabel.text = ""
+                creatBtn.setTitle("", for: .normal)
             }
         }
         
