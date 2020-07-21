@@ -268,9 +268,27 @@ extension OwnerCompanyESearchResultListViewController {
             }
         }else {
             if let model = self.dataSource[indexPath.row] as? OwnerESCompanySearchModel {
-                // 点击cell调用闭包
-                let viewModel = OwnerESCompanySearchViewModel.init(model: model)
-                companyCallBack(viewModel)
+                ///身份类型0个人1企业2联合
+                if UserTool.shared.user_owner_identifytype == 1 {
+                    //1 企业认证 2已认证网点
+                    if model.identityType == "1" {
+                        // 点击cell调用闭包
+                        let viewModel = OwnerESCompanySearchViewModel.init(model: model)
+                        companyCallBack(viewModel)
+                    }else {
+                        
+                    }
+                }else if UserTool.shared.user_owner_identifytype == 2 {
+                    //1 企业认证 2已认证网点
+                    if model.identityType == "2" {
+                        // 点击cell调用闭包
+                        let viewModel = OwnerESCompanySearchViewModel.init(model: model)
+                        companyCallBack(viewModel)
+                    }else {
+                        
+                    }
+                }
+                
             }
         }
         

@@ -16,6 +16,8 @@ class OwnerESCompanySearchModel: BaseModel {
     
     var realname : String?
 
+    //1 企业认证 2已认证网点
+    var identityType : String?
     /*
      公司名称
      */
@@ -33,9 +35,14 @@ class OwnerESCompanySearchViewModel: NSObject {
     ///地址
     var addressString : NSMutableAttributedString?
     
+    //1 企业认证 2已认证网点
+    var identityType : String?
+    
     init(model:OwnerESCompanySearchModel) {
                 
         bid = model.bid
+        
+        identityType = model.identityType
         
         realname = model.realname
         
