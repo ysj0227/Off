@@ -285,10 +285,15 @@ extension BaseWebViewController: WKNavigationDelegate {
         LoadingHudView.hideHud()
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        LoadingHudView.hideHud()
+
         /*
          AppUtilities.makeToast(error.localizedDescription)*/
-        noDataView.isHidden = false
-        LoadingHudView.hideHud()
+//        if error.code == NSURLErrorCancelled {
+//            noDataView.isHidden = true
+//        }else {
+//            noDataView.isHidden = false
+//        }
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
