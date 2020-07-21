@@ -187,6 +187,18 @@ extension RenterUserMsgViewController {
     
     func requestEditUserMessage() {
         
+       if userModel?.realname?.isBlankString == true {
+           AppUtilities.makeToast("请输入姓名")
+           return
+       }
+       
+       if userModel?.sex == "1" || userModel?.sex == "0" {
+           
+       }else {
+           AppUtilities.makeToast("请选择性别")
+           return
+       }
+        
         setSureBtnEnable(can: false)
 
         var params = [String:AnyObject]()

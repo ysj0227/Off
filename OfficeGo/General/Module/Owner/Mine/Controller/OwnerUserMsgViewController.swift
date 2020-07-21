@@ -144,6 +144,7 @@ extension OwnerUserMsgViewController {
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeCompany))
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeJob))
+        typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeWechat))
         
         self.tableView.reloadData()
     }
@@ -187,6 +188,18 @@ extension OwnerUserMsgViewController {
     
     func requestEditUserMessage() {
         
+        if userModel?.proprietorRealname?.isBlankString == true {
+            AppUtilities.makeToast("请输入姓名")
+            return
+        }
+        
+        if userModel?.sex == "1" || userModel?.sex == "0" {
+            
+        }else {
+            AppUtilities.makeToast("请选择性别")
+            return
+        }
+        
         setSureBtnEnable(can: false)
         
         var params = [String:AnyObject]()
@@ -212,7 +225,7 @@ extension OwnerUserMsgViewController {
          }
          }*/
         
-        //params["WX"] = userModel?.wxId as AnyObject?
+        params["WX"] = userModel?.wxId as AnyObject?
         params["company"] = userModel?.proprietorCompany as AnyObject?
         params["job"] = userModel?.proprietorJob as AnyObject?
         

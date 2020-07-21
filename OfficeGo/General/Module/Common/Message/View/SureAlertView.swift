@@ -331,6 +331,22 @@ class SureAlertView: UIView {
         
         bgview.addSubview(messageLabel)
         
+        var titleHeight: CGFloat = 0
+        
+        if alertTitleMsg.isBlankString {
+            
+        }else {
+            let size = alertTitleMsg.boundingRect(with: CGSize(width: kMessageAlertWidth - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_15], context: nil)
+            
+            titleHeight = size.height + 1
+            
+            titleHeight = titleHeight + 20
+            
+            if titleHeight < btnHeight_50 {
+                titleHeight = btnHeight_50
+            }
+        }
+        
         var height: CGFloat = 0
         
         if alertDescMsg.isBlankString {
@@ -343,7 +359,7 @@ class SureAlertView: UIView {
 
         bgview.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageAlertHeight + height))
+            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageLayoutAlertHeight + height + titleHeight))
         }
         bottomBtnView.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview()
@@ -351,8 +367,9 @@ class SureAlertView: UIView {
             make.height.equalTo(btnHeight_50)
         }
         alertMessageLabel.snp.remakeConstraints { (make) in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(btnHeight_50)
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(15)
+            make.height.equalTo(titleHeight)
         }
 
         messageLabel.snp.makeConstraints { (make) in
