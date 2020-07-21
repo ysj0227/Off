@@ -179,6 +179,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
     }
     
     override func leftBtnClick() {
+        self.headerCollectionView.endEditing(true)
         let alert = SureAlertView(frame: self.view.frame)
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "企业认证未完成，点击保存下次可继续编辑。点击离开，已编辑信息不保存", cancelButtonCallClick: { [weak self] in
             
@@ -195,7 +196,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
 extension OwnerCompanyIeditnfyVC {
     
     @objc func logotClick() {
-        
+        self.headerCollectionView.endEditing(true)
         showCommitAlertview()
     }
     func setUpData() {
