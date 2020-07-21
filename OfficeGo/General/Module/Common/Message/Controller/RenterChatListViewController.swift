@@ -173,17 +173,35 @@ extension RenterChatListViewController {
             if conversationModelType == .CONVERSATION_MODEL_TYPE_COLLECTION {
                 
             }else {
-                let vc = RenterChatViewController()
-                vc.conversationType = .ConversationType_PRIVATE
-                vc.targetId = model.targetId
-                vc.title = model.conversationTitle
-                vc.unReadMessage = model.unreadMessageCount
-                vc.enableNewComingMessageIcon = true  //开启消息提醒
-                if model.conversationType == .ConversationType_SYSTEM {
-                }else {
-                    vc.displayUserNameInCell = false
+                if model.targetId.count > 0 {
+                    let subStr = model.targetId.suffix(1)
+                    //自己是业主 并且对方也是业主
+                    if UserTool.shared.user_id_type == 1 && subStr == "1" {
+                        let vc = OwnerChatViewController()
+                        vc.conversationType = .ConversationType_PRIVATE
+                        vc.targetId = model.targetId
+                        vc.title = model.conversationTitle
+                        vc.unReadMessage = model.unreadMessageCount
+                        vc.enableNewComingMessageIcon = true  //开启消息提醒
+                        if model.conversationType == .ConversationType_SYSTEM {
+                        }else {
+                            vc.displayUserNameInCell = false
+                        }
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }else {
+                        let vc = RenterChatViewController()
+                        vc.conversationType = .ConversationType_PRIVATE
+                        vc.targetId = model.targetId
+                        vc.title = model.conversationTitle
+                        vc.unReadMessage = model.unreadMessageCount
+                        vc.enableNewComingMessageIcon = true  //开启消息提醒
+                        if model.conversationType == .ConversationType_SYSTEM {
+                        }else {
+                            vc.displayUserNameInCell = false
+                        }
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
-                self.navigationController?.pushViewController(vc, animated: true)
 
             }
         }

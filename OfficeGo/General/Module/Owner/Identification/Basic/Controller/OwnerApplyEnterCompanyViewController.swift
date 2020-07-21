@@ -102,6 +102,13 @@ extension OwnerApplyEnterCompanyViewController {
     ///加入公司接口 -
     func requestApplyEnterCompany() {
         addNotify()
+        let vc = OwnerChatViewController()
+        vc.needPopToRootView = true
+        vc.conversationType = .ConversationType_PRIVATE
+        vc.targetId = "4141"
+        vc.enableNewComingMessageIcon = true  //开启消息提醒
+        vc.displayUserNameInCell = false
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     //发送加入公司和网点公司的通知

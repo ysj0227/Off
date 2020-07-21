@@ -152,6 +152,7 @@
 		04E23989249B3ED2009DCCEC /* OwnerMineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23988249B3ED2009DCCEC /* OwnerMineViewController.swift */; };
 		04E2398B249B3F0D009DCCEC /* OwnerChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2398A249B3F0D009DCCEC /* OwnerChatListViewController.swift */; };
 		04E23995249B4745009DCCEC /* OwnerHouseScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23994249B4745009DCCEC /* OwnerHouseScheduleViewController.swift */; };
+		04E6B20424C67DAA00DC75E3 /* OwnerChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6B20324C67DAA00DC75E3 /* OwnerChatViewController.swift */; };
 		04EF1E41247777B700871762 /* RenterMainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E40247777B700871762 /* RenterMainTabBarController.swift */; };
 		04EF1E45247777E400871762 /* SSTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E42247777E200871762 /* SSTabBarItem.swift */; };
 		04EF1E46247777E400871762 /* SSTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E43247777E300871762 /* SSTabBarView.swift */; };
@@ -430,6 +431,7 @@
 		04E23988249B3ED2009DCCEC /* OwnerMineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerMineViewController.swift; sourceTree = "<group>"; };
 		04E2398A249B3F0D009DCCEC /* OwnerChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerChatListViewController.swift; sourceTree = "<group>"; };
 		04E23994249B4745009DCCEC /* OwnerHouseScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerHouseScheduleViewController.swift; sourceTree = "<group>"; };
+		04E6B20324C67DAA00DC75E3 /* OwnerChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerChatViewController.swift; sourceTree = "<group>"; };
 		04EF1E40247777B700871762 /* RenterMainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterMainTabBarController.swift; sourceTree = "<group>"; };
 		04EF1E42247777E200871762 /* SSTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTabBarItem.swift; sourceTree = "<group>"; };
 		04EF1E43247777E300871762 /* SSTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTabBarView.swift; sourceTree = "<group>"; };
@@ -1233,6 +1235,7 @@
 			isa = PBXGroup;
 			children = (
 				04E2398A249B3F0D009DCCEC /* OwnerChatListViewController.swift */,
+				04E6B20324C67DAA00DC75E3 /* OwnerChatViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2019,6 +2022,7 @@
 				04CB4798249CB47B001BCC8F /* RenterMineCell.swift in Sources */,
 				04E2393D249B3ABB009DCCEC /* RenterDetailPlayerImageHeaderView.swift in Sources */,
 				EEE87B0F2455856800C03424 /* JHCollectionViewController.swift in Sources */,
+				04E6B20424C67DAA00DC75E3 /* OwnerChatViewController.swift in Sources */,
 				04E23941249B3ABB009DCCEC /* HotCityTableViewCell.swift in Sources */,
 				EEE87B5424558F9800C03424 /* EmptyContentView.swift in Sources */,
 				04E23949249B3ABB009DCCEC /* AreaAddressView.swift in Sources */,
