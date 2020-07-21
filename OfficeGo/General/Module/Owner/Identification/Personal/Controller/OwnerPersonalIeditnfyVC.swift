@@ -501,7 +501,12 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             let width = (kWidth - left_pending_space_17 * 3) / 2.0 - 1
             return CGSize(width: width, height: width * 3 / 4.0)
         }else if indexPath.section == 2 {
-            return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
+            let model = typeSourceArray[2][indexPath.item]
+            if model.type == .OwnerPersonalIedntifyTypeBuildingName {
+                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58 + 18)
+            }else {
+                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
+            }
         }else if indexPath.section == 3 || indexPath.section == 4 {
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }

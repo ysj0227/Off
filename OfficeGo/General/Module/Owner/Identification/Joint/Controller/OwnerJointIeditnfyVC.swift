@@ -542,9 +542,19 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if indexPath.section == 0 {
-            return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
+            let model = typeSourceArray[0][indexPath.item]
+            if model.type == .OwnerJointIedntifyTypeBranchname {
+                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58 + 18)
+            }else {
+                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
+            }
         }else if indexPath.section == 1 {
-            return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
+            let model = typeSourceArray[1][indexPath.item]
+            if model.type == .OwnerJointIedntifyTypeBuildingName {
+                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58 + 18)
+            }else {
+                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
+            }
         }else if indexPath.section == 2 {
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 3 {
