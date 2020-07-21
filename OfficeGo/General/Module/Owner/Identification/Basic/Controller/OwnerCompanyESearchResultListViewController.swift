@@ -14,6 +14,32 @@ class OwnerCompanyESearchResultListViewController: BaseTableViewController {
     
     var isBranch: Bool? = false
     
+    let topView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: cell_height_58))
+        view.backgroundColor = kAppWhiteColor
+        return view
+    }()
+    
+    lazy var descLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_13
+        view.text = ""
+        view.textColor = kAppColor_999999
+        return view
+    }()
+    
+    lazy var closeBtn: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
+        //        view.setTitle("关闭", for: .normal)
+        //        view.setTitleColor(kAppBlueColor, for: .normal)
+        return view
+    }()
+    
+    ///点击关闭按钮 - 关闭页面
+    var closeButtonCallClick:(() -> Void)?
+    
     ///创建回调
     var creatButtonCallClick:(() -> Void)?
     
@@ -22,7 +48,7 @@ class OwnerCompanyESearchResultListViewController: BaseTableViewController {
     
     ///网点搜索回调
     var branchCallBack: (OwnerESBuildingSearchViewModel) -> () = {_ in }
-
+    
     var keywords: String? = "" {
         didSet {
             dataSource.removeAll()
@@ -148,8 +174,53 @@ extension OwnerCompanyESearchResultListViewController {
         
         self.tableView.register(OwnerCompanyESSearchIdentifyCell.self, forCellReuseIdentifier: OwnerCompanyESSearchIdentifyCell.reuseIdentifierStr)
         
+        topView.addSubview(descLabel)
+        topView.addSubview(closeBtn)
+        descLabel.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview().offset(left_pending_space_17)
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-left_pending_space_17)
+        }
+        closeBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(topView.height)
+            make.top.trailing.equalToSuperview()
+        }
+        closeBtn.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
+        
+        setTitle()
     }
     
+    func setTitle() {
+        ///身份类型0个人1企业2联合
+        //没有公司
+        if UserTool.shared.user_owner_identifytype == 0 {
+            
+        }
+            //展示认证标签 公司名字 描述 加入按钮
+        else if UserTool.shared.user_owner_identifytype == 1 {
+            descLabel.text = "加入公司，即可共同管理公司房源"
+        }
+            //只展示大楼名称
+        else if UserTool.shared.user_owner_identifytype == 2 {
+            //判断是否是网点
+            //隐藏标签 展示网点名字 描述 加入按钮
+            if isBranch == true {
+                descLabel.text = "加入网点，即可共同管理网点房源"
+            }else {
+                //网点公司
+                //隐藏标签 描述  展示网点名字  加入按钮
+                descLabel.text = ""
+            }
+        }
+    }
+    
+    //关闭按钮
+    @objc func closeVC() {
+        guard let blockk = closeButtonCallClick else {
+            return
+        }
+        blockk()
+    }
     
 }
 
@@ -161,18 +232,18 @@ extension OwnerCompanyESearchResultListViewController {
         cell?.selectionStyle = .none
         if isBranch == true {
             if self.dataSource.count > 0 {
-                       if let model = self.dataSource[indexPath.row]  {
-                           cell?.buildingModel = model as? OwnerESBuildingSearchModel
-                       }
-                   }
+                if let model = self.dataSource[indexPath.row]  {
+                    cell?.buildingModel = model as? OwnerESBuildingSearchModel
+                }
+            }
         }else {
             if self.dataSource.count > 0 {
-                       if let model = self.dataSource[indexPath.row]  {
-                           cell?.companyModel = model as? OwnerESCompanySearchModel
-                       }
-                   }
+                if let model = self.dataSource[indexPath.row]  {
+                    cell?.companyModel = model as? OwnerESCompanySearchModel
+                }
+            }
         }
-       
+        
         return cell ?? OwnerCompanyESSearchIdentifyCell.init(frame: .zero)
     }
     
@@ -220,6 +291,33 @@ extension OwnerCompanyESearchResultListViewController {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return cell_height_58
+    }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return topView
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if UserTool.shared.user_owner_identifytype == 0 {
+            return cell_height_30
+        }
+            //展示认证标签 公司名字 描述 加入按钮
+        else if UserTool.shared.user_owner_identifytype == 1 {
+            return cell_height_58
+        }
+            //只展示大楼名称
+        else if UserTool.shared.user_owner_identifytype == 2 {
+            //判断是否是网点
+            //隐藏标签 展示网点名字 描述 加入按钮
+            if isBranch == true {
+                return cell_height_58
+            }else {
+                //网点公司
+                //隐藏标签 描述  展示网点名字  加入按钮
+                return cell_height_30
+            }
+        }else {
+            return cell_height_30
+        }
     }
 }
 

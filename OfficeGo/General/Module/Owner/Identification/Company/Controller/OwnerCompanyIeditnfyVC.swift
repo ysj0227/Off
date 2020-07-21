@@ -54,7 +54,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                 buildingNameSearchResultVC?.keywords = buildingName
             }
             buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview().offset(-bottomMargin())
             })
@@ -251,7 +251,10 @@ extension OwnerCompanyIeditnfyVC {
             let vc = OwnerCreateCompanyViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
         }
-        
+        // 关闭按钮 - 隐藏页面
+        companySearchResultVC?.closeButtonCallClick = {[weak self] in
+            self?.companySearchResultVC?.view.isHidden = true
+        }
         //办公楼
         buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
         buildingNameSearchResultVC?.view.isHidden = true
@@ -274,7 +277,10 @@ extension OwnerCompanyIeditnfyVC {
             let vc = OwnerCreateBuildingViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
         }
-        
+        // 关闭按钮 - 隐藏页面
+        buildingNameSearchResultVC?.closeButtonCallClick = {[weak self] in
+            self?.buildingNameSearchResultVC?.view.isHidden = true
+        }
         //第一次刷新列表
         loadCollectionData()
     }

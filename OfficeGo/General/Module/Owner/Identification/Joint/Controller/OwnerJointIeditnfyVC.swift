@@ -36,7 +36,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
                 branchSearchResultVC?.keywords = branchName
             }
             branchSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview().offset(-bottomMargin())
             })
@@ -87,7 +87,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
                 buildingNameSearchResultVC?.keywords = buildingName
             }
             buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview().offset(-bottomMargin())
             })
@@ -299,7 +299,10 @@ extension OwnerJointIeditnfyVC {
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
-        
+        // 关闭按钮 - 隐藏页面
+        branchSearchResultVC?.closeButtonCallClick = {[weak self] in
+            self?.branchSearchResultVC?.view.isHidden = true
+        }
         
         //公司名
         companySearchResultVC = OwnerCompanyESearchResultListViewController.init()
@@ -322,6 +325,10 @@ extension OwnerJointIeditnfyVC {
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
+        // 关闭按钮 - 隐藏页面
+        companySearchResultVC?.closeButtonCallClick = {[weak self] in
+            self?.companySearchResultVC?.view.isHidden = true
+        }
         
         
         //办公楼
@@ -345,6 +352,10 @@ extension OwnerJointIeditnfyVC {
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.userModel?.address = ""
             self?.loadCollectionData()
+        }
+        // 关闭按钮 - 隐藏页面
+        buildingNameSearchResultVC?.closeButtonCallClick = {[weak self] in
+            self?.buildingNameSearchResultVC?.view.isHidden = true
         }
         
         //第一次刷新列表
