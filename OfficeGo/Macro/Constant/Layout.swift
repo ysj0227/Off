@@ -46,6 +46,8 @@ let kNavigationHeight_Higher = kStatusBarHeight + 100
 
 let kMessageAlertWidth: CGFloat = 266
 
+let kMessageLayoutAlertHeight: CGFloat = 50
+
 let kMessageAlertHeight: CGFloat = 120
 
 let kMessageInputAlertHeight: CGFloat = 158
