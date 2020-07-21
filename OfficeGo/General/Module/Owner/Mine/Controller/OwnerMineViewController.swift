@@ -306,7 +306,12 @@ extension OwnerMineViewController {
         ///审核状态0待审核1审核通过2审核未通过-1未审核
         let auditStatus: Int = userModel?.auditStatus ?? -1
         ///审核通过1不显示
-        if auditStatus == 0 || auditStatus == 1 {
+        if auditStatus == 0 {
+            let vc = OwnerApplyEnterCompanyViewController()
+            vc.isFromMine = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if auditStatus == 1 {
+            
         }else {
                     
             var identifyType: OwnerIdentifyOrFYType?

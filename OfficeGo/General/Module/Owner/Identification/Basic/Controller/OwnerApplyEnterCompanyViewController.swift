@@ -10,6 +10,10 @@ import UIKit
 
 class OwnerApplyEnterCompanyViewController: BaseViewController {
     
+    //从个人中心点击进来查看审核状态
+    var isFromMine: Bool? = false
+    
+    //判断是加入公司还是加入网点
     var isBranch: Bool? = false
     
     let topview: OwnerApplyEnterConpanyTopview = {
@@ -27,6 +31,15 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
         view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
         view.rightSelectBtn.setTitle("发送申请", for: .normal)
         view.backgroundColor = kAppWhiteColor
+        return view
+    }()
+
+    lazy var descLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .center
+        view.font = FONT_10
+        view.text = "填写申请说明有助于管理员同意哦～"
+        view.textColor = kAppColor_999999
         return view
     }()
     
@@ -49,13 +62,33 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
 extension OwnerApplyEnterCompanyViewController {
     
     func setData() {
-        if isBranch == true {
-            topview.branchModel = branchModel
-            bottomView.userModel = companyModel
+        //来自个人中心 -
+        //隐藏输入框
+        //按钮文字修改
+        //按钮点击方法修改
+        if isFromMine == true {
+            bottomView.isHidden = true
+            descLabel.isHidden = true
+            bottomBtnView.rightSelectBtn.setTitle("撤销申请", for: .normal)
+            bottomBtnView.rightBtnClickBlock = { [weak self] in
+                
+                self?.requestCancelApply()
+            }
         }else {
-            topview.companyModel = companyModel
-            bottomView.userModel = companyModel
+            if isBranch == true {
+                topview.branchModel = branchModel
+                bottomView.userModel = companyModel
+            }else {
+                topview.companyModel = companyModel
+                bottomView.userModel = companyModel
+            }
+            bottomBtnView.rightBtnClickBlock = { [weak self] in
+                
+                
+                self?.requestApplyEnterCompany()
+            }
         }
+        
     }
     
     func setView() {
@@ -77,21 +110,12 @@ extension OwnerApplyEnterCompanyViewController {
         
         self.view.addSubview(bottomBtnView)
         
-        bottomBtnView.rightBtnClickBlock = { [weak self] in
-            
-            self?.requestApplyEnterCompany()
-        }
         bottomBtnView.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-bottomMargin())
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
         
-        let descLabel = UILabel()
-        descLabel.textAlignment = .center
-        descLabel.font = FONT_10
-        descLabel.text = "填写申请说明有助于管理员同意哦～"
-        descLabel.textColor = kAppColor_999999
         self.view.addSubview(descLabel)
         descLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()
@@ -99,7 +123,12 @@ extension OwnerApplyEnterCompanyViewController {
         }
     }
     
-    ///加入公司接口 -
+    ///撤销申请接口 -
+    func requestCancelApply() {
+        
+    }
+    
+    ///申请加入公司接口 -
     func requestApplyEnterCompany() {
         addNotify()
         let vc = OwnerChatViewController()
