@@ -217,7 +217,9 @@ extension OwnerPersonalIeditnfyVC {
         
         // 关闭按钮 - 隐藏页面
         buildingNameSearchResultVC?.closeButtonCallClick = {[weak self] in
+            self?.userModel?.buildingName = self?.buildingName
             self?.buildingNameSearchResultVC?.view.isHidden = true
+            self?.loadCollectionData()
         }
         
         //第一次刷新列表
