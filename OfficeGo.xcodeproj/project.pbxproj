@@ -32,6 +32,8 @@
 		047333272473D86500755192 /* Object+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333262473D86500755192 /* Object+ClassName.swift */; };
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
+		048D243924C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D243824C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift */; };
+		048D243B24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D243A24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift */; };
 		04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */; };
 		04990B9224BBF719008CDE6C /* ZKIDCardFloatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8E24BBF719008CDE6C /* ZKIDCardFloatingView.m */; };
 		04990B9324BBF719008CDE6C /* ZKIDCardCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8F24BBF719008CDE6C /* ZKIDCardCameraController.m */; };
@@ -307,6 +309,8 @@
 		047333262473D86500755192 /* Object+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Object+ClassName.swift"; sourceTree = "<group>"; };
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		048D243824C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyEnterCompanyOrBranchMessage.swift; sourceTree = "<group>"; };
+		048D243A24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyEnterCompanyOrBranchStatusMessage.swift; sourceTree = "<group>"; };
 		04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerIdenfySelectVC.swift; sourceTree = "<group>"; };
 		04990B8D24BBF719008CDE6C /* ZKIDCardCameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKIDCardCameraController.h; sourceTree = "<group>"; };
 		04990B8E24BBF719008CDE6C /* ZKIDCardFloatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKIDCardFloatingView.m; sourceTree = "<group>"; };
@@ -856,6 +860,8 @@
 				04CB46ED249CB02C001BCC8F /* WechatExchangeMessage.swift */,
 				04CB46EE249CB02C001BCC8F /* YLDatePicker.swift */,
 				04CB46EF249CB02C001BCC8F /* RenterMsgFYHeaderView.swift */,
+				048D243824C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift */,
+				048D243A24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2092,8 +2098,10 @@
 				0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */,
 				049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */,
 				EEE87B1C2455856800C03424 /* StatusBaEx.swift in Sources */,
+				048D243B24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift in Sources */,
 				04CB46FF249CB02C001BCC8F /* RenterMsgFYHeaderView.swift in Sources */,
 				EE4914B324692D35008D5689 /* UIView+ViewController.m in Sources */,
+				048D243924C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift in Sources */,
 				04E2391D249B3ABB009DCCEC /* RenterSearchViewController.swift in Sources */,
 				EE4914DB24692D62008D5689 /* LLSegmentedControl.swift in Sources */,
 				04CB478F249CB250001BCC8F /* RenterChangeWechatViewController.swift in Sources */,

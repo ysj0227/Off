@@ -48,18 +48,105 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
     
     //网点认证 - 网点
     var branchModel: OwnerESBuildingSearchViewModel?
+    
+    //管理员信息接口
+    var managerMsg: MessageFYChattedModel? {
+        didSet {
+            topview.managerMsg = managerMsg
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setView()
         setData()
+        requestApplyManagerMsg()
     }
     
     
 }
 
 extension OwnerApplyEnterCompanyViewController {
+    
+    ///申请加入公司管理员信息接口 -
+    func requestApplyManagerMsg() {
+                
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        //从详情进入的必传id
+        if UserTool.shared.user_owner_identifytype == 1 {
+            params["id"] = companyModel?.bid as AnyObject?
+        }else if UserTool.shared.user_owner_identifytype == 2 {
+            params["id"] = branchModel?.bid as AnyObject?
+        }
+
+        
+        SSNetworkTool.SSOwnerIdentify.request_getApplyManagerMsg(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.managerMsg = model
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+                        
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    ///申请加入公司接口 -
+    func requestApplyJoin() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        //申请加入的企业id
+        if UserTool.shared.user_owner_identifytype == 1 {
+            params["id"] = companyModel?.bid as AnyObject?
+        }else if UserTool.shared.user_owner_identifytype == 2 {
+            params["id"] = branchModel?.bid as AnyObject?
+        }
+
+        params["chattedId"] = managerMsg?.chattedId as AnyObject?
+
+        
+        SSNetworkTool.SSOwnerIdentify.request_getApplyJoin(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.requestApplyEnterCompany(id: model.id ?? -1)
+            }
+            
+            }, failure: {[weak self] (error) in
+                
+        }) {[weak self] (code, message) in
+                        
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
     
     func setData() {
         //来自个人中心 -
@@ -77,15 +164,13 @@ extension OwnerApplyEnterCompanyViewController {
         }else {
             if isBranch == true {
                 topview.branchModel = branchModel
-                bottomView.userModel = companyModel
             }else {
                 topview.companyModel = companyModel
-                bottomView.userModel = companyModel
             }
             bottomBtnView.rightBtnClickBlock = { [weak self] in
                 
                 
-                self?.requestApplyEnterCompany()
+                self?.requestApplyJoin()
             }
         }
         
@@ -128,13 +213,15 @@ extension OwnerApplyEnterCompanyViewController {
         
     }
     
-    ///申请加入公司接口 -
-    func requestApplyEnterCompany() {
-        addNotify()
+    ///申请加入公司操作 -
+    func requestApplyEnterCompany(id: Int) {
+        //addNotify()
         let vc = OwnerChatViewController()
         vc.needPopToRootView = true
         vc.conversationType = .ConversationType_PRIVATE
-        vc.targetId = "4141"
+        vc.content = bottomView.intruductionTextview.text
+        vc.applyJoinId = id
+        vc.targetId = managerMsg?.targetId
         vc.enableNewComingMessageIcon = true  //开启消息提醒
         vc.displayUserNameInCell = false
         self.navigationController?.pushViewController(vc, animated: true)
@@ -277,12 +364,20 @@ extension OwnerApplyEnterCompanyViewController {
         }
     }
     
+    //公司认证 网点认证 - 管理员信息
+    var managerMsg: MessageFYChattedModel? {
+        didSet {
+            avatarImg.setImage(with: managerMsg?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
+            nameLabel.text = "\(managerMsg?.authority ?? "")：\(managerMsg?.proprietorRealname ?? "") \(managerMsg?.proprietorJob ?? "")"
+        }
+    }
+    
+    //公司认证 - 加入公司
     var companyModel: OwnerESCompanySearchViewModel? {
         didSet {
             
             titleLabel.text = companyModel?.companyString?.string
-            avatarImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
-            nameLabel.text = "管理员：杨先生 CED"
+            
             if let address = companyModel?.addressString?.string {
                 if address.isBlankString == true {
                     addressICon.isHidden = true
@@ -298,12 +393,11 @@ extension OwnerApplyEnterCompanyViewController {
         }
     }
     
+    //网点认证 - 加入网点
     var branchModel: OwnerESBuildingSearchViewModel? {
         didSet {
             
             titleLabel.text = branchModel?.buildingAttributedName?.string
-            avatarImg.setImage(with: "", placeholder: UIImage.init(named: "avatar"))
-            nameLabel.text = "管理员：杨先生 CED"
             itemIcon.isHidden = true
             itemIcon.snp.makeConstraints { (make) in
                 make.size.equalTo(CGSize(width: 0, height: 22))
@@ -427,21 +521,20 @@ extension OwnerApplyEnterCompanyViewController {
             make.leading.trailing.equalToSuperview().inset(10)
             make.bottom.equalTo(numOfCharLabel.snp.top)
         }
+        
+        setTitle()
     }
     
     var isBranch: Bool? = false
 
-    var userModel: OwnerESCompanySearchViewModel? {
-        didSet {
-            
-            ///身份类型0个人1企业2联合
-            if UserTool.shared.user_owner_identifytype == 1 {
-                intruductionTextview.text = "我是用户\(userModel?.realname ?? "")，希望加入公司，请通过。"
-            }else if UserTool.shared.user_owner_identifytype == 2 {
-                intruductionTextview.text = "我是用户\(userModel?.realname ?? "")，希望加入网点，请通过。"
-            }
-            numOfCharLabel.text = String(format: "%ld/100",intruductionTextview.text.count)
+    func setTitle() {
+        ///身份类型0个人1企业2联合
+        if UserTool.shared.user_owner_identifytype == 1 {
+            intruductionTextview.text = "我是用户\(UserTool.shared.user_name ?? "")，希望加入公司，请通过。"
+        }else if UserTool.shared.user_owner_identifytype == 2 {
+            intruductionTextview.text = "我是用户\(UserTool.shared.user_name ?? "")，希望加入网点，请通过。"
         }
+        numOfCharLabel.text = String(format: "%ld/100",intruductionTextview.text.count)
     }
 }
 

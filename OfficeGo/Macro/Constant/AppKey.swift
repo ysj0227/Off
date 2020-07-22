@@ -56,4 +56,7 @@ struct AppKey {
     static let ExchangeWechatStatusMessageTypeIdentifier = "og:exwx"
     static let ExchangeViewingDateStatusMessageTypeIdentifier = "og:exfy"
 
+    static let ApplyEnterCompanyOrBranchMessageTypeIdentifier = "og.applyjoin"
+    static let ApplyEnterCompanyOrBranchStatusMessageTypeIdentifier = "og.applyjoinstatus"
+
 }

@@ -249,4 +249,15 @@ class MessageFYChattedModel: BaseModel {
     var job : String?
     var nickname : String?
     var typeId : Int?
+    
+    //获取管理员信息添加的字段
+    var authority : String?
+    var licenceId : String?
+    var proprietorJob : String?
+    var proprietorRealname : String?
+    
+    //申请加入公司成功返回的字段
+    var id: Int?
+    var userId : String?
+
 }

@@ -10,8 +10,9 @@ import UIKit
 
 class OwnerChatViewController: RCConversationViewController {
     
-    ///对方用户id
-    var chatUserId: String?
+    var content: String?
+    
+    var applyJoinId: Int?
     
     ///聊天详情
     var messageFYModel: MessageFYModel?
@@ -32,7 +33,14 @@ class OwnerChatViewController: RCConversationViewController {
         
         setupView()
         
+        ///获取用户信息 - 更新对方头像和昵称
         requestChatDetail()
+
+        if needPopToRootView == true {
+            
+            
+            ApplyJoinCompanyOrBranch()
+        }
         
         addNotify()
         
@@ -52,45 +60,10 @@ class OwnerChatViewController: RCConversationViewController {
         
     }
     
-    ///第一次发送调用
-    func request_addChatApp() {
-        
-        ///isChat":0//0 :点击发送按钮的时候需要调用addChat接口，1:不需要
-        if messageFYModel?.isChat == 1 {
-            return
-        }
-        
-        var params = [String:AnyObject]()
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        
-        //MARK: targetid - 只有获取详情的时候 - 需要截取一下最后一位身份标识
-        params["uid"] = String(targetId.prefix(targetId.count - 1)) as AnyObject?
-        
-        SSNetworkTool.SSChat.request_addChatApp(params: params, success: {[weak self] (response) in
-            
-            guard let weakSelf = self else {return}
-            
-            if let model = MessageFYModel.deserialize(from: response, designatedPath: "data") {
-                
-                weakSelf.messageFYModel?.isChat = model.isChat
-            }
-            
-            }, failure: { (error) in
-                
-                
-        }) { (code, message) in
-
-        }
-    }
     
     ///获取详情
     func requestChatDetail() {
-        
-        if needPopToRootView != true {
-            return
-        }
+                
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -106,11 +79,8 @@ class OwnerChatViewController: RCConversationViewController {
             
             if let model = MessageFYModel.deserialize(from: response, designatedPath: "data") {
                 
-                weakSelf.messageFYModel = model
-                                                
-                weakSelf.setViewShow()
-                
-                weakSelf.sengSayHelloMessage()
+                //刷新对方融云信息
+                weakSelf.reloadRCCompanyUserInfo()
             }
                         
             }, failure: {[weak self] (error) in
@@ -124,14 +94,14 @@ class OwnerChatViewController: RCConversationViewController {
             }
         }
     }
-    
+
     override func didSendMessage(_ status: Int, content messageContent: RCMessageContent!) {
         SSLog("---*****---\(messageContent.className)")
         
         if messageContent.isKind(of: RCTextMessage.self) {
             
             SSTool.invokeInDebug { [weak self] in
-                self?.request_addChatApp()
+                
             }
             
         }
@@ -177,10 +147,10 @@ extension OwnerChatViewController {
         }
         // 注册自定义消息的Cell
         //交换手机
-        register(PhoneExchangeMessageCell.self, forMessageClass: PhoneExchangeMessage.self)
+        register(ApplyEnterCompanyOrBranchMessageCell.self, forMessageClass: ApplyEnterCompanyOrBranchMessage.self)
         
         //交换手机状态
-        register(PhoneExchangeStatusMessageCell.self, forMessageClass: PhoneExchangeStatusMessage.self)
+        register(ApplyEnterCompanyOrBranchStatusMessageCell.self, forMessageClass: ApplyEnterCompanyOrBranchStatusMessage.self)
         
         
         //删除 发送位置功能
@@ -193,11 +163,11 @@ extension OwnerChatViewController {
     func addNotify() {
         
         //手机拒绝同意
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgApplyJoinStatusBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             if let type = noti.object as? [String: Any] {
                 let agress = type["agress"] as? Bool
-                let phone = type["phone"] as? String
-                self?.sendExchangePhoneAgreeOrReject(agree: agress ?? false, otherPhone: phone ?? "")
+                let phone = type["id"] as? Int
+                self?.ApplyJoinCompanyOrBranchAgreeOrReject(agree: agress ?? false, id: phone ?? 0)
             }
         }
     }
@@ -240,7 +210,7 @@ extension OwnerChatViewController {
     //弹出发送手机号确认框弹框
     func showPhoneSureAlertview() {
         
-        self.sendExchangePhone()
+        self.ApplyJoinCompanyOrBranch()
     }
      
 }
@@ -250,30 +220,61 @@ extension OwnerChatViewController {
     //发送打招呼语第一次创建聊天 - 租户给业主发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
     func sengSayHelloMessage() {
         
-        ///isChat":0//0 :点击发送按钮的时候需要调用addChat接口，1:不需要
-        if messageFYModel?.isChat == 1 {
-            return
-        }
-        
-        //只有租户才会发这个消息
-        if UserTool.shared.user_id_type == 0 {
-            let message = RCTextMessage(content: "我对你发布的房源有兴趣，能聊聊吗？")
-            sendMessage(message, pushContent: "打招呼")
-        }
+        let message = RCTextMessage(content: "我发送了加入公司的申请，请通过")
+        sendMessage(message, pushContent: "申请")
     }
     
     //发送交换手机号自定义消息
-    func sendExchangePhone() {
-        let messageContent = PhoneExchangeMessage.messageWithContent(content: "我想和您交换手机号", number: UserTool.shared.user_phone ?? "")
-        sendMessage(messageContent, pushContent: "我想和您交换手机号")
+    func ApplyJoinCompanyOrBranch() {
+        let messageContent = ApplyEnterCompanyOrBranchMessage.messageWithContent(content: content ?? "我是用户，希望加入公司，请通过", id: applyJoinId ?? -1)
+        sendMessage(messageContent, pushContent: content ?? "我是用户，希望加入公司，请通过")
+        
+        //发送之后，发送一条打招呼语
+        sengSayHelloMessage()
+
     }
     
     //交换手机号同意拒绝消息
-    func sendExchangePhoneAgreeOrReject(agree: Bool, otherPhone: String) {
-        let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换手机号" : "我拒绝和您交换手机号", isAgree: agree, sendNumber: otherPhone, receiveNumber: UserTool.shared.user_phone ?? "")
-        sendMessage(messageContent, pushContent: "交换手机号回复")
+    func ApplyJoinCompanyOrBranchAgreeOrReject(agree: Bool, id: Int) {
+        //        sendScheduleMessage(agree: agree)
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["id"] = id as AnyObject?
+        if agree == true {
+            params["auditStatus"] = 1 as AnyObject?
+        }else {
+            params["auditStatus"] = 2 as AnyObject?
+        }
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        SSNetworkTool.SSOwnerIdentify.request_getUpdateAuditStatus(params: params, success: {[weak self] (response) in
+            
+            self?.sendScheduleMessage(agree: agree)
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+        
     }
-    
+
+    func sendScheduleMessage(agree: Bool) {
+        let messageContent = ApplyEnterCompanyOrBranchStatusMessage.messageWithContent(content: agree ? "我同意你加入公司" : "我拒绝你加入公司", isAgree: agree)
+        sendMessage(messageContent, pushContent: "加入公司状态")
+        
+        if agree == true {
+            let message = RCTextMessage(content: "我已同意你加入公司，欢迎")
+            sendMessage(message, pushContent: "我已同意你加入公司，欢迎")
+        }
+    }
     //每次进来强制刷新好友用户信息
     func reloadRCCompanyUserInfo() {
         let info = RCUserInfo.init(userId: messageFYModel?.chatted?.targetId, name: messageFYModel?.chatted?.nickname, portrait: messageFYModel?.chatted?.avatar)

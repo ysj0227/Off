@@ -37,7 +37,8 @@ import Foundation
 //    static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
 //                             "Release": "https://m.officego.com/"]
     
-    static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
+//    static var SSApiHosts = ["Dev": "http://47.100.191.62:8080/",
+        static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
                                "Release": "https://api.officego.com/"]
 
       static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
@@ -182,7 +183,14 @@ class SSOwnerIdentifyURL: NSObject {
     //搜索网点接口
     static let getESBranch = "api/esearch/searchListBranch"
 
-    
+    //进入申请加入查询管理员Id APP
+    static let getApplyManagerMsg = "api/licence/selectApplyLicenceApp"
+
+    //申请加入企业
+    static let getApplyJoin = "api/licence/applyLicenceProprietorApp"
+
+    //加入企业或者网点同意拒绝接口
+    static let getUpdateAuditStatus = "api/licence/updateAuditStatusApp"
 }
 
 

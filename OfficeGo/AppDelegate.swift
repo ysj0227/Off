@@ -336,6 +336,12 @@ extension AppDelegate {
         //房源信息
         RCIM.shared()?.registerMessageType(FangyuanInsertFYMessage.self)
         
+        //加入公司
+        RCIM.shared()?.registerMessageType(ApplyEnterCompanyOrBranchMessage.self)
+        
+        //加入公司状态
+        RCIM.shared()?.registerMessageType(ApplyEnterCompanyOrBranchStatusMessage.self)
+
     }
     
     func showLogotAlertview() {

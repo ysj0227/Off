@@ -316,7 +316,7 @@ class PhoneExchangeMessageCell: RCMessageCell {
             let maxWidth = screenWidth - portrait - 5 - 35
             
             var textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
-            textRect.size.height = CGFloat(ceilf(Float(textRect.size.height)))
+            textRect.size.height = CGFloat(ceilf(Float(textRect.size.height))) + 2
             textRect.size.width = CGFloat(ceilf(Float(textRect.size.width)))
             //            return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 5)
             

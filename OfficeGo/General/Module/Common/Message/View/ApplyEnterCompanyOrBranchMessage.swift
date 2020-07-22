@@ -1,29 +1,29 @@
 //
-//  WechatExchangeMessage.swift
+//  ApplyEnterCompanyOrBranchMessage.swift
 //  OfficeGo
 //
-//  Created by mac on 2020/5/26.
+//  Created by mac on 2020/7/21.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
 import UIKit
 
-class WechatExchangeMessage: RCMessageContent, NSCoding {
+class ApplyEnterCompanyOrBranchMessage: RCMessageContent, NSCoding {
     
     // 测试消息的内容
     var content: String = ""
     
-    // 手机号
-    var number: String = ""
+    // 申请id号
+    var id: Int?
     
     // 测试消息的附加信息
     var extraMessage: String? = ""
     
     // 根据参数创建消息对象
-    class func messageWithContent(content: String, number: String) -> WechatExchangeMessage {
-        let testMessage = WechatExchangeMessage()
+    class func messageWithContent(content: String, id: Int) -> ApplyEnterCompanyOrBranchMessage {
+        let testMessage = ApplyEnterCompanyOrBranchMessage()
         testMessage.content = content
-        testMessage.number = number
+        testMessage.id = id
         return testMessage
     }
     
@@ -41,7 +41,7 @@ class WechatExchangeMessage: RCMessageContent, NSCoding {
         super.init()
         content = aDecoder.decodeObject(forKey: "content") as? String ?? ""
         extraMessage = aDecoder.decodeObject(forKey: "extraMessage") as? String ?? ""
-        number = aDecoder.decodeObject(forKey: "number") as? String ?? ""
+        id = aDecoder.decodeObject(forKey: "id") as? Int ?? -1
         
     }
     
@@ -49,7 +49,7 @@ class WechatExchangeMessage: RCMessageContent, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(content, forKey: "content")
         aCoder.encode(extraMessage, forKey: "extraMessage")
-        aCoder.encode(number, forKey: "number")
+        aCoder.encode(id, forKey: "id")
     }
     
     // 序列化，将消息内容编码成 json
@@ -57,7 +57,7 @@ class WechatExchangeMessage: RCMessageContent, NSCoding {
         var dataDict: [String : Any] = [:]
         
         dataDict["content"] = content
-        dataDict["number"] = number
+        dataDict["id"] = id
         
         if let extraMessage = extraMessage {
             dataDict["extraMessage"] = extraMessage
@@ -81,7 +81,7 @@ class WechatExchangeMessage: RCMessageContent, NSCoding {
         do {
             let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
             content = dictionary["content"] as? String ?? ""
-            number = dictionary["number"] as? String ?? ""
+            id = dictionary["id"] as? Int ?? -1
             extraMessage = dictionary["extraMessage"] as? String ?? ""
             let userInfoDict = dictionary["user"] as? [String : Any] ?? [:]
             decodeUserInfo(userInfoDict)
@@ -97,11 +97,11 @@ class WechatExchangeMessage: RCMessageContent, NSCoding {
     
     // 返回消息的类型名
     override class func getObjectName() -> String! {
-        return AppKey.WechatExchangeMessageTypeIdentifier
+        return AppKey.ApplyEnterCompanyOrBranchMessageTypeIdentifier
     }
 }
 
-class WechatExchangeMessageCell: RCMessageCell {
+class ApplyEnterCompanyOrBranchMessageCell: RCMessageCell {
     
     // 消息显示的 label
     lazy var textLabel: UILabel = {
@@ -118,7 +118,7 @@ class WechatExchangeMessageCell: RCMessageCell {
     // 消息背景
     lazy var iconimg: UIImageView = {
         let imageView = UIImageView(frame: CGRect.zero)
-        imageView.image = UIImage.init(named: "changeWechat")
+        imageView.image = UIImage.init(named: "")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -170,9 +170,9 @@ class WechatExchangeMessageCell: RCMessageCell {
     // 自定义消息 Cell 的 Size
     override class func size(for model: RCMessageModel!, withCollectionViewWidth collectionViewWidth: CGFloat, referenceExtraHeight extraHeight: CGFloat) -> CGSize {
         
-        let message = model.content as? WechatExchangeMessage
+        let message = model.content as? ApplyEnterCompanyOrBranchMessage
         
-        let size = getBubbleBackgroundViewSize(message ?? WechatExchangeMessage.messageWithContent(content: "", number: ""), messageDirection: model.messageDirection)
+        let size = getBubbleBackgroundViewSize(message ?? ApplyEnterCompanyOrBranchMessage.messageWithContent(content: "", id: -1), messageDirection: model.messageDirection)
         
         var messagecontentviewHeight = size.height;
         messagecontentviewHeight = messagecontentviewHeight + extraHeight;
@@ -185,15 +185,15 @@ class WechatExchangeMessageCell: RCMessageCell {
     }
     
     @objc func agreeClick() {
-        let testMessage = model.content as? WechatExchangeMessage
+        let testMessage = model.content as? ApplyEnterCompanyOrBranchMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": true,  "phone": testMessage?.number ?? ""])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgApplyJoinStatusBtnLocked, object: ["agress": true, "id": testMessage?.id ?? -1])
     }
     
     @objc func rejectClick() {
-        let testMessage = model.content as? WechatExchangeMessage
+        let testMessage = model.content as? ApplyEnterCompanyOrBranchMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": false,  "phone": testMessage?.number ?? ""])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgApplyJoinStatusBtnLocked, object: ["agress": false, "id": testMessage?.id ?? -1])
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -234,21 +234,21 @@ class WechatExchangeMessageCell: RCMessageCell {
     
     override func setDataModel(_ model: RCMessageModel!) {
         super.setDataModel(model)
-        let testMessage = model.content as? WechatExchangeMessage
+        let testMessage = model.content as? ApplyEnterCompanyOrBranchMessage
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            testMessage?.content = "我想要与您交换微信，您是否同意？"
+//            testMessage?.content = "我是用户，希望加入公司，请通过"
         }else {
-            testMessage?.content = "请求交换微信已发送"
+            testMessage?.content = "你已申请加入TA的公司\n等待对方同意"
         }
         setAutoLayout()
     }
     
     private func setAutoLayout() {
-        let testMessage = model.content as? WechatExchangeMessage
+        let testMessage = model.content as? ApplyEnterCompanyOrBranchMessage
         textLabel.text = testMessage?.content
         
-        let textLabelSize = WechatExchangeMessageCell.getTextLabelSize(testMessage ?? WechatExchangeMessage.messageWithContent(content: "", number: ""), messageDirection: messageDirection)
-        let bubbleBackgroundViewSize = WechatExchangeMessageCell.getBubbleSize(textLabelSize)
+        let textLabelSize = ApplyEnterCompanyOrBranchMessageCell.getTextLabelSize(testMessage ?? ApplyEnterCompanyOrBranchMessage.messageWithContent(content: "", id: -1), messageDirection: messageDirection)
+        let bubbleBackgroundViewSize = ApplyEnterCompanyOrBranchMessageCell.getBubbleSize(textLabelSize)
         var messageContentViewRect = messageContentView.frame
         
         //接收
@@ -258,7 +258,7 @@ class WechatExchangeMessageCell: RCMessageCell {
             lookupBtn.isHidden = false
             lineView.isHidden = false
             btnlineView.isHidden = false
-            iconimg.frame = CGRect(x: 12, y: 7, width: 23, height: textLabelSize.height - 45)
+            iconimg.frame = CGRect(x: 10, y: 7, width: 0, height: textLabelSize.height - 45)
             textLabel.frame = CGRect(x: iconimg.right + 10, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45)
             lineView.frame = CGRect(x: 6, y: textLabel.bottom + 7, width: bubbleBackgroundViewSize.width - 12, height: 1)
             rejectBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundViewSize.width / 2.0, height: 45)
@@ -302,13 +302,12 @@ class WechatExchangeMessageCell: RCMessageCell {
         
     }
     
-    private class func getTextLabelSize(_ message: WechatExchangeMessage, messageDirection: RCMessageDirection) -> CGSize {
+    private class func getTextLabelSize(_ message: ApplyEnterCompanyOrBranchMessage, messageDirection: RCMessageDirection) -> CGSize {
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            message.content = "我想要与您交换微信，您是否同意？"
+//            message.content = "我是用户，希望加入公司，请通过"
         }else {
-            message.content = "请求交换微信已发送"
+            message.content = "你已申请加入TA的公司\n等待对方同意"
         }
-        
         if !message.content.isEmpty {
             let screenWidth = UIScreen.main.bounds.size.width
             let portraitWidth = RCIM.shared()?.globalMessagePortraitSize.width
@@ -318,7 +317,6 @@ class WechatExchangeMessageCell: RCMessageCell {
             var textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
             textRect.size.height = CGFloat(ceilf(Float(textRect.size.height))) + 2
             textRect.size.width = CGFloat(ceilf(Float(textRect.size.width)))
-            //            return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 5)
             
             if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
                 return CGSize(width: textRect.size.width + 5 + 30, height: textRect.size.height + 45)
@@ -348,10 +346,10 @@ class WechatExchangeMessageCell: RCMessageCell {
         return bubbleSize
     }
     
-    public class func getBubbleBackgroundViewSize(_ message: WechatExchangeMessage, messageDirection: RCMessageDirection) -> CGSize {
+    public class func getBubbleBackgroundViewSize(_ message: ApplyEnterCompanyOrBranchMessage, messageDirection: RCMessageDirection) -> CGSize {
         
-        let textLabelSize = WechatExchangeMessageCell.getTextLabelSize(message, messageDirection: messageDirection)
-        return WechatExchangeMessageCell.getBubbleSize(textLabelSize)
+        let textLabelSize = ApplyEnterCompanyOrBranchMessageCell.getTextLabelSize(message, messageDirection: messageDirection)
+        return ApplyEnterCompanyOrBranchMessageCell.getBubbleSize(textLabelSize)
         
     }
     

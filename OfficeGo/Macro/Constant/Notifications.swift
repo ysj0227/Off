@@ -76,6 +76,12 @@ extension Notification.Name {
     /// 聊天页面 -越看房源 - 业主点击同意或拒绝
       public static let MsgViewingScheduleStatusBtnLocked = Notification.Name("msgViewingScheduleStatusBtnLocked")
     
+    /// 聊天页面 -申请加入公司
+    //public static let MsgApplyJoinBtnLocked = Notification.Name("msgApplyJoinBtnLocked")
+    
+    /// 聊天页面 -申请加入公司状态
+    public static let MsgApplyJoinStatusBtnLocked = Notification.Name("msgApplyJoinStatusBtnLocked")
+    
     /// 聊天页面 - 自定义预约成功 - 点击查看预约详情按钮
     public static let MsgScheduleDetail = Notification.Name("msgScheduleDetail")
     
