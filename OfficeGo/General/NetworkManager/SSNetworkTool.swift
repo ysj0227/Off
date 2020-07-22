@@ -231,6 +231,34 @@ extension SSNetworkTool {
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
+
+        //网点是否可以创建判断接口
+        static func request_getIsCanCreatBranch(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getIsCanCreatBranch)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        //企业是否可以创建判断接口App
+        static func request_getIsCanCreatCompany(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getIsCanCreatCompany)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        //用户选择身份
+        static func request_getSelectIdentityTypeApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getSelectIdentityTypeApp)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        //添加认证APP
+        static func request_uploadLicenceProprietorApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
         
     }
     class SSVersion:NSObject {

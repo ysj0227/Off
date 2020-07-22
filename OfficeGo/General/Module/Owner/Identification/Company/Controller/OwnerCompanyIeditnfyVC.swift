@@ -247,9 +247,9 @@ extension OwnerCompanyIeditnfyVC {
         
         // 创建按钮 - 跳转到创建公司页面
         companySearchResultVC?.creatButtonCallClick = {[weak self] in
-            self?.userModel?.company = ""
-            let vc = OwnerCreateCompanyViewController()
-            self?.navigationController?.pushViewController(vc, animated: true)
+            
+            ///TODO: 要判断能不能创建
+            self?.isCanCreateCompany()
         }
         // 关闭按钮 - 隐藏页面
         companySearchResultVC?.closeButtonCallClick = {[weak self] in
@@ -283,6 +283,55 @@ extension OwnerCompanyIeditnfyVC {
         }
         //第一次刷新列表
         loadCollectionData()
+    }
+    
+    ///判断是否可以创建公司
+    func isCanCreateCompany() {
+        
+        var params = [String:AnyObject]()
+        
+        params["company"] = companyName as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        SSNetworkTool.SSOwnerIdentify.request_getIsCanCreatCompany(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = BranchOrCompanyIIsExistedModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.createCompanyJudge(model: model)
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    ///判断是否可以创建的跳转处理
+    func createCompanyJudge(model: BranchOrCompanyIIsExistedModel) {
+        SSTool.invokeInMainThread {[weak self] in
+            guard let weakSelf = self else {return}
+            
+            //0不存在1存在
+            if model.flag == 0 {
+                weakSelf.userModel?.company = ""
+                let vc = OwnerCreateCompanyViewController()
+                weakSelf.navigationController?.pushViewController(vc, animated: true)
+            }else if model.flag == 1 {
+                AppUtilities.makeToast(model.explain ?? "公司已经存在，不能重复创建")
+            }
+        }
+        
     }
     
     func loadCollectionData() {

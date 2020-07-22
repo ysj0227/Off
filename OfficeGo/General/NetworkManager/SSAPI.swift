@@ -191,6 +191,18 @@ class SSOwnerIdentifyURL: NSObject {
 
     //加入企业或者网点同意拒绝接口
     static let getUpdateAuditStatus = "api/licence/updateAuditStatusApp"
+    
+    //网点是否可以创建判断接口app
+    static let getIsCanCreatBranch = "api/licence/selectBuildingByNameApp"
+    
+    //企业是否可以创建判断接口App
+    static let getIsCanCreatCompany = "api/licence/selectLicenceByCompanyApp"
+    
+    //用户选择身份调
+    static let getSelectIdentityTypeApp = "api/licence/selectIdentityTypeApp"
+    
+    //添加认证APP
+    static let getUploadLicenceProprietorApp = "api/licence/uploadLicenceProprietorApp"
 }
 
 

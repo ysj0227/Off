@@ -34,6 +34,7 @@
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
 		048D243924C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D243824C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift */; };
 		048D243B24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D243A24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift */; };
+		048D243D24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D243C24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift */; };
 		04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */; };
 		04990B9224BBF719008CDE6C /* ZKIDCardFloatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8E24BBF719008CDE6C /* ZKIDCardFloatingView.m */; };
 		04990B9324BBF719008CDE6C /* ZKIDCardCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8F24BBF719008CDE6C /* ZKIDCardCameraController.m */; };
@@ -311,6 +312,7 @@
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		048D243824C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyEnterCompanyOrBranchMessage.swift; sourceTree = "<group>"; };
 		048D243A24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyEnterCompanyOrBranchStatusMessage.swift; sourceTree = "<group>"; };
+		048D243C24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchOrCompanyIIsExistedModel.swift; sourceTree = "<group>"; };
 		04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerIdenfySelectVC.swift; sourceTree = "<group>"; };
 		04990B8D24BBF719008CDE6C /* ZKIDCardCameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKIDCardCameraController.h; sourceTree = "<group>"; };
 		04990B8E24BBF719008CDE6C /* ZKIDCardFloatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKIDCardFloatingView.m; sourceTree = "<group>"; };
@@ -733,6 +735,7 @@
 			children = (
 				0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */,
 				0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */,
+				048D243C24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1965,6 +1968,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE4914DE24692D62008D5689 /* LLContainerScrollView.swift in Sources */,
+				048D243D24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift in Sources */,
 				04E23963249B3ABB009DCCEC /* RenterMineViewController.swift in Sources */,
 				04CB478D249CB250001BCC8F /* RenterMineSettingViewController.swift in Sources */,
 				EEE87B222455856800C03424 /* JHImageLoader.swift in Sources */,
