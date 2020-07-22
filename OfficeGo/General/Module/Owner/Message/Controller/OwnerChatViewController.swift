@@ -15,7 +15,7 @@ class OwnerChatViewController: RCConversationViewController {
     var applyJoinId: Int?
     
     ///聊天详情
-    var messageFYModel: MessageFYModel?
+    var messageModel: MessageFYChattedModel?
     
     //预约查看view
     var scheduleView: RenterMsgScheduleAlertView?
@@ -52,7 +52,7 @@ class OwnerChatViewController: RCConversationViewController {
             
             guard let weakSelf = self else {return}
             
-            weakSelf.titleview?.titleLabel.text = weakSelf.messageFYModel?.chatted?.nickname
+            weakSelf.titleview?.titleLabel.text = weakSelf.messageModel?.nickname
             ///强制刷新好友信息
             weakSelf.reloadRCCompanyUserInfo()
             
@@ -69,24 +69,25 @@ class OwnerChatViewController: RCConversationViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         
-        //MARK: targetid - 只有获取详情的时候 - 需要截取一下最后一位身份标识
-        params["uid"] = String(targetId.prefix(targetId.count - 1)) as AnyObject?
+        //MARK: targetid -
+        params["targetId"] = targetId as AnyObject?
         
         
-        SSNetworkTool.SSChat.request_getChatFYDetailApp(params: params, success: {[weak self] (response) in
+        SSNetworkTool.SSOwnerIdentify.request_getOwnerToOwnerchattedMsgAApp(params: params, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
             
-            if let model = MessageFYModel.deserialize(from: response, designatedPath: "data") {
+            if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
                 
                 //刷新对方融云信息
+                weakSelf.messageModel = model
                 weakSelf.reloadRCCompanyUserInfo()
             }
                         
-            }, failure: {[weak self] (error) in
+            }, failure: { (error) in
                 
                 
-        }) {[weak self] (code, message) in
+        }) { (code, message) in
                         
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
@@ -277,8 +278,8 @@ extension OwnerChatViewController {
     }
     //每次进来强制刷新好友用户信息
     func reloadRCCompanyUserInfo() {
-        let info = RCUserInfo.init(userId: messageFYModel?.chatted?.targetId, name: messageFYModel?.chatted?.nickname, portrait: messageFYModel?.chatted?.avatar)
-        RCIM.shared()?.refreshUserInfoCache(info, withUserId: messageFYModel?.chatted?.targetId)
+        let info = RCUserInfo.init(userId: messageModel?.targetId, name: messageModel?.nickname, portrait: messageModel?.avatar)
+        RCIM.shared()?.refreshUserInfoCache(info, withUserId: messageModel?.targetId)
     }
     
 }

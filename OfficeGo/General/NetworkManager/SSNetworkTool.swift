@@ -266,6 +266,20 @@ extension SSNetworkTool {
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
+        
+        //获取认证信息 - 没有
+       static func request_getIdentityMsgApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+           let url = String.init(format: SSOwnerIdentifyURL.getIdentityMsgApp)
+           SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+               success,failed:failure,error:error)
+       }
+        
+        //业主和业主聊天列表调用接口
+        static func request_getOwnerToOwnerchattedMsgAApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getOwnerToOwnerchattedMsgAApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
     }
     class SSVersion:NSObject {
         static func request_version(success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {

@@ -201,11 +201,18 @@ class SSOwnerIdentifyURL: NSObject {
     //用户选择身份调
     static let getSelectIdentityTypeApp = "api/licence/selectIdentityTypeApp"
     
-    //添加认证APP
+    //添加认证APP - 待测
     static let getUploadLicenceProprietorApp = "api/licence/uploadLicenceProprietorApp"
     
-    //自主撤销认证
+    //获取认证信息 - 没有
+    static let getIdentityMsgApp = "api/licence/deleteUserLicenceApp"
+    
+    //自主撤销认证 待测
     static let getDeleteUserLicenceApp = "api/licence/deleteUserLicenceApp"
+    
+    //业主和业主聊天列表调用接口
+    static let getOwnerToOwnerchattedMsgAApp = "api/chat/chattedMsgApp"
+
 }
 
 
