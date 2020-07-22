@@ -61,13 +61,38 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
         
         setView()
         setData()
-        requestApplyManagerMsg()
     }
     
     
 }
 
 extension OwnerApplyEnterCompanyViewController {
+    
+    ///从个人中心进来 - 查看申请详情
+      func requestApplyDetailMsg() {
+                  
+          var params = [String:AnyObject]()
+          
+          params["token"] = UserTool.shared.user_token as AnyObject?
+          
+          SSNetworkTool.SSOwnerIdentify.request_getApplyManagerMsg(params: params, success: {[weak self] (response) in
+              
+              guard let weakSelf = self else {return}
+              
+              if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
+                  weakSelf.managerMsg = model
+              }
+              
+              }, failure: { (error) in
+                  
+          }) { (code, message) in
+                          
+              //只有5000 提示给用户 - 失效原因
+              if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                  AppUtilities.makeToast(message)
+              }
+          }
+      }
     
     ///申请加入公司管理员信息接口 -
     func requestApplyManagerMsg() {
@@ -137,9 +162,9 @@ extension OwnerApplyEnterCompanyViewController {
                 weakSelf.requestApplyEnterCompany(id: model.id ?? -1)
             }
             
-            }, failure: {[weak self] (error) in
+            }, failure: { (error) in
                 
-        }) {[weak self] (code, message) in
+        }) { (code, message) in
                         
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
@@ -154,6 +179,9 @@ extension OwnerApplyEnterCompanyViewController {
         //按钮文字修改
         //按钮点击方法修改
         if isFromMine == true {
+            ///从个人中心进来 - 查看申请详情
+            requestApplyDetailMsg()
+            
             bottomView.isHidden = true
             descLabel.isHidden = true
             bottomBtnView.rightSelectBtn.setTitle("撤销申请", for: .normal)
@@ -162,6 +190,10 @@ extension OwnerApplyEnterCompanyViewController {
                 self?.requestCancelApply()
             }
         }else {
+            
+            ///获取管理员信息
+            requestApplyManagerMsg()
+            
             if isBranch == true {
                 topview.branchModel = branchModel
             }else {
@@ -211,6 +243,32 @@ extension OwnerApplyEnterCompanyViewController {
     ///撤销申请接口 -
     func requestCancelApply() {
         
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        //申请加入的企业id
+        if UserTool.shared.user_owner_identifytype == 1 {
+            params["id"] = companyModel?.bid as AnyObject?
+        }else if UserTool.shared.user_owner_identifytype == 2 {
+            params["id"] = branchModel?.bid as AnyObject?
+        }
+        
+        SSNetworkTool.SSOwnerIdentify.request_getDeleteUserLicenceApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.leftBtnClick()
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+                        
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
     ///申请加入公司操作 -

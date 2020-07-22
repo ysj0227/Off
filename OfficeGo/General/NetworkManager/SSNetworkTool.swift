@@ -260,6 +260,12 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
+        //自主撤销认证
+        static func request_getDeleteUserLicenceApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getDeleteUserLicenceApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
     }
     class SSVersion:NSObject {
         static func request_version(success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
