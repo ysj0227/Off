@@ -204,8 +204,8 @@ class SSOwnerIdentifyURL: NSObject {
     //添加认证APP - 待测
     static let getUploadLicenceProprietorApp = "api/licence/uploadLicenceProprietorApp"
     
-    //获取认证信息 - 没有
-    static let getIdentityMsgApp = "api/licence/deleteUserLicenceApp"
+    //查询申请信息接口（普通员工申请加入之后查询页面数据）
+    static let getQueryApplyLicenceProprietorApp = "api/licence/queryApplyLicenceProprietorApp"
     
     //自主撤销认证 待测
     static let getDeleteUserLicenceApp = "api/licence/deleteUserLicenceApp"

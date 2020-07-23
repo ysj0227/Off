@@ -15,7 +15,7 @@ class OwnerChatViewController: RCConversationViewController {
     var applyJoinId: Int?
     
     ///聊天详情
-    var messageModel: MessageFYChattedModel?
+    var messageModel: OwnerIdentifyMsgDetailModel?
     
     //预约查看view
     var scheduleView: RenterMsgScheduleAlertView?
@@ -77,7 +77,7 @@ class OwnerChatViewController: RCConversationViewController {
             
             guard let weakSelf = self else {return}
             
-            if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
+            if let model = OwnerIdentifyMsgDetailModel.deserialize(from: response, designatedPath: "data") {
                 
                 //刷新对方融云信息
                 weakSelf.messageModel = model
@@ -251,6 +251,7 @@ extension OwnerChatViewController {
         
         //身份类型0个人认证1企业认证2网点认证
         params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
         SSNetworkTool.SSOwnerIdentify.request_getUpdateAuditStatus(params: params, success: {[weak self] (response) in
             
             self?.sendScheduleMessage(agree: agree)

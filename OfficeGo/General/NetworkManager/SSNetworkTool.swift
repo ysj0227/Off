@@ -267,9 +267,9 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        //获取认证信息 - 没有
-       static func request_getIdentityMsgApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-           let url = String.init(format: SSOwnerIdentifyURL.getIdentityMsgApp)
+        //查询申请信息接口（普通员工申请加入之后查询页面数据）
+        static func request_getQueryApplyLicenceProprietorApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+           let url = String.init(format: SSOwnerIdentifyURL.getQueryApplyLicenceProprietorApp)
            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                success,failed:failure,error:error)
        }

@@ -261,3 +261,37 @@ class MessageFYChattedModel: BaseModel {
     var userId : String?
 
 }
+
+
+class OwnerIdentifyMsgDetailModel: BaseModel {
+    
+    ///身份类型0个人1企业2联和办公
+    var identityType : Int?
+    
+    var company : String?
+    var job : String?
+    var nickname : String?
+
+    var targetId : String?  //1061
+    var chattedId : String? //106
+    ///申请加入公司成功返回的字段
+    var id: Int?
+    var userId : String?
+    
+    ///获取管理员信息添加的字段
+    var authority : String?
+    ///企业id
+    var licenceId : String?
+    var proprietorJob : String?
+    var proprietorRealname : String?
+    var avatar : String?
+    ///申请id
+    var userLicenceId : String?
+    ///申请加入企业的时候是企业名称 申请加入网点的时候是网点名称
+    var title : String?
+    ///申请加入企业的时候是企业地址 申请加入网点的时候是网点网点
+    var address : String?
+
+
+}
+

@@ -33,7 +33,7 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
         view.backgroundColor = kAppWhiteColor
         return view
     }()
-
+    
     lazy var descLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .center
@@ -43,6 +43,7 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
         return view
     }()
     
+    //申请认证
     //公司认证 - 公司
     var companyModel: OwnerESCompanySearchViewModel?
     
@@ -50,12 +51,20 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
     var branchModel: OwnerESBuildingSearchViewModel?
     
     //管理员信息接口
-    var managerMsg: MessageFYChattedModel? {
+    var managerMsg: OwnerIdentifyMsgDetailModel? {
         didSet {
             topview.managerMsg = managerMsg
         }
     }
-
+    
+    
+    //获取申请详情
+    var iedntifyDetailMsg: OwnerIdentifyMsgDetailModel? {
+        didSet {
+            topview.iedntifyDetailMsg = iedntifyDetailMsg
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,34 +78,34 @@ class OwnerApplyEnterCompanyViewController: BaseViewController {
 extension OwnerApplyEnterCompanyViewController {
     
     ///从个人中心进来 - 查看申请详情
-      func requestApplyDetailMsg() {
-                  
-          var params = [String:AnyObject]()
-          
-          params["token"] = UserTool.shared.user_token as AnyObject?
-          
-          SSNetworkTool.SSOwnerIdentify.request_getApplyManagerMsg(params: params, success: {[weak self] (response) in
-              
-              guard let weakSelf = self else {return}
-              
-              if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
-                  weakSelf.managerMsg = model
-              }
-              
-              }, failure: { (error) in
-                  
-          }) { (code, message) in
-                          
-              //只有5000 提示给用户 - 失效原因
-              if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
-                  AppUtilities.makeToast(message)
-              }
-          }
-      }
+    func requestApplyDetailMsg() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        SSNetworkTool.SSOwnerIdentify.request_getQueryApplyLicenceProprietorApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyMsgDetailModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.iedntifyDetailMsg = model
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
     
     ///申请加入公司管理员信息接口 -
     func requestApplyManagerMsg() {
-                
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -111,20 +120,20 @@ extension OwnerApplyEnterCompanyViewController {
         }else if UserTool.shared.user_owner_identifytype == 2 {
             params["id"] = branchModel?.bid as AnyObject?
         }
-
+        
         
         SSNetworkTool.SSOwnerIdentify.request_getApplyManagerMsg(params: params, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
             
-            if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
+            if let model = OwnerIdentifyMsgDetailModel.deserialize(from: response, designatedPath: "data") {
                 weakSelf.managerMsg = model
             }
             
             }, failure: { (error) in
                 
         }) { (code, message) in
-                        
+            
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
@@ -149,9 +158,9 @@ extension OwnerApplyEnterCompanyViewController {
         }else if UserTool.shared.user_owner_identifytype == 2 {
             params["id"] = branchModel?.bid as AnyObject?
         }
-
+        
         params["chattedId"] = managerMsg?.chattedId as AnyObject?
-
+        
         
         SSNetworkTool.SSOwnerIdentify.request_getApplyJoin(params: params, success: {[weak self] (response) in
             
@@ -165,7 +174,7 @@ extension OwnerApplyEnterCompanyViewController {
             }, failure: { (error) in
                 
         }) { (code, message) in
-                        
+            
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
@@ -248,11 +257,7 @@ extension OwnerApplyEnterCompanyViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         //申请加入的企业id
-        if UserTool.shared.user_owner_identifytype == 1 {
-            params["id"] = companyModel?.bid as AnyObject?
-        }else if UserTool.shared.user_owner_identifytype == 2 {
-            params["id"] = branchModel?.bid as AnyObject?
-        }
+        params["id"] = iedntifyDetailMsg?.userLicenceId as AnyObject?
         
         SSNetworkTool.SSOwnerIdentify.request_getDeleteUserLicenceApp(params: params, success: {[weak self] (response) in
             
@@ -263,7 +268,7 @@ extension OwnerApplyEnterCompanyViewController {
             }, failure: { (error) in
                 
         }) { (code, message) in
-                        
+            
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
@@ -295,7 +300,7 @@ extension OwnerApplyEnterCompanyViewController {
             if isBranch == true {
                 NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: branchModel)
             }else {
-
+                
                 //联合 - 公司名称
                 NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompany, object: companyModel)
             }
@@ -353,13 +358,13 @@ extension OwnerApplyEnterCompanyViewController {
         view.textColor = kAppColor_333333
         return view
     }()
-//    lazy var jobLabel: UILabel = {
-//        let view = UILabel()
-//        view.textAlignment = .left
-//        view.font = FONT_9
-//        view.textColor = kAppColor_666666
-//        return view
-//    }()
+    //    lazy var jobLabel: UILabel = {
+    //        let view = UILabel()
+    //        view.textAlignment = .left
+    //        view.font = FONT_9
+    //        view.textColor = kAppColor_666666
+    //        return view
+    //    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -374,8 +379,6 @@ extension OwnerApplyEnterCompanyViewController {
         
         self.clipsToBounds = true
         self.layer.cornerRadius = button_cordious_15
-        avatarImg.layer.cornerRadius = 14
-        
         addSubview(itemIcon)
         addSubview(titleLabel)
         addSubview(addressICon)
@@ -413,8 +416,10 @@ extension OwnerApplyEnterCompanyViewController {
         avatarImg.snp.makeConstraints { (make) in
             make.top.equalTo(lineView.snp.bottom).offset(11)
             make.leading.equalTo(itemIcon)
-            make.size.equalTo(28)
+            make.size.equalTo(30)
         }
+        avatarImg.clipsToBounds = true
+        avatarImg.layer.cornerRadius = 15
         nameLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(avatarImg.snp.trailing).offset(13)
             make.centerY.equalTo(avatarImg)
@@ -422,11 +427,74 @@ extension OwnerApplyEnterCompanyViewController {
         }
     }
     
-    //公司认证 网点认证 - 管理员信息
-    var managerMsg: MessageFYChattedModel? {
+    ///公司认证 网点认证 -认证中 - 查看详情
+    var iedntifyDetailMsg: OwnerIdentifyMsgDetailModel? {
+        didSet {
+            avatarImg.setImage(with: iedntifyDetailMsg?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
+            if iedntifyDetailMsg?.proprietorRealname?.count ?? 0 > 0 || iedntifyDetailMsg?.proprietorJob?.count ?? 0 > 0 {
+                nameLabel.text = "\(iedntifyDetailMsg?.authority ?? "")：\(iedntifyDetailMsg?.proprietorRealname ?? "") \(iedntifyDetailMsg?.proprietorJob ?? "")"
+            }else {
+                nameLabel.text = "\(iedntifyDetailMsg?.authority ?? "")"
+            }
+            //企业
+            if iedntifyDetailMsg?.identityType == 1 {
+                titleLabel.text = iedntifyDetailMsg?.title
+                
+                if let address = iedntifyDetailMsg?.address {
+                    if address.isBlankString == true {
+                        addressICon.isHidden = true
+                        addressLabel.text = ""
+                    }else {
+                        addressICon.isHidden = false
+                        addressLabel.text = address
+                    }
+                }else {
+                    addressICon.isHidden = true
+                    addressLabel.text = ""
+                }
+            }
+                //联办
+            else if iedntifyDetailMsg?.identityType == 2 {
+                
+                titleLabel.text = iedntifyDetailMsg?.title
+                itemIcon.isHidden = true
+                itemIcon.snp.makeConstraints { (make) in
+                    make.size.equalTo(CGSize(width: 0, height: 22))
+                    make.leading.equalTo(21)
+                    make.top.equalTo(26)
+                }
+                titleLabel.snp.remakeConstraints { (make) in
+                    make.leading.equalTo(itemIcon.snp.trailing).offset(0)
+                    make.trailing.equalToSuperview()
+                    make.centerY.equalTo(itemIcon)
+                }
+                if let address = iedntifyDetailMsg?.address {
+                    if address.isBlankString == true {
+                        addressICon.isHidden = true
+                        addressLabel.text = ""
+                    }else {
+                        addressICon.isHidden = false
+                        addressLabel.text = address
+                    }
+                }else {
+                    addressICon.isHidden = true
+                    addressLabel.text = ""
+                }
+            }
+        }
+    }
+    
+    
+    
+    ///公司认证 网点认证 - 管理员信息
+    var managerMsg: OwnerIdentifyMsgDetailModel? {
         didSet {
             avatarImg.setImage(with: managerMsg?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
-            nameLabel.text = "\(managerMsg?.authority ?? "")：\(managerMsg?.proprietorRealname ?? "") \(managerMsg?.proprietorJob ?? "")"
+            if managerMsg?.proprietorRealname?.count ?? 0 > 0 || managerMsg?.proprietorJob?.count ?? 0 > 0 {
+                nameLabel.text = "\(managerMsg?.authority ?? "")：\(managerMsg?.proprietorRealname ?? "") \(managerMsg?.proprietorJob ?? "")"
+            }else {
+                nameLabel.text = "\(managerMsg?.authority ?? "")"
+            }
         }
     }
     
@@ -584,7 +652,7 @@ extension OwnerApplyEnterCompanyViewController {
     }
     
     var isBranch: Bool? = false
-
+    
     func setTitle() {
         ///身份类型0个人1企业2联合
         if UserTool.shared.user_owner_identifytype == 1 {
