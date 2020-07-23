@@ -168,7 +168,7 @@ extension OwnerApplyEnterCompanyViewController {
             
             if let model = MessageFYChattedModel.deserialize(from: response, designatedPath: "data") {
                 
-                weakSelf.requestApplyEnterCompany(id: model.id ?? -1)
+                weakSelf.requestApplyEnterCompany(applyJoinModel: model)
             }
             
             }, failure: { (error) in
@@ -277,13 +277,13 @@ extension OwnerApplyEnterCompanyViewController {
     }
     
     ///申请加入公司操作 -
-    func requestApplyEnterCompany(id: Int) {
+    func requestApplyEnterCompany(applyJoinModel: MessageFYChattedModel) {
         //addNotify()
         let vc = OwnerChatViewController()
         vc.needPopToRootView = true
         vc.conversationType = .ConversationType_PRIVATE
         vc.content = bottomView.intruductionTextview.text
-        vc.applyJoinId = id
+        vc.applyJoinModel = applyJoinModel
         vc.targetId = managerMsg?.targetId
         vc.enableNewComingMessageIcon = true  //开启消息提醒
         vc.displayUserNameInCell = false

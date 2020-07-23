@@ -16,14 +16,18 @@ class ApplyEnterCompanyOrBranchMessage: RCMessageContent, NSCoding {
     // 申请id号
     var id: Int?
     
+    // 企业id号
+    var licenceId: Int?
+    
     // 测试消息的附加信息
     var extraMessage: String? = ""
     
     // 根据参数创建消息对象
-    class func messageWithContent(content: String, id: Int) -> ApplyEnterCompanyOrBranchMessage {
+    class func messageWithContent(content: String, id: Int, licenceId: Int) -> ApplyEnterCompanyOrBranchMessage {
         let testMessage = ApplyEnterCompanyOrBranchMessage()
         testMessage.content = content
         testMessage.id = id
+        testMessage.licenceId = licenceId
         return testMessage
     }
     
@@ -42,7 +46,7 @@ class ApplyEnterCompanyOrBranchMessage: RCMessageContent, NSCoding {
         content = aDecoder.decodeObject(forKey: "content") as? String ?? ""
         extraMessage = aDecoder.decodeObject(forKey: "extraMessage") as? String ?? ""
         id = aDecoder.decodeObject(forKey: "id") as? Int ?? -1
-        
+        licenceId = aDecoder.decodeObject(forKey: "licenceId") as? Int ?? -1
     }
     
     // NSCoding
@@ -50,6 +54,8 @@ class ApplyEnterCompanyOrBranchMessage: RCMessageContent, NSCoding {
         aCoder.encode(content, forKey: "content")
         aCoder.encode(extraMessage, forKey: "extraMessage")
         aCoder.encode(id, forKey: "id")
+        aCoder.encode(licenceId, forKey: "licenceId")
+
     }
     
     // 序列化，将消息内容编码成 json
@@ -58,6 +64,7 @@ class ApplyEnterCompanyOrBranchMessage: RCMessageContent, NSCoding {
         
         dataDict["content"] = content
         dataDict["id"] = id
+        dataDict["licenceId"] = licenceId
         
         if let extraMessage = extraMessage {
             dataDict["extraMessage"] = extraMessage
@@ -82,6 +89,7 @@ class ApplyEnterCompanyOrBranchMessage: RCMessageContent, NSCoding {
             let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
             content = dictionary["content"] as? String ?? ""
             id = dictionary["id"] as? Int ?? -1
+            licenceId = dictionary["licenceId"] as? Int ?? -1
             extraMessage = dictionary["extraMessage"] as? String ?? ""
             let userInfoDict = dictionary["user"] as? [String : Any] ?? [:]
             decodeUserInfo(userInfoDict)
@@ -172,7 +180,7 @@ class ApplyEnterCompanyOrBranchMessageCell: RCMessageCell {
         
         let message = model.content as? ApplyEnterCompanyOrBranchMessage
         
-        let size = getBubbleBackgroundViewSize(message ?? ApplyEnterCompanyOrBranchMessage.messageWithContent(content: "", id: -1), messageDirection: model.messageDirection)
+        let size = getBubbleBackgroundViewSize(message ?? ApplyEnterCompanyOrBranchMessage.messageWithContent(content: "", id: -1, licenceId: -1), messageDirection: model.messageDirection)
         
         var messagecontentviewHeight = size.height;
         messagecontentviewHeight = messagecontentviewHeight + extraHeight;
@@ -187,13 +195,13 @@ class ApplyEnterCompanyOrBranchMessageCell: RCMessageCell {
     @objc func agreeClick() {
         let testMessage = model.content as? ApplyEnterCompanyOrBranchMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgApplyJoinStatusBtnLocked, object: ["agress": true, "id": testMessage?.id ?? -1])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgApplyJoinStatusBtnLocked, object: ["agress": true, "id": testMessage?.id ?? -1, "licenceId": testMessage?.licenceId ?? -1])
     }
     
     @objc func rejectClick() {
         let testMessage = model.content as? ApplyEnterCompanyOrBranchMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgApplyJoinStatusBtnLocked, object: ["agress": false, "id": testMessage?.id ?? -1])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgApplyJoinStatusBtnLocked, object: ["agress": false, "id": testMessage?.id ?? -1, "licenceId": testMessage?.licenceId ?? -1])
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -247,7 +255,7 @@ class ApplyEnterCompanyOrBranchMessageCell: RCMessageCell {
         let testMessage = model.content as? ApplyEnterCompanyOrBranchMessage
         textLabel.text = testMessage?.content
         
-        let textLabelSize = ApplyEnterCompanyOrBranchMessageCell.getTextLabelSize(testMessage ?? ApplyEnterCompanyOrBranchMessage.messageWithContent(content: "", id: -1), messageDirection: messageDirection)
+        let textLabelSize = ApplyEnterCompanyOrBranchMessageCell.getTextLabelSize(testMessage ?? ApplyEnterCompanyOrBranchMessage.messageWithContent(content: "", id: -1, licenceId: -1), messageDirection: messageDirection)
         let bubbleBackgroundViewSize = ApplyEnterCompanyOrBranchMessageCell.getBubbleSize(textLabelSize)
         var messageContentViewRect = messageContentView.frame
         

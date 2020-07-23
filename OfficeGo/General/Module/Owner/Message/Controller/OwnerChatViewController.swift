@@ -12,7 +12,7 @@ class OwnerChatViewController: RCConversationViewController {
     
     var content: String?
     
-    var applyJoinId: Int?
+    var applyJoinModel: MessageFYChattedModel?
     
     ///聊天详情
     var messageModel: OwnerIdentifyMsgDetailModel?
@@ -167,8 +167,9 @@ extension OwnerChatViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name.MsgApplyJoinStatusBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             if let type = noti.object as? [String: Any] {
                 let agress = type["agress"] as? Bool
-                let phone = type["id"] as? Int
-                self?.ApplyJoinCompanyOrBranchAgreeOrReject(agree: agress ?? false, id: phone ?? 0)
+                let applyId = type["id"] as? Int
+                let licenceId = type["licenceId"] as? Int
+                self?.ApplyJoinCompanyOrBranchAgreeOrReject(agree: agress ?? false, id: applyId ?? 0, licenceId: licenceId ?? 0)
             }
         }
     }
@@ -227,7 +228,7 @@ extension OwnerChatViewController {
     
     //发送交换手机号自定义消息
     func ApplyJoinCompanyOrBranch() {
-        let messageContent = ApplyEnterCompanyOrBranchMessage.messageWithContent(content: content ?? "我是用户，希望加入公司，请通过", id: applyJoinId ?? -1)
+        let messageContent = ApplyEnterCompanyOrBranchMessage.messageWithContent(content: content ?? "我是用户，希望加入公司，请通过", id: applyJoinModel?.id ?? -1, licenceId: applyJoinModel?.licenceId ?? -1)
         sendMessage(messageContent, pushContent: content ?? "我是用户，希望加入公司，请通过")
         
         //发送之后，发送一条打招呼语
@@ -236,21 +237,24 @@ extension OwnerChatViewController {
     }
     
     //交换手机号同意拒绝消息
-    func ApplyJoinCompanyOrBranchAgreeOrReject(agree: Bool, id: Int) {
+    func ApplyJoinCompanyOrBranchAgreeOrReject(agree: Bool, id: Int, licenceId: Int) {
         //        sendScheduleMessage(agree: agree)
         
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
         params["id"] = id as AnyObject?
+        params["licenceId"] = licenceId as AnyObject?
+
         if agree == true {
             params["auditStatus"] = 1 as AnyObject?
         }else {
             params["auditStatus"] = 2 as AnyObject?
         }
         
-        //身份类型0个人认证1企业认证2网点认证
-        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+
         
         SSNetworkTool.SSOwnerIdentify.request_getUpdateAuditStatus(params: params, success: {[weak self] (response) in
             

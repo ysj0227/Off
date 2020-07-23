@@ -252,7 +252,8 @@ class MessageFYChattedModel: BaseModel {
     
     //获取管理员信息添加的字段
     var authority : String?
-    var licenceId : String?
+    ///企业id
+    var licenceId : Int?
     var proprietorJob : String?
     var proprietorRealname : String?
     
