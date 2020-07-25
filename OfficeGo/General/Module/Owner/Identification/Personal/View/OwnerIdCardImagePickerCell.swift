@@ -11,8 +11,8 @@ class OwnerIdCardImagePickerCell: BaseCollectionViewCell {
     @objc var closeBtnClickClouse: CloseBtnClickClouse?
     @objc var visitPhotoBtnClickClouse: VisitPhotoBtnClickClouse?
     
-    let image: UIImageView = {
-        let view = UIImageView()
+    let image: BaseImageView = {
+        let view = BaseImageView()
         view.backgroundColor = kAppLightBlueColor
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill

@@ -94,23 +94,25 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
-                numDescTF.text = userModel?.nickname
+                numDescTF.text = userModel?.userNameTemp
             }else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
-                numDescTF.text = userModel?.idCard
+                numDescTF.text = userModel?.userIdCardTemp
             }else if model.type == .OwnerPersonalIedntifyTypeUploadIdentifyPhoto{
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
                 addressLabel.isHidden = true
-                numDescTF.text = userModel?.idCard
+                numDescTF.text = ""
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = false
-                numDescTF.text = userModel?.buildingName
-                addressLabel.text = userModel?.address
+                numDescTF.text = userModel?.buildingNameTemp
+                if numDescTF.text?.count ?? 0 > 0 {
+                    addressLabel.text = userModel?.buildingAddress
+                }
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingAddress{
 //                numDescTF.isUserInteractionEnabled = true
 //                detailIcon.isHidden = true
@@ -120,9 +122,9 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
                 addressLabel.isHidden = true
-                if userModel?.leaseType == 0 {
+                if userModel?.leaseTypeTemp == 0 {
                     numDescTF.text = "自有房产"
-                }else if userModel?.leaseType == 1 {
+                }else if userModel?.leaseTypeTemp == 1 {
                     numDescTF.text = "租赁房产"
                 }else {
                     numDescTF.text = ""

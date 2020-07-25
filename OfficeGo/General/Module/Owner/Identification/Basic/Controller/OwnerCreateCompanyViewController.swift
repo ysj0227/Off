@@ -10,10 +10,10 @@ import CLImagePickerTool
 import Alamofire
 
 class OwnerCreateCompanyViewController: BaseTableViewController {
+    
+    var yingYeZhiZhaoPhoto: BaseImageView = {
         
-    var yingYeZhiZhaoPhoto: UIImageView = {
-        
-        let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
+        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
         view.backgroundColor = kAppLightBlueColor
         view.contentMode = .scaleAspectFill
         view.isUserInteractionEnabled = true
@@ -41,7 +41,7 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
     
     var typeSourceArray:[OwnerCreatCompanyConfigureModel] = [OwnerCreatCompanyConfigureModel]()
     
-    var companyModel: OwnerESCompanySearchModel?
+    var companyModel: OwnerIdentifyUserModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,30 +144,11 @@ extension OwnerCreateCompanyViewController {
         if companyModel != nil {
             
         }else {
-            companyModel = OwnerESCompanySearchModel()
+            companyModel = OwnerIdentifyUserModel()
         }
         
+        yingYeZhiZhaoPhoto.setImage(with: companyModel?.businessLicense ?? "", placeholder: UIImage.init(named: ""))
         self.tableView.reloadData()
-    }
-    
-    private func upload(uploadImage:UIImage) {
-        
-        SSNetworkTool.SSMine.request_uploadAvatar(image: uploadImage, success: {[weak self] (response) in
-            
-            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                UserTool.shared.user_avatars = model.avatar
-                AppUtilities.makeToast("头像已修改")
-            }
-            }, failure: { (error) in
-                
-        }) { (code, message) in
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-        
     }
     
     func setSureBtnEnable(can: Bool) {
@@ -204,9 +185,61 @@ extension OwnerCreateCompanyViewController {
     ///创建公司接口 -
     func requestCreateCompany() {
         
-        addNotify()
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        //1提交认证2企业确认3网点楼盘创建确认
+        params["createCompany"] = 2 as AnyObject?
+        
+        ///企业关系id
+        if companyModel?.userLicenceId != 0 {
+            params["userLicenceId"] = companyModel?.userLicenceId as AnyObject?
+        }
+        
+        ///企业id
+        if companyModel?.licenceId != 0 {
+            params["licenceId"] = companyModel?.licenceId as AnyObject?
+        }
+        
+        ///关联楼id
+        if companyModel?.buildingId != 0 {
+            params["buildingId"] = companyModel?.buildingId as AnyObject?
+        }
+        ///关联楼id
+        if companyModel?.buildingTempId != 0 {
+            params["buildingTempId"] = companyModel?.buildingTempId as AnyObject?
+        }
+        
+        params["company"] = companyModel?.company as AnyObject?
+        
+        params["address"] = companyModel?.address as AnyObject?
+        
+        params["creditNo"] = companyModel?.creditNo as AnyObject?
+        
+        //params["fileBusinessLicense"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_createCompanyApp(params: params, imagesArray: [yingYeZhiZhaoPhoto.image ?? UIImage()], success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.addNotify()
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
-    
     
 }
 
@@ -242,9 +275,9 @@ extension OwnerCreateCompanyViewController {
 
 class OwnerCreateCompanyCell: BaseEditCell {
     
-    var companyModel: OwnerESCompanySearchModel?
-
-    var endEditingMessageCell:((OwnerESCompanySearchModel) -> Void)?
+    var companyModel: OwnerIdentifyUserModel?
+    
+    var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
     
     override func setDelegate() {
         editLabel.delegate = self
@@ -268,7 +301,7 @@ class OwnerCreateCompanyCell: BaseEditCell {
             }else if model.type == .OwnerCreteCompanyTypeYingyeCode {
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
-                editLabel.text = ""
+                editLabel.text = companyModel?.creditNo
             }else if model.type == .OwnerCreteCompanyTypeUploadYingyePhoto{
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true
@@ -289,7 +322,7 @@ extension OwnerCreateCompanyCell: UITextFieldDelegate {
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(companyModel ?? OwnerESCompanySearchModel())
+        blockk(companyModel ?? OwnerIdentifyUserModel())
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
         

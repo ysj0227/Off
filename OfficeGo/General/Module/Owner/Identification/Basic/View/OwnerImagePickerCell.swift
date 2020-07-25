@@ -37,8 +37,8 @@ class OwnerImagePickerCell: BaseCollectionViewCell {
 //            self.visitPhotoBtnClickClouse!(index)
 //        }
 //    }
-    let image: UIImageView = {
-        let view = UIImageView()
+    let image: BaseImageView = {
+        let view = BaseImageView()
         view.backgroundColor = kAppClearColor
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill

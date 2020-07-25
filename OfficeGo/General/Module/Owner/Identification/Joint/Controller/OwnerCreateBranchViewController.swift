@@ -8,12 +8,9 @@
 
 import CLImagePickerTool
 import Alamofire
-
 class OwnerCreateBranchViewController: BaseTableViewController {
         
-    var districtAreaString: String?
-    
-    var areaModelCount = CityAreaCategorySelectModel()
+    var areaModelCount: CityAreaCategorySelectModel?
     
     var mainPicPhoto: UIImageView = {
         
@@ -44,7 +41,8 @@ class OwnerCreateBranchViewController: BaseTableViewController {
     
     var typeSourceArray:[OwnerCreatBranchConfigureModel] = [OwnerCreatBranchConfigureModel]()
     
-    var branchModel: OwnerESBuildingSearchModel?
+    var userModel: OwnerIdentifyUserModel?
+    
     
     lazy var areaView: CityDistrictAddressSelectView = {
         let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: kNavigationHeight + cell_height_58 * 2, width: kWidth, height: kHeight - kNavigationHeight - cell_height_58 * 2 - bottomMargin()))
@@ -57,7 +55,7 @@ class OwnerCreateBranchViewController: BaseTableViewController {
         setUpView()
         
         setUpData()
-            
+        
         request_getDistrict()
     }
     
@@ -65,9 +63,77 @@ class OwnerCreateBranchViewController: BaseTableViewController {
         super.viewDidDisappear(animated)
         //移除弹框
         CityDistrictAddressSelectView.removeShowView()
-
     }
     
+    ///提交认证
+    func requestCompanyIdentify() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        //1提交认证2企业确认3网点楼盘创建确认
+        params["createCompany"] = 3 as AnyObject?
+        
+        
+        ///企业关系id
+        if userModel?.userLicenceId != 0 {
+            params["userLicenceId"] = userModel?.userLicenceId as AnyObject?
+        }
+        
+        ///企业id
+        if userModel?.licenceId != 0 {
+            params["licenceId"] = userModel?.licenceId as AnyObject?
+        }
+        
+        ///关联楼id
+        if userModel?.buildingId != 0 {
+            params["buildingId"] = userModel?.buildingId as AnyObject?
+        }
+        
+        ///关联楼id
+        if userModel?.buildingTempId != 0 {
+            params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
+        }
+        
+        if let district = userModel?.district {
+            
+        }else {
+            params["district"] = areaModelCount?.isFirstSelectedModel?.districtID as AnyObject?
+        }
+        
+        if let business = userModel?.business {
+            
+        }else {
+            params["business"] = areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel?.id as AnyObject?
+        }
+        
+        params["branchesName"] = userModel?.branchesName as AnyObject?
+        
+        params["buildingAddress"] = userModel?.buildingAddress as AnyObject?
+        
+        //params["fileMainPic"] = userModel?.fileMainPic as AnyObject?
+        
+        SSNetworkTool.SSOwnerIdentify.request_createBuildingApp(params: params, imagesArray: [mainPicPhoto.image ?? UIImage()], success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.addNotify()
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
 }
 
 
@@ -158,33 +224,20 @@ extension OwnerCreateBranchViewController {
         typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeBranchAddress))
         typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeUploadYingyePhoto))
         
-        if branchModel != nil {
-            
-        }else {
-            branchModel = OwnerESBuildingSearchModel()
-        }
-        
-        self.tableView.reloadData()
+        setData()
+        loadTableview()
     }
     
-    private func upload(uploadImage:UIImage) {
-        
-        SSNetworkTool.SSMine.request_uploadAvatar(image: uploadImage, success: {[weak self] (response) in
+    func setData() {
+        if userModel != nil {
             
-            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                UserTool.shared.user_avatars = model.avatar
-                AppUtilities.makeToast("头像已修改")
-            }
-            }, failure: { (error) in
-                
-        }) { (code, message) in
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
+        }else {
+            userModel = OwnerIdentifyUserModel()
         }
-        
+    }
+    
+    func loadTableview() {
+        self.tableView.reloadData()
     }
     
     func setSureBtnEnable(can: Bool) {
@@ -207,14 +260,14 @@ extension OwnerCreateBranchViewController {
     //发送加入公司和网点公司的通知
     func addNotify() {
         ///身份类型0个人1企业2联合
-        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateBranchJoint, object: branchModel)
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateBuilding, object: userModel)
         leftBtnClick()
     }
     
     ///创建公司接口 -
     func requestCreateCompany() {
         
-        addNotify()
+        requestCompanyIdentify()
     }
     //MARK: 获取商圈数据
     func request_getDistrict() {
@@ -225,6 +278,7 @@ extension OwnerCreateBranchViewController {
             if let model = CityAreaCategorySelectModel.deserialize(from: response) {
                 model.name = "上海"
                 self?.areaModelCount = model
+                self?.getSelectedDistrictBusiness()
             }
             
             }, failure: { [weak self] (error) in
@@ -238,8 +292,26 @@ extension OwnerCreateBranchViewController {
             }
         }
     }
+    
+    func getSelectedDistrictBusiness() {
+        areaModelCount?.data.forEach({ (model) in
+            if model.districtID == userModel?.district {
+                areaModelCount?.isFirstSelectedModel = model
+                userModel?.districtString = model.district
+                areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
+                    if areaModelCount?.isFirstSelectedModel?.districtID == areaModel.id {
+                        areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
+                        userModel?.businessString = areaModel.area
+                        loadTableview()
+                    }
+                })
+                
+            }
+        })
+    }
+    
     func judgeHasData() {
-        if areaModelCount.data.count  > 0 {
+        if areaModelCount?.data.count ?? 0  > 0 {
             self.showArea(isFrist: true)
         }else {
             request_getDistrict()
@@ -247,18 +319,20 @@ extension OwnerCreateBranchViewController {
     }
     
     func showArea(isFrist: Bool) {
-        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount, clearButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
-            self?.districtAreaString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区 \(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
             self?.areaModelCount = selectModel
-            
+            self?.userModel?.districtString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区"
+            self?.userModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
-                self?.districtAreaString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区 \(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
-                self?.branchModel?.buildingAddress = self?.districtAreaString
                 self?.areaModelCount = selectModel
+                self?.userModel?.districtString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区"
+                self?.userModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
                 self?.tableView.reloadData()
                 
         })
     }
+    
     
 }
 
@@ -267,10 +341,10 @@ extension OwnerCreateBranchViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: OwnerCreateBranchCell.reuseIdentifierStr) as? OwnerCreateBranchCell
         cell?.selectionStyle = .none
-        cell?.branchModel = branchModel
+        cell?.userModel = userModel
         cell?.model = typeSourceArray[indexPath.row]
-        cell?.endEditingMessageCell = { [weak self] (branchModel) in
-            self?.branchModel = branchModel
+        cell?.endEditingMessageCell = { [weak self] (userModel) in
+            self?.userModel = userModel
         }
         return cell ?? OwnerCreateBranchCell.init(frame: .zero)
     }
@@ -295,9 +369,9 @@ extension OwnerCreateBranchViewController {
 
 class OwnerCreateBranchCell: BaseEditCell {
     
-    var branchModel: OwnerESBuildingSearchModel?
-
-    var endEditingMessageCell:((OwnerESBuildingSearchModel) -> Void)?
+    var userModel: OwnerIdentifyUserModel?
+    
+    var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
     
     override func setDelegate() {
         editLabel.delegate = self
@@ -313,16 +387,16 @@ class OwnerCreateBranchCell: BaseEditCell {
             if model.type == .OwnerCreteBranchTypeBranchName{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
-                editLabel.text = branchModel?.buildingName
+                editLabel.text = userModel?.branchesName
             }else if model.type == .OwnerCreteBranchTypeBranchDistrictArea{
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = false
                 detailIcon.isHidden = false
-                editLabel.text = branchModel?.buildingAddress
+                editLabel.text = "\(userModel?.districtString ?? "") \(userModel?.businessString ?? "")"
             }else if model.type == .OwnerCreteBranchTypeBranchAddress{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
-                editLabel.text = branchModel?.address
+                editLabel.text = userModel?.buildingAddress
             }else if model.type == .OwnerCreteBranchTypeUploadYingyePhoto{
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true
@@ -336,15 +410,15 @@ extension OwnerCreateBranchCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if model.type == .OwnerCreteBranchTypeBranchName{
-            branchModel?.buildingName = textField.text
+            userModel?.branchesName = textField.text
         }else if model.type == .OwnerCreteBranchTypeBranchAddress{
-            branchModel?.address = textField.text
+            userModel?.buildingAddress = textField.text
         }
         
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(branchModel ?? OwnerESBuildingSearchModel())
+        blockk(userModel ?? OwnerIdentifyUserModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

@@ -20,4 +20,5 @@ class BannerModel: BaseModel {
     var typeId : Int?
     var updateTime : Int?
     var updateUser : String?
+    var image : UIImage?
 }

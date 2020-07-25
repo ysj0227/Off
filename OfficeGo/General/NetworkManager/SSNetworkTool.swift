@@ -90,8 +90,96 @@ class SSNetworkTool: NSObject {
                             var message = ""
                             if let msg  = resp["message"]  {
                                 message = (msg as? String) ?? ""
-                                /*
-                                 AppUtilities.makeToast("\(statusCode)\n\(message)")*/
+                                
+                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
+                            }
+                            if let block = error {
+                                block("\(statusCode)", message)
+                            }
+                        }
+                    case .failure(let error):
+                        if let block = failed {
+                            block(error as NSError)
+                            SSLog("url:\(urlStr) error:\(error)")
+                        }
+                    }
+                })
+            case .failure(let error) :
+                SSLog(error)
+                //                NotificationCenter.default.post(name: Notification.Name.userChanged, object: false)
+            }
+        }
+        
+    }
+    /// 多组多张图片上传
+    ///
+    /// - Parameters:
+    ///   - urlStr: 地址
+    ///   - fileName: 图片名字
+    ///   - imagesArray: 图片
+    ///   - params: 参数
+    ///   - isShowHud: 是否显示HUD
+    static func uploadMutileArrImage(urlStr: String, fczfileName: String, fczImagesArray: [UIImage], zlAgentfileName: String, zlAgentImagesArray: [UIImage], params: Eic,isShowHud:Bool,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
+
+        if isShowHud {
+            LoadingHudView.showHud()
+        }
+        
+        Alamofire.upload(multipartFormData: { (multiPart) in
+            for p in params {
+                multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
+            }
+            for image in fczImagesArray {
+                if  let imageData = image.jpegData(compressionQuality: 1) {
+                    multiPart.append(imageData, withName: fczfileName, fileName: "image.jpg", mimeType: "image/jpg")
+                }
+            }
+            for image in zlAgentImagesArray {
+                if  let imageData = image.jpegData(compressionQuality: 1) {
+                    multiPart.append(imageData, withName: zlAgentfileName, fileName: "image.jpg", mimeType: "image/jpg")
+                }
+            }
+        }, to: urlStr, method: .post, headers: nil) { (multiPartResult) in
+            if isShowHud {
+                LoadingHudView.hideHud()
+            }
+            switch(multiPartResult) {
+            case .success(let request, let streamingFromDisk, let streamFileURL) :
+                request.responseJSON(completionHandler: { (Response) in
+                    SSLog("数据地址:\(urlStr) 方式：post 参数:\(params) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
+                    
+                    switch Response.result {
+                    case .success:
+                        guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
+                            return
+                        }
+                        //                    let infoData = (resp["data"] as? [String: AnyObject])
+                        
+                        let statusCode = (resp["status"] as? Int) ?? -1
+                        if statusCode == SSCode.SUCCESS.code {
+                            if let block = success {
+                                block(resp)
+                            }
+                            
+                        }else if statusCode == SSCode.DEFAULT_ERROR_CODE_5000.code {
+                            var message = ""
+                            if let msg  = resp["message"]  {
+                                message = (msg as? String) ?? ""
+                            }
+                            if let block = error {
+                                block("\(statusCode)", message)
+                            }
+                        }else if statusCode == SSCode.ERROR_CODE_5009.code {
+                            AppUtilities.makeToast("\(SSCode.ERROR_CODE_5009.msg)")
+                            SSTool.delay(time: 2) {
+                                NotificationCenter.default.post(name: NSNotification.Name.LoginResignEffect, object: nil)
+                            }
+                        }else {
+                            var message = ""
+                            if let msg  = resp["message"]  {
+                                message = (msg as? String) ?? ""
+                                
+                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
                             }
                             if let block = error {
                                 block("\(statusCode)", message)
@@ -112,6 +200,89 @@ class SSNetworkTool: NSObject {
         
     }
     
+    /// 多张图片上传 - 目前使用在上传公司营业执照
+    ///
+    /// - Parameters:
+    ///   - urlStr: 地址
+    ///   - fileName: 图片名字
+    ///   - imagesArray: 图片
+    ///   - params: 参数
+    ///   - isShowHud: 是否显示HUD
+    static func uploadMutileImage(urlStr: String, fileName: String, imagesArray: [UIImage],params: Eic,isShowHud:Bool,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
+
+        if isShowHud {
+            LoadingHudView.showHud()
+        }
+        
+        Alamofire.upload(multipartFormData: { (multiPart) in
+            for p in params {
+                multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
+            }
+            for image in imagesArray {
+                if  let imageData = image.jpegData(compressionQuality: 1) {
+                    multiPart.append(imageData, withName: fileName, fileName: "image.jpg", mimeType: "image/jpg")
+                }
+            }
+        }, to: urlStr, method: .post, headers: nil) { (multiPartResult) in
+            if isShowHud {
+                LoadingHudView.hideHud()
+            }
+            switch(multiPartResult) {
+            case .success(let request, let streamingFromDisk, let streamFileURL) :
+                request.responseJSON(completionHandler: { (Response) in
+                    SSLog("数据地址:\(urlStr) 方式：post 参数:\(params) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
+                    
+                    switch Response.result {
+                    case .success:
+                        guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
+                            return
+                        }
+                        //                    let infoData = (resp["data"] as? [String: AnyObject])
+                        
+                        let statusCode = (resp["status"] as? Int) ?? -1
+                        if statusCode == SSCode.SUCCESS.code {
+                            if let block = success {
+                                block(resp)
+                            }
+                            
+                        }else if statusCode == SSCode.DEFAULT_ERROR_CODE_5000.code {
+                            var message = ""
+                            if let msg  = resp["message"]  {
+                                message = (msg as? String) ?? ""
+                            }
+                            if let block = error {
+                                block("\(statusCode)", message)
+                            }
+                        }else if statusCode == SSCode.ERROR_CODE_5009.code {
+                            AppUtilities.makeToast("\(SSCode.ERROR_CODE_5009.msg)")
+                            SSTool.delay(time: 2) {
+                                NotificationCenter.default.post(name: NSNotification.Name.LoginResignEffect, object: nil)
+                            }
+                        }else {
+                            var message = ""
+                            if let msg  = resp["message"]  {
+                                message = (msg as? String) ?? ""
+                                
+                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
+                            }
+                            if let block = error {
+                                block("\(statusCode)", message)
+                            }
+                        }
+                    case .failure(let error):
+                        if let block = failed {
+                            block(error as NSError)
+                            SSLog("url:\(urlStr) error:\(error)")
+                        }
+                    }
+                })
+            case .failure(let error) :
+                SSLog(error)
+                //                NotificationCenter.default.post(name: Notification.Name.userChanged, object: false)
+            }
+        }
+        
+    }
     
     static func request(type: HTTPMethod, urlStr: String,sessionId:String?, params:Dic, isShowHud:Bool, success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
         //        SSTool.invokeInGlobalThread {
@@ -162,8 +333,8 @@ class SSNetworkTool: NSObject {
                     var message = ""
                     if let msg  = resp["message"]  {
                         message = (msg as? String) ?? ""
-                        /*
-                         AppUtilities.makeToast("\(statusCode)\n\(message)")*/
+                        
+                         AppUtilities.makeToast("\(statusCode)\n\(message)")
                     }
                     if let block = error {
                         block("\(statusCode)", message)
@@ -253,11 +424,40 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        //添加认证APP
-        static func request_uploadLicenceProprietorApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+        //添加公司认证APP
+        static func request_companyIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-                success,failed:failure,error:error)
+            SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
+            success,failed:failure,error:error)
+        }
+        
+        //添加联合办公认证APP
+        static func request_jointIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
+            SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
+            success,failed:failure,error:error)
+        }
+        
+        //添加个人认证APP
+        static func request_personalIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
+            SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
+            success,failed:failure,error:error)
+        }
+        
+        //创建公司接口 - 上传营业执照
+        static func request_createCompanyApp(params: Eic, imagesArray: [UIImage] ,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
+            SSNetworkTool.uploadMutileImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fileName: "fileBusinessLicense", imagesArray: imagesArray, params: params, isShowHud: true, success:
+            success,failed:failure,error:error)
+        }
+        
+        //创建楼盘接口 - 上传封面图
+        //创建网点接口 - 上传封面图
+        static func request_createBuildingApp(params: Eic, imagesArray: [UIImage] ,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
+            SSNetworkTool.uploadMutileImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fileName: "fileMainPic", imagesArray: imagesArray, params: params, isShowHud: true, success:
+            success,failed:failure,error:error)
         }
         
         //自主撤销认证

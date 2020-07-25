@@ -10,11 +10,27 @@ import CLImagePickerTool
 
 class OwnerPersonalIeditnfyVC: BaseViewController {
     
+    //判断身份证照片是否是第一次调取接口
+    var isFirst: Bool = false
+    
+    var userNameTemp: String?
+    
+    var userIdCardTemp: String?
+    
+    ///楼盘名字 自己选择的 - 可能是接口返回的
+    var buildingNameTemp: String?
+    
+    ///租赁类型0直租1转租 自己选择的 - 可能是接口返回的
+    var leaseTypeTemp: Int?
+    
+    ///楼盘id 自己选择关联之后用自己的 - 没有选择可能是接口返回的
+    var buildingId: Int?
+
     var isFront: Bool? = true
     
-    var frontImage: UIImage?
+    var frontBannerModel: BannerModel?
     
-    var reverseImage: UIImage?
+    var reverseBannerModel: BannerModel?
     
     var userModel: OwnerIdentifyUserModel?
     
@@ -43,19 +59,24 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         }
     }
     
-    @objc var uploadPicFCZArr = [UIImage]()  // 在实际的项目中可能用于存储图片的url
-    
-    @objc var uploadPicZLAgentArr = [UIImage]()  // 在实际的项目中可能用于存储图片的url
-    
+    @objc var uploadPicModelFCZArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
+
+    @objc var uploadPicModelZLAgentArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
+
     @objc var uplaodMainPageimg = UIImage.init(named: "addImgBg")  // 在实际的项目中可能用于存储图片的url
     
+    lazy var fczImagePickTool: CLImagePickerTool = {
+        let picker = CLImagePickerTool()
+        picker.cameraOut = true
+        picker.isHiddenVideo = true
+        return picker
+    }()
     lazy var zlAgentImagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
         picker.cameraOut = true
         picker.isHiddenVideo = true
         return picker
     }()
-    
     lazy var mainPicImagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
         picker.cameraOut = true
@@ -112,11 +133,11 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        requestCompanyIdentifyDetail()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpData()
         setUpView()
         addNotify()
     }
@@ -126,7 +147,7 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             if let model = noti.object as? OwnerESBuildingSearchModel {
                 self?.userModel?.buildingName = model.buildingName
-                self?.userModel?.address = model.address
+                self?.userModel?.buildingAddress = model.address
                 self?.buildingNameSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
@@ -150,12 +171,231 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     
 }
 
+extension OwnerPersonalIeditnfyVC {
+    
+    func detailDataShow() {
+        
+        if isFirst == true {
+            
+        }else {
+            if let front = userModel?.fileIdFront {
+                frontBannerModel?.image = nil
+                frontBannerModel?.imgUrl = front
+            }else {
+                frontBannerModel?.imgUrl = nil
+            }
+            
+            if let reverse = userModel?.fileIdBack {
+                reverseBannerModel?.image = nil
+                reverseBannerModel?.imgUrl = reverse
+            }else {
+                reverseBannerModel?.imgUrl = nil
+            }
+        }
+        
+        if buildingId == nil {
+            buildingId = userModel?.buildingId
+        }
+        //租赁类型
+        if leaseTypeTemp == nil {
+            if let leaseType = userModel?.leaseType {
+                leaseTypeTemp = leaseType
+                userModel?.leaseTypeTemp = leaseType
+            }else {
+                leaseTypeTemp = 0
+                userModel?.leaseTypeTemp = 0
+            }
+
+        }else {
+            userModel?.leaseTypeTemp = leaseTypeTemp
+        }
+        
+        //姓名处理
+        if userNameTemp == nil {
+            userNameTemp = userModel?.proprietorRealname
+            userModel?.userNameTemp = userModel?.proprietorRealname
+        }else {
+            userModel?.userNameTemp = userNameTemp
+        }
+        //身份证
+        if userIdCardTemp == nil {
+            userIdCardTemp = userModel?.idCard
+            userModel?.userIdCardTemp = userModel?.idCard
+        }else {
+            userModel?.userIdCardTemp = userIdCardTemp
+        }
+        //楼盘名字
+        if buildingNameTemp == nil {
+            buildingNameTemp = userModel?.buildingName
+            userModel?.buildingNameTemp = userModel?.buildingName
+        }else {
+            userModel?.buildingNameTemp = buildingNameTemp
+        }
+        
+        isFirst = true
+        
+       
+                
+        ///移除之前的房产证数据
+        for fczBannerModel in uploadPicModelFCZArr {
+            if fczBannerModel.imgUrl?.count ?? 0 > 0 {
+                uploadPicModelFCZArr.remove(fczBannerModel)
+            }
+        }
+        
+        ///添加新的房产证数据
+        if let premisesPermit = userModel?.premisesPermit {
+            
+            for fczBannerModel in premisesPermit {
+                uploadPicModelFCZArr.insert(fczBannerModel, at: 0)
+            }
+        }
+        
+        ///移除之前的租赁协议数据
+        for lzAgentBannerModel in uploadPicModelZLAgentArr {
+            if lzAgentBannerModel.imgUrl?.count ?? 0 > 0 {
+                uploadPicModelZLAgentArr.remove(lzAgentBannerModel)
+            }
+        }
+        
+        ///添加新的租赁协议数据
+        if let contract = userModel?.contract {
+            
+            for lzAgentBannerModel in contract {
+                uploadPicModelZLAgentArr.insert(lzAgentBannerModel, at: 0)
+            }
+        }
+        
+        loadCollectionData()
+    }
+    
+    ///获取信息
+    func requestCompanyIdentifyDetail() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.userModel = model
+                weakSelf.detailDataShow()
+                
+            }else {
+                weakSelf.setUpData()
+                weakSelf.loadCollectionData()
+            }
+            
+            }, failure: {[weak self] (error) in
+                
+                guard let weakSelf = self else {return}
+                
+                weakSelf.setUpData()
+                weakSelf.loadCollectionData()
+                
+        }) {[weak self] (code, message) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.setUpData()
+            weakSelf.loadCollectionData()
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    ///提交认证
+    func requestCompanyIdentify() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        //1提交认证2企业确认3网点楼盘创建确认
+        params["createCompany"] = 1 as AnyObject?
+        
+        params["leaseType"] = leaseTypeTemp as AnyObject?
+        
+        
+        ///企业关系id  接口给
+        if userModel?.userLicenceId != 0 {
+            params["userLicenceId"] = userModel?.userLicenceId as AnyObject?
+        }
+        
+        ///企业id  接口给
+        if userModel?.licenceId != 0 {
+            params["licenceId"] = userModel?.licenceId as AnyObject?
+        }
+        
+        ///关联楼id
+        if userModel?.buildingId != 0 {
+            params["buildingId"] = userModel?.buildingId as AnyObject?
+        }
+        ///关联楼id
+        if userModel?.buildingTempId != 0 {
+            params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
+        }
+        
+        params["userName"] = userModel?.userNameTemp as AnyObject?
+        params["idCard"] = userModel?.userIdCardTemp as AnyObject?
+        //       params["fileIdFront"]
+        //       params["fileIdBack"]
+        
+        //房产证
+        var fczArr: [UIImage] = []
+        for model in uploadPicModelFCZArr {
+            if model.image != nil {
+                fczArr.append(model.image ?? UIImage())
+            }
+        }
+        fczArr.remove(at: fczArr.count - 1)
+        
+        //租赁
+        var alAgentArr: [UIImage] = []
+        for model in uploadPicModelZLAgentArr {
+            if model.image != nil {
+                alAgentArr.append(model.image ?? UIImage())
+            }
+        }
+        alAgentArr.remove(at: alAgentArr.count - 1)
+        
+        SSNetworkTool.SSOwnerIdentify.request_companyIdentityApp(params: params, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.showCommitAlertview()
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+}
 
 extension OwnerPersonalIeditnfyVC {
     
     @objc func logotClick() {
         self.headerCollectionView.endEditing(true)
-        showCommitAlertview()
+        requestCompanyIdentify()
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
@@ -163,8 +403,18 @@ extension OwnerPersonalIeditnfyVC {
     }
     func setUpView() {
         
-        uploadPicFCZArr.append(UIImage.init(named: "addImgBg") ?? UIImage())
-        uploadPicZLAgentArr.append(UIImage.init(named: "addImgBg") ?? UIImage())
+        frontBannerModel = BannerModel()
+        
+        reverseBannerModel = BannerModel()
+        
+        let fczBannerModel = BannerModel()
+        fczBannerModel.image = UIImage.init(named: "addImgBg")
+        uploadPicModelFCZArr.append(fczBannerModel)
+        
+        let zlAgentBannerModel = BannerModel()
+        zlAgentBannerModel.image = UIImage.init(named: "addImgBg")
+        uploadPicModelZLAgentArr.append(zlAgentBannerModel)
+
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
         titleview?.titleLabel.text = "个人业主认证"
         titleview?.rightButton.isHidden = true
@@ -201,17 +451,21 @@ extension OwnerPersonalIeditnfyVC {
         // 传递闭包 当点击’搜索结果‘的cell调用
         buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
             // 搜索完成 关闭resultVC
-            
-            self?.userModel?.buildingName = model.buildingAttributedName?.string
-            self?.userModel?.address = model.addressString?.string
+            self?.buildingId = model.bid
+            self?.userModel?.buildingId = model.bid
+            // 搜索完成 关闭resultVC
+            //只需要楼盘名字
+            self?.buildingNameTemp = model.buildingAttributedName?.string
+            self?.userModel?.buildingNameTemp = model.buildingAttributedName?.string
+            self?.userModel?.buildingAddress = model.addressString?.string
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionData()
         }
         
         // 创建按钮 - 隐藏 - 展示下面的楼盘地址 - 地址置空
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
-            self?.userModel?.buildingName = ""
             let vc = OwnerCreateBuildingViewController()
+            vc.userModel = self?.userModel
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
@@ -221,9 +475,6 @@ extension OwnerPersonalIeditnfyVC {
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionData()
         }
-        
-        //第一次刷新列表
-        loadCollectionData()
     }
     
     func loadCollectionData() {
@@ -243,10 +494,12 @@ extension OwnerPersonalIeditnfyVC {
 
 extension OwnerPersonalIeditnfyVC {
     func selectFCZPicker() {
-        mainPicImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicFCZArr.count) {[weak self] (asset,cutImage) in
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicModelFCZArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                self?.uploadPicFCZArr.insert(image, at: 0)
+                let fczBannerModel = BannerModel()
+                fczBannerModel.image = image
+                self?.uploadPicModelFCZArr.insert(fczBannerModel, at: 0)
                 }, failedClouse: { () in
                     
             })
@@ -255,10 +508,24 @@ extension OwnerPersonalIeditnfyVC {
     }
     
     func selectZLAgentPicker() {
-        zlAgentImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicZLAgentArr.count) {[weak self] (asset,cutImage) in
+        zlAgentImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 10 - uploadPicModelZLAgentArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                self?.uploadPicZLAgentArr.insert(image, at: 0)
+                let zlAgentBannerModel = BannerModel()
+                zlAgentBannerModel.image = image
+                self?.uploadPicModelZLAgentArr.insert(zlAgentBannerModel, at: 0)
+                }, failedClouse: { () in
+                    
+            })
+            self?.loadCollectionData()
+        }
+    }
+    
+    func selectMainPagePicker() {
+        mainPicImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 1) {[weak self] (asset,cutImage) in
+            // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                self?.uplaodMainPageimg = image
                 }, failedClouse: { () in
                     
             })
@@ -290,7 +557,8 @@ extension OwnerPersonalIeditnfyVC {
                 // scale 指定压缩比
                 // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
                 CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                    self?.reverseImage = image.crop(ratio: 4 / 3.0)
+                    self?.reverseBannerModel?.imgUrl = nil
+                    self?.reverseBannerModel?.image = image.crop(ratio: 4 / 3.0)
                     self?.loadCollectionData()
                     
                     }, failedClouse: { () in
@@ -332,7 +600,8 @@ extension OwnerPersonalIeditnfyVC {
                 // scale 指定压缩比
                 // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
                 CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                    self?.frontImage = image.crop(ratio: 4 / 3.0)
+                    self?.frontBannerModel?.imgUrl = nil
+                    self?.frontBannerModel?.image = image.crop(ratio: 4 / 3.0)
                     self?.loadCollectionData()
                     
                     }, failedClouse: { () in
@@ -355,14 +624,14 @@ extension OwnerPersonalIeditnfyVC {
 extension OwnerPersonalIeditnfyVC: ZKIDCardCameraControllerDelegate {
     func cameraDidFinishShoot(withCameraImage image: UIImage) {
         if isFront == true {
-            frontImage = image
+            frontBannerModel?.imgUrl = nil
+            frontBannerModel?.image = image.crop(ratio: 4 / 3.0)
         }else {
-            reverseImage = image
+            reverseBannerModel?.imgUrl = nil
+            reverseBannerModel?.image = image.crop(ratio: 4 / 3.0)
         }
         self.loadCollectionData()
     }
-    
-    
 }
 
 extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -374,11 +643,13 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.buildingUserNameEndEditingMessageCell = { [weak self] (nickname) in
-                self?.userModel?.nickname = nickname
+                self?.userModel?.userNameTemp = nickname
+                self?.userNameTemp = nickname
                 self?.loadCollectionData()
             }
             cell?.buildingIdCardEndEditingMessageCell = { [weak self] (idCard) in
-                self?.userModel?.idCard = idCard
+                self?.userModel?.userIdCardTemp = idCard
+                self?.userIdCardTemp = idCard
                 self?.loadCollectionData()
             }
             return cell ?? OwnerPersonalIdentifyCell()
@@ -388,7 +659,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
-                self?.userModel?.address = ""
+                self?.userModel?.buildingName = ""
                 self?.buildingName = buildingName
             }
             //            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
@@ -404,33 +675,49 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerIdCardImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerIdCardImagePickerCell
             if indexPath.item == 0 {
                 cell?.addTitleLabel.text = "上传身份证人像面"
-                cell?.image.image = frontImage
+                if let imgUrl = frontBannerModel?.imgUrl {
+                    cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                }else {
+                    cell?.image.image = frontBannerModel?.image
+                }
             }else if indexPath.item == 1 {
                 cell?.addTitleLabel.text = "上传身份证国徽面"
-                cell?.image.image = reverseImage
+                if let imgUrl = reverseBannerModel?.imgUrl {
+                    cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                }else {
+                    cell?.image.image = reverseBannerModel?.image
+                }
             }
             return cell ?? OwnerIdCardImagePickerCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
             cell?.indexPath = indexPath
             if indexPath.section == 3 {
-                cell?.image.image = uploadPicFCZArr[indexPath.item]
+                if let imgUrl = uploadPicModelFCZArr[indexPath.item].imgUrl {
+                    cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                }else {
+                    cell?.image.image = uploadPicModelFCZArr[indexPath.item].image
+                }
                 cell?.closeBtnClickClouse = { [weak self] (index) in
-                    self?.uploadPicFCZArr.remove(at: index)
+                    self?.uploadPicModelFCZArr.remove(at: index)
                     self?.loadCollectionData()
                 }
-                if indexPath.item == uploadPicFCZArr.count - 1 {
+                if indexPath.item == uploadPicModelFCZArr.count - 1 {
                     cell?.closeBtn.isHidden = true
                 }else {
                     cell?.closeBtn.isHidden = false
                 }
             }else if indexPath.section == 4 {
-                cell?.image.image = uploadPicZLAgentArr[indexPath.item]
+                if let imgUrl = uploadPicModelZLAgentArr[indexPath.item].imgUrl {
+                    cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                }else {
+                    cell?.image.image = uploadPicModelZLAgentArr[indexPath.item].image
+                }
                 cell?.closeBtnClickClouse = { [weak self] (index) in
-                    self?.uploadPicZLAgentArr.remove(at: index)
+                    self?.uploadPicModelZLAgentArr.remove(at: index)
                     self?.loadCollectionData()
                 }
-                if indexPath.item == uploadPicZLAgentArr.count - 1 {
+                if indexPath.item == uploadPicModelZLAgentArr.count - 1 {
                     cell?.closeBtn.isHidden = true
                 }else {
                     cell?.closeBtn.isHidden = false
@@ -441,15 +728,17 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
         
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if let idCard = userModel?.idCard {
+        if let idCard = userModel?.userIdCardTemp {
             if idCard.isBlankString == true {
                 return 2
             }else {
                 //直租
-                if userModel?.leaseType == 0 {
+                if leaseTypeTemp == 0 {
                     return typeSourceArray.count - 1
-                }else {
+                }else if leaseTypeTemp == 1 {
                     return typeSourceArray.count
+                }else {
+                    return typeSourceArray.count - 1
                 }
             }
         }else {
@@ -463,7 +752,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             //身份证
             return 2
         }else if section == 2 {
-            if let buildingName = userModel?.buildingName {
+            if let buildingName = userModel?.buildingNameTemp {
                 if buildingName.isBlankString == true {
                     return 2
                 }else {
@@ -474,27 +763,27 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             }
             return typeSourceArray[2].count
         }else if section == 3 {
-            if let buildingName = userModel?.buildingName {
+            if let buildingName = userModel?.buildingNameTemp {
                 if buildingName.isBlankString == true {
-                    return 2
+                    return 0
                 }else {
-                    return uploadPicFCZArr.count
+                    return uploadPicModelFCZArr.count
                 }
             }else {
                 return 0
             }
-            return uploadPicFCZArr.count
+            return uploadPicModelFCZArr.count
         }else if section == 4 {
-            if let buildingName = userModel?.buildingName {
+            if let buildingName = userModel?.buildingNameTemp {
                 if buildingName.isBlankString == true {
-                    return 2
+                    return 0
                 }else {
-                    return uploadPicZLAgentArr.count
+                    return uploadPicModelZLAgentArr.count
                 }
             }else {
                 return 0
             }
-            return uploadPicZLAgentArr.count
+            return uploadPicModelZLAgentArr.count
         }
         return 0
     }
@@ -551,11 +840,13 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 
                 let alertController = UIAlertController.init(title: "房产类型", message: nil, preferredStyle: .actionSheet)
                 let refreshAction = UIAlertAction.init(title: "自有房产", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.userModel?.leaseType = 0
+                    self?.leaseTypeTemp = 0
+                    self?.userModel?.leaseTypeTemp = 0
                     self?.loadCollectionData()
                 }
                 let copyAction = UIAlertAction.init(title: "租赁房产", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.userModel?.leaseType = 1
+                    self?.leaseTypeTemp = 1
+                    self?.userModel?.leaseTypeTemp = 1
                     self?.loadCollectionData()
                 }
                 let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
@@ -568,11 +859,11 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             }
         }else {
             if indexPath.section == 3 {
-                if indexPath.item == uploadPicFCZArr.count - 1 {
+                if indexPath.item == uploadPicModelFCZArr.count - 1 {
                     selectFCZPicker()
                 }
             }else if indexPath.section == 4 {
-                if indexPath.item == uploadPicZLAgentArr.count - 1 {
+                if indexPath.item == uploadPicModelZLAgentArr.count - 1 {
                     selectZLAgentPicker()
                 }
             }
@@ -617,7 +908,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             return CGSize(width: kWidth, height: 10)
             
         }else if section == 3 || section == 4 {
-            if let buildingName = userModel?.buildingName {
+            if let buildingName = userModel?.buildingNameTemp {
                 if buildingName.isBlankString == true {
                     return CGSize(width: kWidth, height: 0)
                 }else {
