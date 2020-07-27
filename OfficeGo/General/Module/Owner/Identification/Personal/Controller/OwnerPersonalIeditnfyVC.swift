@@ -728,6 +728,15 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
         
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+        //直租
+        if leaseTypeTemp == 0 {
+            return typeSourceArray.count - 1
+        }else if leaseTypeTemp == 1 {
+            return typeSourceArray.count
+        }else {
+            return typeSourceArray.count - 1
+        }
+        /*
         if let idCard = userModel?.userIdCardTemp {
             if idCard.isBlankString == true {
                 return 2
@@ -743,7 +752,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             }
         }else {
             return 2
-        }
+        }*/
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
@@ -752,6 +761,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             //身份证
             return 2
         }else if section == 2 {
+            /*
             if let buildingName = userModel?.buildingNameTemp {
                 if buildingName.isBlankString == true {
                     return 2
@@ -760,9 +770,10 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 }
             }else {
                 return 2
-            }
+            }*/
             return typeSourceArray[2].count
         }else if section == 3 {
+            /*
             if let buildingName = userModel?.buildingNameTemp {
                 if buildingName.isBlankString == true {
                     return 0
@@ -771,9 +782,10 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 }
             }else {
                 return 0
-            }
+            }*/
             return uploadPicModelFCZArr.count
         }else if section == 4 {
+            /*
             if let buildingName = userModel?.buildingNameTemp {
                 if buildingName.isBlankString == true {
                     return 0
@@ -782,7 +794,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 }
             }else {
                 return 0
-            }
+            }*/
             return uploadPicModelZLAgentArr.count
         }
         return 0
@@ -908,6 +920,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             return CGSize(width: kWidth, height: 10)
             
         }else if section == 3 || section == 4 {
+            /*
             if let buildingName = userModel?.buildingNameTemp {
                 if buildingName.isBlankString == true {
                     return CGSize(width: kWidth, height: 0)
@@ -916,7 +929,8 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 }
             }else {
                 return CGSize(width: kWidth, height: 0)
-            }
+            }*/
+            return CGSize(width: kWidth, height: 68)
             
         }else {
             return CGSize.zero
