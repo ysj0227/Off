@@ -135,6 +135,9 @@ class BaseTableViewController: BaseViewController {
         endRefreshWithCount(0)
     }
     
+    func endEdting() {
+        self.tableView.endEditing(true)
+    }
     
     override func clickReloadData() {
         

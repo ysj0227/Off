@@ -36,7 +36,7 @@ class LoginUserModel: BaseModel {
     ///身份类型0个人1企业2联和办公
     var identityType : Int?
     
-    //0员工 1是管理员
+    ///0员工 1是管理员
     var authority : Int?
     var channel : Int?
     
@@ -124,9 +124,9 @@ class OwnerIdentifyUserModel: BaseModel {
     ///楼名称
     var buildingName : String?
     
-    ///营业执照
     var buildingStatus : Int?
     
+    ///营业执照图片
     var businessLicense : String?
     
     ///公司名称
@@ -189,7 +189,7 @@ class OwnerIdentifyUserModel: BaseModel {
     var fileBusinessLicense : String?
     
     ///封面图
-    var fileMainPic : Int?
+    var fileMainPic : String?
     
     ///房产证
     var filePremisesPermit : String?
@@ -212,8 +212,13 @@ class OwnerIdentifyUserModel: BaseModel {
     var business : String?
     
     
+    
+    
     ///租赁类型0直租1转租
     var leaseTypeTemp : Int?
+    
+    ///公司名字 自己选择的 - 可能是接口返回的
+    var companyNameTemp: String?
     
     ///自己添加的显示的参数
     ///大区id
@@ -222,8 +227,17 @@ class OwnerIdentifyUserModel: BaseModel {
     ///商圈id
     var businessString : String?
     
+    ///楼盘id 自己选择关联之后用自己的 - 没有选择可能是接口返回的
+    var buildingTempSelfId: Int?
+    
     ///楼盘名字 自己选择的 - 可能是接口返回的
     var buildingNameTemp: String?
+    
+    ///楼地址
+    var buildingAddressTemp : String?
+    
+    ///网点名字 自己选择的 - 可能是接口返回的
+    var branchNameTemp: String?
     
     var userNameTemp: String?
     

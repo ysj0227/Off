@@ -113,11 +113,115 @@ class SSNetworkTool: NSObject {
         }
         
     }
-    /// 多组多张图片上传
+    
+    /// 个人认证多组多张图片上传
     ///
     /// - Parameters:
-    ///   - urlStr: 地址
-    ///   - fileName: 图片名字
+    ///   - fczImagesArray: 房产证
+    ///   - zlAgentImagesArray: 租赁协议
+    ///   - imagesArray: 图片
+    ///   - params: 参数
+    ///   - isShowHud: 是否显示HUD
+    static func uploadPersonalMutileArrImage(urlStr: String, frontName: String, frontImage: [UIImage], reverseName: String, reverseImage: [UIImage], fczfileName: String, fczImagesArray: [UIImage], zlAgentfileName: String, zlAgentImagesArray: [UIImage], params: Eic,isShowHud:Bool,success: SSSuccessedClosure!, failed: SSFailedErrorClosure!, error: SSErrorCodeMessageClosure!)  {
+
+        if isShowHud {
+            LoadingHudView.showHud()
+        }
+        
+        Alamofire.upload(multipartFormData: { (multiPart) in
+            for p in params {
+                multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
+            }
+            ///身份证 - 正
+            for image in frontImage {
+                if  let imageData = image.jpegData(compressionQuality: 1) {
+                    multiPart.append(imageData, withName: frontName, fileName: "image.jpg", mimeType: "image/jpg")
+                }
+            }
+            ///身份证 - 反
+            for image in frontImage {
+                if  let imageData = image.jpegData(compressionQuality: 1) {
+                    multiPart.append(imageData, withName: reverseName, fileName: "image.jpg", mimeType: "image/jpg")
+                }
+            }
+            for image in fczImagesArray {
+                if  let imageData = image.jpegData(compressionQuality: 1) {
+                    multiPart.append(imageData, withName: fczfileName, fileName: "image.jpg", mimeType: "image/jpg")
+                }
+            }
+            for image in zlAgentImagesArray {
+                if  let imageData = image.jpegData(compressionQuality: 1) {
+                    multiPart.append(imageData, withName: zlAgentfileName, fileName: "image.jpg", mimeType: "image/jpg")
+                }
+            }
+        }, to: urlStr, method: .post, headers: nil) { (multiPartResult) in
+            switch(multiPartResult) {
+            case .success(let request, let streamingFromDisk, let streamFileURL) :
+                request.responseJSON(completionHandler: { (Response) in
+                    SSLog("数据地址:\(urlStr) 方式：post 参数:\(params) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
+                    if isShowHud {
+                        LoadingHudView.hideHud()
+                    }
+                    switch Response.result {
+                    case .success:
+                        guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
+                            return
+                        }
+                        //                    let infoData = (resp["data"] as? [String: AnyObject])
+                        
+                        let statusCode = (resp["status"] as? Int) ?? -1
+                        if statusCode == SSCode.SUCCESS.code {
+                            if let block = success {
+                                block(resp)
+                            }
+                            
+                        }else if statusCode == SSCode.DEFAULT_ERROR_CODE_5000.code {
+                            var message = ""
+                            if let msg  = resp["message"]  {
+                                message = (msg as? String) ?? ""
+                            }
+                            if let block = error {
+                                block("\(statusCode)", message)
+                            }
+                        }else if statusCode == SSCode.ERROR_CODE_5009.code {
+                            AppUtilities.makeToast("\(SSCode.ERROR_CODE_5009.msg)")
+                            SSTool.delay(time: 2) {
+                                NotificationCenter.default.post(name: NSNotification.Name.LoginResignEffect, object: nil)
+                            }
+                        }else {
+                            var message = ""
+                            if let msg  = resp["message"]  {
+                                message = (msg as? String) ?? ""
+                                
+                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
+                            }
+                            if let block = error {
+                                block("\(statusCode)", message)
+                            }
+                        }
+                    case .failure(let error):
+                        if let block = failed {
+                            block(error as NSError)
+                            SSLog("url:\(urlStr) error:\(error)")
+                        }
+                    }
+                })
+            case .failure(let error) :
+                if isShowHud {
+                    LoadingHudView.hideHud()
+                }
+                SSLog(error)
+                //                NotificationCenter.default.post(name: Notification.Name.userChanged, object: false)
+            }
+        }
+        
+    }
+    
+    /// 公司 联合办公认证多组多张图片上传
+    ///
+    /// - Parameters:
+    ///   - fczImagesArray: 房产证
+    ///   - zlAgentImagesArray: 租赁协议
     ///   - imagesArray: 图片
     ///   - params: 参数
     ///   - isShowHud: 是否显示HUD
@@ -446,9 +550,9 @@ extension SSNetworkTool {
         }
         
         //添加个人认证APP
-        static func request_personalIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+        static func request_personalIdentityApp(params: Eic, frontImage: [UIImage], reverseImage: [UIImage],fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
-            SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
+            SSNetworkTool.uploadPersonalMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", frontName: "fileIdFront", frontImage: frontImage, reverseName: "fileIdBack", reverseImage: reverseImage, fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
             success,failed:failure,error:error)
         }
         

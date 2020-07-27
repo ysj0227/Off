@@ -110,9 +110,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
                 detailIcon.isHidden = true
                 addressLabel.isHidden = false
                 numDescTF.text = userModel?.buildingNameTemp
-                if numDescTF.text?.count ?? 0 > 0 {
-                    addressLabel.text = userModel?.buildingAddress
-                }
+                addressLabel.text = userModel?.buildingAddressTemp
             }else if model.type == .OwnerPersonalIedntifyTypeBuildingAddress{
 //                numDescTF.isUserInteractionEnabled = true
 //                detailIcon.isHidden = true

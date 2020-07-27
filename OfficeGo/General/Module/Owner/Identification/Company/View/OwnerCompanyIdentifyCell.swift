@@ -104,13 +104,13 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
-                numDescTF.text = userModel?.company
+                numDescTF.text = userModel?.companyNameTemp
             }else if model.type == .OwnerCompanyIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = false
-                numDescTF.text = userModel?.buildingName
-                addressLabel.text = userModel?.buildingAddress
+                numDescTF.text = userModel?.buildingNameTemp
+                addressLabel.text = userModel?.buildingAddressTemp
             }else if model.type == .OwnerCompanyIedntifyTypeBuildingAddress{
 //                numDescTF.isUserInteractionEnabled = true
 //                detailIcon.isHidden = true

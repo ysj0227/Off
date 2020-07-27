@@ -15,6 +15,7 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
         
         let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
         view.backgroundColor = kAppLightBlueColor
+        view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
         view.isUserInteractionEnabled = true
         return view
@@ -51,6 +52,17 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
         setUpData()
     }
     
+    func showLeaveAlert() {
+        endEdting()
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "信息尚未提交。点击离开，已编辑信息不保存", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            
+            self?.leftBtnClick()
+        }
+    }
+
 }
 
 
@@ -62,7 +74,7 @@ extension OwnerCreateCompanyViewController {
         titleview?.titleLabel.text = "创建公司"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.leftBtnClick()
+            self?.showLeaveAlert()
         }
         
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
@@ -184,6 +196,28 @@ extension OwnerCreateCompanyViewController {
     
     ///创建公司接口 -
     func requestCreateCompany() {
+        
+        endEdting()
+
+        if companyModel?.company == nil || companyModel?.company?.isBlankString == true{
+            AppUtilities.makeToast("请输入公司名称")
+            return
+        }
+        
+        if companyModel?.address == nil || companyModel?.address?.isBlankString == true{
+            AppUtilities.makeToast("请输入公司地址")
+            return
+        }
+        
+        if companyModel?.creditNo == nil || companyModel?.creditNo?.isBlankString == true{
+            AppUtilities.makeToast("请输入营业执照注册号")
+            return
+        }
+        
+//        if companyModel?.businessLicense == nil || companyModel?.businessLicense?.isBlankString == true{
+//            AppUtilities.makeToast("请上传营业执照")
+//            return
+//        }
         
         var params = [String:AnyObject]()
         
@@ -318,6 +352,8 @@ extension OwnerCreateCompanyCell: UITextFieldDelegate {
             companyModel?.company = textField.text
         }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
             companyModel?.address = textField.text
+        }else if model.type == .OwnerCreteCompanyTypeYingyeCode{
+            companyModel?.creditNo = textField.text
         }
         guard let blockk = self.endEditingMessageCell else {
             return

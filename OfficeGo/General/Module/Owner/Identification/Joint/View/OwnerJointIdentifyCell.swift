@@ -102,20 +102,20 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = false
-                numDescTF.text = userModel?.branchesName
-                addressLabel.text = userModel?.buildingAddress
+                numDescTF.text = userModel?.branchNameTemp
+                addressLabel.text = userModel?.buildingAddressTemp
             }else if model.type == .OwnerJointIedntifyTypeCompanyname{
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
-                numDescTF.text = userModel?.company
+                numDescTF.text = userModel?.companyNameTemp
             }else if model.type == .OwnerJointIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = false
                 numDescTF.text = userModel?.buildingNameTemp
                 if numDescTF.text?.count ?? 0 > 0 {
-                    addressLabel.text = userModel?.buildingAddress
+                    addressLabel.text = userModel?.buildingAddressTemp
                 }
             }
         }

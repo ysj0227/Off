@@ -44,7 +44,7 @@ class OwnerCreatBranchConfigureModel: NSObject {
         let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
         
         if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(nameAtt)
             
         }
@@ -58,7 +58,7 @@ class OwnerCreatBranchConfigureModel: NSObject {
         }
         
         if last.count > 0 {
-            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(lastAtt)
             
         }
@@ -97,7 +97,7 @@ class OwnerCreatBuildingConfigureModel: NSObject {
         let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
         
         if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(nameAtt)
             
         }
@@ -111,7 +111,7 @@ class OwnerCreatBuildingConfigureModel: NSObject {
         }
         
         if last.count > 0 {
-            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(lastAtt)
             
         }
@@ -155,7 +155,7 @@ class OwnerCreatCompanyConfigureModel: NSObject {
         let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
         
         if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(nameAtt)
             
         }
@@ -169,7 +169,7 @@ class OwnerCreatCompanyConfigureModel: NSObject {
         }
         
         if last.count > 0 {
-            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(lastAtt)
             
         }

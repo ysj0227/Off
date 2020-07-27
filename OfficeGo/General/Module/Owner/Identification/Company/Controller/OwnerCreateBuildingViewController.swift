@@ -15,6 +15,8 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
     var mainPicPhoto: UIImageView = {
         
         let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFill
         view.image = UIImage.init(named: "addImgBg")
         view.isUserInteractionEnabled = true
         return view
@@ -59,6 +61,17 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
         request_getDistrict()
     }
     
+    func showLeaveAlert() {
+        endEdting()
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "信息尚未提交。点击离开，已编辑信息不保存", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            
+            self?.leftBtnClick()
+        }
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         //移除弹框
@@ -67,6 +80,26 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
     
     ///提交认证
     func requestCompanyIdentify() {
+        
+        if userModel?.buildingName == nil || userModel?.buildingName?.isBlankString == true{
+            AppUtilities.makeToast("请输入写字楼名称")
+            return
+        }
+        
+        if areaModelCount?.isFirstSelectedModel?.districtID == nil || areaModelCount?.isFirstSelectedModel?.districtID?.isBlankString == true{
+            AppUtilities.makeToast("请选择所在区域")
+            return
+        }
+        
+        if userModel?.buildingAddress == nil || userModel?.buildingAddress?.isBlankString == true{
+            AppUtilities.makeToast("请输入详细地址")
+            return
+        }
+        
+//        if userModel?.fileMainPic == nil || userModel?.fileMainPic?.isBlankString == true{
+//            AppUtilities.makeToast("请上传楼盘封面图")
+//            return
+//        }
         
         var params = [String:AnyObject]()
         
@@ -144,7 +177,7 @@ extension OwnerCreateBuildingViewController {
         titleview?.titleLabel.text = "创建写字楼"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.leftBtnClick()
+            self?.showLeaveAlert()
         }
         
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
@@ -265,7 +298,7 @@ extension OwnerCreateBuildingViewController {
     
     ///创建公司接口 -
     func requestCreateCompany() {
-        
+        endEdting()
         requestCompanyIdentify()
     }
     //MARK: 获取商圈数据
@@ -360,6 +393,7 @@ extension OwnerCreateBuildingViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if typeSourceArray[indexPath.row].type == .OwnerCreteBuildingTypeBranchDistrictArea{
+            endEdting()
             ///区域商圈选择
             judgeHasData()
         }

@@ -10,6 +10,12 @@ import CLImagePickerTool
 
 class OwnerJointIeditnfyVC: BaseViewController {
     
+    ///网点名字 自己选择的 - 可能是接口返回的
+     var branchNameTemp: String?
+    
+    ///公司名字 自己选择的 - 可能是接口返回的
+    var companyNameTemp: String?
+    
     ///楼盘名字 自己选择的 - 可能是接口返回的
     var buildingNameTemp: String?
     
@@ -201,8 +207,8 @@ class OwnerJointIeditnfyVC: BaseViewController {
         //公司认证 - 创建网点成功通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             if let model = noti.object as? OwnerESBuildingSearchModel {
-                self?.userModel?.branchesName = model.buildingName
-                self?.userModel?.address = "\(model.buildingAddress ?? "")\(model.address ?? "")"
+                self?.userModel?.branchNameTemp = model.buildingName
+                self?.userModel?.buildingAddressTemp = "\(model.buildingAddress ?? "")\(model.address ?? "")"
                 self?.branchSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
@@ -219,31 +225,62 @@ class OwnerJointIeditnfyVC: BaseViewController {
         
         //公司认证 - 创建公司成功通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateCompany, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let model = noti.object as? OwnerESCompanySearchModel {
-                self?.userModel?.company = model.company
+            if let model = noti.object as? OwnerIdentifyUserModel {
+                self?.companyNameTemp = model.company
+                self?.userModel?.companyNameTemp = model.company
                 self?.companySearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
         }
     }
     
-    override func leftBtnClick() {
+    func showLeaveAlert() {
         self.headerCollectionView.endEditing(true)
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "联合办公认证未完成，点击保存下次可继续编辑。点击离开，已编辑信息不保存", cancelButtonCallClick: { [weak self] in
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "信息尚未提交。点击离开，已编辑信息不保存", cancelButtonCallClick: {
             
-            self?.navigationController?.popViewController(animated: true)
         }) { [weak self] in
             
-            self?.navigationController?.popViewController(animated: true)
+            self?.showSureLeaveAlert()
         }
     }
     
+    func showSureLeaveAlert() {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "请再次确认是否返回？", descMsg: "", cancelButtonCallClick: {
+        
+        }) { [weak self] in
+            
+            self?.leftBtnClick()
+        }
+    }
 }
 
 extension OwnerJointIeditnfyVC {
     
     func detailDataShow() {
+        
+        if branchNameTemp == nil {
+            branchNameTemp = userModel?.branchesName
+            userModel?.branchNameTemp = userModel?.branchesName
+        }else {
+            userModel?.branchNameTemp = branchNameTemp
+        }
+        
+        
+        if companyNameTemp == nil {
+            companyNameTemp = userModel?.company
+            userModel?.companyNameTemp = userModel?.company
+        }else {
+            userModel?.companyNameTemp = companyNameTemp
+        }
+        
+        if buildingNameTemp == nil {
+            buildingNameTemp = userModel?.buildingName
+            userModel?.buildingNameTemp = userModel?.buildingName
+        }else {
+            userModel?.buildingNameTemp = buildingNameTemp
+        }
         
         ///移除之前的房产证数据
         for fczBannerModel in uploadPicModelFCZArr {
@@ -299,12 +336,6 @@ extension OwnerJointIeditnfyVC {
                 if weakSelf.leaseType == nil {
                     weakSelf.leaseType = model.leaseType
                 }
-                if weakSelf.buildingNameTemp == nil {
-                    weakSelf.buildingNameTemp = model.buildingName
-                    weakSelf.userModel?.buildingNameTemp = model.buildingName
-                }else {
-                    weakSelf.userModel?.buildingNameTemp = weakSelf.buildingNameTemp
-                }
                 
                 weakSelf.detailDataShow()
                 
@@ -336,6 +367,33 @@ extension OwnerJointIeditnfyVC {
     ///提交认证
     func requestCompanyIdentify() {
 
+        if userModel?.branchesName == nil || userModel?.branchesName?.isBlankString == true{
+            AppUtilities.makeToast("请选择或创建网点")
+            return
+        }
+        
+        if userModel?.company == nil || userModel?.company?.isBlankString == true{
+            AppUtilities.makeToast("请选择或创建公司")
+            return
+        }
+        
+        if userModel?.buildingNameTemp == nil || userModel?.buildingNameTemp?.isBlankString == true{
+            AppUtilities.makeToast("请输入写字楼")
+            return
+        }
+        
+        if uploadPicModelFCZArr.count - 1 <= 0 {
+            AppUtilities.makeToast("请上传房产证")
+            return
+        }
+        
+        if leaseType == 1 {
+            if uploadPicModelZLAgentArr.count - 1 <= 0 {
+                AppUtilities.makeToast("请上传租赁协议")
+                return
+            }
+        }
+        
         var params = [String:AnyObject]()
 
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -401,7 +459,7 @@ extension OwnerJointIeditnfyVC {
         }
         alAgentArr.remove(at: alAgentArr.count - 1)
 
-        SSNetworkTool.SSOwnerIdentify.request_companyIdentityApp(params: params, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
+        SSNetworkTool.SSOwnerIdentify.request_jointIdentityApp(params: params, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
 
             guard let weakSelf = self else {return}
 
@@ -444,7 +502,7 @@ extension OwnerJointIeditnfyVC {
         titleview?.titleLabel.text = "联合办公业主认证"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.leftBtnClick()
+            self?.showLeaveAlert()
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
@@ -500,13 +558,13 @@ extension OwnerJointIeditnfyVC {
         
         // 传递闭包 当点击’搜索结果‘的cell调用 - 点击关联公司 - 带搜索信息到下个页面
         companySearchResultVC?.companyCallBack = {[weak self] (model) in
-            self?.userModel?.company = model.companyString?.string
-            self?.userModel?.address = model.addressString?.string
-            self?.userModel?.creditNo = ""
-            self?.userModel?.fileBusinessLicense = ""
-            //self?.companySearchResultVC?.view.isHidden = true
+            //self?.companySearchResultVC? .view.isHidden = true
             let vc = OwnerCreateCompanyViewController()
             vc.companyModel = self?.userModel
+            vc.companyModel?.company = model.companyString?.string
+            vc.companyModel?.address = model.addressString?.string
+            vc.companyModel?.creditNo = ""
+            vc.companyModel?.fileBusinessLicense = ""
             self?.navigationController?.pushViewController(vc, animated: true)
             self?.loadCollectionData()
         }
@@ -547,6 +605,7 @@ extension OwnerJointIeditnfyVC {
         // 关闭按钮 - 隐藏页面
         buildingNameSearchResultVC?.closeButtonCallClick = {[weak self] in
             self?.buildingNameSearchResultVC?.view.isHidden = true
+            self?.loadCollectionData()
         }
         
         //第一次刷新列表
@@ -592,12 +651,12 @@ extension OwnerJointIeditnfyVC {
             
             //0不存在1存在
             if model.flag == 0 {
-                weakSelf.userModel?.company = ""
-                weakSelf.userModel?.address = ""
-                weakSelf.userModel?.creditNo = ""
-                weakSelf.userModel?.fileBusinessLicense = ""
                 let vc = OwnerCreateCompanyViewController()
                 vc.companyModel = weakSelf.userModel
+                vc.companyModel?.company = weakSelf.companyNameTemp
+                vc.companyModel?.address = ""
+                vc.companyModel?.creditNo = ""
+                vc.companyModel?.fileBusinessLicense = ""
                 weakSelf.navigationController?.pushViewController(vc, animated: true)
             }else if model.flag == 1 {
                 AppUtilities.makeToast(model.explain ?? "公司已经存在，不能重复创建")
@@ -646,8 +705,12 @@ extension OwnerJointIeditnfyVC {
             //0不存在1存在
             if model.flag == 0 {
                 
-                weakSelf.userModel?.company = ""
                 let vc = OwnerCreateBranchViewController()
+                vc.userModel = weakSelf.userModel
+                vc.userModel?.branchesName = self?.branchNameTemp
+                vc.userModel?.buildingAddress = ""
+                vc.userModel?.creditNo = ""
+                vc.userModel?.fileBusinessLicense = ""
                 weakSelf.navigationController?.pushViewController(vc, animated: true)
             }else if model.flag == 1 {
                 AppUtilities.makeToast(model.explain ?? "网点已经存在，不能重复创建")
@@ -720,14 +783,18 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.branchNameClickClouse = { [weak self] (branchName) in
-                self?.userModel?.address = ""
+                self?.userModel?.buildingAddressTemp = ""
                 self?.branchName = branchName
+                self?.branchNameTemp = branchName
             }
             cell?.companyNameClickClouse = { [weak self] (companyName) in
                 self?.companyName = companyName
+                self?.companyNameTemp = companyName
             }
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
                 self?.buildingName = buildingName
+                self?.buildingNameTemp = buildingName
+                self?.userModel?.buildingNameTemp = buildingName
             }
             //            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
             //                self?.userModel?.buildingName = buildingNAme
@@ -892,7 +959,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath.item == 0 {
-                leftBtnClick()
+                showLeaveAlert()
             }
         }else if indexPath.section == 1 {
             
