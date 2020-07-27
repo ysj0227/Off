@@ -307,9 +307,12 @@ extension OwnerMineViewController {
         let auditStatus: Int = userModel?.auditStatus ?? -1
         ///审核通过1不显示
         if auditStatus == 0 {
-            let vc = OwnerApplyEnterCompanyViewController()
-            vc.isFromMine = true
-            self.navigationController?.pushViewController(vc, animated: true)
+            ///判断是否可以撤销 只有某个员工才能加入企业
+            if userModel?.authority == 0 {
+                let vc = OwnerApplyEnterCompanyViewController()
+                vc.isFromMine = true
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else if auditStatus == 1 {
             
         }else {
