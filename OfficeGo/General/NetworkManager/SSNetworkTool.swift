@@ -52,14 +52,13 @@ class SSNetworkTool: NSObject {
             }
             multiPart.append(imageData, withName: "file", fileName: "\(UserTool.shared.user_phone ?? "").jpg", mimeType: "image/jpg")
         }, to: urlStr, method: .post, headers: nil) { (multiPartResult) in
-            if isShowHud {
-                LoadingHudView.hideHud()
-            }
             switch(multiPartResult) {
             case .success(let request, let streamingFromDisk, let streamFileURL) :
                 request.responseJSON(completionHandler: { (Response) in
                     SSLog("数据地址:\(urlStr) 方式：post 参数:\(params) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
-                    
+                    if isShowHud {
+                        LoadingHudView.hideHud()
+                    }
                     switch Response.result {
                     case .success:
                         guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
@@ -105,6 +104,9 @@ class SSNetworkTool: NSObject {
                     }
                 })
             case .failure(let error) :
+                if isShowHud {
+                    LoadingHudView.hideHud()
+                }
                 SSLog(error)
                 //                NotificationCenter.default.post(name: Notification.Name.userChanged, object: false)
             }
@@ -140,14 +142,13 @@ class SSNetworkTool: NSObject {
                 }
             }
         }, to: urlStr, method: .post, headers: nil) { (multiPartResult) in
-            if isShowHud {
-                LoadingHudView.hideHud()
-            }
             switch(multiPartResult) {
             case .success(let request, let streamingFromDisk, let streamFileURL) :
                 request.responseJSON(completionHandler: { (Response) in
                     SSLog("数据地址:\(urlStr) 方式：post 参数:\(params) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
-                    
+                    if isShowHud {
+                        LoadingHudView.hideHud()
+                    }
                     switch Response.result {
                     case .success:
                         guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
@@ -193,6 +194,9 @@ class SSNetworkTool: NSObject {
                     }
                 })
             case .failure(let error) :
+                if isShowHud {
+                    LoadingHudView.hideHud()
+                }
                 SSLog(error)
                 //                NotificationCenter.default.post(name: Notification.Name.userChanged, object: false)
             }
@@ -224,14 +228,14 @@ class SSNetworkTool: NSObject {
                 }
             }
         }, to: urlStr, method: .post, headers: nil) { (multiPartResult) in
-            if isShowHud {
-                LoadingHudView.hideHud()
-            }
+
             switch(multiPartResult) {
-            case .success(let request, let streamingFromDisk, let streamFileURL) :
+            case .success(let request, let streamingFromDisk, let streamFileURL):
                 request.responseJSON(completionHandler: { (Response) in
                     SSLog("数据地址:\(urlStr) 方式：post 参数:\(params) 数据\(Response.result) 数据数据\(String(describing: Response.result.value))")
-                    
+                    if isShowHud {
+                        LoadingHudView.hideHud()
+                    }
                     switch Response.result {
                     case .success:
                         guard let resp:[String:Any] = Response.result.value! as? [String:Any] else {
@@ -277,6 +281,9 @@ class SSNetworkTool: NSObject {
                     }
                 })
             case .failure(let error) :
+                if isShowHud {
+                    LoadingHudView.hideHud()
+                }
                 SSLog(error)
                 //                NotificationCenter.default.post(name: Notification.Name.userChanged, object: false)
             }
