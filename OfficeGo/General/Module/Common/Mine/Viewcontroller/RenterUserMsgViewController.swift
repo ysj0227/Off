@@ -310,6 +310,7 @@ class BaseEditCell: BaseTableViewCell {
         view.textAlignment = .left
         view.font = FONT_15
         view.textColor = kAppColor_333333
+        view.clearButtonMode = .whileEditing
         return view
     }()
     

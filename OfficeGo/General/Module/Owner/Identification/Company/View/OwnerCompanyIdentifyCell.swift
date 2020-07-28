@@ -25,6 +25,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
         view.font = FONT_14
         view.delegate = self
         view.textColor = kAppColor_333333
+        view.clearButtonMode = .whileEditing
         return view
     }()
     lazy var addressLabel: UILabel = {
