@@ -227,10 +227,11 @@ extension OwnerCreateBuildingViewController {
             // scale 指定压缩比
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                imageArr.append(image)
+                let img = image.resizeMax1500Image()
+
                 self?.mainPicBannermodel?.isLocal = true
-                self?.mainPicBannermodel?.image = image
-                self?.dealImage(imageArr: imageArr, index: index)
+                self?.mainPicBannermodel?.image = img
+                self?.mainPicPhoto.image = image
                 }, failedClouse: {[weak self] () in
                     self?.mainPicBannermodel?.isLocal = false
                     index = index - 1
@@ -238,21 +239,7 @@ extension OwnerCreateBuildingViewController {
             })
         }
     }
-    @objc func dealImage(imageArr:[UIImage],index:Int) {
-        
-        if imageArr.count == index {
-            //              PopViewUtil.share.stopLoading()
-            
-        }
-        let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
-        mainPicPhoto.image = image
-        
-        /*
-         let image2 = image?.crop(ratio: 1)
-         
-         self.upload(uploadImage: image2 ?? UIImage.init())
-         */
-    }
+
     func setUpData() {
         
         typeSourceArray.append(OwnerCreatBuildingConfigureModel.init(types: .OwnerCreteBuildingTypeBranchName))
