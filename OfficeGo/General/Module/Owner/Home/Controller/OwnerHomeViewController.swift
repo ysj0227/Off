@@ -146,30 +146,53 @@ class OwnerHomeViewController: BaseViewController {
         let alert = SureAlertView(frame: self.view.frame)
         var titleString: String = ""
         var descString: String = ""
-        var identifyType: OwnerIdentifyOrFYType?
         if auditStatus == -1 {
             alert.messageLabel.textAlignment = .center
             titleString = "审核未通过"
-            identifyType = .ProtocalTypeIdentifyOwnerUrl
         }else if auditStatus == 2 {
             titleString = "审核未通过"
             descString = remark
             alert.messageLabel.textAlignment = .center
-            if identify == 0 {
-                identifyType = .ProtocalTypeIdentifyPersonageOwnerUrl
-            }else if identify == 1 {
-                identifyType = .ProtocalTypeIdentifyBuildingOwnerUrl
-            }else if identify == 2 {
-                identifyType = .ProtocalTypeIdentifyJointOwnerUrl
-            }
         }
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: titleString, descMsg: descString, cancelButtonCallClick: {
             
-        }) {
+        }) { [weak self] in
+            
+            guard let weakSelf = self else {return}
+
+            weakSelf.identifyVCClick(auditStatus: auditStatus, identify: identify)
+        }
+    }
+    
+    func identifyVCClick(auditStatus: Int, identify: Int) {
+        ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
+        //未审核
+        if auditStatus == -1 {
             
             ///点击跳转认证页面
-            let vc = JHBaseWebViewController.init(protocalType: identifyType ?? OwnerIdentifyOrFYType.ProtocalTypeIdentifyOwnerUrl)
+            let vc = OwnerIdenfySelectVC()
             self.navigationController?.pushViewController(vc, animated: true)
+            
+        }else if auditStatus == 2 || auditStatus == 3 {
+            
+            UserTool.shared.user_owner_identifytype = identify
+            
+            ///点击跳转认证页面
+            let vc = OwnerIdenfySelectVC()
+            self.navigationController?.pushViewController(vc, animated: false)
+            
+            if identify == 1 {
+                let vc = OwnerCompanyIeditnfyVC()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if identify == 2 {
+                ///点击跳转认证页面
+                let vc = OwnerJointIeditnfyVC()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if identify == 0 {
+                ///点击跳转认证页面
+                let vc = OwnerPersonalIeditnfyVC()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
 }
