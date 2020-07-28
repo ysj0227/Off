@@ -654,6 +654,72 @@ extension OwnerCompanyIeditnfyVC {
             self?.loadCollectionData()
         }
     }
+    
+    ///删除房产证图片接口
+    func request_deleteFCZImgApp(index: Int) {
+        
+        if uploadPicModelFCZArr[index].image != nil {
+            uploadPicModelFCZArr.remove(at: index)
+            loadCollectionData()
+            return
+        }
+        
+        var params = [String:AnyObject]()
+        
+        params["id"] = uploadPicModelFCZArr[index].id as AnyObject?
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        SSNetworkTool.SSOwnerIdentify.request_getDeleteImgApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.uploadPicModelFCZArr.remove(at: index)
+            weakSelf.loadCollectionData()
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    ///删除租赁协议图片接口
+    func request_deleteZLAgentImgApp(index: Int) {
+        
+        if uploadPicModelZLAgentArr[index].image != nil {
+            uploadPicModelZLAgentArr.remove(at: index)
+            loadCollectionData()
+            return
+        }
+        
+        var params = [String:AnyObject]()
+        
+        params["id"] = uploadPicModelZLAgentArr[index].id as AnyObject?
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        SSNetworkTool.SSOwnerIdentify.request_getDeleteImgApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.uploadPicModelZLAgentArr.remove(at: index)
+            weakSelf.loadCollectionData()
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
 }
 
 extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -691,8 +757,7 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                     cell?.image.image = uploadPicModelFCZArr[indexPath.item].image
                 }
                 cell?.closeBtnClickClouse = { [weak self] (index) in
-                    self?.uploadPicModelFCZArr.remove(at: index)
-                    self?.loadCollectionData()
+                    self?.request_deleteFCZImgApp(index: index)
                 }
                 if indexPath.item == uploadPicModelFCZArr.count - 1 {
                     cell?.closeBtn.isHidden = true
@@ -706,8 +771,7 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                     cell?.image.image = uploadPicModelZLAgentArr[indexPath.item].image
                 }
                 cell?.closeBtnClickClouse = { [weak self] (index) in
-                    self?.uploadPicModelZLAgentArr.remove(at: index)
-                    self?.loadCollectionData()
+                    self?.request_deleteZLAgentImgApp(index: index)
                 }
                 if indexPath.item == uploadPicModelZLAgentArr.count - 1 {
                     cell?.closeBtn.isHidden = true

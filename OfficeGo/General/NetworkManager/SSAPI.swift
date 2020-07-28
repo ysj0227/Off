@@ -212,6 +212,9 @@ class SSOwnerIdentifyURL: NSObject {
     
     //业主和业主聊天列表调用接口
     static let getOwnerToOwnerchattedMsgAApp = "api/chat/chattedMsgApp"
+    
+    //图片删除调用接口
+    static let deleteImgApp = "api/licence/deleteImgApp"
 
 }
 
