@@ -258,7 +258,7 @@ extension OwnerPersonalIeditnfyVC {
                 
         ///移除之前的房产证数据
         for fczBannerModel in uploadPicModelFCZArr {
-            if fczBannerModel.imgUrl?.count ?? 0 > 0 {
+            if fczBannerModel.isLocal == false {
                 uploadPicModelFCZArr.remove(fczBannerModel)
             }
         }
@@ -267,13 +267,14 @@ extension OwnerPersonalIeditnfyVC {
         if let premisesPermit = userModel?.premisesPermit {
             
             for fczBannerModel in premisesPermit {
+                fczBannerModel.isLocal = false
                 uploadPicModelFCZArr.insert(fczBannerModel, at: 0)
             }
         }
         
         ///移除之前的租赁协议数据
         for lzAgentBannerModel in uploadPicModelZLAgentArr {
-            if lzAgentBannerModel.imgUrl?.count ?? 0 > 0 {
+            if lzAgentBannerModel.isLocal == false {
                 uploadPicModelZLAgentArr.remove(lzAgentBannerModel)
             }
         }
@@ -282,6 +283,7 @@ extension OwnerPersonalIeditnfyVC {
         if let contract = userModel?.contract {
             
             for lzAgentBannerModel in contract {
+                lzAgentBannerModel.isLocal = false
                 uploadPicModelZLAgentArr.insert(lzAgentBannerModel, at: 0)
             }
         }
@@ -462,7 +464,7 @@ extension OwnerPersonalIeditnfyVC {
         //房产证
         var fczArr: [UIImage] = []
         for model in uploadPicModelFCZArr {
-            if model.image != nil {
+            if model.isLocal == true {
                 fczArr.append(model.image ?? UIImage())
             }
         }
@@ -471,7 +473,7 @@ extension OwnerPersonalIeditnfyVC {
         //租赁
         var alAgentArr: [UIImage] = []
         for model in uploadPicModelZLAgentArr {
-            if model.image != nil {
+            if model.isLocal == true {
                 alAgentArr.append(model.image ?? UIImage())
             }
         }
@@ -513,10 +515,12 @@ extension OwnerPersonalIeditnfyVC {
         reverseBannerModel = BannerModel()
         
         let fczBannerModel = BannerModel()
+        fczBannerModel.isLocal = true
         fczBannerModel.image = UIImage.init(named: "addImgBg")
         uploadPicModelFCZArr.append(fczBannerModel)
         
         let zlAgentBannerModel = BannerModel()
+        zlAgentBannerModel.isLocal = true
         zlAgentBannerModel.image = UIImage.init(named: "addImgBg")
         uploadPicModelZLAgentArr.append(zlAgentBannerModel)
 
@@ -607,6 +611,7 @@ extension OwnerPersonalIeditnfyVC {
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let fczBannerModel = BannerModel()
+                fczBannerModel.isLocal = true
                 fczBannerModel.image = image
                 self?.uploadPicModelFCZArr.insert(fczBannerModel, at: 0)
                 }, failedClouse: { () in
@@ -621,6 +626,7 @@ extension OwnerPersonalIeditnfyVC {
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let zlAgentBannerModel = BannerModel()
+                zlAgentBannerModel.isLocal = true
                 zlAgentBannerModel.image = image
                 self?.uploadPicModelZLAgentArr.insert(zlAgentBannerModel, at: 0)
                 }, failedClouse: { () in
@@ -731,7 +737,7 @@ extension OwnerPersonalIeditnfyVC {
     ///删除房产证图片接口
     func request_deleteFCZImgApp(index: Int) {
         
-        if uploadPicModelFCZArr[index].image != nil {
+        if uploadPicModelFCZArr[index].isLocal == true {
             uploadPicModelFCZArr.remove(at: index)
             loadCollectionData()
             return
@@ -764,7 +770,7 @@ extension OwnerPersonalIeditnfyVC {
     ///删除租赁协议图片接口
     func request_deleteZLAgentImgApp(index: Int) {
         
-        if uploadPicModelZLAgentArr[index].image != nil {
+        if uploadPicModelZLAgentArr[index].isLocal == true {
             uploadPicModelZLAgentArr.remove(at: index)
             loadCollectionData()
             return
@@ -875,8 +881,8 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
             cell?.indexPath = indexPath
             if indexPath.section == 3 {
-                if let imgUrl = uploadPicModelFCZArr[indexPath.item].imgUrl {
-                    cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                if uploadPicModelFCZArr[indexPath.item].isLocal == false {
+                    cell?.image.setImage(with: uploadPicModelFCZArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
                 }else {
                     cell?.image.image = uploadPicModelFCZArr[indexPath.item].image
                 }
@@ -889,8 +895,8 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                     cell?.closeBtn.isHidden = false
                 }
             }else if indexPath.section == 4 {
-                if let imgUrl = uploadPicModelZLAgentArr[indexPath.item].imgUrl {
-                    cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                if uploadPicModelZLAgentArr[indexPath.item].isLocal == false {
+                    cell?.image.setImage(with: uploadPicModelZLAgentArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
                 }else {
                     cell?.image.image = uploadPicModelZLAgentArr[indexPath.item].image
                 }

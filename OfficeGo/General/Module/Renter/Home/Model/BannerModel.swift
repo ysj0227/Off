@@ -21,4 +21,7 @@ class BannerModel: BaseModel {
     var updateTime : Int?
     var updateUser : String?
     var image : UIImage?
+    ///默认是网络图片- 为true表示是本地选择上传的图片
+    var isLocal: Bool = false
 }
+

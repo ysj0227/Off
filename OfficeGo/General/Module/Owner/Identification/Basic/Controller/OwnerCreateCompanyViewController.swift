@@ -21,8 +21,9 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
         return view
     }()
     
-    var selectedAvatarData: NSData?
-    
+        //营业执照
+    var mainPicBannermodel: BannerModel?
+
     lazy var bottomBtnView: BottomBtnView = {
         let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
         view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
@@ -124,8 +125,11 @@ extension OwnerCreateCompanyViewController {
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 imageArr.append(image)
+                self?.mainPicBannermodel?.isLocal = true
+                self?.mainPicBannermodel?.image = image
                 self?.dealImage(imageArr: imageArr, index: index)
-                }, failedClouse: { () in
+                }, failedClouse: {[weak self] () in
+                    self?.mainPicBannermodel?.isLocal = false
                     index = index - 1
                     //                    self?.dealImage(imageArr: imageArr, index: index)
             })
@@ -159,6 +163,12 @@ extension OwnerCreateCompanyViewController {
             companyModel = OwnerIdentifyUserModel()
         }
         
+        if mainPicBannermodel != nil {
+            
+        }else {
+            mainPicBannermodel = BannerModel()
+        }
+
         yingYeZhiZhaoPhoto.setImage(with: companyModel?.businessLicense ?? "", placeholder: UIImage.init(named: ""))
         self.tableView.reloadData()
     }
@@ -214,10 +224,10 @@ extension OwnerCreateCompanyViewController {
             return
         }
         
-//        if companyModel?.businessLicense == nil || companyModel?.businessLicense?.isBlankString == true{
-//            AppUtilities.makeToast("请上传营业执照")
-//            return
-//        }
+        if mainPicBannermodel?.isLocal == false {
+            AppUtilities.makeToast("请上传楼盘封面图")
+            return
+        }
         
         var params = [String:AnyObject]()
         
