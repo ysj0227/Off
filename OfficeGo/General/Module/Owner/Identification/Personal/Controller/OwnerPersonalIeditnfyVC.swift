@@ -156,7 +156,8 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
             if let model = noti.object as? OwnerIdentifyUserModel {
                 self?.buildingNameTemp = model.buildingName
                 self?.userModel?.buildingNameTemp = model.buildingName
-                self?.userModel?.buildingAddressTemp = model.address
+                self?.buildingAddressTemp = "\(model.districtString ?? "")\(model.businessString ?? "")\(model.buildingAddress ?? "")"
+                self?.userModel?.buildingAddressTemp = "\(model.districtString ?? "")\(model.businessString ?? "")\(model.buildingAddress ?? "")"
                 self?.buildingNameSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
