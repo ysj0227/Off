@@ -139,7 +139,7 @@ class SSNetworkTool: NSObject {
                 }
             }
             ///身份证 - 反
-            for image in frontImage {
+            for image in reverseImage {
                 if  let imageData = image.jpegData(compressionQuality: 1) {
                     multiPart.append(imageData, withName: reverseName, fileName: "image.jpg", mimeType: "image/jpg")
                 }

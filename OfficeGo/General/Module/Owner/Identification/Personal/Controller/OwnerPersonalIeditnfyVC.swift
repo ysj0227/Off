@@ -31,8 +31,10 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
 
     var isFront: Bool? = true
     
+    //身份证 - 正
     var frontBannerModel: BannerModel?
     
+    //身份证 - 反
     var reverseBannerModel: BannerModel?
     
     var userModel: OwnerIdentifyUserModel?
@@ -65,12 +67,6 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     @objc var uploadPicModelFCZArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
 
     @objc var uploadPicModelZLAgentArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
-
-//    //身份证 - 正
-//    var frontImageBannerModel: BannerModel = BannerModel()
-//    
-//    //身份证 - 反
-//    var reverseImageBannerModel: BannerModel = BannerModel()
     
     @objc var uplaodMainPageimg = UIImage.init(named: "addImgBg")  // 在实际的项目中可能用于存储图片的url
     
@@ -196,14 +192,14 @@ extension OwnerPersonalIeditnfyVC {
         if isFirst == true {
             
         }else {
-            if let front = userModel?.fileIdFront {
+            if let front = userModel?.idFront {
                 frontBannerModel?.image = nil
                 frontBannerModel?.imgUrl = front
             }else {
                 frontBannerModel?.imgUrl = nil
             }
             
-            if let reverse = userModel?.fileIdBack {
+            if let reverse = userModel?.idBack {
                 reverseBannerModel?.image = nil
                 reverseBannerModel?.imgUrl = reverse
             }else {
@@ -351,6 +347,57 @@ extension OwnerPersonalIeditnfyVC {
             return
         }
         
+        
+        var frontArr: [UIImage] = []
+        
+        if let imgUrl = frontBannerModel?.imgUrl {
+            if imgUrl.count > 0 {
+                
+            }else {
+                if let image = frontBannerModel?.image {
+                    frontArr.append(image)
+                }
+                if frontArr.count <= 0 {
+                    AppUtilities.makeToast("请上传身份证人像片")
+                    return
+                }
+            }
+        }else {
+            if let image = frontBannerModel?.image {
+                frontArr.append(image)
+            }
+            if frontArr.count <= 0 {
+                AppUtilities.makeToast("请上传身份证人像片")
+                return
+            }
+        }
+        
+        var reverseArr: [UIImage] = []
+        
+        if let imgUrl = reverseBannerModel?.imgUrl {
+            if imgUrl.count > 0 {
+                
+            }else {
+                if let image = reverseBannerModel?.image {
+                    reverseArr.append(image)
+                }
+                if reverseArr.count <= 0 {
+                    AppUtilities.makeToast("请上传身份证国徽片")
+                    return
+                }
+            }
+        }else {
+            if let image = reverseBannerModel?.image {
+                reverseArr.append(image)
+            }
+            if reverseArr.count <= 0 {
+                AppUtilities.makeToast("请上传身份证国徽片")
+                return
+            }
+        }
+        
+        
+        
         if userModel?.buildingNameTemp == nil || userModel?.buildingNameTemp?.isBlankString == true{
             AppUtilities.makeToast("请输入写字楼")
             return
@@ -429,8 +476,8 @@ extension OwnerPersonalIeditnfyVC {
             }
         }
         alAgentArr.remove(at: alAgentArr.count - 1)
-                
-        SSNetworkTool.SSOwnerIdentify.request_personalIdentityApp(params: params, frontImage: [], reverseImage: [], fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
+       
+        SSNetworkTool.SSOwnerIdentify.request_personalIdentityApp(params: params, frontImage: frontArr, reverseImage: reverseArr, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
             
@@ -739,14 +786,22 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             if indexPath.item == 0 {
                 cell?.addTitleLabel.text = "上传身份证人像面"
                 if let imgUrl = frontBannerModel?.imgUrl {
-                    cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                    if imgUrl.count > 0 {
+                        cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                    }else {
+                        cell?.image.image = reverseBannerModel?.image
+                    }
                 }else {
                     cell?.image.image = frontBannerModel?.image
                 }
             }else if indexPath.item == 1 {
                 cell?.addTitleLabel.text = "上传身份证国徽面"
                 if let imgUrl = reverseBannerModel?.imgUrl {
-                    cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                    if imgUrl.count > 0 {
+                        cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
+                    }else {
+                        cell?.image.image = reverseBannerModel?.image
+                    }
                 }else {
                     cell?.image.image = reverseBannerModel?.image
                 }

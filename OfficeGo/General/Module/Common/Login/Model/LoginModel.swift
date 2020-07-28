@@ -30,7 +30,7 @@ class LoginUserModel: BaseModel {
     var accountStatus : Int?
     var address : String?
     
-    ///审核状态0待审核1审核通过2审核未通过 - 没有提交过为-1
+    ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
     var auditStatus : Int?
     
     ///身份类型0个人1企业2联和办公
@@ -200,11 +200,12 @@ class OwnerIdentifyUserModel: BaseModel {
     ///用户名
     var userName : String?
     
-    ///身份证正面
-    var fileIdFront : String?
+//    ///身份证正面
+//    var fileIdFront : String?
+//
+//    ///身份证反面面
+//    var fileIdBack : String?
     
-    ///身份证反面面
-    var fileIdBack : String?
     ///大区id
     var district : String?
     
