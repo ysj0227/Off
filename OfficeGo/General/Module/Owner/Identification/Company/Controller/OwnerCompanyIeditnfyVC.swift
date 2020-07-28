@@ -817,72 +817,88 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if let company = userModel?.company {
-            if company.isBlankString == true {
-                return 1
-            }else {
-                //直租
-                if leaseTypeTemp == 0 {
-                    return typeSourceArray.count - 1
-                }else if leaseTypeTemp == 1 {
-                    return typeSourceArray.count
-                }else {
-                    return typeSourceArray.count - 1
-                }
-            }
-        }else {
+        ///如果是审核被驳回并且是加入的某个企业
+        if userModel?.auditStatus == 2 && userModel?.authority == 0 {
             return 1
+        }else {
+            if let company = userModel?.company {
+                if company.isBlankString == true {
+                    return 1
+                }else {
+                    //直租
+                    if leaseTypeTemp == 0 {
+                        return typeSourceArray.count - 1
+                    }else if leaseTypeTemp == 1 {
+                        return typeSourceArray.count
+                    }else {
+                        return typeSourceArray.count - 1
+                    }
+                }
+            }else {
+                return 1
+            }
         }
+       
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return typeSourceArray[0].count
-        }else if section == 1 {
-            if let buildingName = userModel?.buildingNameTemp {
-                if buildingName.isBlankString == true {
+        
+        ///如果是审核被驳回并且是加入的某个企业
+        if userModel?.auditStatus == 2 && userModel?.authority == 0 {
+            if section == 0 {
+                return typeSourceArray[0].count
+            }else {
+                return 0
+            }
+        }else {
+            if section == 0 {
+                return typeSourceArray[0].count
+            }else if section == 1 {
+                if let buildingName = userModel?.buildingNameTemp {
+                    if buildingName.isBlankString == true {
+                        return 2
+                    }else {
+                        return typeSourceArray[1].count
+                    }
+                }else {
                     return 2
-                }else {
-                    return typeSourceArray[1].count
                 }
-            }else {
-                return 2
-            }
-        }else if section == 2 {
-            if let buildingName = userModel?.buildingNameTemp {
-                if buildingName.isBlankString == true {
+            }else if section == 2 {
+                if let buildingName = userModel?.buildingNameTemp {
+                    if buildingName.isBlankString == true {
+                        return 0
+                    }else {
+                        return uploadPicModelFCZArr.count
+                    }
+                }else {
                     return 0
-                }else {
-                    return uploadPicModelFCZArr.count
                 }
-            }else {
-                return 0
-            }
-            
-        }else if section == 3 {
-            if let buildingName = userModel?.buildingNameTemp {
-                if buildingName.isBlankString == true {
+                
+            }else if section == 3 {
+                if let buildingName = userModel?.buildingNameTemp {
+                    if buildingName.isBlankString == true {
+                        return 0
+                    }else {
+                        return uploadPicModelZLAgentArr.count
+                    }
+                }else {
                     return 0
-                }else {
-                    return uploadPicModelZLAgentArr.count
                 }
-            }else {
-                return 0
+                
             }
-            
+            /*else if section == 4 {
+             if let buildingName = userModel?.buildingName {
+             if buildingName.isBlankString == true {
+             return 0
+             }else {
+             return 1
+             }
+             }else {
+             return 0
+             }
+             
+             }*/
+            return 0
         }
-        /*else if section == 4 {
-         if let buildingName = userModel?.buildingName {
-         if buildingName.isBlankString == true {
-         return 0
-         }else {
-         return 1
-         }
-         }else {
-         return 0
-         }
-         
-         }*/
-        return 0
     }
     
     

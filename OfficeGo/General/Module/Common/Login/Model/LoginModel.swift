@@ -98,6 +98,7 @@ class OwnerIdentifyUserModel: BaseModel {
     //企业地址
     var address : String?
     
+    ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 4待完善 没有提交过为-1
     var auditStatus : Int?
     
     ///权职0普通员工1管理员

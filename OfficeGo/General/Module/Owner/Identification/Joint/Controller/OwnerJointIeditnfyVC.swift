@@ -936,81 +936,97 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
         
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if let company = userModel?.company {
-            if company.isBlankString == true {
-                return 1
-            }else {
-                //直租
-                if leaseType == 0 {
-                    return typeSourceArray.count - 1
-                    }else if leaseType == 1 {
-                    return typeSourceArray.count
-                }else {
-                    return typeSourceArray.count - 1
-                }
-            }
-        }else {
+        ///如果是审核被驳回并且是加入的某个网点
+        if userModel?.auditStatus == 2 && userModel?.authority == 0 {
             return 1
-        }
-    }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            if let branchName = userModel?.branchesName {
-                
-                if branchName.isBlankString == true {
-                    return 2
-                }else {
-                    return typeSourceArray[0].count
-                }
-            }else {
-                return 2
-            }
-        }else if section == 1 {
+        }else {
             if let company = userModel?.company {
                 if company.isBlankString == true {
-                    return 0
+                    return 1
                 }else {
-                    return typeSourceArray[1].count
+                    //直租
+                    if leaseType == 0 {
+                        return typeSourceArray.count - 1
+                        }else if leaseType == 1 {
+                        return typeSourceArray.count
+                    }else {
+                        return typeSourceArray.count - 1
+                    }
                 }
             }else {
-                return 0
+                return 1
             }
-        }else if section == 2 {
-            if let company = userModel?.buildingNameTemp {
-                if company.isBlankString == true {
-                    return 0
-                }else {
-                    return uploadPicModelFCZArr.count
-                }
-            }else {
-                return 0
-            }
-            
-        }else if section == 3 {
-            if let company = userModel?.buildingNameTemp {
-                if company.isBlankString == true {
-                    return 0
-                }else {
-                    return uploadPicModelZLAgentArr.count
-                }
-            }else {
-                return 0
-            }
-            
         }
-        /*else if section == 4 {
-         if let company = userModel?.buildingName {
-         if company.isBlankString == true {
-         return 0
-         }else {
-         return 1
-         }
-         }else {
-         return 0
-         }
-         
-         }*/
-        return 0
+        
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        ///如果是审核被驳回并且是加入的某个网点
+        if userModel?.auditStatus == 2 && userModel?.authority == 0 {
+            if section == 0 {
+                return 2
+            }else {
+                return 0
+            }
+        }else {
+            if section == 0 {
+                if let branchName = userModel?.branchesName {
+                    
+                    if branchName.isBlankString == true {
+                        return 2
+                    }else {
+                        return typeSourceArray[0].count
+                    }
+                }else {
+                    return 2
+                }
+            }else if section == 1 {
+                if let company = userModel?.company {
+                    if company.isBlankString == true {
+                        return 0
+                    }else {
+                        return typeSourceArray[1].count
+                    }
+                }else {
+                    return 0
+                }
+            }else if section == 2 {
+                if let company = userModel?.buildingNameTemp {
+                    if company.isBlankString == true {
+                        return 0
+                    }else {
+                        return uploadPicModelFCZArr.count
+                    }
+                }else {
+                    return 0
+                }
+                
+            }else if section == 3 {
+                if let company = userModel?.buildingNameTemp {
+                    if company.isBlankString == true {
+                        return 0
+                    }else {
+                        return uploadPicModelZLAgentArr.count
+                    }
+                }else {
+                    return 0
+                }
+                
+            }
+            /*else if section == 4 {
+             if let company = userModel?.buildingName {
+             if company.isBlankString == true {
+             return 0
+             }else {
+             return 1
+             }
+             }else {
+             return 0
+             }
+             
+             }*/
+            return 0
+        }
+        
     }
     
     
