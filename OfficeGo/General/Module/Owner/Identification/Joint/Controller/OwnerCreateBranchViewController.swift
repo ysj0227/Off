@@ -305,7 +305,7 @@ extension OwnerCreateBranchViewController {
     //发送加入公司和网点公司的通知
     func addNotify() {
         ///身份类型0个人1企业2联合
-        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateBuilding, object: userModel)
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateBranchJoint, object: userModel)
         leftBtnClick()
     }
     

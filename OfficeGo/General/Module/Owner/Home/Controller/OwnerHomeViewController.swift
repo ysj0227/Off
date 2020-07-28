@@ -149,7 +149,7 @@ class OwnerHomeViewController: BaseViewController {
         if auditStatus == -1 {
             alert.messageLabel.textAlignment = .center
             titleString = "审核未通过"
-        }else if auditStatus == 2 {
+        }else if auditStatus == 2 || auditStatus == 3 {
             titleString = "审核未通过"
             descString = remark
             alert.messageLabel.textAlignment = .center
@@ -168,7 +168,7 @@ class OwnerHomeViewController: BaseViewController {
         ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
         //未审核
         if auditStatus == -1 {
-            
+                            
             ///点击跳转认证页面
             let vc = OwnerIdenfySelectVC()
             self.navigationController?.pushViewController(vc, animated: true)
@@ -183,15 +183,18 @@ class OwnerHomeViewController: BaseViewController {
             
             if identify == 1 {
                 let vc = OwnerCompanyIeditnfyVC()
-                self.navigationController?.pushViewController(vc, animated: true)
+                vc.isFromPersonalVc = true
+                self.navigationController?.pushViewController(vc, animated: false)
             }else if identify == 2 {
                 ///点击跳转认证页面
                 let vc = OwnerJointIeditnfyVC()
-                self.navigationController?.pushViewController(vc, animated: true)
+                vc.isFromPersonalVc = true
+                self.navigationController?.pushViewController(vc, animated: false)
             }else if identify == 0 {
                 ///点击跳转认证页面
                 let vc = OwnerPersonalIeditnfyVC()
-                self.navigationController?.pushViewController(vc, animated: true)
+                vc.isFromPersonalVc = true
+                self.navigationController?.pushViewController(vc, animated: false)
             }
         }
     }

@@ -10,6 +10,9 @@ import CLImagePickerTool
 
 class OwnerJointIeditnfyVC: BaseViewController {
     
+    ///判断页面时候来自于个人中心驳回页面
+    var isFromPersonalVc: Bool = false
+    
     ///网点名字 自己选择的 - 可能是接口返回的
      var branchNameTemp: String?
     
@@ -206,7 +209,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
         
         //公司认证 - 创建网点成功通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let model = noti.object as? OwnerESBuildingSearchModel {
+            if let model = noti.object as? OwnerIdentifyUserModel {
                 self?.userModel?.branchNameTemp = model.buildingName
                 self?.userModel?.buildingAddressTemp = "\(model.buildingAddress ?? "")\(model.address ?? "")"
                 self?.branchSearchResultVC?.view.isHidden = true
@@ -234,6 +237,19 @@ class OwnerJointIeditnfyVC: BaseViewController {
         }
     }
     
+    ///页面上面切换按钮
+    func showChangeAlert() {
+        self.headerCollectionView.endEditing(true)
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "信息尚未提交，是否确认切换身份？", descMsg: "", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            
+            self?.leftBtnClick()
+        }
+    }
+    
+    ///左上角按钮
     func showLeaveAlert() {
         self.headerCollectionView.endEditing(true)
         let alert = SureAlertView(frame: self.view.frame)
@@ -251,7 +267,12 @@ class OwnerJointIeditnfyVC: BaseViewController {
         
         }) { [weak self] in
             
-            self?.leftBtnClick()
+            if self?.isFromPersonalVc == true {
+                self?.navigationController?.popToRootViewController(animated: true)
+            }else {
+                self?.leftBtnClick()
+            }
+            
         }
     }
 }
@@ -568,7 +589,7 @@ extension OwnerJointIeditnfyVC {
             vc.companyModel?.company = model.companyString?.string
             vc.companyModel?.address = model.addressString?.string
             vc.companyModel?.creditNo = ""
-            vc.companyModel?.fileBusinessLicense = ""
+            vc.companyModel?.businessLicense = ""
             self?.navigationController?.pushViewController(vc, animated: true)
             self?.loadCollectionData()
         }
@@ -660,7 +681,7 @@ extension OwnerJointIeditnfyVC {
                 vc.companyModel?.company = weakSelf.companyNameTemp
                 vc.companyModel?.address = ""
                 vc.companyModel?.creditNo = ""
-                vc.companyModel?.fileBusinessLicense = ""
+                vc.companyModel?.businessLicense = ""
                 weakSelf.navigationController?.pushViewController(vc, animated: true)
             }else if model.flag == 1 {
                 AppUtilities.makeToast(model.explain ?? "公司已经存在，不能重复创建")
@@ -728,10 +749,11 @@ extension OwnerJointIeditnfyVC {
     
     func showCommitAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "提交成功", descMsg: "我们会在1-2个工作日完成审核\n你还可以", cancelButtonCallClick: {
+        alert.isHiddenVersionCancel = true
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "提交成功", descMsg: "我们会在1-2个工作日完成审核", cancelButtonCallClick: {
             
-        }) {
-            
+        }) {[weak self] in
+            self?.navigationController?.popToRootViewController(animated: true)
         }
     }
 }
@@ -1029,7 +1051,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath.item == 0 {
-                showLeaveAlert()
+                showChangeAlert()
             }
         }else if indexPath.section == 1 {
             

@@ -328,15 +328,18 @@ extension OwnerMineViewController {
                 
                 if identify == 1 {
                     let vc = OwnerCompanyIeditnfyVC()
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    vc.isFromPersonalVc = true
+                    self.navigationController?.pushViewController(vc, animated: false)
                 }else if identify == 2 {
                     ///点击跳转认证页面
                     let vc = OwnerJointIeditnfyVC()
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    vc.isFromPersonalVc = true
+                    self.navigationController?.pushViewController(vc, animated: false)
                 }else if identify == 0 {
                     ///点击跳转认证页面
                     let vc = OwnerPersonalIeditnfyVC()
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    vc.isFromPersonalVc = true
+                    self.navigationController?.pushViewController(vc, animated: false)
                 }
             }
         }

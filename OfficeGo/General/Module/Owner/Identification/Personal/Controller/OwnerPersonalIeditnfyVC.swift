@@ -10,6 +10,9 @@ import CLImagePickerTool
 
 class OwnerPersonalIeditnfyVC: BaseViewController {
     
+    ///判断页面时候来自于个人中心驳回页面
+    var isFromPersonalVc: Bool = false
+    
     //判断身份证照片是否是第一次调取接口
     var isFirst: Bool = false
     
@@ -162,6 +165,19 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         
     }
 
+    ///页面上面切换按钮
+    func showChangeAlert() {
+        self.headerCollectionView.endEditing(true)
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "信息尚未提交，是否确认切换身份？", descMsg: "", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            
+            self?.leftBtnClick()
+        }
+    }
+    
+    ///左上角按钮
     func showLeaveAlert() {
         self.headerCollectionView.endEditing(true)
         let alert = SureAlertView(frame: self.view.frame)
@@ -179,7 +195,12 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         
         }) { [weak self] in
             
-            self?.leftBtnClick()
+            if self?.isFromPersonalVc == true {
+                self?.navigationController?.popToRootViewController(animated: true)
+            }else {
+                self?.leftBtnClick()
+            }
+            
         }
     }
     
@@ -578,7 +599,7 @@ extension OwnerPersonalIeditnfyVC {
             vc.userModel?.buildingName = self?.buildingNameTemp
             vc.userModel?.buildingAddress = ""
             vc.userModel?.creditNo = ""
-            vc.userModel?.fileBusinessLicense = ""
+            vc.userModel?.fileMainPic = ""
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
@@ -596,10 +617,11 @@ extension OwnerPersonalIeditnfyVC {
     
     func showCommitAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "提交成功", descMsg: "我们会在1-2个工作日完成审核\n你还可以", cancelButtonCallClick: {
+        alert.isHiddenVersionCancel = true
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "提交成功", descMsg: "我们会在1-2个工作日完成审核", cancelButtonCallClick: {
             
-        }) {
-            
+        }) {[weak self] in
+            self?.navigationController?.popToRootViewController(animated: true)
         }
     }
     
@@ -1021,7 +1043,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath.item == 0 {
-                showLeaveAlert()
+                showChangeAlert()
             }
         }else if indexPath.section == 1 {
             
