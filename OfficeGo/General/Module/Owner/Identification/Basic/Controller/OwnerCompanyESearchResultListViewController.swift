@@ -28,14 +28,14 @@ class OwnerCompanyESearchResultListViewController: BaseTableViewController {
         view.textColor = kAppColor_999999
         return view
     }()
-    
+    /*
     lazy var closeBtn: UIButton = {
         let view = UIButton()
         view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
         //        view.setTitle("关闭", for: .normal)
         //        view.setTitleColor(kAppBlueColor, for: .normal)
         return view
-    }()
+    }()*/
     
     ///点击关闭按钮 - 关闭页面
     var closeButtonCallClick:(() -> Void)?
@@ -175,17 +175,18 @@ extension OwnerCompanyESearchResultListViewController {
         self.tableView.register(OwnerCompanyESSearchIdentifyCell.self, forCellReuseIdentifier: OwnerCompanyESSearchIdentifyCell.reuseIdentifierStr)
         
         topView.addSubview(descLabel)
-        topView.addSubview(closeBtn)
+        //topView.addSubview(closeBtn)
         descLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(left_pending_space_17)
             make.top.bottom.equalToSuperview()
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
         }
+        /*
         closeBtn.snp.makeConstraints { (make) in
             make.size.equalTo(topView.height)
             make.top.trailing.equalToSuperview()
         }
-        closeBtn.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
+        closeBtn.addTarget(self, action: #selector(closeVC), for: .touchUpInside)*/
         
         setTitle()
     }
@@ -316,7 +317,7 @@ extension OwnerCompanyESearchResultListViewController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if UserTool.shared.user_owner_identifytype == 0 {
-            return cell_height_30
+            return 0
         }
             //展示认证标签 公司名字 描述 加入按钮
         else if UserTool.shared.user_owner_identifytype == 1 {
@@ -331,10 +332,10 @@ extension OwnerCompanyESearchResultListViewController {
             }else {
                 //网点公司
                 //隐藏标签 描述  展示网点名字  加入按钮
-                return cell_height_30
+                return 0
             }
         }else {
-            return cell_height_30
+            return 0
         }
     }
 }

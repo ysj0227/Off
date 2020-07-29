@@ -110,7 +110,7 @@ extension OwnerBuildingNameESearchResultListViewController {
         
         self.tableView.register(OwnerBuildingNameESSearchIdentifyCell.self, forCellReuseIdentifier: OwnerBuildingNameESSearchIdentifyCell.reuseIdentifierStr)
             
-        topView.addSubview(descLabel)
+        //topView.addSubview(descLabel)
         topView.addSubview(closeBtn)
         closeBtn.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
     }
@@ -179,7 +179,11 @@ extension OwnerBuildingNameESearchResultListViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return cell_height_30
+        if UserTool.shared.user_owner_identifytype == 2 {
+            return cell_height_30
+        }else {
+            return 0
+        }
     }
 }
 
