@@ -123,9 +123,9 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
                 addressLabel.isHidden = true
-                if userModel?.leaseTypeTemp == 0 {
+                if userModel?.leaseTypeTemp == "0" {
                     numDescTF.text = "自有房产"
-                }else if userModel?.leaseTypeTemp == 1 {
+                }else if userModel?.leaseTypeTemp == "1" {
                     numDescTF.text = "租赁房产"
                 }else {
                     numDescTF.text = ""

@@ -92,9 +92,9 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
-                if userModel?.leaseType == 0 {
+                if userModel?.leaseType == "0" {
                     numDescTF.text = "自有房产"
-                }else if userModel?.leaseType == 1 {
+                }else if userModel?.leaseType == "1" {
                     numDescTF.text = "租赁房产"
                 }else {
                     numDescTF.text = ""

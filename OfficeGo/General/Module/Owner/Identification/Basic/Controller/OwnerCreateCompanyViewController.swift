@@ -243,21 +243,21 @@ extension OwnerCreateCompanyViewController {
         params["createCompany"] = 2 as AnyObject?
         
         ///企业关系id
-        if companyModel?.userLicenceId != 0 {
+        if companyModel?.userLicenceId != "0" || companyModel?.userLicenceId?.isBlankString != true {
             params["userLicenceId"] = companyModel?.userLicenceId as AnyObject?
         }
         
         ///企业id
-        if companyModel?.licenceId != 0 {
+        if companyModel?.licenceId  != "0" || companyModel?.licenceId?.isBlankString != true {
             params["licenceId"] = companyModel?.licenceId as AnyObject?
         }
         
         ///关联楼id
-        if companyModel?.buildingId != 0 {
+        if companyModel?.buildingId  != "0" || companyModel?.buildingId?.isBlankString != true {
             params["buildingId"] = companyModel?.buildingId as AnyObject?
         }
         ///关联楼id
-        if companyModel?.buildingTempId != 0 {
+        if companyModel?.buildingTempId  != "0" || companyModel?.buildingTempId?.isBlankString != true {
             params["buildingTempId"] = companyModel?.buildingTempId as AnyObject?
         }
         

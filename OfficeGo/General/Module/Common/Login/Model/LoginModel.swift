@@ -99,17 +99,17 @@ class OwnerIdentifyUserModel: BaseModel {
     var address : String?
     
     ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 4待完善 没有提交过为-1
-    var auditStatus : Int?
+    var auditStatus : String?
     
     ///权职0普通员工1管理员
     ///0 就是关联的公司 1的就是自己创建
-    var authority : Int?
+    var authority : String?
     
     ///网点名称
     var branchesName : String?
     
     ///楼盘网点标识1楼2网点
-    var btype : Int?
+    var btype : String?
     
     ///楼地址
     var buildingAddress : String?
@@ -118,14 +118,14 @@ class OwnerIdentifyUserModel: BaseModel {
     ///有值就是关联的 为空就是自己创建的   楼盘和网点
     ///联办 - 楼盘没有id，只显示名字
     ///管理楼id
-    var buildingId : Int?
+    var buildingId : String?
     
-    var buildingManagersId : Int?
+    var buildingManagersId : String?
     
     ///楼名称
     var buildingName : String?
     
-    var buildingStatus : Int?
+    var buildingStatus : String?
     
     ///营业执照图片
     var businessLicense : String?
@@ -140,12 +140,12 @@ class OwnerIdentifyUserModel: BaseModel {
     var creditNo : String?
     
     ///身份类型0个人1企业2联合
-    var identityType : Int?
+    var identityType : String?
     
     ///租赁类型0直租1转租
-    var leaseType : Int?
-    var licenceId : Int?
-    var licenceStatus : Int?
+    var leaseType : String?
+    var licenceId : String?
+    var licenceStatus : String?
     
     ///房产证
     var premisesPermit : [BannerModel]?
@@ -154,13 +154,13 @@ class OwnerIdentifyUserModel: BaseModel {
     var remark : String?
     
     ///用户id
-    var userId : Int?
+    var userId : String?
     
     ///申请id
-    var userLicenceId : Int?
+    var userLicenceId : String?
     
     ///userLicenceStatus
-    var userLicenceStatus : Int?
+    var userLicenceStatus : String?
     
     
     ///身份证姓名
@@ -180,11 +180,11 @@ class OwnerIdentifyUserModel: BaseModel {
     
     
     ///1提交认证2企业确认3网点确认
-    var createCompany : Int?
+    var createCompany : String?
     
     ///楼id 认证的时候传的字段 - 自己创建的楼的id - 关联
     ///楼名称传过 就会有这个id
-    var buildingTempId : Int?
+    var buildingTempId : String?
  
     ///营业执照
     var fileBusinessLicense : String?
@@ -217,7 +217,7 @@ class OwnerIdentifyUserModel: BaseModel {
     
     
     ///租赁类型0直租1转租
-    var leaseTypeTemp : Int?
+    var leaseTypeTemp : String?
     
     ///公司名字 自己选择的 - 可能是接口返回的
     var companyNameTemp: String?
@@ -230,7 +230,7 @@ class OwnerIdentifyUserModel: BaseModel {
     var businessString : String?
     
     ///楼盘id 自己选择关联之后用自己的 - 没有选择可能是接口返回的
-    var buildingTempSelfId: Int?
+    var buildingTempSelfId: String?
     
     ///楼盘名字 自己选择的 - 可能是接口返回的
     var buildingNameTemp: String?

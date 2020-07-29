@@ -27,10 +27,10 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     var buildingAddressTemp : String?
     
     ///租赁类型0直租1转租 自己选择的 - 可能是接口返回的
-    var leaseTypeTemp: Int?
+    var leaseTypeTemp: String?
     
     ///楼盘id 自己选择关联之后用自己的 - 没有选择可能是接口返回的
-    var buildingTempSelfId: Int?
+    var buildingTempSelfId: String?
 
     var isFront: Bool? = true
     
@@ -238,8 +238,8 @@ extension OwnerPersonalIeditnfyVC {
                 leaseTypeTemp = leaseType
                 userModel?.leaseTypeTemp = leaseType
             }else {
-                leaseTypeTemp = 0
-                userModel?.leaseTypeTemp = 0
+                leaseTypeTemp = "0"
+                userModel?.leaseTypeTemp = "0"
             }
 
         }else {
@@ -435,7 +435,7 @@ extension OwnerPersonalIeditnfyVC {
             return
         }
         
-        if leaseTypeTemp == 1 {
+        if leaseTypeTemp == "1" {
             if uploadPicModelZLAgentArr.count - 1 <= 0 {
                 AppUtilities.makeToast("请上传租赁协议")
                 return
@@ -456,17 +456,17 @@ extension OwnerPersonalIeditnfyVC {
         
         
         ///企业关系id  接口给
-        if userModel?.userLicenceId != 0 {
+        if userModel?.userLicenceId != "0" || userModel?.userLicenceId?.isBlankString != true {
             params["userLicenceId"] = userModel?.userLicenceId as AnyObject?
         }
         
         ///企业id  接口给
-        if userModel?.licenceId != 0 {
+        if userModel?.licenceId != "0" || userModel?.licenceId?.isBlankString != true {
             params["licenceId"] = userModel?.licenceId as AnyObject?
         }
         
         ///关联楼id
-        if userModel?.buildingId != 0 {
+        if userModel?.buildingId != "0" || userModel?.buildingId?.isBlankString != true {
             params["buildingId"] = userModel?.buildingId as AnyObject?
         }
         //关联 - 楼盘，名字和地址都要给
@@ -477,7 +477,7 @@ extension OwnerPersonalIeditnfyVC {
         params["buildingName"] = buildingNameTemp as AnyObject?
         
         ///关联楼id
-        if userModel?.buildingTempId != 0 {
+        if userModel?.buildingTempId != "0" || userModel?.buildingTempId?.isBlankString != true {
             params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
         }
         
@@ -531,7 +531,7 @@ extension OwnerPersonalIeditnfyVC {
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
-        userModel?.leaseType = 0
+        userModel?.leaseType = "0"
     }
     func setUpView() {
         
@@ -951,9 +951,9 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         //直租
-        if leaseTypeTemp == 0 {
+        if leaseTypeTemp == "0" {
             return typeSourceArray.count - 1
-        }else if leaseTypeTemp == 1 {
+        }else if leaseTypeTemp == "1" {
             return typeSourceArray.count
         }else {
             return typeSourceArray.count - 1
@@ -1074,13 +1074,13 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 
                 let alertController = UIAlertController.init(title: "房产类型", message: nil, preferredStyle: .actionSheet)
                 let refreshAction = UIAlertAction.init(title: "自有房产", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.leaseTypeTemp = 0
-                    self?.userModel?.leaseTypeTemp = 0
+                    self?.leaseTypeTemp = "0"
+                    self?.userModel?.leaseTypeTemp = "0"
                     self?.loadCollectionData()
                 }
                 let copyAction = UIAlertAction.init(title: "租赁房产", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.leaseTypeTemp = 1
-                    self?.userModel?.leaseTypeTemp = 1
+                    self?.leaseTypeTemp = "1"
+                    self?.userModel?.leaseTypeTemp = "1"
                     self?.loadCollectionData()
                 }
                 let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in

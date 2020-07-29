@@ -23,7 +23,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
     var buildingNameTemp: String?
     
     ///租赁类型0直租1转租 自己选择的 - 可能是接口返回的
-    var leaseType: Int?
+    var leaseType: String?
     
     var userModel: OwnerIdentifyUserModel?
     
@@ -410,7 +410,7 @@ extension OwnerJointIeditnfyVC {
             return
         }
         
-        if leaseType == 1 {
+        if leaseType == "1" {
             if uploadPicModelZLAgentArr.count - 1 <= 0 {
                 AppUtilities.makeToast("请上传租赁协议")
                 return
@@ -430,7 +430,7 @@ extension OwnerJointIeditnfyVC {
         params["leaseType"] = leaseType as AnyObject?
 
         ///企业关系id
-        if userModel?.userLicenceId != 0 {
+        if userModel?.userLicenceId != "0" || userModel?.userLicenceId?.isBlankString != true {
             params["userLicenceId"] = userModel?.userLicenceId as AnyObject?
         }
 
@@ -441,7 +441,7 @@ extension OwnerJointIeditnfyVC {
         ///如果 我是选择关联的。我只把企业名字给你
 
 
-        if userModel?.licenceId != 0 {
+        if userModel?.licenceId != "0" || userModel?.licenceId?.isBlankString != true {
             params["licenceId"] = userModel?.licenceId as AnyObject?
         }
         //不需要，直接就是跳转到创建公司页面
@@ -450,11 +450,11 @@ extension OwnerJointIeditnfyVC {
 
 
         ///网点id
-        if userModel?.buildingId != 0 {
+        if userModel?.buildingId != "0" || userModel?.buildingId?.isBlankString != true {
             params["buildingId"] = userModel?.buildingId as AnyObject?
         }
         ///网点id
-        if userModel?.buildingTempId != 0 {
+        if userModel?.buildingTempId != "0" || userModel?.buildingTempId?.isBlankString != true {
             params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
         }
 
@@ -509,7 +509,7 @@ extension OwnerJointIeditnfyVC {
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
-        userModel?.leaseType = 1
+        userModel?.leaseType = "1"
     }
     func setUpView() {
         
@@ -943,7 +943,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         ///如果是审核被驳回并且是加入的某个网点
-        if userModel?.auditStatus == 2 && userModel?.authority == 0 {
+        if userModel?.auditStatus == "2" && userModel?.authority == "0" {
             return 1
         }else {
             if let company = userModel?.company {
@@ -951,9 +951,9 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                     return 1
                 }else {
                     //直租
-                    if leaseType == 0 {
+                    if leaseType == "0" {
                         return typeSourceArray.count - 1
-                        }else if leaseType == 1 {
+                        }else if leaseType == "1" {
                         return typeSourceArray.count
                     }else {
                         return typeSourceArray.count - 1
@@ -967,7 +967,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         ///如果是审核被驳回并且是加入的某个网点
-        if userModel?.auditStatus == 2 && userModel?.authority == 0 {
+        if userModel?.auditStatus == "2" && userModel?.authority == "0" {
             if section == 0 {
                 return 2
             }else {

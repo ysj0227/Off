@@ -10,7 +10,7 @@ import UIKit
 
 class OwnerESCompanySearchModel: BaseModel {
     var address : String?
-    var bid : Int?
+    var bid : String?
     var branchesName : String?
     var buildingName : String?
     
@@ -28,7 +28,7 @@ class OwnerESCompanySearchViewModel: NSObject {
     var realname : String?
     
     ///楼盘id
-    var bid : Int?
+    var bid : String?
     ///地址
     var companyString : NSMutableAttributedString?
     

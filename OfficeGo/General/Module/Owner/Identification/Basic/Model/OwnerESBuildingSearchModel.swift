@@ -11,7 +11,7 @@ import UIKit
 class OwnerESBuildingSearchModel: BaseModel {
     //详细地址
     var address : String?
-    var bid : Int?
+    var bid : String?
     var buildType : Int?
     var buildingName : String?
     var business : String?
@@ -25,7 +25,7 @@ class OwnerESBuildingSearchViewModel: NSObject {
     ///1是办公楼，2是联合办公
     var buildType: Int?
     ///楼盘id
-    var bid : Int?
+    var bid : String?
     ///楼盘名字
     var buildingAttributedName: NSMutableAttributedString?
     ///地址

@@ -114,21 +114,21 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
         
         
         ///企业关系id
-        if userModel?.userLicenceId != 0 {
+        if userModel?.userLicenceId != "0" || userModel?.userLicenceId?.isBlankString != true {
             params["userLicenceId"] = userModel?.userLicenceId as AnyObject?
         }
         
         ///企业id
-        if userModel?.licenceId != 0 {
+        if userModel?.licenceId != "0" || userModel?.licenceId?.isBlankString != true {
             params["licenceId"] = userModel?.licenceId as AnyObject?
         }
         
         ///关联楼id
-        if userModel?.buildingId != 0 {
+        if userModel?.buildingId != "0" || userModel?.buildingId?.isBlankString != true {
             params["buildingId"] = userModel?.buildingId as AnyObject?
         }
         ///关联楼id
-        if userModel?.buildingTempId != 0 {
+        if userModel?.buildingTempId != "0" || userModel?.buildingTempId?.isBlankString != true {
             params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
         }
         
