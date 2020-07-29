@@ -16,6 +16,9 @@ class OwnerJointIeditnfyVC: BaseViewController {
     ///网点名字 自己选择的 - 可能是接口返回的
      var branchNameTemp: String?
     
+    ///楼地址
+    var buildingAddressTemp : String?
+    
     ///公司名字 自己选择的 - 可能是接口返回的
     var companyNameTemp: String?
     
@@ -210,8 +213,10 @@ class OwnerJointIeditnfyVC: BaseViewController {
         //公司认证 - 创建网点成功通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             if let model = noti.object as? OwnerIdentifyUserModel {
-                self?.userModel?.branchNameTemp = model.buildingName
-                self?.userModel?.buildingAddressTemp = "\(model.buildingAddress ?? "")\(model.address ?? "")"
+                self?.branchNameTemp = model.branchesName
+                self?.userModel?.branchNameTemp = model.branchesName
+                self?.buildingAddressTemp = "\(model.districtString ?? "")\(model.businessString ?? "")\(model.buildingAddress ?? "")"
+                self?.userModel?.buildingAddressTemp = "\(model.districtString ?? "")\(model.businessString ?? "")\(model.buildingAddress ?? "")"
                 self?.branchSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
@@ -301,6 +306,13 @@ extension OwnerJointIeditnfyVC {
             userModel?.buildingNameTemp = userModel?.buildingName
         }else {
             userModel?.buildingNameTemp = buildingNameTemp
+        }
+        
+        if buildingAddressTemp == nil {
+            buildingAddressTemp = userModel?.buildingAddress
+            userModel?.buildingAddressTemp = userModel?.buildingAddress
+        }else {
+            userModel?.buildingAddressTemp = buildingAddressTemp
         }
         
         ///移除之前的房产证数据
@@ -977,11 +989,8 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             if section == 0 {
                 if let branchName = userModel?.branchesName {
                     
-                    if branchName.isBlankString == true {
-                        return 2
-                    }else {
-                        return typeSourceArray[0].count
-                    }
+                    return typeSourceArray[0].count
+                    
                 }else {
                     return 2
                 }
@@ -1046,12 +1055,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
             }
         }else if indexPath.section == 1 {
-            let model = typeSourceArray[1][indexPath.item]
-            if model.type == .OwnerJointIedntifyTypeBuildingName {
-                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58 + 18)
-            }else {
-                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
-            }
+            return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
         }else if indexPath.section == 2 {
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 3 {

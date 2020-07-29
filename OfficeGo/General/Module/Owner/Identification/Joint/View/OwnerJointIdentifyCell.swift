@@ -113,11 +113,11 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             }else if model.type == .OwnerJointIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
-                addressLabel.isHidden = false
+                addressLabel.isHidden = true
                 numDescTF.text = userModel?.buildingNameTemp
-                if numDescTF.text?.count ?? 0 > 0 {
-                    addressLabel.text = userModel?.buildingAddressTemp
-                }
+//                if numDescTF.text?.count ?? 0 > 0 {
+//                    addressLabel.text = userModel?.buildingAddressTemp
+//                }
             }
         }
     }
