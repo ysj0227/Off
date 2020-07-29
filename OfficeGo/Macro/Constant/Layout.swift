@@ -14,6 +14,8 @@ let kWidth:CGFloat = UIScreen.main.bounds.size.width
 
 let maxImgWidthOrHeight_1500: CGFloat = 1500.0
 
+let maxImgSize_20480: CGFloat = 20480.0 * 1000
+
 let imgScale: CGFloat = 3 / 4.0
 
 let login_left_pending_space_30 = 30

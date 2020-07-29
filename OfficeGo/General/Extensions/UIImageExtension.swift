@@ -111,6 +111,18 @@ extension UIImage {
         newImage.draw(in: rect)
         newImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
+        
+        let byte: CGFloat = CGFloat(newImage.pngData()?.count ?? 0)
+        SSLog("图片裁剪体积----byte=\(byte)")
+
+        if byte > maxImgSize_20480 {
+            let scale: CGFloat = maxImgSize_20480 / byte
+            if let imgdata = newImage.jpegData(compressionQuality: scale) {
+                newImage = UIImage.init(data: imgdata) ?? UIImage()
+            }
+            SSLog("图片裁剪尺寸比例----width=\(newImage.size.width)--height=\(newImage.size.height)--scale\(scale)")
+
+        }
         SSLog("图片裁剪尺寸比例----width=\(newImage.size.width)--height=\(newImage.size.height)")
         return newImage
     }
