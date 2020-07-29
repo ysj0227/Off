@@ -369,6 +369,9 @@ extension OwnerPersonalIeditnfyVC {
         if userModel?.userIdCardTemp == nil || userModel?.userIdCardTemp?.isBlankString == true{
             AppUtilities.makeToast("请输入身份证号")
             return
+        }else if SSTool.isPureStrOrNumNumber(text: userModel?.userIdCardTemp ?? "") != true {
+            AppUtilities.makeToast("请输入的正确身份证号")
+            return
         }
         
         

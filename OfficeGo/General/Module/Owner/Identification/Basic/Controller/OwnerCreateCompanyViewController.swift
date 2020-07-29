@@ -223,8 +223,10 @@ extension OwnerCreateCompanyViewController {
         if companyModel?.creditNo == nil || companyModel?.creditNo?.isBlankString == true{
             AppUtilities.makeToast("请输入营业执照注册号")
             return
-        }
-        
+            }else if SSTool.isPureStrOrNumNumber(text: companyModel?.creditNo ?? "") != true {
+                AppUtilities.makeToast("请输入正确的营业执照注册号")
+                return
+            }
         if mainPicBannermodel?.isLocal == false {
             AppUtilities.makeToast("请上传楼盘封面图")
             return
@@ -332,7 +334,8 @@ class OwnerCreateCompanyCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerCreteCompanyType.OwnerCreteCompanyTypeIedntify)
-            
+            editLabel.keyboardType = .default
+
             detailIcon.isHidden = true
             
             if model.type == .OwnerCreteCompanyTypeCompanyName{
@@ -344,6 +347,7 @@ class OwnerCreateCompanyCell: BaseEditCell {
                 lineView.isHidden = false
                 editLabel.text = companyModel?.address
             }else if model.type == .OwnerCreteCompanyTypeYingyeCode {
+                editLabel.keyboardType = .emailAddress
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
                 editLabel.text = companyModel?.creditNo

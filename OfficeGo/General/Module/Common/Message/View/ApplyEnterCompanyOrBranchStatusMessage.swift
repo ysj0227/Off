@@ -285,7 +285,7 @@ class ApplyEnterCompanyOrBranchStatusMessageCell: RCMessageBaseCell {
     private class func getTextLabelSize(_ message: ApplyEnterCompanyOrBranchStatusMessage, messageDirection: RCMessageDirection) -> CGSize {
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
             if message.isAgree == true {
-                message.content = "已加入公司"
+                message.content = "已加入"
             }else {
                 message.content = "对方拒绝你的请求"
             }

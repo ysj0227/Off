@@ -79,6 +79,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
     var model: OwnerPersonalIedntifyConfigureModel = OwnerPersonalIedntifyConfigureModel(types: .OwnerPersonalIedntifyTypeIdentify) {
         didSet {
             titleLabel.text = model.getNameFormType(type: model.type ?? .OwnerPersonalIedntifyTypeIdentify)
+            numDescTF.keyboardType = .default
             if model.type == .OwnerPersonalIedntifyTypeIdentify {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
@@ -97,6 +98,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
                 addressLabel.isHidden = true
                 numDescTF.text = userModel?.userNameTemp
             }else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode{
+                numDescTF.keyboardType = .emailAddress
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
@@ -180,8 +182,18 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
             addressLabel.text = ""
             blockk(numDescTF.text ?? "")
         }
+        else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode {
+                
+          let textNum = numDescTF.text?.count
+            
+          //截取
+          if textNum! > 18 {
+              let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: 18)
+              let str = numDescTF.text?.substring(to: index!)
+              numDescTF.text = str
+          }
+        }
     }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -228,4 +240,5 @@ extension OwnerPersonalIdentifyCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
     }
+    
 }
