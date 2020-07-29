@@ -81,7 +81,7 @@ class OwnerChatViewController: RCConversationViewController {
                 
                 //刷新对方融云信息
                 weakSelf.messageModel = model
-                weakSelf.reloadRCCompanyUserInfo()
+                weakSelf.setViewShow()
             }
                         
             }, failure: { (error) in

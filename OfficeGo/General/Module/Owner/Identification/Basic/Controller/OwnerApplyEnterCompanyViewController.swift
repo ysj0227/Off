@@ -278,7 +278,10 @@ extension OwnerApplyEnterCompanyViewController {
     
     ///申请加入公司操作 -
     func requestApplyEnterCompany(applyJoinModel: MessageFYChattedModel) {
-        //addNotify()
+        if applyJoinModel.targetId == nil && applyJoinModel.targetId?.isBlankString == true {
+            AppUtilities.makeToast("获取管理员信息异常，无法发送申请")
+            return
+        }
         let vc = OwnerChatViewController()
         vc.needPopToRootView = true
         vc.conversationType = .ConversationType_PRIVATE
