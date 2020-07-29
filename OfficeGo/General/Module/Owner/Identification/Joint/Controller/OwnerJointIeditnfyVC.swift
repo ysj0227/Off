@@ -215,8 +215,8 @@ class OwnerJointIeditnfyVC: BaseViewController {
             if let model = noti.object as? OwnerIdentifyUserModel {
                 self?.branchNameTemp = model.branchesName
                 self?.userModel?.branchNameTemp = model.branchesName
-                self?.buildingAddressTemp = "\(model.districtString ?? "")\(model.businessString ?? "")\(model.buildingAddress ?? "")"
-                self?.userModel?.buildingAddressTemp = "\(model.districtString ?? "")\(model.businessString ?? "")\(model.buildingAddress ?? "")"
+                self?.buildingAddressTemp = model.buildingAddress
+                self?.userModel?.buildingAddressTemp = model.buildingAddress
                 self?.branchSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
