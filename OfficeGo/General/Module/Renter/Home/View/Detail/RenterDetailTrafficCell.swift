@@ -62,8 +62,12 @@ class RenterDetailTrafficCell: BaseTableViewCell {
             trafficLineView.isHidden = true
         }else {
             trafficIcon.isHidden = false
-            lookAllButton.isHidden = false
             trafficLineView.isHidden = false
+            if viewModel.walkTimesubwayAndStationStringArr?.count ?? 0 == 1 {
+                lookAllButton.isHidden = true
+            }else {
+                lookAllButton.isHidden = false
+            }
             addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
         }
     }
@@ -86,8 +90,12 @@ class RenterDetailTrafficCell: BaseTableViewCell {
             trafficLineView.isHidden = true
         }else {
             trafficIcon.isHidden = false
-            lookAllButton.isHidden = false
             trafficLineView.isHidden = false
+            if viewModel.walkTimesubwayAndStationStringArr?.count ?? 0 == 1 {
+                lookAllButton.isHidden = true
+            }else {
+                lookAllButton.isHidden = false
+            }
             addLineLabels(str: viewModel.walkTimesubwayAndStationStringArr ?? [])
         }
     }
