@@ -164,10 +164,10 @@ class RenterUserHeaderView: UIView {
             
             var auditStatusString: String?
             if auditStatus == 0 {
-                auditStatusString = "认证待审核"
+                auditStatusString = "待审核"
             }else if auditStatus == 1 {
                 auditStatusString = "已认证"
-            }else if auditStatus == 2 {
+            }else if auditStatus == 2 || auditStatus == 3 {
                 auditStatusString = "审核未通过"
             }
             

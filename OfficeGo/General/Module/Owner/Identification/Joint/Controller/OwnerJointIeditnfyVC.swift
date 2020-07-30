@@ -414,7 +414,7 @@ extension OwnerJointIeditnfyVC {
             return
         }
         
-        if userModel?.buildingNameTemp == nil || userModel?.buildingNameTemp?.isBlankString == true{
+        if userModel?.buildingName == nil || userModel?.buildingName?.isBlankString == true{
             AppUtilities.makeToast("请输入写字楼")
             return
         }
@@ -473,10 +473,8 @@ extension OwnerJointIeditnfyVC {
         }
 
         //底部楼盘名
-        if userModel?.buildingNameTemp != userModel?.buildingName {
-            params["buildingName"] = userModel?.buildingNameTemp as AnyObject?
+        params["buildingName"] = userModel?.buildingName as AnyObject?
 
-        }
 
         //房产证
         var fczArr: [UIImage] = []
@@ -618,6 +616,8 @@ extension OwnerJointIeditnfyVC {
         buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
             // 搜索完成 关闭resultVC
             //只需要楼盘名字
+            self?.userModel?.buildingName = model.buildingAttributedName?.string
+            self?.userModel?.buildingAddress = model.addressString?.string
             self?.buildingNameTemp = model.buildingAttributedName?.string
             self?.userModel?.buildingNameTemp = model.buildingAttributedName?.string
             self?.buildingNameSearchResultVC?.view.isHidden = true
@@ -890,18 +890,26 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.branchNameClickClouse = { [weak self] (branchName) in
+                //为了判断能不能提交
+                self?.userModel?.branchesName = nil
                 self?.userModel?.buildingAddressTemp = ""
                 self?.branchName = branchName
                 self?.branchNameTemp = branchName
+                self?.userModel?.branchNameTemp = branchName
             }
             cell?.companyNameClickClouse = { [weak self] (companyName) in
+                self?.userModel?.company = nil
                 self?.companyName = companyName
                 self?.companyNameTemp = companyName
+                self?.userModel?.companyNameTemp = companyName
             }
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
+                self?.userModel?.buildingName = buildingName
+                self?.userModel?.buildingAddress = nil
                 self?.buildingName = buildingName
                 self?.buildingNameTemp = buildingName
                 self?.userModel?.buildingNameTemp = buildingName
+                self?.userModel?.buildingAddressTemp = nil
             }
             //            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
             //                self?.userModel?.buildingName = buildingNAme
@@ -958,22 +966,24 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
         }
         
     }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         ///如果是审核被驳回并且是加入的某个网点
         if userModel?.auditStatus == "2" && userModel?.authority == "0" {
             return 1
         }else {
-            if let company = userModel?.company {
+            if let company = userModel?.companyNameTemp {
                 if company.isBlankString == true {
                     return 1
                 }else {
-                    //直租
-                    if leaseType == "0" {
-                        return typeSourceArray.count - 1
-                        }else if leaseType == "1" {
-                        return typeSourceArray.count
+                    if let buildingName = userModel?.buildingNameTemp {
+                        if buildingName.isBlankString == true {
+                            return typeSourceArray.count - 2
+                        }else {
+                            return typeSourceArray.count
+                        }
                     }else {
-                        return typeSourceArray.count - 1
+                        return typeSourceArray.count - 2
                     }
                 }
             }else {
@@ -992,45 +1002,37 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             }
         }else {
             if section == 0 {
-                if let branchName = userModel?.branchesName {
-                    
-                    return typeSourceArray[0].count
-                    
+                if let branchName = userModel?.branchNameTemp {
+                    if branchName.isBlankString == true {
+                        return 2
+                    }else {
+                        return typeSourceArray[0].count
+                    }
                 }else {
                     return 2
                 }
             }else if section == 1 {
-                if let company = userModel?.company {
+                if let company = userModel?.companyNameTemp {
                     if company.isBlankString == true {
                         return 0
                     }else {
-                        return typeSourceArray[1].count
+                        if let company = userModel?.buildingNameTemp {
+                            if company.isBlankString == true {
+                                return 1
+                            }else {
+                                return typeSourceArray[1].count
+                            }
+                        }else {
+                            return 1
+                        }
                     }
                 }else {
                     return 0
                 }
             }else if section == 2 {
-                if let company = userModel?.buildingNameTemp {
-                    if company.isBlankString == true {
-                        return 0
-                    }else {
-                        return uploadPicModelFCZArr.count + 1
-                    }
-                }else {
-                    return 0
-                }
-                
+                return uploadPicModelFCZArr.count + 1
             }else if section == 3 {
-                if let company = userModel?.buildingNameTemp {
-                    if company.isBlankString == true {
-                        return 0
-                    }else {
-                        return uploadPicModelZLAgentArr.count + 1
-                    }
-                }else {
-                    return 0
-                }
-                
+                return uploadPicModelFCZArr.count + 1
             }
             /*else if section == 4 {
              if let company = userModel?.buildingName {
@@ -1138,16 +1140,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             return CGSize(width: kWidth, height: 10)
             
         }else if section == 2 || section == 3 {
-            if let buildingName = userModel?.buildingNameTemp {
-                if buildingName.isBlankString == true {
-                    return CGSize(width: kWidth, height: 0)
-                }else {
-                    return CGSize(width: kWidth, height: 68)
-                }
-            }else {
-                return CGSize(width: kWidth, height: 0)
-            }
-            
+            return CGSize(width: kWidth, height: 68)
         }
             /*else if section == 4 {
              if let buildingName = userModel?.buildingName {

@@ -198,22 +198,22 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
 }
 
 extension OwnerCompanyIdentifyCell: UITextFieldDelegate {
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        //只有办公楼地址要在编辑结束的时候传过去
-//        if model.type == .OwnerCompanyIedntifyTypeBuildingAddress {
-//            guard let blockk = self.buildingAddresEndEditingMessageCell else {
-//                return
-//            }
-//            blockk(textField.text ?? "")
-//        }
-//        //只有办公楼名称要在编辑结束的时候传过去
-//        if model.type == .OwnerCompanyIedntifyTypeBuildingName {
-//            guard let blockk = self.buildingNameEndEditingMessageCell else {
-//                return
-//            }
-//            blockk(textField.text ?? "")
-//        }
-//    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        //只有办公楼地址要在编辑结束的时候传过去
+        if model.type == .OwnerCompanyIedntifyTypeBuildingAddress {
+            guard let blockk = self.buildingAddresEndEditingMessageCell else {
+                return
+            }
+            blockk(textField.text ?? "")
+        }
+        //只有办公楼名称要在编辑结束的时候传过去
+        if model.type == .OwnerCompanyIedntifyTypeBuildingName {
+            guard let blockk = self.buildingNameEndEditingMessageCell else {
+                return
+            }
+            blockk(textField.text ?? "")
+        }
+    }
 //    
 //    func textFieldDidBeginEditing(_ textField: UITextField) {
 //        

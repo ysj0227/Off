@@ -98,7 +98,7 @@ class OwnerCreateBranchViewController: BaseTableViewController {
         }
         
         if mainPicBannermodel?.isLocal == false {
-            AppUtilities.makeToast("请上传楼盘封面图")
+            AppUtilities.makeToast("请上传网点封面图")
             return
         }
         

@@ -318,7 +318,7 @@ extension OwnerMineViewController {
         
             ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
             //未审核
-            if auditStatus == -1 {
+            if auditStatus == -1 || auditStatus == 2 || auditStatus == 3 || auditStatus == 1 || auditStatus == 4{
                                 
                 ///点击跳转认证页面
                 let vc = OwnerIdenfySelectVC()

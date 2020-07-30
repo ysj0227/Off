@@ -228,7 +228,7 @@ extension OwnerCreateCompanyViewController {
                 return
             }
         if mainPicBannermodel?.isLocal == false {
-            AppUtilities.makeToast("请上传楼盘封面图")
+            AppUtilities.makeToast("请上传营业执照")
             return
         }
         
