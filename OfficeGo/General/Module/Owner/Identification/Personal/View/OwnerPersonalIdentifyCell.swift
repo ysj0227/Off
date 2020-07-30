@@ -245,13 +245,13 @@ extension OwnerPersonalIdentifyCell: UITextFieldDelegate {
 //            }
 //            blockk(textField.text ?? "")
 //        }
-//        //只有办公楼名称要在编辑结束的时候传过去
-//        else if model.type == .OwnerPersonalIedntifyTypeBuildingName {
-//            guard let blockk = self.buildingNameEndEditingMessageCell else {
-//                return
-//            }
-//            blockk(textField.text ?? "")
-//        }
+        //只有办公楼名称要在编辑结束的时候传过去
+        else if model.type == .OwnerPersonalIedntifyTypeBuildingName {
+            guard let blockk = self.buildingNameEndEditingMessageCell else {
+                return
+            }
+            blockk(textField.text ?? "")
+        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

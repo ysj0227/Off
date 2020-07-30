@@ -51,7 +51,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
             companySearchResultVC?.view.snp.remakeConstraints({ (make) in
                 make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
                 make.leading.trailing.equalToSuperview()
-                make.bottom.equalToSuperview().offset(-bottomMargin())
+                make.bottom.equalToSuperview()
             })
             //隐藏写字楼搜索的框
             buildingNameSearchResultVC?.view.isHidden = true
@@ -72,9 +72,9 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                 buildingNameSearchResultVC?.keywords = buildingName
             }
             buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
                 make.leading.trailing.equalToSuperview()
-                make.bottom.equalToSuperview().offset(-bottomMargin())
+                make.bottom.equalToSuperview()
             })
             //隐藏公司搜索的框
             companySearchResultVC?.view.isHidden = true

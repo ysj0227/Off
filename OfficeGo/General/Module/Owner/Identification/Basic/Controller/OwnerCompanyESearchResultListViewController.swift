@@ -62,7 +62,9 @@ class OwnerCompanyESearchResultListViewController: BaseTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor.init(white: 0, alpha: 0.3)
+        self.tableView.backgroundColor = kAppClearColor
+
         requestSet()
         
     }
@@ -165,10 +167,6 @@ class OwnerCompanyESearchResultListViewController: BaseTableViewController {
 extension OwnerCompanyESearchResultListViewController {
     
     @objc func requestSet() {
-        
-        self.view.backgroundColor = kAppColor_bgcolor_F7F7F7
-        
-        self.tableView.backgroundColor = kAppColor_bgcolor_F7F7F7
         
         isShowRefreshHeader = true
         

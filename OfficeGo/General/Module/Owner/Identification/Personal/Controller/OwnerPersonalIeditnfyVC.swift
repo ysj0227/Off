@@ -59,9 +59,9 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
                 buildingNameSearchResultVC?.keywords = buildingName
             }
             buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
                 make.leading.trailing.equalToSuperview()
-                make.bottom.equalToSuperview().offset(-bottomMargin())
+                make.bottom.equalToSuperview()
             })
             
         }
@@ -842,6 +842,21 @@ extension OwnerPersonalIeditnfyVC {
             }
         }
     }
+    
+    func resetBuildingNameSize() {
+        SSTool.delay(time: 1) { [weak self]  in
+            let rect = self?.headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 0, section: 2))
+            let cellRect = rect?.frame ?? CGRect.zero
+            let cellFrame = self?.headerCollectionView.convert(cellRect, to: self?.view)
+            SSLog("buildingresetNamerect-\(rect)------cellRect\(cellRect)------cellFrame\(cellFrame)")
+            self?.buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
+                make.top.equalTo(cellFrame?.minY ?? 0 + 59)
+                make.leading.trailing.equalToSuperview()
+                make.bottom.equalToSuperview()
+            })
+            
+        }
+    }
 }
 extension OwnerPersonalIeditnfyVC: ZKIDCardCameraControllerDelegate {
     func cameraDidFinishShoot(withCameraImage image: UIImage) {
@@ -888,19 +903,15 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 self?.userModel?.buildingNameTemp = buildingName
                 self?.userModel?.buildingAddressTemp = nil
             }
-            //            cell?.buildingAddresEndEditingMessageCell = { [weak self] (buildingAddres) in
-            //                self?.userModel?.address = buildingAddres
-            //                self?.loadCollectionData()
-            //            }
-            //            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
-            //                self?.userModel?.buildingName = buildingNAme
-            //                self?.loadCollectionData()
-            //            }
+
+            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
+                self?.resetBuildingNameSize()
+            }
             return cell ?? OwnerPersonalIdentifyCell()
         }else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerIdCardImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerIdCardImagePickerCell
             if indexPath.item == 0 {
-                cell?.addTitleLabel.text = "上传身份证人像面"
+                cell?.bgimage.image = UIImage.init(named: "idcardBgFront")
                 if let imgUrl = frontBannerModel?.imgUrl {
                     if imgUrl.count > 0 {
                         cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))
@@ -911,7 +922,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                     cell?.image.image = frontBannerModel?.image
                 }
             }else if indexPath.item == 1 {
-                cell?.addTitleLabel.text = "上传身份证国徽面"
+                cell?.bgimage.image = UIImage.init(named: "idcardBgFBack")
                 if let imgUrl = reverseBannerModel?.imgUrl {
                     if imgUrl.count > 0 {
                         cell?.image.setImage(with: imgUrl, placeholder: UIImage(named: Default_1x1))

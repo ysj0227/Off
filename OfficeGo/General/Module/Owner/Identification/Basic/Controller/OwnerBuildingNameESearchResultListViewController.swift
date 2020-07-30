@@ -12,8 +12,8 @@ import SwiftyJSON
 class OwnerBuildingNameESearchResultListViewController: BaseTableViewController {
     
     let topView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: cell_height_30))
-        view.backgroundColor = kAppClearColor
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: cell_height_30 + 5))
+        view.backgroundColor = kAppWhiteColor
         return view
     }()
     
@@ -27,11 +27,14 @@ class OwnerBuildingNameESearchResultListViewController: BaseTableViewController 
     }()
     
     lazy var closeBtn: UIButton = {
-        let view = UIButton(frame: CGRect(x: kWidth - cell_height_30 - left_pending_space_17, y: 0, width: cell_height_30, height: cell_height_30))
+        let view = UIButton(frame: CGRect(x: kWidth - cell_height_30 * 3 - left_pending_space_17, y: 0, width: cell_height_30 * 3, height: cell_height_30))
+        view.clipsToBounds = true
+        view.layer.cornerRadius = view.height / 2.0
+        view.backgroundColor = kAppLightBlueColor
+        view.setTitleColor(kAppBlueColor, for: .normal)
         view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
-//        let view = UIButton(frame: CGRect(x: kWidth - cell_height_30, y: -15, width: cell_height_30, height: cell_height_30))
-//        view.setTitle("关闭", for: .normal)
-//        view.setTitleColor(kAppBlueColor, for: .normal)
+        view.setTitle("  关闭", for: .normal)
+        view.titleLabel?.font = FONT_13
         return view
     }()
     
@@ -57,7 +60,9 @@ class OwnerBuildingNameESearchResultListViewController: BaseTableViewController 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor.init(white: 0, alpha: 0.3)
+        self.tableView.backgroundColor = kAppClearColor
+
         requestSet()
         
     }
@@ -171,7 +176,11 @@ extension OwnerBuildingNameESearchResultListViewController {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return cell_height_58
+        if UserTool.shared.user_owner_identifytype == 2 {
+            return 0
+        }else {
+            return cell_height_58
+        }
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -180,7 +189,7 @@ extension OwnerBuildingNameESearchResultListViewController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if UserTool.shared.user_owner_identifytype == 2 {
-            return cell_height_30
+            return cell_height_30 + 5
         }else {
             return 0
         }

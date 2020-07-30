@@ -13,7 +13,6 @@ class OwnerIdCardImagePickerCell: BaseCollectionViewCell {
     
     let image: BaseImageView = {
         let view = BaseImageView()
-        view.backgroundColor = kAppLightBlueColor
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
         view.isUserInteractionEnabled = true
@@ -25,12 +24,6 @@ class OwnerIdCardImagePickerCell: BaseCollectionViewCell {
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
         view.image = UIImage.init(named: "idcardBgFront")
-        return view
-    }()
-    let addTitleLabel: UILabel = {
-        let view = UILabel()
-        view.font = FONT_11
-        view.textColor = kAppBlueColor
         return view
     }()
 
@@ -45,20 +38,15 @@ class OwnerIdCardImagePickerCell: BaseCollectionViewCell {
     }
     
     func setupViews() {
+        addSubview(bgimage)
         addSubview(image)
-        image.addSubview(bgimage)
-        image.addSubview(addTitleLabel)
         image.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
         bgimage.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-16)
+            make.top.leading.bottom.trailing.equalToSuperview()
         }
-        addTitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(bgimage.snp.bottom).offset(7)
-            make.centerX.equalToSuperview()
-        }
+
     }
     
 }

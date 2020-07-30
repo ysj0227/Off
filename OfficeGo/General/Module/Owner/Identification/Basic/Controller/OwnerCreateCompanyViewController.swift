@@ -14,13 +14,19 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
     var yingYeZhiZhaoPhoto: BaseImageView = {
         
         let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
-        view.backgroundColor = kAppLightBlueColor
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
         view.isUserInteractionEnabled = true
         return view
     }()
-    
+    let bgimage: UIImageView = {
+        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
+        view.backgroundColor = kAppClearColor
+        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFill
+        view.image = UIImage.init(named: "uploadAlertBg")
+        return view
+    }()
         //营业执照
     var mainPicBannermodel: BannerModel?
 
@@ -105,6 +111,7 @@ extension OwnerCreateCompanyViewController {
         yingYeZhiZhaoPhoto.addGestureRecognizer(textMessageTap)
         
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
+        footerview.addSubview(bgimage)
         footerview.addSubview(yingYeZhiZhaoPhoto)
         
         self.tableView.tableFooterView = footerview
