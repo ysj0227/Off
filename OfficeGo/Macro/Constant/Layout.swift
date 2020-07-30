@@ -12,9 +12,42 @@ let kHeight:CGFloat = UIScreen.main.bounds.size.height
 
 let kWidth:CGFloat = UIScreen.main.bounds.size.width
 
+
+//图片压缩的时候，最大的尺寸
 let maxImgWidthOrHeight_1500: CGFloat = 1500.0
 
+//图片最大体积数
 let maxImgSize_20480: CGFloat = 20480.0 * 1000
+
+//房产证最多图片数
+let ownerMaxFCZNumber = 9
+
+//租赁协议最多图片数
+let ownerMaxZLAgentNumber = 9
+
+//业主 - 认证 -公司名称最大数
+let ownerMaxCompanynameNumber = 20
+
+//业主 - 认证 -写字楼名称，20个字
+let ownerMaxBuildingnameNumber = 20
+
+//业主 - 认证 -详细地址，30字
+let ownerMaxAddressDetailNumber = 20
+
+//业主 - 认证 -网点名称，20字
+let ownerMaxBranchnameNumber = 20
+
+//业主 - 认证 -营业执照注册号，20数字
+let ownerMaxCompanyYingyezhizhaoNumber = 20
+
+//业主 - 认证 -姓名，10字
+let ownerMaxUsernameNumber = 10
+
+//业主 - 认证 -身份证号 18字
+let ownerMaxIDCardNumber = 18
+
+
+
 
 let imgScale: CGFloat = 3 / 4.0
 
