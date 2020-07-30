@@ -183,6 +183,15 @@ class CityDistrictAddressSelectView: UIView {
             }
             self?.areaFirstLevelModel.isSencondSelectedModel = self?.areaSecondLevelModel
             self?.areaCategoryLevelModel.isFirstSelectedModel = self?.areaFirstLevelModel
+            if self?.areaCategoryLevelModel.isFirstSelectedModel?.districtID == nil || self?.areaCategoryLevelModel.isFirstSelectedModel?.districtID?.isBlankString == true{
+                AppUtilities.makeToast("请选择所在区域")
+                return
+            }
+            
+            if self?.areaCategoryLevelModel.isFirstSelectedModel?.isSencondSelectedModel?.id == nil || self?.areaCategoryLevelModel.isFirstSelectedModel?.isSencondSelectedModel?.id?.isBlankString == true{
+                AppUtilities.makeToast("请选择所商圈")
+                return
+            }
             blockk(self?.areaCategoryLevelModel ?? CityAreaCategorySelectModel())
             self?.selfRemove()
         }

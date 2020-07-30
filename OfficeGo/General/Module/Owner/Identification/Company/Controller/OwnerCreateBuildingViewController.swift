@@ -350,9 +350,6 @@ extension OwnerCreateBuildingViewController {
     
     func showArea(isFrist: Bool) {
         areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
-            self?.areaModelCount = selectModel
-            self?.userModel?.districtString = "\(selectModel.name ?? "上海")市\(selectModel.isFirstSelectedModel?.district ?? "")区"
-            self?.userModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
 
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
                 self?.areaModelCount = selectModel
