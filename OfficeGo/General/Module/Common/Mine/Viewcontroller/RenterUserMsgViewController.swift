@@ -300,6 +300,7 @@ class BaseEditCell: BaseTableViewCell {
         let view = UILabel()
         view.textAlignment = .left
         view.font = FONT_15
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = kAppColor_999999
         return view
     }()
