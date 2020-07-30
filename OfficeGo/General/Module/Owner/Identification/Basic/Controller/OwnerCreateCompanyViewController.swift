@@ -328,6 +328,34 @@ class OwnerCreateCompanyCell: BaseEditCell {
     
     override func setDelegate() {
         editLabel.delegate = self
+        editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+    }
+    
+    @objc func valueDidChange() {
+        let textNum = editLabel.text?.count
+          
+        if model.type == .OwnerCreteCompanyTypeCompanyName{
+            //截取
+            if textNum! > ownerMaxCompanynameNumber {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxCompanynameNumber)
+                let str = editLabel.text?.substring(to: index!)
+                editLabel.text = str
+            }
+        }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
+            //截取
+            if textNum! > ownerMaxAddressDetailNumber {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber)
+                let str = editLabel.text?.substring(to: index!)
+                editLabel.text = str
+            }
+        }else if model.type == .OwnerCreteCompanyTypeYingyeCode{
+            //截取
+            if textNum! > ownerMaxCompanyYingyezhizhaoNumber {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxCompanyYingyezhizhaoNumber)
+                let str = editLabel.text?.substring(to: index!)
+                editLabel.text = str
+            }
+        }
     }
     
     var model: OwnerCreatCompanyConfigureModel = OwnerCreatCompanyConfigureModel(types: OwnerCreteCompanyType.OwnerCreteCompanyTypeIedntify) {
@@ -361,6 +389,7 @@ class OwnerCreateCompanyCell: BaseEditCell {
 }
 
 extension OwnerCreateCompanyCell: UITextFieldDelegate {
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if model.type == .OwnerCreteCompanyTypeCompanyName{

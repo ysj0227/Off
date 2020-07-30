@@ -176,6 +176,14 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             guard let blockk = self.companyNameClickClouse else {
                 return
             }
+            let textNum = numDescTF.text?.count
+              
+            //截取
+            if textNum! > ownerMaxCompanynameNumber {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxCompanynameNumber)
+                let str = numDescTF.text?.substring(to: index!)
+                numDescTF.text = str
+            }
             blockk(numDescTF.text ?? "")
         }
         //只有办公楼地址要在编辑结束的时候传过去

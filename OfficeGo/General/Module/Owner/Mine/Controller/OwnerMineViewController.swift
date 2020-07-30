@@ -307,9 +307,15 @@ extension OwnerMineViewController {
         }else {
             identifyVCClick(auditStatus: auditStatus, identify: identify)
         }
+        identifyVCClick(auditStatus: auditStatus, identify: identify)
+
     }
         
     func identifyVCClick(auditStatus: Int, identify: Int) {
+        ///点击跳转认证页面
+        let vc = OwnerIdenfySelectVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+        
             ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
             //未审核
             if auditStatus == -1 {

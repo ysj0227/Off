@@ -180,15 +180,32 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
                 return
             }
             addressLabel.text = ""
+            let textNum = numDescTF.text?.count
+            //截取
+            if textNum! > ownerMaxBuildingnameNumber {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+                let str = numDescTF.text?.substring(to: index!)
+                numDescTF.text = str
+            }
             blockk(numDescTF.text ?? "")
         }
-        else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode {
+        else if model.type == .OwnerPersonalIedntifyTypeUserName {
                 
           let textNum = numDescTF.text?.count
             
           //截取
-          if textNum! > 18 {
-              let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: 18)
+          if textNum! > ownerMaxUsernameNumber {
+              let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxUsernameNumber)
+              let str = numDescTF.text?.substring(to: index!)
+              numDescTF.text = str
+          }
+        }else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode {
+                
+          let textNum = numDescTF.text?.count
+            
+          //截取
+          if textNum! > ownerMaxIDCardNumber {
+              let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxIDCardNumber)
               let str = numDescTF.text?.substring(to: index!)
               numDescTF.text = str
           }

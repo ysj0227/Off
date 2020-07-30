@@ -406,7 +406,26 @@ class OwnerCreateBuildingCell: BaseEditCell {
     
     override func setDelegate() {
         editLabel.delegate = self
-    }
+        editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+        }
+        @objc func valueDidChange() {
+            let textNum = editLabel.text?.count
+            if model.type == .OwnerCreteBuildingTypeBranchName{
+                //截取
+                if textNum! > ownerMaxBuildingnameNumber {
+                    let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+                    let str = editLabel.text?.substring(to: index!)
+                    editLabel.text = str
+                }
+            }else if model.type == .OwnerCreteBuildingTypeBranchAddress{
+                //截取
+                if textNum! > ownerMaxAddressDetailNumber {
+                    let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber)
+                    let str = editLabel.text?.substring(to: index!)
+                    editLabel.text = str
+                }
+            }
+        }
     
     var model: OwnerCreatBuildingConfigureModel = OwnerCreatBuildingConfigureModel(types: OwnerCreteBuildingType.OwnerCreteBuildingTypeBranchName) {
         didSet {

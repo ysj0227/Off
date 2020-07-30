@@ -9,7 +9,7 @@
 import CLImagePickerTool
 import Alamofire
 class OwnerCreateBranchViewController: BaseTableViewController {
-        
+    
     var areaModelCount: CityAreaCategorySelectModel?
     
     var mainPicPhoto: UIImageView = {
@@ -21,10 +21,10 @@ class OwnerCreateBranchViewController: BaseTableViewController {
         view.isUserInteractionEnabled = true
         return view
     }()
-        
-        //封面图
+    
+    //封面图
     var mainPicBannermodel: BannerModel?
-
+    
     lazy var bottomBtnView: BottomBtnView = {
         let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
         view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
@@ -101,7 +101,7 @@ class OwnerCreateBranchViewController: BaseTableViewController {
             AppUtilities.makeToast("请上传楼盘封面图")
             return
         }
-
+        
         
         
         var params = [String:AnyObject]()
@@ -231,7 +231,7 @@ extension OwnerCreateBranchViewController {
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
-
+                
                 self?.mainPicBannermodel?.isLocal = true
                 self?.mainPicBannermodel?.image = img
                 self?.mainPicPhoto.image = img
@@ -242,7 +242,7 @@ extension OwnerCreateBranchViewController {
             })
         }
     }
-
+    
     func setUpData() {
         
         typeSourceArray.append(OwnerCreatBranchConfigureModel.init(types: .OwnerCreteBranchTypeBranchName))
@@ -355,7 +355,7 @@ extension OwnerCreateBranchViewController {
             self?.areaModelCount = selectModel
             self?.userModel?.districtString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区"
             self?.userModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
-
+            
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
                 self?.areaModelCount = selectModel
                 self?.userModel?.districtString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区"
@@ -408,6 +408,26 @@ class OwnerCreateBranchCell: BaseEditCell {
     
     override func setDelegate() {
         editLabel.delegate = self
+        editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+    }
+    
+    @objc func valueDidChange() {
+        let textNum = editLabel.text?.count
+        if model.type == .OwnerCreteBranchTypeBranchName{
+            //截取
+            if textNum! > ownerMaxBranchnameNumber {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBranchnameNumber)
+                let str = editLabel.text?.substring(to: index!)
+                editLabel.text = str
+            }
+        }else if model.type == .OwnerCreteBranchTypeBranchAddress{
+            //截取
+            if textNum! > ownerMaxAddressDetailNumber {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber)
+                let str = editLabel.text?.substring(to: index!)
+                editLabel.text = str
+            }
+        }
     }
     
     var model: OwnerCreatBranchConfigureModel = OwnerCreatBranchConfigureModel(types: OwnerCreteBranchType.OwnerCreteBranchTypeBranchName) {
