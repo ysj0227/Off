@@ -11,6 +11,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
+    view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.font = FONT_14
         view.textColor = kAppColor_999999
         return view
@@ -98,7 +99,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
                 addressLabel.isHidden = true
                 numDescTF.text = userModel?.userNameTemp
             }else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode{
-                numDescTF.keyboardType = .emailAddress
+                numDescTF.keyboardType = .numbersAndPunctuation
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
@@ -202,7 +203,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
         }else if model.type == .OwnerPersonalIedntifyTypeUserIdentifyCode {
                 
           let textNum = numDescTF.text?.count
-            
+                        
           //截取
           if textNum! > ownerMaxIDCardNumber {
               let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxIDCardNumber)
@@ -211,6 +212,18 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
           }
         }
     }
+    
+//    func judgeStringIncludeChineseWord(string: String) -> String {
+//
+//        string.forEach { (str) in
+//            if ("\u{4E00}" <= str  && str <= "\u{9FA5}") {
+//                string.remove(at: string.index(str.startIndex, offsetBy: 5))//删除字符
+//            }
+//        }
+//        return string
+//    }
+
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

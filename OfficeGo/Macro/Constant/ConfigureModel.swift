@@ -27,13 +27,13 @@ class OwnerCreatBranchConfigureModel: NSObject {
     func getNameFormType(type: OwnerCreteBranchType) -> NSMutableAttributedString{
         switch type {
         case .OwnerCreteBranchTypeBranchName:
-            return FuWenBen(name: "网点名称", centerStr: " *", last: " ：")
+            return FuWenBen(name: "网点名称", centerStr: " * ", last: "")
         case .OwnerCreteBranchTypeBranchDistrictArea:
-            return FuWenBen(name: "所在区域", centerStr: " *", last: " ：")
+            return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
         case .OwnerCreteBranchTypeBranchAddress:
-            return FuWenBen(name: "详细地址", centerStr: " *", last: " ：")
+            return FuWenBen(name: "详细地址", centerStr: " * ", last: "")
         case .OwnerCreteBranchTypeUploadYingyePhoto:
-            return FuWenBen(name: "上传网点封面图", centerStr: " *", last: "")
+            return FuWenBen(name: "上传网点封面图", centerStr: " * ", last: "")
         }
     }
     
@@ -80,13 +80,13 @@ class OwnerCreatBuildingConfigureModel: NSObject {
     func getNameFormType(type: OwnerCreteBuildingType) -> NSMutableAttributedString{
         switch type {
         case .OwnerCreteBuildingTypeBranchName:
-            return FuWenBen(name: "写字楼名称", centerStr: " *", last: " ：")
+            return FuWenBen(name: "写字楼名称", centerStr: " * ", last: "")
         case .OwnerCreteBuildingTypeBranchDistrictArea:
-            return FuWenBen(name: "所在区域", centerStr: " *", last: " ：")
+            return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
         case .OwnerCreteBuildingTypeBranchAddress:
-            return FuWenBen(name: "详细地址", centerStr: " *", last: " ：")
+            return FuWenBen(name: "详细地址", centerStr: " * ", last: "")
         case .OwnerCreteBuildingTypeUploadYingyePhoto:
-            return FuWenBen(name: "上传楼盘封面图", centerStr: " *", last: " ：")
+            return FuWenBen(name: "上传楼盘封面图", centerStr: " * ", last: "")
         }
     }
     
@@ -136,15 +136,15 @@ class OwnerCreatCompanyConfigureModel: NSObject {
     func getNameFormType(type: OwnerCreteCompanyType) -> NSMutableAttributedString{
         switch type {
         case .OwnerCreteCompanyTypeIedntify:
-            return FuWenBen(name: "认证身份", centerStr: "", last: " ：")
+            return FuWenBen(name: "认证身份", centerStr: " ", last: "")
         case .OwnerCreteCompanyTypeCompanyName:
-            return FuWenBen(name: "公司名称", centerStr: " *", last: " ：")
+            return FuWenBen(name: "公司名称", centerStr: " * ", last: "")
         case .OwnerCreteCompanyTypeCompanyAddress:
-            return FuWenBen(name: "公司地址", centerStr: " *", last: " ：")
+            return FuWenBen(name: "公司地址", centerStr: " * ", last: "")
         case .OwnerCreteCompanyTypeYingyeCode:
-            return FuWenBen(name: "营业执照注册号", centerStr: " *", last: " ：")
+            return FuWenBen(name: "营业执照注册号", centerStr: " * ", last: "")
         case .OwnerCreteCompanyTypeUploadYingyePhoto:
-            return FuWenBen(name: "上传营业执照", centerStr: " *", last: "")
+            return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
         }
     }
     

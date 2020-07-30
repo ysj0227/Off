@@ -12,6 +12,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.font = FONT_14
         view.textColor = kAppColor_999999
         return view

@@ -844,14 +844,14 @@ extension OwnerPersonalIeditnfyVC {
     }
     
     func resetBuildingNameSize() {
-        SSTool.delay(time: 1) { [weak self]  in
+        SSTool.invokeInMainThread { [weak self]  in
             let rect = self?.headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 0, section: 2))
             let cellRect = rect?.frame ?? CGRect.zero
             let cellFrame = self?.headerCollectionView.convert(cellRect, to: self?.view)
             SSLog("buildingresetNamerect-\(rect)------cellRect\(cellRect)------cellFrame\(cellFrame)")
             //TODO: 展示修改
             self?.buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame?.minY ?? 0 + cell_height_58 + 17 + 1)
+                make.top.equalTo((cellFrame?.minY ?? 0) + cell_height_58 + 17 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
             })
