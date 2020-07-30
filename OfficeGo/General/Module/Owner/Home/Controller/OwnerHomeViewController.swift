@@ -148,7 +148,7 @@ class OwnerHomeViewController: BaseViewController {
         var descString: String = ""
         if auditStatus == -1 {
             alert.messageLabel.textAlignment = .center
-            titleString = "审核未通过"
+            titleString = "未认证\n请先认证信息"
         }else if auditStatus == 2 || auditStatus == 3 {
             titleString = "审核未通过"
             descString = remark

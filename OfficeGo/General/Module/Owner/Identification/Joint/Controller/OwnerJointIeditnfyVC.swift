@@ -258,7 +258,8 @@ class OwnerJointIeditnfyVC: BaseViewController {
     func showLeaveAlert() {
         self.headerCollectionView.endEditing(true)
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "信息尚未提交。点击离开，已编辑信息不保存", cancelButtonCallClick: {
+        alert.bottomBtnView.rightSelectBtn.setTitle("离开", for: .normal)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "信息尚未提交，是否确认离开？", descMsg: "", cancelButtonCallClick: {
             
         }) { [weak self] in
             
@@ -268,7 +269,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
     
     func showSureLeaveAlert() {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "请再次确认是否返回？", descMsg: "", cancelButtonCallClick: {
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "请再次确认是否离开？", descMsg: "", cancelButtonCallClick: {
         
         }) { [weak self] in
             
@@ -280,6 +281,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
             
         }
     }
+    
 }
 
 extension OwnerJointIeditnfyVC {
