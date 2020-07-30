@@ -105,7 +105,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
                 buildingNameSearchResultVC?.keywords = buildingName
             }
             buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
             })
@@ -903,11 +903,12 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             }
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
                 self?.userModel?.buildingName = buildingName
-                self?.userModel?.buildingAddress = nil
+                self?.userModel?.buildingAddress = ""
                 self?.buildingName = buildingName
                 self?.buildingNameTemp = buildingName
                 self?.userModel?.buildingNameTemp = buildingName
-                self?.userModel?.buildingAddressTemp = nil
+                self?.buildingAddressTemp = ""
+                self?.userModel?.buildingAddressTemp = ""
             }
             //            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
             //                self?.userModel?.buildingName = buildingNAme

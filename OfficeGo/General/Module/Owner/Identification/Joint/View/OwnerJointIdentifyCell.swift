@@ -168,6 +168,14 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                 return
             }
             addressLabel.text = ""
+            let textNum = numDescTF.text?.count
+              
+            //截取
+            if textNum! > ownerMaxBranchnameNumber {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBranchnameNumber)
+                let str = numDescTF.text?.substring(to: index!)
+                numDescTF.text = str
+            }
             blockk(numDescTF.text ?? "")
         }
         
@@ -192,6 +200,14 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                 return
             }
             addressLabel.text = ""
+            let textNum = numDescTF.text?.count
+              
+            //截取
+            if textNum! > ownerMaxBuildingnameNumber {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+                let str = numDescTF.text?.substring(to: index!)
+                numDescTF.text = str
+            }
             blockk(numDescTF.text ?? "")
         }
     }

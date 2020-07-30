@@ -59,7 +59,7 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
                 buildingNameSearchResultVC?.keywords = buildingName
             }
             buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
             })
@@ -849,8 +849,9 @@ extension OwnerPersonalIeditnfyVC {
             let cellRect = rect?.frame ?? CGRect.zero
             let cellFrame = self?.headerCollectionView.convert(cellRect, to: self?.view)
             SSLog("buildingresetNamerect-\(rect)------cellRect\(cellRect)------cellFrame\(cellFrame)")
+            //TODO: 展示修改
             self?.buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame?.minY ?? 0 + 59)
+                make.top.equalTo(cellFrame?.minY ?? 0 + cell_height_58 + 17 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
             })
@@ -896,12 +897,13 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
-                self?.userModel?.buildingName = nil
-                self?.userModel?.buildingAddress = nil
+                self?.userModel?.buildingName = ""
+                self?.userModel?.buildingAddress = ""
                 self?.buildingName = buildingName
                 self?.buildingNameTemp = buildingName
                 self?.userModel?.buildingNameTemp = buildingName
-                self?.userModel?.buildingAddressTemp = nil
+                self?.buildingAddressTemp = ""
+                self?.userModel?.buildingAddressTemp = ""
             }
 
             cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
@@ -1023,7 +1025,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             }
         }else if section == 4 {
             if leaseTypeTemp == "1" {
-                return uploadPicModelFCZArr.count + 1
+                return uploadPicModelZLAgentArr.count + 1
             }else {
                 return 0
             }

@@ -72,7 +72,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                 buildingNameSearchResultVC?.keywords = buildingName
             }
             buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
             })
@@ -778,12 +778,13 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 self?.userModel?.companyNameTemp = companyName
             }
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
-                self?.userModel?.buildingName = nil
-                self?.userModel?.buildingAddress = nil
+                self?.userModel?.buildingName = ""
+                self?.userModel?.buildingAddress = ""
                 self?.buildingName = buildingName
                 self?.buildingNameTemp = buildingName
                 self?.userModel?.buildingNameTemp = buildingName
-                self?.userModel?.buildingAddressTemp = nil
+                self?.buildingAddressTemp = ""
+                self?.userModel?.buildingAddressTemp = ""
             }
             return cell ?? OwnerCompanyIdentifyCell()
         }else {
@@ -899,7 +900,7 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 
             }else if section == 3 {
                 if leaseTypeTemp == "1" {
-                    return uploadPicModelFCZArr.count + 1
+                    return uploadPicModelZLAgentArr.count + 1
                 }else {
                     return 0
                 }
