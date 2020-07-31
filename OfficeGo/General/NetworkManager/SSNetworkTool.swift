@@ -16,9 +16,20 @@ typealias SSFailedErrorClosure = (_ error: NSError) -> Void
 
 class SSNetworkTool: NSObject {
     
+    ///通常请求session
     private static let worker: SessionManager = {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 15  // seconds
+        config.timeoutIntervalForResource = config.timeoutIntervalForRequest
+        config.requestCachePolicy = NSURLRequest.CachePolicy.reloadIgnoringCacheData
+        Alamofire.SessionManager.default.delegate.taskWillPerformHTTPRedirection = nil
+        return Alamofire.SessionManager(configuration: config)
+    }()
+    
+    ///上传图片session
+    private static let uploadSessionWorker: SessionManager = {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 120  // seconds
         config.timeoutIntervalForResource = config.timeoutIntervalForRequest
         config.requestCachePolicy = NSURLRequest.CachePolicy.reloadIgnoringCacheData
         Alamofire.SessionManager.default.delegate.taskWillPerformHTTPRedirection = nil
@@ -46,7 +57,7 @@ class SSNetworkTool: NSObject {
             LoadingHudView.showHud()
         }
         
-        Alamofire.upload(multipartFormData: { (multiPart) in
+        uploadSessionWorker.upload(multipartFormData: { (multiPart) in
             for p in params {
                 multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
             }
@@ -128,7 +139,7 @@ class SSNetworkTool: NSObject {
             LoadingHudView.showHud()
         }
         
-        Alamofire.upload(multipartFormData: { (multiPart) in
+        uploadSessionWorker.upload(multipartFormData: { (multiPart) in
             for p in params {
                 multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
             }
@@ -231,7 +242,7 @@ class SSNetworkTool: NSObject {
             LoadingHudView.showHud()
         }
         
-        Alamofire.upload(multipartFormData: { (multiPart) in
+        uploadSessionWorker.upload(multipartFormData: { (multiPart) in
             for p in params {
                 multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
             }
@@ -322,7 +333,7 @@ class SSNetworkTool: NSObject {
             LoadingHudView.showHud()
         }
         
-        Alamofire.upload(multipartFormData: { (multiPart) in
+        uploadSessionWorker.upload(multipartFormData: { (multiPart) in
             for p in params {
                 multiPart.append("\(p.value)".data(using: String.Encoding.utf8)!, withName: p.key)
             }

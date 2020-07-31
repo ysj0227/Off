@@ -20,10 +20,10 @@ let maxImgWidthOrHeight_1500: CGFloat = 1500.0
 let maxImgSize_20480: CGFloat = 20480.0 * 1000
 
 //房产证最多图片数
-let ownerMaxFCZNumber = 9
+let ownerMaxFCZNumber = 4
 
 //租赁协议最多图片数
-let ownerMaxZLAgentNumber = 9
+let ownerMaxZLAgentNumber = 5
 
 //业主 - 认证 -公司名称最大数
 let ownerMaxCompanynameNumber = 20
