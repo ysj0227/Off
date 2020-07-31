@@ -1031,7 +1031,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             }else if section == 2 {
                 return uploadPicModelFCZArr.count + 1
             }else if section == 3 {
-                return uploadPicModelFCZArr.count + 1
+                return uploadPicModelZLAgentArr.count + 1
             }
             /*else if section == 4 {
              if let company = userModel?.buildingName {
