@@ -12,9 +12,9 @@ class OwnerCreateBranchViewController: BaseTableViewController {
     
     var areaModelCount: CityAreaCategorySelectModel?
     
-    var mainPicPhoto: UIImageView = {
+    var mainPicPhoto: BaseImageView = {
         
-        let view = UIImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
         view.image = UIImage.init(named: "addImgBg")
@@ -97,13 +97,13 @@ class OwnerCreateBranchViewController: BaseTableViewController {
             return
         }
         
-        if mainPicBannermodel?.isLocal == false {
-            AppUtilities.makeToast("请上传网点封面图")
-            return
+        if mainPicBannermodel?.isLocal == true {
+            if mainPicBannermodel?.image == nil {
+                AppUtilities.makeToast("请上传网点封面图")
+                return
+            }
         }
-        
-        
-        
+                
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -236,7 +236,7 @@ extension OwnerCreateBranchViewController {
                 self?.mainPicBannermodel?.image = img
                 self?.mainPicPhoto.image = img
                 }, failedClouse: {[weak self] () in
-                    self?.mainPicBannermodel?.isLocal = false
+                    self?.mainPicBannermodel?.isLocal = true
                     index = index - 1
                     //                    self?.dealImage(imageArr: imageArr, index: index)
             })
@@ -265,6 +265,13 @@ extension OwnerCreateBranchViewController {
             
         }else {
             mainPicBannermodel = BannerModel()
+            if userModel?.mainPic != nil && userModel?.mainPic?.isBlankString != true {
+                mainPicBannermodel?.isLocal = false
+                mainPicBannermodel?.imgUrl = userModel?.mainPic
+                mainPicPhoto.setImage(with: mainPicBannermodel?.imgUrl ?? "", placeholder: UIImage.init(named: Default_4x3_large))
+            }else {
+                mainPicBannermodel?.isLocal = true
+            }
         }
     }
     
@@ -475,3 +482,4 @@ extension OwnerCreateBranchCell: UITextFieldDelegate {
         
     }
 }
+

@@ -137,7 +137,7 @@ extension OwnerCreateCompanyViewController {
                 self?.mainPicBannermodel?.image = img
                 self?.dealImage(imageArr: imageArr, index: index)
                 }, failedClouse: {[weak self] () in
-                    self?.mainPicBannermodel?.isLocal = false
+                    self?.mainPicBannermodel?.isLocal = true
                     index = index - 1
                     //                    self?.dealImage(imageArr: imageArr, index: index)
             })
@@ -175,9 +175,15 @@ extension OwnerCreateCompanyViewController {
             
         }else {
             mainPicBannermodel = BannerModel()
+            if companyModel?.businessLicense != nil && companyModel?.businessLicense?.isBlankString != true {
+                mainPicBannermodel?.isLocal = false
+                mainPicBannermodel?.imgUrl = companyModel?.businessLicense
+                yingYeZhiZhaoPhoto.setImage(with: mainPicBannermodel?.imgUrl ?? "", placeholder: UIImage.init(named: Default_4x3_large))
+            }else {
+                mainPicBannermodel?.isLocal = true
+            }
         }
-
-        yingYeZhiZhaoPhoto.setImage(with: companyModel?.businessLicense ?? "", placeholder: UIImage.init(named: ""))
+        
         self.tableView.reloadData()
     }
     
@@ -234,11 +240,12 @@ extension OwnerCreateCompanyViewController {
                 AppUtilities.makeToast("请输入正确的营业执照注册号")
                 return
             }
-        if mainPicBannermodel?.isLocal == false {
-            AppUtilities.makeToast("请上传营业执照")
-            return
+        if mainPicBannermodel?.isLocal == true {
+            if mainPicBannermodel?.image == nil {
+                AppUtilities.makeToast("请上传营业执照")
+                return
+            }
         }
-        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?

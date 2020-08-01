@@ -9,7 +9,7 @@
 import UIKit
 
 class LoginModel: BaseModel {
-
+    
     ///-1：未选择角色 0：租户，1：业主
     var rid: Int?
     var rongyuntoken: String?
@@ -45,12 +45,12 @@ class LoginUserModel: BaseModel {
     var job : String?
     var realname : String?
     var nickname : String?
-
+    
     var companyVerify : String?
     var createTime : Int?
     var createUser : String?
     
-
+    
     
     
     ///1已认证 0未认证 2待认证 3驳回
@@ -70,14 +70,14 @@ class LoginUserModel: BaseModel {
     ///业主姓名
     var proprietorRealname : String?
     var remark : String?
-
+    
     
     ///行程条数
     var trip : Int?
     
     ///收藏数
     var favorite : Int?
-
+    
 }
 
 class VersionModel: BaseModel {
@@ -130,6 +130,9 @@ class OwnerIdentifyUserModel: BaseModel {
     ///营业执照图片
     var businessLicense : String?
     
+    ///封面图
+    var mainPic : String?
+    
     ///公司名称
     var company : String?
     
@@ -168,7 +171,7 @@ class OwnerIdentifyUserModel: BaseModel {
     
     ///身份证
     var idCard : String?
-   
+    
     ///身份证正面
     var idFront : String?
     
@@ -185,7 +188,7 @@ class OwnerIdentifyUserModel: BaseModel {
     ///楼id 认证的时候传的字段 - 自己创建的楼的id - 关联
     ///楼名称传过 就会有这个id
     var buildingTempId : String?
- 
+    
     ///营业执照
     var fileBusinessLicense : String?
     
@@ -198,14 +201,12 @@ class OwnerIdentifyUserModel: BaseModel {
     ///合同
     var fileContract : String?
     
-    ///用户名
-    var userName : String?
     
-//    ///身份证正面
-//    var fileIdFront : String?
-//
-//    ///身份证反面面
-//    var fileIdBack : String?
+    //    ///身份证正面
+    //    var fileIdFront : String?
+    //
+    //    ///身份证反面面
+    //    var fileIdBack : String?
     
     ///大区id
     var district : String?
@@ -214,14 +215,6 @@ class OwnerIdentifyUserModel: BaseModel {
     var business : String?
     
     
-    
-    
-    ///租赁类型0直租1转租
-    var leaseTypeTemp : String?
-    
-    ///公司名字 自己选择的 - 可能是接口返回的
-    var companyNameTemp: String?
-    
     ///自己添加的显示的参数
     ///大区id
     var districtString : String?
@@ -229,20 +222,14 @@ class OwnerIdentifyUserModel: BaseModel {
     ///商圈id
     var businessString : String?
     
-    ///楼盘id 自己选择关联之后用自己的 - 没有选择可能是接口返回的
-    var buildingTempSelfId: String?
+    //0 空   无定义     1创建  2关联吗
+    var isCreateCompany: String? = "1"
     
-    ///楼盘名字 自己选择的 - 可能是接口返回的
-    var buildingNameTemp: String?
+    //0 空   无定义     1创建  2关联吗
+    var isCreateBuilding: String? = "1"
     
-    ///楼地址
-    var buildingAddressTemp : String?
-    
-    ///网点名字 自己选择的 - 可能是接口返回的
-    var branchNameTemp: String?
-    
-    var userNameTemp: String?
-    
-    var userIdCardTemp: String?
+    //0 空   无定义     1创建  2关联吗
+    var isCreateBranch: String? = "1"
     
 }
+

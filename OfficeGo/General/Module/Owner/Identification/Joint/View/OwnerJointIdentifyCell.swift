@@ -45,6 +45,46 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
         view.backgroundColor = kAppColor_line_EEEEEE
         return view
     }()
+    lazy var editBtn: UIButton = {
+        let btn = UIButton.init()
+        btn.setTitleColor(kAppColor_666666, for: .normal)
+        btn.setTitle("编辑", for: .normal)
+        btn.titleLabel?.font = FONT_LIGHT_9
+        btn.addTarget(self, action: #selector(editClick), for: .touchUpInside)
+        return btn
+    }()
+    lazy var closeBtn: UIButton = {
+        let btn = UIButton.init()
+        btn.setTitleColor(kAppColor_666666, for: .normal)
+        btn.setTitle("删除", for: .normal)
+        btn.titleLabel?.font = FONT_LIGHT_9
+        btn.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
+        return btn
+    }()
+    
+    //按钮点击方法
+    var editClickBack:((OwnerJointIedntifyType) -> Void)?
+    
+    @objc func editClick() {
+        guard let blockk = editClickBack else {
+            return
+        }
+        blockk(model.type ?? OwnerJointIedntifyType.OwnerJointIedntifyTypeIdentigy)
+    }
+    
+    var closeClickBack:((OwnerJointIedntifyType) -> Void)?
+    
+    @objc func closeClick() {
+        editBtn.isHidden = true
+        numDescTF.text = ""
+        numDescTF.isUserInteractionEnabled = true
+        numDescTF.becomeFirstResponder()
+        addressLabel.text = ""
+        guard let blockk = closeClickBack else {
+            return
+        }
+        blockk(model.type ?? OwnerJointIedntifyType.OwnerJointIedntifyTypeIdentigy)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -81,6 +121,8 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = false
                 addressLabel.isHidden = true
+                editBtn.isHidden = true
+                closeBtn.isHidden = true
                 ///身份类型0个人1企业2联合
                 if UserTool.shared.user_owner_identifytype == 0 {
                     numDescTF.text = "个人"
@@ -93,6 +135,8 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                 numDescTF.isUserInteractionEnabled = false
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
+                editBtn.isHidden = true
+                closeBtn.isHidden = true
                 if userModel?.leaseType == "0" {
                     numDescTF.text = "自有房产"
                 }else if userModel?.leaseType == "1" {
@@ -101,21 +145,76 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                     numDescTF.text = ""
                 }
             }else if model.type == .OwnerJointIedntifyTypeBranchname{
-                numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = false
-                numDescTF.text = userModel?.branchNameTemp
-                addressLabel.text = userModel?.buildingAddressTemp
+                closeBtn.isHidden = false
+                numDescTF.text = userModel?.branchesName
+                addressLabel.text = userModel?.buildingAddress
+                //0 空   无定义     1创建  2关联吗
+                //就是自己创建
+                if userModel?.isCreateBranch == "1" {
+                    //1的就是自己创建
+                    //不能输入框修改
+                    //有编辑按钮
+                    //有清空
+                    numDescTF.isUserInteractionEnabled = false
+                    editBtn.isHidden = false
+                }else if userModel?.isCreateBranch == "2" {
+                    //0 就是关联的公司
+                    //不能输入框修改
+                    //无编辑按钮
+                    //有清空
+                    numDescTF.isUserInteractionEnabled = false
+                    editBtn.isHidden = true
+                }else {
+                    //如果没有提交过，应该返回一个""
+                    //"" 没有提交过
+                    //能输入框修改
+                    //无编辑按钮
+                    //有清空
+                    numDescTF.isUserInteractionEnabled = true
+                    editBtn.isHidden = true
+                }
+                
             }else if model.type == .OwnerJointIedntifyTypeCompanyname{
+                //公司每次都是创建
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
-                numDescTF.text = userModel?.companyNameTemp
+                closeBtn.isHidden = false
+                numDescTF.text = userModel?.company
+                //0 空   无定义     1创建  2关联吗
+                //就是自己创建
+                if userModel?.isCreateCompany == "1" {
+                    //1的就是自己创建
+                    //不能输入框修改
+                    //有编辑按钮
+                    //有清空
+                    numDescTF.isUserInteractionEnabled = false
+                    editBtn.isHidden = false
+                }else if userModel?.isCreateCompany == "2" {
+                    //0 就是关联的公司
+                    //不能输入框修改
+                    //无编辑按钮
+                    //有清空
+                    numDescTF.isUserInteractionEnabled = false
+                    editBtn.isHidden = true
+                }else {
+                    //如果没有提交过，应该返回一个""
+                    //"" 没有提交过
+                    //能输入框修改
+                    //无编辑按钮
+                    //有清空
+                    numDescTF.isUserInteractionEnabled = true
+                    editBtn.isHidden = true
+                }
             }else if model.type == .OwnerJointIedntifyTypeBuildingName {
                 numDescTF.isUserInteractionEnabled = true
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
-                numDescTF.text = userModel?.buildingNameTemp
+                editBtn.isHidden = true
+                closeBtn.isHidden = false
+                numDescTF.text = userModel?.buildingName
 //                if numDescTF.text?.count ?? 0 > 0 {
 //                    addressLabel.text = userModel?.buildingAddressTemp
 //                }
@@ -130,7 +229,9 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
         addSubview(detailIcon)
         addSubview(lineView)
         addSubview(addressLabel)
-
+        addSubview(editBtn)
+        addSubview(closeBtn)
+        
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -150,6 +251,16 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
         addressLabel.snp.makeConstraints { (make) in
             make.top.equalTo(numDescTF.snp.bottom)
             make.leading.equalTo(numDescTF)
+        }
+        closeBtn.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview()
+            make.width.equalTo(20)
+            make.top.bottom.equalToSuperview()
+        }
+        editBtn.snp.makeConstraints { (make) in
+            make.trailing.equalTo(closeBtn.snp.leading)
+            make.width.equalTo(20)
+            make.top.bottom.equalToSuperview()
         }
         lineView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()

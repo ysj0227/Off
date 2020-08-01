@@ -10,28 +10,27 @@ import CLImagePickerTool
 
 class OwnerPersonalIeditnfyVC: BaseViewController {
     
+    ///临时添加的几个字段
+    ///管理楼id
+    var buildingIdTemp : String?
+    
+    var licenceIdTemp : String?
+    
+    ///申请id
+    var userLicenceIdTemp : String?
+    
+    ///楼id 认证的时候传的字段 - 自己创建的楼的id - 关联
+    ///楼名称传过 就会有这个id
+    var buildingTempIdTemp : String?
+    
+    
     ///判断页面时候来自于个人中心驳回页面
     var isFromPersonalVc: Bool = false
     
     //判断身份证照片是否是第一次调取接口
     var isFirst: Bool = false
     
-    var userNameTemp: String?
     
-    var userIdCardTemp: String?
-    
-    ///楼盘名字 自己选择的 - 可能是接口返回的
-    var buildingNameTemp: String?
-
-    ///楼地址
-    var buildingAddressTemp : String?
-    
-    ///租赁类型0直租1转租 自己选择的 - 可能是接口返回的
-    var leaseTypeTemp: String?
-    
-    ///楼盘id 自己选择关联之后用自己的 - 没有选择可能是接口返回的
-    var buildingTempSelfId: String?
-
     var isFront: Bool? = true
     
     //身份证 - 正
@@ -68,7 +67,7 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     }
     
     @objc var uploadPicModelFCZArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
-
+    
     @objc var uploadPicModelZLAgentArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
     
     @objc var uplaodMainPageimg = UIImage.init(named: "addImgBg")  // 在实际的项目中可能用于存储图片的url
@@ -141,26 +140,25 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        requestCompanyIdentifyDetail()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
         addNotify()
+        requestCompanyIdentifyDetail()
     }
     func addNotify() {
         
         //个人认证 - 创建办公楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             if let model = noti.object as? OwnerIdentifyUserModel {
+                self?.userModel?.isCreateBuilding = "1"
+                
                 //判断楼盘是不是创建的或者是关联的
                 self?.userModel?.buildingName = model.buildingAddress
                 self?.userModel?.buildingAddress = model.buildingName
-                self?.buildingNameTemp = model.buildingName
-                self?.userModel?.buildingNameTemp = model.buildingName
-                self?.buildingAddressTemp = model.buildingAddress
-                self?.userModel?.buildingAddressTemp = model.buildingAddress
+                
                 self?.buildingNameSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
@@ -168,7 +166,7 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         
         
     }
-
+    
     ///页面上面切换按钮
     func showChangeAlert() {
         self.headerCollectionView.endEditing(true)
@@ -197,7 +195,7 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     func showSureLeaveAlert() {
         let alert = SureAlertView(frame: self.view.frame)
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "请再次确认是否离开？", descMsg: "", cancelButtonCallClick: {
-        
+            
         }) { [weak self] in
             
             if self?.isFromPersonalVc == true {
@@ -233,55 +231,10 @@ extension OwnerPersonalIeditnfyVC {
             }
         }
         
-        if buildingTempSelfId == nil {
-            buildingTempSelfId = userModel?.buildingId
-        }
-        //租赁类型
-        if leaseTypeTemp == nil {
-            if let leaseType = userModel?.leaseType {
-                leaseTypeTemp = leaseType
-                userModel?.leaseTypeTemp = leaseType
-            }else {
-                leaseTypeTemp = ""
-                userModel?.leaseTypeTemp = ""
-            }
-
-        }else {
-            userModel?.leaseTypeTemp = leaseTypeTemp
-        }
-        
-        //姓名处理
-        if userNameTemp == nil {
-            userNameTemp = userModel?.proprietorRealname
-            userModel?.userNameTemp = userModel?.proprietorRealname
-        }else {
-            userModel?.userNameTemp = userNameTemp
-        }
-        //身份证
-        if userIdCardTemp == nil {
-            userIdCardTemp = userModel?.idCard
-            userModel?.userIdCardTemp = userModel?.idCard
-        }else {
-            userModel?.userIdCardTemp = userIdCardTemp
-        }
-        //楼盘名字
-        if buildingNameTemp == nil {
-            buildingNameTemp = userModel?.buildingName
-            userModel?.buildingNameTemp = userModel?.buildingName
-        }else {
-            userModel?.buildingNameTemp = buildingNameTemp
-        }
-        if buildingAddressTemp == nil {
-            buildingAddressTemp = userModel?.buildingAddress
-            userModel?.buildingAddressTemp = userModel?.buildingAddress
-        }else {
-            userModel?.buildingAddressTemp = buildingAddressTemp
-        }
-               
         isFirst = true
         
-       
-                
+        
+        
         ///移除之前的房产证数据
         for fczBannerModel in uploadPicModelFCZArr {
             if fczBannerModel.isLocal == false {
@@ -335,7 +288,6 @@ extension OwnerPersonalIeditnfyVC {
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
                 weakSelf.userModel = model
-                weakSelf.userModel?.leaseType = ""
                 weakSelf.detailDataShow()
                 
             }else {
@@ -363,18 +315,19 @@ extension OwnerPersonalIeditnfyVC {
         }
     }
     
+    
     ///提交认证
     func requestCompanyIdentify() {
         
-        if userModel?.userNameTemp == nil || userModel?.userNameTemp?.isBlankString == true{
+        if userModel?.proprietorRealname == nil || userModel?.proprietorRealname?.isBlankString == true{
             AppUtilities.makeToast("请输入姓名")
             return
         }
         
-        if userModel?.userIdCardTemp == nil || userModel?.userIdCardTemp?.isBlankString == true{
+        if userModel?.idCard == nil || userModel?.idCard?.isBlankString == true{
             AppUtilities.makeToast("请输入身份证号")
             return
-        }else if SSTool.isPureStrOrNumNumber(text: userModel?.userIdCardTemp ?? "") != true {
+        }else if SSTool.isPureStrOrNumNumber(text: userModel?.idCard ?? "") != true {
             AppUtilities.makeToast("请输入的正确身份证号")
             return
         }
@@ -433,7 +386,7 @@ extension OwnerPersonalIeditnfyVC {
             return
         }
         
-        if userModel?.leaseTypeTemp == nil || userModel?.leaseTypeTemp?.isBlankString == true{
+        if userModel?.leaseType == nil || userModel?.leaseType?.isBlankString == true{
             AppUtilities.makeToast("请选择房产类型")
             return
         }
@@ -443,12 +396,55 @@ extension OwnerPersonalIeditnfyVC {
             return
         }
         
-        if leaseTypeTemp == "1" {
+        if userModel?.leaseType == "1" {
             if uploadPicModelZLAgentArr.count <= 0 {
                 AppUtilities.makeToast("请上传租赁协议")
                 return
             }
         }
+        
+        ///获取接口最新数据
+        commitRequestDetailGetId(frontImg: frontArr, reverseImg: reverseArr)
+    }
+    
+    func commitRequestDetailGetId(frontImg: [UIImage], reverseImg: [UIImage]) {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.detailCommitDetailData(model: model, frontImg: frontImg, reverseImg: reverseImg)
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
+    }
+    
+    func detailCommitDetailData(model: OwnerIdentifyUserModel, frontImg: [UIImage], reverseImg: [UIImage]) {
+        
+        //企业id用新返回的
+        //buildingtempid用新返回的
+        //userLicenceIdTemp用新返回的
+        
+        //building用当前页面自己的
+        userModel?.licenceId = model.licenceId
+        userModel?.buildingTempId = model.buildingTempId
+        userModel?.userLicenceId = model.userLicenceId
         
         var params = [String:AnyObject]()
         
@@ -460,7 +456,7 @@ extension OwnerPersonalIeditnfyVC {
         //1提交认证2企业确认3网点楼盘创建确认
         params["createCompany"] = 1 as AnyObject?
         
-        params["leaseType"] = leaseTypeTemp as AnyObject?
+        params["leaseType"] = userModel?.leaseType as AnyObject?
         
         
         ///企业关系id  接口给
@@ -478,7 +474,7 @@ extension OwnerPersonalIeditnfyVC {
             params["buildingId"] = userModel?.buildingId as AnyObject?
         }
         //关联 - 楼盘，名字和地址都要给
-        params["buildingId"] = buildingTempSelfId as AnyObject?
+        params["buildingId"] = userModel?.buildingTempId as AnyObject?
         
         params["buildingAddress"] = userModel?.buildingAddress as AnyObject?
         
@@ -489,8 +485,8 @@ extension OwnerPersonalIeditnfyVC {
             params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
         }
         
-        params["userName"] = userModel?.userNameTemp as AnyObject?
-        params["idCard"] = userModel?.userIdCardTemp as AnyObject?
+        params["userName"] = userModel?.proprietorRealname as AnyObject?
+        params["idCard"] = userModel?.idCard as AnyObject?
         //       params["fileIdFront"]
         //       params["fileIdBack"]
         
@@ -504,16 +500,16 @@ extension OwnerPersonalIeditnfyVC {
         
         //租赁
         var alAgentArr: [UIImage] = []
-        if leaseTypeTemp == "1" {
+        if userModel?.leaseType == "1" {
             for model in uploadPicModelZLAgentArr {
                 if model.isLocal == true {
                     alAgentArr.append(model.image ?? UIImage())
                 }
             }
         }
-
-       
-        SSNetworkTool.SSOwnerIdentify.request_personalIdentityApp(params: params, frontImage: frontArr, reverseImage: reverseArr, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_personalIdentityApp(params: params, frontImage: frontImg, reverseImage: reverseImg, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
             
@@ -530,6 +526,8 @@ extension OwnerPersonalIeditnfyVC {
             }
         }
     }
+    
+    
 }
 
 extension OwnerPersonalIeditnfyVC {
@@ -541,14 +539,13 @@ extension OwnerPersonalIeditnfyVC {
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
         userModel?.leaseType = ""
-        userModel?.leaseTypeTemp = ""
     }
     func setUpView() {
         
         frontBannerModel = BannerModel()
         
         reverseBannerModel = BannerModel()
-
+        
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
         titleview?.titleLabel.text = "个人业主认证"
         titleview?.rightButton.isHidden = true
@@ -584,25 +581,22 @@ extension OwnerPersonalIeditnfyVC {
         
         // 传递闭包 当点击’搜索结果‘的cell调用
         buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
-            // 搜索完成 关闭resultVC
+            //判断楼盘是关联的还是自己创建的
+            self?.userModel?.isCreateBuilding = "2"
+            
+            self?.userModel?.buildingId = model.bid
             self?.userModel?.buildingName = model.buildingAttributedName?.string
             self?.userModel?.buildingAddress = model.addressString?.string
-            self?.buildingTempSelfId = model.bid
-            self?.userModel?.buildingTempSelfId = model.bid
+            
             // 搜索完成 关闭resultVC
-            self?.buildingNameTemp = model.buildingAttributedName?.string
-            self?.userModel?.buildingNameTemp = model.buildingAttributedName?.string
-            self?.buildingAddressTemp = model.addressString?.string
-            self?.userModel?.buildingAddressTemp = model.addressString?.string
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionData()
         }
-    
+        
         // 创建按钮 - 隐藏 - 展示下面的楼盘地址 - 地址置空
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
             let vc = OwnerCreateBuildingViewController()
             vc.userModel = self?.userModel
-            vc.userModel?.buildingName = self?.buildingNameTemp
             vc.userModel?.buildingAddress = ""
             vc.userModel?.creditNo = ""
             vc.userModel?.fileMainPic = ""
@@ -640,7 +634,7 @@ extension OwnerPersonalIeditnfyVC {
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
-
+                
                 let fczBannerModel = BannerModel()
                 fczBannerModel.isLocal = true
                 fczBannerModel.image = img
@@ -660,7 +654,7 @@ extension OwnerPersonalIeditnfyVC {
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
-
+                
                 let zlAgentBannerModel = BannerModel()
                 zlAgentBannerModel.isLocal = true
                 zlAgentBannerModel.image = img
@@ -678,7 +672,7 @@ extension OwnerPersonalIeditnfyVC {
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
-
+                
                 self?.uplaodMainPageimg = img
                 }, failedClouse: { () in
                     
@@ -712,7 +706,7 @@ extension OwnerPersonalIeditnfyVC {
                 // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
                 CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                     let img = image.resizeMax1500Image()
-
+                    
                     self?.reverseBannerModel?.imgUrl = nil
                     self?.reverseBannerModel?.image = img?.crop(ratio: 4 / 3.0)
                     self?.loadCollectionData()
@@ -757,7 +751,7 @@ extension OwnerPersonalIeditnfyVC {
                 // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
                 CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                     let img = image.resizeMax1500Image()
-
+                    
                     self?.frontBannerModel?.imgUrl = nil
                     self?.frontBannerModel?.image = img?.crop(ratio: 4 / 3.0)
                     self?.loadCollectionData()
@@ -881,13 +875,11 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.buildingUserNameEndEditingMessageCell = { [weak self] (nickname) in
-                self?.userModel?.userNameTemp = nickname
-                self?.userNameTemp = nickname
+                self?.userModel?.proprietorRealname = nickname
                 self?.loadCollectionData()
             }
             cell?.buildingIdCardEndEditingMessageCell = { [weak self] (idCard) in
-                self?.userModel?.userIdCardTemp = idCard
-                self?.userIdCardTemp = idCard
+                self?.userModel?.idCard = idCard
                 self?.loadCollectionData()
             }
             return cell ?? OwnerPersonalIdentifyCell()
@@ -897,15 +889,34 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
+                self?.userModel?.isCreateBuilding = ""
+                
                 self?.userModel?.buildingName = ""
                 self?.userModel?.buildingAddress = ""
+                
                 self?.buildingName = buildingName
-                self?.buildingNameTemp = buildingName
-                self?.userModel?.buildingNameTemp = buildingName
-                self?.buildingAddressTemp = ""
-                self?.userModel?.buildingAddressTemp = ""
+                
             }
-
+            cell?.editClickBack = { [weak self] (type) in
+                //楼盘编辑
+                if type == OwnerPersonalIedntifyType.OwnerPersonalIedntifyTypeBuildingName {
+                    let vc = OwnerCreateBuildingViewController()
+                    vc.userModel = self?.userModel
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+            cell?.closeClickBack = { [weak self] (type) in
+                //公司编辑
+                if type == .OwnerPersonalIedntifyTypeBuildingName {
+                    //清除 楼盘名字地址 字段改为空
+                    self?.userModel?.isCreateBuilding = ""
+                    
+                    self?.userModel?.buildingName = ""
+                    self?.userModel?.buildingAddress = ""
+                    
+                    self?.buildingName = ""
+                }
+            }
             cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingNAme) in
                 self?.resetBuildingNameSize()
             }
@@ -984,13 +995,13 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         //直租
-        if let buildingName = userModel?.buildingNameTemp {
+        if let buildingName = userModel?.buildingName {
             if buildingName.isBlankString == true {
                 return typeSourceArray.count - 2
             }else {
-                if leaseTypeTemp == "0" {
+                if userModel?.leaseType == "0" {
                     return typeSourceArray.count - 1
-                }else if leaseTypeTemp == "1" {
+                }else if userModel?.leaseType == "1" {
                     return typeSourceArray.count
                 }else {
                     return typeSourceArray.count - 2
@@ -1008,7 +1019,7 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             return 2
         }else if section == 2 {
             
-            if let buildingName = userModel?.buildingNameTemp {
+            if let buildingName = userModel?.buildingName {
                 if buildingName.isBlankString == true {
                     return 1
                 }else {
@@ -1018,13 +1029,13 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 return 1
             }
         }else if section == 3 {
-            if leaseTypeTemp == "0" || leaseTypeTemp == "1" {
+            if userModel?.leaseType == "0" || userModel?.leaseType == "1" {
                 return uploadPicModelFCZArr.count + 1
             }else {
                 return 0
             }
         }else if section == 4 {
-            if leaseTypeTemp == "1" {
+            if userModel?.leaseType == "1" {
                 return uploadPicModelZLAgentArr.count + 1
             }else {
                 return 0
@@ -1085,13 +1096,12 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
                 
                 let alertController = UIAlertController.init(title: "房产类型", message: nil, preferredStyle: .actionSheet)
                 let refreshAction = UIAlertAction.init(title: "自有房产", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.leaseTypeTemp = "0"
-                    self?.userModel?.leaseTypeTemp = "0"
+                    
+                    self?.userModel?.leaseType = "0"
                     self?.loadCollectionData()
                 }
                 let copyAction = UIAlertAction.init(title: "租赁房产", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.leaseTypeTemp = "1"
-                    self?.userModel?.leaseTypeTemp = "1"
+                    self?.userModel?.leaseType = "1"
                     self?.loadCollectionData()
                 }
                 let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
@@ -1153,13 +1163,14 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             return CGSize(width: kWidth, height: 10)
             
         }else if section == 3 {
-            if leaseTypeTemp == "0" || leaseTypeTemp == "1" {
+            
+            if userModel?.leaseType == "0" || userModel?.leaseType == "1" {
                 return CGSize(width: kWidth, height: 68)
             }else {
                 return CGSize(width: kWidth, height: 0)
             }
         }else if section == 4 {
-            if leaseTypeTemp == "1" {
+            if userModel?.leaseType == "1" {
                 return CGSize(width: kWidth, height: 68)
             }else {
                 return CGSize(width: kWidth, height: 0)
@@ -1190,3 +1201,4 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
         }
     }
 }
+

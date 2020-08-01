@@ -15,29 +15,29 @@ extension Notification.Name {
     
     ///登录失效 - 5009
     public static let LoginResignEffect = Notification.Name("LoginResignEffect")
-
     
-    /// 认证 - 通知
-    /// 身份认证 - 业主 - 企业认证 - 加入公司申请的通知
-    public static let OwnerApplyEnterCompany = Notification.Name("OwnerApplyEnterCompany")
+    
+    //    /// 认证 - 通知
+    //    /// 身份认证 - 业主 - 企业认证 - 加入公司申请的通知
+    //    public static let OwnerApplyEnterCompany = Notification.Name("OwnerApplyEnterCompany")
     
     /// 身份认证 - 业主 - 企业认证 - 创建公司成功的通知(包括企业认证 和 网点认证)
     public static let OwnerCreateCompany = Notification.Name("OwnerCreateCompany")
     
-    /// 身份认证 - 业主 - 联合办公认证 - 加入网点申请的通知
-    public static let OwnerApplyEnterCompanyJoint = Notification.Name("OwnerApplyEnterCompanyJoint")
+    //    /// 身份认证 - 业主 - 联合办公认证 - 加入网点申请的通知
+    //    public static let OwnerApplyEnterCompanyJoint = Notification.Name("OwnerApplyEnterCompanyJoint")
     
     /// 身份认证 - 业主 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
     public static let OwnerCreateBranchJoint = Notification.Name("OwnerCreateBranchJoint")
     
     /// 身份认证 - 业主 - 联合办公认证 - 创建写字楼的通知 - 公司和个人认证独有
-       public static let OwnerCreateBuilding = Notification.Name("OwnerCreateBuilding")
-       
-
+    public static let OwnerCreateBuilding = Notification.Name("OwnerCreateBuilding")
+    
+    
     
     
     /// 设置rootviewcontroller - 业主
-       public static let SetOwnerTabbarViewController = Notification.Name("SetOwnerTabbarViewController")
+    public static let SetOwnerTabbarViewController = Notification.Name("SetOwnerTabbarViewController")
     /// 用户退出 - 只有业主需要重新设置tabbar
     public static let OwnerUserLogout = Notification.Name("OwnerUserLogout")
     
@@ -46,10 +46,10 @@ extension Notification.Name {
     
     /// 设置rootviewcontroller - 租户
     public static let SetRenterTabbarViewController = Notification.Name("SetRenterTabbarViewController")
-   
+    
     /// 用户登录 - 只是用于更新融云token登录
     public static let UserLogined = Notification.Name("userLogined")
-
+    
     /// 用户身份切换
     public static let UserRoleChange = Notification.Name("userRoleChange")
     /// 首页登录锁定通知
@@ -74,7 +74,7 @@ extension Notification.Name {
     public static let MsgExchangeWechatStatusBtnLocked = Notification.Name("msgExchangeWechatStatusBtnLocked")
     
     /// 聊天页面 -越看房源 - 业主点击同意或拒绝
-      public static let MsgViewingScheduleStatusBtnLocked = Notification.Name("msgViewingScheduleStatusBtnLocked")
+    public static let MsgViewingScheduleStatusBtnLocked = Notification.Name("msgViewingScheduleStatusBtnLocked")
     
     /// 聊天页面 -申请加入公司
     //public static let MsgApplyJoinBtnLocked = Notification.Name("msgApplyJoinBtnLocked")
@@ -122,3 +122,4 @@ struct Notifications {
     static let DataLoadStatusNotification = "DataLoadStatusNotification"
     
 }
+

@@ -295,19 +295,19 @@ extension OwnerApplyEnterCompanyViewController {
     
     //发送加入公司和网点公司的通知
     func addNotify() {
-        ///身份类型0个人1企业2联合
-        if UserTool.shared.user_owner_identifytype == 1 {
-            NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompany, object: companyModel)
-        }else if UserTool.shared.user_owner_identifytype == 2 {
-            //联合 - 网点名称
-            if isBranch == true {
-                NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: branchModel)
-            }else {
-                
-                //联合 - 公司名称
-                NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompany, object: companyModel)
-            }
-        }
+//        ///身份类型0个人1企业2联合
+//        if UserTool.shared.user_owner_identifytype == 1 {
+//            NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompany, object: companyModel)
+//        }else if UserTool.shared.user_owner_identifytype == 2 {
+//            //联合 - 网点名称
+//            if isBranch == true {
+//                NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompanyJoint, object: branchModel)
+//            }else {
+//                
+//                //联合 - 公司名称
+//                NotificationCenter.default.post(name: NSNotification.Name.OwnerApplyEnterCompany, object: companyModel)
+//            }
+//        }
     }
 }
 
