@@ -183,8 +183,8 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                 
                 self?.userModel?.isCreateBuilding = "1"
                 
-                self?.userModel?.buildingName = model.buildingAddress
-                self?.userModel?.buildingAddress = model.buildingName
+                self?.userModel?.buildingName = model.buildingName
+                self?.userModel?.buildingAddress = model.buildingAddress
                 
                 self?.userModel?.district = model.district
                 self?.userModel?.business = model.business

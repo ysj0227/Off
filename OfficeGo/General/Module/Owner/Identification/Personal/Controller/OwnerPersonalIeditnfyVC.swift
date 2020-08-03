@@ -156,8 +156,8 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
                 self?.userModel?.isCreateBuilding = "1"
                 
                 //判断楼盘是不是创建的或者是关联的
-                self?.userModel?.buildingName = model.buildingAddress
-                self?.userModel?.buildingAddress = model.buildingName
+                self?.userModel?.buildingName = model.buildingName
+                self?.userModel?.buildingAddress = model.buildingAddress
                 
                 self?.userModel?.district = model.district
                 self?.userModel?.business = model.business
