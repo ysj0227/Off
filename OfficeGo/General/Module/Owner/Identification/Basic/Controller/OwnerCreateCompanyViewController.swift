@@ -315,7 +315,7 @@ extension OwnerCreateCompanyViewController {
         
         var imgArr: [UIImage] = []
         
-        if mainPicBannermodel?.isLocal == false {
+        if mainPicBannermodel?.isLocal == true {
             imgArr.append(mainPicBannermodel?.image ?? UIImage())
         }
         
