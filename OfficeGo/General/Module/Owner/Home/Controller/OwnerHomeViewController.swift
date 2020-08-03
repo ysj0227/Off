@@ -154,6 +154,7 @@ class OwnerHomeViewController: BaseViewController {
             descString = remark
             alert.messageLabel.textAlignment = .center
         }
+        alert.bottomBtnView.rightSelectBtn.setTitle("去认证", for: .normal)
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: titleString, descMsg: descString, cancelButtonCallClick: {
             
         }) { [weak self] in
