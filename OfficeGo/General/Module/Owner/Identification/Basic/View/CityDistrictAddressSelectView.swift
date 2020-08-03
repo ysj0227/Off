@@ -132,10 +132,17 @@ class CityDistrictAddressSelectView: UIView {
         areaCategoryLevelModel = model
         areaFirstLevelModel = model.isFirstSelectedModel ?? CityAreaCategoryFirstLevelSelectModel()
         areaSecondLevelModel = areaFirstLevelModel.isSencondSelectedModel ?? CityAreaCategorySecondLevelSelectModel()
-        if isfirst != true {
-            reloadNodata()
-        }
         
+        districtLabel.setTitle(areaFirstLevelModel.district, for: .normal)
+
+        areaDistrictLabel.setTitle(areaSecondLevelModel.area, for: .normal)
+        
+//        if isfirst != true {
+//            reloadNodata()
+//        }
+        categoryTableview.reloadData()
+        firstLevelTableView.reloadData()
+        secondLevelTableView.reloadData()
         UIApplication.shared.keyWindow?.addSubview(self)
     }
     
@@ -299,7 +306,6 @@ extension CityDistrictAddressSelectView: UITableViewDelegate, UITableViewDataSou
                 cell?.titleLabel.text = areaCategoryLevelModel.data[indexPath.row].district
                 if areaFirstLevelModel.districtID ==  areaCategoryLevelModel.data[indexPath.row].districtID{
                     cell?.titleLabel.textColor = kAppBlueColor
-                    districtLabel.setTitle(areaCategoryLevelModel.data[indexPath.row].district, for: .normal)
                 }else {
                     cell?.titleLabel.textColor = kAppColor_333333
                 }
@@ -315,7 +321,6 @@ extension CityDistrictAddressSelectView: UITableViewDelegate, UITableViewDataSou
                 if areaSecondLevelModel.id ==  self.areaFirstLevelModel.list[indexPath.row].id{
                     cell?.titleLabel.textColor = kAppBlueColor
                     cell?.itemImg.image = UIImage.init(named: "circleSelected")
-                    areaDistrictLabel.setTitle(model.area, for: .normal)
                 }else {
                     cell?.titleLabel.textColor = kAppColor_333333
                     cell?.itemImg.image = UIImage.init(named: "circleUnSelected")
@@ -348,6 +353,10 @@ extension CityDistrictAddressSelectView: UITableViewDelegate, UITableViewDataSou
                 areaSecondLevelModel = CityAreaCategorySecondLevelSelectModel()
                 areaFirstLevelModel = areaCategoryLevelModel.data[indexPath.row]
                 
+                districtLabel.setTitle(areaFirstLevelModel.district, for: .normal)
+
+                areaDistrictLabel.setTitle(areaSecondLevelModel.area, for: .normal)
+                
                 categoryTableview.reloadData()
                 firstLevelTableView.reloadData()
                 secondLevelTableView.reloadData()
@@ -355,6 +364,9 @@ extension CityDistrictAddressSelectView: UITableViewDelegate, UITableViewDataSou
             
         }else  {
             areaSecondLevelModel = areaFirstLevelModel.list[indexPath.row]
+            
+            areaDistrictLabel.setTitle(areaSecondLevelModel.area, for: .normal)
+            
             categoryTableview.reloadData()
             secondLevelTableView.reloadData()
         }

@@ -166,35 +166,93 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
         
         //公司认证 - 创建公司成功通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateCompany, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let model = noti.object as? OwnerIdentifyUserModel {
-                
-                self?.userModel?.isCreateCompany = "1"
-                
-                self?.userModel?.company = model.company
-                
-                self?.companySearchResultVC?.view.isHidden = true
-                self?.loadCollectionData()
-            }
+            
+            self?.requestCreateCompanySuccess()
         }
         
         //公司认证 - 创建办公楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let model = noti.object as? OwnerIdentifyUserModel {
-                
-                self?.userModel?.isCreateBuilding = "1"
-                
-                self?.userModel?.buildingName = model.buildingName
-                self?.userModel?.buildingAddress = model.buildingAddress
-                
-                self?.userModel?.district = model.district
-                self?.userModel?.business = model.business
-                
-                self?.buildingNameSearchResultVC?.view.isHidden = true
-                self?.loadCollectionData()
-            }
+            
+            self?.requestCreateBuildingSuccess()
         }
         
         
+    }
+    
+    func requestCreateCompanySuccess() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
+                                                            
+                weakSelf.userModel?.isCreateCompany = model.isCreateCompany
+                weakSelf.userModel?.licenceId = model.licenceId
+                weakSelf.userModel?.company = model.company
+                weakSelf.userModel?.address = model.address
+                weakSelf.userModel?.creditNo = model.creditNo
+                weakSelf.userModel?.businessLicense = model.businessLicense
+                
+                weakSelf.companySearchResultVC?.view.isHidden = true
+                weakSelf.loadCollectionData()
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
+    }
+    
+    
+    func requestCreateBuildingSuccess() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.userModel?.isCreateBuilding = model.isCreateBuilding
+                weakSelf.userModel?.buildingId = model.buildingId
+                weakSelf.userModel?.buildingTempId = model.buildingTempId
+                weakSelf.userModel?.buildingName = model.buildingName
+                weakSelf.userModel?.buildingAddress = model.buildingAddress
+                weakSelf.userModel?.district = model.district
+                weakSelf.userModel?.business = model.business
+                weakSelf.userModel?.mainPic = model.mainPic
+
+                
+                weakSelf.buildingNameSearchResultVC?.view.isHidden = true
+                weakSelf.loadCollectionData()
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
     }
     
     ///页面上面切换按钮
@@ -386,6 +444,8 @@ extension OwnerCompanyIeditnfyVC {
     
     func detailCommitDetailData(model: OwnerIdentifyUserModel) {
         
+        LoadingHudView.showHud()
+
         //企业id用新返回的
         //buildingtempid用新返回的
         //userLicenceIdTemp用新返回的

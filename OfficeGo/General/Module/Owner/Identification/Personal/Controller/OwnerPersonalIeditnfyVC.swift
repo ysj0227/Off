@@ -152,22 +152,49 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         
         //个人认证 - 创建办公楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            if let model = noti.object as? OwnerIdentifyUserModel {
-                self?.userModel?.isCreateBuilding = "1"
-                
-                //判断楼盘是不是创建的或者是关联的
-                self?.userModel?.buildingName = model.buildingName
-                self?.userModel?.buildingAddress = model.buildingAddress
-                
-                self?.userModel?.district = model.district
-                self?.userModel?.business = model.business
-                
-                self?.buildingNameSearchResultVC?.view.isHidden = true
-                self?.loadCollectionData()
-            }
+            
+            self?.requestCreateBuildingSuccess()
         }
         
+    }
+    
+    func requestCreateBuildingSuccess() {
         
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.userModel?.isCreateBuilding = model.isCreateBuilding
+                weakSelf.userModel?.buildingId = model.buildingId
+                weakSelf.userModel?.buildingTempId = model.buildingTempId
+                weakSelf.userModel?.buildingName = model.buildingName
+                weakSelf.userModel?.buildingAddress = model.buildingAddress
+                weakSelf.userModel?.district = model.district
+                weakSelf.userModel?.business = model.business
+                weakSelf.userModel?.mainPic = model.mainPic
+
+                
+                weakSelf.buildingNameSearchResultVC?.view.isHidden = true
+                weakSelf.loadCollectionData()
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
     }
     
     ///页面上面切换按钮
@@ -440,6 +467,8 @@ extension OwnerPersonalIeditnfyVC {
     
     func detailCommitDetailData(model: OwnerIdentifyUserModel, frontImg: [UIImage], reverseImg: [UIImage]) {
         
+        LoadingHudView.showHud()
+
         //企业id用新返回的
         //buildingtempid用新返回的
         //userLicenceIdTemp用新返回的
@@ -476,8 +505,6 @@ extension OwnerPersonalIeditnfyVC {
         if userModel?.buildingId != "0" || userModel?.buildingId?.isBlankString != true {
             params["buildingId"] = userModel?.buildingId as AnyObject?
         }
-        //关联 - 楼盘，名字和地址都要给
-        params["buildingId"] = userModel?.buildingTempId as AnyObject?
         
         params["buildingAddress"] = userModel?.buildingAddress as AnyObject?
         

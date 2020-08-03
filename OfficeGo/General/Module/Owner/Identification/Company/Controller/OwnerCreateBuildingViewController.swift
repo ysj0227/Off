@@ -103,49 +103,11 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
             }
         }
         
-        ///获取接口最新数据
-        commitRequestDetailGetId()
+        ///提交
+        detailCommitDetailData()
     }
     
-    func commitRequestDetailGetId() {
-        
-        var params = [String:AnyObject]()
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        
-        //身份类型0个人认证1企业认证2网点认证
-        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
-        
-        
-        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
-            
-            guard let weakSelf = self else {return}
-            
-            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
-                
-                weakSelf.detailCommitDetailData(model: model)
-            }
-            
-            }, failure: { (error) in
-                
-                
-        }) { (code, message) in
-            
-        }
-    }
-    
-    func detailCommitDetailData(model: OwnerIdentifyUserModel) {
-        
-        //企业id用新返回的
-        //buildingtempid用新返回的
-        //userLicenceIdTemp用新返回的
-        
-        //building用当前页面自己的
-        userModel?.licenceId = model.licenceId
-        userModel?.buildingTempId = model.buildingTempId
-        userModel?.userLicenceId = model.userLicenceId
-        userModel?.buildingId = model.buildingId
+    func detailCommitDetailData() {
 
         var params = [String:AnyObject]()
         
@@ -338,8 +300,8 @@ extension OwnerCreateBuildingViewController {
     //发送加入公司和网点公司的通知
     func addNotify() {
         ///身份类型0个人1企业2联合
-        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateBuilding, object: userModel)
-        leftBtnClick()
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerCreateBuilding, object: nil)
+        self.leftBtnClick()
     }
     
     ///创建公司接口 -
@@ -359,9 +321,9 @@ extension OwnerCreateBuildingViewController {
                 self?.getSelectedDistrictBusiness()
             }
             
-            }, failure: { [weak self] (error) in
+            }, failure: {  (error) in
                 
-        }) { [weak self] (code, message) in
+        }) {  (code, message) in
             
             
             //只有5000 提示给用户
