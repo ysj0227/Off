@@ -136,9 +136,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
         return arr
     }()
     
-    
-    var LogotView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: btnHeight_44 + bottomMargin()))
+    var commitBtn: UIButton {
         let btn = UIButton.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: btnHeight_44))
         btn.backgroundColor = kAppBlueColor
         btn.clipsToBounds = true
@@ -147,7 +145,11 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
         btn.setTitleColor(kAppWhiteColor, for: .normal)
         btn.titleLabel?.font = FONT_15
         btn.addTarget(self, action: #selector(logotClick), for: .touchUpInside)
-        view.addSubview(btn)
+        return btn
+    }
+    
+    var LogotView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: btnHeight_44 + bottomMargin()))
         return view
     }()
     
@@ -409,52 +411,7 @@ extension OwnerCompanyIeditnfyVC {
                 return
             }
         }
-        
-        ///获取接口最新数据
-        commitRequestDetailGetId()
-    }
-    
-    func commitRequestDetailGetId() {
-        
-        var params = [String:AnyObject]()
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        
-        //身份类型0个人认证1企业认证2网点认证
-        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
-        
-        
-        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
-            
-            guard let weakSelf = self else {return}
-            
-            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
-                
-                weakSelf.detailCommitDetailData(model: model)
-            }
-            
-            }, failure: { (error) in
-                
-                
-        }) { (code, message) in
-            
-        }
-    }
-    
-    func detailCommitDetailData(model: OwnerIdentifyUserModel) {
-        
-        LoadingHudView.showHud()
 
-        //企业id用新返回的
-        //buildingtempid用新返回的
-        //userLicenceIdTemp用新返回的
-        
-        //building用当前页面自己的
-        userModel?.licenceId = model.licenceId
-        userModel?.buildingTempId = model.buildingTempId
-        userModel?.userLicenceId = model.userLicenceId
-        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -516,25 +473,36 @@ extension OwnerCompanyIeditnfyVC {
             }
         }
         
+        setCommitEnables(isUserinterface: false)
+        
         SSNetworkTool.SSOwnerIdentify.request_companyIdentityApp(params: params, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
             
+            weakSelf.setCommitEnables(isUserinterface: false)
+            
             weakSelf.showCommitAlertview()
             
-            }, failure: { (error) in
+            }, failure: {[weak self] (error) in
                 
-                
-        }) { (code, message) in
+                self?.setCommitEnables(isUserinterface: false)
+        }) {[weak self] (code, message) in
             
+            self?.setCommitEnables(isUserinterface: false)
+
             //只有5000 提示给用户 - 失效原因
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
             }
         }
         
+
     }
     
+    func setCommitEnables(isUserinterface: Bool) {
+        commitBtn.isUserInteractionEnabled = false
+    }
+        
 }
 
 extension OwnerCompanyIeditnfyVC {
@@ -567,6 +535,7 @@ extension OwnerCompanyIeditnfyVC {
         headerCollectionView.delegate = self
         headerCollectionView.dataSource = self
         self.view.addSubview(LogotView)
+        LogotView.addSubview(commitBtn)
         LogotView.snp.remakeConstraints { (make) in
             make.height.equalTo(bottomMargin() + btnHeight_44)
             make.leading.trailing.equalToSuperview()
