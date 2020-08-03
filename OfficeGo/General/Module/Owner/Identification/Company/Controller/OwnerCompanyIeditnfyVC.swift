@@ -186,6 +186,9 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                 self?.userModel?.buildingName = model.buildingAddress
                 self?.userModel?.buildingAddress = model.buildingName
                 
+                self?.userModel?.district = model.district
+                self?.userModel?.business = model.business
+                
                 self?.buildingNameSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
@@ -472,88 +475,6 @@ extension OwnerCompanyIeditnfyVC {
         
     }
     
-    
-    
-    
-    func app() {
-        var params = [String:AnyObject]()
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        //身份类型0个人认证1企业认证2网点认证
-        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
-        
-        //1提交认证2企业确认3网点楼盘创建确认
-        params["createCompany"] = 1 as AnyObject?
-        
-        params["leaseType"] = userModel?.leaseType as AnyObject?
-        
-        
-        ///企业关系id  接口给
-        if userModel?.userLicenceId != "0" || userModel?.userLicenceId?.isBlankString != true {
-            params["userLicenceId"] = userModel?.userLicenceId as AnyObject?
-        }
-        
-        ///企业id  接口给
-        if userModel?.licenceId != "0" || userModel?.licenceId?.isBlankString != true {
-            params["licenceId"] = userModel?.licenceId as AnyObject?
-        }
-        
-        ///楼id
-        ///关联的。- 覆盖 - 两种
-        //        if userModel?.buildingId != 0 {
-        //            params["buildingId"] = userModel?.buildingId as AnyObject?
-        //        }
-        
-        //关联 - 楼盘，名字和地址都要给
-        params["buildingId"] = userModel?.buildingId as AnyObject?
-        
-        params["buildingAddress"] = userModel?.buildingAddress as AnyObject?
-        
-        params["buildingName"] = userModel?.buildingName as AnyObject?
-        
-        
-        ///关联楼id  接口给
-        if userModel?.buildingTempId != "0" || userModel?.buildingTempId?.isBlankString != true {
-            params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
-        }
-        
-        
-        //房产证
-        var fczArr: [UIImage] = []
-        for model in uploadPicModelFCZArr {
-            if model.isLocal == true {
-                fczArr.append(model.image ?? UIImage())
-            }
-        }
-        
-        //租赁
-        var alAgentArr: [UIImage] = []
-        if userModel?.leaseType == "1" {
-            for model in uploadPicModelZLAgentArr {
-                if model.isLocal == true {
-                    alAgentArr.append(model.image ?? UIImage())
-                }
-            }
-        }
-        
-        SSNetworkTool.SSOwnerIdentify.request_companyIdentityApp(params: params, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
-            
-            guard let weakSelf = self else {return}
-            
-            weakSelf.showCommitAlertview()
-            
-            }, failure: { (error) in
-                
-                
-        }) { (code, message) in
-            
-            //只有5000 提示给用户 - 失效原因
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-    }
 }
 
 extension OwnerCompanyIeditnfyVC {
@@ -644,7 +565,11 @@ extension OwnerCompanyIeditnfyVC {
             vc.userModel?.buildingName = self?.buildingName
             vc.userModel?.buildingAddress = ""
             vc.userModel?.creditNo = ""
-            vc.userModel?.fileMainPic = ""
+            vc.userModel?.mainPic = ""
+            vc.userModel?.district = ""
+            vc.userModel?.business = ""
+            vc.userModel?.districtString = ""
+            vc.userModel?.businessString = ""
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         // 关闭按钮 - 隐藏页面

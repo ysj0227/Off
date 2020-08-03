@@ -103,7 +103,51 @@ class OwnerCreateBranchViewController: BaseTableViewController {
                 return
             }
         }
+        
+        ///获取接口最新数据
+        commitRequestDetailGetId()
+    }
+    
+    func commitRequestDetailGetId() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
                 
+                weakSelf.detailCommitDetailData(model: model)
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
+    }
+    
+    func detailCommitDetailData(model: OwnerIdentifyUserModel) {
+        
+        //企业id用新返回的
+        //buildingtempid用新返回的
+        //userLicenceIdTemp用新返回的
+        
+        //building用当前页面自己的
+        userModel?.licenceId = model.licenceId
+        userModel?.buildingTempId = model.buildingTempId
+        userModel?.userLicenceId = model.userLicenceId
+        userModel?.buildingId = model.buildingId
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -135,17 +179,9 @@ class OwnerCreateBranchViewController: BaseTableViewController {
             params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
         }
         
-        if let district = userModel?.district {
-            
-        }else {
-            params["district"] = areaModelCount?.isFirstSelectedModel?.districtID as AnyObject?
-        }
-        
-        if let business = userModel?.business {
-            
-        }else {
-            params["business"] = areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel?.id as AnyObject?
-        }
+        params["district"] = userModel?.district as AnyObject?
+
+        params["business"] = userModel?.business as AnyObject?
         
         params["branchesName"] = userModel?.branchesName as AnyObject?
         
@@ -153,7 +189,13 @@ class OwnerCreateBranchViewController: BaseTableViewController {
         
         //params["fileMainPic"] = userModel?.fileMainPic as AnyObject?
         
-        SSNetworkTool.SSOwnerIdentify.request_createBuildingApp(params: params, imagesArray: [mainPicPhoto.image ?? UIImage()], success: {[weak self] (response) in
+         var imgArr: [UIImage] = []
+         
+         if mainPicBannermodel?.isLocal == false {
+             imgArr.append(mainPicBannermodel?.image ?? UIImage())
+         }
+        
+        SSNetworkTool.SSOwnerIdentify.request_createBuildingApp(params: params, imagesArray: imgArr, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
             
@@ -223,7 +265,6 @@ extension OwnerCreateBranchViewController {
         imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
             SSLog("返回的asset数组是\(asset)")
             
-            var imageArr = [UIImage]()
             var index = asset.count // 标记失败的次数
             
             // 获取原图，异步
@@ -238,7 +279,6 @@ extension OwnerCreateBranchViewController {
                 }, failedClouse: {[weak self] () in
                     self?.mainPicBannermodel?.isLocal = true
                     index = index - 1
-                    //                    self?.dealImage(imageArr: imageArr, index: index)
             })
         }
     }
@@ -320,10 +360,9 @@ extension OwnerCreateBranchViewController {
                 self?.getSelectedDistrictBusiness()
             }
             
-            }, failure: { [weak self] (error) in
+            }, failure: { (error) in
                 
-        }) { [weak self] (code, message) in
-            
+        }) {  (code, message) in
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
@@ -336,9 +375,9 @@ extension OwnerCreateBranchViewController {
         areaModelCount?.data.forEach({ (model) in
             if model.districtID == userModel?.district {
                 areaModelCount?.isFirstSelectedModel = model
-                userModel?.districtString = model.district
+                userModel?.districtString = "\(areaModelCount?.name ?? "上海")\(model.district ?? "")"
                 areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
-                    if areaModelCount?.isFirstSelectedModel?.districtID == areaModel.id {
+                    if areaModel.id == userModel?.business {
                         areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
                         userModel?.businessString = areaModel.area
                         loadTableview()
@@ -362,7 +401,9 @@ extension OwnerCreateBranchViewController {
             
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
                 self?.areaModelCount = selectModel
-                self?.userModel?.districtString = "\(selectModel.name ?? "上海")市 \(selectModel.isFirstSelectedModel?.district ?? "")区"
+                self?.userModel?.district = selectModel.isFirstSelectedModel?.districtID
+                self?.userModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
+                self?.userModel?.districtString = "\(selectModel.name ?? "上海")\(selectModel.isFirstSelectedModel?.district ?? "")"
                 self?.userModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
                 self?.tableView.reloadData()
                 
@@ -449,7 +490,7 @@ class OwnerCreateBranchCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = false
                 detailIcon.isHidden = false
-                editLabel.text = "\(userModel?.districtString ?? "") \(userModel?.businessString ?? "")"
+                editLabel.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
             }else if model.type == .OwnerCreteBranchTypeBranchAddress{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false

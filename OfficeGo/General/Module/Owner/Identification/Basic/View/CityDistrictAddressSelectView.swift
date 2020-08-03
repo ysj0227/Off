@@ -130,7 +130,8 @@ class CityDistrictAddressSelectView: UIView {
         self.clearButtonCallBack = clearButtonCallBack
         self.sureAreaaddressButtonCallBack = sureAreaaddressButtonCallBack
         areaCategoryLevelModel = model
-
+        areaFirstLevelModel = model.isFirstSelectedModel ?? CityAreaCategoryFirstLevelSelectModel()
+        areaSecondLevelModel = areaFirstLevelModel.isSencondSelectedModel ?? CityAreaCategorySecondLevelSelectModel()
         if isfirst != true {
             reloadNodata()
         }
@@ -170,11 +171,11 @@ class CityDistrictAddressSelectView: UIView {
         addSubview(bottomBtnView)
         
         bottomBtnView.leftBtnClickBlock = { [weak self] in
-            self?.clearData()
-            guard let blockk = self?.clearButtonCallBack else {
-                return
-            }
-            blockk(self?.areaCategoryLevelModel ?? CityAreaCategorySelectModel())
+//            self?.clearData()
+//            guard let blockk = self?.clearButtonCallBack else {
+//                return
+//            }
+//            blockk(self?.areaCategoryLevelModel ?? CityAreaCategorySelectModel())
             self?.selfRemove()
         }
         bottomBtnView.rightBtnClickBlock = { [weak self] in

@@ -159,6 +159,9 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
                 self?.userModel?.buildingName = model.buildingAddress
                 self?.userModel?.buildingAddress = model.buildingName
                 
+                self?.userModel?.district = model.district
+                self?.userModel?.business = model.business
+                
                 self?.buildingNameSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
@@ -597,9 +600,14 @@ extension OwnerPersonalIeditnfyVC {
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
             let vc = OwnerCreateBuildingViewController()
             vc.userModel = self?.userModel
+            vc.userModel?.buildingName = self?.buildingName
             vc.userModel?.buildingAddress = ""
             vc.userModel?.creditNo = ""
-            vc.userModel?.fileMainPic = ""
+            vc.userModel?.mainPic = ""
+            vc.userModel?.district = ""
+            vc.userModel?.business = ""
+            vc.userModel?.districtString = ""
+            vc.userModel?.businessString = ""
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         

@@ -14,7 +14,7 @@ let kWidth:CGFloat = UIScreen.main.bounds.size.width
 
 
 //图片压缩的时候，最大的尺寸
-let maxImgWidthOrHeight_1500: CGFloat = 1500.0
+let maxImgWidthOrHeight_1500: CGFloat = 1000.0
 
 //图片最大体积数
 let maxImgSize_20480: CGFloat = 20480.0 * 1000

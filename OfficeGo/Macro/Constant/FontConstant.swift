@@ -9,6 +9,7 @@
 import UIKit
 
 // MARK:- 字体
+public let FONT_LIGHT_7 = UIFont.appLight(7 + 1)
 public let FONT_LIGHT_9 = UIFont.appLight(9 + 1)
 public let FONT_LIGHT_10 = UIFont.appLight(10 + 1)
 public let FONT_LIGHT_11 = UIFont.appLight(11 + 1)
@@ -16,6 +17,7 @@ public let FONT_LIGHT_12 = UIFont.appLight(12 + 1)
 public let FONT_LIGHT_13 = UIFont.appLight(13 + 1)
 public let FONT_LIGHT_14 = UIFont.appLight(14 + 1)
 public let FONT_LIGHT_15 = UIFont.appLight(15 + 1)
+public let FONT_8 = UIFont.appRegular(8 + 1)
 public let FONT_9 = UIFont.appRegular(9 + 1)
 public let FONT_10 = UIFont.appRegular(10 + 1)
 public let FONT_11 = UIFont.appRegular(11 + 1)

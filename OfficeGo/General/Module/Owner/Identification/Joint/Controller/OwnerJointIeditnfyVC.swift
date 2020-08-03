@@ -205,6 +205,10 @@ class OwnerJointIeditnfyVC: BaseViewController {
                 
                 self?.userModel?.branchesName = model.branchesName
                 self?.userModel?.buildingAddress = model.buildingAddress
+                
+                self?.userModel?.district = model.district
+                self?.userModel?.business = model.business
+                                
                 self?.branchSearchResultVC?.view.isHidden = true
                 self?.loadCollectionData()
             }
@@ -727,7 +731,11 @@ extension OwnerJointIeditnfyVC {
                 vc.userModel?.branchesName = self?.branchName
                 vc.userModel?.buildingAddress = ""
                 vc.userModel?.creditNo = ""
-                vc.userModel?.fileBusinessLicense = ""
+                vc.userModel?.mainPic = ""
+                vc.userModel?.district = ""
+                vc.userModel?.business = ""
+                vc.userModel?.districtString = ""
+                vc.userModel?.businessString = ""
                 weakSelf.navigationController?.pushViewController(vc, animated: true)
             }else if model.flag == 1 {
                 AppUtilities.makeToast(model.explain ?? "网点已经存在，不能重复创建")

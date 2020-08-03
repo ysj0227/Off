@@ -22,7 +22,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
         view.font = FONT_14
         view.delegate = self
         view.textColor = kAppColor_333333
-        view.clearButtonMode = .whileEditing
+//        view.clearButtonMode = .whileEditing
         return view
     }()
     lazy var addressLabel: UILabel = {
@@ -46,17 +46,19 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
     }()
     lazy var editBtn: UIButton = {
         let btn = UIButton.init()
-        btn.setTitleColor(kAppColor_666666, for: .normal)
+        btn.backgroundColor = kAppBlueColor
+        btn.setTitleColor(kAppWhiteColor, for: .normal)
         btn.setTitle("编辑", for: .normal)
-        btn.titleLabel?.font = FONT_LIGHT_9
+        btn.titleLabel?.font = FONT_8
         btn.addTarget(self, action: #selector(editClick), for: .touchUpInside)
         return btn
     }()
     lazy var closeBtn: UIButton = {
         let btn = UIButton.init()
-        btn.setTitleColor(kAppColor_666666, for: .normal)
+        btn.backgroundColor = kAppBlueColor
+        btn.setTitleColor(kAppWhiteColor, for: .normal)
         btn.setTitle("删除", for: .normal)
-        btn.titleLabel?.font = FONT_LIGHT_9
+        btn.titleLabel?.font = FONT_8
         btn.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
         return btn
     }()
@@ -233,7 +235,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
         }
         
         numDescTF.snp.makeConstraints { (make) in
-            make.trailing.equalTo(detailIcon.snp.leading).offset(-9)
+            make.trailing.equalTo(detailIcon.snp.leading).offset(-49)
             make.centerY.equalToSuperview()
             make.leading.equalTo(titleLabel.snp.trailing)
         }
@@ -243,14 +245,20 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
         }
         closeBtn.snp.makeConstraints { (make) in
             make.trailing.equalToSuperview()
-            make.width.equalTo(20)
-            make.top.bottom.equalToSuperview()
+            make.width.equalTo(25)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(12)
         }
+        closeBtn.clipsToBounds = true
+        closeBtn.layer.cornerRadius = 5
         editBtn.snp.makeConstraints { (make) in
-            make.trailing.equalTo(closeBtn.snp.leading)
-            make.width.equalTo(20)
-            make.top.bottom.equalToSuperview()
+            make.trailing.equalTo(closeBtn.snp.leading).offset(-3)
+            make.width.equalTo(25)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(12)
         }
+        editBtn.clipsToBounds = true
+        editBtn.layer.cornerRadius = 5
         lineView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()

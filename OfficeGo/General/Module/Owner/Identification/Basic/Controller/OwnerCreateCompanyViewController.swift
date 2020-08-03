@@ -135,7 +135,6 @@ extension OwnerCreateCompanyViewController {
                 imageArr.append(img ?? image)
                 self?.mainPicBannermodel?.isLocal = true
                 self?.mainPicBannermodel?.image = img
-                self?.dealImage(imageArr: imageArr, index: index)
                 }, failedClouse: {[weak self] () in
                     self?.mainPicBannermodel?.isLocal = true
                     index = index - 1
@@ -143,21 +142,7 @@ extension OwnerCreateCompanyViewController {
             })
         }
     }
-    @objc func dealImage(imageArr:[UIImage],index:Int) {
-        
-        if imageArr.count == index {
-            //              PopViewUtil.share.stopLoading()
-            
-        }
-        let image = imageArr.count > 0 ? imageArr[0] : UIImage.init(named: "avatar")
-        yingYeZhiZhaoPhoto.image = image
-        
-        /*
-         let image2 = image?.crop(ratio: 1)
-         
-         self.upload(uploadImage: image2 ?? UIImage.init())
-         */
-    }
+
     func setUpData() {
         
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeCompanyName))
@@ -246,6 +231,51 @@ extension OwnerCreateCompanyViewController {
                 return
             }
         }
+        
+        ///获取接口最新数据
+        commitRequestDetailGetId()
+    }
+    
+    func commitRequestDetailGetId() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        //身份类型0个人认证1企业认证2网点认证
+        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        
+        
+        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.detailCommitDetailData(model: model)
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
+    }
+    
+    func detailCommitDetailData(model: OwnerIdentifyUserModel) {
+        
+        //企业id用新返回的
+        //buildingtempid用新返回的
+        //userLicenceIdTemp用新返回的
+        
+        //building用当前页面自己的
+        companyModel?.licenceId = model.licenceId
+        companyModel?.buildingTempId = model.buildingTempId
+        companyModel?.userLicenceId = model.userLicenceId
+        companyModel?.buildingId = model.buildingId
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -283,8 +313,13 @@ extension OwnerCreateCompanyViewController {
         
         //params["fileBusinessLicense"] = UserTool.shared.user_owner_identifytype as AnyObject?
         
+        var imgArr: [UIImage] = []
         
-        SSNetworkTool.SSOwnerIdentify.request_createCompanyApp(params: params, imagesArray: [yingYeZhiZhaoPhoto.image ?? UIImage()], success: {[weak self] (response) in
+        if mainPicBannermodel?.isLocal == false {
+            imgArr.append(mainPicBannermodel?.image ?? UIImage())
+        }
+        
+        SSNetworkTool.SSOwnerIdentify.request_createCompanyApp(params: params, imagesArray: imgArr, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
             

@@ -223,13 +223,13 @@ class OwnerIdentifyUserModel: BaseModel {
     var businessString : String?
     
     //0 空   无定义     1创建  2关联吗
-    var isCreateCompany: String? = "1"
+    var isCreateCompany: String?
     
     //0 空   无定义     1创建  2关联吗
-    var isCreateBuilding: String? = "1"
+    var isCreateBuilding: String?
     
     //0 空   无定义     1创建  2关联吗
-    var isCreateBranch: String? = "1"
+    var isCreateBranch: String?
     
 }
 
