@@ -112,6 +112,7 @@ extension UIImage {
         newImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
+        /* //暂时隐藏体积处理
         let byte: CGFloat = CGFloat(newImage.pngData()?.count ?? 0)
         SSLog("图片裁剪体积----byte=\(byte)")
 
@@ -122,7 +123,8 @@ extension UIImage {
             }
             SSLog("图片裁剪尺寸比例----width=\(newImage.size.width)--height=\(newImage.size.height)--scale\(scale)")
 
-        }
+        }*/
+        
         SSLog("图片裁剪尺寸比例----width=\(newImage.size.width)--height=\(newImage.size.height)")
         return newImage
     }
