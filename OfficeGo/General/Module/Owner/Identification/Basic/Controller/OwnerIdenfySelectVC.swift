@@ -50,6 +50,7 @@ class OwnerIdenfySelectVC: BaseTableViewController {
         backBtn.setImage(UIImage.init(named: "backRenter"), for: .normal)
         backBtn.setTitleColor(kAppBlueColor, for: .normal)
         self.view.addSubview(backBtn)
+        backBtn.addTarget(self, action: #selector(clickToRenter), for: .touchUpInside)
         backBtn.layoutButton(.imagePositionLeft, margin: 4)
 
         backBtn.snp.makeConstraints { (make) in
@@ -74,6 +75,44 @@ class OwnerIdenfySelectVC: BaseTableViewController {
             make.bottom.equalTo(backBtn.snp.top)
         }
         self.tableView.register(OwnerIdentifySelectCell.self, forCellReuseIdentifier: OwnerIdentifySelectCell.reuseIdentifierStr)
+    }
+    
+    @objc func clickToRenter() {
+        requestRoleChange()
+    }
+    
+    ///切换身份接口
+    func requestRoleChange() {
+        var params = [String:AnyObject]()
+        if UserTool.shared.user_id_type == 0 {
+            params["roleType"] = "1" as AnyObject?
+        }else if UserTool.shared.user_id_type == 1 {
+            params["roleType"] = "0" as AnyObject?
+        }
+        params["token"] = UserTool.shared.user_token as AnyObject?
+
+        SSNetworkTool.SSMine.request_roleChange(params: params, success: { (response) in
+            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                UserTool.shared.user_id_type = model.rid
+                UserTool.shared.user_rongyuntoken = model.rongyuntoken
+                UserTool.shared.user_uid = model.uid
+                UserTool.shared.user_token = model.token
+                UserTool.shared.user_avatars = model.avatar
+                UserTool.shared.user_name = model.nickName
+                UserTool.shared.synchronize()
+                NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
+            }
+        }, failure: {[weak self] (error) in
+                
+
+        }) {[weak self] (code, message) in
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+        
+        
     }
     
 }
