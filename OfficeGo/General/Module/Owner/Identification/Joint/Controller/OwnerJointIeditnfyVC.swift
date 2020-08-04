@@ -269,7 +269,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
                                                             
-                weakSelf.userModel?.isCreateCompany = model.isCreateCompany
+                weakSelf.userModel?.isCreateCompany = "1"
                 weakSelf.userModel?.licenceId = model.licenceId
                 weakSelf.userModel?.company = model.company
                 weakSelf.userModel?.address = model.address
@@ -333,6 +333,12 @@ class OwnerJointIeditnfyVC: BaseViewController {
 extension OwnerJointIeditnfyVC {
     
     func detailDataShow() {
+        
+        if userModel?.company?.count ?? 0 > 0 {
+            userModel?.isCreateCompany = "1"
+        }else {
+            userModel?.isCreateCompany = ""
+        }
         
         ///移除之前的房产证数据
         for fczBannerModel in uploadPicModelFCZArr {
