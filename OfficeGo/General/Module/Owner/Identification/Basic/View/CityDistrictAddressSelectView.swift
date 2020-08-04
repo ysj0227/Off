@@ -314,16 +314,17 @@ extension CityDistrictAddressSelectView: UITableViewDelegate, UITableViewDataSou
         } else  {
             let cell = tableView.dequeueReusableCell(withIdentifier: AreaSubwayMutileSelectCell.reuseIdentifierStr) as? AreaSubwayMutileSelectCell
             cell?.selectionStyle = .none
+            cell?.itemImg.isHidden = true
             if self.areaFirstLevelModel.list.count > indexPath.row {
                 cell?.layoutSubviews()
                 let model = areaFirstLevelModel.list[indexPath.row]
                 cell?.titleLabel.text = model.area
                 if areaSecondLevelModel.id ==  self.areaFirstLevelModel.list[indexPath.row].id{
                     cell?.titleLabel.textColor = kAppBlueColor
-                    cell?.itemImg.image = UIImage.init(named: "circleSelected")
+                    //cell?.itemImg.image = UIImage.init(named: "circleSelected")
                 }else {
                     cell?.titleLabel.textColor = kAppColor_333333
-                    cell?.itemImg.image = UIImage.init(named: "circleUnSelected")
+                    //cell?.itemImg.image = UIImage.init(named: "circleUnSelected")
                 }
             }
             return cell ?? AreaSubwayMutileSelectCell()
