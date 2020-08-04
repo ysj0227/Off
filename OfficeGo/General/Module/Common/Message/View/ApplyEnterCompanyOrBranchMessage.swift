@@ -244,7 +244,7 @@ class ApplyEnterCompanyOrBranchMessageCell: RCMessageCell {
         super.setDataModel(model)
         let testMessage = model.content as? ApplyEnterCompanyOrBranchMessage
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-//            testMessage?.content = "我是用户，希望加入公司，请通过"
+//            testMessage?.content = "我是，希望加入公司，请通过"
         }else {
             testMessage?.content = "你已申请加入TA的公司\n等待对方同意"
         }
@@ -312,7 +312,7 @@ class ApplyEnterCompanyOrBranchMessageCell: RCMessageCell {
     
     private class func getTextLabelSize(_ message: ApplyEnterCompanyOrBranchMessage, messageDirection: RCMessageDirection) -> CGSize {
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-//            message.content = "我是用户，希望加入公司，请通过"
+//            message.content = "我是，希望加入公司，请通过"
         }else {
             message.content = "你已申请加入TA的公司\n等待对方同意"
         }

@@ -228,8 +228,8 @@ extension OwnerChatViewController {
     
     //发送交换手机号自定义消息
     func ApplyJoinCompanyOrBranch() {
-        let messageContent = ApplyEnterCompanyOrBranchMessage.messageWithContent(content: content ?? "我是用户，希望加入公司，请通过", id: applyJoinModel?.id ?? -1, licenceId: applyJoinModel?.licenceId ?? -1)
-        sendMessage(messageContent, pushContent: content ?? "我是用户，希望加入公司，请通过")
+        let messageContent = ApplyEnterCompanyOrBranchMessage.messageWithContent(content: content ?? "我是，希望加入公司，请通过", id: applyJoinModel?.id ?? -1, licenceId: applyJoinModel?.licenceId ?? -1)
+        sendMessage(messageContent, pushContent: content ?? "我是，希望加入公司，请通过")
         
         //发送之后，发送一条打招呼语
         sengSayHelloMessage()

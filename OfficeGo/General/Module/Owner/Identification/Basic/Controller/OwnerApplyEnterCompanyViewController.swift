@@ -659,9 +659,9 @@ extension OwnerApplyEnterCompanyViewController {
     func setTitle() {
         ///身份类型0个人1企业2联合
         if UserTool.shared.user_owner_identifytype == 1 {
-            intruductionTextview.text = "我是用户\(UserTool.shared.user_name ?? "")，希望加入公司，请通过。"
+            intruductionTextview.text = "我是\(UserTool.shared.user_name ?? "")，希望加入公司，请通过。"
         }else if UserTool.shared.user_owner_identifytype == 2 {
-            intruductionTextview.text = "我是用户\(UserTool.shared.user_name ?? "")，希望加入网点，请通过。"
+            intruductionTextview.text = "我是\(UserTool.shared.user_name ?? "")，希望加入网点，请通过。"
         }
         numOfCharLabel.text = String(format: "%ld/100",intruductionTextview.text.count)
     }
