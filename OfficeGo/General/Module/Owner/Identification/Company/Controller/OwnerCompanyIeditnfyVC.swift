@@ -9,6 +9,12 @@ import CLImagePickerTool
 
 class OwnerCompanyIeditnfyVC: BaseViewController {
     
+    ///时候有公司 =
+    var iaHasCompany: Bool?
+    
+    ///时候有楼盘
+    var isHasBuilding: Bool?
+    
     ///临时添加的几个字段
     ///管理楼id
     var buildingIdTemp : String?
@@ -169,12 +175,14 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
         //公司认证 - 创建公司成功通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateCompany, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
+            self?.iaHasCompany = true
             self?.requestCreateCompanySuccess()
         }
         
         //公司认证 - 创建办公楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
+            self?.isHasBuilding = true
             self?.requestCreateBuildingSuccess()
         }
         
@@ -302,6 +310,18 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
 extension OwnerCompanyIeditnfyVC {
     
     func detailDataShow() {
+        
+        if userModel?.company?.count ?? 0 > 0 {
+            iaHasCompany = true
+        }else {
+            iaHasCompany = false
+        }
+        
+        if userModel?.buildingName?.count ?? 0 > 0 {
+            isHasBuilding = true
+        }else {
+            isHasBuilding = false
+        }
         
         ///移除之前的房产证数据
         for fczBannerModel in uploadPicModelFCZArr {
@@ -576,6 +596,8 @@ extension OwnerCompanyIeditnfyVC {
         buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
             // 搜索完成 关闭resultVC
             
+            self?.isHasBuilding = true
+
             //判断楼盘是关联的还是自己创建的
             self?.userModel?.isCreateBuilding = "2"
             
@@ -664,6 +686,14 @@ extension OwnerCompanyIeditnfyVC {
         headerCollectionView.reloadData()
     }
     
+    func loadFCZSectionData() {
+        headerCollectionView.reloadSections(NSIndexSet.init(index: 2) as IndexSet)
+    }
+    
+    func loadZLAgentData() {
+        headerCollectionView.reloadSections(NSIndexSet.init(index: 3) as IndexSet)
+    }
+    
     func showCommitAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
         alert.isHiddenVersionCancel = true
@@ -735,7 +765,7 @@ extension OwnerCompanyIeditnfyVC {
         
         if uploadPicModelFCZArr[index].isLocal == true {
             uploadPicModelFCZArr.remove(at: index)
-            loadCollectionData()
+            loadFCZSectionData()
             return
         }
         
@@ -750,7 +780,7 @@ extension OwnerCompanyIeditnfyVC {
             guard let weakSelf = self else {return}
             
             weakSelf.uploadPicModelFCZArr.remove(at: index)
-            weakSelf.loadCollectionData()
+            weakSelf.loadFCZSectionData()
             
             }, failure: { (error) in
                 
@@ -768,7 +798,8 @@ extension OwnerCompanyIeditnfyVC {
         
         if uploadPicModelZLAgentArr[index].isLocal == true {
             uploadPicModelZLAgentArr.remove(at: index)
-            loadCollectionData()
+            loadZLAgentData()
+
             return
         }
         
@@ -783,7 +814,8 @@ extension OwnerCompanyIeditnfyVC {
             guard let weakSelf = self else {return}
             
             weakSelf.uploadPicModelZLAgentArr.remove(at: index)
-            weakSelf.loadCollectionData()
+            weakSelf.loadZLAgentData()
+
             
             }, failure: { (error) in
                 
@@ -906,30 +938,46 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         if userModel?.auditStatus == "2" && userModel?.authority == "0" {
             return 1
         }else {
-            if let company = userModel?.company {
-                if company.isBlankString == true {
-                    return 1
-                }else {
-                    if let buildingName = userModel?.buildingName {
-                        if buildingName.isBlankString == true {
-                            return typeSourceArray.count - 2
-                        }else {
-                            //直租
-                            if userModel?.leaseType == "0" {
-                                return typeSourceArray.count - 1
-                            }else if userModel?.leaseType == "1" {
-                                return typeSourceArray.count
-                            }else {
-                                return typeSourceArray.count - 2
-                            }
-                        }
+            if iaHasCompany == true {
+                if isHasBuilding == true {
+                    //直租
+                    if userModel?.leaseType == "0" {
+                        return typeSourceArray.count - 1
+                    }else if userModel?.leaseType == "1" {
+                        return typeSourceArray.count
                     }else {
                         return typeSourceArray.count - 2
                     }
+                }else {
+                    return typeSourceArray.count - 2
                 }
             }else {
                 return 1
             }
+//            if let company = userModel?.company {
+//                if company.isBlankString == true {
+//                    return 1
+//                }else {
+//                    if let buildingName = userModel?.buildingName {
+//                        if buildingName.isBlankString == true {
+//                            return typeSourceArray.count - 2
+//                        }else {
+//                            //直租
+//                            if userModel?.leaseType == "0" {
+//                                return typeSourceArray.count - 1
+//                            }else if userModel?.leaseType == "1" {
+//                                return typeSourceArray.count
+//                            }else {
+//                                return typeSourceArray.count - 2
+//                            }
+//                        }
+//                    }else {
+//                        return typeSourceArray.count - 2
+//                    }
+//                }
+//            }else {
+//                return 1
+//            }
         }
         
     }
@@ -946,15 +994,20 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
             if section == 0 {
                 return typeSourceArray[0].count
             }else if section == 1 {
-                if let buildingName = userModel?.buildingName {
-                    if buildingName.isBlankString == true {
-                        return 1
-                    }else {
-                        return typeSourceArray[1].count
-                    }
+                if isHasBuilding == true {
+                    return typeSourceArray[1].count
                 }else {
-                    return 2
+                    return 1
                 }
+//                if let buildingName = userModel?.buildingName {
+//                    if buildingName.isBlankString == true {
+//                        return 1
+//                    }else {
+//                        return typeSourceArray[1].count
+//                    }
+//                }else {
+//                    return 2
+//                }
             }else if section == 2 {
                 if userModel?.leaseType == "0" || userModel?.leaseType == "1" {
                     return uploadPicModelFCZArr.count + 1

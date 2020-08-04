@@ -10,6 +10,9 @@ import CLImagePickerTool
 
 class OwnerPersonalIeditnfyVC: BaseViewController {
     
+    ///时候有楼盘
+    var isHasBuilding: Bool?
+    
     ///临时添加的几个字段
     ///管理楼id
     var buildingIdTemp : String?
@@ -155,6 +158,8 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
         //个人认证 - 创建办公楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
+            self?.isHasBuilding = true
+
             self?.requestCreateBuildingSuccess()
         }
         
@@ -245,6 +250,12 @@ extension OwnerPersonalIeditnfyVC {
     
     func detailDataShow() {
         
+        if userModel?.buildingName?.count ?? 0 > 0 {
+            isHasBuilding = true
+        }else {
+            isHasBuilding = false
+        }
+
         if isFirst == true {
             
         }else {
@@ -579,6 +590,9 @@ extension OwnerPersonalIeditnfyVC {
         
         // 传递闭包 当点击’搜索结果‘的cell调用
         buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
+            
+            self?.isHasBuilding = true
+
             //判断楼盘是关联的还是自己创建的
             self?.userModel?.isCreateBuilding = "2"
             
@@ -616,6 +630,14 @@ extension OwnerPersonalIeditnfyVC {
     
     func loadCollectionData() {
         headerCollectionView.reloadData()
+    }
+    
+    func loadFCZSectionData() {
+        headerCollectionView.reloadSections(NSIndexSet.init(index: 3) as IndexSet)
+    }
+    
+    func loadZLAgentData() {
+        headerCollectionView.reloadSections(NSIndexSet.init(index: 4) as IndexSet)
     }
     
     func showCommitAlertview() {
@@ -779,7 +801,8 @@ extension OwnerPersonalIeditnfyVC {
         
         if uploadPicModelFCZArr[index].isLocal == true {
             uploadPicModelFCZArr.remove(at: index)
-            loadCollectionData()
+            loadFCZSectionData()
+
             return
         }
         
@@ -794,7 +817,7 @@ extension OwnerPersonalIeditnfyVC {
             guard let weakSelf = self else {return}
             
             weakSelf.uploadPicModelFCZArr.remove(at: index)
-            weakSelf.loadCollectionData()
+            weakSelf.loadFCZSectionData()
             
             }, failure: { (error) in
                 
@@ -812,7 +835,7 @@ extension OwnerPersonalIeditnfyVC {
         
         if uploadPicModelZLAgentArr[index].isLocal == true {
             uploadPicModelZLAgentArr.remove(at: index)
-            loadCollectionData()
+            loadZLAgentData()
             return
         }
         
@@ -827,7 +850,7 @@ extension OwnerPersonalIeditnfyVC {
             guard let weakSelf = self else {return}
             
             weakSelf.uploadPicModelZLAgentArr.remove(at: index)
-            weakSelf.loadCollectionData()
+            weakSelf.loadZLAgentData()
             
             }, failure: { (error) in
                 
@@ -998,21 +1021,32 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         //直租
-        if let buildingName = userModel?.buildingName {
-            if buildingName.isBlankString == true {
-                return typeSourceArray.count - 2
+        if isHasBuilding == true {
+            if userModel?.leaseType == "0" {
+                return typeSourceArray.count - 1
+            }else if userModel?.leaseType == "1" {
+                return typeSourceArray.count
             }else {
-                if userModel?.leaseType == "0" {
-                    return typeSourceArray.count - 1
-                }else if userModel?.leaseType == "1" {
-                    return typeSourceArray.count
-                }else {
-                    return typeSourceArray.count - 2
-                }
+                return typeSourceArray.count - 2
             }
         }else {
             return typeSourceArray.count - 2
         }
+//        if let buildingName = userModel?.buildingName {
+//            if buildingName.isBlankString == true {
+//                return typeSourceArray.count - 2
+//            }else {
+//                if userModel?.leaseType == "0" {
+//                    return typeSourceArray.count - 1
+//                }else if userModel?.leaseType == "1" {
+//                    return typeSourceArray.count
+//                }else {
+//                    return typeSourceArray.count - 2
+//                }
+//            }
+//        }else {
+//            return typeSourceArray.count - 2
+//        }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
@@ -1021,16 +1055,20 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             //身份证
             return 2
         }else if section == 2 {
-            
-            if let buildingName = userModel?.buildingName {
-                if buildingName.isBlankString == true {
-                    return 1
-                }else {
-                    return typeSourceArray[2].count
-                }
+            if isHasBuilding == true {
+                return typeSourceArray[2].count
             }else {
                 return 1
             }
+//            if let buildingName = userModel?.buildingName {
+//                if buildingName.isBlankString == true {
+//                    return 1
+//                }else {
+//                    return typeSourceArray[2].count
+//                }
+//            }else {
+//                return 1
+//            }
         }else if section == 3 {
             if userModel?.leaseType == "0" || userModel?.leaseType == "1" {
                 return uploadPicModelFCZArr.count + 1

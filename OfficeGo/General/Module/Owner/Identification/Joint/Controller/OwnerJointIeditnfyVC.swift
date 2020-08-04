@@ -9,6 +9,16 @@
 import CLImagePickerTool
 
 class OwnerJointIeditnfyVC: BaseViewController {
+    
+    ///时候有网点 =
+    var iaHasBranch: Bool?
+    
+    ///时候有公司 =
+    var iaHasCompany: Bool?
+    
+    ///时候有楼盘
+    var isHasBuilding: Bool?
+    
     ///临时添加的几个字段
     ///管理楼id
     var buildingIdTemp : String?
@@ -203,12 +213,14 @@ class OwnerJointIeditnfyVC: BaseViewController {
         //网点认证 -身份认证 - 业主 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
+            self?.iaHasBranch = true
             self?.requestCreateBranchSuccess()
         }
         
         //网点认证 - 创建公司成功通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateCompany, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
+            self?.iaHasCompany = true
             self?.requestCreateCompanySuccess()
         }
     }
@@ -334,6 +346,24 @@ extension OwnerJointIeditnfyVC {
     
     func detailDataShow() {
         
+        if userModel?.branchesName?.count ?? 0 > 0 {
+            iaHasBranch = true
+        }else {
+            iaHasBranch = false
+        }
+        
+        if userModel?.company?.count ?? 0 > 0 {
+            iaHasCompany = true
+        }else {
+            iaHasCompany = false
+        }
+        
+        if userModel?.buildingName?.count ?? 0 > 0 {
+            isHasBuilding = true
+        }else {
+            isHasBuilding = false
+        }
+
         if userModel?.company?.count ?? 0 > 0 {
             userModel?.isCreateCompany = "1"
         }else {
@@ -647,6 +677,9 @@ extension OwnerJointIeditnfyVC {
         
         // 传递闭包 当点击’搜索结果‘的cell调用
         buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
+            
+            self?.isHasBuilding = true
+
             // 搜索完成 关闭resultVC
             //只需要楼盘名字
             self?.userModel?.buildingName = model.buildingAttributedName?.string
@@ -662,6 +695,13 @@ extension OwnerJointIeditnfyVC {
         }
         // 关闭按钮 - 隐藏页面
         buildingNameSearchResultVC?.closeButtonCallClick = {[weak self] in
+            
+            self?.isHasBuilding = true
+
+            // 搜索完成 关闭resultVC
+            //只需要楼盘名字
+            self?.userModel?.buildingName = self?.buildingName
+            
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionData()
         }
@@ -784,6 +824,14 @@ extension OwnerJointIeditnfyVC {
         headerCollectionView.reloadData()
     }
     
+    func loadFCZSectionData() {
+        headerCollectionView.reloadSections(NSIndexSet.init(index: 2) as IndexSet)
+    }
+    
+    func loadZLAgentData() {
+        headerCollectionView.reloadSections(NSIndexSet.init(index: 3) as IndexSet)
+    }
+    
     func showCommitAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
         alert.isHiddenVersionCancel = true
@@ -854,7 +902,7 @@ extension OwnerJointIeditnfyVC {
         
         if uploadPicModelFCZArr[index].isLocal == true {
             uploadPicModelFCZArr.remove(at: index)
-            loadCollectionData()
+            loadFCZSectionData()
             return
         }
         
@@ -869,7 +917,8 @@ extension OwnerJointIeditnfyVC {
             guard let weakSelf = self else {return}
             
             weakSelf.uploadPicModelFCZArr.remove(at: index)
-            weakSelf.loadCollectionData()
+            weakSelf.loadFCZSectionData()
+
             
             }, failure: { (error) in
                 
@@ -887,7 +936,7 @@ extension OwnerJointIeditnfyVC {
         
         if uploadPicModelZLAgentArr[index].isLocal == true {
             uploadPicModelZLAgentArr.remove(at: index)
-            loadCollectionData()
+            loadZLAgentData()
             return
         }
         
@@ -902,7 +951,7 @@ extension OwnerJointIeditnfyVC {
             guard let weakSelf = self else {return}
             
             weakSelf.uploadPicModelZLAgentArr.remove(at: index)
-            weakSelf.loadCollectionData()
+            weakSelf.loadZLAgentData()
             
             }, failure: { (error) in
                 
@@ -971,6 +1020,8 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                     
                     self?.userModel?.branchesName = ""
                     
+                    self?.userModel?.buildingAddress = ""
+
                     self?.buildingName = ""
                     
                 }else if type == .OwnerJointIedntifyTypeCompanyname{
@@ -1047,23 +1098,33 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
         if userModel?.auditStatus == "2" && userModel?.authority == "0" {
             return 1
         }else {
-            if let company = userModel?.company {
-                if company.isBlankString == true {
-                    return 1
+            if iaHasCompany == true {
+                if isHasBuilding == true {
+                return typeSourceArray.count
                 }else {
-                    if let buildingName = userModel?.buildingName {
-                        if buildingName.isBlankString == true {
-                            return typeSourceArray.count - 2
-                        }else {
-                            return typeSourceArray.count
-                        }
-                    }else {
-                        return typeSourceArray.count - 2
-                    }
+                    return typeSourceArray.count - 2
                 }
             }else {
                 return 1
             }
+
+//            if let company = userModel?.company {
+//                if company.isBlankString == true {
+//                    return 1
+//                }else {
+//                    if let buildingName = userModel?.buildingName {
+//                        if buildingName.isBlankString == true {
+//                            return typeSourceArray.count - 2
+//                        }else {
+//                            return typeSourceArray.count
+//                        }
+//                    }else {
+//                        return typeSourceArray.count - 2
+//                    }
+//                }
+//            }else {
+//                return 1
+//            }
         }
         
     }
@@ -1077,33 +1138,47 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
             }
         }else {
             if section == 0 {
-                if let branchName = userModel?.branchesName {
-                    if branchName.isBlankString == true {
-                        return 2
-                    }else {
-                        return typeSourceArray[0].count
-                    }
+                if iaHasBranch == true {
+                    return typeSourceArray[0].count
                 }else {
                     return 2
                 }
+//                if let branchName = userModel?.branchesName {
+//                    if branchName.isBlankString == true {
+//                        return 2
+//                    }else {
+//                        return typeSourceArray[0].count
+//                    }
+//                }else {
+//                    return 2
+//                }
             }else if section == 1 {
-                if let company = userModel?.company {
-                    if company.isBlankString == true {
-                        return 0
+                if iaHasCompany == true {
+                    if isHasBuilding == true {
+                        return typeSourceArray[1].count
                     }else {
-                        if let company = userModel?.buildingName {
-                            if company.isBlankString == true {
-                                return 1
-                            }else {
-                                return typeSourceArray[1].count
-                            }
-                        }else {
-                            return 1
-                        }
+                        return 1
                     }
                 }else {
                     return 0
                 }
+//                if let company = userModel?.company {
+//                    if company.isBlankString == true {
+//                        return 0
+//                    }else {
+//                        if let company = userModel?.buildingName {
+//                            if company.isBlankString == true {
+//                                return 1
+//                            }else {
+//                                return typeSourceArray[1].count
+//                            }
+//                        }else {
+//                            return 1
+//                        }
+//                    }
+//                }else {
+//                    return 0
+//                }
             }else if section == 2 {
                 return uploadPicModelFCZArr.count + 1
             }else if section == 3 {
