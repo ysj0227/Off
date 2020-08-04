@@ -308,48 +308,43 @@ extension OwnerMineViewController {
         }else {
             identifyVCClick(auditStatus: auditStatus, identify: identify)
         }
-        identifyVCClick(auditStatus: auditStatus, identify: identify)
 
     }
         
     func identifyVCClick(auditStatus: Int, identify: Int) {
-        ///点击跳转认证页面
-        let vc = OwnerIdenfySelectVC()
-        self.navigationController?.pushViewController(vc, animated: true)
-        
-            ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
-            //未审核
-            if auditStatus == -1 || auditStatus == 2 || auditStatus == 3 || auditStatus == 1 || auditStatus == 4{
-                                
-                ///点击跳转认证页面
-                let vc = OwnerIdenfySelectVC()
-                self.navigationController?.pushViewController(vc, animated: true)
-                
-            }else if auditStatus == 2 || auditStatus == 3 {
-                
-                UserTool.shared.user_owner_identifytype = identify
-                
-                ///点击跳转认证页面
-                let vc = OwnerIdenfySelectVC()
+        ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
+        //未审核
+        if auditStatus == -1 {
+                            
+            ///点击跳转认证页面
+            let vc = OwnerIdenfySelectVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }else if auditStatus == 2 || auditStatus == 3 {
+            
+            UserTool.shared.user_owner_identifytype = identify
+            
+            ///点击跳转认证页面
+            let vc = OwnerIdenfySelectVC()
+            self.navigationController?.pushViewController(vc, animated: false)
+            
+            if identify == 1 {
+                let vc = OwnerCompanyIeditnfyVC()
+                vc.isFromPersonalVc = true
                 self.navigationController?.pushViewController(vc, animated: false)
-                
-                if identify == 1 {
-                    let vc = OwnerCompanyIeditnfyVC()
-                    vc.isFromPersonalVc = true
-                    self.navigationController?.pushViewController(vc, animated: false)
-                }else if identify == 2 {
-                    ///点击跳转认证页面
-                    let vc = OwnerJointIeditnfyVC()
-                    vc.isFromPersonalVc = true
-                    self.navigationController?.pushViewController(vc, animated: false)
-                }else if identify == 0 {
-                    ///点击跳转认证页面
-                    let vc = OwnerPersonalIeditnfyVC()
-                    vc.isFromPersonalVc = true
-                    self.navigationController?.pushViewController(vc, animated: false)
-                }
+            }else if identify == 2 {
+                ///点击跳转认证页面
+                let vc = OwnerJointIeditnfyVC()
+                vc.isFromPersonalVc = true
+                self.navigationController?.pushViewController(vc, animated: false)
+            }else if identify == 0 {
+                ///点击跳转认证页面
+                let vc = OwnerPersonalIeditnfyVC()
+                vc.isFromPersonalVc = true
+                self.navigationController?.pushViewController(vc, animated: false)
             }
         }
+    }
     
     /*
      * 强制刷新用户信息
