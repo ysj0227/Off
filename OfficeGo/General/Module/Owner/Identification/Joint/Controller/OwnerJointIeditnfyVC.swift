@@ -648,11 +648,12 @@ extension OwnerJointIeditnfyVC {
         companySearchResultVC?.companyCallBack = {[weak self] (model) in
             //self?.companySearchResultVC? .view.isHidden = true
             let vc = OwnerCreateCompanyViewController()
-            vc.companyModel = self?.userModel
-            vc.companyModel?.company = model.companyString?.string
-            vc.companyModel?.address = model.addressString?.string
-            vc.companyModel?.creditNo = ""
-            vc.companyModel?.businessLicense = ""
+            let companyModel = OwnerIdentifyUserModel()
+            companyModel.company = model.companyString?.string
+            companyModel.address = model.addressString?.string
+            companyModel.creditNo = ""
+            companyModel.businessLicense = ""
+            vc.companyModel = companyModel
             self?.navigationController?.pushViewController(vc, animated: true)
             self?.loadCollectionData()
         }
@@ -750,11 +751,12 @@ extension OwnerJointIeditnfyVC {
             //0不存在1存在
             if model.flag == 0 {
                 let vc = OwnerCreateCompanyViewController()
-                vc.companyModel = weakSelf.userModel
-                vc.companyModel?.company = weakSelf.companyName
-                vc.companyModel?.address = ""
-                vc.companyModel?.creditNo = ""
-                vc.companyModel?.businessLicense = ""
+                let companyModel = OwnerIdentifyUserModel()
+                companyModel.company = weakSelf.companyName
+                companyModel.address = ""
+                companyModel.creditNo = ""
+                companyModel.businessLicense = ""
+                vc.companyModel = companyModel
                 weakSelf.navigationController?.pushViewController(vc, animated: true)
             }else if model.flag == 1 {
                 AppUtilities.makeToast(model.explain ?? "公司已经存在，不能重复创建")
@@ -987,7 +989,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 
                 self?.userModel?.isCreateCompany = ""
                 
-                self?.userModel?.company = ""
+                self?.userModel?.company = companyName
                 
                 self?.companyName = companyName
             }

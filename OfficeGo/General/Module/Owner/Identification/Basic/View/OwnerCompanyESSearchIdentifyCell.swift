@@ -166,7 +166,7 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
             //没有认证过，展示按钮
             addBtn.isHidden = false
             numDescLabel.isHidden = true
-            addBtn.setTitle("关联公司", for: .normal)
+            addBtn.setTitle("加入公司", for: .normal)
             numDescLabel.text = ""
             titleLabel.snp.remakeConstraints { (make) in
                 make.leading.equalTo(itemIcon.snp.trailing).offset(4)
