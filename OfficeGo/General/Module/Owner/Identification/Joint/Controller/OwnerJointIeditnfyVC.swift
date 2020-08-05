@@ -944,7 +944,17 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 //公司编辑
                 if type == OwnerJointIedntifyType.OwnerJointIedntifyTypeBranchname {
                     let vc = OwnerCreateBranchViewController()
-                    vc.userModel = self?.userModel
+                    let userModel = OwnerIdentifyUserModel()
+                    userModel.licenceId = self?.userModel?.licenceId
+                    userModel.userLicenceId = self?.userModel?.userLicenceId
+                    userModel.buildingId = self?.userModel?.buildingId
+                    userModel.buildingTempId = self?.userModel?.buildingTempId
+                    userModel.branchesName = self?.userModel?.branchesName
+                    userModel.buildingAddress = self?.userModel?.buildingAddress
+                    userModel.mainPic = self?.userModel?.mainPic
+                    userModel.district = self?.userModel?.district
+                    userModel.business = self?.userModel?.business
+                    vc.userModel = userModel
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }else if type == OwnerJointIedntifyType.OwnerJointIedntifyTypeCompanyname {
                     let vc = OwnerCreateCompanyViewController()
