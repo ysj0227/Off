@@ -317,7 +317,7 @@ extension OwnerCreateBranchViewController {
         params["type"] = 1 as AnyObject?
         SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
             if let model = CityAreaCategorySelectModel.deserialize(from: response) {
-                model.name = "上海"
+                model.name = "上海市"
                 self?.areaModelCount = model
                 self?.getSelectedDistrictBusiness()
             }
@@ -337,7 +337,7 @@ extension OwnerCreateBranchViewController {
         areaModelCount?.data.forEach({ (model) in
             if model.districtID == userModel?.district {
                 areaModelCount?.isFirstSelectedModel = model
-                userModel?.districtString = "\(areaModelCount?.name ?? "上海")\(model.district ?? "")"
+                userModel?.districtString = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
                 areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
                     if areaModel.id == userModel?.business {
                         areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
@@ -365,7 +365,7 @@ extension OwnerCreateBranchViewController {
                 self?.areaModelCount = selectModel
                 self?.userModel?.district = selectModel.isFirstSelectedModel?.districtID
                 self?.userModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
-                self?.userModel?.districtString = "\(selectModel.name ?? "上海")\(selectModel.isFirstSelectedModel?.district ?? "")"
+                self?.userModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
                 self?.userModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
                 self?.tableView.reloadData()
                 

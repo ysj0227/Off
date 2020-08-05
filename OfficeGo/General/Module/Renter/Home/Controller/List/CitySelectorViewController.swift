@@ -190,7 +190,7 @@ extension CitySelectorViewController: UITableViewDataSource, UITableViewDelegate
             guard let block = citySelected else {
                 return
             }
-            block(cell?.textLabel?.text ?? "上海")
+            block(cell?.textLabel?.text ?? "上海市")
         }
     }
     

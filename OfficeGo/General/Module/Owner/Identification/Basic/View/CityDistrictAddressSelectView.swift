@@ -295,7 +295,7 @@ extension CityDistrictAddressSelectView: UITableViewDelegate, UITableViewDataSou
             
             if indexPath.row == 0 {
                 cell?.titleLabel.text = areaCategoryLevelModel.name
-                cityLabel.setTitle("上海", for: .normal)
+                cityLabel.setTitle(areaCategoryLevelModel.name, for: .normal)
             }
             
             return cell ?? TypeAndSortCell()
