@@ -43,9 +43,6 @@ class OwnerJointIeditnfyVC: BaseViewController {
     //公司名称搜索结果vc
     var companySearchResultVC: OwnerCompanyESearchResultListViewController?
     
-    //写字楼名称搜索结果vc
-    var buildingNameSearchResultVC: OwnerBuildingNameESearchResultListViewController?
-    
     ///网点名称
     var branchName: String? {
         didSet {
@@ -68,7 +65,6 @@ class OwnerJointIeditnfyVC: BaseViewController {
             //隐藏公司搜索的框
             companySearchResultVC?.view.isHidden = true
             
-            buildingNameSearchResultVC?.view.isHidden = true
         }
     }
     
@@ -94,31 +90,6 @@ class OwnerJointIeditnfyVC: BaseViewController {
             
             branchSearchResultVC?.view.isHidden = true
             
-            buildingNameSearchResultVC?.view.isHidden = true
-        }
-    }
-    
-    var buildingName: String? {
-        didSet {
-            let rect = headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 0, section: 1))
-            let cellRect = rect?.frame ?? CGRect.zero
-            let cellFrame = headerCollectionView.convert(cellRect, to: self.view)
-            SSLog("buildingNamerect-\(rect)------cellRect\(cellRect)------cellFrame\(cellFrame)")
-            if buildingName?.isBlankString == true {
-                buildingNameSearchResultVC?.view.isHidden = true
-                buildingNameSearchResultVC?.keywords = ""
-            }else {
-                buildingNameSearchResultVC?.view.isHidden = false
-                buildingNameSearchResultVC?.keywords = buildingName
-            }
-            buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 1)
-                make.leading.trailing.equalToSuperview()
-                make.bottom.equalToSuperview()
-            })
-            //隐藏公司搜索的框
-            branchSearchResultVC?.view.isHidden = true
-            companySearchResultVC?.view.isHidden = true
         }
     }
     
@@ -647,7 +618,7 @@ extension OwnerJointIeditnfyVC {
         // 传递闭包 当点击’搜索结果‘的cell调用 - 点击关联公司 - 带搜索信息到下个页面
         companySearchResultVC?.companyCallBack = {[weak self] (model) in
             //self?.companySearchResultVC? .view.isHidden = true
-            let vc = OwnerCreateCompanyViewController()
+            let vc = OwnerEnterCreatedCompanyViewController()
             let companyModel = OwnerIdentifyUserModel()
             companyModel.licenceId = self?.userModel?.licenceId
             companyModel.userLicenceId = self?.userModel?.userLicenceId
@@ -655,7 +626,7 @@ extension OwnerJointIeditnfyVC {
             companyModel.buildingTempId = self?.userModel?.buildingTempId
             companyModel.company = model.companyString?.string
             companyModel.address = model.addressString?.string
-            companyModel.creditNo = ""
+            companyModel.creditNo = model.creditNo
             companyModel.businessLicense = ""
             vc.companyModel = companyModel
             self?.navigationController?.pushViewController(vc, animated: true)
@@ -673,44 +644,7 @@ extension OwnerJointIeditnfyVC {
         companySearchResultVC?.closeButtonCallClick = {[weak self] in
             self?.companySearchResultVC?.view.isHidden = true
         }
-        
-        
-        //办公楼
-        buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
-        buildingNameSearchResultVC?.view.isHidden = true
-        self.view.addSubview(buildingNameSearchResultVC?.view ?? UIView())
-        
-        // 传递闭包 当点击’搜索结果‘的cell调用
-        buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
-            
-            self?.isHasBuilding = true
-
-            // 搜索完成 关闭resultVC
-            //只需要楼盘名字
-            self?.userModel?.buildingName = model.buildingAttributedName?.string
-            self?.userModel?.buildingAddress = model.addressString?.string
-            self?.buildingNameSearchResultVC?.view.isHidden = true
-            self?.loadCollectionData()
-        }
-        
-        //网点 - 楼盘没有创建
-        // 创建按钮 - 隐藏 - 展示下面的楼盘地址 - 地址置空
-        buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
-            
-        }
-        // 关闭按钮 - 隐藏页面
-        buildingNameSearchResultVC?.closeButtonCallClick = {[weak self] in
-            
-            self?.isHasBuilding = true
-
-            // 搜索完成 关闭resultVC
-            //只需要楼盘名字
-            self?.userModel?.buildingName = self?.buildingName
-            
-            self?.buildingNameSearchResultVC?.view.isHidden = true
-            self?.loadCollectionData()
-        }
-        
+                
         //第一次刷新列表
         loadCollectionData()
     }
@@ -1006,15 +940,6 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 
                 self?.companyName = companyName
             }
-            cell?.buildingNameClickClouse = { [weak self] (buildingName) in
-                
-                self?.userModel?.isCreateBuilding = ""
-                
-                self?.userModel?.buildingName = buildingName
-                self?.userModel?.buildingAddress = ""
-                
-                self?.buildingName = buildingName
-            }
             cell?.editClickBack = { [weak self] (type) in
                 //公司编辑
                 if type == OwnerJointIedntifyType.OwnerJointIedntifyTypeBranchname {
@@ -1036,8 +961,6 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                     self?.userModel?.branchesName = ""
                     
                     self?.userModel?.buildingAddress = ""
-
-                    self?.buildingName = ""
                     
                 }else if type == .OwnerJointIedntifyTypeCompanyname{
                     //清除 公司名字 字段改为空
@@ -1047,14 +970,25 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                     
                     self?.companyName = ""
                     
-                }else if type == .OwnerJointIedntifyTypeBuildingName {
-                    //清除 楼盘名字地址 字段改为空
-                    self?.userModel?.isCreateBuilding = ""
-                    
-                    self?.userModel?.buildingName = ""
-                    
-                    self?.buildingName = ""
                 }
+            }
+            cell?.buildingNameEndEditingMessageCell = { [weak self] (buildingName) in
+                
+                self?.userModel?.buildingName = buildingName
+                
+                if self?.isHasBuilding == true {
+                    
+                }else {
+                    if self?.userModel?.buildingName?.count ?? 0 > 0 {
+                        self?.isHasBuilding = true
+                    }else {
+                        self?.isHasBuilding = false
+                    }
+                }
+                
+               
+                
+                self?.loadCollectionData()
             }
             return cell ?? OwnerJointIdentifyCell()
         }else {

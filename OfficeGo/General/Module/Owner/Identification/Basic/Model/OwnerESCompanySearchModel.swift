@@ -22,6 +22,8 @@ class OwnerESCompanySearchModel: BaseModel {
      公司名称
      */
     var company : String?
+    ///营业执照
+    var creditNo : String?
 }
 class OwnerESCompanySearchViewModel: NSObject {
     
@@ -35,6 +37,9 @@ class OwnerESCompanySearchViewModel: NSObject {
     ///地址
     var addressString : NSMutableAttributedString?
     
+    ///营业执照
+    var creditNo : String?
+    
     //1 企业认证 2已认证网点
     var identityType : String?
     
@@ -45,6 +50,8 @@ class OwnerESCompanySearchViewModel: NSObject {
         identityType = model.identityType
         
         realname = model.realname
+        
+        creditNo = model.creditNo
         
         if let company = model.company {
             if let str = company.removingPercentEncoding, let data = str.data(using: String.Encoding.unicode) {

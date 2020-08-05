@@ -47,18 +47,14 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
     }()
     lazy var editBtn: UIButton = {
         let btn = UIButton.init()
-        btn.backgroundColor = kAppBlueColor
-        btn.setTitleColor(kAppWhiteColor, for: .normal)
-        btn.setTitle("编辑", for: .normal)
+        btn.setImage(UIImage.init(named: "idenEdit"), for: .normal)
         btn.titleLabel?.font = FONT_8
         btn.addTarget(self, action: #selector(editClick), for: .touchUpInside)
         return btn
     }()
     lazy var closeBtn: UIButton = {
         let btn = UIButton.init()
-        btn.backgroundColor = kAppBlueColor
-        btn.setTitleColor(kAppWhiteColor, for: .normal)
-        btn.setTitle("清除", for: .normal)
+        btn.setImage(UIImage.init(named: "idenDelete"), for: .normal)
         btn.titleLabel?.font = FONT_8
         btn.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
         return btn
@@ -106,11 +102,8 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
     
     //公司名字
     @objc var companyNameClickClouse: IdentifyEditingClickClouse?
-
-    //大楼名称
-    @objc var buildingNameClickClouse: IdentifyEditingClickClouse?
     
-    //网点名称
+    //写字楼名称址
     var buildingNameEndEditingMessageCell:((String) -> Void)?
 
     //模拟认证模型
@@ -258,18 +251,14 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             make.trailing.equalToSuperview()
             make.width.equalTo(25)
             make.centerY.equalToSuperview()
-            make.height.equalTo(18)
+            make.height.equalTo(25)
         }
-        closeBtn.clipsToBounds = true
-        closeBtn.layer.cornerRadius = 5
         editBtn.snp.makeConstraints { (make) in
             make.trailing.equalTo(closeBtn.snp.leading).offset(-3)
             make.width.equalTo(25)
             make.centerY.equalToSuperview()
-            make.height.equalTo(18)
+            make.height.equalTo(25)
         }
-        editBtn.clipsToBounds = true
-        editBtn.layer.cornerRadius = 5
         lineView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
@@ -314,22 +303,6 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             }
             blockk(numDescTF.text ?? "")
         }
-        //只有办公楼地址要在编辑结束的时候传过去
-        else if model.type == .OwnerJointIedntifyTypeBuildingName {
-            guard let blockk = self.buildingNameClickClouse else {
-                return
-            }
-            addressLabel.text = ""
-            let textNum = numDescTF.text?.count
-              
-            //截取
-            if textNum! > ownerMaxBuildingnameNumber {
-                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
-                let str = numDescTF.text?.substring(to: index!)
-                numDescTF.text = str
-            }
-            blockk(numDescTF.text ?? "")
-        }
     }
     
     override func awakeFromNib() {
@@ -346,13 +319,13 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
 extension OwnerJointIdentifyCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-//        //只有网点名称要在编辑结束的时候传过去
-//        if model.type == .OwnerJointIedntifyTypeBuildingName {
-//            guard let blockk = self.buildingNameEndEditingMessageCell else {
-//                return
-//            }
-//            blockk(textField.text ?? "")
-//        }
+        //只有楼盘名称要在编辑结束的时候传过去
+        if model.type == .OwnerJointIedntifyTypeBuildingName {
+            guard let blockk = self.buildingNameEndEditingMessageCell else {
+                return
+            }
+            blockk(textField.text ?? "")
+        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

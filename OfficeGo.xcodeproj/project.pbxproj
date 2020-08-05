@@ -23,6 +23,7 @@
 		042D73D524BDAC600062FA7B /* OwnerCreateCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */; };
 		042D73D724BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D73D624BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift */; };
 		042E5E4324964913008B8E14 /* NetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E4224964913008B8E14 /* NetReachability.swift */; };
+		0434D67924DAC73E00582B3B /* OwnerEnterCreatedCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0434D67824DAC73D00582B3B /* OwnerEnterCreatedCompanyViewController.swift */; };
 		0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB0247E15B80015C355 /* SSNetworkTool.swift */; };
 		0437CFB3247E17190015C355 /* SSTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB2247E17180015C355 /* SSTool.swift */; };
 		0437CFB5247E18850015C355 /* SSCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB4247E18850015C355 /* SSCode.swift */; };
@@ -301,6 +302,7 @@
 		042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCreateCompanyViewController.swift; sourceTree = "<group>"; };
 		042D73D624BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerApplyEnterCompanyViewController.swift; sourceTree = "<group>"; };
 		042E5E4224964913008B8E14 /* NetReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetReachability.swift; sourceTree = "<group>"; };
+		0434D67824DAC73D00582B3B /* OwnerEnterCreatedCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerEnterCreatedCompanyViewController.swift; sourceTree = "<group>"; };
 		0437CFB0247E15B80015C355 /* SSNetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSNetworkTool.swift; sourceTree = "<group>"; };
 		0437CFB2247E17180015C355 /* SSTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTool.swift; sourceTree = "<group>"; };
 		0437CFB4247E18850015C355 /* SSCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSCode.swift; sourceTree = "<group>"; };
@@ -726,6 +728,7 @@
 				0407F93324BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift */,
 				042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */,
 				042D73D624BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift */,
+				0434D67824DAC73D00582B3B /* OwnerEnterCreatedCompanyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2083,6 +2086,7 @@
 				04E2392E249B3ABB009DCCEC /* RenterShareServiceCell.swift in Sources */,
 				EE4914E024692D62008D5689 /* LLToolFunc.swift in Sources */,
 				04B2BE7C24B5D1FA00D0F963 /* HHGuidePageHUD.swift in Sources */,
+				0434D67924DAC73E00582B3B /* OwnerEnterCreatedCompanyViewController.swift in Sources */,
 				04E23943249B3ABB009DCCEC /* HouseListTableViewCell.swift in Sources */,
 				EE4914DA24692D62008D5689 /* LLSegmentBaseItemView.swift in Sources */,
 				04CB46E1249CAFE9001BCC8F /* HouseFeatureModel.swift in Sources */,

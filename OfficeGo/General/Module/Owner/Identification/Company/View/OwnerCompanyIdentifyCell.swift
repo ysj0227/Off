@@ -50,18 +50,14 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     }()
     lazy var editBtn: UIButton = {
         let btn = UIButton.init()
-        btn.backgroundColor = kAppBlueColor
-        btn.setTitleColor(kAppWhiteColor, for: .normal)
-        btn.setTitle("编辑", for: .normal)
+        btn.setImage(UIImage.init(named: "idenEdit"), for: .normal)
         btn.titleLabel?.font = FONT_8
         btn.addTarget(self, action: #selector(editClick), for: .touchUpInside)
         return btn
     }()
     lazy var closeBtn: UIButton = {
         let btn = UIButton.init()
-        btn.backgroundColor = kAppBlueColor
-        btn.setTitleColor(kAppWhiteColor, for: .normal)
-        btn.setTitle("清除", for: .normal)
+        btn.setImage(UIImage.init(named: "idenDelete"), for: .normal)
         btn.titleLabel?.font = FONT_8
         btn.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
         return btn
@@ -252,18 +248,14 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
             make.trailing.equalToSuperview()
             make.width.equalTo(25)
             make.centerY.equalToSuperview()
-            make.height.equalTo(18)
+            make.height.equalTo(25)
         }
-        closeBtn.clipsToBounds = true
-        closeBtn.layer.cornerRadius = 5
         editBtn.snp.makeConstraints { (make) in
             make.trailing.equalTo(closeBtn.snp.leading).offset(-3)
             make.width.equalTo(25)
             make.centerY.equalToSuperview()
-            make.height.equalTo(18)
+            make.height.equalTo(25)
         }
-        editBtn.clipsToBounds = true
-        editBtn.layer.cornerRadius = 5
         lineView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
