@@ -37,13 +37,28 @@ import Foundation
 //    static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
 //                             "Release": "https://m.officego.com/"]
     
-//    static var SSApiHosts = ["Dev": "http://47.100.191.62:8080/",
-        static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
-                               "Release": "https://api.officego.com/"]
+    
+    ///开发环境
+//        static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
+//                               "Release": "https://api.officego.com/"]
+//
+//      static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
+//                              "Release": "https://m.officego.com/"]
+    
+    ///测试环境
+//        static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
+//                                 "Release": "https://api.officego.com/"]
+//
+//        static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
+//                                 "Release": "https://m.officego.com/"]
+    
+    ///正式环境
+     static var SSApiHosts = ["Dev": "https://api.officego.com/",
+                              "Release": "https://api.officego.com/"]
 
-      static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
+     static var SSH5Hosts = ["Dev": "https://m.officego.com/",
                               "Release": "https://m.officego.com/"]
- 
+    
 //    调试接口地址:debug.officego.com.cn
 //    调试前端地址:test1.officego.com.cn
     static func getUrlAddress(buildType:AppBuildType,serverType:BackgroundServerType) -> String {
