@@ -612,15 +612,20 @@ extension OwnerCompanyIeditnfyVC {
         // 创建按钮 - 隐藏 - 创建楼盘
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
             let vc = OwnerCreateBuildingViewController()
-            vc.userModel = self?.userModel
-            vc.userModel?.buildingName = self?.buildingName
-            vc.userModel?.buildingAddress = ""
-            vc.userModel?.creditNo = ""
-            vc.userModel?.mainPic = ""
-            vc.userModel?.district = ""
-            vc.userModel?.business = ""
-            vc.userModel?.districtString = ""
-            vc.userModel?.businessString = ""
+            let userModel = OwnerIdentifyUserModel()
+            userModel.licenceId = self?.userModel?.licenceId
+            userModel.userLicenceId = self?.userModel?.userLicenceId
+            userModel.buildingId = self?.userModel?.buildingId
+            userModel.buildingTempId = self?.userModel?.buildingTempId
+            userModel.buildingName = self?.buildingName
+            userModel.buildingAddress = ""
+            userModel.creditNo = ""
+            userModel.mainPic = ""
+            userModel.district = ""
+            userModel.business = ""
+            userModel.districtString = ""
+            userModel.businessString = ""
+            vc.userModel = userModel
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         // 关闭按钮 - 隐藏页面
@@ -669,11 +674,16 @@ extension OwnerCompanyIeditnfyVC {
             //0不存在1存在
             if model.flag == 0 {
                 let vc = OwnerCreateCompanyViewController()
-                vc.companyModel = weakSelf.userModel
-                vc.companyModel?.company = weakSelf.companyName
-                vc.companyModel?.address = ""
-                vc.companyModel?.creditNo = ""
-                vc.companyModel?.businessLicense = ""
+                let companyModel = OwnerIdentifyUserModel()
+                companyModel.licenceId = self?.userModel?.licenceId
+                companyModel.userLicenceId = self?.userModel?.userLicenceId
+                companyModel.buildingId = self?.userModel?.buildingId
+                companyModel.buildingTempId = self?.userModel?.buildingTempId
+                companyModel.company = weakSelf.companyName
+                companyModel.address = ""
+                companyModel.creditNo = ""
+                companyModel.businessLicense = ""
+                vc.companyModel = companyModel
                 weakSelf.navigationController?.pushViewController(vc, animated: true)
             }else if model.flag == 1 {
                 AppUtilities.makeToast(model.explain ?? "公司已经存在，不能重复创建")

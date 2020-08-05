@@ -649,6 +649,10 @@ extension OwnerJointIeditnfyVC {
             //self?.companySearchResultVC? .view.isHidden = true
             let vc = OwnerCreateCompanyViewController()
             let companyModel = OwnerIdentifyUserModel()
+            companyModel.licenceId = self?.userModel?.licenceId
+            companyModel.userLicenceId = self?.userModel?.userLicenceId
+            companyModel.buildingId = self?.userModel?.buildingId
+            companyModel.buildingTempId = self?.userModel?.buildingTempId
             companyModel.company = model.companyString?.string
             companyModel.address = model.addressString?.string
             companyModel.creditNo = ""
@@ -752,6 +756,10 @@ extension OwnerJointIeditnfyVC {
             if model.flag == 0 {
                 let vc = OwnerCreateCompanyViewController()
                 let companyModel = OwnerIdentifyUserModel()
+                companyModel.licenceId = self?.userModel?.licenceId
+                companyModel.userLicenceId = self?.userModel?.userLicenceId
+                companyModel.buildingId = self?.userModel?.buildingId
+                companyModel.buildingTempId = self?.userModel?.buildingTempId
                 companyModel.company = weakSelf.companyName
                 companyModel.address = ""
                 companyModel.creditNo = ""
@@ -806,15 +814,20 @@ extension OwnerJointIeditnfyVC {
             if model.flag == 0 {
                 
                 let vc = OwnerCreateBranchViewController()
-                vc.userModel = weakSelf.userModel
-                vc.userModel?.branchesName = self?.branchName
-                vc.userModel?.buildingAddress = ""
-                vc.userModel?.creditNo = ""
-                vc.userModel?.mainPic = ""
-                vc.userModel?.district = ""
-                vc.userModel?.business = ""
-                vc.userModel?.districtString = ""
-                vc.userModel?.businessString = ""
+                let userModel = OwnerIdentifyUserModel()
+                userModel.licenceId = self?.userModel?.licenceId
+                userModel.userLicenceId = self?.userModel?.userLicenceId
+                userModel.buildingId = self?.userModel?.buildingId
+                userModel.buildingTempId = self?.userModel?.buildingTempId
+                userModel.branchesName = self?.branchName
+                userModel.buildingAddress = ""
+                userModel.creditNo = ""
+                userModel.mainPic = ""
+                userModel.district = ""
+                userModel.business = ""
+                userModel.districtString = ""
+                userModel.businessString = ""
+                vc.userModel = userModel
                 weakSelf.navigationController?.pushViewController(vc, animated: true)
             }else if model.flag == 1 {
                 AppUtilities.makeToast(model.explain ?? "网点已经存在，不能重复创建")

@@ -12,32 +12,33 @@ import SwiftyJSON
 class OwnerBuildingNameESearchResultListViewController: BaseTableViewController {
     
     let topView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: cell_height_30 + 5))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: cell_height_58))
         view.backgroundColor = kAppWhiteColor
         return view
     }()
     
     lazy var descLabel: UILabel = {
-        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 - cell_height_30, height: cell_height_30))
+        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 - cell_height_30, height: cell_height_58))
         view.textAlignment = .left
         view.font = FONT_13
-        view.text = ""
+        view.isHidden = true
+        view.text = "楼盘不存在"
         view.textColor = kAppColor_999999
         return view
     }()
     
     lazy var closeBtn: UIButton = {
-        let view = UIButton(frame: CGRect(x: kWidth - cell_height_30 * 3 - left_pending_space_17, y: 0, width: cell_height_30 * 3, height: cell_height_30))
-        view.clipsToBounds = true
-        view.layer.cornerRadius = view.height / 2.0
-        view.backgroundColor = kAppLightBlueColor
+        let view = UIButton(frame: CGRect(x: kWidth - 60 - left_pending_space_17, y: 0, width: 60, height: cell_height_58))
         view.setTitleColor(kAppBlueColor, for: .normal)
-        view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
-        view.setTitle("  关闭", for: .normal)
+        view.setTitle("创建楼盘", for: .normal)
         view.titleLabel?.font = FONT_13
         return view
     }()
-    
+    lazy var lineView: UIView = {
+        let view = UIView(frame: CGRect(x: kWidth - 60 - left_pending_space_17, y: cell_height_58 - 1, width: 60, height: 1))
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
     ///点击关闭按钮 - 关闭页面
     var closeButtonCallClick:(() -> Void)?
     
@@ -82,6 +83,11 @@ class OwnerBuildingNameESearchResultListViewController: BaseTableViewController 
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<OwnerESBuildingSearchModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 weakSelf.dataSource = decoratedArray
+                if weakSelf.dataSource.count > 0 {
+                    weakSelf.descLabel.isHidden = true
+                }else {
+                    weakSelf.descLabel.isHidden = false
+                }
                 weakSelf.tableView.reloadData()
             }
             
@@ -115,8 +121,9 @@ extension OwnerBuildingNameESearchResultListViewController {
         
         self.tableView.register(OwnerBuildingNameESSearchIdentifyCell.self, forCellReuseIdentifier: OwnerBuildingNameESSearchIdentifyCell.reuseIdentifierStr)
             
-        //topView.addSubview(descLabel)
+        topView.addSubview(descLabel)
         topView.addSubview(closeBtn)
+        topView.addSubview(lineView)
         closeBtn.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
     }
 
@@ -189,7 +196,7 @@ extension OwnerBuildingNameESearchResultListViewController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if UserTool.shared.user_owner_identifytype == 2 {
-            return cell_height_30 + 5
+            return cell_height_58
         }else {
             return 0
         }

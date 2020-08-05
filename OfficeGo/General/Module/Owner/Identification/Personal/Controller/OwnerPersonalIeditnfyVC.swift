@@ -608,15 +608,20 @@ extension OwnerPersonalIeditnfyVC {
         // 创建按钮 - 隐藏 - 展示下面的楼盘地址 - 地址置空
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
             let vc = OwnerCreateBuildingViewController()
-            vc.userModel = self?.userModel
-            vc.userModel?.buildingName = self?.buildingName
-            vc.userModel?.buildingAddress = ""
-            vc.userModel?.creditNo = ""
-            vc.userModel?.mainPic = ""
-            vc.userModel?.district = ""
-            vc.userModel?.business = ""
-            vc.userModel?.districtString = ""
-            vc.userModel?.businessString = ""
+            let userModel = OwnerIdentifyUserModel()
+            userModel.licenceId = self?.userModel?.licenceId
+            userModel.userLicenceId = self?.userModel?.userLicenceId
+            userModel.buildingId = self?.userModel?.buildingId
+            userModel.buildingTempId = self?.userModel?.buildingTempId
+            userModel.buildingName = self?.buildingName
+            userModel.buildingAddress = ""
+            userModel.creditNo = ""
+            userModel.mainPic = ""
+            userModel.district = ""
+            userModel.business = ""
+            userModel.districtString = ""
+            userModel.businessString = ""
+            vc.userModel = userModel
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         
