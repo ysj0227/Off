@@ -50,6 +50,18 @@ extension Notification.Name {
     /// 首页筛选之后刷新列表通知
     public static let HomeSelectRefresh = Notification.Name("homeSelectRefresh")
     
+    
+    /// 首页筛选商圈地铁条件清除
+    public static let HomeSubwayBusinessClear = Notification.Name("HomeSubwayBusinessClear")
+    
+    /// 首页筛选楼盘条件清除
+    public static let HomeBuildingTypeClear = Notification.Name("HomeBuildingTypeClear")
+    
+    /// 首页筛选条件清除
+    public static let HomeShaixuanClear = Notification.Name("HomeShaixuanClear")
+    
+    
+    
     /// 详情页面 公交展开通知
     public static let TrafficUpOrDown = Notification.Name("trafficUpOrDown")
     

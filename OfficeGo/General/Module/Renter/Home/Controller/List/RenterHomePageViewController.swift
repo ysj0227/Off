@@ -16,6 +16,10 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     var recommendSelectModel: HouseSelectModel = HouseSelectModel() {
         didSet {
             
+            shaixuanview.houseSelectModel = recommendSelectModel
+            
+            isShowShaixuanView()
+            
             NotificationCenter.default.post(name: NSNotification.Name.HomeSelectRefresh, object: recommendSelectModel)
         }
     }
@@ -27,6 +31,77 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
      }
      }*/
     
+    //判断是否要展示筛选提交view
+    func isShowShaixuanView() {
+        //商圈地铁
+        var subwayBusiniessString: String? = ""
+        
+        if recommendSelectModel.areaModel.selectedCategoryID == "1" {
+            
+            if let firstLevelModel = self.recommendSelectModel.areaModel.areaModelCount.isFirstSelectedModel {
+                
+                subwayBusiniessString = "have"
+                
+            }else {
+                subwayBusiniessString = ""
+            }
+            
+        }else if recommendSelectModel.areaModel.selectedCategoryID == "2" {
+            
+            if let firstLevelModel = self.recommendSelectModel.areaModel.subwayModelCount.isFirstSelectedModel {
+                
+                //地铁线
+                subwayBusiniessString = "have"
+                
+            }else {
+                subwayBusiniessString = ""
+            }
+        }
+        
+        //楼盘类型
+        var btypeString: String? = "" //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+        
+        if recommendSelectModel.typeModel.type == .officeBuildingEnum {
+            btypeString = "have"
+            
+        }else if recommendSelectModel.typeModel.type == .jointOfficeEnum {
+            btypeString = "have"
+        }else {
+            btypeString = ""
+        }
+        
+        //筛选条件
+        var shaixuanString: String? = ""
+        
+        if recommendSelectModel.shaixuanModel.isShaixuan == true {
+            
+            //工位数 - 网点要
+            if recommendSelectModel.typeModel.type == .jointOfficeEnum {
+                
+                if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                    shaixuanString = ""
+                }else {
+                    shaixuanString = "have"
+                }
+                
+            }else if recommendSelectModel.typeModel.type == .officeBuildingEnum {
+                
+                if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                    shaixuanString = ""
+                }else {
+                    shaixuanString = "have"
+                }
+            }else {
+                shaixuanString = ""
+            }
+        }
+        
+        if subwayBusiniessString?.count ?? 0 > 0 || btypeString?.count ?? 0 > 0 || shaixuanString?.count ?? 0 > 0 {
+            shaixuanview.frame = CGRect(x: left_pending_space_17, y: kNavigationHeight + 60, width: kWidth - left_pending_space_17 * 2, height: 50)
+        }else {
+            shaixuanview.frame = CGRect(x: left_pending_space_17, y: kNavigationHeight + 60, width: kWidth - left_pending_space_17 * 2, height: 0)
+        }
+    }
     var titleview: ThorNavigationView?
     
     var itemStyle: LLSegmentItemTitleViewStyle?
@@ -40,6 +115,13 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         return view
     }()
     
+    var shaixuanview: RenterShaixuanView = {
+        let view = RenterShaixuanView()
+        view.frame = CGRect(x: left_pending_space_17, y: kNavigationHeight + 60, width: kWidth - left_pending_space_17 * 2, height: 0)
+        view.isHidden = true
+        return view
+    }()
+      
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
@@ -182,37 +264,9 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         segmentTitleSelectview.alpha = 0
         self.view.bringSubviewToFront(segmentTitleSelectview)
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            
-            SSLog("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
-            
-            if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
-                self?.segmentTitleSelectview.alpha = 1
-            } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 180){
-                
-                //y = k * x + b
-                let k: CGFloat = 1 / 180.0
-                let b: CGFloat = 1 / 180.0 * (60 + kStatusBarHeight) + 1
-                let alpha = k * (self?.containerScrView.contentOffset.y ?? 0.0) + b
-                self?.segmentTitleSelectview.alpha = alpha
-                SSLog("*******************---****\(alpha)")
-                
-            }
-            else {
-                self?.segmentTitleSelectview.alpha = 0
-            }
-            
-            if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 150){
-                
-                self?.titleview?.isHidden = true
-            }
-            else {
-                self?.titleview?.isHidden = false
-            }
-        }
-        
-        
-        
+        self.view.addSubview(shaixuanview)
+        self.view.bringSubviewToFront(shaixuanview)
+      
         titleview = ThorNavigationView.init(type: .locationSearchClear)
         titleview?.locationBtn.layoutButton(.imagePositionLeft, margin: 10)
         titleview?.rightBtnClickBlock = { [weak self] in
@@ -241,8 +295,159 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         loadSegmentedConfig()
         
         //        requestGetBuildingList()
+        
+        notifyDeal()
     }
     
+    func notifyDeal() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
+            SSLog("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
+            
+            if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
+                self?.segmentTitleSelectview.alpha = 1
+                self?.shaixuanview.isHidden = false
+
+            } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 180){
+                
+                //y = k * x + b
+                let k: CGFloat = 1 / 180.0
+                let b: CGFloat = 1 / 180.0 * (60 + kStatusBarHeight) + 1
+                let alpha = k * (self?.containerScrView.contentOffset.y ?? 0.0) + b
+                self?.segmentTitleSelectview.alpha = alpha
+                SSLog("*******************---****\(alpha)")
+                
+                self?.shaixuanview.isHidden = true
+            }
+            else {
+                self?.segmentTitleSelectview.alpha = 0
+                self?.shaixuanview.isHidden = true
+            }
+            
+            if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 150){
+                
+                self?.titleview?.isHidden = true
+//                self?.shaixuanview.isHidden = true
+            }
+            else {
+                self?.titleview?.isHidden = false
+//                self?.shaixuanview.isHidden = false
+            }
+        }
+        
+        ///商圈地铁清除
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeSubwayBusinessClear, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
+            let model = noti.object as? HouseSelectModel
+            self?.clearSubwayBusinessData(selectModel: model ?? HouseSelectModel())
+        }
+        
+        ///楼盘类型
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeBuildingTypeClear, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
+            let model = noti.object as? HouseSelectModel
+            self?.clearTypeData(selectModel: model ?? HouseSelectModel())
+        }
+        
+        ///筛选条件
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeShaixuanClear, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
+            let model = noti.object as? HouseSelectModel
+            self?.clearShaixuanData(selectModel: model ?? HouseSelectModel())
+        }
+    }
+    
+    //MARK: 清除数据操作
+    func clearSubwayBusinessData(selectModel: HouseSelectModel) {
+        if selectModel.areaModel.selectedCategoryID == "1" {
+            if let areaFirstLevelModel = selectModel.areaModel.areaModelCount.isFirstSelectedModel {
+                for model in areaFirstLevelModel.list {
+                    model.isSelected = false
+                }
+            }
+        }else if selectModel.areaModel.selectedCategoryID == "2" {
+            if let areaFirstLevelModel = selectModel.areaModel.subwayModelCount.isFirstSelectedModel {
+                for model in areaFirstLevelModel.list {
+                    model.isSelected = false
+                }
+            }
+        }
+        
+        selectModel.areaModel.areaModelCount.isFirstSelectedModel = nil
+        selectModel.areaModel.subwayModelCount.isFirstSelectedModel = nil
+        
+        segmentTitleSelectview.selectView.areaView.clearData()
+        if selectModel.areaModel.selectedCategoryID == "1" {
+            segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("商圈", for: .normal)
+            segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = true
+        }else if selectModel.areaModel.selectedCategoryID == "2" {
+            segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("地铁", for: .normal)
+            segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = true
+        }else {
+            segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("区域", for: .normal)
+            segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = false
+        }
+        
+        recommendSelectModel = selectModel
+
+    }
+    
+    func clearTypeData(selectModel: HouseSelectModel) {
+        
+        selectModel.typeModel.type = .allEnum
+        recommendSelectModel = selectModel
+        
+        segmentTitleSelectview.selectView.houseTypeSelectBtn.setTitle(selectModel.typeModel.type?.rawValue, for: .normal)
+        segmentTitleSelectview.selectView.houseTypeSelectBtn.isSelected = true
+    }
+    
+    func clearShaixuanData(selectModel: HouseSelectModel) {
+        //清除操作
+        if selectModel.typeModel.type == .officeBuildingEnum {
+            
+            //工位数清空
+            selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.lowValue = selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.minimumValue
+            
+            selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.highValue = selectModel.shaixuanModel.gongweiofficeBuildingExtentModel.maximumValue
+            
+            //租金清空
+            selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue = selectModel.shaixuanModel.zujinofficeBuildingExtentModel.minimumValue
+            
+            selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue = selectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue
+            
+            //面积清空
+            selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue = selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.minimumValue
+            
+            selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue = selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue
+            
+            //选择特色清空
+            for model in selectModel.shaixuanModel.featureModelArr {
+                model.isOfficeBuildingSelected = false
+            }
+            
+            //选择装修类型清空
+            for model in selectModel.shaixuanModel.documentTypeModelArr {
+                model.isDocumentSelected = false
+            }
+            
+        }else {
+            //工位数清空
+            selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue = selectModel.shaixuanModel.gongweijointOfficeExtentModel.minimumValue
+            
+            selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue = selectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue
+            
+            //租金清空
+            selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue = selectModel.shaixuanModel.zujinjointOfficeExtentModel.minimumValue
+            
+            selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue = selectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue
+            
+            //选择特色清空
+            for model in selectModel.shaixuanModel.featureModelArr {
+                model.isOfficejointOfficeSelected = false
+            }
+        }
+        recommendSelectModel = selectModel
+    }
     
     func shareVc() {
         
@@ -483,6 +688,8 @@ class HomeSegmentSelectView: UIView {
     public override required init(frame: CGRect) {
         super.init(frame: frame)
         self.frame = frame
+        
+        self.backgroundColor = kAppWhiteColor
         
         self.addSubview(titleView)
         self.addSubview(selectView)

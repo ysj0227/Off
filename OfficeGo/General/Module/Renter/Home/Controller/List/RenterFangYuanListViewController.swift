@@ -15,9 +15,17 @@ class RenterFangYuanListViewController: BaseTableViewController {
     //推荐房源搜索model
     var recommendSelectModel: HouseSelectModel = HouseSelectModel() {
         didSet {
+            
+            selectview.houseSelectModel = recommendSelectModel
+            
             loadNewData()
         }
     }
+    
+    lazy var selectview: RenterShaixuanView = {
+        let view = RenterShaixuanView(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: 50))
+        return view
+    }()
     
     var dataSourceViewModel: [FangYuanListViewModel?] = []
     
@@ -391,6 +399,10 @@ extension RenterFangYuanListViewController {
 
 extension RenterFangYuanListViewController {
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HouseListTableViewCell.reuseIdentifierStr) as? HouseListTableViewCell
         cell?.selectionStyle = .none
@@ -434,5 +446,324 @@ extension RenterFangYuanListViewController {
         }
         
     }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = kAppWhiteColor
+        view.addSubview(selectview)
+        return view
+    }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        //商圈地铁
+        var subwayBusiniessString: String? = ""
+        
+        if recommendSelectModel.areaModel.selectedCategoryID == "1" {
+            
+            if let firstLevelModel = self.recommendSelectModel.areaModel.areaModelCount.isFirstSelectedModel {
+                
+                subwayBusiniessString = "have"
+                
+            }else {
+                subwayBusiniessString = ""
+            }
+            
+        }else if recommendSelectModel.areaModel.selectedCategoryID == "2" {
+            
+            if let firstLevelModel = self.recommendSelectModel.areaModel.subwayModelCount.isFirstSelectedModel {
+                
+                //地铁线
+                subwayBusiniessString = "have"
+                
+            }else {
+                subwayBusiniessString = ""
+            }
+        }
+        
+        //楼盘类型
+        var btypeString: String? = "" //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+        
+        if recommendSelectModel.typeModel.type == .officeBuildingEnum {
+            btypeString = "have"
+            
+        }else if recommendSelectModel.typeModel.type == .jointOfficeEnum {
+            btypeString = "have"
+        }else {
+            btypeString = ""
+        }
+        
+        //筛选条件
+        var shaixuanString: String? = ""
+        
+        if recommendSelectModel.shaixuanModel.isShaixuan == true {
+            
+            //工位数 - 网点要
+            if recommendSelectModel.typeModel.type == .jointOfficeEnum {
+                
+                if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                    shaixuanString = ""
+                }else {
+                    shaixuanString = "have"
+                }
+                
+            }else if recommendSelectModel.typeModel.type == .officeBuildingEnum {
+                
+                if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                    shaixuanString = ""
+                }else {
+                    shaixuanString = "have"
+                }
+            }else {
+                shaixuanString = ""
+            }
+        }
+        
+        if subwayBusiniessString?.count ?? 0 > 0 || btypeString?.count ?? 0 > 0 || shaixuanString?.count ?? 0 > 0 {
+            return 50
+        }else {
+            return 0
+        }
+    }
 }
 
+
+class RenterShaixuanView: UIView {
+        
+    ///地铁商圈
+    lazy var bgview: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppLightBlueColor
+        return view
+    }()
+    
+    ///地铁商圈
+    lazy var subwayBusinessBtn: UIButton = {
+        let view = UIButton.init()
+        view.tag = 1
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 9
+        view.backgroundColor = kAppBlueColor
+        view.titleLabel?.font = FONT_11
+        view.addTarget(self, action: #selector(btnClick(btn:)), for: .touchUpInside)
+        return view
+    }()
+    ///楼盘类型
+    lazy var buildingTypeBtn: UIButton = {
+        let view = UIButton.init()
+        view.tag = 2
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 9
+        view.backgroundColor = kAppBlueColor
+        view.titleLabel?.font = FONT_11
+        view.addTarget(self, action: #selector(btnClick(btn:)), for: .touchUpInside)
+        return view
+    }()
+    ///筛选数据
+    lazy var shaixuanBtn: UIButton = {
+        let view = UIButton.init()
+        view.tag = 3
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 9
+        view.backgroundColor = kAppBlueColor
+        view.titleLabel?.font = FONT_11
+        view.addTarget(self, action: #selector(btnClick(btn:)), for: .touchUpInside)
+        return view
+    }()
+    
+    @objc func btnClick(btn: UIButton) {
+        ///商圈地铁清除
+        if btn.tag == 1 {
+            NotificationCenter.default.post(name: NSNotification.Name.HomeSubwayBusinessClear, object: houseSelectModel)
+        }///楼盘类型
+        else if btn.tag == 2 {
+            NotificationCenter.default.post(name: NSNotification.Name.HomeBuildingTypeClear, object: houseSelectModel)
+        }///筛选条件
+        else if btn.tag == 3 {
+            NotificationCenter.default.post(name: NSNotification.Name.HomeShaixuanClear, object: houseSelectModel)
+        }
+    }
+    var houseSelectModel: HouseSelectModel = HouseSelectModel() {
+        didSet {
+            
+            //商圈地铁
+            var subwayBusiniessString: String?
+            
+            if houseSelectModel.areaModel.selectedCategoryID == "1" {
+                
+                if let firstLevelModel = self.houseSelectModel.areaModel.areaModelCount.isFirstSelectedModel {
+                    
+                    var selNum = 0
+                    for model in firstLevelModel.list {
+                        if model.isSelected ?? false  {
+                            selNum += 1
+                        }
+                    }
+                    
+                    if selNum > 0 {
+                        subwayBusiniessString = "  " + "商圈(\(selNum))  x" + "  "
+                    }else {
+                        subwayBusiniessString = "  " + "商圈" + "  "
+                    }
+                }else {
+                    subwayBusiniessString = ""
+                }
+                
+            }else if houseSelectModel.areaModel.selectedCategoryID == "2" {
+                
+                if let firstLevelModel = self.houseSelectModel.areaModel.subwayModelCount.isFirstSelectedModel {
+                    
+                    //地铁线
+                    var selNum = 0
+                    
+                    for model in firstLevelModel.list {
+                        if model.isSelected ?? false  {
+                            selNum += 1
+                        }
+                    }
+                    if selNum > 0 {
+                        subwayBusiniessString = "  " + "地铁(\(selNum))  x" + "  "
+                    }else {
+                        subwayBusiniessString = "  " + "地铁" + "  "
+                    }
+                }else {
+                    subwayBusiniessString = ""
+                }
+            }
+            
+            //楼盘类型
+            var btypeString: String? //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+            
+            if houseSelectModel.typeModel.type == .officeBuildingEnum {
+                btypeString = "  " + "写字楼  x" + "  "
+                
+            }else if houseSelectModel.typeModel.type == .jointOfficeEnum {
+                btypeString = "  " + "联合办公  x" + "  "
+            }
+            
+            //筛选条件
+            var shaixuanString: String?
+        
+            if houseSelectModel.shaixuanModel.isShaixuan == true {
+               
+                //工位数 - 网点要
+                if houseSelectModel.typeModel.type == .jointOfficeEnum {
+
+                    if self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                        shaixuanString = ""
+                    }else {
+                        shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0) + "人" + "  x" + "  "
+                    }
+                    
+                }else if houseSelectModel.typeModel.type == .officeBuildingEnum {
+                    
+                    if self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                        shaixuanString = ""
+                    }else {
+                        shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0) + "m²" + "  x" + "  "
+                    }
+                }else {
+                    shaixuanString = ""
+                }
+            }
+            
+            
+            if subwayBusiniessString?.count ?? 0 > 0 {
+                subwayBusinessBtn.setTitle(subwayBusiniessString, for: .normal)
+//                subwayBusinessBtn.isHidden = false
+                subwayBusinessBtn.snp.remakeConstraints { (make) in
+                    make.leading.equalToSuperview().offset(left_pending_space_17)
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(18)
+                }
+            }else {
+                subwayBusinessBtn.setTitle("", for: .normal)
+//                subwayBusinessBtn.isHidden = true
+                subwayBusinessBtn.snp.remakeConstraints { (make) in
+                    make.leading.equalToSuperview()
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(18)
+                }
+            }
+            
+            if btypeString?.count ?? 0 > 0 {
+                buildingTypeBtn.setTitle(btypeString, for: .normal)
+//                buildingTypeBtn.isHidden = false
+                buildingTypeBtn.snp.remakeConstraints { (make) in
+                    make.leading.equalTo(subwayBusinessBtn.snp.trailing).offset(left_pending_space_17)
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(18)
+                }
+            }else {
+                buildingTypeBtn.setTitle("", for: .normal)
+//                buildingTypeBtn.isHidden = true
+                buildingTypeBtn.snp.remakeConstraints { (make) in
+                    make.leading.equalTo(subwayBusinessBtn.snp.trailing)
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(18)
+                }
+            }
+            
+            if shaixuanString?.count ?? 0 > 0 {
+                shaixuanBtn.setTitle(shaixuanString, for: .normal)
+//                shaixuanBtn.isHidden = false
+                shaixuanBtn.snp.remakeConstraints { (make) in
+                    make.leading.equalTo(buildingTypeBtn.snp.trailing).offset(left_pending_space_17)
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(18)
+                }
+            }else {
+                shaixuanBtn.setTitle("", for: .normal)
+//                shaixuanBtn.isHidden = true
+                shaixuanBtn.snp.remakeConstraints { (make) in
+                    make.leading.equalTo(buildingTypeBtn.snp.trailing)
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(18)
+                }
+            }
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+          super.init(coder: aDecoder)
+      }
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
+        
+        self.frame = frame
+        
+        self.backgroundColor = kAppWhiteColor
+        
+        self.clipsToBounds = true
+        
+        bgview.layer.cornerRadius = 26 / 2.0
+        
+        addSubview(bgview)
+        bgview.addSubview(subwayBusinessBtn)
+        bgview.addSubview(buildingTypeBtn)
+        bgview.addSubview(shaixuanBtn)
+        
+        bgview.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.height.equalTo(26)
+        }
+        
+        subwayBusinessBtn.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.height.equalTo(18)
+        }
+        
+        buildingTypeBtn.snp.makeConstraints { (make) in
+            make.leading.equalTo(subwayBusinessBtn.snp.trailing).offset(left_pending_space_17)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(18)
+        }
+        
+        shaixuanBtn.snp.makeConstraints { (make) in
+            make.leading.equalTo(buildingTypeBtn.snp.trailing).offset(left_pending_space_17)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(18)
+        }
+    }
+}
