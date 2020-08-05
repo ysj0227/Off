@@ -31,36 +31,36 @@ import Foundation
     
     
     
-//    static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
-//                             "Release": "https://api.officego.com/"]
-//
-//    static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
-//                             "Release": "https://m.officego.com/"]
+    //    static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
+    //                             "Release": "https://api.officego.com/"]
+    //
+    //    static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
+    //                             "Release": "https://m.officego.com/"]
     
     
     ///开发环境
-//        static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
-//                               "Release": "https://api.officego.com/"]
-//
-//      static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
-//                              "Release": "https://m.officego.com/"]
+    static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
+                             "Release": "https://api.officego.com/"]
+    
+    static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
+                            "Release": "https://m.officego.com/"]
     
     ///测试环境
-//        static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
-//                                 "Release": "https://api.officego.com/"]
-//
-//        static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
-//                                 "Release": "https://m.officego.com/"]
+    //        static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
+    //                                 "Release": "https://api.officego.com/"]
+    //
+    //        static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
+    //                                 "Release": "https://m.officego.com/"]
     
     ///正式环境
-     static var SSApiHosts = ["Dev": "https://api.officego.com/",
-                              "Release": "https://api.officego.com/"]
-
-     static var SSH5Hosts = ["Dev": "https://m.officego.com/",
-                              "Release": "https://m.officego.com/"]
+    //     static var SSApiHosts = ["Dev": "https://api.officego.com/",
+    //                              "Release": "https://api.officego.com/"]
+    //
+    //     static var SSH5Hosts = ["Dev": "https://m.officego.com/",
+    //                              "Release": "https://m.officego.com/"]
     
-//    调试接口地址:debug.officego.com.cn
-//    调试前端地址:test1.officego.com.cn
+    //    调试接口地址:debug.officego.com.cn
+    //    调试前端地址:test1.officego.com.cn
     static func getUrlAddress(buildType:AppBuildType,serverType:BackgroundServerType) -> String {
         let buildType =  "\(buildType)"
         var addrese: String
@@ -165,7 +165,7 @@ class SSDelegateURL: NSObject {
     
     ///认证业主网页接口
     static let h5IdentifyOwnerUrl = "owner/myHome.html"
-
+    
     ///个人认证  attestationPersonage.html
     static let h5IdentifyOwnerPersonageUrl = "owner/attestationPersonage.html"
     
@@ -177,10 +177,10 @@ class SSDelegateURL: NSObject {
     
     //房源 - 楼盘管理 houseList
     static let h5IdentifyOwnerBuildingManagerUrl = "owner/houseList.html"
-
+    
     //房源 - 网点管理 branchList
     static let h5IdentifyOwnerJointManagerUrl = "owner/branchList.html"
-
+    
     //员工管理 staffList.html
     static let h5OwnerStaffListUrl = "owner/staffList.html"
 }
@@ -194,16 +194,16 @@ class SSOwnerIdentifyURL: NSObject {
     
     //搜索企业大楼接口
     static let getESBuild = "api/esearch/searchListBuild"
-
+    
     //搜索网点接口
     static let getESBranch = "api/esearch/searchListBranch"
-
+    
     //进入申请加入查询管理员Id APP
     static let getApplyManagerMsg = "api/licence/selectApplyLicenceApp"
-
+    
     //申请加入企业
     static let getApplyJoin = "api/licence/applyLicenceProprietorApp"
-
+    
     //加入企业或者网点同意拒绝接口
     static let getUpdateAuditStatus = "api/licence/updateAuditStatusApp"
     
@@ -230,7 +230,7 @@ class SSOwnerIdentifyURL: NSObject {
     
     //图片删除调用接口
     static let deleteImgApp = "api/licence/deleteImgApp"
-
+    
 }
 
 
@@ -244,7 +244,7 @@ class SSChatURL: NSObject {
     
     //创建和业主聊天接口
     static let getCreatFirstChatApp = "api/chat/chatApp"
-
+    
     //获取聊天关联房源
     static let getChatMsgDetailApp = "api/chat/firstChatApp"
     
@@ -264,10 +264,10 @@ class SSSearchURL: NSObject {
     
     //查询历史记录
     static let getgetSearchKeywords = "api/esearch/getSearchKeywords"
-        
+    
     //删除搜索记录
     static let delSearchKeywords = "api/esearch/delSearchKeywords"
-
+    
 }
 
 //  MARK:   --首页
@@ -278,7 +278,7 @@ class SSHomeURL: NSObject {
     
     //推荐列表 - 首页和搜索页面
     static let getselectBuildingApp = "api/building/selectBuildingApp"
-       
+    
 }
 
 //  MARK:   --收藏
@@ -289,7 +289,7 @@ class SSCollectURL: NSObject {
     
     //收藏列表
     static let getFavoriteListAPP = "api/favorite/getFavoriteListApp"
-       
+    
 }
 
 //  MARK:   --详情
@@ -303,7 +303,7 @@ class SSFYDetailURL: NSObject {
     
     //楼盘-网点房源列表
     static let getBuildingFYList = "api/building/selectHouseApp"
-       
+    
 }
 
 //  MARK:   --基本信息
@@ -342,22 +342,22 @@ class SSMineURL: NSObject {
     
     ///个人资料 - 业主
     static let getOwnerUserMsg = "api/user/userMsgApp"
-
+    
     ///切换身份
     static let roleChange = "api/user/regTokenApp"
     
     ///修改个人资料 - 业主 - 租户
     static let updateUserMessage = "api/user/updateDataApp"
-
+    
     ///版本更新
     static let versionUpdate = "api/version/ios"
-
+    
     /// 修改手机号
     static let changePhone = "api/user/changePhone"
     
     ///修改微信
     static let changeWechat = "api/user/changeWechat"
-
+    
 }
 
 //  MARK:   --行程接口
