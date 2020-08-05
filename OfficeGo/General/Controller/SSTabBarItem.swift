@@ -78,8 +78,8 @@ class SSTabBarItem: NSObject {
         item = SSTabBarItem()
         item.selectTitle = "行程"
         item.unSelectTitle = "行程"
-        item.selectImagePath = "messageSel"
-        item.unSelectImagePath = "message"
+        item.selectImagePath = "scheduleSel"
+        item.unSelectImagePath = "schedule"
         tabbars.append(item)
         
         item = SSTabBarItem()
