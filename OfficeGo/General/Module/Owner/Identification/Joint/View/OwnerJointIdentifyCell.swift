@@ -208,7 +208,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
                 detailIcon.isHidden = true
                 addressLabel.isHidden = true
                 editBtn.isHidden = true
-                closeBtn.isHidden = false
+                closeBtn.isHidden = true
                 numDescTF.text = userModel?.buildingName
 //                if numDescTF.text?.count ?? 0 > 0 {
 //                    addressLabel.text = userModel?.buildingAddressTemp
