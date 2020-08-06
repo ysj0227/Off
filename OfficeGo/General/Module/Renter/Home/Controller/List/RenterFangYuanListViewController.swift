@@ -601,7 +601,7 @@ class RenterShaixuanView: UIView {
                     if selNum > 0 {
                         subwayBusiniessString = "  " + "商圈(\(selNum))  x" + "  "
                     }else {
-                        subwayBusiniessString = "  " + "商圈" + "  "
+                        subwayBusiniessString = "  " + "商圈" + "  x" + "  "
                     }
                 }else {
                     subwayBusiniessString = ""
@@ -622,7 +622,7 @@ class RenterShaixuanView: UIView {
                     if selNum > 0 {
                         subwayBusiniessString = "  " + "地铁(\(selNum))  x" + "  "
                     }else {
-                        subwayBusiniessString = "  " + "地铁" + "  "
+                        subwayBusiniessString = "  " + "地铁" + "  x" + "  "
                     }
                 }else {
                     subwayBusiniessString = ""

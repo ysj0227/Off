@@ -205,7 +205,10 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
             guard let weakSelf = self else {return}
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
-                                                            
+                                     
+                weakSelf.userModel?.auditStatus = model.auditStatus
+                weakSelf.userModel?.authority = model.authority
+                
                 weakSelf.userModel?.isCreateCompany = model.isCreateCompany
                 weakSelf.userModel?.licenceId = model.licenceId
                 weakSelf.userModel?.company = model.company
@@ -242,6 +245,9 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
             guard let weakSelf = self else {return}
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
+                                   
+                weakSelf.userModel?.auditStatus = model.auditStatus
+                weakSelf.userModel?.authority = model.authority
                 
                 weakSelf.userModel?.isCreateBuilding = model.isCreateBuilding
                 weakSelf.userModel?.buildingId = model.buildingId

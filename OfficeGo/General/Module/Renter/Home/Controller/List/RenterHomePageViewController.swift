@@ -373,6 +373,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             }
         }
         
+        selectModel.areaModel.selectedCategoryID = ""
         selectModel.areaModel.areaModelCount.isFirstSelectedModel = nil
         selectModel.areaModel.subwayModelCount.isFirstSelectedModel = nil
         

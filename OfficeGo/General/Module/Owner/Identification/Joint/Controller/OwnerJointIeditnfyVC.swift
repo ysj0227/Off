@@ -213,6 +213,9 @@ class OwnerJointIeditnfyVC: BaseViewController {
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
                                        
+                weakSelf.userModel?.auditStatus = model.auditStatus
+                weakSelf.userModel?.authority = model.authority
+                
                 weakSelf.userModel?.isCreateBranch = model.isCreateBranch
                 weakSelf.userModel?.licenceId = model.licenceId
                 weakSelf.userModel?.buildingId = model.buildingId
@@ -251,7 +254,10 @@ class OwnerJointIeditnfyVC: BaseViewController {
             guard let weakSelf = self else {return}
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
-                                                            
+                                                 
+                weakSelf.userModel?.auditStatus = model.auditStatus
+                weakSelf.userModel?.authority = model.authority
+                
                 weakSelf.userModel?.isCreateCompany = "1"
                 weakSelf.userModel?.licenceId = model.licenceId
                 weakSelf.userModel?.company = model.company
@@ -427,17 +433,17 @@ extension OwnerJointIeditnfyVC {
     func requestCompanyIdentify() {
         
         if userModel?.branchesName == nil || userModel?.branchesName?.isBlankString == true{
-            AppUtilities.makeToast("请选择或创建网点")
+            AppUtilities.makeToast("请输入网点名称")
             return
         }
         
         if userModel?.company == nil || userModel?.company?.isBlankString == true{
-            AppUtilities.makeToast("请选择或创建公司")
+            AppUtilities.makeToast("请输入所属公司")
             return
         }
         
         if userModel?.buildingName == nil || userModel?.buildingName?.isBlankString == true{
-            AppUtilities.makeToast("请输入写字楼")
+            AppUtilities.makeToast("请输入所在楼盘")
             return
         }
         

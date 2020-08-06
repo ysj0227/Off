@@ -13,14 +13,14 @@ class OwnerCreateCompanyViewController: BaseTableViewController {
     
     var yingYeZhiZhaoPhoto: BaseImageView = {
         
-        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
+        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 20 + 20, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
         view.isUserInteractionEnabled = true
         return view
     }()
     let bgimage: UIImageView = {
-        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
+        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 20 + 20, width: kWidth - left_pending_space_17 * 2, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
         view.backgroundColor = kAppClearColor
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
@@ -110,9 +110,15 @@ extension OwnerCreateCompanyViewController {
         textMessageTap.numberOfTouchesRequired = 1
         yingYeZhiZhaoPhoto.addGestureRecognizer(textMessageTap)
         
-        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
+        let descview = UILabel(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: 20))
+        descview.font = FONT_12
+        descview.textColor = kAppColor_999999
+        descview.text = "请确保所上传的营业执照与公司信息一致"
+        
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: 20 + 20 + (kWidth - left_pending_space_17 * 2) * 3 / 4.0))
         footerview.addSubview(bgimage)
         footerview.addSubview(yingYeZhiZhaoPhoto)
+        footerview.addSubview(descview)
         
         self.tableView.tableFooterView = footerview
     }
