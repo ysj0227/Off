@@ -89,7 +89,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let token = deviceToken.description.replacingOccurrences(of: "[<>]", with: "", options: String.CompareOptions.regularExpression, range: nil)
+        let token = deviceToken.map { (c) -> String in
+            return String(format: "%02.2hhx", c)}.joined()
+
+        print(token);
+//        let token = String(data: deviceToken, encoding: .utf8)?.replacingOccurrences(of: "[<>]", with: "", options: String.CompareOptions.regularExpression, range: nil)
         RCIMClient.shared()?.setDeviceToken(token)
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
