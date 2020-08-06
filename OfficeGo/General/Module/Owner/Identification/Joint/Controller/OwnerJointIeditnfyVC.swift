@@ -928,7 +928,7 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
                 
                 //为了判断能不能提交
                 self?.userModel?.branchesName = ""
-                
+                self?.userModel?.buildingAddress = ""
                 
                 self?.branchName = branchName
             }
