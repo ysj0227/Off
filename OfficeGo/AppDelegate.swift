@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         NetAlamofireReachability.shared.start()
     }
     
+    //app关闭的时候 调用的方法
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         InstallCocoaDebug()
         window = UIWindow.init(frame: UIScreen.main.bounds)
@@ -34,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         //        self.networkReachabilityStatus()
         
+        configSealTalkWithApp(application, launchOptions: launchOptions)
+
         setUpSDKs()
         
         notifyObserve()
@@ -43,10 +46,121 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         setStaticGuidePage()
         
         listenNetworkStatus()
+     
+        // 远程推送的内容
+        let remote = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? Dictionary<String,Any>;
+       // 如果remote不为空，就代表应用在未打开的时候收到了推送消息
+       if remote != nil {
+        //收到推送消息实现的方法
+        let msgDic = remote?["rc"] as! [String: String]
+        //PR
+        let cType: String = msgDic["cType"] ?? ""
+        //3251
+        let fId: String = msgDic["fId"] ?? ""
+        //RC:TxtMsg
+        let oName: String = msgDic["oName"] ?? ""
+        let targetId: String = msgDic["tId"] ?? ""
+        
+        /*
+         cType根据得到字段转换成相应的conversationType
+         其余信息可根据需求进行相应的操作
+         */
+        let vc = RenterChatViewController()
+        vc.conversationType = .ConversationType_PRIVATE
+        vc.targetId = targetId
+        vc.displayUserNameInCell = false
+        
+        let tab = self.window?.rootViewController as? RenterMainTabBarController
+        tab?.selectedIndex = 1
+        tab?.customTabBar.isHidden = false
+        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+        nsv.pushViewController(vc, animated: true)
+       }
+        SSLog("远端 - userInfo----\(remote)")
+//
+
         
         return true
     }
     
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
+    
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.description.replacingOccurrences(of: "[<>]", with: "", options: String.CompareOptions.regularExpression, range: nil)
+        RCIMClient.shared()?.setDeviceToken(token)
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("didFailToRegisterForRemoteNotificationsWithError---\(error)")
+    }
+    func configSealTalkWithApp(_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+
+        /**
+         * 推送处理 1
+         */
+        registerRemoteNotification(application)
+
+        /**
+         * 统计推送，并获取融云推送服务扩展字段
+         */
+        //(launchOptions: launchOptions)
+    }
+
+    /**
+     * 推送处理 1
+     */
+    func registerRemoteNotification(_ application: UIApplication) {
+        /**
+        *  推送说明：
+        *
+        我们在知识库里还有推送调试页面加了很多说明，当遇到推送问题时可以去知识库里搜索还有查看推送测试页面的说明。
+        *
+        首先必须设置deviceToken，可以搜索本文件关键字“推送处理”。模拟器是无法获取devicetoken，也就没有推送功能。
+        *
+        当使用"开发／测试环境"的appkey测试推送时，必须用Development的证书打包，并且在后台上传"开发／测试环境"的推送证书，证书必须是development的。
+        当使用"生产／线上环境"的appkey测试推送时，必须用Distribution的证书打包，并且在后台上传"生产／线上环境"的推送证书，证书必须是distribution的。
+        */
+//        if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
+//            let notificationTypes: UIUserNotificationType = [.badge, .sound, .alert]
+//            let settings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+//            application.registerUserNotificationSettings(settings)
+//        }else {
+//            let notificationTypes: UIRemoteNotificationType = [.badge, .sound, .alert]
+//            application.registerForRemoteNotifications(matching: notificationTypes)
+//        }
+        
+        if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
+            let notificationTypes: UIUserNotificationType = [.badge, .sound, .alert]
+            let settings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+    }
+
+    /**
+     * 统计推送，并获取融云推送服务扩展字段
+     */
+//    func recordLaunchOptions(launchOptions: [UIApplication.LaunchOptionsKey: Any]?){
+//        RCIMClient.shared()?.recordLaunchOptionsEvent(launchOptions)
+//
+//        let pushServiceData = (RCIMClient.shared()?.getPushExtra(fromLaunchOptions: launchOptions))! as! [String : Any]
+////
+////        if pushServiceData != nil {
+////            SSLog("该启动事件包含来自融云的推送服务")
+////            for key in pushServiceData.keys {
+////                SSLog("key -- \(key)")
+////            }
+////        }else {
+////            SSLog("该启动事件不包含来自融云的推送服务")
+////        }
+////
+//        let remoteNotificationUserInfo = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification]
+//        if remoteNotificationUserInfo != nil {
+//            NSLog("remoteNotificationUserInfo 远程推送原始内容为 \(remoteNotificationUserInfo)")
+//        }
+//
+//    }
     func notifyObserve() {
         //登录失效 - 5009
         NotificationCenter.default.addObserver(self, selector: #selector(loginResignEffect), name: NSNotification.Name.LoginResignEffect, object: nil)
@@ -299,7 +413,7 @@ extension AppDelegate {
         RCIM.shared()?.initWithAppKey(AppKey.RCAppKey)
         
         //设置消息监听
-        RCIM.shared().receiveMessageDelegate = self
+        RCIM.shared()?.receiveMessageDelegate = self
         
         //通知声音的开发
         RCIM.shared()?.disableMessageAlertSound = false
@@ -313,6 +427,10 @@ extension AppDelegate {
         //没懂什么意思Mark Mark
         RCIM.shared()?.userInfoDataSource = RCDUserService.shared
         //        RCIM.shared()?.userInfoDataSource = self
+        
+        RCIM.shared()?.disableMessageAlertSound = false
+        
+        RCIM.shared()?.disableMessageNotificaiton = false
         
         //注册自定义消息
         //交换手机
@@ -367,17 +485,96 @@ extension AppDelegate {
             
         }
     }
+
 }
 
+extension AppDelegate {
+    
+    
+    ///当返回值为 NO 时，SDK 会弹出默认的本地通知提示；当返回值为 YES 时，SDK 针对此消息不再弹本地通知提示
+    func onRCIMCustomLocalNotification(_ message: RCMessage!, withSenderName senderName: String!) -> Bool {
+        return false
+    }
+    
+    //远端
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        let msgDic = userInfo["rc"] as! [String: String]
+        //PR
+        let cType: String = msgDic["cType"] ?? ""
+        //3251
+        let fId: String = msgDic["fId"] ?? ""
+        //RC:TxtMsg
+        let oName: String = msgDic["oName"] ?? ""
+        let targetId: String = msgDic["tId"] ?? ""
 
+        /*
+        cType根据得到字段转换成相应的conversationType
+        其余信息可根据需求进行相应的操作
+        */
+        let vc = RenterChatViewController()
+        vc.conversationType = .ConversationType_PRIVATE
+        vc.targetId = targetId
+        vc.displayUserNameInCell = false
+        
+        let tab = self.window?.rootViewController as? RenterMainTabBarController
+        tab?.selectedIndex = 1
+        tab?.customTabBar.isHidden = false
+        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+        nsv.pushViewController(vc, animated: true)
+    }
+    
+    ///app打开
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        
+        let msgDic = (notification.userInfo?["rc"] ?? []) as! [String: String]
+        //PR
+        let cType: String = msgDic["cType"] ?? ""
+        //3251
+        let fId: String = msgDic["fId"] ?? ""
+        //RC:TxtMsg
+        let oName: String = msgDic["oName"] ?? ""
+        let targetId: String = msgDic["tId"] ?? ""
+
+        /*
+        cType根据得到字段转换成相应的conversationType
+        其余信息可根据需求进行相应的操作
+        */
+        let vc = RenterChatViewController()
+        vc.conversationType = .ConversationType_PRIVATE
+        vc.targetId = targetId
+        vc.displayUserNameInCell = false
+        
+        let tab = self.window?.rootViewController as? RenterMainTabBarController
+        tab?.selectedIndex = 1
+        tab?.customTabBar.isHidden = false
+        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+        nsv.pushViewController(vc, animated: true)
+    }
+}
+
+extension AppDelegate: RCIMReceiveMessageDelegate {
+    /*!
+    IMKit消息接收的监听器
+
+    @warning 如果您使用IMKit，可以设置并实现此Delegate监听消息接收；
+    如果您使用IMLib，请使用RCIMClient中的RCIMClientReceiveMessageDelegate监听消息接收，而不要使用此方法。
+    */
+    func onRCIMReceive(_ message: RCMessage!, left: Int32) {
+        SSLog("onReceived------left-IMKit-\(left)")
+    }
+}
 
 //设置消息监听
 //当 SDK 在接收到消息时，开发者可通过下面方法进行处理。 SDK 会通过此方法接收包含 单聊、群聊、聊天室、系统 类型的所有消息，开发者只需全局设置一次即可，多次设置会导致其他代理失效。实现此功能需要开发者遵守 RCIMReceiveMessageDelegate 协议。
-extension AppDelegate: RCIMReceiveMessageDelegate {
-    func onRCIMReceive(_ message: RCMessage!, left: Int32) {
-        
+//IMLib
+extension AppDelegate: RCIMClientReceiveMessageDelegate {
+    func onReceived(_ message: RCMessage!, left nLeft: Int32, object: Any!) {
+        SSLog("onReceived------left--\(nLeft)")
     }
     
+    func onReceived(_ message: RCMessage!, left nLeft: Int32, object: Any!, offline: Bool, hasPackage: Bool) {
+        SSLog("onReceived------left--\(nLeft)--offline--\(offline)")
+    }
     
 }
 
