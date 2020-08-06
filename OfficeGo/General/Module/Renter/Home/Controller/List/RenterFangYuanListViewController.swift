@@ -668,55 +668,61 @@ class RenterShaixuanView: UIView {
             
             if subwayBusiniessString?.count ?? 0 > 0 {
                 subwayBusinessBtn.setTitle(subwayBusiniessString, for: .normal)
-//                subwayBusinessBtn.isHidden = false
+                let textRect = subwayBusiniessString?.boundingRect(with: CGSize(width: kWidth, height: 18), options: [.usesLineFragmentOrigin, .usesDeviceMetrics, .usesFontLeading], attributes: [NSAttributedString.Key.font : FONT_11], context: nil)
+                let width = (textRect?.width ?? 0) + 10
                 subwayBusinessBtn.snp.remakeConstraints { (make) in
                     make.leading.equalToSuperview().offset(left_pending_space_17)
                     make.centerY.equalToSuperview()
                     make.height.equalTo(18)
+                    make.width.equalTo(width)
                 }
             }else {
                 subwayBusinessBtn.setTitle("", for: .normal)
-//                subwayBusinessBtn.isHidden = true
                 subwayBusinessBtn.snp.remakeConstraints { (make) in
                     make.leading.equalToSuperview()
                     make.centerY.equalToSuperview()
                     make.height.equalTo(18)
+                    make.width.equalTo(0)
                 }
             }
             
             if btypeString?.count ?? 0 > 0 {
                 buildingTypeBtn.setTitle(btypeString, for: .normal)
-//                buildingTypeBtn.isHidden = false
+                let textRect = btypeString?.boundingRect(with: CGSize(width: kWidth, height: 18), options: [.usesLineFragmentOrigin, .usesDeviceMetrics, .usesFontLeading], attributes: [NSAttributedString.Key.font : FONT_11], context: nil)
+                let width = (textRect?.width ?? 0) + 10
                 buildingTypeBtn.snp.remakeConstraints { (make) in
                     make.leading.equalTo(subwayBusinessBtn.snp.trailing).offset(left_pending_space_17)
                     make.centerY.equalToSuperview()
                     make.height.equalTo(18)
+                    make.width.equalTo(width)
                 }
             }else {
                 buildingTypeBtn.setTitle("", for: .normal)
-//                buildingTypeBtn.isHidden = true
                 buildingTypeBtn.snp.remakeConstraints { (make) in
                     make.leading.equalTo(subwayBusinessBtn.snp.trailing)
                     make.centerY.equalToSuperview()
                     make.height.equalTo(18)
+                    make.width.equalTo(0)
                 }
             }
             
             if shaixuanString?.count ?? 0 > 0 {
                 shaixuanBtn.setTitle(shaixuanString, for: .normal)
-//                shaixuanBtn.isHidden = false
+                let textRect = shaixuanString?.boundingRect(with: CGSize(width: kWidth, height: 18), options: [.usesLineFragmentOrigin, .usesDeviceMetrics, .usesFontLeading], attributes: [NSAttributedString.Key.font : FONT_11], context: nil)
+                let width = (textRect?.width ?? 0) + 10
                 shaixuanBtn.snp.remakeConstraints { (make) in
                     make.leading.equalTo(buildingTypeBtn.snp.trailing).offset(left_pending_space_17)
                     make.centerY.equalToSuperview()
                     make.height.equalTo(18)
+                    make.width.equalTo(width)
                 }
             }else {
                 shaixuanBtn.setTitle("", for: .normal)
-//                shaixuanBtn.isHidden = true
                 shaixuanBtn.snp.remakeConstraints { (make) in
                     make.leading.equalTo(buildingTypeBtn.snp.trailing)
                     make.centerY.equalToSuperview()
                     make.height.equalTo(18)
+                    make.width.equalTo(0)
                 }
             }
         }
