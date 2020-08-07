@@ -54,8 +54,8 @@ target 'OfficeGo' do
   #  视频播放
   pod 'WMPlayer', '5.0.0' #,  :git => 'https://github.com/zhengwenming/WMPlayer.git'
   
-  pod 'RongCloudIM/IMLib', '~> 2.9.16'
-  pod 'RongCloudIM/IMKit', '~> 2.9.16'
+  pod 'RongCloudIM/IMLib', '~> 2.10.4'
+  pod 'RongCloudIM/IMKit', '~> 2.10.4'
   
   target 'OfficeGoTests' do
     inherit! :search_paths

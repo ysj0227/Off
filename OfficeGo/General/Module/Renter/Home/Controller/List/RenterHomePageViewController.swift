@@ -373,22 +373,35 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             }
         }
         
-        selectModel.areaModel.selectedCategoryID = ""
         selectModel.areaModel.areaModelCount.isFirstSelectedModel = nil
         selectModel.areaModel.subwayModelCount.isFirstSelectedModel = nil
         
         segmentTitleSelectview.selectView.areaView.clearData()
+        
         if selectModel.areaModel.selectedCategoryID == "1" {
-            segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("商圈", for: .normal)
-            segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = true
+            
+            if selectModel.areaModel.areaModelCount.isFirstSelectedModel == nil {
+                segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("区域", for: .normal)
+                segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = false
+            }else {
+                segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("商圈", for: .normal)
+                segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = true
+            }
+            
         }else if selectModel.areaModel.selectedCategoryID == "2" {
-            segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("地铁", for: .normal)
-            segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = true
+            
+            if selectModel.areaModel.subwayModelCount.isFirstSelectedModel == nil {
+                segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("区域", for: .normal)
+                segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = false
+            }else {
+                segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("地铁", for: .normal)
+                segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = true
+            }
+            
         }else {
             segmentTitleSelectview.selectView.houseAreaSelectBtn.setTitle("区域", for: .normal)
             segmentTitleSelectview.selectView.houseAreaSelectBtn.isSelected = false
         }
-        
         recommendSelectModel = selectModel
 
     }

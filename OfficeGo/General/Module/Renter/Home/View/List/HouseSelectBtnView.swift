@@ -245,11 +245,25 @@ class HouseSelectBtnView: UIView {
     func showArea(isFrist: Bool) {
         areaView.ShowAreaaddressView(isfirst: isFrist, model: self.selectModel ?? HouseSelectModel(), clearButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
                 if selectModel.areaModel.selectedCategoryID == "1" {
-                    self?.houseAreaSelectBtn.setTitle("商圈", for: .normal)
-                    self?.houseAreaSelectBtn.isSelected = true
+                    
+                    if selectModel.areaModel.areaModelCount.isFirstSelectedModel == nil {
+                        self?.houseAreaSelectBtn.setTitle("区域", for: .normal)
+                        self?.houseAreaSelectBtn.isSelected = false
+                    }else {
+                        self?.houseAreaSelectBtn.setTitle("商圈", for: .normal)
+                        self?.houseAreaSelectBtn.isSelected = true
+                    }
+                    
                 }else if selectModel.areaModel.selectedCategoryID == "2" {
-                    self?.houseAreaSelectBtn.setTitle("地铁", for: .normal)
-                    self?.houseAreaSelectBtn.isSelected = true
+                    
+                    if selectModel.areaModel.subwayModelCount.isFirstSelectedModel == nil {
+                        self?.houseAreaSelectBtn.setTitle("区域", for: .normal)
+                        self?.houseAreaSelectBtn.isSelected = false
+                    }else {
+                        self?.houseAreaSelectBtn.setTitle("地铁", for: .normal)
+                        self?.houseAreaSelectBtn.isSelected = true
+                    }
+                    
                 }else {
                     self?.houseAreaSelectBtn.setTitle("区域", for: .normal)
                     self?.houseAreaSelectBtn.isSelected = false
@@ -264,11 +278,25 @@ class HouseSelectBtnView: UIView {
                 blockk(self?.hiddenArea ?? false, self?.selectModel ?? selectModel)
         }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: HouseSelectModel) -> Void in
                 if selectModel.areaModel.selectedCategoryID == "1" {
-                    self?.houseAreaSelectBtn.setTitle("商圈", for: .normal)
-                    self?.houseAreaSelectBtn.isSelected = true
+                    
+                    if selectModel.areaModel.areaModelCount.isFirstSelectedModel == nil {
+                        self?.houseAreaSelectBtn.setTitle("区域", for: .normal)
+                        self?.houseAreaSelectBtn.isSelected = false
+                    }else {
+                        self?.houseAreaSelectBtn.setTitle("商圈", for: .normal)
+                        self?.houseAreaSelectBtn.isSelected = true
+                    }
+                    
                 }else if selectModel.areaModel.selectedCategoryID == "2" {
-                    self?.houseAreaSelectBtn.setTitle("地铁", for: .normal)
-                    self?.houseAreaSelectBtn.isSelected = true
+                    
+                    if selectModel.areaModel.subwayModelCount.isFirstSelectedModel == nil {
+                        self?.houseAreaSelectBtn.setTitle("区域", for: .normal)
+                        self?.houseAreaSelectBtn.isSelected = false
+                    }else {
+                        self?.houseAreaSelectBtn.setTitle("地铁", for: .normal)
+                        self?.houseAreaSelectBtn.isSelected = true
+                    }
+                    
                 }else {
                     self?.houseAreaSelectBtn.setTitle("区域", for: .normal)
                     self?.houseAreaSelectBtn.isSelected = false
