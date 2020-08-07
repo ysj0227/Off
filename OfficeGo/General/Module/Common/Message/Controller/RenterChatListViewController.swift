@@ -133,7 +133,12 @@ extension RenterChatListViewController {
             
             SSLog("\(indexPath.row) == 删除")
             if let model: RCConversationModel = self?.conversationListDataSource[indexPath.row] as? RCConversationModel {
-                RCIMClient.shared()?.remove(.ConversationType_PRIVATE, targetId: model.targetId)
+                if model.conversationType == .ConversationType_PRIVATE {
+                    RCIMClient.shared()?.remove(.ConversationType_PRIVATE, targetId: model.targetId)
+                }
+                /*else if model.conversationType == .ConversationType_SYSTEM {
+                    RCIMClient.shared()?.remove(.ConversationType_SYSTEM, targetId: model.targetId)
+                }*/
                 self?.conversationListDataSource.remove(model)
                 self?.refreshConversationTableViewIfNeeded()
             }
@@ -143,22 +148,24 @@ extension RenterChatListViewController {
         
         if let model: RCConversationModel = self.conversationListDataSource[indexPath.row] as? RCConversationModel {
             
-            if model.isTop == true {
-                let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "取消置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
-                          RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: false)
-                    self?.refreshConversationTableViewIfNeeded()
-                    SSLog("\(indexPath.row) == 取消置顶")
+            if model.conversationType == .ConversationType_PRIVATE {
+                if model.isTop == true {
+                    let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "取消置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
+                              RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: false)
+                        self?.refreshConversationTableViewIfNeeded()
+                        SSLog("\(indexPath.row) == 取消置顶")
+                    }
+                    setupAction.backgroundColor = kAppBlueColor
+                    mActionArray.append(setupAction)
+                }else {
+                    let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
+                              RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: true)
+                        self?.refreshConversationTableViewIfNeeded()
+                        SSLog("\(indexPath.row) == 置顶")
+                    }
+                    setupAction.backgroundColor = kAppBlueColor
+                    mActionArray.append(setupAction)
                 }
-                setupAction.backgroundColor = kAppBlueColor
-                mActionArray.append(setupAction)
-            }else {
-                let setupAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "置顶") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
-                          RCIMClient.shared()?.setConversationToTop(.ConversationType_PRIVATE, targetId: model.targetId, isTop: true)
-                    self?.refreshConversationTableViewIfNeeded()
-                    SSLog("\(indexPath.row) == 置顶")
-                }
-                setupAction.backgroundColor = kAppBlueColor
-                mActionArray.append(setupAction)
             }
         }
         
@@ -173,36 +180,34 @@ extension RenterChatListViewController {
             if conversationModelType == .CONVERSATION_MODEL_TYPE_COLLECTION {
                 
             }else {
-                if model.targetId.count > 0 {
-                    let subStr = model.targetId.suffix(1)
-                    //自己是业主 并且对方也是业主
-                    if UserTool.shared.user_id_type == 1 && subStr == "1" {
-                        let vc = OwnerChatViewController()
-                        vc.conversationType = .ConversationType_PRIVATE
-                        vc.targetId = model.targetId
-                        vc.title = model.conversationTitle
-                        vc.unReadMessage = model.unreadMessageCount
-                        vc.enableNewComingMessageIcon = true  //开启消息提醒
-                        if model.conversationType == .ConversationType_SYSTEM {
-                        }else {
+                if model.conversationType == .ConversationType_PRIVATE {
+                    if model.targetId.count > 0 {
+                        let subStr = model.targetId.suffix(1)
+                        //自己是业主 并且对方也是业主
+                        if UserTool.shared.user_id_type == 1 && subStr == "1" {
+                            let vc = OwnerChatViewController()
+                            vc.conversationType = .ConversationType_PRIVATE
+                            vc.targetId = model.targetId
+                            vc.title = model.conversationTitle
+                            vc.unReadMessage = model.unreadMessageCount
+                            vc.enableNewComingMessageIcon = true  //开启消息提醒
                             vc.displayUserNameInCell = false
-                        }
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }else {
-                        let vc = RenterChatViewController()
-                        vc.conversationType = .ConversationType_PRIVATE
-                        vc.targetId = model.targetId
-                        vc.title = model.conversationTitle
-                        vc.unReadMessage = model.unreadMessageCount
-                        vc.enableNewComingMessageIcon = true  //开启消息提醒
-                        if model.conversationType == .ConversationType_SYSTEM {
+                            self.navigationController?.pushViewController(vc, animated: true)
                         }else {
+                            let vc = RenterChatViewController()
+                            vc.conversationType = .ConversationType_PRIVATE
+                            vc.targetId = model.targetId
+                            vc.title = model.conversationTitle
+                            vc.unReadMessage = model.unreadMessageCount
+                            vc.enableNewComingMessageIcon = true  //开启消息提醒
                             vc.displayUserNameInCell = false
+                            self.navigationController?.pushViewController(vc, animated: true)
                         }
-                        self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
-
+                /*else if model.conversationType == .ConversationType_SYSTEM {
+                    
+                }*/
             }
         }
         

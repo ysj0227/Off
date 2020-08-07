@@ -46,14 +46,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         setStaticGuidePage()
         
         listenNetworkStatus()
-     
-        // 远程推送的内容
-        let remote = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? Dictionary<String,Any>;
-       // 如果remote不为空，就代表应用在未打开的时候收到了推送消息
-       if remote != nil {
-        //收到推送消息实现的方法
-        let msgDic = remote?["rc"] as! [String: String]
-        //PR
+       
+        dealRemoteNotify(launchOptions: launchOptions)
+        
+        return true
+    }
+    
+    ///推送消息处理 -
+    func notifyMsgPushDetail(msgDic: [String: String]) {
+        //PR SYS
         let cType: String = msgDic["cType"] ?? ""
         //3251
         let fId: String = msgDic["fId"] ?? ""
@@ -61,26 +62,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         let oName: String = msgDic["oName"] ?? ""
         let targetId: String = msgDic["tId"] ?? ""
         
-        /*
-         cType根据得到字段转换成相应的conversationType
-         其余信息可根据需求进行相应的操作
-         */
-        let vc = RenterChatViewController()
-        vc.conversationType = .ConversationType_PRIVATE
-        vc.targetId = targetId
-        vc.displayUserNameInCell = false
+        ///聊天消息
+        if cType == "PR" {
+            if targetId.count > 0 {
+                let subStr = targetId.suffix(1)
+                //自己是业主 并且对方也是业主
+                if UserTool.shared.user_id_type == 1 && subStr == "1" {
+                    let vc = OwnerChatViewController()
+                    vc.conversationType = .ConversationType_PRIVATE
+                    vc.targetId = targetId
+                    vc.enableNewComingMessageIcon = true  //开启消息提醒
+                    vc.displayUserNameInCell = false
+                    let tab = self.window?.rootViewController as? OwnerMainTabBarController
+                    tab?.selectedIndex = 1
+                    tab?.customTabBar.isHidden = true
+                    let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                    nsv.pushViewController(vc, animated: true)
+                }else {
+                    let vc = RenterChatViewController()
+                    vc.conversationType = .ConversationType_PRIVATE
+                    vc.targetId = targetId
+                    vc.enableNewComingMessageIcon = true  //开启消息提醒
+                    vc.displayUserNameInCell = false
+                    //业主
+                    if UserTool.shared.user_id_type == 1 {
+                        let tab = self.window?.rootViewController as? OwnerMainTabBarController
+                        tab?.selectedIndex = 1
+                        tab?.customTabBar.isHidden = true
+                        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                        nsv.pushViewController(vc, animated: true)
+                    }else {
+                        let tab = self.window?.rootViewController as? RenterMainTabBarController
+                        tab?.selectedIndex = 1
+                        tab?.customTabBar.isHidden = true
+                        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                        nsv.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+        }
+        /*else if cType == "SYS" { ///系统消息
+            //自己是业主
+            if UserTool.shared.user_id_type == 1 {
+                let tab = self.window?.rootViewController as? OwnerMainTabBarController
+                tab?.selectedIndex = 1
+            }else {
+                let tab = self.window?.rootViewController as? RenterMainTabBarController
+                tab?.selectedIndex = 1
+            }
+        }*/
+    }
+    
+    ///远端消息推送
+    func dealRemoteNotify(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         
-        let tab = self.window?.rootViewController as? RenterMainTabBarController
-        tab?.selectedIndex = 1
-        tab?.customTabBar.isHidden = false
-        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
-        nsv.pushViewController(vc, animated: true)
-       }
-        SSLog("远端 - userInfo----\(remote)")
-//
-
+        // 远程推送的内容
+        let remote = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? Dictionary<String,Any>;
+        // 如果remote不为空，就代表应用在未打开的时候收到了推送消息
+        if remote != nil {
+            //收到推送消息实现的方法
+            let msgDic = remote?["rc"] as! [String: String]
+            notifyMsgPushDetail(msgDic: msgDic)
+            SSLog("远端 - userInfo----\(msgDic)")
+        }
         
-        return true
     }
     
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
@@ -142,29 +187,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         }
     }
 
-    /**
-     * 统计推送，并获取融云推送服务扩展字段
-     */
-//    func recordLaunchOptions(launchOptions: [UIApplication.LaunchOptionsKey: Any]?){
-//        RCIMClient.shared()?.recordLaunchOptionsEvent(launchOptions)
-//
-//        let pushServiceData = (RCIMClient.shared()?.getPushExtra(fromLaunchOptions: launchOptions))! as! [String : Any]
-////
-////        if pushServiceData != nil {
-////            SSLog("该启动事件包含来自融云的推送服务")
-////            for key in pushServiceData.keys {
-////                SSLog("key -- \(key)")
-////            }
-////        }else {
-////            SSLog("该启动事件不包含来自融云的推送服务")
-////        }
-////
-//        let remoteNotificationUserInfo = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification]
-//        if remoteNotificationUserInfo != nil {
-//            NSLog("remoteNotificationUserInfo 远程推送原始内容为 \(remoteNotificationUserInfo)")
-//        }
-//
-//    }
     func notifyObserve() {
         //登录失效 - 5009
         NotificationCenter.default.addObserver(self, selector: #selector(loginResignEffect), name: NSNotification.Name.LoginResignEffect, object: nil)
@@ -387,22 +409,26 @@ extension AppDelegate {
             
             if let rctoken = response["data"] {
                 UserTool.shared.user_rongyuntoken = rctoken as? String
-                RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: {[weak self] (userid) in
-                    SSLog("登陆成功。当前登录的用户ID： \(String(describing: userid))")
-                    weakSelf.setRCUserInfo(userId: userid ?? "0")
-                    }, error: { (code) in
-                        SSLog("登陆的错误码为\(code)")
-                }, tokenIncorrect: {
-                    SSLog("token错误")
-                })
+                weakSelf.loginRcim()
             }
             
             }, failure: { (error) in
                 
         }) { (code, message) in
             
-            
         }
+    }
+    
+    func loginRcim() {
+        RCIM.shared()?.connect(withToken: UserTool.shared.user_rongyuntoken, success: {[weak self] (userid) in
+            guard let weakSelf = self else {return}
+            SSLog("登陆成功。当前登录的用户ID： \(String(describing: userid))")
+            weakSelf.setRCUserInfo(userId: userid ?? "0")
+            }, error: { (code) in
+                SSLog("登陆的错误码为\(code)")
+        }, tokenIncorrect: {
+            SSLog("token错误")
+        })
     }
     
     func setUpSDKs() {
@@ -494,7 +520,6 @@ extension AppDelegate {
 
 extension AppDelegate {
     
-    
     ///当返回值为 NO 时，SDK 会弹出默认的本地通知提示；当返回值为 YES 时，SDK 针对此消息不再弹本地通知提示
     func onRCIMCustomLocalNotification(_ message: RCMessage!, withSenderName senderName: String!) -> Bool {
         return false
@@ -503,56 +528,14 @@ extension AppDelegate {
     //远端
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         let msgDic = userInfo["rc"] as! [String: String]
-        //PR
-        let cType: String = msgDic["cType"] ?? ""
-        //3251
-        let fId: String = msgDic["fId"] ?? ""
-        //RC:TxtMsg
-        let oName: String = msgDic["oName"] ?? ""
-        let targetId: String = msgDic["tId"] ?? ""
-
-        /*
-        cType根据得到字段转换成相应的conversationType
-        其余信息可根据需求进行相应的操作
-        */
-        let vc = RenterChatViewController()
-        vc.conversationType = .ConversationType_PRIVATE
-        vc.targetId = targetId
-        vc.displayUserNameInCell = false
-        
-        let tab = self.window?.rootViewController as? RenterMainTabBarController
-        tab?.selectedIndex = 1
-        tab?.customTabBar.isHidden = false
-        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
-        nsv.pushViewController(vc, animated: true)
+        notifyMsgPushDetail(msgDic: msgDic)
     }
     
     ///app打开
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         
         let msgDic = (notification.userInfo?["rc"] ?? []) as! [String: String]
-        //PR
-        let cType: String = msgDic["cType"] ?? ""
-        //3251
-        let fId: String = msgDic["fId"] ?? ""
-        //RC:TxtMsg
-        let oName: String = msgDic["oName"] ?? ""
-        let targetId: String = msgDic["tId"] ?? ""
-
-        /*
-        cType根据得到字段转换成相应的conversationType
-        其余信息可根据需求进行相应的操作
-        */
-        let vc = RenterChatViewController()
-        vc.conversationType = .ConversationType_PRIVATE
-        vc.targetId = targetId
-        vc.displayUserNameInCell = false
-        
-        let tab = self.window?.rootViewController as? RenterMainTabBarController
-        tab?.selectedIndex = 1
-        tab?.customTabBar.isHidden = false
-        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
-        nsv.pushViewController(vc, animated: true)
+        notifyMsgPushDetail(msgDic: msgDic)
     }
 }
 
