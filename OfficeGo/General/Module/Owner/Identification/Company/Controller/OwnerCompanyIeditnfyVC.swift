@@ -951,7 +951,7 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         ///如果是审核被驳回并且是加入的某个企业
-        if userModel?.auditStatus == "2" && userModel?.authority == "0" {
+        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
             return 1
         }else {
             if iaHasCompany == true {
@@ -970,37 +970,13 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
             }else {
                 return 1
             }
-//            if let company = userModel?.company {
-//                if company.isBlankString == true {
-//                    return 1
-//                }else {
-//                    if let buildingName = userModel?.buildingName {
-//                        if buildingName.isBlankString == true {
-//                            return typeSourceArray.count - 2
-//                        }else {
-//                            //直租
-//                            if userModel?.leaseType == "0" {
-//                                return typeSourceArray.count - 1
-//                            }else if userModel?.leaseType == "1" {
-//                                return typeSourceArray.count
-//                            }else {
-//                                return typeSourceArray.count - 2
-//                            }
-//                        }
-//                    }else {
-//                        return typeSourceArray.count - 2
-//                    }
-//                }
-//            }else {
-//                return 1
-//            }
         }
         
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         ///如果是审核被驳回并且是加入的某个企业
-        if userModel?.auditStatus == "2" && userModel?.authority == "0" {
+        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
             if section == 0 {
                 return typeSourceArray[0].count
             }else {
@@ -1015,15 +991,6 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 }else {
                     return 1
                 }
-//                if let buildingName = userModel?.buildingName {
-//                    if buildingName.isBlankString == true {
-//                        return 1
-//                    }else {
-//                        return typeSourceArray[1].count
-//                    }
-//                }else {
-//                    return 2
-//                }
             }else if section == 2 {
                 if userModel?.leaseType == "0" || userModel?.leaseType == "1" {
                     return uploadPicModelFCZArr.count + 1
@@ -1059,9 +1026,6 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         }else if indexPath.section == 3 {
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }
-        /*else if indexPath.section == 4 {
-         return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
-         }*/
         return CGSize(width: 0, height: 0)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -1108,9 +1072,6 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                     selectZLAgentPicker()
                 }
             }
-            /*else if indexPath.section == 4 {
-             selectMainPagePicker()
-             }*/
         }
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -1129,11 +1090,6 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
                 header?.titleLabel.text = "上传租赁协议"
                 header?.descLabel.text = "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
             }
-            /*else if indexPath.section == 4{
-             header?.backgroundColor = kAppWhiteColor
-             header?.titleLabel.text = "上传楼盘封面图"
-             header?.descLabel.text = ""
-             }*/
             
             return header ?? UICollectionReusableView()
         }
@@ -1162,18 +1118,6 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
             }
             
         }
-            /*else if section == 4 {
-             if let buildingName = userModel?.buildingName {
-             if buildingName.isBlankString == true {
-             return CGSize(width: kWidth, height: 0)
-             }else {
-             return CGSize(width: kWidth, height: 46)
-             }
-             
-             }else {
-             return CGSize(width: kWidth, height: 0)
-             }
-             }*/
         else {
             return CGSize.zero
         }
@@ -1184,7 +1128,6 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         if section == 0 || section == 1 {
             return 0
         }else {
-            //            return left_pending_space_17
             return 5
         }
     }
@@ -1194,7 +1137,6 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
         if section == 0 || section == 1 {
             return 0
         }else {
-            //            return left_pending_space_17
             return 5
         }
     }

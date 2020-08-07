@@ -1040,21 +1040,6 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
         }else {
             return typeSourceArray.count - 2
         }
-//        if let buildingName = userModel?.buildingName {
-//            if buildingName.isBlankString == true {
-//                return typeSourceArray.count - 2
-//            }else {
-//                if userModel?.leaseType == "0" {
-//                    return typeSourceArray.count - 1
-//                }else if userModel?.leaseType == "1" {
-//                    return typeSourceArray.count
-//                }else {
-//                    return typeSourceArray.count - 2
-//                }
-//            }
-//        }else {
-//            return typeSourceArray.count - 2
-//        }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
@@ -1068,15 +1053,6 @@ extension OwnerPersonalIeditnfyVC: UICollectionViewDataSource, UICollectionViewD
             }else {
                 return 1
             }
-//            if let buildingName = userModel?.buildingName {
-//                if buildingName.isBlankString == true {
-//                    return 1
-//                }else {
-//                    return typeSourceArray[2].count
-//                }
-//            }else {
-//                return 1
-//            }
         }else if section == 3 {
             if userModel?.leaseType == "0" || userModel?.leaseType == "1" {
                 return uploadPicModelFCZArr.count + 1
