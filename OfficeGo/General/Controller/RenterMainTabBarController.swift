@@ -63,11 +63,11 @@ class RenterMainTabBarController: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        updateBadgeValueForTabBarItem()
+        updateBadgeValueForTabBarItem()
     }
     
     func updateBadgeValueForTabBarItem() {
-        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE]) ?? 0)
+        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
         self.setbadge(num: count)
     }
 }

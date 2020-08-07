@@ -548,6 +548,14 @@ extension AppDelegate: RCIMReceiveMessageDelegate {
     */
     func onRCIMReceive(_ message: RCMessage!, left: Int32) {
         SSLog("onReceived------left-IMKit-\(left)")
+        //业主
+        if UserTool.shared.user_id_type == 1 {
+            let tab = self.window?.rootViewController as? OwnerMainTabBarController
+            tab?.updateBadgeValueForTabBarItem()
+        }else {
+            let tab = self.window?.rootViewController as? RenterMainTabBarController
+            tab?.updateBadgeValueForTabBarItem()
+        }
     }
 }
 

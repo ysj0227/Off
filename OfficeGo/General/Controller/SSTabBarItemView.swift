@@ -26,9 +26,10 @@ class SSTabBarItemView: UIView {
         self.titleLabel = UILabel()
         self.titleLabel.font = UIFont.systemFont(ofSize: 10)
         self.badgeNum = UILabel()
+        self.badgeNum.textColor = kAppWhiteColor
         self.badgeNum.textAlignment = .center
-        self.badgeNum.backgroundColor = kAppRedColor
-        self.badgeNum.font = FONT_MEDIUM_12
+        self.badgeNum.backgroundColor = UIColor.red
+        self.badgeNum.font = FONT_MEDIUM_11
         self.badgeNum.clipsToBounds = true
         self.badgeNum.layer.cornerRadius = 9
         self.isSelected = false
@@ -53,33 +54,41 @@ class SSTabBarItemView: UIView {
     
     func setBadge(num: Int) {
         
-        if num > 0 {
-            badgeNum.isHidden = false
-            if (num <= 99) {
-                badgeNum.text = "\(num)"
-            } else if num > 99 && num < 1000 {
-                badgeNum.text = "99+"
-            } else {
-                badgeNum.text = "···"
-            }
-            let width: CGFloat = badgeNum.text?.boundingRect(with: CGSize(width: kWidth, height: 19), font: FONT_MEDIUM_12).width ?? 0 > 18 ? badgeNum.text?.boundingRect(with: CGSize(width: kWidth, height: 19), font: FONT_MEDIUM_12).width ?? 0 : 18
-            self.badgeNum.snp.remakeConstraints { (make) in
-                make.top.equalToSuperview()
-                make.height.equalTo(18)
-                make.centerX.equalTo(iconView).offset(20)
-                make.width.equalTo(width)
-            }
-        }else {
-            badgeNum.isHidden = true
-            self.badgeNum.snp.remakeConstraints { (make) in
-                make.top.equalToSuperview()
-                make.height.equalTo(18)
-                make.centerX.equalTo(iconView).offset(20)
-                make.width.equalTo(18)
+        SSTool.invokeInMainThread { [weak self] in
+            guard let weakSelf = self else {return}
+
+            if num > 0 {
+                weakSelf.badgeNum.isHidden = false
+                if (num <= 99) {
+                    weakSelf.badgeNum.text = "\(num)"
+                } else if num > 99 && num < 1000 {
+                    weakSelf.badgeNum.text = "99+"
+                } else {
+                    weakSelf.badgeNum.text = "···"
+                }
+                
+                var width: CGFloat = weakSelf.badgeNum.text?.boundingRect(with: CGSize(width: kWidth, height: 19), font: FONT_MEDIUM_12).width ?? 18
+                if num <= 9 {
+                    width = 18
+                }else {
+                    width += 8
+                }
+                weakSelf.badgeNum.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview()
+                    make.height.equalTo(18)
+                    make.centerX.equalToSuperview().offset(20)
+                    make.width.equalTo(width)
+                }
+            }else {
+                weakSelf.badgeNum.isHidden = true
+                weakSelf.badgeNum.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview()
+                    make.height.equalTo(18)
+                    make.centerX.equalToSuperview().offset(20)
+                    make.width.equalTo(0)
+                }
             }
         }
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

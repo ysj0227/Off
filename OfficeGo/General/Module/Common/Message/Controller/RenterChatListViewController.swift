@@ -29,6 +29,10 @@ class RenterChatListViewController: RCConversationListViewController {
          let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
          tab?.customTabBar.isHidden = false
         juddgeIsLogin()
+        
+        SSLog("未读消息树 - \(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)")
+        
+        //self.updateBadgeValueForTabBarItem()
      }
 
     ///判断有没有登录
@@ -48,10 +52,18 @@ class RenterChatListViewController: RCConversationListViewController {
     }
 
     
+    ///更新tabbar小红点数量
     func updateBadgeValueForTabBarItem() {
-        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE]) ?? 0)
-        let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
-        tab?.setbadge(num: count)
+        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+        //自己是业主
+        if UserTool.shared.user_id_type == 1 {
+            let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
+            tab?.setbadge(num: count)
+        }else {
+            let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
+            tab?.setbadge(num: count)
+        }
+
     }
     
     override func viewDidLoad() {
@@ -210,8 +222,6 @@ extension RenterChatListViewController {
                 }*/
             }
         }
-        
-        self.updateBadgeValueForTabBarItem()
     }
     
     
