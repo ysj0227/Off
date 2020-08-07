@@ -32,7 +32,7 @@ class RenterChatListViewController: RCConversationListViewController {
         
         SSLog("未读消息树 - \(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)")
         
-        //self.updateBadgeValueForTabBarItem()
+        self.updateBadgeValueForTabBarItem()
      }
 
     ///判断有没有登录
