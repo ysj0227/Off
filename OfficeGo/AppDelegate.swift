@@ -193,6 +193,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         //设置tabar - 租户
         NotificationCenter.default.addObserver(self, selector: #selector(setRenterTabar), name: NSNotification.Name.SetRenterTabbarViewController, object: nil)
+        
         //登录成功通知 - 只设置登录融云
         NotificationCenter.default.addObserver(self, selector: #selector(loginSuccess), name: NSNotification.Name.UserLogined, object: nil)
         
@@ -224,7 +225,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        
+        SSTool.invokeInMainThread {
+            if UserTool.shared.isLogin() == true {
+                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+                UIApplication.shared.applicationIconBadgeNumber = count
+            }
+        }
     }
     
     func onReq(_ req: BaseReq) {
@@ -244,6 +250,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             let tabbarVC = RenterMainTabBarController()
             window?.rootViewController = tabbarVC
         }
+        SSTool.invokeInMainThread {
+            if UserTool.shared.isLogin() == true {
+                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+                UIApplication.shared.applicationIconBadgeNumber = count
+            }
+        }
     }
     //设置tabbar - 业主
     @objc func setOwnerTabar(){
@@ -255,7 +267,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             tabbarVC.selectedIndex = 3
             window?.rootViewController = tabbarVC
         }
-        
+        SSTool.invokeInMainThread {
+            if UserTool.shared.isLogin() == true {
+                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+                UIApplication.shared.applicationIconBadgeNumber = count
+            }
+        }
     }
     //退出登录
     @objc func logout(){
@@ -265,6 +282,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         setLoginVC()
         
+        SSTool.invokeInMainThread {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
     }
     
     @objc func setLoginVC() {
@@ -360,7 +380,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             //NotificationCenter.default.post(name: NSNotification.Name.OwnerUserLogout, object: nil)
             logout()
         }
-        
+        SSTool.invokeInMainThread {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
     }
 }
 
@@ -556,6 +578,11 @@ extension AppDelegate: RCIMReceiveMessageDelegate {
             let tab = self.window?.rootViewController as? RenterMainTabBarController
             tab?.updateBadgeValueForTabBarItem()
         }
+        SSTool.invokeInMainThread {
+            let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+            UIApplication.shared.applicationIconBadgeNumber = count
+        }
+
     }
 }
 
