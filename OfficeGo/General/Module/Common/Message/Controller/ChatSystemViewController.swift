@@ -20,6 +20,43 @@ class ChatSystemViewController: RCConversationViewController {
         super.viewDidLoad()
         
         setupView()
+        
+        requestUserInfo()
+    }
+    
+    ///获取详情
+    func requestUserInfo() {
+        
+        ///实现刷新用户信息
+        SSNetworkTool.SSChat.request_getUserChatInfoApp(params: ["targetId": targetId as AnyObject], success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = ChatTargetUserInfoModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.setViewShow(model: model)
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
+    }
+    
+    func setViewShow(model: ChatTargetUserInfoModel) {
+        
+        SSTool.invokeInMainThread { [weak self] in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.titleview?.titleLabel.text = model.name
+            ///强制刷新好友信息
+            let info = RCUserInfo.init(userId: model.id, name: model.name, portrait: model.avatar)
+            RCIM.shared()?.refreshUserInfoCache(info, withUserId: model.id)
+        }
+        
     }
     
     
@@ -38,6 +75,8 @@ extension ChatSystemViewController {
             self?.leftBtnClick()
         }
         self.view.addSubview(titleview!)
+        
+        RCIM.shared().enabledReadReceiptConversationTypeList = [RCConversationType.ConversationType_SYSTEM]
         
         //隐藏下面的输入框
         self.chatSessionInputBarControl.isHidden = true

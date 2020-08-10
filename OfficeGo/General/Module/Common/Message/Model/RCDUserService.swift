@@ -18,10 +18,9 @@ extension RCDUserService: RCIMUserInfoDataSource {
     // 需返回正确的用户信息
     func getUserInfo(withUserId userId: String!, completion: ((RCUserInfo?) -> Void)!) {
         
-        
         ///实现用户信息提供者 - 实现本地推送
-        SSNetworkTool.SSChat.request_getUserChatInfoApp(params: ["targetid": userId as AnyObject], success: { (response) in
-                        
+        SSNetworkTool.SSChat.request_getUserChatInfoApp(params: ["targetId": userId as AnyObject], success: { (response) in
+
             if let model = ChatTargetUserInfoModel.deserialize(from: response, designatedPath: "data") {
                 
                 SSTool.invokeInMainThread {
