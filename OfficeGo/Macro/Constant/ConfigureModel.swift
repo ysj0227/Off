@@ -142,7 +142,7 @@ class OwnerCreatCompanyConfigureModel: NSObject {
         case .OwnerCreteCompanyTypeCompanyAddress:
             return FuWenBen(name: "公司地址", centerStr: " * ", last: "")
         case .OwnerCreteCompanyTypeYingyeCode:
-            return FuWenBen(name: "营业执照注册号", centerStr: " * ", last: "")
+            return FuWenBen(name: "统一社会信用代码", centerStr: " * ", last: "")
         case .OwnerCreteCompanyTypeUploadYingyePhoto:
             return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
         }

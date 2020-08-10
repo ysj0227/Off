@@ -198,7 +198,7 @@ extension OwnerEnterCreatedCompanyViewController {
         typeSourceArray.append(OwnerCreatCompanyConfigureModel.init(types: .OwnerCreteCompanyTypeYingyeCode))
         
         if companyModel != nil {
-            
+//            companyModel?.creditNo = "1234 5678 97654 32XX1 2345 wewewewew 234567"
         }else {
             companyModel = OwnerIdentifyUserModel()
         }
@@ -358,7 +358,7 @@ extension OwnerEnterCreatedCompanyViewController {
             if companyModel?.creditNo?.count ?? 0 > 0 {
                 return 48
             }else {
-                return 0
+                return 1
             }
         }
         return OwnerEnterCreateCompanyCell.rowHeight()
@@ -369,26 +369,181 @@ extension OwnerEnterCreatedCompanyViewController {
     }
 }
 
-
-class OwnerEnterCreateCompanyCell: BaseEditCell {
+class OwnerEnterCreateCompanyCell : BaseTableViewCell {
+    lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_15
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.textColor = kAppColor_999999
+        return view
+    }()
+    
+    lazy var editLabel: UITextField = {
+        let view = UITextField()
+        view.textAlignment = .left
+        view.font = FONT_15
+        view.textColor = kAppColor_333333
+        view.clearButtonMode = .whileEditing
+        return view
+    }()
+    
+    lazy var detailIcon: BaseImageView = {
+        let view = BaseImageView.init()
+        view.image = UIImage.init(named: "moreDetail")
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
+       
+    lazy var addressIcon: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFit
+        view.image = UIImage.init(named:"locationGray")
+        return view
+    }()
     
     var companyModel: OwnerIdentifyUserModel?
-        
+
     var model: OwnerCreatCompanyConfigureModel = OwnerCreatCompanyConfigureModel(types: OwnerCreteCompanyType.OwnerCreteCompanyTypeIedntify) {
         didSet {
             detailIcon.isHidden = true
             titleLabel.isHidden = true
             editLabel.isUserInteractionEnabled = false
             if model.type == .OwnerCreteCompanyTypeCompanyName{
+                addressIcon.image = UIImage.init(named:"")
+                addressIcon.isHidden = true
+                addressIcon.snp.remakeConstraints { (make) in
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(20)
+                    make.leading.equalTo(left_pending_space_17)
+                    make.width.equalTo(0)
+                }
+                
+                lineView.isHidden = true
+                editLabel.font = FONT_15
+                editLabel.textColor = kAppColor_333333
                 editLabel.text = companyModel?.company
             }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
+                addressIcon.image = UIImage.init(named:"locationGray")
+                addressIcon.snp.remakeConstraints { (make) in
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(20)
+                    make.leading.equalTo(left_pending_space_17)
+                    make.width.equalTo(15)
+                }
+                if companyModel?.address?.count ?? 0 > 0 {
+                    addressIcon.isHidden = false
+                }else {
+                    addressIcon.isHidden = true
+                }
+                
+                lineView.isHidden = true
+                editLabel.font = FONT_LIGHT_13
+                editLabel.textColor = kAppColor_333333
                 editLabel.text = companyModel?.address
             }else if model.type == .OwnerCreteCompanyTypeYingyeCode {
-                editLabel.text = companyModel?.creditNo
+                addressIcon.image = UIImage.init(named:"")
+                addressIcon.isHidden = true
+                addressIcon.snp.remakeConstraints { (make) in
+                    make.centerY.equalToSuperview()
+                    make.height.equalTo(20)
+                    make.leading.equalTo(left_pending_space_17)
+                    make.width.equalTo(0)
+                }
+                
+                lineView.isHidden = false
+                editLabel.font = FONT_LIGHT_13
+                editLabel.textColor = kAppColor_333333
+                if let creditNo = companyModel?.creditNo {
+                    if creditNo.count > 0 {
+                        editLabel.text = "统一社会信用代码：" + creditNo
+                    }else {
+                        editLabel.text = ""
+                    }
+                }else {
+                    editLabel.text = ""
+                }
             }else if model.type == .OwnerCreteCompanyTypeUploadYingyePhoto{
                 editLabel.text = ""
             }
         }
     }
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    class func rowHeight() -> CGFloat {
+        return cell_height_58
+    }
+    
+    func setDelegate() {
+        
+    }
+    
+    func setupViews() {
+        
+        setDelegate()
+        
+        addSubview(addressIcon)
+        addSubview(titleLabel)
+        addSubview(editLabel)
+        addSubview(detailIcon)
+        addSubview(lineView)
+        
+        addressIcon.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.height.equalTo(20)
+            make.leading.equalTo(left_pending_space_17)
+            make.width.equalTo(0)
+        }
+        
+        titleLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(addressIcon.snp.trailing)
+            make.centerY.equalToSuperview()
+        }
+        
+        editLabel.snp.makeConstraints { (make) in
+            make.trailing.equalTo(-(left_pending_space_17 + 10))
+            make.leading.equalTo(titleLabel.snp.trailing)
+            make.top.bottom.equalToSuperview()
+        }
+        
+        detailIcon.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview().offset(-left_pending_space_17)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(10)
+        }
+        lineView.snp.makeConstraints { (make) in
+            make.leading.equalTo(left_pending_space_17)
+            make.trailing.equalTo(-left_pending_space_17)
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+    }
+    
 }
 

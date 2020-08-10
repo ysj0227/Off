@@ -226,10 +226,10 @@ extension OwnerCreateCompanyViewController {
         }
         
         if companyModel?.creditNo == nil || companyModel?.creditNo?.isBlankString == true{
-            AppUtilities.makeToast("请输入营业执照注册号")
+            AppUtilities.makeToast("请输入统一社会信用代码或营业执照编号")
             return
             }else if SSTool.isPureStrOrNumNumber(text: companyModel?.creditNo ?? "") != true {
-                AppUtilities.makeToast("请输入正确的营业执照注册号")
+                AppUtilities.makeToast("请输入统一社会信用代码或营业执照编号")
                 return
             }
         if mainPicBannermodel?.isLocal == true {
