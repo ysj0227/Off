@@ -13,6 +13,47 @@ import SnapKit
 
 @objcMembers class SSTool: NSObject {
     
+    ///检查推送权限
+    func checkPushNotification(checkNotificationStatus isEnable : ((Bool)->())? = nil){
+
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().getNotificationSettings(){ (setttings) in
+
+                switch setttings.authorizationStatus{
+                case .authorized:
+
+                    print("enabled notification setting")
+                    isEnable?(true)
+                case .denied:
+
+                    print("setting has been disabled")
+                    isEnable?(false)
+                case .notDetermined:
+
+                    print("something vital went wrong here")
+                    isEnable?(false)
+                case .provisional:
+                    print("provisional")
+                @unknown default:
+                    print("default")
+                }
+            }
+        } else {
+
+            let isNotificationEnabled = UIApplication.shared.currentUserNotificationSettings?.types.contains(UIUserNotificationType.alert)
+            if isNotificationEnabled == true{
+
+                print("enabled notification setting")
+                isEnable?(true)
+
+            }else{
+
+                print("setting has been disabled")
+                isEnable?(false)
+            }
+        }
+    }
+    
     ///提示
     static func callPhoneTelpro(phone : String){
         let  phoneUrlStr = "telprompt://" + phone
