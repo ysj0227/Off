@@ -70,7 +70,7 @@ class OwnerMainTabBarController: UITabBarController {
     }
     
     func updateBadgeValueForTabBarItem() {
-        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue]) ?? 0)
         self.setbadge(num: count)
     }
 }

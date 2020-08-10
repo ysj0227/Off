@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             if targetId.count > 0 {
                 let subStr = targetId.suffix(1)
                 //自己是业主 并且对方也是业主
-                if UserTool.shared.user_id_type == 1 && subStr == "1" {
+                if UserTool.shared.user_id_type == 1 && subStr == ChatType_Owner_1 {
                     let vc = OwnerChatViewController()
                     vc.conversationType = .ConversationType_PRIVATE
                     vc.targetId = targetId
@@ -101,16 +101,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 }
             }
         }
-        /*else if cType == "SYS" { ///系统消息
-            //自己是业主
-            if UserTool.shared.user_id_type == 1 {
-                let tab = self.window?.rootViewController as? OwnerMainTabBarController
-                tab?.selectedIndex = 1
-            }else {
-                let tab = self.window?.rootViewController as? RenterMainTabBarController
-                tab?.selectedIndex = 1
+        else if cType == "SYS" { ///系统消息
+            if targetId.count > 0 {
+                //3表示是系统消息
+                let subStr = targetId.suffix(1)
+                //自己是业主
+                if UserTool.shared.user_id_type == 1 && subStr == ChatType_System_3 {
+                    let vc = ChatSystemViewController()
+                    vc.targetId = targetId
+                    vc.conversationType = .ConversationType_SYSTEM
+                    vc.enableNewComingMessageIcon = true  //开启消息提醒
+                    vc.displayUserNameInCell = false
+                    let tab = self.window?.rootViewController as? OwnerMainTabBarController
+                    tab?.selectedIndex = 1
+                    tab?.customTabBar.isHidden = true
+                    let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                    nsv.pushViewController(vc, animated: true)
+                }else if UserTool.shared.user_id_type == 0 && subStr == ChatType_System_3 {
+                    let vc = ChatSystemViewController()
+                    vc.targetId = targetId
+                    vc.conversationType = .ConversationType_SYSTEM
+                    vc.enableNewComingMessageIcon = true  //开启消息提醒
+                    vc.displayUserNameInCell = false
+                    let tab = self.window?.rootViewController as? RenterMainTabBarController
+                    tab?.selectedIndex = 1
+                    tab?.customTabBar.isHidden = true
+                    let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                    nsv.pushViewController(vc, animated: true)
+                }
             }
-        }*/
+            
+        }
     }
     
     ///远端消息推送
@@ -227,7 +248,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         SSTool.invokeInMainThread {
             if UserTool.shared.isLogin() == true {
-                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue]) ?? 0)
                 UIApplication.shared.applicationIconBadgeNumber = count
             }
         }
@@ -252,7 +273,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         }
         SSTool.invokeInMainThread {
             if UserTool.shared.isLogin() == true {
-                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue]) ?? 0)
                 UIApplication.shared.applicationIconBadgeNumber = count
             }
         }
@@ -269,7 +290,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         }
         SSTool.invokeInMainThread {
             if UserTool.shared.isLogin() == true {
-                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue]) ?? 0)
                 UIApplication.shared.applicationIconBadgeNumber = count
             }
         }
@@ -476,7 +497,7 @@ extension AppDelegate {
         ///是否将用户信息和群组信息在本地持久化存储
         RCIM.shared()?.enablePersistentUserInfoCache = true
         
-        //没懂什么意思Mark Mark
+        //没懂什么意思Mark Mark - 信息提供者
         RCIM.shared()?.userInfoDataSource = RCDUserService.shared
         //        RCIM.shared()?.userInfoDataSource = self
         
@@ -579,8 +600,10 @@ extension AppDelegate: RCIMReceiveMessageDelegate {
             tab?.updateBadgeValueForTabBarItem()
         }
         SSTool.invokeInMainThread {
-            let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
-            UIApplication.shared.applicationIconBadgeNumber = count
+            if UserTool.shared.isLogin() == true {
+                let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue]) ?? 0)
+                UIApplication.shared.applicationIconBadgeNumber = count
+            }
         }
 
     }

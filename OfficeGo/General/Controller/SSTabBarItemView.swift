@@ -54,6 +54,15 @@ class SSTabBarItemView: UIView {
     
     func setBadge(num: Int) {
         
+        if UserTool.shared.isLogin() != true {
+            
+            SSTool.invokeInMainThread { [weak self] in
+                guard let weakSelf = self else {return}
+                weakSelf.badgeNum.isHidden = true
+            }
+            return
+        }
+        
         SSTool.invokeInMainThread { [weak self] in
             guard let weakSelf = self else {return}
 

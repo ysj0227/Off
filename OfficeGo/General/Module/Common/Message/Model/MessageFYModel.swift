@@ -296,3 +296,9 @@ class OwnerIdentifyMsgDetailModel: BaseModel {
 
 }
 
+class ChatTargetUserInfoModel: BaseModel {
+  
+    var id : String?  //1061
+    var avatar : String?
+    var name : String?
+}

@@ -170,7 +170,7 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
      var buildingFloor : String?
      */
     func setCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
-        mainImageView.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: "Default_80x60"))
+        mainImageView.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_80x60))
         leftTopLabel.text = viewModel.buildingArea
         leftbottomLabel.text = viewModel.buildinSeats
         centerTopLabel.text = viewModel.buildingDayPriceString

@@ -20,20 +20,20 @@ class RenterChatListViewController: RCConversationListViewController {
     var nologindataView :NoDataShowView?
 
     override func viewWillDisappear(_ animated: Bool) {
-         super.viewWillDisappear(animated)
-         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
-         tab?.customTabBar.isHidden = true
-     }
-     override func viewWillAppear(_ animated: Bool) {
-         super.viewWillAppear(animated)
-         let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
-         tab?.customTabBar.isHidden = false
+        super.viewWillDisappear(animated)
+        let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
+        tab?.customTabBar.isHidden = true
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
+        tab?.customTabBar.isHidden = false
         juddgeIsLogin()
         
-        SSLog("未读消息树 - \(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)")
+        SSLog("未读消息树 - \(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue]) ?? 0)")
         
         self.updateBadgeValueForTabBarItem()
-     }
+    }
 
     ///判断有没有登录
     func juddgeIsLogin() {
@@ -41,7 +41,7 @@ class RenterChatListViewController: RCConversationListViewController {
         if UserTool.shared.isLogin() == true {
             
             nologindataView?.isHidden = true
-
+            
             self.refreshConversationTableViewIfNeeded()
         }else {
             //没登录 - 显示登录按钮view
@@ -54,7 +54,7 @@ class RenterChatListViewController: RCConversationListViewController {
     
     ///更新tabbar小红点数量
     func updateBadgeValueForTabBarItem() {
-        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue]) ?? 0)
+        let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue]) ?? 0)
         //自己是业主
         if UserTool.shared.user_id_type == 1 {
             let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
@@ -63,7 +63,7 @@ class RenterChatListViewController: RCConversationListViewController {
             let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
             tab?.setbadge(num: count)
         }
-
+        
     }
     
     override func viewDidLoad() {
@@ -77,7 +77,7 @@ class RenterChatListViewController: RCConversationListViewController {
     }
     
     func setConversationType() {
-        self.setDisplayConversationTypes([RCConversationType.ConversationType_PRIVATE.rawValue])
+        self.setDisplayConversationTypes([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue])
 //        self.setDisplayConversationTypes([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_GROUP.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue])
 //        self.setCollectionConversationType([RCConversationType.ConversationType_GROUP.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue])
     }
@@ -148,9 +148,9 @@ extension RenterChatListViewController {
                 if model.conversationType == .ConversationType_PRIVATE {
                     RCIMClient.shared()?.remove(.ConversationType_PRIVATE, targetId: model.targetId)
                 }
-                /*else if model.conversationType == .ConversationType_SYSTEM {
+                else if model.conversationType == .ConversationType_SYSTEM {
                     RCIMClient.shared()?.remove(.ConversationType_SYSTEM, targetId: model.targetId)
-                }*/
+                }
                 self?.conversationListDataSource.remove(model)
                 self?.refreshConversationTableViewIfNeeded()
             }
@@ -196,7 +196,7 @@ extension RenterChatListViewController {
                     if model.targetId.count > 0 {
                         let subStr = model.targetId.suffix(1)
                         //自己是业主 并且对方也是业主
-                        if UserTool.shared.user_id_type == 1 && subStr == "1" {
+                        if UserTool.shared.user_id_type == 1 && subStr == ChatType_Owner_1 {
                             let vc = OwnerChatViewController()
                             vc.conversationType = .ConversationType_PRIVATE
                             vc.targetId = model.targetId
@@ -217,9 +217,20 @@ extension RenterChatListViewController {
                         }
                     }
                 }
-                /*else if model.conversationType == .ConversationType_SYSTEM {
-                    
-                }*/
+                else if model.conversationType == .ConversationType_SYSTEM {
+                    if model.targetId.count > 0 {
+                        let subStr = model.targetId.suffix(1)
+                        if subStr == ChatType_System_3 {
+                            let vc = ChatSystemViewController()
+                            vc.targetId = model.targetId
+                            vc.conversationType = .ConversationType_SYSTEM
+                            vc.title = model.conversationTitle
+                            vc.enableNewComingMessageIcon = true  //开启消息提醒
+                            vc.displayUserNameInCell = false
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }
+                }
             }
         }
     }

@@ -254,6 +254,9 @@ class SSChatURL: NSObject {
     //记录第一次发送
     static let addChatApp = "api/chat/addChatApp"
     
+    //获取用户信息
+    static let getUserChatInfoApp = "api/user/getUser"
+    
 }
 
 //  MARK:   --搜索

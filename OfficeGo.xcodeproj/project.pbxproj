@@ -28,6 +28,7 @@
 		0437CFB3247E17190015C355 /* SSTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB2247E17180015C355 /* SSTool.swift */; };
 		0437CFB5247E18850015C355 /* SSCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB4247E18850015C355 /* SSCode.swift */; };
 		0437CFB7247E1A5D0015C355 /* SSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB6247E1A5D0015C355 /* SSAPI.swift */; };
+		043D5F6B24E126700067A0B1 /* ChatSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D5F6A24E126700067A0B1 /* ChatSystemViewController.swift */; };
 		046689222472548800A76669 /* ConfigureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046689212472548800A76669 /* ConfigureModel.swift */; };
 		047333252473D77700755192 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333242473D77700755192 /* UIView+Extension.swift */; };
 		047333272473D86500755192 /* Object+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333262473D86500755192 /* Object+ClassName.swift */; };
@@ -307,6 +308,7 @@
 		0437CFB2247E17180015C355 /* SSTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTool.swift; sourceTree = "<group>"; };
 		0437CFB4247E18850015C355 /* SSCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSCode.swift; sourceTree = "<group>"; };
 		0437CFB6247E1A5D0015C355 /* SSAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSAPI.swift; sourceTree = "<group>"; };
+		043D5F6A24E126700067A0B1 /* ChatSystemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSystemViewController.swift; sourceTree = "<group>"; };
 		046689212472548800A76669 /* ConfigureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureModel.swift; sourceTree = "<group>"; };
 		047333242473D77700755192 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		047333262473D86500755192 /* Object+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Object+ClassName.swift"; sourceTree = "<group>"; };
@@ -878,6 +880,7 @@
 				04CB46F1249CB02C001BCC8F /* RenterScheduleFYViewController.swift */,
 				04CB46F2249CB02C001BCC8F /* RenterChatViewController.swift */,
 				04CB46F3249CB02C001BCC8F /* RenterChatListViewController.swift */,
+				043D5F6A24E126700067A0B1 /* ChatSystemViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2079,6 +2082,7 @@
 				EEE0D93F2465581200E5C77B /* AppKey.swift in Sources */,
 				04CB46F8249CB02C001BCC8F /* WechatExchangeStatusMessage.swift in Sources */,
 				0420BB4B24A882B00052D165 /* RenterCustomersViewController.swift in Sources */,
+				043D5F6B24E126700067A0B1 /* ChatSystemViewController.swift in Sources */,
 				04CB46D8249CAFE9001BCC8F /* ExtentSelectCell.swift in Sources */,
 				04CB46DB249CAFE9001BCC8F /* HouseFeatureCollectionCell.swift in Sources */,
 				EE4914D624692D62008D5689 /* LLSegmentItemTitleImageView.swift in Sources */,
