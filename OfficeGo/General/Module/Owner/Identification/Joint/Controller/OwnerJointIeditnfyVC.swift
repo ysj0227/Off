@@ -217,6 +217,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
                 weakSelf.userModel?.authority = model.authority
                 
                 weakSelf.userModel?.isCreateBranch = model.isCreateBranch
+                weakSelf.userModel?.userLicenceId = model.userLicenceId
                 weakSelf.userModel?.licenceId = model.licenceId
                 weakSelf.userModel?.buildingId = model.buildingId
                 weakSelf.userModel?.buildingTempId = model.buildingTempId
@@ -259,6 +260,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
                 weakSelf.userModel?.authority = model.authority
                 
                 weakSelf.userModel?.isCreateCompany = "1"
+                weakSelf.userModel?.userLicenceId = model.userLicenceId
                 weakSelf.userModel?.licenceId = model.licenceId
                 weakSelf.userModel?.company = model.company
                 weakSelf.userModel?.address = model.address

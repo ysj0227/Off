@@ -210,6 +210,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                 weakSelf.userModel?.authority = model.authority
                 
                 weakSelf.userModel?.isCreateCompany = model.isCreateCompany
+                weakSelf.userModel?.userLicenceId = model.userLicenceId
                 weakSelf.userModel?.licenceId = model.licenceId
                 weakSelf.userModel?.company = model.company
                 weakSelf.userModel?.address = model.address
@@ -250,6 +251,8 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
                 weakSelf.userModel?.authority = model.authority
                 
                 weakSelf.userModel?.isCreateBuilding = model.isCreateBuilding
+                weakSelf.userModel?.userLicenceId = model.userLicenceId
+                weakSelf.userModel?.licenceId = model.licenceId
                 weakSelf.userModel?.buildingId = model.buildingId
                 weakSelf.userModel?.buildingTempId = model.buildingTempId
                 weakSelf.userModel?.buildingName = model.buildingName
