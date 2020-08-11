@@ -153,6 +153,7 @@ extension RenterChatListViewController {
                 }
                 self?.conversationListDataSource.remove(model)
                 self?.refreshConversationTableViewIfNeeded()
+                self?.updateBadgeValueForTabBarItem()
             }
         }
         deleteAction.backgroundColor = .red
