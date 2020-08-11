@@ -155,12 +155,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
-        var deviceTokenString = String()
-        let bytes = [UInt8](deviceToken)
-        for item in bytes {
-            deviceTokenString += String(format: "%02x", item&0x000000FF)
-        }
-        RCIMClient.shared()?.setDeviceToken(deviceTokenString)
+//        var deviceTokenString = String()
+//        let bytes = [UInt8](deviceToken)
+//        for item in bytes {
+//            deviceTokenString += String(format: "%02x", item&0x000000FF)
+//        }
+//        RCIMClient.shared()?.setDeviceToken(deviceTokenString)
+        RCIMClient.shared()?.setDeviceTokenData(deviceToken)
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("didFailToRegisterForRemoteNotificationsWithError---\(error)")
