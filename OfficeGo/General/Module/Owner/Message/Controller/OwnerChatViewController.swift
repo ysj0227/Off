@@ -52,7 +52,28 @@ class OwnerChatViewController: RCConversationViewController {
             
             guard let weakSelf = self else {return}
             
-            weakSelf.titleview?.titleLabel.text = weakSelf.messageModel?.nickname
+            if let nickname = weakSelf.messageModel?.nickname, let job = weakSelf.messageModel?.job {
+                //定义富文本即有格式的字符串
+                let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+                
+                if nickname.count > 0 {
+                    let nameAtt = NSAttributedString.init(string: nickname, attributes: [NSAttributedString.Key.foregroundColor : kAppWhiteColor, NSAttributedString.Key.font : FONT_MEDIUM_17])
+                    attributedStrM.append(nameAtt)
+                    
+                }
+                
+                if job.count > 0 {
+                    
+                    attributedStrM.append(NSAttributedString.init(string: "\n"))
+                    
+                    let xingxing = NSAttributedString.init(string: job, attributes: [NSAttributedString.Key.foregroundColor: kAppWhiteColor , NSAttributedString.Key.font : FONT_13])
+                    
+                    attributedStrM.append(xingxing)
+                    
+                }
+                
+                weakSelf.titleview?.titleLabel.attributedText = attributedStrM
+            }
             ///强制刷新好友信息
             weakSelf.reloadRCCompanyUserInfo()
             
@@ -63,7 +84,7 @@ class OwnerChatViewController: RCConversationViewController {
     
     ///获取详情
     func requestChatDetail() {
-                
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
@@ -82,6 +103,8 @@ class OwnerChatViewController: RCConversationViewController {
                 //刷新对方融云信息
                 weakSelf.messageModel = model
                 weakSelf.setViewShow()
+            }else {
+                weakSelf.requestUserInfo()
             }
                         
             }, failure: { (error) in
@@ -93,6 +116,44 @@ class OwnerChatViewController: RCConversationViewController {
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
             }
+        }
+    }
+    
+    ///获取用户详情
+    func requestUserInfo() {
+        
+        ///实现刷新用户信息
+        SSNetworkTool.SSChat.request_getUserChatInfoApp(params: ["targetId": targetId as AnyObject], success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = ChatTargetUserInfoModel.deserialize(from: response, designatedPath: "data") {
+                
+                SSTool.invokeInMainThread { [weak self] in
+                    
+                    guard let weakSelf = self else {return}
+                    
+                    weakSelf.setInfo(model: model)
+                }
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
+    }
+    
+    func setInfo(model: ChatTargetUserInfoModel) {
+        SSTool.invokeInMainThread { [weak self] in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.titleview?.titleLabel.text = model.name
+            ///强制刷新好友信息
+            let info = RCUserInfo.init(userId: model.id, name: model.name, portrait: model.avatar)
+            RCIM.shared()?.refreshUserInfoCache(info, withUserId: model.id)
         }
     }
 
@@ -122,6 +183,7 @@ extension OwnerChatViewController {
         
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
         titleview?.titleLabel.text = self.title
+        titleview?.titleLabel.numberOfLines = 2
         titleview?.rightButton.isHidden = true
         titleview?.rightButton.setImage(UIImage.init(named: "setting"), for: .normal)
         titleview?.leftButtonCallBack = { [weak self] in
@@ -133,9 +195,7 @@ extension OwnerChatViewController {
             }
         }
         self.view.addSubview(titleview!)
-        
-       
-        
+                
         scheduleView = RenterMsgScheduleAlertView.init(frame: CGRect(x: 0, y: kNavigationHeight + 60, width: kWidth, height: 43))
         scheduleView?.addTarget(self, action: #selector(clickToScheduleDetailVC), for: .touchUpInside)
         self.view.addSubview(scheduleView ?? RenterMsgScheduleAlertView())

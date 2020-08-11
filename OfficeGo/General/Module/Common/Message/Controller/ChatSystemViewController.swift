@@ -24,7 +24,7 @@ class ChatSystemViewController: RCConversationViewController {
         requestUserInfo()
     }
     
-    ///获取详情
+    ///获取用户详情
     func requestUserInfo() {
         
         ///实现刷新用户信息
