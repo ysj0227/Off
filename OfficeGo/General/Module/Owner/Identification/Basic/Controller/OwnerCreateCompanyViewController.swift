@@ -410,6 +410,8 @@ class OwnerCreateCompanyCell: BaseEditCell {
 
             detailIcon.isHidden = true
             
+            editPalaceholderLabel.isHidden = true
+            
             if model.type == .OwnerCreteCompanyTypeCompanyName{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
