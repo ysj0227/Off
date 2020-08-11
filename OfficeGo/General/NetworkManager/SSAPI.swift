@@ -307,6 +307,9 @@ class SSFYDetailURL: NSObject {
     //楼盘-网点房源列表
     static let getBuildingFYList = "api/building/selectHouseApp"
     
+    //点击分享 - 调用接口
+    static let clickShareClick = "api/chat/shareApp"
+
 }
 
 //  MARK:   --基本信息

@@ -784,7 +784,12 @@ extension SSNetworkTool {
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
-        
+        //点击分享 - 调用接口
+        static func request_clickShareClick(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
+            let url = String.init(format: SSFYDetailURL.clickShareClick)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
     }
     
     //  MARK:   首页
