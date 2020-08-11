@@ -374,6 +374,14 @@ class BaseEditCell: BaseTableViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
+        
+        setExtraView()
+        
+    }
+    
+    ///子类 独立设置自己要添加的控件和约束
+    func setExtraView() {
+        
     }
     
     override func awakeFromNib() {

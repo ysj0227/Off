@@ -148,6 +148,20 @@ class OwnerCreatCompanyConfigureModel: NSObject {
         }
     }
     
+    func getPalaceHolderFormType(type: OwnerCreteCompanyType) -> String{
+        switch type {
+        case .OwnerCreteCompanyTypeIedntify:
+            return ""
+        case .OwnerCreteCompanyTypeCompanyName:
+            return "请输入公司名称"
+        case .OwnerCreteCompanyTypeCompanyAddress:
+            return "请输入公司地址"
+        case .OwnerCreteCompanyTypeYingyeCode:
+            return ""
+        case .OwnerCreteCompanyTypeUploadYingyePhoto:
+            return ""
+        }
+    }
     //centerStr *
     func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
         

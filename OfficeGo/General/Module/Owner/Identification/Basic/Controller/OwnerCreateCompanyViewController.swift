@@ -344,9 +344,29 @@ class OwnerCreateCompanyCell: BaseEditCell {
     
     var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
     
+    ///公司营业执照号 - 提示文案
+    lazy var editPalaceholderLabel: UILabel = {
+        let view = UILabel()
+        view.isHidden = true
+        view.numberOfLines = 2
+        view.textAlignment = .left
+        view.font = FONT_15
+        view.textColor = UIColor.init(red: 203, green: 203, blue: 205)
+        return view
+    }()
+    
     override func setDelegate() {
         editLabel.delegate = self
         editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+    }
+    
+    ///子类 独立设置自己要添加的控件和约束
+    override func setExtraView() {
+        
+        addSubview(editPalaceholderLabel)
+
+        editPalaceholderLabel.frame = CGRect(x: 157, y: 0, width: kWidth - 157 - left_pending_space_17, height: cell_height_58)
+               
     }
     
     @objc func valueDidChange() {
@@ -373,6 +393,11 @@ class OwnerCreateCompanyCell: BaseEditCell {
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }
+            if editLabel.text?.count ?? 0 > 0 {
+                editPalaceholderLabel.isHidden = true
+            }else {
+                editPalaceholderLabel.isHidden = false
+            }
         }
     }
     
@@ -380,6 +405,7 @@ class OwnerCreateCompanyCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerCreteCompanyType.OwnerCreteCompanyTypeIedntify)
+            editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerCreteCompanyType.OwnerCreteCompanyTypeIedntify)
             editLabel.keyboardType = .default
 
             detailIcon.isHidden = true
@@ -397,6 +423,13 @@ class OwnerCreateCompanyCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
                 editLabel.text = companyModel?.creditNo
+                editPalaceholderLabel.text = "请输入统一社会信用代码或营业执照编号"
+                if companyModel?.creditNo?.count ?? 0 > 0 {
+                    editPalaceholderLabel.isHidden = true
+                }else {
+                    editPalaceholderLabel.isHidden = false
+                }
+
             }else if model.type == .OwnerCreteCompanyTypeUploadYingyePhoto{
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true
