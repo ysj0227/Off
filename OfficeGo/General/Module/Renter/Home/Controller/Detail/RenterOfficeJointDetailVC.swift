@@ -93,6 +93,20 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         tableHeaderView.pausePlayer()
     }
     
+    ///点击分享按钮调用的方法
+    func shareClick() {
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["buildingId"] = buildingDetailViewModel?.buildingViewModel?.buildingId as AnyObject?
+        SSNetworkTool.SSFYDetail.request_clickShareClick(params: params, success: { (response) in
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+          
+        }
+    }
+    
     func shareVc() {
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingDetailViewModel?.buildingViewModel?.buildingName ?? ""
@@ -336,6 +350,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         }
         titleview?.rightBtnsssClickBlock = { [weak self] (index) in
             if index == 99 {
+                self?.shareClick()
                 self?.shareVc()
             }
         }

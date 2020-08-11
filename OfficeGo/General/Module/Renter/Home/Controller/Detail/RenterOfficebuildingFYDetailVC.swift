@@ -53,6 +53,21 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         super.viewWillAppear(animated)
     }
     
+    ///点击分享按钮调用的方法
+    func shareClick() {
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["houseId"] = buildingFYDetailModel?.house?.id as AnyObject?
+
+        SSNetworkTool.SSFYDetail.request_clickShareClick(params: params, success: { (response) in
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+          
+        }
+    }
+    
     func shareVc() {
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingFYDetailViewModel?.houseViewModel?.buildingName ?? ""
@@ -136,6 +151,7 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
         }
         titleview?.rightBtnsssClickBlock = { [weak self] (index) in
             if index == 99 {
+                self?.shareClick()
                 self?.shareVc()
             }
         }
