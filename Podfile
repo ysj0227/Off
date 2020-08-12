@@ -28,7 +28,8 @@ target 'OfficeGo' do
   #  pod 'LLSegmentViewController'
   pod 'IQKeyboardManagerSwift', '6.3.0'
   pod 'FSCalendar', '2.8.0'
-  
+  pod 'Bugly', '2.5.71'
+
   pod 'WechatOpenSDK'
   
 #  pod 'UMCCommon'
@@ -54,8 +55,8 @@ target 'OfficeGo' do
   #  视频播放
   pod 'WMPlayer', '5.0.0' #,  :git => 'https://github.com/zhengwenming/WMPlayer.git'
   
-  pod 'RongCloudIM/IMLib', '~> 2.10.4'
-  pod 'RongCloudIM/IMKit', '~> 2.10.4'
+  pod 'RongCloudIM/IMLib', '2.10.4'
+  pod 'RongCloudIM/IMKit', '2.10.4'
   
   target 'OfficeGoTests' do
     inherit! :search_paths

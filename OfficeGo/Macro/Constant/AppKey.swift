@@ -35,7 +35,7 @@ struct AppKey {
     
     
     /// bugly
-    static let buglyAppKey = "821d61983d"
+    static let buglyAppKey = "b83ee7e762"
     
     /// 融云AppKey
     

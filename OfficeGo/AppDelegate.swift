@@ -10,6 +10,8 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import Bugly
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
@@ -476,6 +478,10 @@ extension AppDelegate {
     }
     
     func setUpSDKs() {
+        
+        Bugly.start(withAppId: AppKey.buglyAppKey)
+        
+        Bugly.setUserIdentifier("\(UserTool.shared.user_uid ?? 0)")
         
         WXApi.registerApp(AppKey.WeChatAppId, universalLink: AppKey.UniversalLink)
         

@@ -28,4 +28,7 @@
 //身份证拍照
 #import "ZKIDCardCameraController.h"
 
+#import <Bugly/Bugly.h>
+
+
 #endif /* My_Bridging_h */
