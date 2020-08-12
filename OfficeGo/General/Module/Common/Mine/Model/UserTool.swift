@@ -61,7 +61,7 @@ class UserTool: NSObject {
         }
     }
     
-    //终端渠道,1:IOS,2:安卓,3:H5
+    ///终端渠道,1:IOS,2:安卓,3:H5
     var user_channel: Int = 1
     
     

@@ -45,7 +45,7 @@ import Foundation
     static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
                             "Release": "https://m.officego.com/"]
     
-    ///测试环境
+    ///预发测试环境
     //        static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
     //                                 "Release": "https://api.officego.com/"]
     //
