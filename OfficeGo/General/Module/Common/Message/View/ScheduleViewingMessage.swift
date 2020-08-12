@@ -304,7 +304,11 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let testMessage = model.content as? ScheduleViewingMessage
         
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            testMessage?.content = "我想到现场看房，是否同意？"
+            if UserTool.shared.user_id_type == 0 {
+                testMessage?.content = "我想邀请你到现场看房，是否同意？"
+            }else if UserTool.shared.user_id_type == 1 {
+                testMessage?.content = "我想到现场看房，是否同意？"
+            }
         }else {
             testMessage?.content = "你发起了一个看房邀约，等待对方接受"
         }
@@ -379,9 +383,11 @@ class ScheduleViewingMessageCell: RCMessageCell {
     private class func getTextLabelSize(_ message: ScheduleViewingMessage, messageDirection: RCMessageDirection) -> CGSize {
         
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            //            message.content = "我想要与您约看房源，您是否同意？\n 约看时间：\(dateStr)"
-            message.content = "我想到现场看房，是否同意？"
-            
+            if UserTool.shared.user_id_type == 0 {
+                message.content = "我想邀请你到现场看房，是否同意？"
+            }else if UserTool.shared.user_id_type == 1 {
+                message.content = "我想到现场看房，是否同意？"
+            }
         }else {
             message.content = "你发起的看房邀约，等待对方接受"
         }
