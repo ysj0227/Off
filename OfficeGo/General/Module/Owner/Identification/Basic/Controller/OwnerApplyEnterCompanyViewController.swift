@@ -435,6 +435,10 @@ extension OwnerApplyEnterCompanyViewController {
         didSet {
             avatarImg.setImage(with: iedntifyDetailMsg?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
             if iedntifyDetailMsg?.proprietorRealname?.count ?? 0 > 0 || iedntifyDetailMsg?.proprietorJob?.count ?? 0 > 0 {
+                if managerMsg?.proprietorRealname?.count ?? 0 > ownerMaxUsernameNumber {
+                    let index = iedntifyDetailMsg?.proprietorRealname?.index((iedntifyDetailMsg?.proprietorRealname?.startIndex)!, offsetBy: ownerMaxUsernameNumber)
+                    iedntifyDetailMsg?.proprietorRealname = iedntifyDetailMsg?.proprietorRealname?.substring(to: index!)
+                }
                 nameLabel.text = "\(iedntifyDetailMsg?.authority ?? "")：\(iedntifyDetailMsg?.proprietorRealname ?? "") \(iedntifyDetailMsg?.proprietorJob ?? "")"
             }else {
                 nameLabel.text = "\(iedntifyDetailMsg?.authority ?? "")"
@@ -494,6 +498,10 @@ extension OwnerApplyEnterCompanyViewController {
         didSet {
             avatarImg.setImage(with: managerMsg?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
             if managerMsg?.proprietorRealname?.count ?? 0 > 0 || managerMsg?.proprietorJob?.count ?? 0 > 0 {
+                if managerMsg?.proprietorRealname?.count ?? 0 > ownerMaxUsernameNumber {
+                    let index = managerMsg?.proprietorRealname?.index((managerMsg?.proprietorRealname?.startIndex)!, offsetBy: ownerMaxUsernameNumber)
+                    managerMsg?.proprietorRealname = managerMsg?.proprietorRealname?.substring(to: index!)
+                }
                 nameLabel.text = "\(managerMsg?.authority ?? "")：\(managerMsg?.proprietorRealname ?? "") \(managerMsg?.proprietorJob ?? "")"
             }else {
                 nameLabel.text = "\(managerMsg?.authority ?? "")"
