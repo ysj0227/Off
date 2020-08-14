@@ -230,24 +230,29 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
             
         }) { [weak self] in
             
-            self?.showSureLeaveAlert()
-        }
-    }
-    
-    func showSureLeaveAlert() {
-        let alert = SureAlertView(frame: self.view.frame)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "请再次确认是否离开？", descMsg: "", cancelButtonCallClick: {
-            
-        }) { [weak self] in
-            
+//            self?.showSureLeaveAlert()
             if self?.isFromPersonalVc == true {
                 self?.navigationController?.popToRootViewController(animated: true)
             }else {
                 self?.leftBtnClick()
             }
-            
         }
     }
+    
+//    func showSureLeaveAlert() {
+//        let alert = SureAlertView(frame: self.view.frame)
+//        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "请再次确认是否离开？", descMsg: "", cancelButtonCallClick: {
+//
+//        }) { [weak self] in
+//
+//            if self?.isFromPersonalVc == true {
+//                self?.navigationController?.popToRootViewController(animated: true)
+//            }else {
+//                self?.leftBtnClick()
+//            }
+//
+//        }
+//    }
     
 }
 
