@@ -76,13 +76,6 @@ extension ChatSystemViewController {
         }
         self.view.addSubview(titleview!)
         
-        /*!
-        开启已读回执功能的会话类型，默认为空
-
-        @discussion 这些会话类型的消息在会话页面显示了之后会发送已读回执。目前仅支持单聊、群聊和讨论组。
-        */
-        //RCIM.shared().enabledReadReceiptConversationTypeList = [RCConversationType.ConversationType_SYSTEM]
-        
         //隐藏下面的输入框
         self.chatSessionInputBarControl.isHidden = true
 
