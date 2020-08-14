@@ -202,10 +202,7 @@ extension OwnerChatViewController {
         scheduleView?.isHidden = true
         
         self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: self.view.height - kNavigationHeight)
-        
-        if Device.isIPad == true {
-            self.conversationMessageCollectionView.contentInset = UIEdgeInsets(top: kNavigationHeight + 4, left: 0, bottom: 0, right: 0)
-        }
+
         // 注册自定义消息的Cell
         //交换手机
         register(ApplyEnterCompanyOrBranchMessageCell.self, forMessageClass: ApplyEnterCompanyOrBranchMessage.self)
