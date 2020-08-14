@@ -253,15 +253,15 @@ class RenterChatViewController: RCConversationViewController {
     
     override func didSendMessage(_ status: Int, content messageContent: RCMessageContent!) {
         SSLog("---*****---\(messageContent.className)")
-        
+
         if messageContent.isKind(of: RCTextMessage.self) {
             
-            SSTool.invokeInDebug { [weak self] in
+            SSTool.invokeInMainThread { [weak self] in
                 self?.request_addChatApp()
             }
             
         }
-        
+
     }
 }
 
@@ -570,16 +570,23 @@ extension RenterChatViewController {
     //发送打招呼语第一次创建聊天 - 租户给业主发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
     func sengSayHelloMessage() {
         
-        ///isChat":0//0 :点击发送按钮的时候需要调用addChat接口，1:不需要
-        if messageFYModel?.isChat == 1 {
-            return
-        }
+//        ///isChat":0//0 :点击发送按钮的时候需要调用addChat接口，1:不需要
+//        if messageFYModel?.isChat == 1 {
+//            return
+//        }
+//
+//        //只有租户才会发这个消息
+//        if UserTool.shared.user_id_type == 0 {
+//            let message = RCTextMessage(content: "我对你发布的房源有兴趣，能聊聊吗？")
+//            sendMessage(message, pushContent: "打招呼")
+//        }
         
-        //只有租户才会发这个消息
-        if UserTool.shared.user_id_type == 0 {
+        ///isChat":0//0 :点击发送按钮的时候需要调用addChat接口，1:不需要
+        if messageFYModel?.isChat == 0 && UserTool.shared.user_id_type == 0 {
             let message = RCTextMessage(content: "我对你发布的房源有兴趣，能聊聊吗？")
             sendMessage(message, pushContent: "打招呼")
         }
+
     }
     
     //添加插入房源消息

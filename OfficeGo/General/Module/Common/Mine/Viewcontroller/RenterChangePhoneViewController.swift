@@ -227,8 +227,8 @@ extension RenterChangePhoneViewController {
     ///设置修改之后的操作
     func setNewPhone() {
         
-        SSTool.invokeInDebug { [weak self] in
-            UserTool.shared.user_phone = phoneNewField.text
+        SSTool.invokeInMainThread { [weak self] in
+            UserTool.shared.user_phone = self?.phoneNewField.text
             if UserTool.shared.user_id_type == 0 {
                 //不清空身份类型
                 UserTool.shared.removeAll()
