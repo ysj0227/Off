@@ -72,7 +72,7 @@ extension RenterHouseScheduleDetailViewController {
     func setView() {
         
         titleview = ThorNavigationView.init(type: .HouseScheduleHeaderView)
-        titleview?.titleLabel.text = "已完成"
+        titleview?.titleLabel.text = ""
         titleview?.titleLabel.textAlignment = .left
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
