@@ -71,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 //自己是业主 并且对方也是业主
                 if UserTool.shared.user_id_type == 1 && subStr == ChatType_Owner_1 {
                     let vc = OwnerChatViewController()
+                    vc.needPopToRootView = true
                     vc.conversationType = .ConversationType_PRIVATE
                     vc.targetId = targetId
                     vc.enableNewComingMessageIcon = true  //开启消息提醒
@@ -82,6 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                     nsv.pushViewController(vc, animated: true)
                 }else {
                     let vc = RenterChatViewController()
+                    vc.needPopToRootView = true
                     vc.conversationType = .ConversationType_PRIVATE
                     vc.targetId = targetId
                     vc.enableNewComingMessageIcon = true  //开启消息提醒
@@ -110,6 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 //自己是业主
                 if UserTool.shared.user_id_type == 1 && subStr == ChatType_System_3 {
                     let vc = ChatSystemViewController()
+                    vc.needPopToRootView = true
                     vc.targetId = targetId
                     vc.conversationType = .ConversationType_SYSTEM
                     vc.enableNewComingMessageIcon = true  //开启消息提醒

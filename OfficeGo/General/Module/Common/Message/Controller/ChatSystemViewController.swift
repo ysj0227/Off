@@ -12,6 +12,8 @@ class ChatSystemViewController: RCConversationViewController {
     
     var titleview: ThorNavigationView?
         
+    var needPopToRootView: Bool?
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -89,7 +91,11 @@ extension ChatSystemViewController {
 extension ChatSystemViewController {
     
     @objc func leftBtnClick() {
-        self.navigationController?.popViewController(animated: true)
+        if needPopToRootView == true {
+            self.navigationController?.popToRootViewController(animated: true)
+        }else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 
     
