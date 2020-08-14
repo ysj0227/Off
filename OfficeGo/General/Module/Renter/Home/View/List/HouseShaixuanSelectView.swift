@@ -337,13 +337,13 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
             
         case .IWantToFindTypeFeature:
             
-            return CGFloat((self.selectModel.shaixuanModel.featureModelArr.count / 3 + 1) * (60 + 10))
+            return CGFloat((self.selectModel.shaixuanModel.featureModelArr.count / 3 + 1) * (60 + 20))
             
         case .IWantToFindTypeDocumentType:
             if isLianHeBanGong == HouseTypeEnum.jointOfficeEnum {
                 return 0
             }else {
-                return CGFloat((self.selectModel.shaixuanModel.documentTypeModelArr.count / 3 + 1) * (60 + 10))
+                return CGFloat((self.selectModel.shaixuanModel.documentTypeModelArr.count / 3 + 1) * (60 + 20))
             }
         case .IWantToFindTypeGongwei1:
             return 0
