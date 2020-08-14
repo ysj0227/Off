@@ -499,7 +499,7 @@ extension RenterChatViewController {
     //弹出输入微信弹框
     func showWXInputAlertview() {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.inputTFView.placeholder = "请输入您的微信号"
+        alert.inputTFView.placeholder = "请输入你的微信号"
         alert.ShowInputAlertView(message: "当前未绑定微信", cancelButtonCallClick: {
             
         }) { [weak self] (str) in
@@ -522,7 +522,7 @@ extension RenterChatViewController {
     //输入微信弹框
     func showBtnWXInputAlertview(otherWechat: String) {
         let alert = SureAlertView(frame: self.view.frame)
-        alert.inputTFView.placeholder = "请输入您的微信号"
+        alert.inputTFView.placeholder = "请输入你的微信号"
         alert.ShowInputAlertView(message: "当前未绑定微信", cancelButtonCallClick: {
             
         }) { [weak self] (str) in
@@ -606,14 +606,14 @@ extension RenterChatViewController {
     
     //发送交换手机号自定义消息
     func sendExchangePhone() {
-        let messageContent = PhoneExchangeMessage.messageWithContent(content: "我想和您交换手机号", number: UserTool.shared.user_phone ?? "")
-        sendMessage(messageContent, pushContent: "我想和您交换手机号")
+        let messageContent = PhoneExchangeMessage.messageWithContent(content: "我想和你交换手机号", number: UserTool.shared.user_phone ?? "")
+        sendMessage(messageContent, pushContent: "我想和你交换手机号")
     }
     
     //发送交换微信自定义消息
     func sendExchangeWechat() {
-        let messageContent = WechatExchangeMessage.messageWithContent(content: "我想和您交换微信号", number: UserTool.shared.user_wechat ?? "")
-        sendMessage(messageContent, pushContent: "我想和您交换微信号")
+        let messageContent = WechatExchangeMessage.messageWithContent(content: "我想和你交换微信号", number: UserTool.shared.user_wechat ?? "")
+        sendMessage(messageContent, pushContent: "我想和你交换微信号")
     }
     
     //预约房源
@@ -624,7 +624,7 @@ extension RenterChatViewController {
     
     //交换手机号同意拒绝消息
     func sendExchangePhoneAgreeOrReject(agree: Bool, otherPhone: String) {
-        let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换手机号" : "我拒绝和您交换手机号", isAgree: agree, sendNumber: otherPhone, receiveNumber: UserTool.shared.user_phone ?? "")
+        let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "我同意和你交换手机号" : "我拒绝和你交换手机号", isAgree: agree, sendNumber: otherPhone, receiveNumber: UserTool.shared.user_phone ?? "")
         sendMessage(messageContent, pushContent: "交换手机号回复")
     }
     
@@ -645,7 +645,7 @@ extension RenterChatViewController {
     }
     
     func sendMesExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String) {
-        let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和您交换微信": "我拒绝和您交换微信", isAgree: agree, sendNumber: otherWechat, receiveNumber: UserTool.shared.user_wechat ?? "")
+        let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和你交换微信": "我拒绝和你交换微信", isAgree: agree, sendNumber: otherWechat, receiveNumber: UserTool.shared.user_wechat ?? "")
         sendMessage(messageContent, pushContent: "交换信成功回复")
     }
     
@@ -680,7 +680,7 @@ extension RenterChatViewController {
     }
     
     func sendScheduleMessage(agree: Bool) {
-        let messageContent = ScheduleViewingStatusMessage.messageWithContent(content: agree ? "我同意您发送的看房邀请" : "我拒绝您发送的看房邀请", isAgree: agree)
+        let messageContent = ScheduleViewingStatusMessage.messageWithContent(content: agree ? "我同意你发送的看房邀请" : "我拒绝你发送的看房邀请", isAgree: agree)
         sendMessage(messageContent, pushContent: "看房邀请回复")
     }
     

@@ -236,7 +236,7 @@ class WechatExchangeMessageCell: RCMessageCell {
         super.setDataModel(model)
         let testMessage = model.content as? WechatExchangeMessage
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            testMessage?.content = "我想要与您交换微信，您是否同意？"
+            testMessage?.content = "我想要与你交换微信，你是否同意？"
         }else {
             testMessage?.content = "请求交换微信已发送"
         }
@@ -304,7 +304,7 @@ class WechatExchangeMessageCell: RCMessageCell {
     
     private class func getTextLabelSize(_ message: WechatExchangeMessage, messageDirection: RCMessageDirection) -> CGSize {
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            message.content = "我想要与您交换微信，您是否同意？"
+            message.content = "我想要与你交换微信，你是否同意？"
         }else {
             message.content = "请求交换微信已发送"
         }

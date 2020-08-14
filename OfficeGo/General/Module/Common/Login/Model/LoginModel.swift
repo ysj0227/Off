@@ -222,13 +222,13 @@ class OwnerIdentifyUserModel: BaseModel {
     ///商圈id
     var businessString : String?
     
-    //0 空   无定义     1创建  2关联吗
+    ///0 空   无定义     1创建  2关联吗
     var isCreateCompany: String?
     
-    //0 空   无定义     1创建  2关联吗
+    ///0 空   无定义     1创建  2关联吗
     var isCreateBuilding: String?
     
-    //0 空   无定义     1创建  2关联吗
+    ///0 空   无定义     1创建  2关联吗
     var isCreateBranch: String?
     
 }

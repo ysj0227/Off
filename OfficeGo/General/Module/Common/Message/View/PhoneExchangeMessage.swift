@@ -236,7 +236,7 @@ class PhoneExchangeMessageCell: RCMessageCell {
         super.setDataModel(model)
         let testMessage = model.content as? PhoneExchangeMessage
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            testMessage?.content = "我想要与您交换电话，您是否同意？"
+            testMessage?.content = "我想要与你交换电话，你是否同意？"
         }else {
             testMessage?.content = "请求交换电话已发送"
         }
@@ -304,7 +304,7 @@ class PhoneExchangeMessageCell: RCMessageCell {
     
     private class func getTextLabelSize(_ message: PhoneExchangeMessage, messageDirection: RCMessageDirection) -> CGSize {
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-            message.content = "我想要与您交换电话，您是否同意？"
+            message.content = "我想要与你交换电话，你是否同意？"
         }else {
             message.content = "请求交换电话已发送"
         }
