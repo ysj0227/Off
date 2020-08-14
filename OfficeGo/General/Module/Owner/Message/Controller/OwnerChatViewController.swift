@@ -157,18 +157,6 @@ class OwnerChatViewController: RCConversationViewController {
         }
     }
 
-    override func didSendMessage(_ status: Int, content messageContent: RCMessageContent!) {
-        SSLog("---*****---\(messageContent.className)")
-        
-        if messageContent.isKind(of: RCTextMessage.self) {
-            
-            SSTool.invokeInDebug { [weak self] in
-                
-            }
-            
-        }
-        
-    }
 }
 
 
