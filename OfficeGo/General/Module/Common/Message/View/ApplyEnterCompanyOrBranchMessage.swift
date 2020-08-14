@@ -246,7 +246,12 @@ class ApplyEnterCompanyOrBranchMessageCell: RCMessageCell {
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
 //            testMessage?.content = "我是，希望加入公司，请通过"
         }else {
-            testMessage?.content = "你已申请加入TA的公司\n等待对方同意"
+            ///身份类型0个人1企业2联合
+            if UserTool.shared.user_owner_identifytype == 1 {
+                testMessage?.content = "你已申请加入TA的公司\n等待对方同意"
+            }else if UserTool.shared.user_owner_identifytype == 2 {
+                testMessage?.content = "你已申请加入TA的网点\n等待对方同意"
+            }
         }
         setAutoLayout()
     }
@@ -314,7 +319,12 @@ class ApplyEnterCompanyOrBranchMessageCell: RCMessageCell {
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
 //            message.content = "我是，希望加入公司，请通过"
         }else {
-            message.content = "你已申请加入TA的公司\n等待对方同意"
+            ///身份类型0个人1企业2联合
+            if UserTool.shared.user_owner_identifytype == 1 {
+                message.content = "你已申请加入TA的公司\n等待对方同意"
+            }else if UserTool.shared.user_owner_identifytype == 2 {
+                message.content = "你已申请加入TA的网点\n等待对方同意"
+            }
         }
         if !message.content.isEmpty {
             let screenWidth = UIScreen.main.bounds.size.width

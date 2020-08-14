@@ -282,14 +282,28 @@ extension OwnerChatViewController {
     //发送打招呼语第一次创建聊天 - 租户给业主发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
     func sengSayHelloMessage() {
         
-        let message = RCTextMessage(content: "我发送了加入公司的申请，请通过")
-        sendMessage(message, pushContent: "申请")
+        ///身份类型0个人1企业2联合
+        if UserTool.shared.user_owner_identifytype == 1 {
+            let message = RCTextMessage(content: "我发送了加入公司的申请，请通过")
+            sendMessage(message, pushContent: "申请")
+        }else if UserTool.shared.user_owner_identifytype == 2 {
+            let message = RCTextMessage(content: "我发送了加入网点的申请，请通过")
+            sendMessage(message, pushContent: "申请")
+        }
+       
     }
     
     //发送交换手机号自定义消息
     func ApplyJoinCompanyOrBranch() {
-        let messageContent = ApplyEnterCompanyOrBranchMessage.messageWithContent(content: content ?? "我是，希望加入公司，请通过", id: applyJoinModel?.id ?? -1, licenceId: applyJoinModel?.licenceId ?? -1)
-        sendMessage(messageContent, pushContent: content ?? "我是，希望加入公司，请通过")
+        ///身份类型0个人1企业2联合
+        if UserTool.shared.user_owner_identifytype == 1 {
+            let messageContent = ApplyEnterCompanyOrBranchMessage.messageWithContent(content: content ?? "我是，希望加入公司，请通过", id: applyJoinModel?.id ?? -1, licenceId: applyJoinModel?.licenceId ?? -1)
+            sendMessage(messageContent, pushContent: content ?? "我是，希望加入公司，请通过")
+        }else if UserTool.shared.user_owner_identifytype == 2 {
+            let messageContent = ApplyEnterCompanyOrBranchMessage.messageWithContent(content: content ?? "我是，希望加入网点，请通过", id: applyJoinModel?.id ?? -1, licenceId: applyJoinModel?.licenceId ?? -1)
+            sendMessage(messageContent, pushContent: content ?? "我是，希望加入网点，请通过")
+        }
+        
         
         //发送之后，发送一条打招呼语
         sengSayHelloMessage()
