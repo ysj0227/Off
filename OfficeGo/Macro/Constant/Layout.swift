@@ -32,7 +32,7 @@ let ownerMaxCompanynameNumber = 20
 let ownerMaxBuildingnameNumber = 20
 
 //业主 - 认证 -详细地址，30字
-let ownerMaxAddressDetailNumber = 20
+let ownerMaxAddressDetailNumber = 30
 
 //业主 - 认证 -网点名称，20字
 let ownerMaxBranchnameNumber = 20
