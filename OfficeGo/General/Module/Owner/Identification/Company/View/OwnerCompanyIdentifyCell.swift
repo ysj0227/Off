@@ -163,7 +163,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
                     //不能输入框修改
                     //无编辑按钮
                     //有清空
-                    numDescTF.isUserInteractionEnabled = false
+                    numDescTF.isUserInteractionEnabled = true
                     editBtn.isHidden = true
                 }else {
                     //如果没有提交过，应该返回一个""

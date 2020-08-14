@@ -959,7 +959,8 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         ///如果是审核被驳回并且是加入的某个企业
-        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
+//        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
+        if userModel?.isCreateCompany == "2" {
             return 1
         }else {
             if iaHasCompany == true {
@@ -984,7 +985,9 @@ extension OwnerCompanyIeditnfyVC: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         ///如果是审核被驳回并且是加入的某个企业
-        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
+        //        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
+        if userModel?.isCreateCompany == "2" {
+            
             if section == 0 {
                 return typeSourceArray[0].count
             }else {

@@ -1067,7 +1067,8 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         ///如果是审核被驳回并且是加入的某个网点
-        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
+//        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
+        if userModel?.isCreateBranch == "2" {
             return 1
         }else {
             if iaHasCompany == true {
@@ -1084,7 +1085,8 @@ extension OwnerJointIeditnfyVC: UICollectionViewDataSource, UICollectionViewDele
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         ///如果是审核被驳回并且是加入的某个网点
-        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
+        //        if (userModel?.auditStatus == "2" && userModel?.authority == "0") || (userModel?.auditStatus == "3" && userModel?.authority == "0") {
+        if userModel?.isCreateBranch == "2" {
             if section == 0 {
                 return 2
             }else {
