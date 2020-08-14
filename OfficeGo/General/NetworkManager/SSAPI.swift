@@ -39,18 +39,18 @@ import Foundation
     
     
     ///开发环境
-    static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
-                             "Release": "https://api.officego.com/"]
-    
-    static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
-                            "Release": "https://m.officego.com/"]
+//    static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
+//                             "Release": "http://debug.officego.com.cn/"]
+//
+//    static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
+//                            "Release": "http://test1.officego.com.cn/"]
     
     ///预发测试环境
-    //        static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
-    //                                 "Release": "https://api.officego.com/"]
-    //
-    //        static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
-    //                                 "Release": "https://m.officego.com/"]
+            static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
+                                     "Release": "http://admin.officego.com.cn/"]
+    
+            static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
+                                     "Release": "http://test.officego.com.cn/"]
     
     ///正式环境
     //     static var SSApiHosts = ["Dev": "https://api.officego.com/",
