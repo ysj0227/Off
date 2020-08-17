@@ -101,7 +101,7 @@ class SSNetworkTool: NSObject {
                             if let msg  = resp["message"]  {
                                 message = (msg as? String) ?? ""
                                 
-                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
+                                 //AppUtilities.makeToast("\(statusCode)\n\(message)")
                             }
                             if let block = error {
                                 block("\(statusCode)", message)
@@ -204,7 +204,7 @@ class SSNetworkTool: NSObject {
                             if let msg  = resp["message"]  {
                                 message = (msg as? String) ?? ""
                                 
-                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
+                                 //AppUtilities.makeToast("\(statusCode)\n\(message)")
                             }
                             if let block = error {
                                 block("\(statusCode)", message)
@@ -295,7 +295,7 @@ class SSNetworkTool: NSObject {
                             if let msg  = resp["message"]  {
                                 message = (msg as? String) ?? ""
                                 
-                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
+                                 //AppUtilities.makeToast("\(statusCode)\n\(message)")
                             }
                             if let block = error {
                                 block("\(statusCode)", message)
@@ -382,7 +382,7 @@ class SSNetworkTool: NSObject {
                             if let msg  = resp["message"]  {
                                 message = (msg as? String) ?? ""
                                 
-                                 AppUtilities.makeToast("\(statusCode)\n\(message)")
+                                 //AppUtilities.makeToast("\(statusCode)\n\(message)")
                             }
                             if let block = error {
                                 block("\(statusCode)", message)
@@ -456,7 +456,7 @@ class SSNetworkTool: NSObject {
                     if let msg  = resp["message"]  {
                         message = (msg as? String) ?? ""
                         
-                         AppUtilities.makeToast("\(statusCode)\n\(message)")
+                         //AppUtilities.makeToast("\(statusCode)\n\(message)")
                     }
                     if let block = error {
                         block("\(statusCode)", message)

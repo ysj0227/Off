@@ -46,18 +46,18 @@ import Foundation
 //                            "Release": "http://test1.officego.com.cn/"]
     
     ///预发测试环境
-            static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
-                                     "Release": "http://admin.officego.com.cn/"]
-    
-            static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
-                                     "Release": "http://test.officego.com.cn/"]
+//            static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
+//                                     "Release": "http://admin.officego.com.cn/"]
+//
+//            static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
+//                                     "Release": "http://test.officego.com.cn/"]
     
     ///正式环境
-    //     static var SSApiHosts = ["Dev": "https://api.officego.com/",
-    //                              "Release": "https://api.officego.com/"]
-    //
-    //     static var SSH5Hosts = ["Dev": "https://m.officego.com/",
-    //                              "Release": "https://m.officego.com/"]
+    static var SSApiHosts = ["Dev": "https://api.officego.com/",
+                             "Release": "https://api.officego.com/"]
+    
+    static var SSH5Hosts = ["Dev": "https://m.officego.com/",
+                            "Release": "https://m.officego.com/"]
     
     //    调试接口地址:debug.officego.com.cn
     //    调试前端地址:test1.officego.com.cn

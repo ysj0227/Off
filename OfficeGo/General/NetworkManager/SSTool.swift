@@ -332,7 +332,7 @@ import SnapKit
         version = appVersion
         #endif
         
-        return version
+        return appVersion
     }
     
     //  MARK:   --缓存占用
