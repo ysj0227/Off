@@ -18,8 +18,15 @@ class RenterFangYuanListViewController: BaseTableViewController {
             
             selectview.houseSelectModel = recommendSelectModel
             
+            senors()
+            
             loadNewData()
         }
+    }
+    
+    func senors() {
+        ///访问楼盘网点列表
+        SensorsAnalyticsFunc.visit_building_network_list(selectModel: recommendSelectModel)
     }
     
     lazy var selectview: RenterShaixuanView = {

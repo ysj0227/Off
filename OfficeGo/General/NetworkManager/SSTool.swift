@@ -290,12 +290,167 @@ struct SensorsAnalyticsEvent {
      *dayPrice    租金    逗号拼接字符串        WEB
      *simple    工位    逗号拼接字符串        WEB
      *decoration    装修类型    STRING        WEB
-     *tags    房源特色    STRING        WEB
-     *isVr    是否只看VR    BOOL        WEB
+     *tags    房源特色    STRING        WEB   无数据
+     *isVr    是否只看VR    BOOL        WEB   无数据
      *isSelect    是否有筛选    BOOL        WEB
      */
-    class func visit_building_network_list() {
-        SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_building_network_list, params: nil)
+    class func visit_building_network_list(selectModel: HouseSelectModel) {
+        
+        var params = [AnyHashable: Any]()
+
+        params["uCity"] = "上海"
+        
+        var isSelect: Bool = false
+        
+        //地址
+        var areaType: String?
+                
+        //商圈地铁 区域筛选内容
+        var areaContent: String?
+        
+        //商圈1 还是地铁2
+        if selectModel.areaModel.selectedCategoryID == "1" {
+            
+            if let firstLevelModel = selectModel.areaModel.areaModelCount.isFirstSelectedModel {
+                
+                isSelect = true
+                
+                areaType = "商圈"
+                
+                ///区域
+                areaContent = firstLevelModel.district
+                
+                var businessArr: [String] = []
+                
+                for model in firstLevelModel.list {
+                    if model.isSelected ?? false  {
+                        businessArr.append(model.area ?? "")
+                    }
+                }
+                
+                //如果下面的商圈有选择 - 商圈地铁站拼接字符串
+                if businessArr.count > 0 {
+                    areaContent = businessArr.joined(separator: ",")
+                }
+            }
+            
+        }else if selectModel.areaModel.selectedCategoryID == "2" {
+            
+            if let firstLevelModel = selectModel.areaModel.subwayModelCount.isFirstSelectedModel {
+                
+                isSelect = true
+
+                areaType = "地铁"
+
+                //几号线 -
+                areaContent = firstLevelModel.line
+
+                //区域id
+                               
+                var businessArr: [String] = []
+                
+                for model in firstLevelModel.list {
+                    if model.isSelected ?? false  {
+                        businessArr.append(model.stationName ?? "")
+                    }
+                }
+                
+                //如果下面的地铁有选择 - 商圈地铁站拼接字符串
+                if businessArr.count > 0 {
+                    areaContent = businessArr.joined(separator: ",")
+                }
+            }
+        }
+        
+        if areaType?.count ?? 0 > 0 {
+            params["areaType"] = areaType
+        }
+        
+        if areaContent?.count ?? 0 > 0 {
+            params["areaContent"] = areaContent
+        }
+        
+        //办公场地选择类型    STRING
+        //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+        let officeType = selectModel.typeModel.type?.rawValue
+        params["officeType"] = officeType
+       
+        //oderType    排序选择类型    STRING        WEB
+        let oderType = selectModel.sortModel.type.rawValue
+        params["oderType"] = oderType
+        
+        //筛选 - 只有点击过筛选按钮 才把筛选的参数带过去
+        if selectModel.shaixuanModel.isShaixuan == true {
+            
+            isSelect = true
+
+            //工位 - 只有联合办公有
+            //工位    逗号拼接字符串        WEB
+            var simple: String?
+            
+            //租金 - 两者都有
+            //租金    逗号拼接字符串        WEB
+            var dayPrice: String?
+            
+            //联合办公
+            if selectModel.typeModel.type == .jointOfficeEnum {
+                 
+                if selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == selectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                    simple = String(format: "%.0f", selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", selectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum)
+                }else {
+                    simple = String(format: "%.0f", selectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
+                }
+                
+                if selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue == selectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue {
+                    dayPrice = String(format: "%.0f", selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", selectModel.shaixuanModel.zujinjointOfficeExtentModel.noLimitNum)
+                }else {
+                    dayPrice = String(format: "%.0f", selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", selectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
+                }
+                
+            }else if selectModel.typeModel.type == .officeBuildingEnum {
+                
+                if selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue == selectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue {
+                    dayPrice = String(format: "%.0f", selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", selectModel.shaixuanModel.zujinofficeBuildingExtentModel.noLimitNum)
+                }else {
+                    dayPrice = String(format: "%.0f", selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", selectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
+                }
+                
+                //办公室 - 面积传值
+                //面积    逗号拼接字符串        WEB
+                var area: String?
+                    
+                if selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                    area = String(format: "%.0f", selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum)
+                }else {
+                    area = String(format: "%.0f", selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
+                }
+                
+                params["area"] = area as AnyObject?
+                
+                //办公室 - 装修类型传值
+                var documentArr: [String] = []
+                for model in selectModel.shaixuanModel.documentTypeModelArr {
+                    if model.isDocumentSelected {
+                        documentArr.append("\(model.dictValue ?? 0)")
+                    }
+                }
+                
+                //装修类型    STRING        WEB
+                let decoration: String = documentArr.joined(separator: ",")
+                if decoration.count > 0 {
+                    params["decoration"] = decoration as AnyObject?
+                }
+
+            }
+            params["dayPrice"] = dayPrice as AnyObject?
+            
+            params["simple"] = simple as AnyObject?
+        }
+        
+        params["isSelect"] = isSelect as AnyObject?
+        
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_building_network_list, params: params)
+
     }
     
     /**
