@@ -21,11 +21,33 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
 			<key>CFBundleURLName</key>
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx70ee9e90c1d62d83</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>SensorsData.production</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>saa39f5229</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>SensorsData.default</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sacc267397</string>
 			</array>
 		</dict>
 	</array>

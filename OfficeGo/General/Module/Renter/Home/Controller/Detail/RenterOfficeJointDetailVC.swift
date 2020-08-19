@@ -13,6 +13,12 @@ import SwiftyJSON
 
 class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
+    ///神策添加字段
+    var buildLocation: Int = 0
+    
+    ///是否阅读完成
+    var isRead: Bool = false
+    
     //首页带过来的面积或者工位数
     var shaixuanAreaSeatsString: String?
     
@@ -248,6 +254,16 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
                         weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")人 \n \(weakSelf.dataSource.count)套"
                     }
                     
+                    ///神策楼盘详情页筛选房源
+                    SensorsAnalyticsFunc.building_data_page_screen(buildingId: "\(weakSelf.buildingModel.id ?? 0)", houseCnt: weakSelf.dataSource.count)
+                    
+                }else {
+                    ///点击楼盘详情页房源筛选按钮
+                    if weakSelf.clickItemString == "" {
+                        SensorsAnalyticsFunc.click_building_data_page_screen_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", area: "", simple: "全部")
+                    }else {
+                        SensorsAnalyticsFunc.click_building_data_page_screen_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", area: "", simple: weakSelf.clickItemString)
+                    }
                 }
             }
             
@@ -301,7 +317,15 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         refreshDataList()
     }
     
+    deinit {
+        SSLog("officedismiss")
+        
+        ///楼盘详情页阅读完成
+         SensorsAnalyticsFunc.visit_building_data_page_complete(buildingId: "\(buildingModel.id ?? 0)", isRead: isRead)
+    }
+    
     override func leftBtnClick() {
+        
         tableHeaderView.cycleView.removeFromSuperview()
         tableHeaderView.releaseWMplayer()
         self.navigationController?.popViewController(animated: true)
@@ -536,6 +560,8 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
             weakSelf.buildingDetailModel?.IsFavorite = !(weakSelf.buildingDetailModel?.IsFavorite ?? false)
             SSTool.invokeInMainThread {
                 weakSelf.setCollectBtnState(isCollect: weakSelf.buildingDetailModel?.IsFavorite ?? false)
+                
+                SensorsAnalyticsFunc.click_favorites_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", isCollect: weakSelf.buildingDetailModel?.IsFavorite ?? false)
             }
             }, failure: { (error) in
                 
@@ -564,6 +590,9 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     //MARK: 调用详情接口 -
     override func refreshData() {
+        
+        ///访问楼盘详情页
+        SensorsAnalyticsFunc.visit_building_data_page(buildingId: "\(buildingModel.id ?? 0)", buildLocation: buildLocation)
         
         var params = [String:AnyObject]()
         
@@ -1004,6 +1033,13 @@ extension RenterOfficeJointDetailVC {
         }else {
             titleview?.backgroundColor = kAppClearColor
             titleview?.titleLabel.isHidden = true
+        }
+        
+        //只有不是true的时候调用
+        if isRead != true {
+            if (scrollView.contentSize.height - scrollView.contentOffset.y) <= (1 + self.view.height) {
+                isRead = true
+            }
         }
     }
 }

@@ -75,6 +75,7 @@ class RenterChangePhoneViewController: BaseViewController {
     }()
     lazy var verifyCodeField: UITextField = {
         let view = UITextField()
+        view.delegate = self
         view.placeholder = "请输入验证码"
         view.keyboardType = .phonePad
         view.clearsOnBeginEditing = false
@@ -208,6 +209,7 @@ extension RenterChangePhoneViewController {
     
     //MARK: 获取验证码接口
     func getSmsCode() {
+        
         //调用登录接口 - 成功跳转下个页面-
         var params = [String:AnyObject]()
         params["phone"] = self.phoneNewField.text as AnyObject?
@@ -280,6 +282,10 @@ extension RenterChangePhoneViewController {
     }
     
     @objc func codeResponseEvent() {
+        
+        ///点击获取验证码
+        SensorsAnalyticsFunc.click_code()
+        
         if phoneNewField.text?.isBlankString ?? false {
             AppUtilities.makeToast("请输入手机号")
             return
@@ -310,5 +316,11 @@ extension RenterChangePhoneViewController {
         self.verifyBtn.setTitle("重新获取(\(countSeconds)s)", for: .normal)
         self.verifyBtn.setTitleColor(kAppColor_999999, for: .normal)
         self.verifyBtn.isUserInteractionEnabled = false
+    }
+}
+extension RenterChangePhoneViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        ///点击验证码输入框
+        SensorsAnalyticsFunc.click_code_input()
     }
 }

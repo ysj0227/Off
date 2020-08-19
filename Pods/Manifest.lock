@@ -20,6 +20,9 @@ PODS:
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
+  - SensorsAnalyticsSDK/core (2.1.2)
+  - SensorsAnalyticsSDK/DISABLE_UIWEBVIEW (2.1.2):
+    - SensorsAnalyticsSDK/core
   - SKPhotoBrowser (6.1.0)
   - SnapKit (5.0.1)
   - SwiftyJSON (5.0.0)
@@ -29,7 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - Bugly
+  - Bugly (= 2.5.71)
   - CLImagePickerTool (from `https://github.com/Darren-chenchen/CLImagePickerTool.git`)
   - FSCalendar (= 2.8.0)
   - HandyJSON (= 5.0.0)
@@ -42,6 +45,7 @@ DEPENDENCIES:
   - RongCloudIM/IMLib (= 2.10.4)
   - RxCocoa (~> 5.1.1)
   - RxSwift (~> 5.1.1)
+  - SensorsAnalyticsSDK/DISABLE_UIWEBVIEW
   - SKPhotoBrowser
   - SnapKit (= 5.0.1)
   - SwiftyJSON (= 5.0.0)
@@ -63,6 +67,7 @@ SPEC REPOS:
     - RxCocoa
     - RxRelay
     - RxSwift
+    - SensorsAnalyticsSDK
     - SKPhotoBrowser
     - SnapKit
     - SwiftyJSON
@@ -93,12 +98,13 @@ SPEC CHECKSUMS:
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+  SensorsAnalyticsSDK: dd96a4b07d9e0ad35b80a2120e583b1a0153282d
   SKPhotoBrowser: 343de95d89dc7913763c5dda243cc6e606e4a168
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   WechatOpenSDK: 368ae03b72ee3ea1328c4f11326fbb5d2721d118
   WMPlayer: a914f80ed5dca7cd9e3a94ec07a2b02eec8c15c0
 
-PODFILE CHECKSUM: bb8c435b18ed89cea35e933dd84a2f63651599e0
+PODFILE CHECKSUM: b2c478cc287340a74fa5e88f82cb4837368b7483
 
 COCOAPODS: 1.9.1

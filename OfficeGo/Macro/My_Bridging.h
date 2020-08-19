@@ -30,5 +30,7 @@
 
 #import <Bugly/Bugly.h>
 
+#import <SensorsAnalyticsSDK/SensorsAnalyticsSDK.h>
+
 
 #endif /* My_Bridging_h */

@@ -177,11 +177,13 @@ extension RenterCollectOfficeBuuildingOrJointListViewController {
                 if Isfailure == 1 || Isfailure == 3 {
                     if model.btype == 1 {
                         let vc = RenterOfficebuildingDetailVC()
+                        vc.buildLocation = indexPath.row
                         vc.shaiXuanParams = [:]
                         vc.buildingModel = model
                         self.navigationController?.pushViewController(vc, animated: true)
                     }else if model.btype == 2 {
                         let vc = RenterOfficeJointDetailVC()
+                        vc.buildLocation = indexPath.row
                         vc.shaiXuanParams = [:]
                         vc.buildingModel = model
                         self.navigationController?.pushViewController(vc, animated: true)

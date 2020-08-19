@@ -13,7 +13,7 @@ import SwiftyJSON
 class ESearchRenterResultListViewController: BaseTableViewController {
     
     /// 点击cell回调闭包
-    var callBack: (FangYuanListModel) -> () = {_ in }
+    var callBack: (FangYuanListModel, Int) -> () = {_,_  in }
     
     var keywords: String? = "" {
         didSet {
@@ -114,7 +114,7 @@ extension ESearchRenterResultListViewController {
             buildingModel.btype = model.buildType
             buildingModel.id = model.bid
             // 点击cell调用闭包
-            callBack(buildingModel)
+            callBack(buildingModel, indexPath.row)
         }
         
     }

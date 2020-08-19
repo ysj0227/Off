@@ -9,6 +9,10 @@
 import UIKit
 
 class MessageFYViewModel: NSObject {
+    
+    ///神策添加字段 楼盘、网点、房源
+    var buildOrHouse : String?
+    
     var buildingId : Int?
     var houseId : Int?
     var targetId : String?
@@ -39,9 +43,17 @@ class MessageFYViewModel: NSObject {
     var companyJobString : String?
     
     init(model:MessageFYModel) {
-        
+                
         ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
         if model.isBuildOrHouse == 1 {
+            
+            ///1是办公楼，2是联合办公
+            if model.building?.btype == 1 {
+                buildOrHouse = "楼盘"
+            }else {
+                buildOrHouse = "网点"
+            }
+            
             buildingId = model.building?.buildingId
             houseId = model.building?.houseId
             targetId = model.chatted?.targetId
@@ -102,6 +114,10 @@ class MessageFYViewModel: NSObject {
             avatarString = model.chatted?.avatar
             contactNameString = model.chatted?.nickname
         }else {
+            if model.isBuildOrHouse == 2 {
+                buildOrHouse = "房源"
+            }
+            
             buildingId = model.house?.buildingId
             houseId = model.house?.houseId
             targetId = model.chatted?.targetId

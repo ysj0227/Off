@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         configSealTalkWithApp(application, launchOptions: launchOptions)
 
-        setUpSDKs()
+        setUpSDKs(launchOptions: launchOptions)
         
         notifyObserve()
         
@@ -237,6 +237,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     //9.0
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        if SensorsAnalyticsSDK.sharedInstance()?.handleSchemeUrl(url) ?? true {
+            return true
+        }
+        
         let result = WXApi.handleOpen(url, delegate: self)
         return result
     }
@@ -344,6 +349,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         //登录融云
         loginRongCloud()
+        
+        SensorsAnalyticsFunc.SensorsLogin()
+        
     }
     
     func runTabBarViewController() -> Void {
@@ -480,13 +488,44 @@ extension AppDelegate {
         })
     }
     
-    func setUpSDKs() {
+    func setUpSDKs(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         
+        //神策接入
+        let options = SAConfigOptions.init(serverURL: SSAPI.SensorsAnalyticsSDK, launchOptions: launchOptions)
+        options.autoTrackEventType = [.eventTypeAppStart, .eventTypeAppEnd, .eventTypeAppClick, .eventTypeAppViewScreen]
+
+        #if DEBUG
+        options.enableLog = true
+        #else
+        options.enableLog = false
+        #endif
+        
+        /// 开启可视化全埋点
+        options.enableVisualizedAutoTrack = true
+        
+        SensorsAnalyticsSDK.start(configOptions: options)
+                
+        /**
+         * @abstract
+         * H5 数据打通的时候默认通过 ServerUrl 校验
+         */
+        SensorsAnalyticsSDK.sharedInstance()?.addWebViewUserAgentSensorsDataFlag()
+                
+        SensorsAnalyticsFunc.SensorsLogin()
+        
+        
+        
+        
+        //bugly接入
         Bugly.start(withAppId: AppKey.buglyAppKey)
         
         Bugly.setUserIdentifier("\(UserTool.shared.user_uid ?? 0)")
         
+        
+        
+        //微信
         WXApi.registerApp(AppKey.WeChatAppId, universalLink: AppKey.UniversalLink)
+        
         
         //键盘弹出sdk集成
         IQKeyboardManager.shared.enable = true

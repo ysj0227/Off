@@ -355,4 +355,11 @@ extension JHBaseWebViewController: WKNavigationDelegate {
         noDataView.isHidden = false
         LoadingHudView.hideHud()
     }
+    
+    //https://www.sensorsdata.cn/2.0/manual/app_h5.html
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if SensorsAnalyticsSDK.sharedInstance()?.showUpWebView(webView, with: navigationAction.request, enableVerify: true) ?? true {
+            decisionHandler(WKNavigationActionPolicy.cancel)
+        }
+    }
 }

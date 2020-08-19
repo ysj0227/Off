@@ -213,6 +213,9 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         //首页头部view - 标题栏搜索 - 跳转搜索
         segmentTitleSelectview.titleView.rightBtnClickBlock = { [weak self] in
             
+            ///搜索-楼盘推荐页面点击搜索按钮
+            SensorsAnalyticsFunc.click_search_button_index()
+            
             //移除筛选弹框
             self?.segmentTitleSelectview.selectView.removeShowView()
             
@@ -270,6 +273,10 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         titleview = ThorNavigationView.init(type: .locationSearchClear)
         titleview?.locationBtn.layoutButton(.imagePositionLeft, margin: 10)
         titleview?.rightBtnClickBlock = { [weak self] in
+            
+            ///搜索-楼盘推荐页面点击搜索按钮
+            SensorsAnalyticsFunc.click_search_button_index()
+            
             //移除筛选弹框
             self?.segmentTitleSelectview.selectView.removeShowView()
             

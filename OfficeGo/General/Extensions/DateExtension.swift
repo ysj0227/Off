@@ -15,6 +15,8 @@ extension Date {
         return formatter.date(from:fromString)
     }
     
+    
+    
     public func localDateString() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
@@ -23,7 +25,7 @@ extension Date {
     
     public func yyyyMMddString() -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.string(from: self)
     }
     

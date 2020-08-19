@@ -10,6 +10,14 @@ import UIKit
 
 class RenterChatViewController: RCConversationViewController {
     
+    ///神策添加事件
+    var phoneTimestemp: String?
+    
+    var wxTimestemp: String?
+    
+    ///神策点击预约看房记录的时间 - 从点击到一系列操作完成
+    var scheduleTimestemp: String?
+    
     ///楼盘id 从楼盘进入聊天页面需要传递
     var buildingId: Int?
     
@@ -223,6 +231,12 @@ class RenterChatViewController: RCConversationViewController {
             
             if let model = ChatTargetUserInfoModel.deserialize(from: response, designatedPath: "data") {
                 
+                weakSelf.messageFYModel = MessageFYModel()
+                weakSelf.messageFYModel?.chatted = MessageFYChattedModel()
+                weakSelf.messageFYModel?.chatted?.targetId = model.id
+                weakSelf.messageFYModel?.chatted?.nickname = model.name
+                weakSelf.messageFYViewModel = MessageFYViewModel.init(model: weakSelf.messageFYModel ?? MessageFYModel())
+
                 SSTool.invokeInMainThread { [weak self] in
                     
                     guard let weakSelf = self else {return}
@@ -360,7 +374,8 @@ extension RenterChatViewController {
             if let type = noti.object as? [String: Any] {
                 let agress = type["agress"] as? Bool
                 let phone = type["phone"] as? String
-                self?.sendExchangePhoneAgreeOrReject(agree: agress ?? false, otherPhone: phone ?? "")
+                let timeTemp = type["timeTemp"] as? Int64
+                self?.sendExchangePhoneAgreeOrReject(agree: agress ?? false, otherPhone: phone ?? "", timeTemp: timeTemp ?? 0)
             }
         }
         
@@ -369,7 +384,8 @@ extension RenterChatViewController {
             if let type = noti.object as? [String: Any] {
                 let agress = type["agress"] as? Bool
                 let phone = type["phone"] as? String
-                self?.sendExchangeWechatAgreeOrReject(agree: agress ?? false, otherWechat: phone ?? "")
+                let timeTemp = type["timeTemp"] as? Int64
+                self?.sendExchangeWechatAgreeOrReject(agree: agress ?? false, otherWechat: phone ?? "", timeTemp: timeTemp ?? 0)
             }
         }
         
@@ -428,6 +444,8 @@ extension RenterChatViewController {
                 }
                 
                 let vc = RenterScheduleFYViewController()
+                //神策
+                vc.scheduleTimestemp = scheduleTimestemp
                 vc.messageFYViewModel = messageFYViewModel
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
@@ -458,9 +476,19 @@ extension RenterChatViewController {
     func clicktoBtn(index: Int) {
         if index == 1 {
             
+            phoneTimestemp = Date().yyyyMMddString()
+            
+            ///发起电话交换
+            SensorsAnalyticsFunc.click_phone_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: phoneTimestemp ?? "", createTime: Date().yyyyMMddString())
+            
             showPhoneSureAlertview()
             
         }else if index == 2 {
+            
+            wxTimestemp = Date().yyyyMMddString()
+
+            ///发起微信交换
+            SensorsAnalyticsFunc.click_wechat_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: wxTimestemp ?? "", createTime: Date().yyyyMMddString())
             
             if UserTool.shared.isHasWX() == true {
                 showWechatSureAlertview()
@@ -471,6 +499,12 @@ extension RenterChatViewController {
             
         }else if index == 3 {
             
+            ///神策点击预约看房事件
+            scheduleTimestemp = Date().yyyyMMddString()
+            
+            ///IM中点击预约看房
+            SensorsAnalyticsFunc.click_im_order_see_house_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", chatedId: messageFYModel?.chatted?.targetId ?? "0", chatedName: messageFYModel?.chatted?.nickname ?? "", timestamp: scheduleTimestemp ?? Date().yyyyMMddString())
+
             clickToScheduleVC()
             
         }else if index == 4 {
@@ -634,13 +668,20 @@ extension RenterChatViewController {
     }
     
     //交换手机号同意拒绝消息
-    func sendExchangePhoneAgreeOrReject(agree: Bool, otherPhone: String) {
+    func sendExchangePhoneAgreeOrReject(agree: Bool, otherPhone: String, timeTemp: Int64) {
+        
+        ///电话交换状态确认
+        SensorsAnalyticsFunc.confirm_phone_exchange_state(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: timeTemp, rid: messageFYModel?.chatted?.targetId ?? "", isSuccess: agree)
+        
         let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "我同意和你交换手机号" : "我拒绝和你交换手机号", isAgree: agree, sendNumber: otherPhone, receiveNumber: UserTool.shared.user_phone ?? "")
         sendMessage(messageContent, pushContent: "交换手机号回复")
     }
     
     //交换微信同意拒绝消息 - 点击确定需要判断有没有微信
-    func sendExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String) {
+    func sendExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String, timeTemp: Int64) {
+        
+        ///电话交换状态确认
+        SensorsAnalyticsFunc.confirm_wechat_exchange_state(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: timeTemp, rid: messageFYModel?.chatted?.targetId ?? "", isSuccess: agree)
         
         if agree {
             if UserTool.shared.isHasWX() == true {

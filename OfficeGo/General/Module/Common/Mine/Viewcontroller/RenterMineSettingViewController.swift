@@ -109,10 +109,18 @@ extension RenterMineSettingViewController {
         let alert = SureAlertView(frame: self.view.frame)
         var aelrtMsg: String = ""
         if UserTool.shared.user_id_type == 0 {
+            
             aelrtMsg = "是否确认切换为业主？"
-
+            
+            ///租户切换成业主
+            SensorsAnalyticsFunc.tenant_to_owner()
+            
         }else if UserTool.shared.user_id_type == 1 {
+            
             aelrtMsg = "是否确认切换为租户？"
+            
+            ///业主切换成租户
+            SensorsAnalyticsFunc.owne_to_tenant()
         }
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
             

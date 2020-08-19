@@ -10,6 +10,9 @@ import UIKit
 
 class FangYuanListModel: BaseModel {
     
+    ///是否VC
+    var isVr : Bool?
+    
     var address : String?               //距离
     var areaMap : [Float]?
     var btype : Int?                    //类型,1:楼盘,2:网点,当是1的时候,网点名称可为空

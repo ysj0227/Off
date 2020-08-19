@@ -327,6 +327,9 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     //MARK: 调用详情接口 -
     override func refreshData() {
         
+        ///访问房源详情页
+        SensorsAnalyticsFunc.visit_house_data_page(houseId: "\(model.id ?? 0)")
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?

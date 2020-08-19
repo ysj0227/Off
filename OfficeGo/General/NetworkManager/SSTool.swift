@@ -11,6 +11,622 @@ import AVFoundation
 import Lottie
 import SnapKit
 
+struct SensorsAnalyticsEvent {
+    
+    /**
+     *访问注册/登录页面
+     */
+    static let visit_reg_login = "visit_reg_login"
+    
+    /**
+     *点击获取验证码
+     */
+    static let click_code = "click_code"
+    
+    /**
+     *点击验证码输入框
+     */
+    static let click_code_input = "click_code_input"
+    
+    /**
+     *搜索-楼盘推荐页面点击搜索按钮
+     */
+    static let click_search_button_index = "click_search_button_index"
+    
+    /**
+     *搜索-访问搜索页面
+     */
+    static let visit_search_page = "visit_search_page"
+    
+    /**
+     *搜索-点击搜索结果（相关内容推荐
+     */
+    static let click_search_result = "click_search_result"
+    
+    /**
+     *搜索-访问搜索结果页
+     */
+    static let visit_search_results_page = "visit_search_results_page"
+    
+    /**
+     *搜索-点击搜索结果页某一条数据内容
+     */
+    static let click_search_results_page = "click_search_results_page"
+    
+    /**
+     *访问楼盘网点列表
+     */
+    static let visit_building_network_list = "visit_building_network_list"
+    
+    /**
+     *访问楼盘详情页
+     */
+    static let visit_building_data_page = "visit_building_data_page"
+    
+    
+    /**
+     *楼盘详情页阅读完成
+     */
+    static let visit_building_data_page_complete = "visit_building_data_page_complete"
+    
+    /**
+     *点击收藏按钮
+     */
+    static let click_favorites_button = "click_favorites_button"
+    
+    /**
+     *楼盘详情页筛选房源
+     */
+    static let building_data_page_screen = "building_data_page_screen"
+    
+    /**
+     *点击楼盘详情页房源筛选按钮
+     */
+    static let click_building_data_page_screen_button = "click_building_data_page_screen_button"
+    
+    /**
+     *访问房源详情页
+     */
+    static let visit_house_data_page = "visit_house_data_page"
+    
+    /**
+     *IM中点击预约看房
+     */
+    static let click_im_order_see_house_button = "click_im_order_see_house_button"
+    
+    /**
+     *预约看房时间选择
+     */
+    static let order_see_house_time = "order_see_house_time"
+    
+    /**
+     *预约看房时间确定
+     */
+    static let confirm_see_house_time = "confirm_see_house_time"
+    
+    /**
+     *点击添加更多房源按钮
+     */
+    static let click_add_more_house_button = "click_add_more_house_button"
+    
+    /**
+     *点击选择房型确定按钮
+     */
+    static let click_confirm_selce_house_button = "click_confirm_selce_house_button"
+    
+    /**
+     *预约看房申请提交
+     */
+    static let submit_booking_see_house = "submit_booking_see_house"
+    
+    /**
+     *发起电话交换
+     */
+    static let click_phone_exchange_button = "click_phone_exchange_button"
+    
+    /**
+     *电话交换状态确认
+     */
+    static let confirm_phone_exchange_state = "confirm_phone_exchange_state"
+    
+    /**
+     *发起微信交换
+     */
+    static let click_wechat_exchange_button = "click_wechat_exchange_button"
+    
+    /**
+     *微信交换状态确认
+     */
+    static let confirm_wechat_exchange_state = "confirm_wechat_exchange_state"
+    
+    /**
+     *房源列表页面-点击新增房源
+     */
+    static let building_list_page_add_house = "building_list_page_add_house"
+    
+    /**
+     *网点-新增网点房源
+     */
+    static let network_add_network_house = "network_add_network_house"
+    
+    
+    /**
+     *租户切换成业主
+     */
+    static let tenant_to_owner = "tenant_to_owner"
+    
+    /**
+     *业主切换成租户
+     */
+    static let owne_to_tenant = "owne_to_tenant"
+    
+    /**
+     *楼盘卡片展示
+     */
+    static let cardShow = "cardShow"
+    
+    /**
+     *点击楼盘卡片
+     */
+    static let clickShow = "clickShow"
+    
+}
+
+@objcMembers class SensorsAnalyticsFunc: NSObject {
+    ///用户登录
+    class func SensorsLogin() {
+        if let userid = UserTool.shared.user_uid {
+            
+            //登录
+            SensorsAnalyticsSDK.sharedInstance()?.login("\(userid)")
+            
+        }
+        ///设置基本信息
+        SensorsAnalyticsSDK.sharedInstance()?.registerSuperProperties(["platform_type": "iOS", "app_name": Device.appName ?? "OfficeGo", "is_login" : UserTool.shared.isLogin()])
+    }
+    
+    class func SensorsTrackInstallation() {
+        
+    }
+    
+    ///追踪用户行为事件，添加自定义属性
+    class func SensorsTrackEvent(event: String, params: [AnyHashable: Any]?) {
+        SensorsAnalyticsSDK.sharedInstance()?.track(event, withProperties: params)
+    }
+    
+    /**
+     *访问注册/登录页面
+     *$预置属性
+     */
+    class func visit_reg_login() {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_reg_login, params: nil)
+    }
+    
+    /**
+     *点击获取验证码
+     *$预置属性    STRING
+     *uid    用户id    NUMBER  没有就不传
+     */
+    class func click_code() {
+        if let uid = UserTool.shared.user_uid {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.click_code, params: ["uid": uid])
+        }else {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.click_code, params: nil)
+        }
+    }
+    
+    /**
+     *点击验证码输入框
+     *$预置属性    STRING
+     *uid    用户id    NUMBER  没有就不传
+     */
+    class func click_code_input() {
+        if let uid = UserTool.shared.user_uid {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.click_code_input, params: ["uid": uid])
+        }else {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.click_code_input, params: nil)
+        }
+    }
+    /**
+     *搜索-楼盘推荐页面点击搜索按钮
+     *$预置属性    STRING        WEB
+     *uid    用户id    NUMBER  没有就不传
+     */
+    class func click_search_button_index() {
+        if let uid = UserTool.shared.user_uid {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.click_search_button_index, params: ["uid": uid])
+        }else {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.click_search_button_index, params: nil)
+        }
+    }
+    
+    /**
+     *搜索-访问搜索页面
+     *$预置属性    STRING        WEB
+     *uid    用户id    NUMBER  没有就不传
+     */
+    class func visit_search_page() {
+        if let uid = UserTool.shared.user_uid {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_search_page, params: ["uid": uid])
+        }else {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_search_page, params: nil)
+        }
+    }
+    
+    /**
+     *搜索-访问搜索结果页 visit_search_results_page
+     *$预置属性    STRING        WEB
+     *searchType    点击搜索词类型    STRING    推荐词/历史词    WEB
+     *userSearchContent    用户搜索内容    STRING    用户填写在搜索框内容    WEB
+     */
+    class func visit_search_results_page(searchType: String, userSearchContent: String) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_search_results_page, params: ["searchType": searchType, "userSearchContent":userSearchContent])
+    }
+    
+    /**
+     *click_search_results_page
+     *搜索-点击搜索结果页某一条数据内容
+     *$预置属性    STRING        WEB
+     *userSearchContent    用户搜索内容    STRING        WEB
+     *clickLocal    用户点击位置    STRING    用户点击了搜索结果的第几条    WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *buildOrHouse    页面类型    STRING    网点、楼盘    WEB
+     */
+    class func click_search_results_page(userSearchContent: String, clickLocal: String, buildingId: String, buildOrHouse: String) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.click_search_results_page, params: ["userSearchContent": userSearchContent, "clickLocal": clickLocal, "buildingId": buildingId, "buildOrHouse": buildOrHouse])
+    }
+    
+    /**
+     *visit_building_network_list
+     *访问楼盘网点列表
+     *$预置属性    STRING        WEB
+     *uCity    地区    STRING    当前访问地区：全国、上海、北京    WEB
+     *areaType    区域类型    STRING    "对应不同筛选类型
+     *无对应筛选则为空"    WEB
+     *areaContent    区域筛选内容    STRING        WEB
+     *officeType    办公场地选择类型    STRING        WEB
+     *oderType    排序选择类型    STRING        WEB
+     *area    面积    逗号拼接字符串        WEB
+     *dayPrice    租金    逗号拼接字符串        WEB
+     *simple    工位    逗号拼接字符串        WEB
+     *decoration    装修类型    STRING        WEB
+     *tags    房源特色    STRING        WEB
+     *isVr    是否只看VR    BOOL        WEB
+     *isSelect    是否有筛选    BOOL        WEB
+     */
+    class func visit_building_network_list() {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_building_network_list, params: nil)
+    }
+    
+    /**
+     *visit_building_data_page
+     *访问楼盘详情页
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *buildLocation    楼盘列表位置    NUMBER    楼盘在楼盘列表显示位置，点击在列表中第几条    WEB
+     */
+    class func visit_building_data_page(buildingId: String, buildLocation: Int) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_building_data_page, params: ["buildingId": buildingId, "buildLocation": buildLocation])
+    }
+    
+    /**
+     *楼盘详情页阅读完成
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *isRead    是否阅读完成    BOOL        WEB
+     */
+    class func visit_building_data_page_complete(buildingId: String, isRead: Bool) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_building_data_page_complete, params: ["buildingId": buildingId, "isRead": isRead])
+    }
+    
+    /**
+     *点击收藏按钮
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING    若不是楼盘回空值    WEB
+     *isCollect    是否收藏成功    BOOL    记录用户是否收藏状态，还是取消了收藏状态    WEB
+     */
+    class func click_favorites_button(buildingId: String, isCollect: Bool) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.click_favorites_button, params: ["buildingId": buildingId, "isCollect": isCollect])
+    }
+    
+    /**
+     *楼盘详情页筛选房源
+     *点击楼盘面积或工位按钮
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *houseCnt    房源套数    NUMBER        WEB
+     */
+    class func building_data_page_screen(buildingId: String, houseCnt: Int) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.building_data_page_screen, params: ["buildingId": buildingId, "houseCnt": houseCnt])
+    }
+    
+    /**
+     *buildingId    楼盘ID
+     *area    面积
+     *simple    工位
+     *点击楼盘详情页房源筛选按钮
+     */
+    class func click_building_data_page_screen_button(buildingId: String, area: String, simple: String) {
+        if area == "" {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.click_building_data_page_screen_button, params: ["buildingId": buildingId, "simple": simple])
+        }else {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.click_building_data_page_screen_button, params: ["buildingId": buildingId, "area": area])
+
+        }
+    }
+    
+    /**
+     *访问房源详情页        $预置属性    STRING        WEB
+     *houseId    房源ID    STRING        WEB
+     */
+    class func visit_house_data_page(houseId: String) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.visit_house_data_page, params: ["houseId": houseId])
+    }
+    
+    
+    /**
+     *IM中点击预约看房
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *houseId    房源ID    STRING    如无房源返回空值（对应从楼盘进入聊天）    WEB
+     *chatedId    业主ID    STRING        WEB
+     *chatedName    业主名称    STRING        WEB
+     *timestamp    行程预约ID    STRING    NUMBER    WEB
+     */
+    class func click_im_order_see_house_button(buildingId: String, houseId: String, chatedId: String, chatedName: String, timestamp: String) {
+        var params = [AnyHashable: Any]()
+        params["timestamp"] = timestamp
+        if buildingId.isBlankString != true && buildingId != "0" {
+            params["buildingId"] = buildingId
+        }
+        if houseId.isBlankString != true && houseId != "0" {
+            params["houseId"] = houseId
+        }
+        if chatedId.isBlankString != true && chatedId != "0" {
+            params["chatedId"] = chatedId
+        }
+        if chatedName.isBlankString != true && chatedName != "0" {
+            params["chatedName"] = chatedName
+        }
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.click_im_order_see_house_button, params: params)
+    }
+    
+    /**
+     *点击看房时间选择按钮
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *timestamp    行程预约ID    STRING        WEB
+     *buildOrHouse    页面类型    STRING    楼盘、网点、房源    WEB
+     */
+    class func order_see_house_time(buildingId: String, buildOrHouse: String, timestamp: String) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.order_see_house_time, params: ["buildingId": buildingId, "buildOrHouse": buildOrHouse, "timestamp": timestamp])
+    }
+    
+    /**
+     *预约看房时间确定
+     *$预置属性    STRING        WEB
+     *buildOrHouse    页面类型    STRING    楼盘、网点、房源    WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *timestamp    行程预约ID    STRING    NUMBER    WEB
+     *seeTime    预约时间    DATETIME        WEB
+     */
+    class func confirm_see_house_time(buildingId: String, buildOrHouse: String, timestamp: String, seeTime: String) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.confirm_see_house_time, params: ["buildingId": buildingId, "buildOrHouse": buildOrHouse, "timestamp": timestamp, "seeTime": seeTime])
+    }
+    
+    /**
+     *预约看房申请提交
+     *submit_booking_see_house
+     *$预置属性    STRING        WEB
+     *buildOrHouse    页面类型    STRING        WEB
+     *seeTime    预约时间    DATETIME        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *timestamp    行程预约ID    STRING        WEB
+     *status    行程状态    STRING    取值只能是预约等待业主审核    WEB
+     *chatedId    业主ID    STRING        WEB
+     *chatedName    业主名称    STRING        WEB
+     *createTime    时间    DATETIME    点击申请按钮的当前日期，2020-09-03    WEB
+     */
+    class func submit_booking_see_house(buildingId: String, buildOrHouse: String, timestamp: String, seeTime: String, chatedId: String, chatedName: String, createTime: String) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.submit_booking_see_house, params: ["buildingId": buildingId, "buildOrHouse": buildOrHouse, "timestamp": timestamp, "seeTime": seeTime, "status": "预约等待业主审核", "chatedId": chatedId, "chatedName": chatedName, "createTime": createTime])
+    }
+    
+    /**
+     *发起电话交换
+     *click_phone_exchange_button
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *houseId    房源ID    STRING        WEB
+     *rid    发起方身份    STRING    租户、业主    WEB
+     *timestamp    行程预约ID    STRING        WEB
+     *statusPhone    电话交换状态    STRING    申请中    WEB
+     *createTime    时间    DATETIME    发起交换时间    WEB
+     */
+    class func click_phone_exchange_button(buildingId: String, houseId: String, rid: Int, timestamp: String, createTime: String) {
+        var params = [AnyHashable: Any]()
+        params["timestamp"] = timestamp
+        params["createTime"] = createTime
+        params["statusPhone"] = "申请中"
+
+        if buildingId.isBlankString != true && buildingId != "0" {
+            params["buildingId"] = buildingId
+        }
+        if houseId.isBlankString != true && houseId != "0" {
+            params["houseId"] = houseId
+        }
+        if rid == 0 {
+            params["rid"] = "租户"
+        }else if rid == 1 {
+            params["rid"] = "业主"
+        }
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.click_phone_exchange_button, params: params)
+    }
+    
+    /**
+     *电话交换状态确认
+     *confirm_phone_exchange_state
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *houseId    房源ID    STRING        WEB
+     *buildOrHouse    页面类型    STRING        WEB
+     *timestamp    行程预约ID    STRING
+     *rid    发起方身份    STRING    租户、业主    WEB
+     *statusPhone    电话交换状态    STRING    申请中、通过、拒绝    WEB
+     *isSuccess    是否成功    BOOL    是否交换电话成功    WEB
+     */
+    class func confirm_phone_exchange_state(buildingId: String, houseId: String, buildOrHouse: String, timestamp: Int64, rid: String, isSuccess: Bool) {
+        
+        // timestamp为毫秒 转换为时间字符串
+        
+        var params = [AnyHashable: Any]()
+        if isSuccess == true {
+            params["statusPhone"] = "通过"
+            params["isSuccess"] = true
+        }else {
+            params["statusPhone"] = "拒绝"
+            params["isSuccess"] = false
+        }
+        
+        let date = Date.init(timeIntervalSince1970: TimeInterval.init(timestamp / 1000))
+        let dateStr = date.yyyyMMddString()
+        params["timestamp"] = dateStr
+
+        if buildOrHouse.isBlankString != true {
+            params["buildOrHouse"] = buildOrHouse
+        }
+        
+        if buildingId.isBlankString != true && buildingId != "0" {
+            params["buildingId"] = buildingId
+        }
+        if houseId.isBlankString != true && houseId != "0" {
+            params["houseId"] = houseId
+        }
+        if rid.isBlankString != true && rid != "0" {
+            if rid.count > 0 {
+                let type = rid.suffix(1)
+                if type == "0" {
+                    params["rid"] = "租户"
+                }else if type == "1" {
+                    params["rid"] = "业主"
+                }
+            }
+        }
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.confirm_phone_exchange_state, params: params)
+    }
+    
+    /**
+     *发起微信交换
+     *click_wechat_exchange_button
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *houseId    房源ID    STRING        WEB
+     *rid    发起方身份    STRING    租户、业主    WEB
+     *timestamp    行程预约ID    STRING    微信交换事件ID    WEB
+     *statusWechat    微信交换状态    STRING        WEB
+     *createTime    时间    DATETIME    发起交换时间    WEB
+     */
+    class func click_wechat_exchange_button(buildingId: String, houseId: String, rid: Int, timestamp: String, createTime: String) {
+        var params = [AnyHashable: Any]()
+        params["timestamp"] = timestamp
+        params["createTime"] = createTime
+        params["statusWechat"] = "申请中"
+
+        if buildingId.isBlankString != true && buildingId != "0" {
+            params["buildingId"] = buildingId
+        }
+        if houseId.isBlankString != true && houseId != "0" {
+            params["houseId"] = houseId
+        }
+        if rid == 0 {
+            params["rid"] = "租户"
+        }else if rid == 1 {
+            params["rid"] = "业主"
+        }
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.click_phone_exchange_button, params: params)
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.click_wechat_exchange_button, params: params)
+    }
+    
+    /**
+     *微信交换状态确认
+     *confirm_wechat_exchange_state
+     *$预置属性    STRING        WEB
+     *buildingId    楼盘ID    STRING        WEB
+     *houseId    房源ID    STRING        WEB
+     *buildOrHouse    页面类型    STRING        WEB
+     *timestamp    行程预约ID    STRING    微信交换事件ID    WEB
+     *rid    发起方身份    STRING    租户、业主    WEB
+     *statusWechat    微信交换状态    STRING    申请中、通过、拒绝    WEB
+     *isSuccess    是否成功    BOOL    是否交换微信成功    WEB
+     */
+    class func confirm_wechat_exchange_state(buildingId: String, houseId: String, buildOrHouse: String, timestamp: Int64, rid: String, isSuccess: Bool) {
+        
+        // timestamp为毫秒 转换为时间字符串
+        
+        var params = [AnyHashable: Any]()
+        if isSuccess == true {
+            params["statusWechat"] = "通过"
+            params["isSuccess"] = true
+        }else {
+            params["statusWechat"] = "拒绝"
+            params["isSuccess"] = false
+        }
+        
+        let date = Date.init(timeIntervalSince1970: TimeInterval.init(timestamp / 1000))
+        let dateStr = date.yyyyMMddString()
+        params["timestamp"] = dateStr
+        
+        if buildOrHouse.isBlankString != true {
+            params["buildOrHouse"] = buildOrHouse
+        }
+        
+        if buildingId.isBlankString != true && buildingId != "0" {
+            params["buildingId"] = buildingId
+        }
+        if houseId.isBlankString != true && houseId != "0" {
+            params["houseId"] = houseId
+        }
+        if rid.isBlankString != true && rid != "0" {
+            if rid.count > 0 {
+                let type = rid.suffix(1)
+                if type == "0" {
+                    params["rid"] = "租户"
+                }else if type == "1" {
+                    params["rid"] = "业主"
+                }
+            }
+        }
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.confirm_wechat_exchange_state, params: params)
+    }
+    
+    /**
+     *租户切换成业主
+     *$预置属性    STRING
+     */
+    class func tenant_to_owner() {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.tenant_to_owner, params: nil)
+    }
+    
+    /**
+     *业主切换成租户
+     *$预置属性    STRING
+     */
+    class func owne_to_tenant() {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.owne_to_tenant, params: nil)
+    }
+    
+    /**
+     *点击楼盘卡片
+     *$预置属性    STRING
+     *buildingId    楼盘ID    STRING
+     *buildLocation    楼盘列表位置    NUMBER
+     *isVr    是否VR    BOOL
+     */
+    class func clickShow(buildingId: String, buildLocation: Int, isVr: Bool) {
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.clickShow, params: ["buildingId": buildingId, "buildLocation": buildLocation, "isVr": isVr])
+    }
+    
+}
+
 @objcMembers class SSTool: NSObject {
     
     ///检查推送权限

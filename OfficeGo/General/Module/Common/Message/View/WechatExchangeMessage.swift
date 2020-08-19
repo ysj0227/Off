@@ -187,13 +187,13 @@ class WechatExchangeMessageCell: RCMessageCell {
     @objc func agreeClick() {
         let testMessage = model.content as? WechatExchangeMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": true,  "phone": testMessage?.number ?? ""])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": true,  "phone": testMessage?.number ?? "", "timeTemp": model.sentTime])
     }
     
     @objc func rejectClick() {
         let testMessage = model.content as? WechatExchangeMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": false,  "phone": testMessage?.number ?? ""])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": false,  "phone": testMessage?.number ?? "", "timeTemp": model.sentTime])
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -22,6 +22,10 @@ class RenterSearchResultListViewController: BaseTableViewController {
         }
     }
     
+    
+    ///神策添加字段 推荐词/历史词/搜索按钮
+    var searchType: String = ""
+    
     var selectView: HouseSelectBtnView = {
         let view = HouseSelectBtnView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: 60))
         view.hiddenArea = false
@@ -52,6 +56,9 @@ class RenterSearchResultListViewController: BaseTableViewController {
         
         setDataModel()
         setupView()
+        
+        ///搜索-访问搜索结果页
+        SensorsAnalyticsFunc.visit_search_results_page(searchType: searchType, userSearchContent: searchString)
     }
     
     func setupView() {
@@ -434,12 +441,22 @@ extension RenterSearchResultListViewController {
         }
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
             if model.btype == 1 {
+                
+                ///搜索-点击搜索结果页某一条数据内容
+                SensorsAnalyticsFunc.click_search_results_page(userSearchContent: searchString, clickLocal: "\(indexPath.row)", buildingId: "\(model.id ?? 0)", buildOrHouse: "楼盘")
+                
                 let vc = RenterOfficebuildingDetailVC()
+                vc.buildLocation = indexPath.row
                 vc.shaiXuanParams = self.getDetailParams()
                 vc.buildingModel = model
                 self.navigationController?.pushViewController(vc, animated: true)
             }else if model.btype == 2 {
+                
+                ///搜索-点击搜索结果页某一条数据内容
+                SensorsAnalyticsFunc.click_search_results_page(userSearchContent: searchString, clickLocal: "\(indexPath.row)", buildingId: "\(model.id ?? 0)", buildOrHouse: "网点")
+                
                 let vc = RenterOfficeJointDetailVC()
+                vc.buildLocation = indexPath.row
                 vc.shaiXuanParams = self.getDetailParams()
                 vc.buildingModel = model
                 self.navigationController?.pushViewController(vc, animated: true)

@@ -242,9 +242,10 @@ extension BaseViewController: UIGestureRecognizerDelegate {
 
 extension BaseViewController {
     //跳转到搜索结果列表
-    func clickPushToSearchListVc(sarchStr: String) {
+    func clickPushToSearchListVc(sarchStr: String, searchType: String) {
         let vc = RenterSearchResultListViewController()
         vc.searchString = sarchStr
+        vc.searchType = searchType
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

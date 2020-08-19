@@ -79,6 +79,9 @@ class OwnerIdenfySelectVC: BaseTableViewController {
     
     @objc func clickToRenter() {
         requestRoleChange()
+        
+        ///业主切换成租户
+        SensorsAnalyticsFunc.owne_to_tenant()
     }
     
     ///切换身份接口

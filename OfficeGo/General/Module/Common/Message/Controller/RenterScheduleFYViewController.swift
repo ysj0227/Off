@@ -10,6 +10,9 @@ import UIKit
 
 class RenterScheduleFYViewController: BaseTableViewController {
     
+    ///神策点击预约看房记录的时间 - 从点击到一系列操作完成
+    var scheduleTimestemp: String?
+    
     var dateSelect: Date?
     
     var messageFYViewModel: MessageFYViewModel? {
@@ -43,8 +46,16 @@ class RenterScheduleFYViewController: BaseTableViewController {
         setUpView()
     }
     
+    ///神策 - 预约看房申请提交
+    func senorsSubmit_booking_see_house() {
+
+        SensorsAnalyticsFunc.submit_booking_see_house(buildingId: "\(messageFYViewModel?.buildingId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: scheduleTimestemp ?? "", seeTime: dateSelect?.yyyyMMddString() ?? "", chatedId: messageFYViewModel?.targetId ?? "0", chatedName: messageFYViewModel?.contactNameString ?? "", createTime: Date().yyyyMMddString())
+    }
+    
     //业主申请看房
     func sendOwnerYuyueNotify() {
+        
+        senorsSubmit_booking_see_house()
         
         let interval = Int(round(dateSelect?.timeIntervalSince1970 ?? 0 * 1000))
         
@@ -76,6 +87,8 @@ class RenterScheduleFYViewController: BaseTableViewController {
     //租户申请看房
     func sendRenterYuyueNotify() {
         
+        senorsSubmit_booking_see_house()
+
         let interval = Int(round(dateSelect?.timeIntervalSince1970 ?? 0 * 1000))
         
         var params = [String:AnyObject]()
@@ -214,10 +227,17 @@ extension RenterScheduleFYViewController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 && indexPath.row == 0 {
+            
+            ///点击看房时间选择按钮
+            SensorsAnalyticsFunc.order_see_house_time(buildingId: "\(messageFYViewModel?.buildingId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: scheduleTimestemp ?? Date().yyyyMMddString())
+            
             let datePicker = YLDatePicker(currentDate: dateSelect, minLimitDate: Date(), maxLimitDate: nil, datePickerType: .YMDHm) { [weak self] (date) in
                 self?.dateSelect = date
                 self?.dateHasSelect = true
                 self?.tableView.reloadData()
+                
+                ///预约看房时间确定
+                SensorsAnalyticsFunc.confirm_see_house_time(buildingId: "\(self?.messageFYViewModel?.buildingId ?? 0)", buildOrHouse: self?.messageFYViewModel?.buildOrHouse ?? "", timestamp: self?.scheduleTimestemp ?? Date().yyyyMMddString(), seeTime: date.yyyyMMddString())
             }
             datePicker.show()
         }

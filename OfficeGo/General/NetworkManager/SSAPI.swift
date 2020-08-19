@@ -21,6 +21,7 @@ import Foundation
     enum BackgroundServerType: Int {
         case SSApiHost
         case SSH5Host
+        case SensorsAnalyticsSDK
     }
     
     // DEBUG 开发环境,供技术内部联调
@@ -29,21 +30,15 @@ import Foundation
     // REALEASE or Tag 正式环境, REALEASE testflight上测试, Tag adhoc
     // 激光推送 App 是 ad-hoc 打包或者App Store 版本（发布证书 Production）https://docs.jiguang.cn/jpush/client/iOS/ios_debug_guide/
     
-    
-    
-    //    static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
-    //                             "Release": "https://api.officego.com/"]
-    //
-    //    static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
-    //                             "Release": "https://m.officego.com/"]
+
     
     
     ///开发环境
-//    static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
-//                             "Release": "http://debug.officego.com.cn/"]
-//
-//    static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
-//                            "Release": "http://test1.officego.com.cn/"]
+    static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
+                             "Release": "http://debug.officego.com.cn/"]
+
+    static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
+                            "Release": "http://test1.officego.com.cn/"]
     
     ///预发测试环境
 //            static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
@@ -53,11 +48,14 @@ import Foundation
 //                                     "Release": "http://test.officego.com.cn/"]
     
     ///正式环境
-    static var SSApiHosts = ["Dev": "https://api.officego.com/",
-                             "Release": "https://api.officego.com/"]
+//    static var SSApiHosts = ["Dev": "https://api.officego.com/",
+//                             "Release": "https://api.officego.com/"]
+//
+//    static var SSH5Hosts = ["Dev": "https://m.officego.com/",
+//                            "Release": "https://m.officego.com/"]
     
-    static var SSH5Hosts = ["Dev": "https://m.officego.com/",
-                            "Release": "https://m.officego.com/"]
+    static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
+                            "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac"]
     
     //    调试接口地址:debug.officego.com.cn
     //    调试前端地址:test1.officego.com.cn
@@ -71,6 +69,9 @@ import Foundation
             
         case .SSH5Host:
             addrese = SSH5Hosts[buildType]!
+            
+        case .SensorsAnalyticsSDK:
+            addrese = SensorsAnalyticsSDKs[buildType]!
         }
         return addrese
     }
@@ -103,6 +104,8 @@ import Foundation
             url = SSApiHosts[releaseBuildType]!
         case .SSH5Host:
             url = SSH5Hosts[releaseBuildType]!
+        case .SensorsAnalyticsSDK:
+            url = SensorsAnalyticsSDKs[buildType]!
         }
         SSLog("url:\(url)")
         return url
@@ -117,6 +120,11 @@ import Foundation
     static var SSH5Host: String {
         return getUrlByServerType(serverType: .SSH5Host)
     }
+    
+    static var SensorsAnalyticsSDK: String {
+        return getUrlByServerType(serverType: .SensorsAnalyticsSDK)
+    }
+    
 }
 enum DictionaryCodeEnum: String {
     case codeEnumuserPosition = "userPosition"
@@ -418,6 +426,8 @@ extension SSAPI.BackgroundServerType: CustomStringConvertible {
             return "SSAPIHost"
         case .SSH5Host:
             return "SSH5Host"
+        case .SensorsAnalyticsSDK:
+            return "SensorsAnalyticsSDK"
         }
     }
 }

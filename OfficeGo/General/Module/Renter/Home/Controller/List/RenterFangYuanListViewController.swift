@@ -432,13 +432,19 @@ extension RenterFangYuanListViewController {
             return
         }
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
+            
+            ///点击楼盘卡片
+            SensorsAnalyticsFunc.clickShow(buildingId: "\(model.id ?? 0)", buildLocation: indexPath.row, isVr: model.isVr ?? false)
+
             if model.btype == 1 {
                 let vc = RenterOfficebuildingDetailVC()
+                vc.buildLocation = indexPath.row
                 vc.shaiXuanParams = self.getDetailParams()
                 vc.buildingModel = model
                 self.navigationController?.pushViewController(vc, animated: true)
             }else if model.btype == 2 {
                 let vc = RenterOfficeJointDetailVC()
+                vc.buildLocation = indexPath.row
                 vc.shaiXuanParams = self.getDetailParams()
                 vc.buildingModel = model
                 self.navigationController?.pushViewController(vc, animated: true)

@@ -35,7 +35,7 @@ class RenterLoginViewController: BaseViewController {
         return view
     }()
     
-    let iconImg: UIImageView = {
+    lazy var iconImg: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = kAppClearColor
         view.image = UIImage(named: "logo")
@@ -43,7 +43,7 @@ class RenterLoginViewController: BaseViewController {
         return view
     }()
     
-    let areaLabel: UILabel = {
+    lazy var areaLabel: UILabel = {
         let areaLabel = UILabel()
         areaLabel.textColor = kAppColor_333333
         areaLabel.textAlignment = .center
@@ -66,13 +66,13 @@ class RenterLoginViewController: BaseViewController {
     }()
     
     
-    let sepView: UIView = {
+    lazy var sepView: UIView = {
         let sepView = UIView()
         sepView.backgroundColor = kAppColor_line_D8D8D8
         return sepView
     }()
     
-    let phoneField: UITextField = {
+    lazy var phoneField: UITextField = {
         let phoneField = UITextField()
         phoneField.placeholder = NSLocalizedString("请输入手机号码", comment: "")
         phoneField.keyboardType = .phonePad
@@ -82,28 +82,29 @@ class RenterLoginViewController: BaseViewController {
         return phoneField
     }()
     
-    let sepView1: UIView = {
+    lazy var sepView1: UIView = {
         let sepView = UIView()
         sepView.backgroundColor = kAppColor_line_D8D8D8
         return sepView
     }()
     
-    let verifyView: UIView = {
+    lazy var verifyView: UIView = {
         let sepView = UIView()
         return sepView
     }()
     
-    let verifyCodeField: UITextField = {
-        let verifyCodeField = UITextField()
-        verifyCodeField.placeholder = NSLocalizedString("请输入验证码", comment: "")
-        verifyCodeField.keyboardType = .phonePad
-        verifyCodeField.clearsOnBeginEditing = false
-        verifyCodeField.textColor = kAppColor_333333
-        verifyCodeField.font = FONT_16
-        return verifyCodeField
+    lazy var verifyCodeField: UITextField = {
+        let view = UITextField()
+        view.delegate = self
+        view.placeholder = NSLocalizedString("请输入验证码", comment: "")
+        view.keyboardType = .phonePad
+        view.clearsOnBeginEditing = false
+        view.textColor = kAppColor_333333
+        view.font = FONT_16
+        return view
     }()
     
-    let getCodeButton: UIButton = {
+    lazy var getCodeButton: UIButton = {
         let getCodeButton = UIButton.init(type: .custom)
         getCodeButton.setTitle(NSLocalizedString("获取验证码", comment: ""), for: .normal)
         getCodeButton.setTitleColor(kAppColor_line_D8D8D8, for: .normal)
@@ -114,7 +115,7 @@ class RenterLoginViewController: BaseViewController {
         return getCodeButton
     }()
     
-    let nextButton: UIButton = {
+    lazy var nextButton: UIButton = {
         let nextButton = UIButton.init(type: .custom)
         nextButton.setTitle(NSLocalizedString("获取验证码", comment: ""), for: .normal)
         nextButton.setTitleColor(.white, for: .normal)
@@ -126,7 +127,7 @@ class RenterLoginViewController: BaseViewController {
         return nextButton
     }()
     
-    let agreementLabel: UILabel = {
+    lazy var agreementLabel: UILabel = {
         let label = UILabel()
         label.text = "点击登录代表您已阅读并同意"
         label.textColor = kAppColor_666666
@@ -172,6 +173,7 @@ class RenterLoginViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -195,6 +197,9 @@ class RenterLoginViewController: BaseViewController {
         setupUI()
         
         setupActions()
+        
+        ///访问注册/登录页面
+        SensorsAnalyticsFunc.visit_reg_login()
     }
     
     //登录跳过直接到tabbar - 租户设置已经点击过跳过
@@ -444,6 +449,11 @@ class RenterLoginViewController: BaseViewController {
     
     //MARK: 获取验证码接口
     func getSmsCode() {
+        
+        
+        ///点击获取验证码
+        SensorsAnalyticsFunc.click_code()
+        
         //调用登录接口 - 成功跳转下个页面-
         var params = [String:AnyObject]()
         params["phone"] = self.phoneField.text as AnyObject?
@@ -645,6 +655,9 @@ class RenterLoginViewController: BaseViewController {
     }
 }
 
-extension RenterLoginViewController {
-    
+extension RenterLoginViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        ///点击验证码输入框
+        SensorsAnalyticsFunc.click_code_input()
+    }
 }

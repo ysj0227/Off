@@ -44,6 +44,10 @@ class RenterSearchViewController: BaseViewController {
         setupView()
         
         setData()
+        
+        ///搜索-访问搜索页面
+        
+        SensorsAnalyticsFunc.visit_search_page()
     }
     
     @objc func valueDidChange() {
@@ -90,14 +94,16 @@ class RenterSearchViewController: BaseViewController {
         self.view.addSubview(searchResultVC?.view ?? UIView())
         
         // 传递闭包 当点击’搜索结果‘的cell调用
-        searchResultVC?.callBack = {[weak self] (model) in
+        searchResultVC?.callBack = {[weak self] (model, index) in
             // 搜索完成 关闭resultVC
             if model.btype == 1 {
                 let vc = RenterOfficebuildingDetailVC()
+                vc.buildLocation = index
                 vc.buildingModel = model
                 self?.navigationController?.pushViewController(vc, animated: true)
             }else if model.btype == 2 {
                 let vc = RenterOfficeJointDetailVC()
+                vc.buildLocation = index
                 vc.buildingModel = model
                 self?.navigationController?.pushViewController(vc, animated: true)
             }
@@ -203,7 +209,7 @@ extension RenterSearchViewController :UITextFieldDelegate {
             AppUtilities.makeToast("请输入搜索关键词")
             return false
         }
-        clickPushToSearchListVc(sarchStr: textField.text ?? "")
+        clickPushToSearchListVc(sarchStr: textField.text ?? "", searchType: "搜索按钮")
         return true
     }
     
@@ -217,7 +223,7 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
             cell?.historyModel = historyDatasource[indexPath.item] ?? SearchHistoryModel()
             //点击了某个item
             cell?.buttonCallBack = {[weak self] (str) in
-                self?.clickPushToSearchListVc(sarchStr: str)
+                self?.clickPushToSearchListVc(sarchStr: str, searchType: "历史词")
             }
             return cell ?? RenterSearchHistoryCollectionCell()
         }else if indexPath.section == 1 {
@@ -226,14 +232,14 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
             cell?.findHotModel = findHotDatasource[indexPath.item] ?? DictionaryModel()
             //点击了某个item
             cell?.buttonCallBack = {[weak self] (str) in
-                self?.clickPushToSearchListVc(sarchStr: str)
+                self?.clickPushToSearchListVc(sarchStr: str, searchType: "推荐词")
             }
             return cell ?? RenterSearchHistoryCollectionCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterSearchRecommendCollectionCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterSearchRecommendCollectionCell
             //点击了某个item
             cell?.buttonCallBack = {[weak self] (str) in
-                self?.clickPushToSearchListVc(sarchStr: str)
+                self?.clickPushToSearchListVc(sarchStr: str, searchType: "")
             }
             return cell ?? RenterSearchRecommendCollectionCell()
             
@@ -257,7 +263,7 @@ extension RenterSearchViewController: UICollectionViewDataSource, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 2 {
-            clickPushToSearchListVc(sarchStr: "")
+            clickPushToSearchListVc(sarchStr: "", searchType: "")
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
