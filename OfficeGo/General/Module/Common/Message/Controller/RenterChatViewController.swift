@@ -10,7 +10,7 @@ import UIKit
 
 class RenterChatViewController: RCConversationViewController {
     
-    ///神策添加事件
+    ///神策添加事件 - 都为时间戳
     var phoneTimestemp: String?
     
     var wxTimestemp: String?
@@ -231,11 +231,12 @@ class RenterChatViewController: RCConversationViewController {
             
             if let model = ChatTargetUserInfoModel.deserialize(from: response, designatedPath: "data") {
                 
+                ///为了设置用户头像和名称
+                ///神策统计id和名字
                 weakSelf.messageFYModel = MessageFYModel()
                 weakSelf.messageFYModel?.chatted = MessageFYChattedModel()
                 weakSelf.messageFYModel?.chatted?.targetId = model.id
                 weakSelf.messageFYModel?.chatted?.nickname = model.name
-                weakSelf.messageFYViewModel = MessageFYViewModel.init(model: weakSelf.messageFYModel ?? MessageFYModel())
 
                 SSTool.invokeInMainThread { [weak self] in
                     
@@ -476,19 +477,19 @@ extension RenterChatViewController {
     func clicktoBtn(index: Int) {
         if index == 1 {
             
-            phoneTimestemp = Date().yyyyMMddString()
+            phoneTimestemp = Date().timeStamp
             
             ///发起电话交换
-            SensorsAnalyticsFunc.click_phone_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: phoneTimestemp ?? "", createTime: Date().yyyyMMddString())
+            SensorsAnalyticsFunc.click_phone_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: phoneTimestemp ?? "0", createTime: Date().yyyyMMddString())
             
             showPhoneSureAlertview()
             
         }else if index == 2 {
             
-            wxTimestemp = Date().yyyyMMddString()
+            wxTimestemp = Date().timeStamp
 
             ///发起微信交换
-            SensorsAnalyticsFunc.click_wechat_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: wxTimestemp ?? "", createTime: Date().yyyyMMddString())
+            SensorsAnalyticsFunc.click_wechat_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: wxTimestemp ?? "0", createTime: Date().yyyyMMddString())
             
             if UserTool.shared.isHasWX() == true {
                 showWechatSureAlertview()
@@ -500,10 +501,10 @@ extension RenterChatViewController {
         }else if index == 3 {
             
             ///神策点击预约看房事件
-            scheduleTimestemp = Date().yyyyMMddString()
+            scheduleTimestemp = Date().timeStamp
             
             ///IM中点击预约看房
-            SensorsAnalyticsFunc.click_im_order_see_house_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", chatedId: messageFYModel?.chatted?.targetId ?? "0", chatedName: messageFYModel?.chatted?.nickname ?? "", timestamp: scheduleTimestemp ?? Date().yyyyMMddString())
+            SensorsAnalyticsFunc.click_im_order_see_house_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", chatedId: messageFYModel?.chatted?.targetId ?? "0", chatedName: messageFYModel?.chatted?.nickname ?? "", timestamp: scheduleTimestemp ?? "0")
 
             clickToScheduleVC()
             

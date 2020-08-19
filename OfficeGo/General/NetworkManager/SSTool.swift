@@ -487,9 +487,7 @@ struct SensorsAnalyticsEvent {
             params["isSuccess"] = false
         }
         
-        let date = Date.init(timeIntervalSince1970: TimeInterval.init(timestamp / 1000))
-        let dateStr = date.yyyyMMddString()
-        params["timestamp"] = dateStr
+        params["timestamp"] = "\(timestamp / 1000)"
 
         if buildOrHouse.isBlankString != true {
             params["buildOrHouse"] = buildOrHouse
@@ -571,9 +569,7 @@ struct SensorsAnalyticsEvent {
             params["isSuccess"] = false
         }
         
-        let date = Date.init(timeIntervalSince1970: TimeInterval.init(timestamp / 1000))
-        let dateStr = date.yyyyMMddString()
-        params["timestamp"] = dateStr
+        params["timestamp"] = "\(timestamp / 1000)"
         
         if buildOrHouse.isBlankString != true {
             params["buildOrHouse"] = buildOrHouse

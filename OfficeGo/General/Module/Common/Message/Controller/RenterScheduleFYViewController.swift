@@ -49,7 +49,7 @@ class RenterScheduleFYViewController: BaseTableViewController {
     ///神策 - 预约看房申请提交
     func senorsSubmit_booking_see_house() {
 
-        SensorsAnalyticsFunc.submit_booking_see_house(buildingId: "\(messageFYViewModel?.buildingId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: scheduleTimestemp ?? "", seeTime: dateSelect?.yyyyMMddString() ?? "", chatedId: messageFYViewModel?.targetId ?? "0", chatedName: messageFYViewModel?.contactNameString ?? "", createTime: Date().yyyyMMddString())
+        SensorsAnalyticsFunc.submit_booking_see_house(buildingId: "\(messageFYViewModel?.buildingId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: scheduleTimestemp ?? "0", seeTime: dateSelect?.yyyyMMddString() ?? "", chatedId: messageFYViewModel?.targetId ?? "0", chatedName: messageFYViewModel?.contactNameString ?? "", createTime: Date().yyyyMMddString())
     }
     
     //业主申请看房
@@ -65,6 +65,9 @@ class RenterScheduleFYViewController: BaseTableViewController {
         params["chatUserId"] = messageFYViewModel?.targetId as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["time"] = "\(interval)" as AnyObject?
+        
+        ///神策 - 接口记录添加的从点击预约按钮开始的字段
+        params["times"] = scheduleTimestemp as AnyObject?
         
         SSNetworkTool.SSSchedule.request_addProprietorApp(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
@@ -97,6 +100,9 @@ class RenterScheduleFYViewController: BaseTableViewController {
         params["chatUserId"] = messageFYViewModel?.targetId as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["time"] = "\(interval)" as AnyObject?
+        
+        ///神策 - 接口记录添加的从点击预约按钮开始的字段
+        params["times"] = scheduleTimestemp as AnyObject?
         
         SSNetworkTool.SSSchedule.request_addRenterApp(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
@@ -229,7 +235,7 @@ extension RenterScheduleFYViewController {
         if indexPath.section == 1 && indexPath.row == 0 {
             
             ///点击看房时间选择按钮
-            SensorsAnalyticsFunc.order_see_house_time(buildingId: "\(messageFYViewModel?.buildingId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: scheduleTimestemp ?? Date().yyyyMMddString())
+            SensorsAnalyticsFunc.order_see_house_time(buildingId: "\(messageFYViewModel?.buildingId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: scheduleTimestemp ?? "0")
             
             let datePicker = YLDatePicker(currentDate: dateSelect, minLimitDate: Date(), maxLimitDate: nil, datePickerType: .YMDHm) { [weak self] (date) in
                 self?.dateSelect = date
@@ -237,7 +243,7 @@ extension RenterScheduleFYViewController {
                 self?.tableView.reloadData()
                 
                 ///预约看房时间确定
-                SensorsAnalyticsFunc.confirm_see_house_time(buildingId: "\(self?.messageFYViewModel?.buildingId ?? 0)", buildOrHouse: self?.messageFYViewModel?.buildOrHouse ?? "", timestamp: self?.scheduleTimestemp ?? Date().yyyyMMddString(), seeTime: date.yyyyMMddString())
+                SensorsAnalyticsFunc.confirm_see_house_time(buildingId: "\(self?.messageFYViewModel?.buildingId ?? 0)", buildOrHouse: self?.messageFYViewModel?.buildOrHouse ?? "", timestamp: self?.scheduleTimestemp ?? "0", seeTime: date.yyyyMMddString())
             }
             datePicker.show()
         }
