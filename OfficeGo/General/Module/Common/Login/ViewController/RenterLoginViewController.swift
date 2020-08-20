@@ -239,7 +239,7 @@ class RenterLoginViewController: BaseViewController {
         titleview?.rightButton.setTitle("跳过", for: .normal)
         
         
-        //TODO: 模拟- 业主 - 隐藏 - 返回按钮
+        //TODO: 模拟- 房东 - 隐藏 - 返回按钮
         //模拟 - 租户可以跳过登录
         if UserTool.shared.user_id_type == 1 {
             titleview?.leftButton.isHidden = true

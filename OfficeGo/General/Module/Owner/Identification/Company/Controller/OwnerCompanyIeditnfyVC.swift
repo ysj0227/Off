@@ -553,7 +553,7 @@ extension OwnerCompanyIeditnfyVC {
     func setUpView() {
         
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
-        titleview?.titleLabel.text = "公司业主认证"
+        titleview?.titleLabel.text = "公司房东认证"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
             self?.showLeaveAlert()

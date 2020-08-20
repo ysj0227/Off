@@ -109,7 +109,7 @@ public enum RenterUserMsgType {
 
 
 
-//业主
+//房东
 //租户我的
 public enum OwnerMineType {
     case OwnerMineTypeAuthority         //员工管理 - 0 员工 1 管理员
@@ -128,7 +128,7 @@ public enum AlertType {
     case AlertTypeChatSure                  //聊天- 微信交换弹框
 }
 
-//业主
+//房东
 //公司认证
 public enum OwnerCompanyIedntifyType {
     case OwnerCompanyIedntifyTypeIdentigy           //认证身份：
@@ -141,7 +141,7 @@ public enum OwnerCompanyIedntifyType {
     //case OwnerCompanyIedntifyTypeUploadMainimg      //上传楼盘封面图
 }
 
-//业主
+//房东
 //联合办公认证
 public enum OwnerJointIedntifyType {
     case OwnerJointIedntifyTypeIdentigy           //认证身份：
@@ -154,7 +154,7 @@ public enum OwnerJointIedntifyType {
     //case OwnerJointIedntifyTypeUploadMainimg      //上传楼盘封面图
 }
 
-//业主
+//房东
 //个人认证
 public enum OwnerPersonalIedntifyType {
     case OwnerPersonalIedntifyTypeIdentify                  //认证身份：
@@ -169,7 +169,7 @@ public enum OwnerPersonalIedntifyType {
 }
 
 
-//业主
+//房东
 //创建公司
 public enum OwnerCreteCompanyType {
     case OwnerCreteCompanyTypeIedntify              //认证身份：
@@ -179,7 +179,7 @@ public enum OwnerCreteCompanyType {
     case OwnerCreteCompanyTypeUploadYingyePhoto     //上传营业执照
 }
 
-//业主
+//房东
 //创建网点
 public enum OwnerCreteBranchType {
     case OwnerCreteBranchTypeBranchName             //网点名称
@@ -188,7 +188,7 @@ public enum OwnerCreteBranchType {
     case OwnerCreteBranchTypeUploadYingyePhoto      //上传营业执照
 }
 
-//业主
+//房东
 //创建写字楼
 public enum OwnerCreteBuildingType {
     case OwnerCreteBuildingTypeBranchName             //写字楼名称

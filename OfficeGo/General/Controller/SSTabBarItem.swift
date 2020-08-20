@@ -57,7 +57,7 @@ class SSTabBarItem: NSObject {
         return tabbars
     }
     
-    //业主
+    //房东
     static func defaultOwnerTabBarItems() -> [SSTabBarItem] {
         var tabbars: [SSTabBarItem] = []
         

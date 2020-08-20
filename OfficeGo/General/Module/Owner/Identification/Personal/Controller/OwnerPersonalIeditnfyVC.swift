@@ -565,7 +565,7 @@ extension OwnerPersonalIeditnfyVC {
         reverseBannerModel = BannerModel()
         
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
-        titleview?.titleLabel.text = "个人业主认证"
+        titleview?.titleLabel.text = "个人房东认证"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
             self?.showLeaveAlert()

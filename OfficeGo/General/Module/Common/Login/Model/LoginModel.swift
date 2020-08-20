@@ -10,7 +10,7 @@ import UIKit
 
 class LoginModel: BaseModel {
     
-    ///-1：未选择角色 0：租户，1：业主
+    ///-1：未选择角色 0：租户，1：房东
     var rid: Int?
     var rongyuntoken: String?
     var token: String?
@@ -63,11 +63,11 @@ class LoginUserModel: BaseModel {
     var leaseType : Int?
     
     
-    ///业主公司
+    ///房东公司
     var proprietorCompany : String?
-    ///业主职位
+    ///房东职位
     var proprietorJob : String?
-    ///业主姓名
+    ///房东姓名
     var proprietorRealname : String?
     var remark : String?
     

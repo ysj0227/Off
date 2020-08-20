@@ -432,8 +432,8 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         
     }
     /*
-     ///调用创建聊天 -  判断是不是单业主
-     ///单业主直接跳转 多业主选择房源
+     ///调用创建聊天 -  判断是不是单房东
+     ///单房东直接跳转 多房东选择房源
      */
     func requestCreateChat() {
         
@@ -463,9 +463,9 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         }
     }
     
-    ///判断是单业主还是双业主
+    ///判断是单房东还是双房东
     func judgeOneOrMoreOwner(model: MessageFYChattedModel) {
-        //双业主
+        //双房东
         if model.multiOwner == 1 {
             scrollToFY()
         }else {
@@ -479,7 +479,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         SSTool.invokeInMainThread { [weak self] in
             guard let weakSelf = self else {return}
             
-            AppUtilities.makeToast("请先选择房源，再和业主聊")
+            AppUtilities.makeToast("请先选择房源，再和房东聊")
             //3
             if weakSelf.dataSourceArr.count > 3 {
                 if weakSelf.dataSource.count > 0 {

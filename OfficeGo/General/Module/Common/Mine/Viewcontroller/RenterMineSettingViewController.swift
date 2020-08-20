@@ -88,10 +88,10 @@ extension RenterMineSettingViewController {
             
         }) {
             
-            //退出登录 - 判断是业主还是租户
-            //业主- 直接退出登录 -
+            //退出登录 - 判断是房东还是租户
+            //房东- 直接退出登录 -
             //租户- 返回个人中心 - 个人中心状态刷新为未登录
-            /// role 角色 用户身份类型,,0:租户,1:业主,9:其他
+            /// role 角色 用户身份类型,,0:租户,1:房东,9:其他
             if UserTool.shared.user_id_type == 0 {
                 //不清空身份类型
                 UserTool.shared.removeAll()
@@ -110,16 +110,16 @@ extension RenterMineSettingViewController {
         var aelrtMsg: String = ""
         if UserTool.shared.user_id_type == 0 {
             
-            aelrtMsg = "是否确认切换为业主？"
+            aelrtMsg = "是否确认切换为房东？"
             
-            ///租户切换成业主
+            ///租户切换成房东
             SensorsAnalyticsFunc.tenant_to_owner()
             
         }else if UserTool.shared.user_id_type == 1 {
             
             aelrtMsg = "是否确认切换为租户？"
             
-            ///业主切换成租户
+            ///房东切换成租户
             SensorsAnalyticsFunc.owne_to_tenant()
         }
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
@@ -255,7 +255,7 @@ class RenterSettingCell: BaseTableViewCell {
             if model.type == RenterSettingType.RenterSettingTypeRoleChange {
                 lineView.isHidden = true
                 if UserTool.shared.user_id_type == 0 {
-                    numDescLabel.text = "切换为业主"
+                    numDescLabel.text = "切换为房东"
                 }else if UserTool.shared.user_id_type == 1 {
                     numDescLabel.text = "切换为租户"
                 }

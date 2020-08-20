@@ -8,7 +8,7 @@
 
 class LoginRoleViewController: BaseTableViewController {
     
-    //0:租户,1:业主,9:其他
+    //0:租户,1:房东,9:其他
     var selectedIndex: Int = 999 {
         didSet {
             UserTool.shared.user_id_type = selectedIndex

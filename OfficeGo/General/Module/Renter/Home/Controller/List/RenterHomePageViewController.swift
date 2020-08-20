@@ -579,6 +579,9 @@ extension RenterHomePageViewController {
                 var arr: [String] = []
                 for model in decoratedArray {
                     arr.append(model?.img ?? "")
+                    arr.append(model?.img ?? "")
+                    arr.append(model?.img ?? "")
+
                 }
                 
                 //                weakSelf.setCycleImg()

@@ -603,7 +603,7 @@ extension SSNetworkTool {
                success,failed:failure,error:error)
        }
         
-        ///业主和业主聊天列表调用接口
+        ///房东和房东聊天列表调用接口
         static func request_getOwnerToOwnerchattedMsgAApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerIdentifyURL.getOwnerToOwnerchattedMsgAApp)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
@@ -636,14 +636,14 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        //创建和业主聊天接口
+        //创建和房东聊天接口
         static func request_getCreatFirstChatApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSChatURL.getCreatFirstChatApp)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
-        //获取和业主聊天详情接口
+        //获取和房东聊天详情接口
         static func request_getChatFYDetailApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSChatURL.getChatMsgDetailApp)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
@@ -657,7 +657,7 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        //租户业主第一次发消息
+        //租户房东第一次发消息
         static func request_addChatApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSChatURL.addChatApp)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
@@ -690,14 +690,14 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        //添加预约看房 - 租户像业主申请预约看房
+        //添加预约看房 - 租户像房东申请预约看房
         static func request_addRenterApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSScheduleURL.addRenterApp)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
-        //添加预约看房 - 业主像租户预约看房
+        //添加预约看房 - 房东像租户预约看房
         static func request_addProprietorApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSScheduleURL.addProprietorApp)
             SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
@@ -889,7 +889,7 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        ///个人资料 - 业主
+        ///个人资料 - 房东
         static func request_getOwnerUserMsg(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSMineURL.getOwnerUserMsg)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:

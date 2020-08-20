@@ -16,24 +16,24 @@ extension Notification.Name {
     ///登录失效 - 5009
     public static let LoginResignEffect = Notification.Name("LoginResignEffect")
     
-    /// 身份认证 - 业主 - 企业认证 - 创建公司成功的通知(包括企业认证 和 网点认证)
+    /// 身份认证 - 房东 - 企业认证 - 创建公司成功的通知(包括企业认证 和 网点认证)
     public static let OwnerCreateCompany = Notification.Name("OwnerCreateCompany")
     
-    /// 身份认证 - 业主 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
+    /// 身份认证 - 房东 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
     public static let OwnerCreateBranchJoint = Notification.Name("OwnerCreateBranchJoint")
     
-    /// 身份认证 - 业主 - 联合办公认证 - 创建写字楼的通知 - 公司和个人认证独有
+    /// 身份认证 - 房东 - 联合办公认证 - 创建写字楼的通知 - 公司和个人认证独有
     public static let OwnerCreateBuilding = Notification.Name("OwnerCreateBuilding")
     
     
     
     
-    /// 设置rootviewcontroller - 业主
+    /// 设置rootviewcontroller - 房东
     public static let SetOwnerTabbarViewController = Notification.Name("SetOwnerTabbarViewController")
-    /// 用户退出 - 只有业主需要重新设置tabbar
+    /// 用户退出 - 只有房东需要重新设置tabbar
     public static let OwnerUserLogout = Notification.Name("OwnerUserLogout")
     
-    /// 清楚房源管理缓存 - 只有业主需要首页
+    /// 清楚房源管理缓存 - 只有房东需要首页
     public static let OwnerClearFYManagerCache = Notification.Name("OwnerClearFYManagerCache")
     
     /// 设置rootviewcontroller - 租户
@@ -71,13 +71,13 @@ extension Notification.Name {
     /// 聊天页面 - 约看房源预约成功通知
     public static let MsgScheduleSuccess = Notification.Name("msgScheduleSuccess")
     
-    /// 聊天页面 -交换手机号 - 业主点击同意或拒绝
+    /// 聊天页面 -交换手机号 - 房东点击同意或拒绝
     public static let MsgExchangePhoneStatusBtnLocked = Notification.Name("msgExchangePhoneStatusBtnLocked")
     
-    /// 聊天页面 -交换微信 - 业主点击同意或拒绝
+    /// 聊天页面 -交换微信 - 房东点击同意或拒绝
     public static let MsgExchangeWechatStatusBtnLocked = Notification.Name("msgExchangeWechatStatusBtnLocked")
     
-    /// 聊天页面 -越看房源 - 业主点击同意或拒绝
+    /// 聊天页面 -越看房源 - 房东点击同意或拒绝
     public static let MsgViewingScheduleStatusBtnLocked = Notification.Name("msgViewingScheduleStatusBtnLocked")
     
     /// 聊天页面 -申请加入公司

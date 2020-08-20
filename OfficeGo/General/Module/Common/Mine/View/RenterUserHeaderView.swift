@@ -118,7 +118,7 @@ class RenterUserHeaderView: UIView {
         }
     }
     
-    //业主
+    //房东
     var ownerUserModel: LoginUserModel = LoginUserModel() {
         didSet {
             loginbutton.isHidden = true
@@ -230,7 +230,7 @@ class RenterUserHeaderView: UIView {
             make.leading.equalTo(headerImg.snp.trailing).offset(10)
             make.height.equalTo(40)
         }
-        //只有业主才会出现
+        //只有房东才会出现
         aduitStatusView.snp.makeConstraints { (make) in
             make.leading.equalTo(nameLabel.snp.trailing).offset(6)
             make.centerY.equalTo(nameLabel)

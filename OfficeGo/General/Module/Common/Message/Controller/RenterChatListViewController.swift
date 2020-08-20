@@ -55,7 +55,7 @@ class RenterChatListViewController: RCConversationListViewController {
     ///更新tabbar小红点数量
     func updateBadgeValueForTabBarItem() {
         let count: Int = Int(RCIMClient.shared()?.getUnreadCount([RCConversationType.ConversationType_PRIVATE.rawValue, RCConversationType.ConversationType_SYSTEM.rawValue]) ?? 0)
-        //自己是业主
+        //自己是房东
         if UserTool.shared.user_id_type == 1 {
             let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
             tab?.setbadge(num: count)
@@ -196,7 +196,7 @@ extension RenterChatListViewController {
                 if model.conversationType == .ConversationType_PRIVATE {
                     if model.targetId.count > 0 {
                         let subStr = model.targetId.suffix(1)
-                        //自己是业主 并且对方也是业主
+                        //自己是房东 并且对方也是房东
                         if UserTool.shared.user_id_type == 1 && subStr == ChatType_Owner_1 {
                             let vc = OwnerChatViewController()
                             vc.conversationType = .ConversationType_PRIVATE

@@ -602,7 +602,7 @@ extension RenterChatViewController {
 
 extension RenterChatViewController {
     
-    //发送打招呼语第一次创建聊天 - 租户给业主发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
+    //发送打招呼语第一次创建聊天 - 租户给房东发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
     func sengSayHelloMessage() {
         
 //        ///isChat":0//0 :点击发送按钮的时候需要调用addChat接口，1:不需要

@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         if cType == "PR" {
             if targetId.count > 0 {
                 let subStr = targetId.suffix(1)
-                //自己是业主 并且对方也是业主
+                //自己是房东 并且对方也是房东
                 if UserTool.shared.user_id_type == 1 && subStr == ChatType_Owner_1 {
                     let vc = OwnerChatViewController()
                     vc.needPopToRootView = true
@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                     vc.targetId = targetId
                     vc.enableNewComingMessageIcon = true  //开启消息提醒
                     vc.displayUserNameInCell = false
-                    //业主
+                    //房东
                     if UserTool.shared.user_id_type == 1 {
                         let tab = self.window?.rootViewController as? OwnerMainTabBarController
                         tab?.selectedIndex = 1
@@ -109,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             if targetId.count > 0 {
                 //3表示是系统消息
                 let subStr = targetId.suffix(1)
-                //自己是业主
+                //自己是房东
                 if UserTool.shared.user_id_type == 1 && subStr == ChatType_System_3 {
                     let vc = ChatSystemViewController()
                     vc.needPopToRootView = true
@@ -228,10 +228,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(roleChange), name: NSNotification.Name.UserRoleChange, object: nil)
         
         
-        ///设置tabar - 业主
+        ///设置tabar - 房东
         NotificationCenter.default.addObserver(self, selector: #selector(setOwnerTabar), name: NSNotification.Name.SetOwnerTabbarViewController, object: nil)
         
-        //退出登录 - 只有业主
+        //退出登录 - 只有房东
         NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name.OwnerUserLogout, object: nil)
     }
     
@@ -276,7 +276,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     //设置tabbar - 租户
     @objc func setRenterTabar(){
         
-        //0:租户,1:业主,9:其他
+        //0:租户,1:房东,9:其他
         if UserTool.shared.user_id_type == 0 {
             //不清空身份类型
             let tabbarVC = RenterMainTabBarController()
@@ -289,10 +289,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             }
         }
     }
-    //设置tabbar - 业主
+    //设置tabbar - 房东
     @objc func setOwnerTabar(){
         
-        //0:租户,1:业主,9:其他
+        //0:租户,1:房东,9:其他
         if UserTool.shared.user_id_type == 1 {
             //不清空身份类型
             let tabbarVC = OwnerMainTabBarController()
@@ -356,7 +356,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     func runTabBarViewController() -> Void {
         
-        //0:租户,1:业主,9:其他
+        //0:租户,1:房东,9:其他
         if UserTool.shared.user_id_type == 0 {
             
             //登录 -
@@ -398,10 +398,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     ///登录失效处理 - 5009
     @objc func loginResignEffect() {
-        //退出登录 - 判断是业主还是租户
-        //业主- 直接退出登录 -
+        //退出登录 - 判断是房东还是租户
+        //房东- 直接退出登录 -
         //租户- 返回个人中心 - 个人中心状态刷新为未登录
-        /// role 角色 用户身份类型,,0:租户,1:业主,9:其他
+        /// role 角色 用户身份类型,,0:租户,1:房东,9:其他
         if UserTool.shared.user_id_type == 0 {
             //不清空身份类型
             UserTool.shared.removeAll()
@@ -642,7 +642,7 @@ extension AppDelegate: RCIMReceiveMessageDelegate {
     */
     func onRCIMReceive(_ message: RCMessage!, left: Int32) {
         SSLog("onReceived------left-IMKit-\(left)")
-        //业主
+        //房东
         if UserTool.shared.user_id_type == 1 {
             let tab = self.window?.rootViewController as? OwnerMainTabBarController
             tab?.updateBadgeValueForTabBarItem()

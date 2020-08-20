@@ -181,7 +181,7 @@ class OwnerJointIeditnfyVC: BaseViewController {
     
     func addNotify() {
         
-        //网点认证 -身份认证 - 业主 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
+        //网点认证 -身份认证 - 房东 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBranchJoint, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
             self?.iaHasBranch = true
@@ -570,7 +570,7 @@ extension OwnerJointIeditnfyVC {
     func setUpView() {
         
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
-        titleview?.titleLabel.text = "联合办公业主认证"
+        titleview?.titleLabel.text = "联合办公房东认证"
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
             self?.showLeaveAlert()

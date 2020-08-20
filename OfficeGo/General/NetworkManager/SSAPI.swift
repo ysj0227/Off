@@ -171,7 +171,7 @@ class SSDelegateURL: NSObject {
     //常见问题：
     static let h5QuestionUrl = "lessee/issueList.html?channel=\(UserTool.shared.user_channel)"
     
-    ///认证业主网页接口
+    ///认证房东网页接口
     static let h5IdentifyOwnerUrl = "owner/myHome.html"
     
     ///个人认证  attestationPersonage.html
@@ -194,7 +194,7 @@ class SSDelegateURL: NSObject {
 }
 
 
-//  MARK:   --业主认证接口
+//  MARK:   --房东认证接口
 class SSOwnerIdentifyURL: NSObject {
     
     //搜索企业接口
@@ -233,7 +233,7 @@ class SSOwnerIdentifyURL: NSObject {
     //自主撤销认证 待测
     static let getDeleteUserLicenceApp = "api/licence/deleteUserLicenceApp"
     
-    //业主和业主聊天列表调用接口
+    //房东和房东聊天列表调用接口
     static let getOwnerToOwnerchattedMsgAApp = "api/chat/chattedMsgApp"
     
     //图片删除调用接口
@@ -250,7 +250,7 @@ class SSChatURL: NSObject {
     //获取融云token
     static let getRongYunToken = "api/user/rongYunToken"
     
-    //创建和业主聊天接口
+    //创建和房东聊天接口
     static let getCreatFirstChatApp = "api/chat/chatApp"
     
     //获取聊天关联房源
@@ -351,16 +351,16 @@ class SSMineURL: NSObject {
     ///绑定微信
     static let bindWeChat = "api/login/sms_codeApp"
     
-    ///个人资料 - 租户  - 业主
+    ///个人资料 - 租户  - 房东
     static let getRenterUserMsg = "api/user/userMsgApp"
     
-    ///个人资料 - 业主
+    ///个人资料 - 房东
     static let getOwnerUserMsg = "api/user/userMsgApp"
     
     ///切换身份
     static let roleChange = "api/user/regTokenApp"
     
-    ///修改个人资料 - 业主 - 租户
+    ///修改个人资料 - 房东 - 租户
     static let updateUserMessage = "api/user/updateDataApp"
     
     ///版本更新
@@ -389,10 +389,10 @@ class SSScheduleURL: NSObject {
     //预约看房
     static let selectScheduleHouseApp = "api/schedule/selectScheduleHouseApp"
     
-    //保存预约行程  租户像业主申请
+    //保存预约行程  租户像房东申请
     static let addRenterApp = "api/schedule/addRenterApp"
     
-    //保存预约行程  业主像租户申请
+    //保存预约行程  房东像租户申请
     static let addProprietorApp = "api/schedule/addProprietorApp"
     
     //结束行程

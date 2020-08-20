@@ -151,12 +151,12 @@ struct SensorsAnalyticsEvent {
     
     
     /**
-     *租户切换成业主
+     *租户切换成房东
      */
     static let tenant_to_owner = "tenant_to_owner"
     
     /**
-     *业主切换成租户
+     *房东切换成租户
      */
     static let owne_to_tenant = "owne_to_tenant"
     
@@ -524,8 +524,8 @@ struct SensorsAnalyticsEvent {
      *$预置属性    STRING        WEB
      *buildingId    楼盘ID    STRING        WEB
      *houseId    房源ID    STRING    如无房源返回空值（对应从楼盘进入聊天）    WEB
-     *chatedId    业主ID    STRING        WEB
-     *chatedName    业主名称    STRING        WEB
+     *chatedId    房东ID    STRING        WEB
+     *chatedName    房东名称    STRING        WEB
      *timestamp    行程预约ID    STRING    NUMBER    WEB
      */
     class func click_im_order_see_house_button(buildingId: String, houseId: String, chatedId: String, chatedName: String, timestamp: String) {
@@ -577,13 +577,13 @@ struct SensorsAnalyticsEvent {
      *seeTime    预约时间    DATETIME        WEB
      *buildingId    楼盘ID    STRING        WEB
      *timestamp    行程预约ID    STRING        WEB
-     *status    行程状态    STRING    取值只能是预约等待业主审核    WEB
-     *chatedId    业主ID    STRING        WEB
-     *chatedName    业主名称    STRING        WEB
+     *status    行程状态    STRING    取值只能是预约等待房东审核    WEB
+     *chatedId    房东ID    STRING        WEB
+     *chatedName    房东名称    STRING        WEB
      *createTime    时间    DATETIME    点击申请按钮的当前日期，2020-09-03    WEB
      */
     class func submit_booking_see_house(buildingId: String, buildOrHouse: String, timestamp: String, seeTime: String, chatedId: String, chatedName: String, createTime: String) {
-        SensorsTrackEvent(event: SensorsAnalyticsEvent.submit_booking_see_house, params: ["buildingId": buildingId, "buildOrHouse": buildOrHouse, "timestamp": timestamp, "seeTime": seeTime, "status": "预约等待业主审核", "chatedId": chatedId, "chatedName": chatedName, "createTime": createTime])
+        SensorsTrackEvent(event: SensorsAnalyticsEvent.submit_booking_see_house, params: ["buildingId": buildingId, "buildOrHouse": buildOrHouse, "timestamp": timestamp, "seeTime": seeTime, "status": "预约等待房东审核", "chatedId": chatedId, "chatedName": chatedName, "createTime": createTime])
     }
     
     /**
@@ -592,7 +592,7 @@ struct SensorsAnalyticsEvent {
      *$预置属性    STRING        WEB
      *buildingId    楼盘ID    STRING        WEB
      *houseId    房源ID    STRING        WEB
-     *rid    发起方身份    STRING    租户、业主    WEB
+     *rid    发起方身份    STRING    租户、房东    WEB
      *timestamp    行程预约ID    STRING        WEB
      *statusPhone    电话交换状态    STRING    申请中    WEB
      *createTime    时间    DATETIME    发起交换时间    WEB
@@ -612,7 +612,7 @@ struct SensorsAnalyticsEvent {
         if rid == 0 {
             params["rid"] = "租户"
         }else if rid == 1 {
-            params["rid"] = "业主"
+            params["rid"] = "房东"
         }
         SensorsTrackEvent(event: SensorsAnalyticsEvent.click_phone_exchange_button, params: params)
     }
@@ -625,7 +625,7 @@ struct SensorsAnalyticsEvent {
      *houseId    房源ID    STRING        WEB
      *buildOrHouse    页面类型    STRING        WEB
      *timestamp    行程预约ID    STRING
-     *rid    发起方身份    STRING    租户、业主    WEB
+     *rid    发起方身份    STRING    租户、房东    WEB
      *statusPhone    电话交换状态    STRING    申请中、通过、拒绝    WEB
      *isSuccess    是否成功    BOOL    是否交换电话成功    WEB
      */
@@ -660,7 +660,7 @@ struct SensorsAnalyticsEvent {
                 if type == "0" {
                     params["rid"] = "租户"
                 }else if type == "1" {
-                    params["rid"] = "业主"
+                    params["rid"] = "房东"
                 }
             }
         }
@@ -673,7 +673,7 @@ struct SensorsAnalyticsEvent {
      *$预置属性    STRING        WEB
      *buildingId    楼盘ID    STRING        WEB
      *houseId    房源ID    STRING        WEB
-     *rid    发起方身份    STRING    租户、业主    WEB
+     *rid    发起方身份    STRING    租户、房东    WEB
      *timestamp    行程预约ID    STRING    微信交换事件ID    WEB
      *statusWechat    微信交换状态    STRING        WEB
      *createTime    时间    DATETIME    发起交换时间    WEB
@@ -693,7 +693,7 @@ struct SensorsAnalyticsEvent {
         if rid == 0 {
             params["rid"] = "租户"
         }else if rid == 1 {
-            params["rid"] = "业主"
+            params["rid"] = "房东"
         }
         SensorsTrackEvent(event: SensorsAnalyticsEvent.click_phone_exchange_button, params: params)
         SensorsTrackEvent(event: SensorsAnalyticsEvent.click_wechat_exchange_button, params: params)
@@ -707,7 +707,7 @@ struct SensorsAnalyticsEvent {
      *houseId    房源ID    STRING        WEB
      *buildOrHouse    页面类型    STRING        WEB
      *timestamp    行程预约ID    STRING    微信交换事件ID    WEB
-     *rid    发起方身份    STRING    租户、业主    WEB
+     *rid    发起方身份    STRING    租户、房东    WEB
      *statusWechat    微信交换状态    STRING    申请中、通过、拒绝    WEB
      *isSuccess    是否成功    BOOL    是否交换微信成功    WEB
      */
@@ -742,7 +742,7 @@ struct SensorsAnalyticsEvent {
                 if type == "0" {
                     params["rid"] = "租户"
                 }else if type == "1" {
-                    params["rid"] = "业主"
+                    params["rid"] = "房东"
                 }
             }
         }
@@ -750,7 +750,7 @@ struct SensorsAnalyticsEvent {
     }
     
     /**
-     *租户切换成业主
+     *租户切换成房东
      *$预置属性    STRING
      */
     class func tenant_to_owner() {
@@ -758,7 +758,7 @@ struct SensorsAnalyticsEvent {
     }
     
     /**
-     *业主切换成租户
+     *房东切换成租户
      *$预置属性    STRING
      */
     class func owne_to_tenant() {

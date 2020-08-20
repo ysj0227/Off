@@ -10,7 +10,7 @@ import UIKit
 
 ///融云用户身份类型 - 租户
 let ChatType_Renter_0: String = "0"
-///融云用户身份类型 - 业主
+///融云用户身份类型 - 房东
 let ChatType_Owner_1: String = "1"
 ///融云用户身份类型 - 系统
 let ChatType_System_3: String = "3"
@@ -125,7 +125,7 @@ class UserTool: NSObject {
             return userDefault.set(newValue, forKey: "user_wechat")
         }
     }
-    /// role 角色 用户身份类型,,0:租户,1:业主,9:其他 2 客服 3 系统
+    /// role 角色 用户身份类型,,0:租户,1:房东,9:其他 2 客服 3 系统
     var  user_id_type: Int?{
         get{
             return userDefault.value(forKey: " user_id_type") as? Int

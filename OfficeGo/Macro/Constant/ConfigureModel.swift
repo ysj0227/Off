@@ -14,7 +14,7 @@ class ConfigureModel: NSObject {
     var isShowDetailIcon: Bool?
 }
 
-//业主
+//房东
 //网点创建
 class OwnerCreatBranchConfigureModel: NSObject {
 
@@ -67,7 +67,7 @@ class OwnerCreatBranchConfigureModel: NSObject {
     }
 }
 
-//业主
+//房东
 //写字楼创建
 class OwnerCreatBuildingConfigureModel: NSObject {
 
@@ -120,11 +120,11 @@ class OwnerCreatBuildingConfigureModel: NSObject {
     }
 }
 
-//业主
+//房东
 //公司创建
 class OwnerCreatCompanyConfigureModel: NSObject {
     
-    //业主
+    //房东
     //创建公司
 
     var type: OwnerCreteCompanyType?
@@ -193,8 +193,8 @@ class OwnerCreatCompanyConfigureModel: NSObject {
 }
 
 
-//业主
-// 业主 - 公司认证
+//房东
+// 房东 - 公司认证
 class OwnerCompanyIedntifyConfigureModel: ConfigureModel {
     
     var type: OwnerCompanyIedntifyType?
@@ -244,7 +244,7 @@ class OwnerCompanyIedntifyConfigureModel: ConfigureModel {
     }
 }
 
-//业主
+//房东
 //联合办公认证
 class OwnerJointIedntifyConfigureModel: ConfigureModel {
     
@@ -295,7 +295,7 @@ class OwnerJointIedntifyConfigureModel: ConfigureModel {
     }
 }
 
-//业主
+//房东
 //个人认证
 class OwnerPersonalIedntifyConfigureModel: ConfigureModel {
     
@@ -380,7 +380,7 @@ class RenterMineConfigureModel: ConfigureModel {
         }
     }
 }
-//我的 - 业主
+//我的 - 房东
 class OwnerMineConfigureModel: ConfigureModel {
     
     var type: OwnerMineType?

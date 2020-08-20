@@ -40,7 +40,7 @@ class OwnerHomeViewController: BaseViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        ///移除业主弹框
+        ///移除房东弹框
         SureAlertView.Remove()        
     }
     

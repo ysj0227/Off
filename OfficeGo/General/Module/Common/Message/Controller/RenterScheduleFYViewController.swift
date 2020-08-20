@@ -52,7 +52,7 @@ class RenterScheduleFYViewController: BaseTableViewController {
         SensorsAnalyticsFunc.submit_booking_see_house(buildingId: "\(messageFYViewModel?.buildingId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: scheduleTimestemp ?? "0", seeTime: dateSelect?.yyyyMMddString() ?? "", chatedId: messageFYViewModel?.targetId ?? "0", chatedName: messageFYViewModel?.contactNameString ?? "", createTime: Date().yyyyMMddString())
     }
     
-    //业主申请看房
+    //房东申请看房
     func sendOwnerYuyueNotify() {
         
         senorsSubmit_booking_see_house()
@@ -146,8 +146,8 @@ class RenterScheduleFYViewController: BaseTableViewController {
         
         self.view.addSubview(bottomBtnView)
         bottomBtnView.rightBtnClickBlock = { [weak self] in
-            /// role 角色 用户身份类型,,0:租户,1:业主,9:其他
-            //组合业主调用的方法不一样
+            /// role 角色 用户身份类型,,0:租户,1:房东,9:其他
+            //组合房东调用的方法不一样
             if UserTool.shared.user_id_type == 0 {
                 self?.sendRenterYuyueNotify()
             }else if UserTool.shared.user_id_type == 1 {

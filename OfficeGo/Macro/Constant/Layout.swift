@@ -25,25 +25,25 @@ let ownerMaxFCZNumber = 4
 //租赁协议最多图片数
 let ownerMaxZLAgentNumber = 5
 
-//业主 - 认证 -公司名称最大数
+//房东 - 认证 -公司名称最大数
 let ownerMaxCompanynameNumber = 20
 
-//业主 - 认证 -写字楼名称，20个字
+//房东 - 认证 -写字楼名称，20个字
 let ownerMaxBuildingnameNumber = 20
 
-//业主 - 认证 -详细地址，30字
+//房东 - 认证 -详细地址，30字
 let ownerMaxAddressDetailNumber = 30
 
-//业主 - 认证 -网点名称，20字
+//房东 - 认证 -网点名称，20字
 let ownerMaxBranchnameNumber = 20
 
-//业主 - 认证 -营业执照注册号，20数字
+//房东 - 认证 -营业执照注册号，20数字
 let ownerMaxCompanyYingyezhizhaoNumber = 20
 
-//业主 - 认证 -姓名，10字
+//房东 - 认证 -姓名，10字
 let ownerMaxUsernameNumber = 10
 
-//业主 - 认证 -身份证号 18字
+//房东 - 认证 -身份证号 18字
 let ownerMaxIDCardNumber = 18
 
 

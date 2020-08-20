@@ -652,7 +652,7 @@ class BottomBtnView: UIView {
             //            leftBtn.setImage(UIImage.init(named: "collectItemSel"), for: .selected)
             //            leftBtn.layoutButton(.imagePositionTop, space: 10)
             //            leftBtn.titleLabel?.textAlignment = .center
-            rightSelectBtn.setTitle("找业主聊", for: .normal)
+            rightSelectBtn.setTitle("找房东聊", for: .normal)
             
             leftBtn.snp.makeConstraints { (make) in
                 make.centerY.equalToSuperview()

@@ -40,7 +40,7 @@ class OwnerIdenfySelectVC: BaseTableViewController {
         titleview?.rightButton.isHidden = true
         titleview?.searchBarView.isHidden = true
         titleview?.leftButton.isHidden = true
-        titleview?.titleLabel.text = "业主认证"
+        titleview?.titleLabel.text = "房东认证"
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
         
@@ -80,7 +80,7 @@ class OwnerIdenfySelectVC: BaseTableViewController {
     @objc func clickToRenter() {
         requestRoleChange()
         
-        ///业主切换成租户
+        ///房东切换成租户
         SensorsAnalyticsFunc.owne_to_tenant()
     }
     
@@ -126,7 +126,7 @@ extension OwnerIdenfySelectVC {
         cell?.selectionStyle = .none
         var img: String = ""
         if indexPath.row == 0 {
-            cell?.typeLabel.text = "我是公司业主"
+            cell?.typeLabel.text = "我是公司房东"
             if selectedIndex == indexPath.row {
                 img = "companyIdentify"
             }else {
@@ -134,7 +134,7 @@ extension OwnerIdenfySelectVC {
             }
             cell?.typeImg.image = UIImage(named: img)
         }else if indexPath.row == 1 {
-            cell?.typeLabel.text = "我是联合办公业主"
+            cell?.typeLabel.text = "我是联合办公房东"
             if selectedIndex == indexPath.row {
                 img = "jointIdentify"
             }else {
@@ -142,7 +142,7 @@ extension OwnerIdenfySelectVC {
             }
             cell?.typeImg.image = UIImage(named: img)
         }else if indexPath.row == 2 {
-            cell?.typeLabel.text = "我是个人业主"
+            cell?.typeLabel.text = "我是个人房东"
             if selectedIndex == indexPath.row {
                 img = "personalIedntify"
             }else {

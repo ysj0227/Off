@@ -254,7 +254,7 @@ class MessageFYbuildingModel: BaseModel {
     var tags : [DictionaryModel]?
 }
 class MessageFYChattedModel: BaseModel {
-    ///0单业主 1多业主
+    ///0单房东 1多房东
     var multiOwner: Int?
     var isZD : Bool?
     var accountStatus : Bool?

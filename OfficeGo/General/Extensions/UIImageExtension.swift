@@ -102,7 +102,7 @@ extension UIImage {
     }
     
     
-    ///业主 - 认证图片处理 - 把图片处理为宽高最高为1500
+    ///房东 - 认证图片处理 - 把图片处理为宽高最高为1500
     func resizeMax1500Image() -> UIImage? {
         let newSize = getNewSize()
         let rect = CGRect.init(x: 0, y: 0, width: newSize.width, height: newSize.height)

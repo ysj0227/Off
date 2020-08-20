@@ -244,7 +244,7 @@ extension RenterChangePhoneViewController {
     }
     
     ///修改手机号 - 成功 -
-    ///业主 - 直接退出到登录页面
+    ///房东 - 直接退出到登录页面
     ///租户 - 跳转到个人中心
     @objc func requestChangePhone() {
         

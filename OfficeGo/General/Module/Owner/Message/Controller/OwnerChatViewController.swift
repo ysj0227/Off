@@ -264,7 +264,7 @@ extension OwnerChatViewController {
 
 extension OwnerChatViewController {
     
-    //发送打招呼语第一次创建聊天 - 租户给业主发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
+    //发送打招呼语第一次创建聊天 - 租户给房东发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
     func sengSayHelloMessage() {
         
         ///身份类型0个人1企业2联合
