@@ -33,7 +33,18 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
         didSet{
             pageControl.numberOfPages = imageURLStringArr.count
             collectionView.reloadData()
-            //删除 滚动到中间的代码
+            
+            //只有数组大于1才能滑动,只有一张的时候不能滑动
+            if imageURLStringArr.count <= 1 {
+                collectionView.isScrollEnabled = false
+            }else {
+
+                //启动定时器
+                //在详情页的时候，timer已经置为空了 所以只有在首页轮播才会启动定时器
+                if let time = timer {
+                    time.fireDate = Date(timeIntervalSinceNow: 2.0)
+                }
+            }
         }
     }
     
@@ -64,7 +75,6 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
         let layout : CellFlowLayout = CellFlowLayout()
         let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
         collectionView.bounces = false
-        collectionView.bounces = false;
         collectionView.isPagingEnabled = true;
         collectionView.showsVerticalScrollIndicator = false;
         collectionView.showsHorizontalScrollIndicator = false;
@@ -76,9 +86,9 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
     }()
     //指示器
     lazy var pageControl : UIPageControl = {
-        let width : CGFloat = 120
+        let width : CGFloat = kWidth - left_pending_space_17 * 2
         let height : CGFloat = 20
-        let pointX : CGFloat = (UIScreen.main.bounds.size.width - width) * 0.5 - width
+        let pointX : CGFloat = left_pending_space_17
         let pointY : CGFloat = bounds.size.height - height
         let pageControl = UIPageControl(frame: CGRect(x: pointX, y: pointY, width: width, height: height))
         pageControl.isUserInteractionEnabled = false
@@ -179,8 +189,6 @@ extension CycleView {
     fileprivate func setUpUI() {
         addSubview(collectionView)
         addSubview(pageControl)
-        //启动定时器
-        timer?.fireDate = Date(timeIntervalSinceNow: 2.0)
     }
 }
 
