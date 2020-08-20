@@ -122,7 +122,7 @@ class FangYuanBuildingBuildingModel: BaseModel {
     ///独立办公室最大面积
     var maxAreaIndependentOffice : Float?
     ///独立办公室平均租金
-    var avgDayPriceIndependentOffice : Float?
+    var avgDayPriceIndependentOffice : Double?
     //独立办公室最小工位数
     var minSeatsIndependentOffice : Float?
     //独立办公最大平方面积
