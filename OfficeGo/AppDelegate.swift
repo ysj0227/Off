@@ -70,37 +70,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 let subStr = targetId.suffix(1)
                 //自己是房东 并且对方也是房东
                 if UserTool.shared.user_id_type == 1 && subStr == ChatType_Owner_1 {
-                    let vc = OwnerChatViewController()
-                    vc.needPopToRootView = true
-                    vc.conversationType = .ConversationType_PRIVATE
-                    vc.targetId = targetId
-                    vc.enableNewComingMessageIcon = true  //开启消息提醒
-                    vc.displayUserNameInCell = false
                     let tab = self.window?.rootViewController as? OwnerMainTabBarController
                     tab?.selectedIndex = 1
-                    tab?.customTabBar.isHidden = true
-                    let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
-                    nsv.pushViewController(vc, animated: true)
+                    tab?.customTabBar.isHidden = false
+                    if UserTool.shared.isLogin() == true {
+                        tab?.customTabBar.isHidden = true
+                        let vc = OwnerChatViewController()
+                        vc.needPopToRootView = true
+                        vc.conversationType = .ConversationType_PRIVATE
+                        vc.targetId = targetId
+                        vc.enableNewComingMessageIcon = true  //开启消息提醒
+                        vc.displayUserNameInCell = false
+                        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                        nsv.pushViewController(vc, animated: true)
+                    }
+                    
                 }else {
-                    let vc = RenterChatViewController()
-                    vc.needPopToRootView = true
-                    vc.conversationType = .ConversationType_PRIVATE
-                    vc.targetId = targetId
-                    vc.enableNewComingMessageIcon = true  //开启消息提醒
-                    vc.displayUserNameInCell = false
                     //房东
                     if UserTool.shared.user_id_type == 1 {
                         let tab = self.window?.rootViewController as? OwnerMainTabBarController
                         tab?.selectedIndex = 1
-                        tab?.customTabBar.isHidden = true
-                        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
-                        nsv.pushViewController(vc, animated: true)
+                        tab?.customTabBar.isHidden = false
+                        if UserTool.shared.isLogin() == true {
+                            let vc = RenterChatViewController()
+                            vc.needPopToRootView = true
+                            vc.conversationType = .ConversationType_PRIVATE
+                            vc.targetId = targetId
+                            vc.enableNewComingMessageIcon = true  //开启消息提醒
+                            vc.displayUserNameInCell = false
+                            tab?.customTabBar.isHidden = true
+                            let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                            nsv.pushViewController(vc, animated: true)
+                        }
+                        
                     }else {
                         let tab = self.window?.rootViewController as? RenterMainTabBarController
                         tab?.selectedIndex = 1
-                        tab?.customTabBar.isHidden = true
-                        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
-                        nsv.pushViewController(vc, animated: true)
+                        tab?.customTabBar.isHidden = false
+                        if UserTool.shared.isLogin() == true {
+                            let vc = RenterChatViewController()
+                            vc.needPopToRootView = true
+                            vc.conversationType = .ConversationType_PRIVATE
+                            vc.targetId = targetId
+                            vc.enableNewComingMessageIcon = true  //开启消息提醒
+                            tab?.customTabBar.isHidden = true
+                            let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                            nsv.pushViewController(vc, animated: true)
+                        }
+                        
                     }
                 }
             }
@@ -111,28 +128,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 let subStr = targetId.suffix(1)
                 //自己是房东
                 if UserTool.shared.user_id_type == 1 && subStr == ChatType_System_3 {
-                    let vc = ChatSystemViewController()
-                    vc.needPopToRootView = true
-                    vc.targetId = targetId
-                    vc.conversationType = .ConversationType_SYSTEM
-                    vc.enableNewComingMessageIcon = true  //开启消息提醒
-                    vc.displayUserNameInCell = false
+                    
                     let tab = self.window?.rootViewController as? OwnerMainTabBarController
                     tab?.selectedIndex = 1
-                    tab?.customTabBar.isHidden = true
-                    let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
-                    nsv.pushViewController(vc, animated: true)
+                    tab?.customTabBar.isHidden = false
+                    if UserTool.shared.isLogin() == true {
+                        let vc = ChatSystemViewController()
+                        vc.needPopToRootView = true
+                        vc.targetId = targetId
+                        vc.conversationType = .ConversationType_SYSTEM
+                        vc.enableNewComingMessageIcon = true  //开启消息提醒
+                        vc.displayUserNameInCell = false
+                        tab?.customTabBar.isHidden = true
+                        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                        nsv.pushViewController(vc, animated: true)
+                    }
+                    
                 }else if UserTool.shared.user_id_type == 0 && subStr == ChatType_System_3 {
-                    let vc = ChatSystemViewController()
-                    vc.targetId = targetId
-                    vc.conversationType = .ConversationType_SYSTEM
-                    vc.enableNewComingMessageIcon = true  //开启消息提醒
-                    vc.displayUserNameInCell = false
                     let tab = self.window?.rootViewController as? RenterMainTabBarController
                     tab?.selectedIndex = 1
-                    tab?.customTabBar.isHidden = true
-                    let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
-                    nsv.pushViewController(vc, animated: true)
+                    tab?.customTabBar.isHidden = false
+                    if UserTool.shared.isLogin() == true {
+                        let vc = ChatSystemViewController()
+                        vc.targetId = targetId
+                        vc.conversationType = .ConversationType_SYSTEM
+                        vc.enableNewComingMessageIcon = true  //开启消息提醒
+                        vc.displayUserNameInCell = false
+                        tab?.customTabBar.isHidden = true
+                        let nsv = (tab?.viewControllers?[1]) as! BaseNavigationViewController as BaseNavigationViewController
+                        nsv.pushViewController(vc, animated: true)
+                    }
+                    
                 }
             }
             
