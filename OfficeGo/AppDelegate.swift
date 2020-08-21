@@ -513,9 +513,10 @@ extension AppDelegate {
     
     func setUpSDKs(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         
+        
         //神策接入
         let options = SAConfigOptions.init(serverURL: SSAPI.SensorsAnalyticsSDK, launchOptions: launchOptions)
-        //options.autoTrackEventType = [.eventTypeAppStart, .eventTypeAppEnd, .eventTypeAppClick, .eventTypeAppViewScreen]
+        options.autoTrackEventType = [.eventTypeAppStart, .eventTypeAppEnd, .eventTypeAppClick, .eventTypeAppViewScreen]
 
         #if DEBUG
         options.enableLog = true
@@ -539,8 +540,8 @@ extension AppDelegate {
                 
         SensorsAnalyticsFunc.SensorsLogin()
         
-        
-        
+//        SensorsAnalyticsSDK.sharedInstance()?.clearKeychainData()
+
         
         //bugly接入
         Bugly.start(withAppId: AppKey.buglyAppKey)

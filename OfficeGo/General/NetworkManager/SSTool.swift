@@ -14,6 +14,11 @@ import SnapKit
 struct SensorsAnalyticsEvent {
     
     /**
+     trackInstallation
+     */
+    static let AppInstall = "AppInstall"
+    
+    /**
      *访问注册/登录页面
      */
     static let visit_reg_login = "visit_reg_login"
@@ -181,7 +186,7 @@ struct SensorsAnalyticsEvent {
             SensorsAnalyticsSDK.sharedInstance()?.login("\(userid)")
             
         }
-        ///设置基本信息
+        ///设置公共属性基本信息
         SensorsAnalyticsSDK.sharedInstance()?.registerSuperProperties(["platform_type": "iOS", "app_name": Device.appName ?? "OfficeGo"])
         
         ///设置动态属性
@@ -189,10 +194,13 @@ struct SensorsAnalyticsEvent {
             return ["is_login" : UserTool.shared.isLogin()]
         })
 
+        
+        ///激活事件
+        SensorsTrackInstallation()
     }
     
     class func SensorsTrackInstallation() {
-        
+        SensorsAnalyticsSDK.sharedInstance()?.trackInstallation("AppInstall")
     }
     
     ///追踪用户行为事件，添加自定义属性
