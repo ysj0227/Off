@@ -375,9 +375,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         //登录融云
         loginRongCloud()
-        
-        SensorsAnalyticsFunc.SensorsLogin()
-        
     }
     
     func runTabBarViewController() -> Void {
@@ -518,7 +515,7 @@ extension AppDelegate {
         
         //神策接入
         let options = SAConfigOptions.init(serverURL: SSAPI.SensorsAnalyticsSDK, launchOptions: launchOptions)
-        options.autoTrackEventType = [.eventTypeAppStart, .eventTypeAppEnd, .eventTypeAppClick, .eventTypeAppViewScreen]
+        //options.autoTrackEventType = [.eventTypeAppStart, .eventTypeAppEnd, .eventTypeAppClick, .eventTypeAppViewScreen]
 
         #if DEBUG
         options.enableLog = true
@@ -530,7 +527,7 @@ extension AppDelegate {
         options.enableVisualizedAutoTrack = true
         
         SensorsAnalyticsSDK.start(configOptions: options)
-                
+                        
         /**
          * @abstract
          * H5 数据打通的时候默认通过 ServerUrl 校验

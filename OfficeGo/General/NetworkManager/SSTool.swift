@@ -182,7 +182,13 @@ struct SensorsAnalyticsEvent {
             
         }
         ///设置基本信息
-        SensorsAnalyticsSDK.sharedInstance()?.registerSuperProperties(["platform_type": "iOS", "app_name": Device.appName ?? "OfficeGo", "is_login" : UserTool.shared.isLogin()])
+        SensorsAnalyticsSDK.sharedInstance()?.registerSuperProperties(["platform_type": "iOS", "app_name": Device.appName ?? "OfficeGo"])
+        
+        ///设置动态属性
+        SensorsAnalyticsSDK.sharedInstance()?.registerDynamicSuperProperties({ () -> [String : Any] in
+            return ["is_login" : UserTool.shared.isLogin()]
+        })
+
     }
     
     class func SensorsTrackInstallation() {
