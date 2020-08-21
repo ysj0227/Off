@@ -523,6 +523,9 @@ extension AppDelegate {
         options.enableLog = false
         #endif
         
+        // 开启 App 打通 H5
+        options.enableJavaScriptBridge = true
+        
         /// 开启可视化全埋点
         options.enableVisualizedAutoTrack = true
         

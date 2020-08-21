@@ -437,7 +437,7 @@ struct SensorsAnalyticsEvent {
                 var documentArr: [String] = []
                 for model in selectModel.shaixuanModel.documentTypeModelArr {
                     if model.isDocumentSelected {
-                        documentArr.append("\(model.dictValue ?? 0)")
+                        documentArr.append(model.dictCname ?? "")
                     }
                 }
                 
@@ -701,7 +701,6 @@ struct SensorsAnalyticsEvent {
         }else if rid == 1 {
             params["rid"] = "房东"
         }
-        SensorsTrackEvent(event: SensorsAnalyticsEvent.click_phone_exchange_button, params: params)
         SensorsTrackEvent(event: SensorsAnalyticsEvent.click_wechat_exchange_button, params: params)
     }
     
