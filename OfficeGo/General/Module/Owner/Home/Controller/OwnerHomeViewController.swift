@@ -14,6 +14,20 @@ import SwiftyJSON
 
 class OwnerHomeViewController: BaseViewController {
     
+    lazy var loginPCScanView: OwnerScanLoginInPCView = {
+        let view = OwnerScanLoginInPCView(frame: self.view.frame)
+        return view
+    }()
+    
+    lazy var loginPCScanBtn: UIButton = {
+        let view = UIButton(frame: CGRect.init(x: self.view.width - 80, y: kHeight - kTabBarHeight - 100, width: 80, height: 80))
+        view.backgroundColor = kAppRedColor
+        view.isHidden = true
+        view.addTarget(self, action: #selector(clickShowPCLogin), for: .touchUpInside)
+        return view
+    }()
+    
+    
     var userModel: LoginUserModel?
     
     var fyWebview: JHBaseWebViewController?
@@ -63,7 +77,44 @@ class OwnerHomeViewController: BaseViewController {
         }
     }
     
+    @objc func clickShowPCLogin() {
+        
+        loginPCScanBtn.isHidden = true
+        
+        loginPCScanView.ShowAlertView(cancelButtonCallClick: { [weak self] in
+            
+            self?.loginPCScanBtn.isHidden = false
+
+        }, sureButtonCallClick: { [weak self] in
+            //跳转到扫一扫页面
+            
+            self?.loginPCScanBtn.isHidden = false
+        })
+    }
+    
+    //展示在pc登录的弹框
+    func showPCScanLoginView() {
+
+        if UserTool.shared.isShowPCScanLogin != true {
+                    
+            loginPCScanView.ShowAlertView(cancelButtonCallClick: { [weak self] in
+                
+                self?.loginPCScanBtn.isHidden = false
+            }, sureButtonCallClick: { [weak self] in
+                //跳转到扫一扫页面
+                
+                self?.loginPCScanBtn.isHidden = false
+            })
+        }else {
+            loginPCScanBtn.isHidden = false
+        }
+
+    }
+    
     func addWebview() {
+        
+        showPCScanLoginView()
+        
         ///身份类型0个人1企业2联合
         let identify: Int = userModel?.identityType ?? -1
         
@@ -75,9 +126,13 @@ class OwnerHomeViewController: BaseViewController {
                 
                 self.view.addSubview(fyWebview?.view ?? UIView())
                 
+                self.view.addSubview(loginPCScanBtn)
+                
             }else {
                 fyWebview = JHBaseWebViewController.init(protocalType: OwnerIdentifyOrFYType.ProtocalTypeFYBuildingOwnerUrl)
                 self.view.addSubview(fyWebview?.view ?? UIView())
+                
+                self.view.addSubview(loginPCScanBtn)
             }
             fyWebview?.view.snp.makeConstraints({ (make) in
                 make.top.leading.trailing.equalToSuperview()

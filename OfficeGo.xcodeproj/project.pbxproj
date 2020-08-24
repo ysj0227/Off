@@ -30,6 +30,7 @@
 		0437CFB7247E1A5D0015C355 /* SSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB6247E1A5D0015C355 /* SSAPI.swift */; };
 		043D5F6B24E126700067A0B1 /* ChatSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D5F6A24E126700067A0B1 /* ChatSystemViewController.swift */; };
 		046689222472548800A76669 /* ConfigureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046689212472548800A76669 /* ConfigureModel.swift */; };
+		046CEF8324F38E9300B061B8 /* OwnerScanLoginInPCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8224F38E9300B061B8 /* OwnerScanLoginInPCView.swift */; };
 		047333252473D77700755192 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333242473D77700755192 /* UIView+Extension.swift */; };
 		047333272473D86500755192 /* Object+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333262473D86500755192 /* Object+ClassName.swift */; };
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
@@ -310,6 +311,7 @@
 		0437CFB6247E1A5D0015C355 /* SSAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSAPI.swift; sourceTree = "<group>"; };
 		043D5F6A24E126700067A0B1 /* ChatSystemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSystemViewController.swift; sourceTree = "<group>"; };
 		046689212472548800A76669 /* ConfigureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureModel.swift; sourceTree = "<group>"; };
+		046CEF8224F38E9300B061B8 /* OwnerScanLoginInPCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerScanLoginInPCView.swift; sourceTree = "<group>"; };
 		047333242473D77700755192 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		047333262473D86500755192 /* Object+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Object+ClassName.swift"; sourceTree = "<group>"; };
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
@@ -1297,6 +1299,7 @@
 		04E23981249B3C3D009DCCEC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				046CEF8224F38E9300B061B8 /* OwnerScanLoginInPCView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2022,6 +2025,7 @@
 				04CB46DF249CAFE9001BCC8F /* LoginModel.swift in Sources */,
 				04E23928249B3ABB009DCCEC /* FangYuanBuildingDetailModel.swift in Sources */,
 				04E23942249B3ABB009DCCEC /* CurrentCityTableViewCell.swift in Sources */,
+				046CEF8324F38E9300B061B8 /* OwnerScanLoginInPCView.swift in Sources */,
 				EEE87B6E24559E1D00C03424 /* AppUtilities.swift in Sources */,
 				EEE87B112455856800C03424 /* UITableViewSnapEx.swift in Sources */,
 				04CB46F4249CB02C001BCC8F /* RCDUserService.swift in Sources */,

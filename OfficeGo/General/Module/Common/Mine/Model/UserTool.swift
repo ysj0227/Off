@@ -61,6 +61,16 @@ class UserTool: NSObject {
         }
     }
     
+    /// 是否已经显示过业主pc扫码登录
+    var isShowPCScanLogin: Bool?{
+        get{
+            return userDefault.value(forKey: "isShowPCScanLogin") as? Bool
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "isShowPCScanLogin")
+        }
+    }
+    
     ///终端渠道,1:IOS,2:安卓,3:H5
     var user_channel: Int = 1
     
