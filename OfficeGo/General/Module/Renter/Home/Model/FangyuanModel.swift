@@ -53,7 +53,7 @@ class BuildingMap : BaseModel {
     var stationline : [String]?         //距离最近地铁先，进的在前
 }
 class FangYuanListViewModel: NSObject {
-    var btype: Int?                     //1是办公楼，2是联合办公
+    var btype: Int?                     //1是办公楼，2是共享办公
     var idString: Int?                  //房源id
     var Isfailure : Int?                //0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
     var mainPicImgString: String?       //封面图
@@ -65,7 +65,7 @@ class FangYuanListViewModel: NSObject {
     var unitString: String?             //单位 /m²/天起
     var areaString: [String]?             //平方米
     var tagsString: [String]?             //特色
-    var jointDuliAndLianheNumString: [String]?//联合办公 独立办公室和开放工位的数量
+    var jointDuliAndLianheNumString: [String]?//共享办公 独立办公室和开放工位的数量
     var rowHeight: CGFloat = 192
     
     init(model:FangYuanListModel) {

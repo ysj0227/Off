@@ -385,7 +385,7 @@ struct SensorsAnalyticsEvent {
         }
         
         //办公场地选择类型    STRING
-        //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+        //类型,1:楼盘 写字楼,2:网点 共享办公 0全部
         let officeType = selectModel.typeModel.type?.rawValue
         params["officeType"] = officeType
        
@@ -398,7 +398,7 @@ struct SensorsAnalyticsEvent {
             
             isSelect = true
 
-            //工位 - 只有联合办公有
+            //工位 - 只有共享办公有
             //工位    逗号拼接字符串        WEB
             var simple: String?
             
@@ -406,7 +406,7 @@ struct SensorsAnalyticsEvent {
             //租金    逗号拼接字符串        WEB
             var dayPrice: String?
             
-            //联合办公
+            //共享办公
             if selectModel.typeModel.type == .jointOfficeEnum {
                  
                 if selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == selectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {

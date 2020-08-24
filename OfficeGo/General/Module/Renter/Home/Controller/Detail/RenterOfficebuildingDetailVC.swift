@@ -124,7 +124,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     func setItemFunc() {
         
-        //1是办公楼，2是联合办公
+        //1是办公楼，2是共享办公
         
         //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
         if let params = shaiXuanParams {
@@ -384,7 +384,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         //头部-三项显示 - 办公楼-
         self.tableView.register(RenterDetailNameCell.self, forCellReuseIdentifier: RenterDetailNameCell.reuseIdentifierStr)
         
-        //头部-三项显示 - 联合办公- 有标签-
+        //头部-三项显示 - 共享办公- 有标签-
         self.tableView.register(RenterJointDetailNameCell.self, forCellReuseIdentifier: RenterJointDetailNameCell.reuseIdentifierStr)
         
         //交通

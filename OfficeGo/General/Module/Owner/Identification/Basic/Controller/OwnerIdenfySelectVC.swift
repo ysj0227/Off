@@ -126,7 +126,7 @@ extension OwnerIdenfySelectVC {
         cell?.selectionStyle = .none
         var img: String = ""
         if indexPath.row == 0 {
-            cell?.typeLabel.text = "我是公司房东"
+            cell?.typeLabel.text = "我是公司"
             if selectedIndex == indexPath.row {
                 img = "companyIdentify"
             }else {
@@ -134,7 +134,7 @@ extension OwnerIdenfySelectVC {
             }
             cell?.typeImg.image = UIImage(named: img)
         }else if indexPath.row == 1 {
-            cell?.typeLabel.text = "我是联合办公房东"
+            cell?.typeLabel.text = "我是共享办公"
             if selectedIndex == indexPath.row {
                 img = "jointIdentify"
             }else {

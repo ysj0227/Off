@@ -115,7 +115,7 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
             addBtn.isHidden = true
             numDescLabel.isHidden = false
             addBtn.setTitle("", for: .normal)
-            numDescLabel.text = "⚠️该公司已认证为联合办公，不可重复认证"
+            numDescLabel.text = "⚠️该公司已认证为共享办公，不可重复认证"
             titleLabel.snp.remakeConstraints { (make) in
                 make.leading.equalTo(itemIcon.snp.trailing).offset(4)
                 make.top.equalTo(10)

@@ -129,7 +129,7 @@ class RenterDetailNameCell: BaseTableViewCell {
     
 }
 
-//联合办公- cell。有头部的标签
+//共享办公- cell。有头部的标签
 class RenterJointDetailNameCell: BaseTableViewCell {
     
     lazy var tagLabel: UILabel = {

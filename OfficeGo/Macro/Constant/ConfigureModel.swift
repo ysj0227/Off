@@ -245,7 +245,7 @@ class OwnerCompanyIedntifyConfigureModel: ConfigureModel {
 }
 
 //房东
-//联合办公认证
+//共享办公认证
 class OwnerJointIedntifyConfigureModel: ConfigureModel {
     
     var type: OwnerJointIedntifyType?

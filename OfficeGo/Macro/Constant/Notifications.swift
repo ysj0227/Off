@@ -19,10 +19,10 @@ extension Notification.Name {
     /// 身份认证 - 房东 - 企业认证 - 创建公司成功的通知(包括企业认证 和 网点认证)
     public static let OwnerCreateCompany = Notification.Name("OwnerCreateCompany")
     
-    /// 身份认证 - 房东 - 联合办公认证 - 创建网点成功的通知 - 联合办公独有
+    /// 身份认证 - 房东 - 共享办公认证 - 创建网点成功的通知 - 共享办公独有
     public static let OwnerCreateBranchJoint = Notification.Name("OwnerCreateBranchJoint")
     
-    /// 身份认证 - 房东 - 联合办公认证 - 创建写字楼的通知 - 公司和个人认证独有
+    /// 身份认证 - 房东 - 共享办公认证 - 创建写字楼的通知 - 公司和个人认证独有
     public static let OwnerCreateBuilding = Notification.Name("OwnerCreateBuilding")
     
     

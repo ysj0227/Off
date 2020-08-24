@@ -148,7 +148,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
         
         
         //类型
-        var btype: Int? //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+        var btype: Int? //类型,1:楼盘 写字楼,2:网点 共享办公 0全部
         if recommendSelectModel.typeModel.type == .officeBuildingEnum {
             btype = 1
         }else if recommendSelectModel.typeModel.type == .jointOfficeEnum {
@@ -187,7 +187,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
             //房源特色 - 两者都有
             var featureArr: [String] = []*/
             
-            //联合办公
+            //共享办公
             if btype == 2 {
                  
                 if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
@@ -293,7 +293,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         //类型
-        var btype: Int? //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+        var btype: Int? //类型,1:楼盘 写字楼,2:网点 共享办公 0全部
         if recommendSelectModel.typeModel.type == .officeBuildingEnum {
             btype = 1
         }else if recommendSelectModel.typeModel.type == .jointOfficeEnum {
@@ -313,7 +313,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
             var featureArr: [String] = []*/
             
             //楼盘不要工位数 - 网点要
-            //联合办公
+            //共享办公
             if btype == 2 {
                 
                 if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
@@ -493,7 +493,7 @@ extension RenterFangYuanListViewController {
         }
         
         //楼盘类型
-        var btypeString: String? = "" //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+        var btypeString: String? = "" //类型,1:楼盘 写字楼,2:网点 共享办公 0全部
         
         if recommendSelectModel.typeModel.type == .officeBuildingEnum {
             btypeString = "have"
@@ -643,13 +643,13 @@ class RenterShaixuanView: UIView {
             }
             
             //楼盘类型
-            var btypeString: String? //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+            var btypeString: String? //类型,1:楼盘 写字楼,2:网点 共享办公 0全部
             
             if houseSelectModel.typeModel.type == .officeBuildingEnum {
                 btypeString = "  " + "写字楼  x" + "  "
                 
             }else if houseSelectModel.typeModel.type == .jointOfficeEnum {
-                btypeString = "  " + "联合办公  x" + "  "
+                btypeString = "  " + "共享办公  x" + "  "
             }
             
             //筛选条件

@@ -64,7 +64,7 @@ class SearchResultTableViewCell: BaseTableViewCell {
     }
     
     /*
-    ///1是办公楼，2是联合办公
+    ///1是办公楼，2是共享办公
     var buildType: Int?
     ///楼盘id
     var bid : Int?

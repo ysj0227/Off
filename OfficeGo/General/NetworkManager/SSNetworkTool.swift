@@ -228,7 +228,7 @@ class SSNetworkTool: NSObject {
         
     }
     
-    /// 公司 联合办公认证多组多张图片上传
+    /// 公司 共享办公认证多组多张图片上传
     ///
     /// - Parameters:
     ///   - fczImagesArray: 房产证
@@ -553,7 +553,7 @@ extension SSNetworkTool {
             success,failed:failure,error:error)
         }
         
-        ///添加联合办公认证APP
+        ///添加共享办公认证APP
         static func request_jointIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
             SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:

@@ -56,7 +56,7 @@ class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
     
     ///公司认证 楼盘
     ///个人认证 - 楼盘
-    ///联合办公认证 - 楼盘
+    ///共享办公认证 - 楼盘
     var buildingViewModel: OwnerESBuildingSearchViewModel? {
         didSet {
             setShowView()

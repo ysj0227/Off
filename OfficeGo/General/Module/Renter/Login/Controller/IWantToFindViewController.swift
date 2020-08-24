@@ -153,7 +153,7 @@ extension IWantToFindViewController {
         //调用登录接口 - 成功跳转登录
         var params = [String:AnyObject]()
         
-        var btype: Int? //类型,1:楼盘 写字楼,2:网点 联合办公
+        var btype: Int? //类型,1:楼盘 写字楼,2:网点 共享办公
         if selectModel.typeModel.type == .officeBuildingEnum {
             btype = 1
         }else {
@@ -173,7 +173,7 @@ extension IWantToFindViewController {
         var featureArr: [String] = []*/
         
         
-        //联合办公
+        //共享办公
         if btype == 2 {
             
             if self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.selectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {

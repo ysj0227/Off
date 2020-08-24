@@ -131,7 +131,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
                 }else if UserTool.shared.user_owner_identifytype == 1 {
                     numDescTF.text = "公司"
                 }else if UserTool.shared.user_owner_identifytype == 2 {
-                    numDescTF.text = "联合办公"
+                    numDescTF.text = "共享办公"
                 }
             }else if model.type == .OwnerPersonalIedntifyTypeUserName{
                 numDescTF.isUserInteractionEnabled = true

@@ -61,7 +61,7 @@ class RenterOfficebuildingFYDeatailCell: BaseTableViewCell {
         earliestDeliveryLabel.text = viewModel.earliestDelivery?.count ?? 0 > 0 ? viewModel.earliestDelivery : "--"
         rentFreePeriodLabel.text = viewModel.rentFreePeriod?.count ?? 0 > 0 ? viewModel.rentFreePeriod : "--"
         //标准下的最短租期单位是年   联合下的最短租期单位是月
-        ///1是办公楼，2是联合办公 用来判断最短租期单位
+        ///1是办公楼，2是共享办公 用来判断最短租期单位
         if viewModel.minimumLease?.count ?? 0 > 0 {
             if viewModel.btype == 1 {
                 minimumLeaseLabel.text = "\(viewModel.minimumLease ?? "0")年起"

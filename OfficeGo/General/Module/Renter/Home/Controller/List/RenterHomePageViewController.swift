@@ -59,7 +59,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         }
         
         //楼盘类型
-        var btypeString: String? = "" //类型,1:楼盘 写字楼,2:网点 联合办公 0全部
+        var btypeString: String? = "" //类型,1:楼盘 写字楼,2:网点 共享办公 0全部
         
         if recommendSelectModel.typeModel.type == .officeBuildingEnum {
             btypeString = "have"

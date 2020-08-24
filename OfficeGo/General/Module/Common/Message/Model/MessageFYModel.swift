@@ -47,7 +47,7 @@ class MessageFYViewModel: NSObject {
         ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
         if model.isBuildOrHouse == 1 {
             
-            ///1是办公楼，2是联合办公
+            ///1是办公楼，2是共享办公
             if model.building?.btype == 1 {
                 buildOrHouse = "楼盘"
             }else {

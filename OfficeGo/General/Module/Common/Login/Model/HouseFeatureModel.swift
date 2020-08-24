@@ -28,7 +28,7 @@ class HouseSelectModel: HandyJSON {
 //}
 //类型选择model
 class HouseTypeSelectModel: HandyJSON {
-    var btype: Int? //类型,1:楼盘 写字楼,2:网点 联合办公
+    var btype: Int? //类型,1:楼盘 写字楼,2:网点 共享办公
     var title: String?
     var type: HouseTypeEnum?
     
@@ -57,7 +57,7 @@ class HouseSortSelectModel: HandyJSON {
 //筛选
 class HouseShaixuanModel: HandyJSON {
     /*
-     联合办公
+     共享办公
      租金：    范围 0 - 5万
      工位：    范围 0 - 30
      写字楼
@@ -95,7 +95,7 @@ class HouseShaixuanModel: HandyJSON {
         model.highValue = 500
         return model
     }()
-    //联合办公少选范围
+    //共享办公少选范围
     //    var mianjijointOfficeExtentModel: SliderExtentModel = SliderExtentModel()
     var zujinjointOfficeExtentModel: SliderExtentModel = {
         var model = SliderExtentModel()
@@ -122,7 +122,7 @@ class HouseShaixuanModel: HandyJSON {
     //    //房源特色 - 选择办公楼
     //    var featureofficeBuildingSelectedArr = [HouseFeatureModel]()
     //
-    //    //房源特色 - 选择联合办公
+    //    //房源特色 - 选择共享办公
     //    var featurejointOfficeSelectedArr = [HouseFeatureModel]()
     
     required init() {
@@ -145,7 +145,7 @@ class HouseFeatureModel: DictionaryModel {
     //办公楼特色选择
     var isOfficeBuildingSelected: Bool = false
     
-    //联合办公特色选择
+    //共享办公特色选择
     var isOfficejointOfficeSelected: Bool = false
     
     //装修类型选择

@@ -144,7 +144,7 @@ class HouseShaixuanSelectView: UIView {
         
         self.frame = frame
         
-        //默认联合办公
+        //默认共享办公
         LianHeBanGongdataArray.append([
             IWantToFindType.IWantToFindTypeHouseType])
         LianHeBanGongdataArray.append([IWantToFindType.IWantToFindTypeGongwei, IWantToFindType.IWantToFindTypeZujin])
@@ -234,7 +234,7 @@ class HouseShaixuanSelectView: UIView {
             guard let blockk = self?.clearButtonCallBack else {
                 return
             }
-            //判断 如果是筛选页面 - 则如果之前没有选择过，默认选中联合办公
+            //判断 如果是筛选页面 - 则如果之前没有选择过，默认选中共享办公
             if self?.isSubView != true {
                 
                 guard let type = self?.selectModel.typeModel.type else {
@@ -257,7 +257,7 @@ class HouseShaixuanSelectView: UIView {
             guard let blockk = self?.sureHouseShaixuanButtonCallBack else {
                 return
             }
-            //判断 如果是筛选页面 - 则如果之前没有选择过，默认选中联合办公
+            //判断 如果是筛选页面 - 则如果之前没有选择过，默认选中共享办公
             if self?.isSubView != true {
                 
                 guard let type = self?.selectModel.typeModel.type else {
@@ -352,7 +352,7 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var iwanttType:IWantToFindType
-        //联合办公
+        //共享办公
         if isLianHeBanGong != HouseTypeEnum.officeBuildingEnum {
             iwanttType = LianHeBanGongdataArray[indexPath.section][indexPath.row]
             switch iwanttType {

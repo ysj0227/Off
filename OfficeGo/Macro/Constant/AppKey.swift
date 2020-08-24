@@ -39,13 +39,13 @@ struct AppKey {
     
     /// 融云AppKey
     ///测试和欲发环境
-    static let RCAppKey = "kj7swf8oknm02"
-    static let RCAppSecret = "OF78PpILjjRk4"
+//    static let RCAppKey = "kj7swf8oknm02"
+//    static let RCAppSecret = "OF78PpILjjRk4"
     
     
     ///正式环境
-//    static let RCAppKey = "qf3d5gbjq94mh"
-//    static let RCAppSecret = "xtDkNCjJse"
+    static let RCAppKey = "qf3d5gbjq94mh"
+    static let RCAppSecret = "xtDkNCjJse"
     
     //    #if DEBUG
     //    static let RCAppKey = "kj7swf8oknm02"

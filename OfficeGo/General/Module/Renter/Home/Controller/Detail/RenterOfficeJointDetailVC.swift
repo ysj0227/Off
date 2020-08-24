@@ -125,7 +125,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     func setItemFunc() {
         
-        //1是办公楼，2是联合办公
+        //1是办公楼，2是共享办公
         //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
         if let params = shaiXuanParams {
             if let seats = params["seats"] {
@@ -143,7 +143,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
             isClearCondition = true
         }
         
-        //联合办公 -
+        //共享办公 -
         //名称基本信息 - 开放工位和独立办公室
         self.dataSourceArr.append([
             FYDetailItemType.FYDetailItemTypeJointNameView])
@@ -385,7 +385,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         //头部-三项显示 - 办公楼-
         self.tableView.register(RenterDetailNameCell.self, forCellReuseIdentifier: RenterDetailNameCell.reuseIdentifierStr)
         
-        //头部-三项显示 - 联合办公- 有标签-
+        //头部-三项显示 - 共享办公- 有标签-
         self.tableView.register(RenterJointDetailNameCell.self, forCellReuseIdentifier: RenterJointDetailNameCell.reuseIdentifierStr)
         
         //交通
@@ -694,8 +694,8 @@ extension RenterOfficeJointDetailVC {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { //联合办公
-        //联合办公- 开放工位和独立nameview
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { //共享办公
+        //共享办公- 开放工位和独立nameview
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: RenterJointDetailNameCell.reuseIdentifierStr) as? RenterJointDetailNameCell
             cell?.selectionStyle = .none
@@ -768,7 +768,7 @@ extension RenterOfficeJointDetailVC {
                 cell?.featureString = self.buildingDetailViewModel?.tagsString ?? []
                 return cell ?? RenterFeatureCell.init(frame: .zero)
                 //TODO:
-                //联合办公专享 -
+                //共享办公专享 -
             //开发工位列表
             case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                 return UITableViewCell.init(frame: .zero)
@@ -809,7 +809,7 @@ extension RenterOfficeJointDetailVC {
         
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { //联合办公
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { //共享办公
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 return RenterJointDetailNameCell.rowHeight()
@@ -877,7 +877,7 @@ extension RenterOfficeJointDetailVC {
         
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { //联合办公
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { //共享办公
         if section == 0 {
             return 50
         }else if section == 2 {
@@ -896,7 +896,7 @@ extension RenterOfficeJointDetailVC {
         
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { //联合办公
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { //共享办公
         if section == 0 {
             //如果开放工位数据数组大于0显示
             let view = UIView()
@@ -949,7 +949,7 @@ extension RenterOfficeJointDetailVC {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { //联合办公
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { //共享办公
         if section == 0 {
             return 0
         }else if section == 2 {
@@ -967,7 +967,7 @@ extension RenterOfficeJointDetailVC {
         
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { //联合办公
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { //共享办公
         if section == 2 {
             //如果开放工位数据数组大于0显示
             let view = UIView()
@@ -1004,7 +1004,7 @@ extension RenterOfficeJointDetailVC {
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //联合办公
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //共享办公
         
         if indexPath.section == 2 {
             //如果开放工位数据数组大于0显示
