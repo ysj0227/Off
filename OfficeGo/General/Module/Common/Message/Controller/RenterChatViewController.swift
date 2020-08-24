@@ -627,7 +627,7 @@ extension RenterChatViewController {
     //添加插入房源消息
     func insertMessage() {
         
-        let str = "\(UserTool.shared.user_uid ?? 0)-\(targetId ?? "")-\(messageFYModel?.house?.buildingId ?? 0)-\(messageFYModel?.house?.houseId ?? 0)"
+        let str = "\(UserTool.shared.user_uid ?? 0)-\(targetId ?? "")-\(messageFYModel?.building?.buildingId ?? 0)-\(messageFYModel?.building?.houseId ?? 0)"
         let isExisted = SSTool.isKeyPresentInUserDefaults(key: str)
         if isExisted {
             
