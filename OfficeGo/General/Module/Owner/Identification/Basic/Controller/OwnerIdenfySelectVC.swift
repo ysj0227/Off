@@ -207,17 +207,17 @@ class OwnerIdentifySelectCell: BaseTableViewCell {
     func setupViews() {
         
         addSubview(typeImg)
-//        addSubview(typeLabel)
+        addSubview(typeLabel)
         
         typeImg.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.size.equalTo(CGSize(width: kWidth - 29 * 2, height: (kWidth - 29 * 2) * 156 / 317.0))
         }
         
-//        typeLabel.snp.makeConstraints { (make) in
-//            make.bottom.equalTo(typeImg.snp.bottom).offset(-15)
-//            make.centerX.equalToSuperview()
-//        }
+        typeLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(typeImg.snp.bottom).offset(-15)
+            make.centerX.equalToSuperview()
+        }
     }
     
 
