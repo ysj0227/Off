@@ -265,6 +265,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         self.view.addSubview(segmentTitleSelectview)
         //        segmentTitleSelectview.isHidden = true
         segmentTitleSelectview.alpha = 0
+        segmentTitleSelectview.isUserInteractionEnabled = false
         self.view.bringSubviewToFront(segmentTitleSelectview)
         
         self.view.addSubview(shaixuanview)
@@ -313,6 +314,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
                 self?.segmentTitleSelectview.alpha = 1
+                self?.segmentTitleSelectview.isUserInteractionEnabled = true
                 self?.shaixuanview.isHidden = false
 
             } else if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight + 180){
@@ -322,12 +324,18 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
                 let b: CGFloat = 1 / 180.0 * (60 + kStatusBarHeight) + 1
                 let alpha = k * (self?.containerScrView.contentOffset.y ?? 0.0) + b
                 self?.segmentTitleSelectview.alpha = alpha
+                if alpha >= 0.97 {
+                    self?.segmentTitleSelectview.isUserInteractionEnabled = true
+                }else {
+                    self?.segmentTitleSelectview.isUserInteractionEnabled = false
+                }
                 SSLog("*******************---****\(alpha)")
                 
                 self?.shaixuanview.isHidden = true
             }
             else {
                 self?.segmentTitleSelectview.alpha = 0
+                self?.segmentTitleSelectview.isUserInteractionEnabled = false
                 self?.shaixuanview.isHidden = true
             }
             
