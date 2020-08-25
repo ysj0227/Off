@@ -40,14 +40,15 @@ class OwnerScanLoginInPCView: UIView {
     
     lazy var closeBtn: UIButton = {
         let button = UIButton.init()
-        button.setImage(UIImage.init(named: "closeBlue"), for: .normal)
+        button.setImage(UIImage.init(named: "closeGray"), for: .normal)
         button.addTarget(self, action: #selector(clickRemoveFromSuperview), for: .touchUpInside)
         return button
     }()
     
     lazy var img: UIImageView = {
         let view = UIImageView.init()
-        view.backgroundColor = kAppRedColor
+        view.contentMode = .scaleAspectFit
+        view.image = UIImage.init(named: "pcLoginImg")
         return view
     }()
     
@@ -55,9 +56,10 @@ class OwnerScanLoginInPCView: UIView {
         let button = UIButton.init()
         button.setTitle("继续在APP上编辑", for: .normal)
         button.setTitleColor(kAppBlueColor, for: .normal)
-        button.titleLabel?.font = FONT_14
+        button.titleLabel?.font = FONT_13
         button.layer.borderColor = kAppBlueColor.cgColor
         button.layer.borderWidth = 1.0
+        button.layer.cornerRadius = button_cordious_2
         button.backgroundColor = kAppWhiteColor
         button.addTarget(self, action: #selector(clickRemoveFromSuperview), for: .touchUpInside)
         return button
@@ -65,9 +67,11 @@ class OwnerScanLoginInPCView: UIView {
     
     lazy var pcEditBtn: UIButton = {
         let button = UIButton.init()
-        button.setTitle("去电脑上编辑", for: .normal)
+        button.setImage(UIImage.init(named: "QScan"), for: .normal)
+        button.setTitle(" 去电脑上编辑", for: .normal)
         button.setTitleColor(kAppWhiteColor, for: .normal)
-        button.titleLabel?.font = FONT_14
+        button.titleLabel?.font = FONT_13
+        button.layer.cornerRadius = button_cordious_2
         button.backgroundColor = kAppBlueColor
         button.addTarget(self, action: #selector(clickToPcScanView), for: .touchUpInside)
         return button
@@ -173,8 +177,8 @@ class OwnerScanLoginInPCView: UIView {
         }
         img.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.bottom.equalTo(continueEditBtn.snp.top)
+            make.top.equalTo(titleLabel.snp.bottom).offset(17)
+            make.bottom.equalTo(continueEditBtn.snp.top).offset(-40)
         }
     }
 }

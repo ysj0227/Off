@@ -31,6 +31,14 @@
 		043D5F6B24E126700067A0B1 /* ChatSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D5F6A24E126700067A0B1 /* ChatSystemViewController.swift */; };
 		046689222472548800A76669 /* ConfigureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046689212472548800A76669 /* ConfigureModel.swift */; };
 		046CEF8324F38E9300B061B8 /* OwnerScanLoginInPCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8224F38E9300B061B8 /* OwnerScanLoginInPCView.swift */; };
+		046CEF8C24F3D41B00B061B8 /* LBXPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8524F3D41A00B061B8 /* LBXPermissions.swift */; };
+		046CEF8D24F3D41B00B061B8 /* LBXScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8624F3D41A00B061B8 /* LBXScanView.swift */; };
+		046CEF8E24F3D41B00B061B8 /* LBXScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8724F3D41A00B061B8 /* LBXScanViewController.swift */; };
+		046CEF8F24F3D41B00B061B8 /* LBXScanWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8824F3D41A00B061B8 /* LBXScanWrapper.swift */; };
+		046CEF9024F3D41B00B061B8 /* LBXScanViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8924F3D41B00B061B8 /* LBXScanViewStyle.swift */; };
+		046CEF9124F3D41B00B061B8 /* LBXScanLineAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8A24F3D41B00B061B8 /* LBXScanLineAnimation.swift */; };
+		046CEF9224F3D41B00B061B8 /* LBXScanNetAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8B24F3D41B00B061B8 /* LBXScanNetAnimation.swift */; };
+		046CEF9424F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */; };
 		047333252473D77700755192 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333242473D77700755192 /* UIView+Extension.swift */; };
 		047333272473D86500755192 /* Object+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333262473D86500755192 /* Object+ClassName.swift */; };
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
@@ -312,6 +320,14 @@
 		043D5F6A24E126700067A0B1 /* ChatSystemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSystemViewController.swift; sourceTree = "<group>"; };
 		046689212472548800A76669 /* ConfigureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureModel.swift; sourceTree = "<group>"; };
 		046CEF8224F38E9300B061B8 /* OwnerScanLoginInPCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerScanLoginInPCView.swift; sourceTree = "<group>"; };
+		046CEF8524F3D41A00B061B8 /* LBXPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXPermissions.swift; sourceTree = "<group>"; };
+		046CEF8624F3D41A00B061B8 /* LBXScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanView.swift; sourceTree = "<group>"; };
+		046CEF8724F3D41A00B061B8 /* LBXScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanViewController.swift; sourceTree = "<group>"; };
+		046CEF8824F3D41A00B061B8 /* LBXScanWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanWrapper.swift; sourceTree = "<group>"; };
+		046CEF8924F3D41B00B061B8 /* LBXScanViewStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanViewStyle.swift; sourceTree = "<group>"; };
+		046CEF8A24F3D41B00B061B8 /* LBXScanLineAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanLineAnimation.swift; sourceTree = "<group>"; };
+		046CEF8B24F3D41B00B061B8 /* LBXScanNetAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanNetAnimation.swift; sourceTree = "<group>"; };
+		046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerScanLoginSuccessViewController.swift; sourceTree = "<group>"; };
 		047333242473D77700755192 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		047333262473D86500755192 /* Object+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Object+ClassName.swift"; sourceTree = "<group>"; };
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
@@ -601,6 +617,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		046CEF8424F3D36600B061B8 /* ScanView */ = {
+			isa = PBXGroup;
+			children = (
+				046CEF8524F3D41A00B061B8 /* LBXPermissions.swift */,
+				046CEF8A24F3D41B00B061B8 /* LBXScanLineAnimation.swift */,
+				046CEF8B24F3D41B00B061B8 /* LBXScanNetAnimation.swift */,
+				046CEF8624F3D41A00B061B8 /* LBXScanView.swift */,
+				046CEF8724F3D41A00B061B8 /* LBXScanViewController.swift */,
+				046CEF8924F3D41B00B061B8 /* LBXScanViewStyle.swift */,
+				046CEF8824F3D41A00B061B8 /* LBXScanWrapper.swift */,
+			);
+			path = ScanView;
+			sourceTree = "<group>";
+		};
 		04990B7924B870E5008CDE6C /* Identification */ = {
 			isa = PBXGroup;
 			children = (
@@ -1285,6 +1315,7 @@
 			isa = PBXGroup;
 			children = (
 				04E23986249B3C75009DCCEC /* OwnerHomeViewController.swift */,
+				046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1530,6 +1561,7 @@
 		EEE0D94C24655B2200E5C77B /* Venders */ = {
 			isa = PBXGroup;
 			children = (
+				046CEF8424F3D36600B061B8 /* ScanView */,
 				04990B8C24BBF719008CDE6C /* IDCardSelectView */,
 				04B2BE7A24B5D1EE00D0F963 /* GuideScrollview */,
 				EE4914C724692D62008D5689 /* LLSegmentViewController */,
@@ -2046,6 +2078,7 @@
 				04CB46E0249CAFE9001BCC8F /* AreaRegionModel.swift in Sources */,
 				04CB478E249CB250001BCC8F /* RenterChangePhoneViewController.swift in Sources */,
 				EEE87B1A2455856800C03424 /* UIGestureRecognizerEx.swift in Sources */,
+				046CEF8F24F3D41B00B061B8 /* LBXScanWrapper.swift in Sources */,
 				EE4914D924692D62008D5689 /* LLSegmentItemTitleView.swift in Sources */,
 				04CB4700249CB02C001BCC8F /* RenterScheduleFYViewController.swift in Sources */,
 				EEE87ACB2455854C00C03424 /* ViewController.swift in Sources */,
@@ -2068,6 +2101,7 @@
 				04E2391C249B3ABB009DCCEC /* ResultTableViewController.swift in Sources */,
 				EEE87B252455856800C03424 /* JHTableViewHeaderFooterView.swift in Sources */,
 				04E23948249B3ABB009DCCEC /* HouseSelectBtnView.swift in Sources */,
+				046CEF9024F3D41B00B061B8 /* LBXScanViewStyle.swift in Sources */,
 				04E23926249B3ABB009DCCEC /* FangYuanSearchResultModel.swift in Sources */,
 				04CBB65024C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift in Sources */,
 				04CB4701249CB02C001BCC8F /* RenterChatViewController.swift in Sources */,
@@ -2079,6 +2113,7 @@
 				04CB46DD249CAFE9001BCC8F /* HouseFeatureCell.swift in Sources */,
 				EE4914D724692D62008D5689 /* LLSegmentItemBadgeView.swift in Sources */,
 				EEE87B3924558F6A00C03424 /* StringExtensions.swift in Sources */,
+				046CEF9224F3D41B00B061B8 /* LBXScanNetAnimation.swift in Sources */,
 				EEE0D93D2465581200E5C77B /* Device.swift in Sources */,
 				04E23933249B3ABB009DCCEC /* RenterDetailNameCell.swift in Sources */,
 				04E23947249B3ABB009DCCEC /* RecentCitiesableViewCell.swift in Sources */,
@@ -2134,6 +2169,7 @@
 				049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */,
 				EEE87B1C2455856800C03424 /* StatusBaEx.swift in Sources */,
 				048D243B24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift in Sources */,
+				046CEF8C24F3D41B00B061B8 /* LBXPermissions.swift in Sources */,
 				04CB46FF249CB02C001BCC8F /* RenterMsgFYHeaderView.swift in Sources */,
 				EE4914B324692D35008D5689 /* UIView+ViewController.m in Sources */,
 				048D243924C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift in Sources */,
@@ -2158,6 +2194,7 @@
 				0437CFB7247E1A5D0015C355 /* SSAPI.swift in Sources */,
 				04990B9324BBF719008CDE6C /* ZKIDCardCameraController.m in Sources */,
 				04CB46FC249CB02C001BCC8F /* SureAlertView.swift in Sources */,
+				046CEF9124F3D41B00B061B8 /* LBXScanLineAnimation.swift in Sources */,
 				04E2389B249B3926009DCCEC /* OwnerMainTabBarController.swift in Sources */,
 				04CB46F5249CB02C001BCC8F /* MessageFYModel.swift in Sources */,
 				EEB1F9C42458299D000500A3 /* CycleView.swift in Sources */,
@@ -2223,6 +2260,7 @@
 				04CBB65224C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift in Sources */,
 				EEE87B6024558F9800C03424 /* Toast.swift in Sources */,
 				0407F93824BD94D800C9F581 /* OwnerESCompanySearchModel.swift in Sources */,
+				046CEF9424F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift in Sources */,
 				EEE0D9412465581200E5C77B /* Badge.swift in Sources */,
 				EEE87B242455856800C03424 /* JHCollectionViewCell.swift in Sources */,
 				0407F92C24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift in Sources */,
@@ -2230,8 +2268,10 @@
 				042D73D524BDAC600062FA7B /* OwnerCreateCompanyViewController.swift in Sources */,
 				0437CFB5247E18850015C355 /* SSCode.swift in Sources */,
 				EEE87B192455856800C03424 /* JHSnapKitTool.swift in Sources */,
+				046CEF8E24F3D41B00B061B8 /* LBXScanViewController.swift in Sources */,
 				EE4914B524692D35008D5689 /* UIView+EasyFrame.m in Sources */,
 				EEB1F9D92459119B000500A3 /* BaseCollectionViewCell.swift in Sources */,
+				046CEF8D24F3D41B00B061B8 /* LBXScanView.swift in Sources */,
 				04EF1E45247777E400871762 /* SSTabBarItem.swift in Sources */,
 				EE02B9E82463B34200B51D34 /* String+SoolyCitySelector.swift in Sources */,
 				04E2398B249B3F0D009DCCEC /* OwnerChatListViewController.swift in Sources */,

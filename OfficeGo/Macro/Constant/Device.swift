@@ -32,7 +32,8 @@ struct Device {
     /// 获取App的build版本
     static let appBuildVersion = Bundle.main.infoDictionary?["CFBundleVersion"]
     /// 获取App的名称
-    static let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"]
+//    static let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"]
+    static let appName = "OfficeGo"
     /// 获取具体的设备型号
     static let modelName = UIDevice.current.modelName
     static let isIPad = UIDevice.current.isIpad

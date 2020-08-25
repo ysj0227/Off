@@ -20,8 +20,8 @@ class OwnerHomeViewController: BaseViewController {
     }()
     
     lazy var loginPCScanBtn: UIButton = {
-        let view = UIButton(frame: CGRect.init(x: self.view.width - 80, y: kHeight - kTabBarHeight - 100, width: 80, height: 80))
-        view.backgroundColor = kAppRedColor
+        let view = UIButton(frame: CGRect.init(x: self.view.width - 80, y: kHeight - kTabBarHeight - 80, width: 80, height: 80))
+        view.setImage(UIImage.init(named: "QScanBlue"), for: .normal)
         view.isHidden = true
         view.addTarget(self, action: #selector(clickShowPCLogin), for: .touchUpInside)
         return view
@@ -77,6 +77,34 @@ class OwnerHomeViewController: BaseViewController {
         }
     }
     
+    ///跳转二维码页面页面
+    func clickToQCode() {
+        //设置扫码区域参数
+        var style = LBXScanViewStyle()
+        style.centerUpOffset = 44
+        style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle.Inner
+        style.photoframeLineW = 2
+        style.photoframeAngleW = 18
+        style.photoframeAngleH = 18
+        style.isNeedShowRetangle = false
+
+        style.anmiationStyle = LBXScanViewAnimationStyle.LineMove
+
+        style.colorAngle = UIColor(red: 0.0/255, green: 200.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        
+        style.animationImage = UIImage(named: "CodeScan.bundle/qrcode_Scan_weixin_Line")
+        
+        
+        let vc = LBXScanViewController()
+        vc.scanStyle = style
+        vc.isOpenInterestRect = true
+        let nav = BaseNavigationViewController.init(rootViewController: vc)
+        nav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    //弹出pc登录框
     @objc func clickShowPCLogin() {
         
         loginPCScanBtn.isHidden = true
@@ -89,6 +117,8 @@ class OwnerHomeViewController: BaseViewController {
             //跳转到扫一扫页面
             
             self?.loginPCScanBtn.isHidden = false
+            
+            self?.clickToQCode()
         })
     }
     
@@ -104,6 +134,8 @@ class OwnerHomeViewController: BaseViewController {
                 //跳转到扫一扫页面
                 
                 self?.loginPCScanBtn.isHidden = false
+                
+                self?.clickToQCode()
             })
         }else {
             loginPCScanBtn.isHidden = false
