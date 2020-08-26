@@ -187,13 +187,13 @@ class PhoneExchangeMessageCell: RCMessageCell {
     @objc func agreeClick() {
         let testMessage = model.content as? PhoneExchangeMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: ["agress": true,  "phone": testMessage?.number ?? "", "timeTemp": model.sentTime])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: ["agress": true,  "phone": testMessage?.number ?? "", "messageUid": model.messageUId])
     }
     
     @objc func rejectClick() {
         let testMessage = model.content as? PhoneExchangeMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: ["agress": false,  "phone": testMessage?.number ?? "", "timeTemp": model.sentTime])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangePhoneStatusBtnLocked, object: ["agress": false,  "phone": testMessage?.number ?? "", "messageUid": model.messageUId])
     }
     
     required init?(coder aDecoder: NSCoder) {

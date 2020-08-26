@@ -187,13 +187,14 @@ class WechatExchangeMessageCell: RCMessageCell {
     @objc func agreeClick() {
         let testMessage = model.content as? WechatExchangeMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": true,  "phone": testMessage?.number ?? "", "timeTemp": model.sentTime])
+        ///神策埋点 - 同意拒绝 - 把点击的消息的messageUid传过去，用于跟踪同意拒绝事件
+        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": true,  "phone": testMessage?.number ?? "", "messageUid": model.messageUId ?? ""])
     }
     
     @objc func rejectClick() {
         let testMessage = model.content as? WechatExchangeMessage
         
-        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": false,  "phone": testMessage?.number ?? "", "timeTemp": model.sentTime])
+        NotificationCenter.default.post(name: NSNotification.Name.MsgExchangeWechatStatusBtnLocked, object: ["agress": false,  "phone": testMessage?.number ?? "", "messageUid": model.messageUId ?? ""])
     }
     
     required init?(coder aDecoder: NSCoder) {

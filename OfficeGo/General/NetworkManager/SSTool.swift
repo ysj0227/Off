@@ -643,7 +643,7 @@ struct SensorsAnalyticsEvent {
      *statusPhone    电话交换状态    STRING    申请中、通过、拒绝    WEB
      *isSuccess    是否成功    BOOL    是否交换电话成功    WEB
      */
-    class func confirm_phone_exchange_state(buildingId: String, houseId: String, buildOrHouse: String, timestamp: Int64, rid: String, isSuccess: Bool) {
+    class func confirm_phone_exchange_state(buildingId: String, houseId: String, buildOrHouse: String, timestamp: String, rid: String, isSuccess: Bool) {
         
         // timestamp为毫秒 转换为时间字符串
         
@@ -656,7 +656,7 @@ struct SensorsAnalyticsEvent {
             params["isSuccess"] = false
         }
         
-        params["timestamp"] = "\(timestamp / 1000)"
+        params["timestamp"] = timestamp
 
         if buildOrHouse.isBlankString != true {
             params["buildOrHouse"] = buildOrHouse
@@ -724,7 +724,7 @@ struct SensorsAnalyticsEvent {
      *statusWechat    微信交换状态    STRING    申请中、通过、拒绝    WEB
      *isSuccess    是否成功    BOOL    是否交换微信成功    WEB
      */
-    class func confirm_wechat_exchange_state(buildingId: String, houseId: String, buildOrHouse: String, timestamp: Int64, rid: String, isSuccess: Bool) {
+    class func confirm_wechat_exchange_state(buildingId: String, houseId: String, buildOrHouse: String, timestamp: String, rid: String, isSuccess: Bool) {
         
         // timestamp为毫秒 转换为时间字符串
         
@@ -737,7 +737,7 @@ struct SensorsAnalyticsEvent {
             params["isSuccess"] = false
         }
         
-        params["timestamp"] = "\(timestamp / 1000)"
+        params["timestamp"] = timestamp
         
         if buildOrHouse.isBlankString != true {
             params["buildOrHouse"] = buildOrHouse

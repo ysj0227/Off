@@ -11,9 +11,6 @@ import UIKit
 class RenterChatViewController: RCConversationViewController {
     
     ///神策添加事件 - 都为时间戳
-    var phoneTimestemp: String?
-    
-    var wxTimestemp: String?
     
     ///神策点击预约看房记录的时间 - 从点击到一系列操作完成
     var scheduleTimestemp: String?
@@ -375,8 +372,8 @@ extension RenterChatViewController {
             if let type = noti.object as? [String: Any] {
                 let agress = type["agress"] as? Bool
                 let phone = type["phone"] as? String
-                let timeTemp = type["timeTemp"] as? Int64
-                self?.sendExchangePhoneAgreeOrReject(agree: agress ?? false, otherPhone: phone ?? "", timeTemp: timeTemp ?? 0)
+                let messageUid = type["messageUid"] as? String
+                self?.sendExchangePhoneAgreeOrReject(agree: agress ?? false, otherPhone: phone ?? "", messageUid: messageUid ?? "")
             }
         }
         
@@ -385,8 +382,8 @@ extension RenterChatViewController {
             if let type = noti.object as? [String: Any] {
                 let agress = type["agress"] as? Bool
                 let phone = type["phone"] as? String
-                let timeTemp = type["timeTemp"] as? Int64
-                self?.sendExchangeWechatAgreeOrReject(agree: agress ?? false, otherWechat: phone ?? "", timeTemp: timeTemp ?? 0)
+                let messageUid = type["messageUid"] as? String
+                self?.sendExchangeWechatAgreeOrReject(agree: agress ?? false, otherWechat: phone ?? "", messageUid: messageUid ?? "")
             }
         }
         
@@ -477,19 +474,9 @@ extension RenterChatViewController {
     func clicktoBtn(index: Int) {
         if index == 1 {
             
-            phoneTimestemp = Date().timeStamp
-            
-            ///发起电话交换
-            SensorsAnalyticsFunc.click_phone_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: phoneTimestemp ?? "0", createTime: Date().yyyyMMddString())
-            
             showPhoneSureAlertview()
             
         }else if index == 2 {
-            
-            wxTimestemp = Date().timeStamp
-
-            ///发起微信交换
-            SensorsAnalyticsFunc.click_wechat_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: wxTimestemp ?? "0", createTime: Date().yyyyMMddString())
             
             if UserTool.shared.isHasWX() == true {
                 showWechatSureAlertview()
@@ -543,6 +530,7 @@ extension RenterChatViewController {
             
         }) { [weak self] (str) in
             self?.requestSaveWX(wx: str)
+            self?.sendExchangeWechat()
         }
     }
     
@@ -559,14 +547,14 @@ extension RenterChatViewController {
     }
     
     //输入微信弹框
-    func showBtnWXInputAlertview(otherWechat: String) {
+    func showBtnWXInputAlertview(otherWechat: String, messageUid: String) {
         let alert = SureAlertView(frame: self.view.frame)
         alert.inputTFView.placeholder = "请输入你的微信号"
         alert.ShowInputAlertView(message: "当前未绑定微信", cancelButtonCallClick: {
             
         }) { [weak self] (str) in
             self?.requestSaveWX(wx: str)
-            self?.sendMesExchangeWechatAgreeOrReject(agree: true, otherWechat: otherWechat)
+            self?.sendMesExchangeWechatAgreeOrReject(agree: true, otherWechat: otherWechat, messageUid: messageUid)
         }
     }
     
@@ -574,7 +562,6 @@ extension RenterChatViewController {
     func requestSaveWX(wx: String) {
         UserTool.shared.user_wechat = wx
         addWechatId(wxid: wx)
-        self.sendExchangeWechat()
     }
     
     func addWechatId(wxid: String) {
@@ -621,7 +608,7 @@ extension RenterChatViewController {
             let message = RCTextMessage(content: "我对你发布的房源有兴趣，能聊聊吗？")
             sendMessage(message, pushContent: "打招呼")
         }
-
+        
     }
     
     //添加插入房源消息
@@ -653,13 +640,35 @@ extension RenterChatViewController {
     //发送交换手机号自定义消息
     func sendExchangePhone() {
         let messageContent = PhoneExchangeMessage.messageWithContent(content: "我想和你交换手机号", number: UserTool.shared.user_phone ?? "")
-        sendMessage(messageContent, pushContent: "我想和你交换手机号")
+        RCIM.shared()?.sendMessage(RCConversationType.ConversationType_PRIVATE, targetId: self.targetId, content: messageContent, pushContent: "我想和你交换手机号", pushData: "", success: {[weak self] (messageId) in
+            
+            self?.getMessageUidWithMessageId(messageId: messageId, isWechat: false)
+            
+        }, error: nil)
     }
     
     //发送交换微信自定义消息
     func sendExchangeWechat() {
         let messageContent = WechatExchangeMessage.messageWithContent(content: "我想和你交换微信号", number: UserTool.shared.user_wechat ?? "")
-        sendMessage(messageContent, pushContent: "我想和你交换微信号")
+        RCIM.shared()?.sendMessage(RCConversationType.ConversationType_PRIVATE, targetId: self.targetId, content: messageContent, pushContent: "我想和你交换微信号", pushData: "", success: {[weak self] (messageId) in
+            
+            self?.getMessageUidWithMessageId(messageId: messageId, isWechat: true)
+            
+        }, error: nil)
+    }
+    
+    func getMessageUidWithMessageId(messageId: Int, isWechat: Bool) {
+        let messageModel = RCIMClient.shared()?.getMessage(messageId)
+        if isWechat == true {
+            
+            ///发起微信交换
+            SensorsAnalyticsFunc.click_wechat_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: messageModel?.messageUId ?? "", createTime: Date().yyyyMMddString())
+            
+        }else {
+                        
+            ///发起电话交换
+            SensorsAnalyticsFunc.click_phone_exchange_button(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", rid: UserTool.shared.user_id_type ?? 9, timestamp: messageModel?.messageUId ?? "", createTime: Date().yyyyMMddString())
+        }
     }
     
     //预约房源
@@ -669,35 +678,38 @@ extension RenterChatViewController {
     }
     
     //交换手机号同意拒绝消息
-    func sendExchangePhoneAgreeOrReject(agree: Bool, otherPhone: String, timeTemp: Int64) {
+    func sendExchangePhoneAgreeOrReject(agree: Bool, otherPhone: String, messageUid: String) {
         
         ///电话交换状态确认
-        SensorsAnalyticsFunc.confirm_phone_exchange_state(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: timeTemp, rid: messageFYModel?.chatted?.targetId ?? "", isSuccess: agree)
+        SensorsAnalyticsFunc.confirm_phone_exchange_state(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: messageUid, rid: messageFYModel?.chatted?.targetId ?? "", isSuccess: agree)
         
         let messageContent = PhoneExchangeStatusMessage.messageWithContent(content: agree ? "我同意和你交换手机号" : "我拒绝和你交换手机号", isAgree: agree, sendNumber: otherPhone, receiveNumber: UserTool.shared.user_phone ?? "")
         sendMessage(messageContent, pushContent: "交换手机号回复")
     }
     
     //交换微信同意拒绝消息 - 点击确定需要判断有没有微信
-    func sendExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String, timeTemp: Int64) {
-        
-        ///电话交换状态确认
-        SensorsAnalyticsFunc.confirm_wechat_exchange_state(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: timeTemp, rid: messageFYModel?.chatted?.targetId ?? "", isSuccess: agree)
+    func sendExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String, messageUid: String) {
         
         if agree {
+
             if UserTool.shared.isHasWX() == true {
-                sendMesExchangeWechatAgreeOrReject(agree: true, otherWechat: otherWechat)
+                sendMesExchangeWechatAgreeOrReject(agree: false, otherWechat: otherWechat, messageUid: messageUid)
             }else{
-                showBtnWXInputAlertview(otherWechat: otherWechat)
+                showBtnWXInputAlertview(otherWechat: otherWechat, messageUid: messageUid)
             }
         }else {
-            sendMesExchangeWechatAgreeOrReject(agree: false, otherWechat: otherWechat)
+            sendMesExchangeWechatAgreeOrReject(agree: false, otherWechat: otherWechat, messageUid: messageUid)
         }
         
         
     }
     
-    func sendMesExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String) {
+    func sendMesExchangeWechatAgreeOrReject(agree: Bool, otherWechat: String, messageUid: String) {
+        
+        ///微信交换状态确认
+        SensorsAnalyticsFunc.confirm_wechat_exchange_state(buildingId: "\(messageFYModel?.building?.buildingId ?? 0)", houseId: "\(messageFYModel?.building?.houseId ?? 0)", buildOrHouse: messageFYViewModel?.buildOrHouse ?? "", timestamp: messageUid, rid: messageFYModel?.chatted?.targetId ?? "", isSuccess: agree)
+        
+        
         let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和你交换微信": "我拒绝和你交换微信", isAgree: agree, sendNumber: otherWechat, receiveNumber: UserTool.shared.user_wechat ?? "")
         sendMessage(messageContent, pushContent: "交换信成功回复")
     }
