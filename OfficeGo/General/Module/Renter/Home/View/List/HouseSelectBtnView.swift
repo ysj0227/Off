@@ -12,6 +12,15 @@ import RxCocoa
 import HandyJSON
 import SwiftyJSON
 
+
+//性别
+public enum UserSex: String {
+    ///男
+    case SexMale = "1"
+    ///女
+    case SexFeMale = "0"
+}
+
 enum HouseTypeEnum: String {
     case allEnum = "全部"
     case officeBuildingEnum = "写字楼"

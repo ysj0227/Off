@@ -192,7 +192,7 @@ extension RenterUserMsgViewController {
            return
        }
        
-       if userModel?.sex == "1" || userModel?.sex == "0" {
+        if userModel?.sex == UserSex.SexMale.rawValue || userModel?.sex == UserSex.SexFeMale.rawValue {
            
        }else {
            AppUtilities.makeToast("请选择性别")
@@ -413,9 +413,9 @@ class RenterMineUserMsgCell: BaseEditCell {
                 self.detailIcon.isHidden = false
                 self.editLabel.isUserInteractionEnabled = false
                 self.editLabel.textColor = kAppColor_333333
-                if userModel?.sex == "1" {
+                if userModel?.sex == UserSex.SexMale.rawValue {
                     self.editLabel.text = "男"
-                }else if userModel?.sex == "0" {
+                }else if userModel?.sex == UserSex.SexFeMale.rawValue {
                     self.editLabel.text = "女"
                 }else {
                     self.editLabel.text = ""

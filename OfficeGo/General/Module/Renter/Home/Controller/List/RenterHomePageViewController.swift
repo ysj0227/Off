@@ -308,6 +308,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     }
     
     func notifyDeal() {
+        
+        ///添加了如果上面的筛选view透明度大于等于0.97，则可以点击，否则筛选按钮不可点击
         NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
             SSLog("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
@@ -374,6 +376,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
     
     //MARK: 清除数据操作
     func clearSubwayBusinessData(selectModel: HouseSelectModel) {
+        
+        ///清除商圈地铁选择的数据
         if selectModel.areaModel.selectedCategoryID == "1" {
             if let areaFirstLevelModel = selectModel.areaModel.areaModelCount.isFirstSelectedModel {
                 for model in areaFirstLevelModel.list {
@@ -391,8 +395,10 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         selectModel.areaModel.areaModelCount.isFirstSelectedModel = nil
         selectModel.areaModel.subwayModelCount.isFirstSelectedModel = nil
         
+        ///点击筛选页面数据也清空
         segmentTitleSelectview.selectView.areaView.clearData()
         
+        ///修改筛选按钮的标题
         if selectModel.areaModel.selectedCategoryID == "1" {
             
             if selectModel.areaModel.areaModelCount.isFirstSelectedModel == nil {
