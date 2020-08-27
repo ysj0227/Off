@@ -35,7 +35,7 @@ import Foundation
     
     ///开发环境
     static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
-                             "Release": "http://debug.officego.com.cn/"]
+                             "Release": "http://admin.officego.com.cn/"]
 
     static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
                             "Release": "http://test1.officego.com.cn/"]
@@ -55,7 +55,7 @@ import Foundation
 //                            "Release": "https://m.officego.com/"]
     
     static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
-                            "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac"]
+                            "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
     
     //    调试接口地址:debug.officego.com.cn
     //    调试前端地址:test1.officego.com.cn
@@ -105,7 +105,7 @@ import Foundation
         case .SSH5Host:
             url = SSH5Hosts[releaseBuildType]!
         case .SensorsAnalyticsSDK:
-            url = SensorsAnalyticsSDKs[buildType]!
+            url = SensorsAnalyticsSDKs[releaseBuildType]!
         }
         SSLog("url:\(url)")
         return url

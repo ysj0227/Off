@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-import Lottie
 import SnapKit
 
 struct SensorsAnalyticsEvent {

@@ -201,10 +201,6 @@
 		EEB1F9C22458299D000500A3 /* CellFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1F9BF2458299D000500A3 /* CellFlowLayout.swift */; };
 		EEB1F9C32458299D000500A3 /* CycleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1F9C02458299D000500A3 /* CycleCell.swift */; };
 		EEB1F9C42458299D000500A3 /* CycleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1F9C12458299D000500A3 /* CycleView.swift */; };
-		EEB1F9D2245854AE000500A3 /* PictureShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1F9D0245854AE000500A3 /* PictureShowTableViewCell.swift */; };
-		EEB1F9D3245854AE000500A3 /* PictureShowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEB1F9D1245854AE000500A3 /* PictureShowTableViewCell.xib */; };
-		EEB1F9D624585513000500A3 /* ZJPictureCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1F9D424585511000500A3 /* ZJPictureCollectionCell.swift */; };
-		EEB1F9D724585513000500A3 /* ZJPictureCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEB1F9D524585512000500A3 /* ZJPictureCollectionCell.xib */; };
 		EEB1F9D92459119B000500A3 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1F9D82459119B000500A3 /* BaseCollectionViewCell.swift */; };
 		EEE0D93A2465581200E5C77B /* ImgPlaceholderConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE0D92F2465581200E5C77B /* ImgPlaceholderConstant.swift */; };
 		EEE0D93B2465581200E5C77B /* FontConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE0D9312465581200E5C77B /* FontConstant.swift */; };
@@ -504,10 +500,6 @@
 		EEB1F9BF2458299D000500A3 /* CellFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellFlowLayout.swift; sourceTree = "<group>"; };
 		EEB1F9C02458299D000500A3 /* CycleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CycleCell.swift; sourceTree = "<group>"; };
 		EEB1F9C12458299D000500A3 /* CycleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CycleView.swift; sourceTree = "<group>"; };
-		EEB1F9D0245854AE000500A3 /* PictureShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureShowTableViewCell.swift; sourceTree = "<group>"; };
-		EEB1F9D1245854AE000500A3 /* PictureShowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PictureShowTableViewCell.xib; sourceTree = "<group>"; };
-		EEB1F9D424585511000500A3 /* ZJPictureCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZJPictureCollectionCell.swift; sourceTree = "<group>"; };
-		EEB1F9D524585512000500A3 /* ZJPictureCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZJPictureCollectionCell.xib; sourceTree = "<group>"; };
 		EEB1F9D82459119B000500A3 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		EEE0D92F2465581200E5C77B /* ImgPlaceholderConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImgPlaceholderConstant.swift; sourceTree = "<group>"; };
 		EEE0D9302465581200E5C77B /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
@@ -1516,17 +1508,6 @@
 			path = CycleView;
 			sourceTree = "<group>";
 		};
-		EEB1F9C524583C15000500A3 /* ImageShow */ = {
-			isa = PBXGroup;
-			children = (
-				EEB1F9D424585511000500A3 /* ZJPictureCollectionCell.swift */,
-				EEB1F9D524585512000500A3 /* ZJPictureCollectionCell.xib */,
-				EEB1F9D0245854AE000500A3 /* PictureShowTableViewCell.swift */,
-				EEB1F9D1245854AE000500A3 /* PictureShowTableViewCell.xib */,
-			);
-			path = ImageShow;
-			sourceTree = "<group>";
-		};
 		EEE0D92E2465581200E5C77B /* Constant */ = {
 			isa = PBXGroup;
 			children = (
@@ -1740,7 +1721,6 @@
 		EEE87B3E24558F9800C03424 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EEB1F9C524583C15000500A3 /* ImageShow */,
 				EEB1F9BE2458299D000500A3 /* CycleView */,
 				EE97D05424581842007FF862 /* AORangeSlider.swift */,
 				EEE87B3F24558F9800C03424 /* ThorTabBarItem.swift */,
@@ -1892,12 +1872,10 @@
 				EEE87AD32455854E00C03424 /* LaunchScreen.storyboard in Resources */,
 				04E23932249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib in Resources */,
 				04CB46D5249CAFE9001BCC8F /* HouseTypeCell.xib in Resources */,
-				EEB1F9D724585513000500A3 /* ZJPictureCollectionCell.xib in Resources */,
 				EEE87B202455856800C03424 /* Images.xcassets in Resources */,
 				EEE87AD02455854E00C03424 /* Assets.xcassets in Resources */,
 				04CB46D7249CAFE9001BCC8F /* CityOrRegionSelectCell.xib in Resources */,
 				04CB46D9249CAFE9001BCC8F /* RoleSelectTableViewCell.xib in Resources */,
-				EEB1F9D3245854AE000500A3 /* PictureShowTableViewCell.xib in Resources */,
 				04E2392F249B3ABB009DCCEC /* RenterShareServiceCell.xib in Resources */,
 				EEE0D9472465584E00E5C77B /* cities.plist in Resources */,
 				04990B9424BBF719008CDE6C /* DXIDCardCamera.bundle in Resources */,
@@ -2126,7 +2104,6 @@
 				EE353ED92456FFDF00057545 /* BaseTableViewCell.swift in Sources */,
 				04E23925249B3ABB009DCCEC /* FangYuanBuildingFYDetailModel.swift in Sources */,
 				EE02BA4624654BA600B51D34 /* RequestAPIs.swift in Sources */,
-				EEB1F9D2245854AE000500A3 /* PictureShowTableViewCell.swift in Sources */,
 				04E23995249B4745009DCCEC /* OwnerHouseScheduleViewController.swift in Sources */,
 				EEB1F9C32458299D000500A3 /* CycleCell.swift in Sources */,
 				04E23939249B3ABB009DCCEC /* RenterShareServiceShowView.swift in Sources */,
@@ -2206,7 +2183,6 @@
 				04CB4707249CB063001BCC8F /* ShareViewController.swift in Sources */,
 				EEE87B6224558F9800C03424 /* ErrorView.swift in Sources */,
 				EEE87B7924559FE800C03424 /* BaseWebViewController.swift in Sources */,
-				EEB1F9D624585513000500A3 /* ZJPictureCollectionCell.swift in Sources */,
 				04E052B724C5667800D7CA96 /* CityDistrictAddressSelectView.swift in Sources */,
 				04CB4702249CB02C001BCC8F /* RenterChatListViewController.swift in Sources */,
 				04E23931249B3ABB009DCCEC /* RenterDetailTrafficCell.swift in Sources */,
@@ -2453,6 +2429,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.boshu.officego;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = profile_dev_0806;
+				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2468,6 +2445,7 @@
 				CODE_SIGN_ENTITLEMENTS = OfficeGo/OfficeGo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution: Shanghai Boshu Information Technology Co.,Ltd. (YQZZ8344SL)";
 				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = YQZZ8344SL;
@@ -2481,7 +2459,7 @@
 				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boshu.officego;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = dis_boshu_company_0806;
+				PROVISIONING_PROFILE_SPECIFIER = profile_adhoc_0814;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/OfficeGo/Macro/My_Bridging.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
