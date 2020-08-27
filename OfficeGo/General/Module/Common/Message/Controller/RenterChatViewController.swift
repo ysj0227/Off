@@ -10,6 +10,28 @@ import UIKit
 
 class RenterChatViewController: RCConversationViewController {
     
+    var exchangeModel: ChatIsCanExchagePhoneWechat? {
+        didSet {
+            if exchangeModel?.isOk == true {
+                buttonView.setButtonSelected(btn: buttonView.phoneChangeBtn, selected: true)
+                buttonView.setButtonSelected(btn: buttonView.wechatChangeBtn, selected: true)
+                exchangeAlertView.isHidden = true
+                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: self.view.height - (kNavigationHeight + 70))
+                if Device.isIPad == true {
+                     self.conversationMessageCollectionView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 43, right: 0)
+                 }
+            }else {
+                buttonView.setButtonSelected(btn: buttonView.phoneChangeBtn, selected: false)
+                buttonView.setButtonSelected(btn: buttonView.wechatChangeBtn, selected: false)
+                exchangeAlertView.isHidden = false
+                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70 + 43, width: kWidth, height: self.view.height - (kNavigationHeight + 70 + 43))
+                if Device.isIPad == true {
+                    self.conversationMessageCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 43, right: 0)
+                }
+            }
+        }
+    }
+    
     ///神策添加事件 - 都为时间戳
     
     ///神策点击预约看房记录的时间 - 从点击到一系列操作完成
@@ -38,23 +60,31 @@ class RenterChatViewController: RCConversationViewController {
     //上面四个按钮view
     var buttonView:RenterMsgBtnView = {
         let view = RenterMsgBtnView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: 70))
-        view.phoneChangeBtn.isSelected = true
-        view.wechatChangeBtn.isSelected = true
+        view.setButtonSelected(btn: view.phoneChangeBtn, selected: false)
+        view.setButtonSelected(btn: view.wechatChangeBtn, selected: false)
         return view
     }()
     
     //预约查看view
     var scheduleView: RenterMsgScheduleAlertView?
     
+    //交换手机和微信提示view
+    lazy var exchangeAlertView: RenterExchangeAlertView = {
+       
+        let view = RenterExchangeAlertView(frame: CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: 43))
+        view.isHidden = true
+        return view
+    }()
+    
     var isHasSchedule: Bool = false {
         didSet {
-            if isHasSchedule == true {
-                scheduleView?.isHidden = false
-                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70 + 43, width: kWidth, height: self.view.height - (kNavigationHeight + 70 + 43))
-            }else {
-                scheduleView?.isHidden = true
-                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: self.view.height - (kNavigationHeight + 70))
-            }
+//            if isHasSchedule == true {
+//                scheduleView?.isHidden = false
+//                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70 + 43, width: kWidth, height: self.view.height - (kNavigationHeight + 70 + 43))
+//            }else {
+//                scheduleView?.isHidden = true
+//                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: self.view.height - (kNavigationHeight + 70))
+//            }
         }
     }
     
@@ -64,6 +94,12 @@ class RenterChatViewController: RCConversationViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        requestExchangePhoneVerification()
     }
     
     override func viewDidLoad() {
@@ -112,6 +148,37 @@ class RenterChatViewController: RCConversationViewController {
             weakSelf.insertMessage()
         }
         
+    }
+
+}
+
+//MARK: 请求
+extension RenterChatViewController {
+    
+    ///交换手机微信号判断
+    func requestExchangePhoneVerification() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        params["targetId"] = targetId as AnyObject
+        
+        SSNetworkTool.SSChat.request_getExchangePhoneVerification(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = ChatIsCanExchagePhoneWechat.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.exchangeModel = model
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+        }
     }
     
     ///第一次发送调用
@@ -250,34 +317,7 @@ class RenterChatViewController: RCConversationViewController {
             
         }
     }
-    
-    func setInfo(model: ChatTargetUserInfoModel) {
-        SSTool.invokeInMainThread { [weak self] in
-            
-            guard let weakSelf = self else {return}
-            
-            weakSelf.titleview?.titleLabel.text = model.name
-            ///强制刷新好友信息
-            let info = RCUserInfo.init(userId: model.id, name: model.name, portrait: model.avatar)
-            RCIM.shared()?.refreshUserInfoCache(info, withUserId: model.id)
-        }
-    }
-    
-    override func didSendMessage(_ status: Int, content messageContent: RCMessageContent!) {
-        SSLog("---*****---\(messageContent.className)")
-
-        if messageContent.isKind(of: RCTextMessage.self) {
-            
-            SSTool.invokeInMainThread { [weak self] in
-                self?.request_addChatApp()
-            }
-            
-        }
-
-    }
 }
-
-
 extension RenterChatViewController {
     
     func setupData() {
@@ -315,7 +355,9 @@ extension RenterChatViewController {
         self.view.addSubview(scheduleView ?? RenterMsgScheduleAlertView())
         scheduleView?.isHidden = true
         
-        self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 60, width: kWidth, height: self.view.height - (kNavigationHeight + 60))
+        self.view.addSubview(exchangeAlertView)
+        
+        self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: self.view.height - (kNavigationHeight + 70))
         
         if Device.isIPad == true {
             self.conversationMessageCollectionView.contentInset = UIEdgeInsets(top: kNavigationHeight + 4, left: 0, bottom: 0, right: 0)
@@ -474,16 +516,27 @@ extension RenterChatViewController {
     func clicktoBtn(index: Int) {
         if index == 1 {
             
-            showPhoneSureAlertview()
+            //如果可以交换 - 直接交换
+            if exchangeModel?.isOk == true {
+                
+                showPhoneSureAlertview()
+            }else {
+                requestExchangePhoneVerification()
+            }
             
         }else if index == 2 {
             
-            if UserTool.shared.isHasWX() == true {
-                showWechatSureAlertview()
-            }else{
-                showWXInputAlertview()
+            //如果可以交换 - 直接交换
+            if exchangeModel?.isOk == true {
+                
+                if UserTool.shared.isHasWX() == true {
+                    showWechatSureAlertview()
+                }else{
+                    showWXInputAlertview()
+                }
+            }else {
+                requestExchangePhoneVerification()
             }
-            
             
         }else if index == 3 {
             
@@ -588,6 +641,33 @@ extension RenterChatViewController {
 }
 
 extension RenterChatViewController {
+    
+    ///请求到接口，刷新对方用户信息
+    func setInfo(model: ChatTargetUserInfoModel) {
+        SSTool.invokeInMainThread { [weak self] in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.titleview?.titleLabel.text = model.name
+            ///强制刷新好友信息
+            let info = RCUserInfo.init(userId: model.id, name: model.name, portrait: model.avatar)
+            RCIM.shared()?.refreshUserInfoCache(info, withUserId: model.id)
+        }
+    }
+    
+    
+    ///消息发送之后的方法
+    override func didSendMessage(_ status: Int, content messageContent: RCMessageContent!) {
+        SSLog("---*****---\(messageContent.className)")
+
+        if messageContent.isKind(of: RCTextMessage.self) {
+            
+            SSTool.invokeInMainThread { [weak self] in
+                self?.request_addChatApp()
+            }
+            
+        }
+    }
     
     //发送打招呼语第一次创建聊天 - 租户给房东发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
     func sengSayHelloMessage() {

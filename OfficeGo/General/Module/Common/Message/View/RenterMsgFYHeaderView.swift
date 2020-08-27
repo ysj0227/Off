@@ -244,6 +244,11 @@ class RenterMsgBtnView: UIView {
         return button
     }()
     
+    func setButtonSelected(btn: UIButton, selected: Bool) {
+        btn.isSelected = selected
+//        btn.isUserInteractionEnabled = selected
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -361,6 +366,58 @@ class RenterMsgScheduleAlertView: UIButton {
         }
         lookLabel.snp.makeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
+            make.centerY.equalToSuperview()
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+   
+}
+
+
+///交换电话和微信的提示框框
+class RenterExchangeAlertView: UIButton {
+        
+    var timeIcon: BaseImageView = {
+        let view = BaseImageView.init()
+        view.image = UIImage(named: "exchangeBlueM")
+        return view
+    }()
+    
+    var label: UILabel = {
+        let view = UILabel.init()
+        if UserTool.shared.user_id_type == 0 {
+            view.text = "和房东建立聊天后即可发起交换微信和电话"
+        }else if UserTool.shared.user_id_type == 1 {
+            view.text = "双方确认看房日程后可交换微信和电话"
+        }
+        view.textColor = kAppBlueColor
+        view.font = FONT_11
+        return view
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+    
+    private func setupView() {
+        
+        self.isUserInteractionEnabled = true
+        self.backgroundColor = kAppLightBlueColor
+        
+        addSubview(timeIcon)
+        addSubview(label)
+        
+        timeIcon.snp.makeConstraints { (make) in
+            make.leading.equalTo(12)
+            make.centerY.equalToSuperview()
+        }
+        label.snp.makeConstraints { (make) in
+            make.leading.equalTo(timeIcon.snp.trailing).offset(7)
             make.centerY.equalToSuperview()
         }
     }

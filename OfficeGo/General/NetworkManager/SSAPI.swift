@@ -265,6 +265,8 @@ class SSChatURL: NSObject {
     //获取用户信息
     static let getUserChatInfoApp = "api/user/getUser"
     
+    //交换手机微信号判断
+    static let getExchangePhoneVerification = "api/chat/exchangePhoneVerification"
 }
 
 //  MARK:   --搜索

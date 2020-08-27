@@ -621,13 +621,19 @@ extension SSNetworkTool {
     //  MARK:   --聊天
     class SSChat: NSObject {
         
+        //交换手机微信号判断
+        static func request_getExchangePhoneVerification(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSChatURL.getExchangePhoneVerification)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
         //getUserChatInfoApp
-        //获取融云token
-           static func request_getUserChatInfoApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-               let url = String.init(format: SSChatURL.getUserChatInfoApp)
-               SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-                   success,failed:failure,error:error)
-           }
+        static func request_getUserChatInfoApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSChatURL.getUserChatInfoApp)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
         
         //获取融云token
         static func request_getRongYunToken(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {

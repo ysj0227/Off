@@ -318,3 +318,8 @@ class ChatTargetUserInfoModel: BaseModel {
     var avatar : String?
     var name : String?
 }
+
+
+class ChatIsCanExchagePhoneWechat: BaseModel {
+    var isOk : Bool?  //是否可以交换电话和微信，true可以
+}
