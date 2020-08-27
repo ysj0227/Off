@@ -456,6 +456,15 @@ extension AppDelegate {
         
         ///是否在发送的所有消息中携带当前登录的用户信息
         RCIM.shared()?.enableMessageAttachUserInfo = true
+        
+        if UserTool.shared.user_id_type == 0 {
+            let tab = self.window?.rootViewController as? RenterMainTabBarController
+            tab?.updateBadgeValueForTabBarItem()
+        }else if UserTool.shared.user_id_type == 1 {
+            let tab = self.window?.rootViewController as? OwnerMainTabBarController
+            tab?.updateBadgeValueForTabBarItem()
+        }
+
     }
     
     //登录融云账号  -  如果之前用户登录就直接登录， 否则在登录成功之后登录
