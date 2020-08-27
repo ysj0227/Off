@@ -936,8 +936,6 @@ extension SSNetworkTool {
     
 }
 
-
-
 struct NetworkParams {
     //1：H5，2：IOS，3：安卓
     static let AppType = "2"

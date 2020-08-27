@@ -110,20 +110,3 @@ extension Notification.Name {
     
 }
 
-
-struct Notifications {
-    
-    static let FilterHideNotification = "FilterHideNotification"
-    
-    
-    
-    
-    static let SearchEndNotification = "SearchEndNotification"
-    
-    static let HotConvertNotification = "HotConvertNotification"
-    static let kHomeEventNotification = "kHomeEventNotification"
-    
-    static let DataLoadStatusNotification = "DataLoadStatusNotification"
-    
-}
-

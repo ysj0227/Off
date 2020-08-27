@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         //        self.networkReachabilityStatus()
         
         configSealTalkWithApp(application, launchOptions: launchOptions)
-
+        
         setUpSDKs(launchOptions: launchOptions)
         
         notifyObserve()
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         setStaticGuidePage()
         
         listenNetworkStatus()
-       
+        
         dealRemoteNotify(launchOptions: launchOptions)
         
         return true
@@ -186,60 +186,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
-//        var deviceTokenString = String()
-//        let bytes = [UInt8](deviceToken)
-//        for item in bytes {
-//            deviceTokenString += String(format: "%02x", item&0x000000FF)
-//        }
-//        RCIMClient.shared()?.setDeviceToken(deviceTokenString)
         RCIMClient.shared()?.setDeviceTokenData(deviceToken)
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("didFailToRegisterForRemoteNotificationsWithError---\(error)")
     }
     func configSealTalkWithApp(_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-
+        
         /**
          * 推送处理 1
          */
         registerRemoteNotification(application)
-
-        /**
-         * 统计推送，并获取融云推送服务扩展字段
-         */
-        //(launchOptions: launchOptions)
     }
-
+    
     /**
      * 推送处理 1
      */
     func registerRemoteNotification(_ application: UIApplication) {
         /**
-        *  推送说明：
-        *
-        我们在知识库里还有推送调试页面加了很多说明，当遇到推送问题时可以去知识库里搜索还有查看推送测试页面的说明。
-        *
-        首先必须设置deviceToken，可以搜索本文件关键字“推送处理”。模拟器是无法获取devicetoken，也就没有推送功能。
-        *
-        当使用"开发／测试环境"的appkey测试推送时，必须用Development的证书打包，并且在后台上传"开发／测试环境"的推送证书，证书必须是development的。
-        当使用"生产／线上环境"的appkey测试推送时，必须用Distribution的证书打包，并且在后台上传"生产／线上环境"的推送证书，证书必须是distribution的。
-        */
-//        if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
-//            let notificationTypes: UIUserNotificationType = [.badge, .sound, .alert]
-//            let settings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
-//            application.registerUserNotificationSettings(settings)
-//        }else {
-//            let notificationTypes: UIRemoteNotificationType = [.badge, .sound, .alert]
-//            application.registerForRemoteNotifications(matching: notificationTypes)
-//        }
+         *  推送说明：
+         *
+         我们在知识库里还有推送调试页面加了很多说明，当遇到推送问题时可以去知识库里搜索还有查看推送测试页面的说明。
+         *
+         首先必须设置deviceToken，可以搜索本文件关键字“推送处理”。模拟器是无法获取devicetoken，也就没有推送功能。
+         *
+         当使用"开发／测试环境"的appkey测试推送时，必须用Development的证书打包，并且在后台上传"开发／测试环境"的推送证书，证书必须是development的。
+         当使用"生产／线上环境"的appkey测试推送时，必须用Distribution的证书打包，并且在后台上传"生产／线上环境"的推送证书，证书必须是distribution的。
+         */
         
         if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
             let notificationTypes: UIUserNotificationType = [.badge, .sound, .alert]
             let settings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
             application.registerUserNotificationSettings(settings)
+        }else {
+            let notificationTypes: UIRemoteNotificationType = [.badge, .sound, .alert]
+            application.registerForRemoteNotifications(matching: notificationTypes)
         }
     }
-
+    
     func notifyObserve() {
         //登录失效 - 5009
         NotificationCenter.default.addObserver(self, selector: #selector(loginResignEffect), name: NSNotification.Name.LoginResignEffect, object: nil)
@@ -464,7 +448,7 @@ extension AppDelegate {
             let tab = self.window?.rootViewController as? OwnerMainTabBarController
             tab?.updateBadgeValueForTabBarItem()
         }
-
+        
     }
     
     //登录融云账号  -  如果之前用户登录就直接登录， 否则在登录成功之后登录
@@ -526,7 +510,7 @@ extension AppDelegate {
         //神策接入
         let options = SAConfigOptions.init(serverURL: SSAPI.SensorsAnalyticsSDK, launchOptions: launchOptions)
         options.autoTrackEventType = [.eventTypeAppStart, .eventTypeAppEnd, .eventTypeAppClick, .eventTypeAppViewScreen]
-
+        
         #if DEBUG
         options.enableLog = true
         #else
@@ -540,17 +524,17 @@ extension AppDelegate {
         options.enableVisualizedAutoTrack = true
         
         SensorsAnalyticsSDK.start(configOptions: options)
-                        
+        
         /**
          * @abstract
          * H5 数据打通的时候默认通过 ServerUrl 校验
          */
         SensorsAnalyticsSDK.sharedInstance()?.addWebViewUserAgentSensorsDataFlag()
-                
+        
         SensorsAnalyticsFunc.SensorsLogin()
         
-//        SensorsAnalyticsSDK.sharedInstance()?.clearKeychainData()
-
+        //        SensorsAnalyticsSDK.sharedInstance()?.clearKeychainData()
+        
         
         //bugly接入
         Bugly.start(withAppId: AppKey.buglyAppKey)
@@ -619,7 +603,7 @@ extension AppDelegate {
         
         //加入公司状态
         RCIM.shared()?.registerMessageType(ApplyEnterCompanyOrBranchStatusMessage.self)
-
+        
     }
     
     func showLogotAlertview() {
@@ -645,7 +629,7 @@ extension AppDelegate {
             
         }
     }
-
+    
 }
 
 extension AppDelegate {
@@ -671,11 +655,11 @@ extension AppDelegate {
 
 extension AppDelegate: RCIMReceiveMessageDelegate {
     /*!
-    IMKit消息接收的监听器
-
-    @warning 如果您使用IMKit，可以设置并实现此Delegate监听消息接收；
-    如果您使用IMLib，请使用RCIMClient中的RCIMClientReceiveMessageDelegate监听消息接收，而不要使用此方法。
-    */
+     IMKit消息接收的监听器
+     
+     @warning 如果您使用IMKit，可以设置并实现此Delegate监听消息接收；
+     如果您使用IMLib，请使用RCIMClient中的RCIMClientReceiveMessageDelegate监听消息接收，而不要使用此方法。
+     */
     func onRCIMReceive(_ message: RCMessage!, left: Int32) {
         SSLog("onReceived------left-IMKit-\(left)")
         //房东
@@ -692,7 +676,7 @@ extension AppDelegate: RCIMReceiveMessageDelegate {
                 UIApplication.shared.applicationIconBadgeNumber = count
             }
         }
-
+        
     }
 }
 

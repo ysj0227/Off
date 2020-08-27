@@ -8,6 +8,53 @@
 
 import UIKit
 
+
+
+//性别
+public enum UserSex: String {
+    ///男
+    case SexMale = "1"
+    ///女
+    case SexFeMale = "0"
+}
+
+///租户 - 写字楼类型
+enum HouseTypeEnum: String {
+    case allEnum = "全部"
+    case officeBuildingEnum = "写字楼"
+    case jointOfficeEnum = "共享办公"
+}
+
+///租户 - 首页列表排序
+enum HouseSortEnum: String {
+    case defaultSortEnum = "默认排序"
+    case priceTopToLowEnum = "价格从高到低"
+    case priceLowToTopEnum = "价格从低到高"
+    case squareTopToLowEnum = "面积从大到小"
+    case squareLowToTopEnum = "面积从小到大"
+}
+
+///租户 - 商圈地铁筛选
+enum AreaCatogoryItem: String {
+    case fujinCatogoryEnum = "附近"
+    case mallsCatogoryEnum = "商圈"
+    case subwaysCatogoryEnum = "地铁"
+}
+
+
+///基础数据接口请求枚举
+enum DictionaryCodeEnum: String {
+    case codeEnumuserPosition = "userPosition"
+    case codeEnumbasicServices = "basicServices"
+    case codeEnumcompanyService = "companyService"
+    case codeEnumdecoratedType = "decoratedType"
+    case codeEnumbranchUnique = "branchUnique"
+    case codeEnumbuildType = "buildType"
+    case codeEnumhouseUnique = "houseUnique"
+    case codeEnumreportType = "reportType"
+    case codeEnumhotKeywords = "hotKeywords"
+}
+
 //协议url
 public enum ProtocalType {
     ///员工管理 staffList.html
@@ -41,7 +88,7 @@ public enum OwnerIdentifyOrFYType {
 
 }
 
-//我想找item枚举
+//我想找页面item枚举
 public enum IWantToFindType {
     case IWantToFindTypeCity        //城市
     case IWantToFindTypeHouseType   //房源类型
@@ -67,7 +114,7 @@ public enum FYDetailItemType {
     case FYDetailItemTypeHuxing         //办公室户型信息
 }
 
-//下面的bottom
+//下面的bottom样式
 public enum BottomBtnViewType {
     case BottomBtnViewTypeIwantToFind   //我想找页面 - 只显示一个确定按钮
     case BottomBtnViewTypeShaixuan      //筛选页面 - 两个按钮 清除 确定
@@ -75,7 +122,7 @@ public enum BottomBtnViewType {
     case BottomBtnViewTypeChatAlertBottomView  //聊天页面 - 取消 - 确定
 }
 
-//租户我的
+//租户我的页面
 public enum RenterMineType {
     case RenterMineTypeIWanttoFind      //我想找
     case RenterMineTypeHouseSchedule    //看房行程
@@ -84,7 +131,7 @@ public enum RenterMineType {
     case RenterMineTypeRegisterAgent    //注册协议与隐私条款
     case RenterMineTypeAboutus          //关于我们
 }
-//设置
+//设置页面
 public enum RenterSettingType {
 //    case RenterSettingTypeAccountAndBind    //账号与绑定
     case RenterSettingTypeNoticifyAndAlert  //通知与提醒
@@ -96,7 +143,7 @@ public enum RenterSettingType {
     case RenterSettingTypeChangeWechat      //修改微信
 }
 
-//基本信息
+//基本信息页面
 public enum RenterUserMsgType {
     case RenterUserMsgTypeAvatar            //头像
     case RenterUserMsgTypeNick              //姓名
@@ -110,7 +157,7 @@ public enum RenterUserMsgType {
 
 
 //房东
-//租户我的
+//租户我的页面
 public enum OwnerMineType {
     case OwnerMineTypeAuthority         //员工管理 - 0 员工 1 管理员
     case OwnerMineTypeHelpAndFeedback  //帮助与反馈
@@ -120,7 +167,7 @@ public enum OwnerMineType {
 }
 
 
-//弹框alert
+//弹框alert类型
 public enum AlertType {
     case AlertTypeVersionUpdate             //版本更新
     case AlertTypeMessageAlert              //弹框展示
@@ -129,7 +176,7 @@ public enum AlertType {
 }
 
 //房东
-//公司认证
+//公司认证页面
 public enum OwnerCompanyIedntifyType {
     case OwnerCompanyIedntifyTypeIdentigy           //认证身份：
     case OwnerCompanyIedntifyTypeCompanyname        //公司名称：
@@ -142,7 +189,7 @@ public enum OwnerCompanyIedntifyType {
 }
 
 //房东
-//共享办公认证
+//共享办公认证页面
 public enum OwnerJointIedntifyType {
     case OwnerJointIedntifyTypeIdentigy           //认证身份：
     case OwnerJointIedntifyTypeBranchname         //网点名称：
@@ -155,7 +202,7 @@ public enum OwnerJointIedntifyType {
 }
 
 //房东
-//个人认证
+//个人认证页面
 public enum OwnerPersonalIedntifyType {
     case OwnerPersonalIedntifyTypeIdentify                  //认证身份：
     case OwnerPersonalIedntifyTypeUserName                  //姓名：赵捷
@@ -170,7 +217,7 @@ public enum OwnerPersonalIedntifyType {
 
 
 //房东
-//创建公司
+//创建公司页面
 public enum OwnerCreteCompanyType {
     case OwnerCreteCompanyTypeIedntify              //认证身份：
     case OwnerCreteCompanyTypeCompanyName           //公司名称
@@ -180,7 +227,7 @@ public enum OwnerCreteCompanyType {
 }
 
 //房东
-//创建网点
+//创建网点页面
 public enum OwnerCreteBranchType {
     case OwnerCreteBranchTypeBranchName             //网点名称
     case OwnerCreteBranchTypeBranchDistrictArea     //所在区域
@@ -189,7 +236,7 @@ public enum OwnerCreteBranchType {
 }
 
 //房东
-//创建写字楼
+//创建写字楼页面
 public enum OwnerCreteBuildingType {
     case OwnerCreteBuildingTypeBranchName             //写字楼名称
     case OwnerCreteBuildingTypeBranchDistrictArea     //所在区域

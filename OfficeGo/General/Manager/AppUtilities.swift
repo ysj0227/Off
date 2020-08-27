@@ -77,7 +77,7 @@ class AppUtilities: NSObject {
             freesize = dictionary[.systemFreeSize] as? Int64 ?? 0
             totalsize = dictionary[.systemSize] as? Int64 ?? 0
         } catch {
-            THPrint(String(format: "Error Obtaining System Memory Info: Domain = %@, Code = %ld", (error as NSError).domain, Int((error as NSError).code)))
+            SSLog("Error Obtaining System Memory Info: Domain = \((error as NSError).domain), Code = \(Int((error as NSError).code))")
         }
         return (freesize, totalsize)
     }

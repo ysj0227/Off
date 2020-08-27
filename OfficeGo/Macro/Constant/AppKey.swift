@@ -55,8 +55,8 @@ struct AppKey {
     //    static let RCAppSecret = "xtDkNCjJse"
     //    #endif
     
-    //模拟器
     
+    //MARK: 融云自定义消息体名称
     static let InsertFYMessageTypeIdentifier = "og:insertfyinfo"
     static let PhoneExchangeMessageTypeIdentifier = "og:mobile"
     static let WechatExchangeMessageTypeIdentifier = "og:wx"
