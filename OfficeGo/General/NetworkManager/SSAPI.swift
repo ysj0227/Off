@@ -105,7 +105,7 @@ import Foundation
         case .SSH5Host:
             url = SSH5Hosts[releaseBuildType]!
         case .SensorsAnalyticsSDK:
-            url = SensorsAnalyticsSDKs[buildType]!
+            url = SensorsAnalyticsSDKs[releaseBuildType]!
         }
         SSLog("url:\(url)")
         return url
