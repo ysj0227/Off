@@ -12,36 +12,6 @@ import RxCocoa
 import HandyJSON
 import SwiftyJSON
 
-
-//性别
-public enum UserSex: String {
-    ///男
-    case SexMale = "1"
-    ///女
-    case SexFeMale = "0"
-}
-
-enum HouseTypeEnum: String {
-    case allEnum = "全部"
-    case officeBuildingEnum = "写字楼"
-    case jointOfficeEnum = "共享办公"
-}
-
-enum HouseSortEnum: String {    
-    case defaultSortEnum = "默认排序"
-    case priceTopToLowEnum = "价格从高到低"
-    case priceLowToTopEnum = "价格从低到高"
-    case squareTopToLowEnum = "面积从大到小"
-    case squareLowToTopEnum = "面积从小到大"
-}
-
-
-enum AreaCatogoryItem: String {
-    case fujinCatogoryEnum = "附近"
-    case mallsCatogoryEnum = "商圈"
-    case subwaysCatogoryEnum = "地铁"
-}
-
 class HouseSelectBtnView: UIView {
     
     var hiddenArea: Bool = false {

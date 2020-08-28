@@ -8,7 +8,6 @@ PODS:
   - Kingfisher (5.8.3):
     - Kingfisher/Core (= 5.8.3)
   - Kingfisher/Core (5.8.3)
-  - lottie-ios (3.1.3)
   - Masonry (1.1.0)
   - MJRefresh (3.3.1)
   - RongCloudIM/IMKit (2.10.4):
@@ -23,7 +22,6 @@ PODS:
   - SensorsAnalyticsSDK/core (2.1.2)
   - SensorsAnalyticsSDK/DISABLE_UIWEBVIEW (2.1.2):
     - SensorsAnalyticsSDK/core
-  - SKPhotoBrowser (6.1.0)
   - SnapKit (5.0.1)
   - SwiftyJSON (5.0.0)
   - WechatOpenSDK (1.8.6)
@@ -38,7 +36,6 @@ DEPENDENCIES:
   - HandyJSON (= 5.0.0)
   - IQKeyboardManagerSwift (= 6.3.0)
   - Kingfisher (= 5.8.3)
-  - lottie-ios (= 3.1.3)
   - Masonry (= 1.1.0)
   - MJRefresh (= 3.3.1)
   - RongCloudIM/IMKit (= 2.10.4)
@@ -46,7 +43,6 @@ DEPENDENCIES:
   - RxCocoa (~> 5.1.1)
   - RxSwift (~> 5.1.1)
   - SensorsAnalyticsSDK/DISABLE_UIWEBVIEW
-  - SKPhotoBrowser
   - SnapKit (= 5.0.1)
   - SwiftyJSON (= 5.0.0)
   - WechatOpenSDK
@@ -60,7 +56,6 @@ SPEC REPOS:
     - HandyJSON
     - IQKeyboardManagerSwift
     - Kingfisher
-    - lottie-ios
     - Masonry
     - MJRefresh
     - RongCloudIM
@@ -68,7 +63,6 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SensorsAnalyticsSDK
-    - SKPhotoBrowser
     - SnapKit
     - SwiftyJSON
     - WechatOpenSDK
@@ -91,7 +85,6 @@ SPEC CHECKSUMS:
   HandyJSON: 992f2d661716d6a91de82d0056927bc7813b5770
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   Kingfisher: b7e4cb65ff24c264bd2a1284b75b974d907afd94
-  lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
   RongCloudIM: 741d6f0e655b8fd77c63ee34071d4f9bf146aae6
@@ -99,12 +92,11 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SensorsAnalyticsSDK: dd96a4b07d9e0ad35b80a2120e583b1a0153282d
-  SKPhotoBrowser: 343de95d89dc7913763c5dda243cc6e606e4a168
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   WechatOpenSDK: 368ae03b72ee3ea1328c4f11326fbb5d2721d118
   WMPlayer: a914f80ed5dca7cd9e3a94ec07a2b02eec8c15c0
 
-PODFILE CHECKSUM: b2c478cc287340a74fa5e88f82cb4837368b7483
+PODFILE CHECKSUM: 43bc7fcfded709ac9f6327641202ef912118002a
 
 COCOAPODS: 1.9.1

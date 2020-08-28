@@ -506,15 +506,6 @@ class UserMsgConfigureModel: NSObject {
             
         }
         
-        
-        //图片
-        //        let smileImage  = UIImage.init(named: "tupian")
-        //        let textAttachment : NSTextAttachment = NSTextAttachment()
-        //        textAttachment.image = smileImage
-        //        textAttachment.bounds = CGRect(x: 0, y: -4, width: 22, height: 22)
-        //         attributedStrM.append(NSAttributedString(attachment: textAttachment))
-        
-        
         return attributedStrM
     }
 }

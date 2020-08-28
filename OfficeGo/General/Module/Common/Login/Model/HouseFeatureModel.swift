@@ -19,30 +19,12 @@ class HouseSelectModel: HandyJSON {
     required init() {
     }
 }
-////区域选择model
-//class AreaSelectModel: HandyJSON {
-//    var id: String?
-//    var title: String?
-//    required init() {
-//    }
-//}
+
 //类型选择model
 class HouseTypeSelectModel: HandyJSON {
     var btype: Int? //类型,1:楼盘 写字楼,2:网点 共享办公
     var title: String?
     var type: HouseTypeEnum?
-    
-    //    var type: HouseTypeEnum = .jointOfficeEnum {
-    //        didSet {
-    //            if type == .officeBuildingEnum {
-    //                btype = 1
-    //            }else if type == .officeBuildingEnum {
-    //                btype = 2
-    //            }
-    //        }
-    //    }
-    
-    //    var type: HouseTypeEnum?
     required init() {
     }
 }

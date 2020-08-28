@@ -54,14 +54,6 @@ class RenterLoginViewController: BaseViewController {
     
     lazy var areaGesture: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer.init()
-        //        tap.rx.event.subscribe(onNext:{[weak self] recognizer in
-        //            let vc = MobileZonesViewController()
-        //            vc.callBack = { areaCode in
-        //                self?.areaCode = areaCode
-        //                self?.areaLabel.text = "+" + areaCode
-        //            }
-        //            AppLinkManager.shared.present(vc, animated: true)
-        //        }).disposed(by: disposeBag)
         return tap
     }()
     

@@ -167,7 +167,7 @@ class LBXScanViewController: BaseViewController {
         
         NSLog("scanResult:\(result)")
         
-        if result.strScanned?.hasPrefix("http") ?? false {
+        if (result.strScanned?.hasPrefix("http") ?? false) && (result.strScanned?.contains("officego") ?? false) {
             
             let vc = OwnerScanLoginSuccessViewController()
             self.navigationController?.pushViewController(vc, animated: true)

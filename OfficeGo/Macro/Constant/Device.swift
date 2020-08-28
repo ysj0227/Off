@@ -51,3 +51,21 @@ func SSLog<T>(_ message: T, method: String = #function, line: Int = #line,fileNa
         print("[\(timeInterval)|\((fileName as NSString).lastPathComponent)|\(method)|\(line)]:\(message)")
 //    #endif
 }
+
+func NSLocalizedString(_ key: String, comment: String = "") -> String {
+    return key
+//    if UserInfo.shared().isPassed {
+//        return Bundle(path: Bundle.main.path(forResource: UserInfo.shared().perferLanguage().rawValue, ofType: "lproj") ?? "")?.localizedString(forKey: key, value: "", table: nil) ?? key
+//    } else {
+//        return Bundle(path: Bundle.main.path(forResource: "en", ofType: "lproj") ?? "")?.localizedString(forKey: key, value: "", table: nil) ?? key
+//    }
+}
+
+func MissionsLocalizedString(_ key: String, comment: String? = nil) -> String {
+    return NSLocalizedString(key, tableName: "Missions")
+}
+
+func NSLocalizedString(_ key: String, tableName: String?) -> String {
+//    return NSLocalizedString(key, tableName: tableName, bundle: Bundle(path: Bundle.main.path(forResource: UserInfo.shared().perferLanguage().rawValue, ofType: "lproj") ?? "") ?? Bundle.main, value: "", comment: "")
+    return key
+}
