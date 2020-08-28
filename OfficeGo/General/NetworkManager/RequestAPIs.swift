@@ -61,6 +61,10 @@ class SSDelegateURL: NSObject {
     static let h5OwnerStaffListUrl = "owner/staffList.html"
 }
 
+// MARK: --扫码登录pc
+class SSWebLoginURL: NSObject {
+    static let getWebLogin = "api/login/bindTokenUser"
+}
 
 //  MARK:   --房东认证接口
 class SSOwnerIdentifyURL: NSObject {

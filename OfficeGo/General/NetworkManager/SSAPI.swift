@@ -21,6 +21,7 @@ import Foundation
     enum BackgroundServerType: Int {
         case SSApiHost
         case SSH5Host
+        case SSWebHost
         case SensorsAnalyticsSDK
     }
     
@@ -40,19 +41,27 @@ import Foundation
     ///h5
     static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
                             "Release": "http://test1.officego.com.cn/"]
+    
+    static var SSWebHosts = ["Dev": "http://debugweb.officego.com.cn/",
+                             "Release": "http://debugweb.officego.com.cn/"]
+    
     ///神策
     static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
-                            "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
+                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
     
     
-//    ///预发测试环境
-//            static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
-//                                     "Release": "http://admin.officego.com.cn/"]
+    //    ///预发测试环境
+//    static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
+//                             "Release": "http://admin.officego.com.cn/"]
 //
-//            static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
-//                                     "Release": "http://test.officego.com.cn/"]
+//    static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
+//                            "Release": "http://test.officego.com.cn/"]
+//
+//    static var SSWebHosts = ["Dev": "http://debugweb.officego.com.cn/",
+//                             "Release": "http://debugweb.officego.com.cn/"]
+//
 //    static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
-//                            "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
+//                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
     
     
     ///正式环境
@@ -61,9 +70,12 @@ import Foundation
 //
 //    static var SSH5Hosts = ["Dev": "https://m.officego.com/",
 //                            "Release": "https://m.officego.com/"]
-    
+//
+//    static var SSWebHosts = ["Dev": "http://webapi.officego.com/",
+//                             "Release": "http://webapi.officego.com/"]
+//
 //    static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac",
-//                            "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac"]
+//                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac"]
     
     
     //    调试接口地址:debug.officego.com.cn
@@ -78,6 +90,9 @@ import Foundation
             
         case .SSH5Host:
             addrese = SSH5Hosts[buildType]!
+            
+        case .SSWebHost:
+            addrese = SSWebHosts[buildType]!
             
         case .SensorsAnalyticsSDK:
             addrese = SensorsAnalyticsSDKs[buildType]!
@@ -113,6 +128,8 @@ import Foundation
             url = SSApiHosts[releaseBuildType]!
         case .SSH5Host:
             url = SSH5Hosts[releaseBuildType]!
+        case .SSWebHost:
+             url = SSWebHosts[releaseBuildType]!
         case .SensorsAnalyticsSDK:
             url = SensorsAnalyticsSDKs[releaseBuildType]!
         }
@@ -128,6 +145,10 @@ import Foundation
     
     static var SSH5Host: String {
         return getUrlByServerType(serverType: .SSH5Host)
+    }
+    
+    static var SSWebHost: String {
+        return getUrlByServerType(serverType: .SSWebHost)
     }
     
     static var SensorsAnalyticsSDK: String {
@@ -159,6 +180,8 @@ extension SSAPI.BackgroundServerType: CustomStringConvertible {
             return "SSAPIHost"
         case .SSH5Host:
             return "SSH5Host"
+        case .SSWebHost:
+            return "SSWebHost"
         case .SensorsAnalyticsSDK:
             return "SensorsAnalyticsSDK"
         }

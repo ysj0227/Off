@@ -481,6 +481,16 @@ class SSNetworkTool: NSObject {
 
 extension SSNetworkTool {
     
+    ///扫码登录pc
+    class SSWebLogin: NSObject {
+        ///扫码web登录接口
+        static func request_webloign(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSWebLoginURL.getWebLogin)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSWebHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+    }
+    
     //  MARK:   --认证
     class SSOwnerIdentify: NSObject {
         

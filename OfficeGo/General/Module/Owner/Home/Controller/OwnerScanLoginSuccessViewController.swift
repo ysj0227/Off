@@ -59,6 +59,7 @@ class OwnerScanLoginSuccessViewController: BaseViewController {
         return button
     }()
     
+    var scanToken: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,12 +75,35 @@ class OwnerScanLoginSuccessViewController: BaseViewController {
         setUpView()
     }
     
-    @objc func login() {
+    func requestWebLogin() {
+        
+        var params = [String:AnyObject]()
+        params["uid"] = UserTool.shared.user_uid as AnyObject?
+        params["token"] = scanToken as AnyObject
+        SSNetworkTool.SSWebLogin.request_webloign(params: params, success: { [weak self] (response) in
+            
+            self?.dismissVc()
+
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    func dismissVc() {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
+    @objc func login() {
+        requestWebLogin()
+    }
+    
     @objc func cancelLogin() {
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        dismissVc()
     }
     
     func setUpView() {
