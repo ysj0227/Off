@@ -277,7 +277,8 @@ extension BaseWebViewController: WKNavigationDelegate {
     
     // 页面开始加载时调用
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        
+        noDataView.isHidden = true
+        LoadingHudView.showHud()
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {

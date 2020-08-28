@@ -332,6 +332,11 @@ extension JHBaseWebViewController: WKUIDelegate {
 
 extension JHBaseWebViewController: WKNavigationDelegate {
     
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        noDataView.isHidden = true
+        LoadingHudView.showHud()
+    }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         noDataView.isHidden = true
         LoadingHudView.hideHud()
