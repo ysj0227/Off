@@ -325,6 +325,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         setLoginVC()
         
         SSTool.invokeInMainThread {
+            
+            let tab = self.window?.rootViewController as? OwnerMainTabBarController
+            tab?.setbadge(num: 0)
+            
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
     }
