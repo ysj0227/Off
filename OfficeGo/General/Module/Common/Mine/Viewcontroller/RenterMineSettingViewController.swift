@@ -95,6 +95,10 @@ extension RenterMineSettingViewController {
             if UserTool.shared.user_id_type == 0 {
                 //不清空身份类型
                 UserTool.shared.removeAll()
+
+                let tab = self.navigationController?.tabBarController as? RenterMainTabBarController
+                tab?.setbadge(num: 0)
+                
                 self.leftBtnClick()
 
             }else if UserTool.shared.user_id_type == 1 {
