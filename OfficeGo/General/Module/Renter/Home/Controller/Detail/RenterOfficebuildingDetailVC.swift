@@ -429,6 +429,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         requestSet()
         
+         tableHeaderView.imgScanDelegate = self
     }
     
     /*
@@ -648,13 +649,14 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     
 }
 
-//MARK: CycleViewDelegate
-extension RenterOfficebuildingDetailVC: CycleViewDelegate{
-    func cycleViewDidSelectedItemAtIndex(_ index: NSInteger) {
-        //判断点击的是视频
-        if index == 0 {
-            
-        }
+///头部图片点击展示代理
+extension RenterOfficebuildingDetailVC: RenterDetailSourceViewImgScanDelegate{
+    func imgClickScan(index: Int, imgURLs: [String]) {
+        let vc = DVImageBrowserVC()
+        vc.images = imgURLs
+        vc.index = index
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true, completion: {})
     }
 }
 
@@ -909,7 +911,7 @@ extension RenterOfficebuildingDetailVC {
 extension RenterDetailSourceView: CycleViewDelegate{
     
     func cycleViewDidSelectedItemAtIndex(_ index: NSInteger) {
-        
+        imgScanDelegate?.imgClickScan(index: index, imgURLs: cycleView.imageURLStringArr)
     }
 }
 
@@ -918,7 +920,6 @@ extension RenterDetailSourceView: WMPlayerDelegate{
     func wmplayer(_ wmplayer: WMPlayer!, clickedPlayOrPause playOrPauseBtn: UIButton!) {
         
     }
-    
     //播放完毕的代理方法
     func wmplayerFinishedPlay(_ wmplayer: WMPlayer!) {
         
@@ -944,8 +945,15 @@ extension RenterDetailSourceView: WMPlayerDelegate{
     
 }
 
+
+public protocol RenterDetailSourceViewImgScanDelegate {
+    func imgClickScan(index: Int, imgURLs: [String])
+}
+
 class RenterDetailSourceView: UIView {
     
+    open var imgScanDelegate: RenterDetailSourceViewImgScanDelegate?
+
     deinit {
         wmPlayer?.pause()
         wmPlayer?.removeFromSuperview()

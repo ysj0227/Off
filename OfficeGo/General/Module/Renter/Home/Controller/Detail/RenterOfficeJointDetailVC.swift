@@ -430,6 +430,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         requestSet()
         
+         tableHeaderView.imgScanDelegate = self
     }
     /*
      ///调用创建聊天 -  判断是不是单房东
@@ -656,13 +657,14 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
 }
 
-//MARK: CycleViewDelegate
-extension RenterOfficeJointDetailVC: CycleViewDelegate{
-    func cycleViewDidSelectedItemAtIndex(_ index: NSInteger) {
-        //判断点击的是视频
-        if index == 0 {
-            
-        }
+///头部图片点击展示代理
+extension RenterOfficeJointDetailVC: RenterDetailSourceViewImgScanDelegate{
+    func imgClickScan(index: Int, imgURLs: [String]) {
+        let vc = DVImageBrowserVC()
+        vc.images = imgURLs
+        vc.index = index
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true, completion: {})
     }
 }
 

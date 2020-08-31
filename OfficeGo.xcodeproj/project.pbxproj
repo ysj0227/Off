@@ -38,6 +38,8 @@
 		046CEF9124F3D41B00B061B8 /* LBXScanLineAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8A24F3D41B00B061B8 /* LBXScanLineAnimation.swift */; };
 		046CEF9224F3D41B00B061B8 /* LBXScanNetAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF8B24F3D41B00B061B8 /* LBXScanNetAnimation.swift */; };
 		046CEF9424F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */; };
+		046F1A7A24FCD3EA0029A965 /* DVImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046F1A7824FCD3EA0029A965 /* DVImageCell.swift */; };
+		046F1A7B24FCD3EA0029A965 /* DVImageBrowserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046F1A7924FCD3EA0029A965 /* DVImageBrowserVC.swift */; };
 		047333252473D77700755192 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333242473D77700755192 /* UIView+Extension.swift */; };
 		047333272473D86500755192 /* Object+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333262473D86500755192 /* Object+ClassName.swift */; };
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
@@ -312,6 +314,8 @@
 		046CEF8A24F3D41B00B061B8 /* LBXScanLineAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanLineAnimation.swift; sourceTree = "<group>"; };
 		046CEF8B24F3D41B00B061B8 /* LBXScanNetAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanNetAnimation.swift; sourceTree = "<group>"; };
 		046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerScanLoginSuccessViewController.swift; sourceTree = "<group>"; };
+		046F1A7824FCD3EA0029A965 /* DVImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVImageCell.swift; sourceTree = "<group>"; };
+		046F1A7924FCD3EA0029A965 /* DVImageBrowserVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVImageBrowserVC.swift; sourceTree = "<group>"; };
 		047333242473D77700755192 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		047333262473D86500755192 /* Object+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Object+ClassName.swift"; sourceTree = "<group>"; };
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
@@ -597,6 +601,15 @@
 				046CEF8824F3D41A00B061B8 /* LBXScanWrapper.swift */,
 			);
 			path = ScanView;
+			sourceTree = "<group>";
+		};
+		046F1A7724FCD3DE0029A965 /* ImageBrower */ = {
+			isa = PBXGroup;
+			children = (
+				046F1A7924FCD3EA0029A965 /* DVImageBrowserVC.swift */,
+				046F1A7824FCD3EA0029A965 /* DVImageCell.swift */,
+			);
+			path = ImageBrower;
 			sourceTree = "<group>";
 		};
 		04990B7924B870E5008CDE6C /* Identification */ = {
@@ -1510,6 +1523,7 @@
 		EEE0D94C24655B2200E5C77B /* Venders */ = {
 			isa = PBXGroup;
 			children = (
+				046F1A7724FCD3DE0029A965 /* ImageBrower */,
 				046CEF8424F3D36600B061B8 /* ScanView */,
 				04990B8C24BBF719008CDE6C /* IDCardSelectView */,
 				04B2BE7A24B5D1EE00D0F963 /* GuideScrollview */,
@@ -2121,6 +2135,7 @@
 				04CB46D4249CAFE9001BCC8F /* HouseTypeCell.swift in Sources */,
 				04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */,
 				04E2394C249B3ABB009DCCEC /* RenterCollectOfficeBuuildingOrJointListViewController.swift in Sources */,
+				046F1A7B24FCD3EA0029A965 /* DVImageBrowserVC.swift in Sources */,
 				04E23937249B3ABB009DCCEC /* RenterHeaderItemSelectView.swift in Sources */,
 				0437CFB7247E1A5D0015C355 /* SSAPI.swift in Sources */,
 				04990B9324BBF719008CDE6C /* ZKIDCardCameraController.m in Sources */,
@@ -2198,6 +2213,7 @@
 				EEE87B192455856800C03424 /* JHSnapKitTool.swift in Sources */,
 				046CEF8E24F3D41B00B061B8 /* LBXScanViewController.swift in Sources */,
 				EE4914B524692D35008D5689 /* UIView+EasyFrame.m in Sources */,
+				046F1A7A24FCD3EA0029A965 /* DVImageCell.swift in Sources */,
 				EEB1F9D92459119B000500A3 /* BaseCollectionViewCell.swift in Sources */,
 				046CEF8D24F3D41B00B061B8 /* LBXScanView.swift in Sources */,
 				04EF1E45247777E400871762 /* SSTabBarItem.swift in Sources */,

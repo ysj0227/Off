@@ -197,6 +197,8 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
         bottomBtnView.rightBtnClickBlock = { [weak self] in
             self?.juddgeIsLogin(isCollect: false)
         }
+        
+         tableHeaderView.imgScanDelegate = self
     }
     
     func clickToChat(chatModel: MessageFYChattedModel) {
@@ -377,13 +379,16 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
     }
 }
 
-//MARK: CycleViewDelegate
-extension RenterOfficeJointFYDetailVC: CycleViewDelegate{
-    func cycleViewDidSelectedItemAtIndex(_ index: NSInteger) {
-        
+///头部图片点击展示代理
+extension RenterOfficeJointFYDetailVC: RenterDetailSourceViewImgScanDelegate{
+    func imgClickScan(index: Int, imgURLs: [String]) {
+        let vc = DVImageBrowserVC()
+        vc.images = imgURLs
+        vc.index = index
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true, completion: {})
     }
 }
-
 
 extension RenterOfficeJointFYDetailVC {
     
