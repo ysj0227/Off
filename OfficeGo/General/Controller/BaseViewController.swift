@@ -145,6 +145,14 @@ class BaseViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func imageBroswerVC(index: Int, images: [String]) {
+        let vc = DVImageBrowserVC()
+        vc.images = images
+        vc.index = index
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true, completion: {})
+    }
+    
     @objc func rightBtnClick() {
         
     }

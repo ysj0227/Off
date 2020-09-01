@@ -429,7 +429,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         requestSet()
         
-         tableHeaderView.imgScanDelegate = self
+        tableHeaderView.imgScanDelegate = self
     }
     
     /*

@@ -430,7 +430,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         requestSet()
         
-         tableHeaderView.imgScanDelegate = self
+        tableHeaderView.imgScanDelegate = self
     }
     /*
      ///调用创建聊天 -  判断是不是单房东

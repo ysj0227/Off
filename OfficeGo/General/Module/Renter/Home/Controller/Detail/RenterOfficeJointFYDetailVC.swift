@@ -198,7 +198,7 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
             self?.juddgeIsLogin(isCollect: false)
         }
         
-         tableHeaderView.imgScanDelegate = self
+        tableHeaderView.imgScanDelegate = self
     }
     
     func clickToChat(chatModel: MessageFYChattedModel) {
@@ -527,6 +527,42 @@ extension RenterOfficeJointFYDetailVC {
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+               
+        let type:FYDetailItemType = dataSourceArr[indexPath.section][indexPath.row]
+        switch type {
+            
+        case FYDetailItemType.FYDetailItemOfficeBuildingNameView,
+             FYDetailItemType.FYDetailItemTypeJointNameView,
+             FYDetailItemType.FYDetailItemTypeOfficeDeatail,
+             FYDetailItemType.FYDetailItemTypeAmbitusMating,
+             FYDetailItemType.FYDetailItemTypeTraffic,
+             FYDetailItemType.FYDetailItemTypeFeature,
+             FYDetailItemType.FYDetailItemTypeLianheOpenList,
+             FYDetailItemType.FYDetailItemTypeFYList,
+             FYDetailItemType.FYDetailItemTypeShareServices: break
+            
+            
+        case .FYDetailItemTypeHuxing:
+            
+            if let unitPattern = buildingFYDetailModel?.house?.basicInformation?.unitPatternImg {
+                imageBroswerVC(index: 0, images: [unitPattern])
+            }
+            
+            //, images: <#[String]#>            if let vrArr = buildingFYDetailModel?.vrUrl {
+//                if vrArr.count > 0 {
+//                    let vrModel = vrArr[0]
+//                    let vc = DVImageBrowserVC()
+//                    vc.images = [vrModel.imgUrl ?? ""]
+//                    vc.index = 0
+//                    vc.modalPresentationStyle = .overFullScreen
+//                    self.present(vc, animated: true, completion: {})
+//                }else {
+//
+//                }
+//            }
+        }
+    }
     
 }
 
