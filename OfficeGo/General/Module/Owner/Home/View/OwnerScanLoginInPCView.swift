@@ -87,7 +87,6 @@ class OwnerScanLoginInPCView: UIView {
         }
         blockk()
         selfRemove()
-        UserTool.shared.isShowPCScanLogin = true
     }
     
     @objc func clickToPcScanView() {
@@ -99,6 +98,7 @@ class OwnerScanLoginInPCView: UIView {
     }
     
     func selfRemove() {
+        UserTool.shared.isShowPCScanLogin = true
         self.removeFromSuperview()
     }
     

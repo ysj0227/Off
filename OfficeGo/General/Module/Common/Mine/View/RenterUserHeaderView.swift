@@ -243,6 +243,7 @@ class RenterUserHeaderView: UIView {
             make.top.equalTo(nameLabel.snp.bottom)
             make.leading.equalTo(nameLabel)
             make.height.equalTo(28)
+            make.trailing.equalToSuperview()
         }
         loginbutton.snp.makeConstraints { (make) in
             make.centerY.equalTo(headerImg)
