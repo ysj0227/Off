@@ -7,6 +7,7 @@
 //
 
 import WebKit
+import JavaScriptCore
 
 class BaseWebViewController: BaseViewController, UINavigationControllerDelegate {
     

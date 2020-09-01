@@ -6,6 +6,7 @@
 //  Copyright © 2020 dengfei. All rights reserved.
 
 import WebKit
+import JavaScriptCore
 
 class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegate  {
 
