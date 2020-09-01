@@ -240,9 +240,9 @@ class RenterUserHeaderView: UIView {
         aduitStatusView.layer.cornerRadius = 9
         
         introductionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(nameLabel.snp.bottom)
+            make.top.equalTo(nameLabel.snp.bottom).offset(-10)
             make.leading.equalTo(nameLabel)
-            make.height.equalTo(28)
+            make.height.equalTo(48)
             make.trailing.equalToSuperview()
         }
         loginbutton.snp.makeConstraints { (make) in
