@@ -24,17 +24,46 @@ class FangYuanBuildingFYDetailViewModel: NSObject {
     ///是否收藏：为0时是未为收藏 ，其他是已经收藏
     var IsFavorite : Bool?
     var houseViewModel : FangYuanBuildingFYDetailHouseViewModel?
-    var imgUrl: [BannerModel]?
-    var videoUrl : [BannerModel]?
-    var vrUrl : [BannerModel]?
+        
+    var imgUrl: [String]?       //banner图片
+    var videoUrl : [String]?
+    var vrUrl : [String]?
+    
+    var isHasVideo: Bool?
+    var isHasVR: Bool?
+    
     init(model:FangYuanBuildingFYDetailModel) {
         btype = model.btype
         IsFavorite = model.IsFavorite
         model.house?.basicInformation?.btype = model.btype
         houseViewModel = FangYuanBuildingFYDetailHouseViewModel.init(model: model.house ?? FangYuanBuildingFYDetailHouseModel())
-        imgUrl = model.imgUrl
-        videoUrl = model.videoUrl
-        vrUrl = model.vrUrl
+        
+        if let vrArr = model.vrUrl {
+            if vrArr.count > 0 {
+                vrUrl = []
+                isHasVR = true
+                for vrmodel in vrArr {
+                    vrUrl?.append(vrmodel.imgUrl ?? "")
+                }
+            }
+        }
+        if let vrArr = model.videoUrl {
+            if vrArr.count > 0 {
+                isHasVideo = true
+                videoUrl = []
+                for vrmodel in vrArr {
+                    videoUrl?.append(vrmodel.imgUrl ?? "")
+                }
+            }
+        }
+        if let vrArr = model.imgUrl {
+            if vrArr.count > 0 {
+                imgUrl = []
+                for vrmodel in vrArr {
+                    imgUrl?.append(vrmodel.imgUrl ?? "")
+                }
+            }
+        }
     }
 }
 class FangYuanBuildingFYDetailHouseModel: BaseModel {

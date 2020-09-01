@@ -127,41 +127,69 @@ class ButtonCycleSelectItemView: UIView {
         block(btn.tag)
     }
     
+    func getTitleStringFromEnum(type: BuildingDetailHeaderTypeEnum) -> String {
+        switch type {
+        case .vr:
+            return BuildingDetailHeaderTitleEnum.vr.rawValue
+        case .video:
+            return BuildingDetailHeaderTitleEnum.video.rawValue
+        case .image:
+            return BuildingDetailHeaderTitleEnum.image.rawValue       
+        }
+    }
+    
+    var titleArrs: [BuildingDetailHeaderTypeEnum] = [] {
+        didSet {
+            
+            if titleArrs.count <= 0 {
+                return
+            }
+            
+            let x: Int = 0
+    
+            let itemWidth: Int = Int(self.width) / titleArrs.count
+            for title in titleArrs {
+                let index = titleArrs.lastIndex(of: title)
+                let view = UIButton()
+                view.setTitle(getTitleStringFromEnum(type: title), for: .normal)
+                view.titleLabel?.font = FONT_MEDIUM_10
+                ///tag值是固定的
+                view.tag = title.rawValue
+                view.addTarget(self, action: #selector(btnCycleClick(btn:)), for: .touchUpInside)
+                view.setTitleColor(kAppBlueColor, for: .normal)
+                view.frame = CGRect(x: (x + itemWidth) * (index ?? 0), y: 0, width: itemWidth + 1, height: Int(self.height))
+                view.clipsToBounds = true
+                self.addSubview(view)
+                
+                
+                //设置第一个按钮位选中 - tag为1
+                if index == selectedIndex {
+                    selectedBtn = view
+                }
+            }
+            setCycleselected(btn: selectedBtn ?? UIButton())
+            guard let block = buttonCallBack else {
+                return
+            }
+            block(selectedBtn?.tag ?? 1)
+        }
+    }
+    
+    var selectedIndex: Int?
+    
     //详情三个按钮点击切换
-    public required init(frame: CGRect, titleArrs:[String], selectedIndex: Int) {        super.init(frame: frame)
-        self.frame = frame
+    public required init(frame: CGRect, selectedindex: Int) {
         
+        super.init(frame: frame)
+        
+        self.frame = frame
+                
         self.backgroundColor = kAppWhiteColor
         
         self.clipsToBounds = true
         self.layer.cornerRadius = self.height / 2.0
-        
-        let x: Int = 0
-        let itemWidth: Int = Int(self.width) / titleArrs.count
-        for title in titleArrs {
-            let index = titleArrs.lastIndex(of: title)
-            let view = UIButton()
-            view.setTitle(title, for: .normal)
-            view.titleLabel?.font = FONT_MEDIUM_10
-            view.tag = index ?? 0
-            view.tag += 1
-            view.addTarget(self, action: #selector(btnCycleClick(btn:)), for: .touchUpInside)
-            view.setTitleColor(kAppBlueColor, for: .normal)
-            view.frame = CGRect(x: (x + itemWidth) * (index ?? 0), y: 0, width: itemWidth + 1, height: Int(self.height))
-            view.clipsToBounds = true
-            self.addSubview(view)
             
-            
-            //设置第一个按钮位选中 - tag为1
-            if index == selectedIndex {
-                selectedBtn = view
-            }
-        }
-        setCycleselected(btn: selectedBtn ?? UIButton())
-        guard let block = buttonCallBack else {
-            return
-        }
-        block(selectedBtn?.tag ?? 1)
+        selectedIndex = selectedindex
         
     }
     

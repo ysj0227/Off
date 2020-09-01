@@ -5,12 +5,7 @@
 //  Created by DENGFei on 2020/4/26.
 //  Copyright © 2020 dengfei. All rights reserved.
 
-import UIKit
-import JavaScriptCore
 import WebKit
-import RxSwift
-import RxCocoa
-import SwiftyJSON
 
 class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegate  {
 
@@ -44,7 +39,6 @@ class JHBaseWebViewController: BaseViewController, UINavigationControllerDelegat
         view.uiDelegate = self
         return view
     }()
-    let disposeBag = DisposeBag()
     
     init(protocalType: OwnerIdentifyOrFYType) {
         super.init(nibName: nil, bundle: nil)

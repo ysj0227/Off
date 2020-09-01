@@ -586,7 +586,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         titleview?.titleLabel.text = buildingDetailViewModel?.buildingViewModel?.buildingName
         
-        tableHeaderView.model = self.buildingDetailModel ?? FangYuanBuildingDetailModel()
+        tableHeaderView.model = buildingDetailViewModel ?? FangYuanBuildingDetailViewModel.init(model: buildingDetailModel ?? FangYuanBuildingDetailModel())
     }
     
     //MARK: 调用详情接口 -
@@ -659,6 +659,18 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
 
 ///头部图片点击展示代理
 extension RenterOfficeJointDetailVC: RenterDetailSourceViewImgScanDelegate{
+    func vrClick() {
+        if let vrArr = buildingDetailModel?.vrUrl {
+            if vrArr.count > 0 {
+                let vrModel = vrArr[0]
+                let vc = VRScanWebViewController()
+                vc.urlString = vrModel.imgUrl
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
+    }
+    
     func imgClickScan(index: Int, imgURLs: [String]) {
         let vc = DVImageBrowserVC()
         vc.images = imgURLs

@@ -321,7 +321,8 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
         
         titleview?.titleLabel.text = buildingFYDetailViewModel?.houseViewModel?.buildingName
         
-        tableHeaderView.FYModel = self.buildingFYDetailModel ?? FangYuanBuildingFYDetailModel()
+        tableHeaderView.FYModel = buildingFYDetailViewModel ?? FangYuanBuildingFYDetailViewModel.init(model: buildingFYDetailModel ?? FangYuanBuildingFYDetailModel())
+
     }
     
     //MARK: 调用详情接口 -
@@ -381,6 +382,18 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
 
 ///头部图片点击展示代理
 extension RenterOfficeJointFYDetailVC: RenterDetailSourceViewImgScanDelegate{
+    func vrClick() {
+        if let vrArr = buildingFYDetailModel?.vrUrl {
+            if vrArr.count > 0 {
+                let vrModel = vrArr[0]
+                let vc = VRScanWebViewController()
+                vc.urlString = vrModel.imgUrl
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
+    }
+    
     func imgClickScan(index: Int, imgURLs: [String]) {
         let vc = DVImageBrowserVC()
         vc.images = imgURLs

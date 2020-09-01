@@ -40,6 +40,7 @@
 		046CEF9424F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */; };
 		046F1A7A24FCD3EA0029A965 /* DVImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046F1A7824FCD3EA0029A965 /* DVImageCell.swift */; };
 		046F1A7B24FCD3EA0029A965 /* DVImageBrowserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046F1A7924FCD3EA0029A965 /* DVImageBrowserVC.swift */; };
+		046F1A7D24FDF0690029A965 /* VRScanWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046F1A7C24FDF0680029A965 /* VRScanWebViewController.swift */; };
 		047333252473D77700755192 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333242473D77700755192 /* UIView+Extension.swift */; };
 		047333272473D86500755192 /* Object+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333262473D86500755192 /* Object+ClassName.swift */; };
 		047333312475322400755192 /* CustomerSearchBarview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047333302475322400755192 /* CustomerSearchBarview.swift */; };
@@ -316,6 +317,7 @@
 		046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerScanLoginSuccessViewController.swift; sourceTree = "<group>"; };
 		046F1A7824FCD3EA0029A965 /* DVImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVImageCell.swift; sourceTree = "<group>"; };
 		046F1A7924FCD3EA0029A965 /* DVImageBrowserVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVImageBrowserVC.swift; sourceTree = "<group>"; };
+		046F1A7C24FDF0680029A965 /* VRScanWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRScanWebViewController.swift; sourceTree = "<group>"; };
 		047333242473D77700755192 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		047333262473D86500755192 /* Object+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Object+ClassName.swift"; sourceTree = "<group>"; };
 		047333302475322400755192 /* CustomerSearchBarview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBarview.swift; sourceTree = "<group>"; };
@@ -1755,6 +1757,7 @@
 				EEE87B7324559FE600C03424 /* BaseWebViewController.swift */,
 				EEE87B7624559FE700C03424 /* UICollectionViewLeftAlignedLayout.swift */,
 				EE353EC02456DC8E00057545 /* BaseTableViewController.swift */,
+				046F1A7C24FDF0680029A965 /* VRScanWebViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2003,6 +2006,7 @@
 				04121F2F24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift in Sources */,
 				EEE0D93B2465581200E5C77B /* FontConstant.swift in Sources */,
 				04E23923249B3ABB009DCCEC /* RenterHomePageViewController.swift in Sources */,
+				046F1A7D24FDF0690029A965 /* VRScanWebViewController.swift in Sources */,
 				04E23938249B3ABB009DCCEC /* RenterDetailOfficeListCell.swift in Sources */,
 				EE7F54B42456685E0010073B /* User.swift in Sources */,
 				04CB46DF249CAFE9001BCC8F /* LoginModel.swift in Sources */,

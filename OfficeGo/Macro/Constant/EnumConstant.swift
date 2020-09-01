@@ -8,7 +8,22 @@
 
 import UIKit
 
+///楼盘房源详情- vr 视频 图片展示
+enum BuildingDetailHeaderTypeEnum: Int {
+//    case vr = "VR"
+//    case video = "视频"
+//    case image = "图片"
+    case vr = 1
+    case video = 2
+    case image = 3
+}
 
+///楼盘房源详情- vr 视频 图片展示
+enum BuildingDetailHeaderTitleEnum: String {
+    case vr = "VR"
+    case video = "视频"
+    case image = "图片"
+}
 
 //性别
 public enum UserSex: String {

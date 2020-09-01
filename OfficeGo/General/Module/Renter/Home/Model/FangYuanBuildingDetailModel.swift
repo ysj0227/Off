@@ -33,7 +33,6 @@ class FangYuanBuildingDetailViewModel: NSObject {
     var IsFavorite : Bool?
     var buildingViewModel : FangYuanBuildingBuildingViewModel?
     var factorMap :FangYuanBuildingFactorModel?
-    var imgUrl: [BannerModel]?       //banner图片
     var introductionViewModel : FangYuanBuildingIntroductionlViewModel?
     ///特色
     var tagsString: [String]?             //特色
@@ -41,8 +40,13 @@ class FangYuanBuildingDetailViewModel: NSObject {
     ///特色高度
     var tagsHeight: CGFloat?
     
-    var videoUrl : [BannerModel]?
-    var vrUrl : [BannerModel]?
+    var imgUrl: [String]?       //banner图片
+    var videoUrl : [String]?
+    var vrUrl : [String]?
+    
+    var isHasVideo: Bool?
+    var isHasVR: Bool?
+    
     //用户id 发布者
     var userId : String?
     
@@ -55,7 +59,6 @@ class FangYuanBuildingDetailViewModel: NSObject {
         buildingViewModel = FangYuanBuildingBuildingViewModel.init(model: model.building ?? FangYuanBuildingBuildingModel())
         model.factorMap?.btype = model.btype
         factorMap = model.factorMap
-        imgUrl = model.imgUrl
         introductionViewModel = FangYuanBuildingIntroductionlViewModel.init(model: model.introduction ?? FangYuanBuildingIntroductionModel())
         
         //特色
@@ -86,8 +89,32 @@ class FangYuanBuildingDetailViewModel: NSObject {
             }
         }
         
-        videoUrl = model.videoUrl
-        vrUrl = model.vrUrl
+        if let vrArr = model.vrUrl {
+            if vrArr.count > 0 {
+                vrUrl = []
+                isHasVR = true
+                for vrmodel in vrArr {
+                    vrUrl?.append(vrmodel.imgUrl ?? "")
+                }
+            }
+        }
+        if let vrArr = model.videoUrl {
+            if vrArr.count > 0 {
+                isHasVideo = true
+                videoUrl = []
+                for vrmodel in vrArr {
+                    videoUrl?.append(vrmodel.imgUrl ?? "")
+                }
+            }
+        }
+        if let vrArr = model.imgUrl {
+            if vrArr.count > 0 {
+                imgUrl = []
+                for vrmodel in vrArr {
+                    imgUrl?.append(vrmodel.imgUrl ?? "")
+                }
+            }
+        }
     }
 }
 

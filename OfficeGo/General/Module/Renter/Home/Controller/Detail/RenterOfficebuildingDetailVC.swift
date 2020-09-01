@@ -581,7 +581,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         
         titleview?.titleLabel.text = buildingDetailViewModel?.buildingViewModel?.buildingName
         
-        tableHeaderView.model = self.buildingDetailModel ?? FangYuanBuildingDetailModel()
+        tableHeaderView.model = buildingDetailViewModel ?? FangYuanBuildingDetailViewModel.init(model: buildingDetailModel ?? FangYuanBuildingDetailModel())
     }
     
     //MARK: 调用详情接口 -
@@ -651,6 +651,18 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
 
 ///头部图片点击展示代理
 extension RenterOfficebuildingDetailVC: RenterDetailSourceViewImgScanDelegate{
+    func vrClick() {
+        if let vrArr = buildingDetailModel?.vrUrl {
+            if vrArr.count > 0 {
+                let vrModel = vrArr[0]
+                let vc = VRScanWebViewController()
+                vc.urlString = vrModel.imgUrl
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
+    }
+    
     func imgClickScan(index: Int, imgURLs: [String]) {
         let vc = DVImageBrowserVC()
         vc.images = imgURLs
@@ -947,7 +959,12 @@ extension RenterDetailSourceView: WMPlayerDelegate{
 
 
 public protocol RenterDetailSourceViewImgScanDelegate {
+    
+    ///图片点击查看代理
     func imgClickScan(index: Int, imgURLs: [String])
+    
+    ///vr点击查看
+    func vrClick()
 }
 
 class RenterDetailSourceView: UIView {
@@ -970,65 +987,125 @@ class RenterDetailSourceView: UIView {
         wmPlayer = nil
     }
     
-    var model: FangYuanBuildingDetailModel = FangYuanBuildingDetailModel() {
+    var model: FangYuanBuildingDetailViewModel = FangYuanBuildingDetailViewModel(model: FangYuanBuildingDetailModel()) {
         didSet {
             
-            if let imgArr = model.imgUrl {
-                var arr: [String] = []
-                for imgModel in imgArr {
-                    arr.append(imgModel.imgUrl ?? "")
-                }
-                self.cycleView.imageURLStringArr = arr
+            self.cycleView.imageURLStringArr = model.imgUrl ?? []
+            if model.imgUrl?.count ?? 0 > 0 {
+                vrView.setImage(with: model.imgUrl?[0] ?? "")
             }
             
-            if let videoArr = model.videoUrl {
-                if videoArr.count > 0 {
-                    videoView.isHidden = false
-                    changeBtnView.isHidden = false
-                    let videoModel = videoArr[0]
-                    let player = WMPlayerModel()
-                    //            model.title = "视频"
-                    player.videoURL = URL.init(string: videoModel.imgUrl ?? "")
-                    //                model.videoURL = URL.init(string: "http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4")
-                    playerModel = player
-                }else {
-                    videoView.isHidden = true
-                    changeBtnView.isHidden = true
-                }
-            }else {
+            ///只要有vr，其他的都隐藏
+            if model.isHasVR == true {
+                
+                changeBtnView.isHidden = false
+                
+                vrView.isHidden = false
                 videoView.isHidden = true
-                changeBtnView.isHidden = true
+                wmPlayer?.isHidden = true
+                cycleView.isHidden = true
+                
+                if model.isHasVideo == true {
+                    
+                    let videoUrl = model.vrUrl?[0]
+                    let player = WMPlayerModel()
+                    player.videoURL = URL.init(string: videoUrl ?? "")
+                    playerModel = player
+                    
+                    changeBtnView.titleArrs = [BuildingDetailHeaderTypeEnum.vr, BuildingDetailHeaderTypeEnum.video, BuildingDetailHeaderTypeEnum.image]
+                }
+                
+            } else {
+                
+                ///没有vr
+                ///有视频
+                if model.isHasVideo == true {
+                    
+                    let videoUrl = model.vrUrl?[0]
+                    let player = WMPlayerModel()
+                    player.videoURL = URL.init(string: videoUrl ?? "")
+                    playerModel = player
+                    
+                    changeBtnView.isHidden = false
+                    
+                    changeBtnView.titleArrs = [ BuildingDetailHeaderTypeEnum.video, BuildingDetailHeaderTypeEnum.image]
+
+                    vrView.isHidden = true
+                    videoView.isHidden = false
+                    wmPlayer?.isHidden = false
+                    cycleView.isHidden = true
+                    
+                }else {
+                    ///没视频
+                    
+                    changeBtnView.isHidden = true
+                    
+                    changeBtnView.titleArrs = []
+
+                    vrView.isHidden = true
+                    videoView.isHidden = true
+                    wmPlayer?.isHidden = true
+                    cycleView.isHidden = false
+                    
+                }
             }
         }
     }
     
-    var FYModel: FangYuanBuildingFYDetailModel = FangYuanBuildingFYDetailModel() {
+    var FYModel: FangYuanBuildingFYDetailViewModel = FangYuanBuildingFYDetailViewModel(model: FangYuanBuildingFYDetailModel()) {
         didSet {
             
-            if let imgArr = FYModel.imgUrl {
-                var arr: [String] = []
-                for imgModel in imgArr {
-                    arr.append(imgModel.imgUrl ?? "")
-                }
-                self.cycleView.imageURLStringArr = arr
+            self.cycleView.imageURLStringArr = FYModel.imgUrl ?? []
+            if FYModel.imgUrl?.count ?? 0 > 0 {
+                vrView.setImage(with: FYModel.imgUrl?[0] ?? "")
             }
-            if let videoArr = FYModel.videoUrl {
-                if videoArr.count > 0 {
-                    videoView.isHidden = false
-                    changeBtnView.isHidden = false
-                    let videoModel = videoArr[0]
-                    let player = WMPlayerModel()
-                    //            model.title = "视频"
-                    player.videoURL = URL.init(string: videoModel.imgUrl ?? "")
-                    //                model.videoURL = URL.init(string: "http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4")
-                    playerModel = player
-                }else {
-                    videoView.isHidden = true
-                    changeBtnView.isHidden = true
-                }
-            }else {
+            
+            ///只要有vr，其他的都隐藏
+            if FYModel.isHasVR == true {
+                
+                changeBtnView.isHidden = false
+
+                vrView.isHidden = false
                 videoView.isHidden = true
-                changeBtnView.isHidden = true
+                wmPlayer?.isHidden = true
+                cycleView.isHidden = true
+                
+                if FYModel.isHasVideo == true {
+                    let videoUrl = FYModel.vrUrl?[0]
+                    let player = WMPlayerModel()
+                    player.videoURL = URL.init(string: videoUrl ?? "")
+                    playerModel = player
+                }
+                
+            } else {
+                
+                ///没有vr
+                ///有视频
+                if FYModel.isHasVideo == true {
+                    
+                    let videoUrl = FYModel.vrUrl?[0]
+                    let player = WMPlayerModel()
+                    player.videoURL = URL.init(string: videoUrl ?? "")
+                    playerModel = player
+                    
+                    changeBtnView.isHidden = false
+
+                    vrView.isHidden = true
+                    videoView.isHidden = false
+                    wmPlayer?.isHidden = false
+                    cycleView.isHidden = true
+                    
+                }else {
+                    ///没视频
+                    
+                    changeBtnView.isHidden = true
+
+                    vrView.isHidden = true
+                    videoView.isHidden = true
+                    wmPlayer?.isHidden = true
+                    cycleView.isHidden = false
+                    
+                }
             }
         }
     }
@@ -1047,6 +1124,22 @@ class RenterDetailSourceView: UIView {
         let view = UIView.init(frame: self.frame)
         view.isHidden = true
         view.backgroundColor = kAppBlackColor
+        return view
+    }()
+    
+    //vr播放view
+    lazy var vrView: BaseImageView = {
+        let view = BaseImageView.init(frame: self.frame)
+        view.isHidden = true
+        view.isUserInteractionEnabled = true
+        view.backgroundColor = kAppClearColor
+        return view
+    }()
+    
+    //vr播放按钮
+    lazy var vrPlayBtn: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage.init(named: "vrPlay"), for: .normal)
         return view
     }()
     
@@ -1070,13 +1163,17 @@ class RenterDetailSourceView: UIView {
     }
     
     var changeBtnView: ButtonCycleSelectItemView = {
-        let view = ButtonCycleSelectItemView.init(frame: CGRect(x: (kWidth - 45 * 3) / 2.0, y: 220, width: 45 * 3, height: 24), titleArrs: ["视频", "图片"], selectedIndex: 0)
+        let view = ButtonCycleSelectItemView.init(frame: CGRect(x: (kWidth - 45 * 3) / 2.0, y: 220, width: 45 * 3, height: 24), selectedindex: 0)
         view.isHidden = true
         return view
     }()
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func vrPlay() {
+        imgScanDelegate?.vrClick()
     }
     
     override init(frame: CGRect) {
@@ -1087,15 +1184,32 @@ class RenterDetailSourceView: UIView {
         
         addSubview(cycleView)
         addSubview(videoView)
+        addSubview(vrView)
+        vrView.addSubview(vrPlayBtn)
+        vrPlayBtn.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.size.equalTo(50)
+        }
+        vrPlayBtn.addTarget(self, action: #selector(vrPlay), for: .touchUpInside)
+        
         addSubview(changeBtnView)
         
         changeBtnView.buttonCallBack = {[weak self] (index) in
             
             if index == 1 {
+                self?.vrView.isHidden = false
+                self?.videoView.isHidden = true
+                self?.wmPlayer?.isHidden = true
+                self?.cycleView.isHidden = true
+                self?.wmPlayer?.pause()
+            }else if index == 2 {
+                self?.vrView.isHidden = true
                 self?.videoView.isHidden = false
                 self?.wmPlayer?.isHidden = false
                 self?.cycleView.isHidden = true
-            }else {
+                self?.wmPlayer?.pause()
+            }else if index == 3 {
+                self?.vrView.isHidden = true
                 self?.videoView.isHidden = true
                 self?.wmPlayer?.isHidden = true
                 self?.cycleView.isHidden = false
