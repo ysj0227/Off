@@ -399,11 +399,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                 setLoginVC()
             }
         }else {
-            let rolechangeVC = LoginRoleViewController()
-            let rolechangeNav = BaseNavigationViewController.init(rootViewController: rolechangeVC)
-            rolechangeNav.navigationBar.isHidden = true
-            window?.rootViewController = rolechangeNav
-            
+            UserTool.shared.user_id_type = 0
+            //然后设置tabbar
+            setRenterTabar()
         }
     }
     
