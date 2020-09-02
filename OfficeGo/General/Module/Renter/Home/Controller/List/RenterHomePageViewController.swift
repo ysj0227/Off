@@ -78,7 +78,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
             //工位数 - 网点要
             if recommendSelectModel.typeModel.type == .jointOfficeEnum {
                 
-                if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue && self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.minimumValue {
                     shaixuanString = ""
                 }else {
                     shaixuanString = "have"
@@ -86,7 +86,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
                 
             }else if recommendSelectModel.typeModel.type == .officeBuildingEnum {
                 
-                if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue && self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.minimumValue {
                     shaixuanString = ""
                 }else {
                     shaixuanString = "have"

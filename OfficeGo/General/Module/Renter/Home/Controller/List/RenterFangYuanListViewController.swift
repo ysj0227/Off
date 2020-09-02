@@ -317,15 +317,15 @@ class RenterFangYuanListViewController: BaseTableViewController {
             if btype == 2 {
                 
                 if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
-//                    gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum)
+                    gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum)
                 }else {
                     gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0)
                 }
                 
                 params["seats"] = gongweiExtentStr as AnyObject?
                 
-                if self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue {
-//                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.noLimitNum)
+                if self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue  {
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.noLimitNum)
                 }else {
                     zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
                 }
@@ -340,7 +340,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
             }else if btype == 1 {
                 
                 if self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue {
-//                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.noLimitNum)
+                    zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.noLimitNum)
                 }else {
                     zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinofficeBuildingExtentModel.highValue ?? 0)
                 }
@@ -349,7 +349,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 var mianjiStr: String?
                     
                 if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
-//                    mianjiStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum)
+                    mianjiStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum)
                 }else {
                     mianjiStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
                 }
@@ -512,7 +512,7 @@ extension RenterFangYuanListViewController {
             //工位数 - 网点要
             if recommendSelectModel.typeModel.type == .jointOfficeEnum {
                 
-                if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue && self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.minimumValue {
                     shaixuanString = ""
                 }else {
                     shaixuanString = "have"
@@ -520,7 +520,7 @@ extension RenterFangYuanListViewController {
                 
             }else if recommendSelectModel.typeModel.type == .officeBuildingEnum {
                 
-                if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue && self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.minimumValue {
                     shaixuanString = ""
                 }else {
                     shaixuanString = "have"
@@ -659,19 +659,27 @@ class RenterShaixuanView: UIView {
                
                 //工位数 - 网点要
                 if houseSelectModel.typeModel.type == .jointOfficeEnum {
-
-                    if self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                    
+                    if self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue && self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue == self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.minimumValue {
                         shaixuanString = ""
                     }else {
-                        shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0) + "人" + "  x" + "  "
+                        if self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
+                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum) + "人" + "  x" + "  "
+                        }else {
+                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0) + "人" + "  x" + "  "
+                        }
                     }
                     
                 }else if houseSelectModel.typeModel.type == .officeBuildingEnum {
                     
-                    if self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                    if self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue && self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue == self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.minimumValue {
                         shaixuanString = ""
                     }else {
-                        shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0) + "m²" + "  x" + "  "
+                        if self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum) + "m²" + "  x" + "  "
+                        }else {
+                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0) + "m²" + "  x" + "  "
+                        }
                     }
                 }else {
                     shaixuanString = ""

@@ -207,7 +207,7 @@ extension IWantToFindViewController {
             
             //办公室 - 面积传值
             var mianjiStr: String?
-            if self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
+            if self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue && self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue == self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.minimumValue {
                 mianjiStr = String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum)
             }else {
                 mianjiStr = String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.selectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0)
