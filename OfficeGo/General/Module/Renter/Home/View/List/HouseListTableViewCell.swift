@@ -18,6 +18,19 @@ class HouseListTableViewCell: BaseTableViewCell {
         return view
     }()
     
+    ///楼盘类型展示label
+    lazy var houseTypTags: UILabel = {
+        let view = UILabel()
+//        view.textAlignment = .center
+        view.font = FONT_10
+        view.textColor = kAppWhiteColor
+        view.backgroundColor = kAppBlueColor
+        view.clipsToBounds = true
+        view.layer.cornerRadius = button_cordious_2
+        view.isHidden = true
+        return view
+    }()
+    
     lazy var houseNameLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
@@ -122,10 +135,19 @@ class HouseListTableViewCell: BaseTableViewCell {
         addSubview(featureView)
         addSubview(lineView)
         
+        addSubview(houseTypTags)
+        
         houseImageview.snp.makeConstraints { (make) in
             make.leading.top.equalTo(left_pending_space_17)
             make.size.equalTo(92)
         }
+        
+        houseTypTags.snp.makeConstraints { (make) in
+            make.leading.top.equalTo(houseImageview)
+            make.height.equalTo(17)
+//            make.width.equalTo(60)
+        }
+        
         houseNameLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(houseImageview.snp.trailing).offset(13)
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
@@ -198,7 +220,15 @@ class HouseListTableViewCell: BaseTableViewCell {
         }
     }
     
+    ///列表页面
     func setCellWithViewModel(viewModel: FangYuanListViewModel) {
+        houseTypTags.isHidden = false
+        ///1是办公楼，2是共享办公
+        if viewModel.btype == 1 {
+            houseTypTags.text = "  办公楼  "
+        }else if viewModel.btype == 2 {
+            houseTypTags.text = "  共享办公  "
+        }
         houseImageview.setImage(with: viewModel.mainPicImgString ?? "", placeholder: UIImage(named: Default_1x1))
         houseNameLabel.text = viewModel.buildingName
         houseDistanceLabel.text = viewModel.distanceString
@@ -253,6 +283,7 @@ class HouseListTableViewCell: BaseTableViewCell {
         }
     }
     
+    ///预约看房页面
     func setCellWithMessageViewModel(viewModel: MessageFYViewModel) {
         houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage.init(named: Default_1x1))
         houseNameLabel.text = viewModel.buildingName
