@@ -12,6 +12,8 @@ import SwiftyJSON
 
 class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, LLSegmentedControlDelegate {
     
+    var bannerArr: [BannerModel?] = []
+    
     //推荐房源搜索model
     var recommendSelectModel: HouseSelectModel = HouseSelectModel() {
         didSet {
@@ -593,6 +595,7 @@ extension RenterHomePageViewController {
                 var arr: [String] = []
                 for model in decoratedArray {
                     arr.append(model?.img ?? "")
+                    weakSelf.bannerArr.append(model ?? BannerModel())
                 }
                 
                 //                weakSelf.setCycleImg()
@@ -640,7 +643,51 @@ extension RenterHomePageViewController {
 //MARK: CycleViewDelegate
 extension RenterHomePageViewController {
     func cycleViewDidSelectedItemAtIndex(_ index: NSInteger) {
-        
+        let banner = bannerArr[index]
+        ///类型:0不可跳转,1内链 2:富文本 3外链
+        if banner?.type == 0 {
+            
+        }else if banner?.type == 1 {
+            ///内链类型，1：楼盘详情，2:网点详情 3:楼盘房源详情,4:网点房源详情
+            ///pageId":,//内链类型的id
+            if banner?.pageType == 1 {
+                let model = FangYuanListModel()
+                model.btype = 1
+                model.id = banner?.pageId
+                let vc = RenterOfficebuildingDetailVC()
+                vc.buildingModel = model
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            }else if banner?.pageType == 2 {
+                let model = FangYuanListModel()
+                model.btype = 2
+                model.id = banner?.pageId
+                let vc = RenterOfficeJointDetailVC()
+                vc.buildingModel = model
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            }else if banner?.pageType == 3 {
+                let model = FangYuanBuildingOpenStationModel()
+                model.btype = 1
+                model.id = banner?.pageId
+                let vc = RenterOfficebuildingFYDetailVC()
+                vc.model = model
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if banner?.pageType == 4 {
+                let model = FangYuanBuildingOpenStationModel()
+                model.btype = 2
+                model.id = banner?.pageId
+                let vc = RenterOfficeJointFYDetailVC()
+                vc.model = model
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }else if banner?.type == 2 {
+            
+        }else if banner?.type == 3 {
+            let vc = BannerOutClickWebViewController()
+            vc.urlString = banner?.wurl
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
