@@ -992,7 +992,7 @@ class RenterDetailSourceView: UIView {
             
             self.cycleView.imageURLStringArr = model.imgUrl ?? []
             if model.imgUrl?.count ?? 0 > 0 {
-                vrView.setImage(with: model.imgUrl?[0] ?? "")
+                vrView.setImage(with: model.videoUrl?[0] ?? "")
             }
             
             ///只要有vr，其他的都隐藏
@@ -1021,7 +1021,7 @@ class RenterDetailSourceView: UIView {
                 ///有视频
                 if model.isHasVideo == true {
                     
-                    let videoUrl = model.vrUrl?[0]
+                    let videoUrl = model.videoUrl?[0]
                     let player = WMPlayerModel()
                     player.videoURL = URL.init(string: videoUrl ?? "")
                     playerModel = player
@@ -1064,17 +1064,20 @@ class RenterDetailSourceView: UIView {
             if FYModel.isHasVR == true {
                 
                 changeBtnView.isHidden = false
-
+                
                 vrView.isHidden = false
                 videoView.isHidden = true
                 wmPlayer?.isHidden = true
                 cycleView.isHidden = true
                 
                 if FYModel.isHasVideo == true {
-                    let videoUrl = FYModel.vrUrl?[0]
+                    
+                    let videoUrl = FYModel.videoUrl?[0]
                     let player = WMPlayerModel()
                     player.videoURL = URL.init(string: videoUrl ?? "")
                     playerModel = player
+                    
+                    changeBtnView.titleArrs = [BuildingDetailHeaderTypeEnum.vr, BuildingDetailHeaderTypeEnum.video, BuildingDetailHeaderTypeEnum.image]
                 }
                 
             } else {
@@ -1083,12 +1086,14 @@ class RenterDetailSourceView: UIView {
                 ///有视频
                 if FYModel.isHasVideo == true {
                     
-                    let videoUrl = FYModel.vrUrl?[0]
+                    let videoUrl = FYModel.videoUrl?[0]
                     let player = WMPlayerModel()
                     player.videoURL = URL.init(string: videoUrl ?? "")
                     playerModel = player
                     
                     changeBtnView.isHidden = false
+                    
+                    changeBtnView.titleArrs = [ BuildingDetailHeaderTypeEnum.video, BuildingDetailHeaderTypeEnum.image]
 
                     vrView.isHidden = true
                     videoView.isHidden = false
@@ -1099,6 +1104,8 @@ class RenterDetailSourceView: UIView {
                     ///没视频
                     
                     changeBtnView.isHidden = true
+                    
+                    changeBtnView.titleArrs = []
 
                     vrView.isHidden = true
                     videoView.isHidden = true
