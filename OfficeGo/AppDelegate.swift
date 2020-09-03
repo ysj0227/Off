@@ -252,8 +252,87 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
             return true
         }
         
-        let result = WXApi.handleOpen(url, delegate: self)
-        return result
+        /**
+        *拦截来自网页的自定义scheme URL，唤起指定页面
+        * test:///?page=/index.html#/home
+        */
+        ///url://officego/app
+        ///url://officego/app?btype=1&buildingId=123
+        ///url://officego/app?btype=1&houseId=123
+
+        if url.scheme == "url" {
+            
+            if url.host == "officego" && url.path == "/app" {
+                if UserTool.shared.user_id_type == 0 {
+                    SSTool.invokeInMainThread {
+                        let tab = self.window?.rootViewController as? RenterMainTabBarController
+                        tab?.selectedIndex = 0
+                        tab?.customTabBar.isHidden = false
+                        if let params = url.parametersFromQueryString {
+                            let btype = params["btype"]
+                            var buildingId: Int?
+                            var houseId: Int?
+                            if let buildingIdStr = params["buildingId"] {
+                                buildingId = (buildingIdStr as NSString).integerValue
+                            }
+                            if let houseIdStr = params["houseId"] {
+                                houseId = (houseIdStr as NSString).integerValue
+                            }
+                            if btype == "1" {
+                                if houseId != nil {
+                                    let model = FangYuanBuildingOpenStationModel()
+                                    model.btype = 1
+                                    model.id = houseId
+                                    let vc = RenterOfficebuildingFYDetailVC()
+                                    vc.model = model
+                                    tab?.customTabBar.isHidden = true
+                                    let nsv = (tab?.viewControllers?[0]) as! BaseNavigationViewController as BaseNavigationViewController
+                                    nsv.pushViewController(vc, animated: true)
+                                    
+                                }else if buildingId != nil {
+                                    let model = FangYuanListModel()
+                                    model.btype = 1
+                                    model.id = buildingId
+                                    let vc = RenterOfficebuildingDetailVC()
+                                    vc.buildingModel = model
+                                    tab?.customTabBar.isHidden = true
+                                    let nsv = (tab?.viewControllers?[0]) as! BaseNavigationViewController as BaseNavigationViewController
+                                    nsv.pushViewController(vc, animated: true)
+                                }
+                            }else if btype == "2" {
+                                
+                                if houseId != nil {
+                                    let model = FangYuanBuildingOpenStationModel()
+                                    model.btype = 2
+                                    model.id = houseId
+                                    let vc = RenterOfficebuildingFYDetailVC()
+                                    vc.model = model
+                                    tab?.customTabBar.isHidden = true
+                                    let nsv = (tab?.viewControllers?[0]) as! BaseNavigationViewController as BaseNavigationViewController
+                                    nsv.pushViewController(vc, animated: true)
+                                    
+                                }else if buildingId != nil {
+                                    let model = FangYuanBuildingOpenStationModel()
+                                    model.btype = 2
+                                    model.id = buildingId
+                                    let vc = RenterOfficeJointFYDetailVC()
+                                    vc.model = model
+                                    tab?.customTabBar.isHidden = true
+                                    let nsv = (tab?.viewControllers?[0]) as! BaseNavigationViewController as BaseNavigationViewController
+                                    nsv.pushViewController(vc, animated: true)
+                                }
+                                
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            return true
+        }else {
+            let result = WXApi.handleOpen(url, delegate: self)
+            return result
+        }
     }
     
     
@@ -714,4 +793,14 @@ extension AppDelegate: RCIMConnectionStatusDelegate {
         
     }
     
+}
+
+extension URL {
+    public var parametersFromQueryString : [String: String]? {
+        guard let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
+        let queryItems = components.queryItems else { return nil }
+        return queryItems.reduce(into: [String: String]()) { (result, item) in
+            result[item.name] = item.value
+        }
+    }
 }

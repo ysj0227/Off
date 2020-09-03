@@ -50,6 +50,16 @@
 				<string>sacc267397</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>officego</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>url</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
