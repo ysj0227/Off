@@ -265,26 +265,30 @@ extension OwnerMineViewController {
     }
     
     func showIdifyAlertview(identify: Int, auditStatus: Int, remark: String) {
-        let alert = SureAlertView(frame: self.view.frame)
-        var titleString: String = ""
-        var descString: String = ""
-        if auditStatus == -1 {
-            alert.messageLabel.textAlignment = .center
-            titleString = "未认证\n请先认证信息"
-        }else if auditStatus == 2 || auditStatus == 3 {
-            titleString = "审核未通过"
-            descString = remark
-            alert.messageLabel.textAlignment = .center
-        }
-        alert.bottomBtnView.rightSelectBtn.setTitle("去认证", for: .normal)
-        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: titleString, descMsg: descString, cancelButtonCallClick: {
-            
-        }) { [weak self] in
-            
-            guard let weakSelf = self else {return}
 
-            weakSelf.identifyVCClick(auditStatus: auditStatus, identify: identify)
+        if auditStatus == -1 {
+            
+            ///点击跳转认证页面
+            let vc = OwnerIdenfySelectVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }else if auditStatus == 2 || auditStatus == 3 {
+            
+            let alert = SureAlertView(frame: self.view.frame)
+            let titleString = "审核未通过"
+            let descString = remark
+            alert.messageLabel.textAlignment = .center
+            alert.bottomBtnView.rightSelectBtn.setTitle("去认证", for: .normal)
+            alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: titleString, descMsg: descString, cancelButtonCallClick: {
+                
+            }) { [weak self] in
+                
+                guard let weakSelf = self else {return}
+
+                weakSelf.identifyVCClick(auditStatus: auditStatus, identify: identify)
+            }
         }
+        
     }
     
     
