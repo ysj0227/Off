@@ -992,7 +992,7 @@ class RenterDetailSourceView: UIView {
             
             self.cycleView.imageURLStringArr = model.imgUrl ?? []
             if model.imgUrl?.count ?? 0 > 0 {
-                vrView.setImage(with: model.videoUrl?[0] ?? "")
+                vrView.setImage(with: model.imgUrl?[0] ?? "")
             }
             
             ///只要有vr，其他的都隐藏
@@ -1013,6 +1013,8 @@ class RenterDetailSourceView: UIView {
                     playerModel = player
                     
                     changeBtnView.titleArrs = [BuildingDetailHeaderTypeEnum.vr, BuildingDetailHeaderTypeEnum.video, BuildingDetailHeaderTypeEnum.image]
+                }else {
+                    changeBtnView.titleArrs = [BuildingDetailHeaderTypeEnum.vr, BuildingDetailHeaderTypeEnum.image]
                 }
                 
             } else {
@@ -1078,6 +1080,8 @@ class RenterDetailSourceView: UIView {
                     playerModel = player
                     
                     changeBtnView.titleArrs = [BuildingDetailHeaderTypeEnum.vr, BuildingDetailHeaderTypeEnum.video, BuildingDetailHeaderTypeEnum.image]
+                }else {
+                    changeBtnView.titleArrs = [BuildingDetailHeaderTypeEnum.vr, BuildingDetailHeaderTypeEnum.image]
                 }
                 
             } else {
@@ -1140,6 +1144,7 @@ class RenterDetailSourceView: UIView {
         view.isHidden = true
         view.isUserInteractionEnabled = true
         view.backgroundColor = kAppClearColor
+        view.contentMode = .scaleAspectFit
         return view
     }()
     
