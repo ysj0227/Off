@@ -9,6 +9,12 @@
 import UIKit
 
 class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
+    ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
+    var isBuildOrHouse : Int?
+    ///1是办公楼，2是共享办公
+    var btype : Int?
+    var buildingId : Int?
+    var houseId : Int?
     
     // 测试消息的内容
     var content: String = ""
@@ -50,6 +56,10 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
     // NSCoding
     required init(coder aDecoder: NSCoder) {
         super.init()
+        isBuildOrHouse = aDecoder.decodeObject(forKey: "isBuildOrHouse") as? Int ?? 0
+        btype = aDecoder.decodeObject(forKey: "btype") as? Int ?? 0
+        buildingId = aDecoder.decodeObject(forKey: "buildingId") as? Int ?? 0
+        houseId = aDecoder.decodeObject(forKey: "houseId") as? Int ?? 0
         content = aDecoder.decodeObject(forKey: "content") as? String ?? ""
         extraMessage = aDecoder.decodeObject(forKey: "extraMessage") as? String ?? ""
         mainPic = aDecoder.decodeObject(forKey: "mainPic") as? String ?? ""
@@ -65,6 +75,10 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
     
     // NSCoding
     func encode(with aCoder: NSCoder) {
+        aCoder.encode(isBuildOrHouse, forKey: "isBuildOrHouse")
+        aCoder.encode(btype, forKey: "btype")
+        aCoder.encode(buildingId, forKey: "buildingId")
+        aCoder.encode(houseId, forKey: "houseId")
         aCoder.encode(content, forKey: "content")
         aCoder.encode(extraMessage, forKey: "extraMessage")
         aCoder.encode(mainPic, forKey: "mainPic")
@@ -82,6 +96,18 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
     override func encode() -> Data! {
         var dataDict: [String : Any] = [:]
         
+        if let isBuildOrHouse = isBuildOrHouse {
+            dataDict["isBuildOrHouse"] = isBuildOrHouse
+        }
+        if let btype = btype {
+            dataDict["btype"] = btype
+        }
+        if let buildingId = buildingId {
+            dataDict["buildingId"] = buildingId
+        }
+        if let houseId = houseId {
+            dataDict["houseId"] = houseId
+        }
         dataDict["content"] = content
         
         if let extraMessage = extraMessage {
@@ -131,6 +157,10 @@ class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
     override func decode(with data: Data!) {
         do {
             let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
+            isBuildOrHouse = dictionary["isBuildOrHouse"] as? Int ?? 0
+            btype = dictionary["btype"] as? Int ?? 0
+            buildingId = dictionary["buildingId"] as? Int ?? 0
+            houseId = dictionary["houseId"] as? Int ?? 0
             content = dictionary["content"] as? String ?? ""
             extraMessage = dictionary["extraMessage"] as? String ?? ""
             mainPic = dictionary["mainPic"]as? String ?? ""
@@ -314,6 +344,14 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         return CGSize(width: UIScreen.main.bounds.size.width, height: 188.0 + extraHeight)
     }
     
+    /*!
+      单击操作，跳转消息详情
+      */
+    @objc private func tapTextMessage(_ tap: UITapGestureRecognizer) {
+        if let delegate = delegate {
+            delegate.didTapMessageCell!(model)
+        }
+    }
     
     func initialize() {
         SSLog("----\\\\----\(UIScreen.main.bounds.size.width)")
@@ -321,6 +359,11 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         bgcontentView.frame = CGRect(x: 0, y:0, width: UIScreen.main.bounds.size.width, height: 188)
 
         baseContentView.addSubview(bgcontentView)
+        
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(tapTextMessage(_:)))
+        singleTap.numberOfTapsRequired = 1
+        bgcontentView.addGestureRecognizer(singleTap)
+        
         bgcontentView.addSubview(houseMainImg)
         bgcontentView.addSubview(houseNameLabel)
         bgcontentView.addSubview(houselocationIcon)

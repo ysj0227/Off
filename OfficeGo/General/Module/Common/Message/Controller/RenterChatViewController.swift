@@ -669,6 +669,60 @@ extension RenterChatViewController {
         }
     }
     
+    override func didTapMessageCell(_ model: RCMessageModel!) {
+        super.didTapMessageCell(model)
+        if model.content.isKind(of: FangyuanInsertFYMessage.self) {
+            SSTool.invokeInMainThread { [weak self] in
+                self?.clickToBuildingOrHouseDetail(messageContent: model.content as! FangyuanInsertFYMessage)
+            }
+        }
+    }
+    
+    func clickToBuildingOrHouseDetail(messageContent: FangyuanInsertFYMessage) {
+        ///楼盘或者房源
+        if messageContent.btype == 1 {
+            ///楼盘
+            if messageContent.isBuildOrHouse == 1 {
+                let model = FangYuanListModel()
+                model.btype = messageContent.btype
+                model.id = messageContent.buildingId
+                let vc = RenterOfficebuildingDetailVC()
+                vc.buildingModel = model
+                self.navigationController?.pushViewController(vc, animated: true)
+               
+            }else {
+                let model = FangYuanBuildingOpenStationModel()
+                model.btype = messageContent.btype
+                model.id = messageContent.houseId
+                let vc = RenterOfficebuildingFYDetailVC()
+                vc.model = model
+                self.navigationController?.pushViewController(vc, animated: true)
+                               
+            }
+        }else if messageContent.btype == 2 {
+            ///网点
+            if messageContent.isBuildOrHouse == 1 {
+               let model = FangYuanListModel()
+                model.btype = messageContent.btype
+                model.id = messageContent.buildingId
+                let vc = RenterOfficeJointDetailVC()
+                vc.buildingModel = model
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            }else {
+                let model = FangYuanBuildingOpenStationModel()
+                model.btype = messageContent.btype
+                model.id = messageContent.houseId
+                let vc = RenterOfficeJointFYDetailVC()
+                vc.model = model
+                self.navigationController?.pushViewController(vc, animated: true)
+
+            }
+            
+        }
+
+    }
+    
     //发送打招呼语第一次创建聊天 - 租户给房东发送一个默认消息（我对你发布的房源有兴趣，能聊聊吗？）
     func sengSayHelloMessage() {
         
@@ -694,27 +748,62 @@ extension RenterChatViewController {
     //添加插入房源消息
     func insertMessage() {
         
-        let str = "\(UserTool.shared.user_uid ?? 0)-\(targetId ?? "")-\(messageFYModel?.building?.buildingId ?? 0)-\(messageFYModel?.building?.houseId ?? 0)"
-        let isExisted = SSTool.isKeyPresentInUserDefaults(key: str)
-        if isExisted {
-            
-        }else {
-            let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "消息")
-            messageContent.mainPic = messageFYViewModel?.mainPic
-            messageContent.createTimeAndByWho = messageFYViewModel?.createTimeAndByWho
-            messageContent.isFavorite = messageFYViewModel?.IsFavorite ?? false
-            messageContent.buildingName = messageFYViewModel?.buildingName
-            messageContent.houseName = messageFYViewModel?.houseName
-            messageContent.distanceDistrictString = messageFYViewModel?.distanceDistrictString
-            messageContent.walkTimesubwayAndStationString = messageFYViewModel?.walkTimesubwayAndStationString
-            messageContent.dayPriceString = messageFYViewModel?.dayPriceString
-            messageContent.tagsString = messageFYViewModel?.tagsString
-            
-            let message = RCIMClient.shared()?.insertOutgoingMessage(.ConversationType_PRIVATE, targetId: messageFYModel?.chatted?.targetId, sentStatus: RCSentStatus.SentStatus_SENT, content: messageContent)
-            self.appendAndDisplay(message)
-            
-            SSTool.saveDataWithUserDefault(key: str, value: "TRUE" as AnyObject)
+        ///从楼盘进入
+        if messageFYViewModel?.isBuildOrHouse == 1 {
+            let str = "\(UserTool.shared.user_uid ?? 0)-\(targetId ?? "")-\(messageFYModel?.building?.buildingId ?? 0)-\(messageFYModel?.building?.houseId ?? 0)"
+            let isExisted = SSTool.isKeyPresentInUserDefaults(key: str)
+            if isExisted {
+                
+            }else {
+                let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "消息")
+                messageContent.isBuildOrHouse = messageFYViewModel?.isBuildOrHouse
+                messageContent.btype = messageFYViewModel?.btype
+                messageContent.buildingId = messageFYViewModel?.buildingId
+                messageContent.houseId = messageFYViewModel?.houseId
+                messageContent.mainPic = messageFYViewModel?.mainPic
+                messageContent.createTimeAndByWho = messageFYViewModel?.createTimeAndByWho
+                messageContent.isFavorite = messageFYViewModel?.IsFavorite ?? false
+                messageContent.buildingName = messageFYViewModel?.buildingName
+                messageContent.houseName = messageFYViewModel?.houseName
+                messageContent.distanceDistrictString = messageFYViewModel?.distanceDistrictString
+                messageContent.walkTimesubwayAndStationString = messageFYViewModel?.walkTimesubwayAndStationString
+                messageContent.dayPriceString = messageFYViewModel?.dayPriceString
+                messageContent.tagsString = messageFYViewModel?.tagsString
+                
+                let message = RCIMClient.shared()?.insertOutgoingMessage(.ConversationType_PRIVATE, targetId: messageFYModel?.chatted?.targetId, sentStatus: RCSentStatus.SentStatus_SENT, content: messageContent)
+                self.appendAndDisplay(message)
+                
+                SSTool.saveDataWithUserDefault(key: str, value: "TRUE" as AnyObject)
+            }
+        }else if messageFYViewModel?.isBuildOrHouse == 2 {
+            ///从房源进入
+            let str = "\(UserTool.shared.user_uid ?? 0)-\(targetId ?? "")-\(messageFYModel?.house?.buildingId ?? 0)-\(messageFYModel?.house?.houseId ?? 0)"
+            let isExisted = SSTool.isKeyPresentInUserDefaults(key: str)
+            if isExisted {
+                
+            }else {
+                let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "消息")
+                messageContent.isBuildOrHouse = messageFYViewModel?.isBuildOrHouse
+                messageContent.btype = messageFYViewModel?.btype
+                messageContent.buildingId = messageFYViewModel?.buildingId
+                messageContent.houseId = messageFYViewModel?.houseId
+                messageContent.mainPic = messageFYViewModel?.mainPic
+                messageContent.createTimeAndByWho = messageFYViewModel?.createTimeAndByWho
+                messageContent.isFavorite = messageFYViewModel?.IsFavorite ?? false
+                messageContent.buildingName = messageFYViewModel?.buildingName
+                messageContent.houseName = messageFYViewModel?.houseName
+                messageContent.distanceDistrictString = messageFYViewModel?.distanceDistrictString
+                messageContent.walkTimesubwayAndStationString = messageFYViewModel?.walkTimesubwayAndStationString
+                messageContent.dayPriceString = messageFYViewModel?.dayPriceString
+                messageContent.tagsString = messageFYViewModel?.tagsString
+                
+                let message = RCIMClient.shared()?.insertOutgoingMessage(.ConversationType_PRIVATE, targetId: messageFYModel?.chatted?.targetId, sentStatus: RCSentStatus.SentStatus_SENT, content: messageContent)
+                self.appendAndDisplay(message)
+                
+                SSTool.saveDataWithUserDefault(key: str, value: "TRUE" as AnyObject)
+            }
         }
+        
     }
     
     //发送交换手机号自定义消息

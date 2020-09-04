@@ -12,7 +12,10 @@ class MessageFYViewModel: NSObject {
     
     ///神策添加字段 楼盘、网点、房源
     var buildOrHouse : String?
-    
+    ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
+    var isBuildOrHouse : Int?
+    ///1是办公楼，2是共享办公
+    var btype : Int?
     var buildingId : Int?
     var houseId : Int?
     var targetId : String?
@@ -44,6 +47,9 @@ class MessageFYViewModel: NSObject {
     
     init(model:MessageFYModel) {
                 
+        btype = model.building?.btype
+        isBuildOrHouse = model.isBuildOrHouse
+        
         ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
         if model.isBuildOrHouse == 1 {
             

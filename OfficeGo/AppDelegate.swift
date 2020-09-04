@@ -278,7 +278,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                             if let houseIdStr = params["houseId"] {
                                 houseId = (houseIdStr as NSString).integerValue
                             }
+                            ///楼盘
                             if btype == "1" {
+                                ///楼盘房源
                                 if houseId != nil {
                                     let model = FangYuanBuildingOpenStationModel()
                                     model.btype = 1
@@ -289,7 +291,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                                     let nsv = (tab?.viewControllers?[0]) as! BaseNavigationViewController as BaseNavigationViewController
                                     nsv.pushViewController(vc, animated: true)
                                     
-                                }else if buildingId != nil {
+                                }
+                                ///楼盘
+                                else if buildingId != nil {
                                     let model = FangYuanListModel()
                                     model.btype = 1
                                     model.id = buildingId
@@ -299,24 +303,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
                                     let nsv = (tab?.viewControllers?[0]) as! BaseNavigationViewController as BaseNavigationViewController
                                     nsv.pushViewController(vc, animated: true)
                                 }
-                            }else if btype == "2" {
-                                
+                            }
+                            ///网点
+                            else if btype == "2" {
+                                ///网点房源
                                 if houseId != nil {
                                     let model = FangYuanBuildingOpenStationModel()
                                     model.btype = 2
                                     model.id = houseId
-                                    let vc = RenterOfficebuildingFYDetailVC()
+                                    let vc = RenterOfficeJointFYDetailVC()
                                     vc.model = model
                                     tab?.customTabBar.isHidden = true
                                     let nsv = (tab?.viewControllers?[0]) as! BaseNavigationViewController as BaseNavigationViewController
                                     nsv.pushViewController(vc, animated: true)
                                     
-                                }else if buildingId != nil {
-                                    let model = FangYuanBuildingOpenStationModel()
+                                }
+                                ///网点
+                                else if buildingId != nil {
+                                    let model = FangYuanListModel()
                                     model.btype = 2
                                     model.id = buildingId
-                                    let vc = RenterOfficeJointFYDetailVC()
-                                    vc.model = model
+                                    let vc = RenterOfficeJointDetailVC()
+                                    vc.buildingModel = model
                                     tab?.customTabBar.isHidden = true
                                     let nsv = (tab?.viewControllers?[0]) as! BaseNavigationViewController as BaseNavigationViewController
                                     nsv.pushViewController(vc, animated: true)
