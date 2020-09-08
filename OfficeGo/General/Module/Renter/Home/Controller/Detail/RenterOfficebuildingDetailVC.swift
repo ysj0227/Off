@@ -397,8 +397,8 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         self.tableView.register(UINib.init(nibName: RenterShareServiceCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterShareServiceCell.reuseIdentifierStr)
         
         //楼盘信息
-        self.tableView.register(UINib.init(nibName: RenterOfficeDeatailCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterOfficeDeatailCell.reuseIdentifierStr)
-        
+        self.tableView.register(RenterOfficeBuildingMsgCell.self, forCellReuseIdentifier: RenterOfficeBuildingMsgCell.reuseIdentifierStr)
+
         //周边配套
         //        self.tableView.register(UINib.init(nibName: RenterAmbitusMatingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr)
         
@@ -743,15 +743,13 @@ extension RenterOfficebuildingDetailVC {
                 return UITableViewCell.init(frame: .zero)
                 
             case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficeDeatailCell.reuseIdentifierStr) as? RenterOfficeDeatailCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficeBuildingMsgCell.reuseIdentifierStr) as? RenterOfficeBuildingMsgCell
                 cell?.selectionStyle = .none
                 if let introductionViewModel = self.buildingDetailViewModel?.introductionViewModel {
-                    cell?.viewModel = introductionViewModel
-                }else {
-                    cell?.model = self.buildingDetailModel?.introduction ?? FangYuanBuildingIntroductionModel()
+                    cell?.btype = buildingModel.btype
+                    cell?.buildingMsgViewModel = introductionViewModel
                 }
-                return cell ?? RenterOfficeDeatailCell()
-                
+                return cell ?? RenterOfficeBuildingMsgCell()
             case FYDetailItemType.FYDetailItemTypeAmbitusMating:
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterAmbitusMatingCell.reuseIdentifierStr) as? RenterAmbitusMatingCell
                 cell?.selectionStyle = .none
@@ -811,7 +809,11 @@ extension RenterOfficebuildingDetailVC {
             case FYDetailItemType.FYDetailItemTypeFYList:
                 return 0
             case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-                return RenterOfficeDeatailCell.rowHeight()
+                if let introductionViewModel = self.buildingDetailViewModel?.introductionViewModel {
+                    return introductionViewModel.cellHeight
+                }else {
+                    return 0
+                }
             case FYDetailItemType.FYDetailItemTypeAmbitusMating:
                 return 79 + (41 + 10) * 3
             //            return 241 + huxingConstangHeight.constant
@@ -1144,7 +1146,7 @@ class RenterDetailSourceView: UIView {
         view.isHidden = true
         view.isUserInteractionEnabled = true
         view.backgroundColor = kAppClearColor
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         return view
     }()
     

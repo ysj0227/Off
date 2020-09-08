@@ -18,6 +18,8 @@
 		0407F93A24BD963400C9F581 /* OwnerESBuildingSearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */; };
 		04121F2F24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04121F2E24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift */; };
 		04121F3124BF0CE900864E51 /* OwnerJointIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04121F3024BF0CE900864E51 /* OwnerJointIdentifyCell.swift */; };
+		041DEDA12505E705008DEBB2 /* RenterOfficeBuildingMsgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041DEDA02505E704008DEBB2 /* RenterOfficeBuildingMsgCell.swift */; };
+		041DEDA325063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041DEDA225063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift */; };
 		0420BB4B24A882B00052D165 /* RenterCustomersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */; };
 		0420BB4D24A891330052D165 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420BB4C24A891330052D165 /* MessageUI.framework */; };
 		04266B6724FF6FB10027348B /* BannerOutClickWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04266B6624FF6FB10027348B /* BannerOutClickWebViewController.swift */; };
@@ -133,22 +135,18 @@
 		04E2392D249B3ABB009DCCEC /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238BA249B3ABB009DCCEC /* SearchResultTableViewCell.swift */; };
 		04E2392E249B3ABB009DCCEC /* RenterShareServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238BC249B3ABB009DCCEC /* RenterShareServiceCell.swift */; };
 		04E2392F249B3ABB009DCCEC /* RenterShareServiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E238BD249B3ABB009DCCEC /* RenterShareServiceCell.xib */; };
-		04E23930249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E238BE249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.xib */; };
 		04E23931249B3ABB009DCCEC /* RenterDetailTrafficCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238BF249B3ABB009DCCEC /* RenterDetailTrafficCell.swift */; };
 		04E23932249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E238C0249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib */; };
 		04E23933249B3ABB009DCCEC /* RenterDetailNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C1249B3ABB009DCCEC /* RenterDetailNameCell.swift */; };
 		04E23934249B3ABB009DCCEC /* RenterDetailTrafficCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E238C2249B3ABB009DCCEC /* RenterDetailTrafficCell.xib */; };
 		04E23935249B3ABB009DCCEC /* RenterFeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C3249B3ABB009DCCEC /* RenterFeatureCell.swift */; };
-		04E23936249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C4249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.swift */; };
 		04E23937249B3ABB009DCCEC /* RenterHeaderItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C5249B3ABB009DCCEC /* RenterHeaderItemSelectView.swift */; };
 		04E23938249B3ABB009DCCEC /* RenterDetailOfficeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C6249B3ABB009DCCEC /* RenterDetailOfficeListCell.swift */; };
 		04E23939249B3ABB009DCCEC /* RenterShareServiceShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C7249B3ABB009DCCEC /* RenterShareServiceShowView.swift */; };
-		04E2393A249B3ABB009DCCEC /* RenterOfficeDeatailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C8249B3ABB009DCCEC /* RenterOfficeDeatailCell.swift */; };
 		04E2393B249B3ABB009DCCEC /* RenterAmbitusMatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C9249B3ABB009DCCEC /* RenterAmbitusMatingCell.swift */; };
 		04E2393C249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238CA249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.swift */; };
 		04E2393D249B3ABB009DCCEC /* RenterDetailPlayerImageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238CB249B3ABB009DCCEC /* RenterDetailPlayerImageHeaderView.swift */; };
 		04E2393E249B3ABB009DCCEC /* RenterDetailFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238CC249B3ABB009DCCEC /* RenterDetailFYListCell.swift */; };
-		04E2393F249B3ABB009DCCEC /* RenterOfficeDeatailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E238CD249B3ABB009DCCEC /* RenterOfficeDeatailCell.xib */; };
 		04E23940249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E238CE249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.xib */; };
 		04E23941249B3ABB009DCCEC /* HotCityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238D0249B3ABB009DCCEC /* HotCityTableViewCell.swift */; };
 		04E23942249B3ABB009DCCEC /* CurrentCityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238D1249B3ABB009DCCEC /* CurrentCityTableViewCell.swift */; };
@@ -296,6 +294,8 @@
 		0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerESBuildingSearchModel.swift; sourceTree = "<group>"; };
 		04121F2E24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerJointIeditnfyVC.swift; sourceTree = "<group>"; };
 		04121F3024BF0CE900864E51 /* OwnerJointIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerJointIdentifyCell.swift; sourceTree = "<group>"; };
+		041DEDA02505E704008DEBB2 /* RenterOfficeBuildingMsgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficeBuildingMsgCell.swift; sourceTree = "<group>"; };
+		041DEDA225063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterBuildingFYHouseMsgCell.swift; sourceTree = "<group>"; };
 		0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCustomersViewController.swift; sourceTree = "<group>"; };
 		0420BB4C24A891330052D165 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		04266B6624FF6FB10027348B /* BannerOutClickWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerOutClickWebViewController.swift; sourceTree = "<group>"; };
@@ -415,22 +415,18 @@
 		04E238BA249B3ABB009DCCEC /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		04E238BC249B3ABB009DCCEC /* RenterShareServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterShareServiceCell.swift; sourceTree = "<group>"; };
 		04E238BD249B3ABB009DCCEC /* RenterShareServiceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenterShareServiceCell.xib; sourceTree = "<group>"; };
-		04E238BE249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenterOfficebuildingFYDeatailCell.xib; sourceTree = "<group>"; };
 		04E238BF249B3ABB009DCCEC /* RenterDetailTrafficCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterDetailTrafficCell.swift; sourceTree = "<group>"; };
 		04E238C0249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenterAmbitusMatingCell.xib; sourceTree = "<group>"; };
 		04E238C1249B3ABB009DCCEC /* RenterDetailNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterDetailNameCell.swift; sourceTree = "<group>"; };
 		04E238C2249B3ABB009DCCEC /* RenterDetailTrafficCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenterDetailTrafficCell.xib; sourceTree = "<group>"; };
 		04E238C3249B3ABB009DCCEC /* RenterFeatureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterFeatureCell.swift; sourceTree = "<group>"; };
-		04E238C4249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterOfficebuildingFYDeatailCell.swift; sourceTree = "<group>"; };
 		04E238C5249B3ABB009DCCEC /* RenterHeaderItemSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterHeaderItemSelectView.swift; sourceTree = "<group>"; };
 		04E238C6249B3ABB009DCCEC /* RenterDetailOfficeListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterDetailOfficeListCell.swift; sourceTree = "<group>"; };
 		04E238C7249B3ABB009DCCEC /* RenterShareServiceShowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterShareServiceShowView.swift; sourceTree = "<group>"; };
-		04E238C8249B3ABB009DCCEC /* RenterOfficeDeatailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterOfficeDeatailCell.swift; sourceTree = "<group>"; };
 		04E238C9249B3ABB009DCCEC /* RenterAmbitusMatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterAmbitusMatingCell.swift; sourceTree = "<group>"; };
 		04E238CA249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterOfficebuildingDeatailHuxingCell.swift; sourceTree = "<group>"; };
 		04E238CB249B3ABB009DCCEC /* RenterDetailPlayerImageHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterDetailPlayerImageHeaderView.swift; sourceTree = "<group>"; };
 		04E238CC249B3ABB009DCCEC /* RenterDetailFYListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterDetailFYListCell.swift; sourceTree = "<group>"; };
-		04E238CD249B3ABB009DCCEC /* RenterOfficeDeatailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenterOfficeDeatailCell.xib; sourceTree = "<group>"; };
 		04E238CE249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenterOfficebuildingDeatailHuxingCell.xib; sourceTree = "<group>"; };
 		04E238D0249B3ABB009DCCEC /* HotCityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotCityTableViewCell.swift; sourceTree = "<group>"; };
 		04E238D1249B3ABB009DCCEC /* CurrentCityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentCityTableViewCell.swift; sourceTree = "<group>"; };
@@ -1134,23 +1130,21 @@
 			children = (
 				04E238BC249B3ABB009DCCEC /* RenterShareServiceCell.swift */,
 				04E238BD249B3ABB009DCCEC /* RenterShareServiceCell.xib */,
-				04E238BE249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.xib */,
 				04E238BF249B3ABB009DCCEC /* RenterDetailTrafficCell.swift */,
 				04E238C0249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib */,
 				04E238C1249B3ABB009DCCEC /* RenterDetailNameCell.swift */,
 				04E238C2249B3ABB009DCCEC /* RenterDetailTrafficCell.xib */,
 				04E238C3249B3ABB009DCCEC /* RenterFeatureCell.swift */,
-				04E238C4249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.swift */,
 				04E238C5249B3ABB009DCCEC /* RenterHeaderItemSelectView.swift */,
 				04E238C6249B3ABB009DCCEC /* RenterDetailOfficeListCell.swift */,
 				04E238C7249B3ABB009DCCEC /* RenterShareServiceShowView.swift */,
-				04E238C8249B3ABB009DCCEC /* RenterOfficeDeatailCell.swift */,
 				04E238C9249B3ABB009DCCEC /* RenterAmbitusMatingCell.swift */,
 				04E238CA249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.swift */,
 				04E238CB249B3ABB009DCCEC /* RenterDetailPlayerImageHeaderView.swift */,
 				04E238CC249B3ABB009DCCEC /* RenterDetailFYListCell.swift */,
-				04E238CD249B3ABB009DCCEC /* RenterOfficeDeatailCell.xib */,
 				04E238CE249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.xib */,
+				041DEDA02505E704008DEBB2 /* RenterOfficeBuildingMsgCell.swift */,
+				041DEDA225063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1862,12 +1856,10 @@
 				04E2392F249B3ABB009DCCEC /* RenterShareServiceCell.xib in Resources */,
 				04990B9424BBF719008CDE6C /* DXIDCardCamera.bundle in Resources */,
 				EEE87ACE2455854C00C03424 /* Main.storyboard in Resources */,
-				04E2393F249B3ABB009DCCEC /* RenterOfficeDeatailCell.xib in Resources */,
 				04E23940249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.xib in Resources */,
 				04CB477F249CB1D9001BCC8F /* RenterScheduleDetailView.xib in Resources */,
 				04CB46D6249CAFE9001BCC8F /* ExtentSelectCell.xib in Resources */,
 				04CB4706249CB063001BCC8F /* ShareViewController.xib in Resources */,
-				04E23930249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.xib in Resources */,
 				04CB46D3249CAFE9001BCC8F /* HouseFeatureCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2024,6 +2016,7 @@
 				04E23927249B3ABB009DCCEC /* FangyuanModel.swift in Sources */,
 				0407F93624BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift in Sources */,
 				EE02BA4724654BA600B51D34 /* NetworkErrorManager.swift in Sources */,
+				041DEDA12505E705008DEBB2 /* RenterOfficeBuildingMsgCell.swift in Sources */,
 				EEE87B1B2455856800C03424 /* UINavigationControllerEx.swift in Sources */,
 				EEE0D93C2465581200E5C77B /* Notifications.swift in Sources */,
 				EEE87B3724558F6A00C03424 /* UITextView+Placeholder.m in Sources */,
@@ -2181,7 +2174,6 @@
 				EEE87B1D2455856800C03424 /* UIColorEx.swift in Sources */,
 				D371ED2B2487AF7E0000A9EE /* AppDeleagate+Ext.swift in Sources */,
 				04CB479A249CC5A3001BCC8F /* RenterAvatarUploadHeaderView.swift in Sources */,
-				04E23936249B3ABB009DCCEC /* RenterOfficebuildingFYDeatailCell.swift in Sources */,
 				04E23920249B3ABB009DCCEC /* RenterOfficeJointDetailVC.swift in Sources */,
 				04CB46FA249CB02C001BCC8F /* ScheduleViewingMessage.swift in Sources */,
 				EE4914B424692D35008D5689 /* MLMSegmentScroll.m in Sources */,
@@ -2193,11 +2185,11 @@
 				EEE87B3B24558F6A00C03424 /* UIScrollViewExtension.swift in Sources */,
 				04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */,
 				EEE87B6324558F9800C03424 /* BaseButton.swift in Sources */,
-				04E2393A249B3ABB009DCCEC /* RenterOfficeDeatailCell.swift in Sources */,
 				0407F92A24BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift in Sources */,
 				EEE87B1F2455856800C03424 /* UIButtonEx.swift in Sources */,
 				0407F93A24BD963400C9F581 /* OwnerESBuildingSearchModel.swift in Sources */,
 				04E23987249B3C75009DCCEC /* OwnerHomeViewController.swift in Sources */,
+				041DEDA325063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift in Sources */,
 				04266B6724FF6FB10027348B /* BannerOutClickWebViewController.swift in Sources */,
 				04CB46FB249CB02C001BCC8F /* PhoneExchangeMessage.swift in Sources */,
 				EEE87B172455856800C03424 /* UITextViewSnapEx.swift in Sources */,

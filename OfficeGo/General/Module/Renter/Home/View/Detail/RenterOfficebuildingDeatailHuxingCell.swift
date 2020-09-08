@@ -20,23 +20,24 @@ class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
     ///"门朝北，窗户朝向南，2个独立办公室，1间大会议室，3间小会议室。",//户型格局简
     @IBOutlet weak var unitPatternRemarkLabel: UILabel!
     
-    var model: FangYuanBuildingFYDetailBasicInformationModel = FangYuanBuildingFYDetailBasicInformationModel() {
+    var basicViewModel: FangYuanBuildingFYDetailBasicInformationViewModel = FangYuanBuildingFYDetailBasicInformationViewModel.init(model: FangYuanBuildingFYDetailBasicInformationModel()) {
         didSet {
-            setCellWithViewModel(viewModel: model)
+            setCellWithViewModel(viewModel: basicViewModel)
         }
     }
 
-    func setCellWithViewModel(viewModel: FangYuanBuildingFYDetailBasicInformationModel) {
+    func setCellWithViewModel(viewModel: FangYuanBuildingFYDetailBasicInformationViewModel) {
         unitPatternImgView.setImage(with: viewModel.unitPatternImg ?? "", placeholder: UIImage.init(named: Default_4x3_large))
         unitPatternRemarkLabel.text = viewModel.unitPatternRemark
-        huxingConstangHeight.constant = viewModel.textHeight ?? 25
+        huxingConstangHeight.constant = viewModel.textHeight
+        huxingImgConstantHeight.constant = viewModel.patternHeight
+        huxingConstangHeight.constant = viewModel.textHeight
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
         unitPatternRemarkLabel.font = FONT_LIGHT_11
-        huxingImgConstantHeight.constant = (kWidth - left_pending_space_17 * 2) * (2 / 3.0)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

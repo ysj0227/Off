@@ -161,8 +161,8 @@ class RenterOfficeJointFYDetailVC: BaseTableViewController {
         self.tableView.register(RenterDetailNameCell.self, forCellReuseIdentifier: RenterDetailNameCell.reuseIdentifierStr)
         
         //房源信息
-        self.tableView.register(UINib.init(nibName: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr)
-        
+        self.tableView.register(RenterBuildingFYHouseMsgCell.self, forCellReuseIdentifier: RenterBuildingFYHouseMsgCell.reuseIdentifierStr)
+
         //户型
         self.tableView.register(UINib.init(nibName: RenterOfficebuildingDeatailHuxingCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterOfficebuildingDeatailHuxingCell.reuseIdentifierStr)
         
@@ -432,18 +432,19 @@ extension RenterOfficeJointFYDetailVC {
             return UITableViewCell.init(frame: .zero)
             
         case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-            let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingFYDeatailCell.reuseIdentifierStr) as? RenterOfficebuildingFYDeatailCell
-            cell?.selectionStyle = .none
-            if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                cell?.model = model
+            let cell = tableView.dequeueReusableCell(withIdentifier: RenterBuildingFYHouseMsgCell.reuseIdentifierStr) as? RenterBuildingFYHouseMsgCell
+            if let viewModel = buildingFYDetailViewModel?.houseViewModel?.basicInformationViewModel {
+                cell?.basicViewModel = viewModel
             }
-            return cell ?? RenterOfficebuildingFYDeatailCell()
+            cell?.selectionStyle = .none
+            
+            return cell ?? RenterBuildingFYHouseMsgCell()
             
         case .FYDetailItemTypeHuxing:
             let cell = tableView.dequeueReusableCell(withIdentifier: RenterOfficebuildingDeatailHuxingCell.reuseIdentifierStr) as? RenterOfficebuildingDeatailHuxingCell
             cell?.selectionStyle = .none
-            if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                cell?.model = model
+            if let viewModel = buildingFYDetailViewModel?.houseViewModel?.basicInformationViewModel {
+                cell?.basicViewModel = viewModel
             }
             return cell ?? RenterOfficebuildingDeatailHuxingCell()
             
@@ -495,17 +496,17 @@ extension RenterOfficeJointFYDetailVC {
             return 0
             
         case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
-            return RenterOfficebuildingFYDeatailCell.rowHeight()
+            if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformationViewModel {
+                return model.cellHeight
+            }else {
+                return 0
+            }
             
         case .FYDetailItemTypeHuxing:
-            if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformation {
-                if let height = model.textHeight {
-                    return RenterOfficebuildingDeatailHuxingCell.rowHeight() + height
-                }else {
-                    return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
-                }
+            if let model = self.buildingFYDetailViewModel?.houseViewModel?.basicInformationViewModel {
+                return model.patternCellHeight
             }else {
-                return RenterOfficebuildingDeatailHuxingCell.rowHeight() + 25
+                return 0
             }
             
         case FYDetailItemType.FYDetailItemTypeAmbitusMating:

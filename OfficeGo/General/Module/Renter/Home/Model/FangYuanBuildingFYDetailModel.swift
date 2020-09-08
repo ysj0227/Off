@@ -125,7 +125,7 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     var areaString : String?
     
     //基本信息
-    var basicInformation : FangYuanBuildingFYDetailBasicInformationModel?
+    var basicInformationViewModel : FangYuanBuildingFYDetailBasicInformationViewModel?
     
     ///楼盘名字
     var buildingName : String?
@@ -190,16 +190,11 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         
         
         monthPriceString = "¥\(model.monthPrice ?? 0)/月"
-        
-        let size: CGSize = model.basicInformation?.unitPatternRemark?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_LIGHT_11, lines: 0) ?? CGSize(width: kWidth - left_pending_space_17 * 2, height: 25)
-        if size.height < 25 {
-            model.basicInformation?.textHeight = 25
-        }else{
-            model.basicInformation?.textHeight = size.height
-        }
-        
+       
         model.basicInformation?.btype = model.btype
-        basicInformation = model.basicInformation
+        
+        ///详情属性viewmodel
+        basicInformationViewModel = FangYuanBuildingFYDetailBasicInformationViewModel.init(model: model.basicInformation ?? FangYuanBuildingFYDetailBasicInformationModel())
         
         //办公室
         if btype == 1 {
@@ -293,29 +288,92 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         
         ///addressString = model.businessDistrict ?? ""
         addressString = model.address ?? ""
-        
     }
 }
 
 class FangYuanBuildingFYDetailBasicInformationModel: BaseModel {
     ///1是办公楼，2是共享办公 用来判断最短租期单位
     var btype: Int?
-    ///"随时",//最早交付
-    var earliestDelivery : String?
-    ///楼层信息
-    var floor : String?
-    ///3年起",//最短租期
-    var minimumLease : String?
-    ///办公格局
-    var officePattern : String?
-    var otherRemark : AnyObject?
-    ///"6个月",//免租期
-    var rentFreePeriod : String?
     ///户型格局图
     var unitPatternImg : String?
     ///"门朝北，窗户朝向南，2个独立办公室，1间大会议室，3间小会议室。",//户型格局简
     var unitPatternRemark : String?
     
+    ///房源属性
+    var houseMsg : [FangYuanBuildingIntroductionMsgModel]?
+}
+class FangYuanBuildingFYDetailBasicInformationViewModel: NSObject {
+    ///1是办公楼，2是共享办公 用来判断最短租期单位
+    var btype: Int?
+    ///户型格局图
+    var unitPatternImg : String?
+    ///"门朝北，窗户朝向南，2个独立办公室，1间大会议室，3间小会议室。",//户型格局简
+    var unitPatternRemark : String?
+    
+    ///房源属性
+    var houseMsg : [FangYuanBuildingIntroductionMsgModel]?
+    
+    ///属性高度
+    var houseMsgHeight : CGFloat = 0
+    
+    ///属性
+    var cellHeight : CGFloat = 0
+    
+    
+    ///户型介绍和户型图
+    var patternHeight : CGFloat = 0
+    
     //户型介绍高度
-    var textHeight: CGFloat?
+    var textHeight: CGFloat = 0
+    
+    ///户型介绍和户型图高度
+    var patternCellHeight : CGFloat = 0
+    
+    init(model:FangYuanBuildingFYDetailBasicInformationModel)
+    {
+        super.init()
+        
+        btype = model.btype
+        
+        unitPatternImg = model.unitPatternImg
+        
+        unitPatternRemark = model.unitPatternRemark
+        
+        let size: CGSize = model.unitPatternRemark?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_LIGHT_11, lines: 0) ?? CGSize(width: kWidth - left_pending_space_17 * 2, height: 25)
+        if size.height < 25 {
+            textHeight = 25
+        }else{
+            textHeight = size.height
+        }
+        
+        if let patternImg = model.unitPatternImg {
+            if patternImg.isBlankString != true {
+                patternHeight = (kWidth - left_pending_space_17 * 2) * (2 / 3.0)
+            }
+        }
+        
+        if patternHeight > 0 {
+            patternHeight += 17
+        }
+        
+        if (textHeight + patternHeight) > 0 {
+            patternCellHeight = textHeight + patternHeight + 55
+        }else {
+            patternCellHeight = 0
+        }
+                
+        if let msg = model.houseMsg {
+            houseMsg = []
+            for item in msg {
+                let size: CGSize = item.value?.boundingRect(with: CGSize(width: (kWidth - left_pending_space_17) / 2.0 + 1, height: 9999), font: FONT_12, lines: 0) ?? CGSize(width: (kWidth - left_pending_space_17) / 2.0 + 1, height: 25)
+                item.height = size.height
+                houseMsg?.append(item)
+            }
+        }
+        
+        houseMsgHeight = (CGFloat(houseMsg?.count ?? 0 + 1) / 2.0) * (12 * 3 + 36) + 40
+        
+        //50为标题
+        cellHeight = houseMsgHeight + 50
+    }
 }

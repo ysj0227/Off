@@ -33,7 +33,7 @@ class FangYuanBuildingDetailViewModel: NSObject {
     var IsFavorite : Bool?
     var buildingViewModel : FangYuanBuildingBuildingViewModel?
     var factorMap :FangYuanBuildingFactorModel?
-    var introductionViewModel : FangYuanBuildingIntroductionlViewModel?
+    var introductionViewModel : FangYuanBuildingIntroductionViewModel?
     ///特色
     var tagsString: [String]?             //特色
 
@@ -59,7 +59,7 @@ class FangYuanBuildingDetailViewModel: NSObject {
         buildingViewModel = FangYuanBuildingBuildingViewModel.init(model: model.building ?? FangYuanBuildingBuildingModel())
         model.factorMap?.btype = model.btype
         factorMap = model.factorMap
-        introductionViewModel = FangYuanBuildingIntroductionlViewModel.init(model: model.introduction ?? FangYuanBuildingIntroductionModel())
+        introductionViewModel = FangYuanBuildingIntroductionViewModel.init(model: model.introduction ?? FangYuanBuildingIntroductionModel())
         
         //特色
         tagsString = []
@@ -395,94 +395,67 @@ class FangYuanBuildingFactorModel: BaseModel {
 
 //楼盘信息 - 空调 空调费
 class FangYuanBuildingIntroductionModel: BaseModel {
-    ///空调
-    var airConditioning : String?
-    ///车位租金(元/月)
-    var ParkingSpaceRent : String?
-    ///货梯
-    var cargoLift : String?
-    ///竣工时间
-    var completionTime : String?
-    ///建筑面积
-    var constructionArea : String?
-    ///电信,联通
-    var internet : String?
-    ///车位数量
-    var parkingSpace : String?
-    ///客梯
-    var passengerLift : String?
-    ///宣传口号-市中心，交通便利
+    var buildingMsg : [FangYuanBuildingIntroductionMsgModel]?
     var promoteSlogan : String?
-    ///物业-上海要你美物业管理有限公司"
-    var property : String?
-    ///物业费(元/平米/月)
-    var propertyCosts : String?
-    ///层高 - 标准3.7米，净高2.5米"
-    var storeyHeight : String?
-    ///总楼层
-    var totalFloor : String?
+    var settlementLicence : String?
+    
 }
-class FangYuanBuildingIntroductionlViewModel: NSObject {
-    ///空调 - 常规
-    var airDefaultConditioning : String?
-    ///空调费 - 常规
-    var airDefaultCoastConditioning : String?
-    ///竣工时间
-    var completionTime : String?
-    ///总楼层
-    var totalFloor : String?
-    ///层高 - 标准3.7米，净高2.5米"
-    var storeyHeight : String?
-    ///电梯 6客梯2货梯
-    var liftString: String?
-    ///车位数量
-    var parkingSpace : String?
-    ///车位租金(元/月)
-    var parkingSpaceRent : String?
-    ///物业-上海要你美物业管理有限公司"
-    var property : String?
-    ///物业费(元/平米/月)
-    var propertyCosts : String?
-    ///电信,联通
-    var internet : String?
-    ///宣传口号-市中心，交通便利
-    var promoteSlogan : String?
+//楼盘信息 - 空调 空调费
+class FangYuanBuildingIntroductionMsgModel: BaseModel {
+    var name : String?
+    var value : String?
+    var height : CGFloat?
+}
+
+class FangYuanBuildingIntroductionViewModel: NSObject {
     
-    //宣传口号简介高度
-    var textHeight: CGFloat?
+    ///入住企业
+    var settlementLicenceName: String?
+
+    var settlementLicence: String?
     
-    init(model:FangYuanBuildingIntroductionModel) {
-        
-        airDefaultConditioning = "\(model.airConditioning ?? "")"
-                
-        airDefaultCoastConditioning = "--"
-                        
-        completionTime = "\(model.completionTime ?? "")年"
-        
-        totalFloor = "\(model.totalFloor ?? "0")" + "层"
-        
-        storeyHeight =  model.storeyHeight ?? ""
-        
-        liftString = "\(model.passengerLift ?? "0")" + "客梯" + "\(model.cargoLift ?? "0")" + "货梯"
-        
-        parkingSpace = "\(model.parkingSpace ?? "")" + "个"
-        
-        parkingSpaceRent = "\(model.ParkingSpaceRent ?? "")" + "元/月/位"
-        
-        property = model.property ?? "--"
-        
-        propertyCosts = "\(model.propertyCosts ?? "")" + "元/㎡/月"
-        
-        internet = model.internet ?? ""
-        
-        promoteSlogan = model.promoteSlogan ?? "--"
-        
-        let size: CGSize = model.promoteSlogan?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_13, lines: 0) ?? CGSize(width: kWidth - left_pending_space_17 * 2, height: 25)
-        if size.height < 25 {
-            textHeight = 25
-        }else{
-            textHeight = size.height
+    ///入住企业高度
+    var settlementLicenceHeight: CGFloat = 0
+    
+    ///属性数组
+    var buildingMsg : [FangYuanBuildingIntroductionMsgModel]?
+
+    ///属性高度
+    var buildingMsgHeight : CGFloat = 0
+
+    var cellHeight : CGFloat = 0
+    
+    init(model:FangYuanBuildingIntroductionModel)
+    {
+//        model.buildingMsg?[1].value = "阿里巴巴巴巴阿里巴巴阿里巴巴阿里巴巴阿12"
+//        settlementLicence = "cctv、上海东方明珠、芒果tv、腾讯视频、百度、阿里巴巴、哔哩哔哩、cctv、上海东方明珠、芒果tv、腾讯视频、百度、阿里巴巴、哔哩哔哩"
+
+        if let msg = model.buildingMsg {
+            buildingMsg = []
+            for item in msg {
+                let size: CGSize = item.value?.boundingRect(with: CGSize(width: (kWidth - left_pending_space_17) / 2.0 + 1, height: 9999), font: FONT_12, lines: 0) ?? CGSize(width: (kWidth - left_pending_space_17) / 2.0 + 1, height: 25)
+                item.height = size.height
+                buildingMsg?.append(item)
+            }
         }
+        
+        settlementLicenceName = "入住企业"
+        
+        settlementLicence = model.settlementLicence
+        
+        if settlementLicence?.isBlankString != true {
+            let size: CGSize = settlementLicence?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_12, lines: 0) ?? CGSize(width: (kWidth - left_pending_space_17 * 2) / 2.0 + 1, height: 25)
+            
+            settlementLicenceHeight = 12 + 18 + 12 + size.height + 12
+        }else {
+            settlementLicenceHeight = 0
+        }
+
+        
+        buildingMsgHeight = (CGFloat(buildingMsg?.count ?? 0 + 1) / 2.0) * (12 * 3 + 36) + 40
+        
+        //50为标题
+        cellHeight = buildingMsgHeight  + settlementLicenceHeight + 50
     }
 }
 
@@ -498,7 +471,8 @@ class FangYuanBuildingOpenStationModel: BaseModel {
     
     var businessDistrict : String?
 
-    var Isfailure : Int?                //0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
+    ///0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
+    var Isfailure : Int?
 
     ///网点
     ///房源id
@@ -526,7 +500,8 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     ///房源id
     var id : Int?
     
-    var Isfailure : Int?                //0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
+    ///0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
+    var Isfailure : Int?
 
     /// 办公类型1是独立办公室，2是开放工位
     var officeType : Int?
