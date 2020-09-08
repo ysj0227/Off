@@ -395,8 +395,8 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         self.tableView.register(RenterFeatureCell.self, forCellReuseIdentifier: RenterFeatureCell.reuseIdentifierStr)
         
         //共享服务
-        self.tableView.register(UINib.init(nibName: RenterShareServiceCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterShareServiceCell.reuseIdentifierStr)
-        
+        self.tableView.register(RenterShareServiceCell.self, forCellReuseIdentifier: RenterShareServiceCell.reuseIdentifierStr)
+
         //楼盘信息
         self.tableView.register(RenterOfficeBuildingMsgCell.self, forCellReuseIdentifier: RenterOfficeBuildingMsgCell.reuseIdentifierStr)
 
@@ -809,8 +809,7 @@ extension RenterOfficeJointDetailVC {
                 let cell = tableView.dequeueReusableCell(withIdentifier: RenterShareServiceCell.reuseIdentifierStr) as? RenterShareServiceCell
                 cell?.selectionStyle = .none
                 if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
-                    cell?.basicViewModel = buildingViewModel
-                    cell?.corporateViewModel = buildingViewModel
+                    cell?.buildingViewModel = buildingViewModel
                 }
                 
                 return cell ?? RenterShareServiceCell()
@@ -888,7 +887,11 @@ extension RenterOfficeJointDetailVC {
             case FYDetailItemType.FYDetailItemTypeAmbitusMating:
                 return 79 + (41 + 10) * 3
             case .FYDetailItemTypeShareServices:
-                return RenterShareServiceCell.rowHeight()
+                if let buildingViewModel = self.buildingDetailViewModel?.buildingViewModel {
+                    return buildingViewModel.shareServicesHeight
+                }else {
+                    return 0
+                }
             case FYDetailItemType.FYDetailItemTypeHuxing:
                 return 0
             }

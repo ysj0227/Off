@@ -96,7 +96,7 @@ class RenterShareServiceShowView: UIView {
     
     // MARK: - 弹出view显示
     // MARK: - 弹出view显示 - 筛选
-    func ShowHouseShaixuanView(tite: String, dataSource: [DictionaryModel]) {
+    func ShowHouseShaixuanView(serviceModel: ShareServiceModel) {
         
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: RenterShareServiceShowView.self) {
@@ -104,9 +104,11 @@ class RenterShareServiceShowView: UIView {
             }
         })
         
-        self.titleview.text = tite
+        self.titleview.text = serviceModel.title
         
-        self.dataSourceArr = dataSource
+        if let item = serviceModel.itemArr {
+            self.dataSourceArr = item
+        }
         
         UIApplication.shared.keyWindow?.addSubview(self)
     }

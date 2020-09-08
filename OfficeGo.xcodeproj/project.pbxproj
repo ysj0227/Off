@@ -134,7 +134,6 @@
 		04E2392C249B3ABB009DCCEC /* RenterSearchHistoryCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238B9249B3ABB009DCCEC /* RenterSearchHistoryCollectionCell.swift */; };
 		04E2392D249B3ABB009DCCEC /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238BA249B3ABB009DCCEC /* SearchResultTableViewCell.swift */; };
 		04E2392E249B3ABB009DCCEC /* RenterShareServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238BC249B3ABB009DCCEC /* RenterShareServiceCell.swift */; };
-		04E2392F249B3ABB009DCCEC /* RenterShareServiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E238BD249B3ABB009DCCEC /* RenterShareServiceCell.xib */; };
 		04E23931249B3ABB009DCCEC /* RenterDetailTrafficCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238BF249B3ABB009DCCEC /* RenterDetailTrafficCell.swift */; };
 		04E23932249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E238C0249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib */; };
 		04E23933249B3ABB009DCCEC /* RenterDetailNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238C1249B3ABB009DCCEC /* RenterDetailNameCell.swift */; };
@@ -414,7 +413,6 @@
 		04E238B9249B3ABB009DCCEC /* RenterSearchHistoryCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterSearchHistoryCollectionCell.swift; sourceTree = "<group>"; };
 		04E238BA249B3ABB009DCCEC /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		04E238BC249B3ABB009DCCEC /* RenterShareServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterShareServiceCell.swift; sourceTree = "<group>"; };
-		04E238BD249B3ABB009DCCEC /* RenterShareServiceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenterShareServiceCell.xib; sourceTree = "<group>"; };
 		04E238BF249B3ABB009DCCEC /* RenterDetailTrafficCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterDetailTrafficCell.swift; sourceTree = "<group>"; };
 		04E238C0249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenterAmbitusMatingCell.xib; sourceTree = "<group>"; };
 		04E238C1249B3ABB009DCCEC /* RenterDetailNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterDetailNameCell.swift; sourceTree = "<group>"; };
@@ -1129,7 +1127,6 @@
 			isa = PBXGroup;
 			children = (
 				04E238BC249B3ABB009DCCEC /* RenterShareServiceCell.swift */,
-				04E238BD249B3ABB009DCCEC /* RenterShareServiceCell.xib */,
 				04E238BF249B3ABB009DCCEC /* RenterDetailTrafficCell.swift */,
 				04E238C0249B3ABB009DCCEC /* RenterAmbitusMatingCell.xib */,
 				04E238C1249B3ABB009DCCEC /* RenterDetailNameCell.swift */,
@@ -1853,7 +1850,6 @@
 				EEE87AD02455854E00C03424 /* Assets.xcassets in Resources */,
 				04CB46D7249CAFE9001BCC8F /* CityOrRegionSelectCell.xib in Resources */,
 				04CB46D9249CAFE9001BCC8F /* RoleSelectTableViewCell.xib in Resources */,
-				04E2392F249B3ABB009DCCEC /* RenterShareServiceCell.xib in Resources */,
 				04990B9424BBF719008CDE6C /* DXIDCardCamera.bundle in Resources */,
 				EEE87ACE2455854C00C03424 /* Main.storyboard in Resources */,
 				04E23940249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.xib in Resources */,

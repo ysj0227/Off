@@ -189,11 +189,12 @@ class FangYuanBuildingBuildingViewModel: NSObject {
     var btype: Int?
     
     var buildingId : Int?
+    
+    ///共享服务数组 - 包括 基础服务 创业服务
+    var shareServices: [ShareServiceModel]?
+    
+    var shareServicesHeight: CGFloat = 0
 
-    ///基础服务
-    var basicServices : [DictionaryModel]?
-    ///创业服务
-    var corporateServices : [DictionaryModel]?
     
     var mainPic : String?
 
@@ -245,12 +246,6 @@ class FangYuanBuildingBuildingViewModel: NSObject {
     var addressString: String?
     var walkTimesubwayAndStationStringArr: [String]?  //步行5分钟到 | 2号线 ·东昌路站
     var dayPriceString: String?         //日租金
-    
-    ///共享服务
-    ///基础服务
-    var basicServicesString : [String]?
-    ///创业服务
-    var corporateServicesString : [String]?
     
     init(model:FangYuanBuildingBuildingModel) {
         
@@ -311,23 +306,32 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             openStationViewModel = FangYuanBuildingOpenStationViewModel.init(model: model.openStationMap ?? FangYuanBuildingOpenStationModel())
             
             
-            //共享服务 - 显示用黑色的图标
-            if let arr = model.basicServices {
-                basicServicesString = []
-                for service in arr {
-                    basicServicesString?.append(service.dictImgBlack ?? "")
+            shareServices = []
+            
+            if model.corporateServices?.count ?? 0 > 0 {
+                let corporateServicesModel = ShareServiceModel()
+                corporateServicesModel.title = "创业服务"
+                if let arr = model.corporateServices {
+                    corporateServicesModel.itemArr = arr
                 }
+                shareServices?.append(corporateServicesModel)
             }
             
-            basicServices = model.basicServices
+            if model.basicServices?.count ?? 0 > 0 {
+                let basicServicesModel = ShareServiceModel()
+                basicServicesModel.title = "基础服务"
+                if let arr = model.basicServices {
+                    basicServicesModel.itemArr = arr
+                }
+                shareServices?.append(basicServicesModel)
+            }
             
-            if let arr = model.corporateServices {
-                corporateServicesString = []
-                for service in arr {
-                    corporateServicesString?.append(service.dictImgBlack ?? "")
+            if shareServices?.count ?? 0 > 0 {
+                if let shareservices = shareServices {
+                    ///加26 当作底部的按钮
+                    shareServicesHeight = CGFloat(50 + shareservices.count * (20 + 18 + 18 + 26) + 26)
                 }
             }
-            corporateServices = model.corporateServices
         }
         
         guard let nearbySubwayTime = model.nearbySubwayTime else {
@@ -369,6 +373,10 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             }
         }
     }
+}
+class ShareServiceModel: BaseModel {
+    var title: String?
+    var itemArr: [DictionaryModel]?
 }
 class FangYuanBuildingFactorModel: BaseModel {
     ///1是办公楼，2是共享办公

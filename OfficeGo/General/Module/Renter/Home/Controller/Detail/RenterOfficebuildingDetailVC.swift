@@ -394,7 +394,6 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         self.tableView.register(RenterFeatureCell.self, forCellReuseIdentifier: RenterFeatureCell.reuseIdentifierStr)
         
         //共享服务
-        self.tableView.register(UINib.init(nibName: RenterShareServiceCell.reuseIdentifierStr, bundle: nil), forCellReuseIdentifier: RenterShareServiceCell.reuseIdentifierStr)
         
         //楼盘信息
         self.tableView.register(RenterOfficeBuildingMsgCell.self, forCellReuseIdentifier: RenterOfficeBuildingMsgCell.reuseIdentifierStr)

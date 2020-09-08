@@ -601,7 +601,7 @@ extension AppDelegate {
         options.autoTrackEventType = [.eventTypeAppStart, .eventTypeAppEnd, .eventTypeAppClick, .eventTypeAppViewScreen]
         
         #if DEBUG
-        options.enableLog = true
+        options.enableLog = false
         #else
         options.enableLog = false
         #endif
