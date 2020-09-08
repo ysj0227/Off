@@ -32,8 +32,8 @@
                             <constraint firstAttribute="height" constant="155" id="FwZ-Bk-9Bv"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoJ-OW-yIH">
-                        <rect key="frame" x="17" y="227" width="248" height="25"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoJ-OW-yIH">
+                        <rect key="frame" x="17" y="225" width="248" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="zhN-62-aF5"/>
                         </constraints>
@@ -60,13 +60,14 @@
                     <constraint firstItem="by0-dW-eTW" firstAttribute="leading" secondItem="Uve-aE-tcP" secondAttribute="leading" id="iVW-ov-Vr1"/>
                     <constraint firstItem="Uve-aE-tcP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="mvW-hB-z3F"/>
                     <constraint firstItem="by0-dW-eTW" firstAttribute="trailing" secondItem="Uve-aE-tcP" secondAttribute="trailing" id="s0E-fX-WR8"/>
-                    <constraint firstItem="xoJ-OW-yIH" firstAttribute="top" secondItem="by0-dW-eTW" secondAttribute="bottom" constant="17" id="sAM-wU-8Ek"/>
+                    <constraint firstItem="xoJ-OW-yIH" firstAttribute="top" secondItem="by0-dW-eTW" secondAttribute="bottom" constant="15" id="sAM-wU-8Ek"/>
                     <constraint firstItem="A02-Ju-4UC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="17" id="sY1-ah-ZDN"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="huxingConstangHeight" destination="zhN-62-aF5" id="ANU-cK-dgX"/>
+                <outlet property="huxingImgBottomConstantHeight" destination="sAM-wU-8Ek" id="mYv-n1-owi"/>
                 <outlet property="huxingImgConstantHeight" destination="FwZ-Bk-9Bv" id="riG-30-sDM"/>
                 <outlet property="unitPatternImgView" destination="by0-dW-eTW" id="Vg5-WF-h1Q"/>
                 <outlet property="unitPatternRemarkLabel" destination="xoJ-OW-yIH" id="xDh-OR-R8y"/>

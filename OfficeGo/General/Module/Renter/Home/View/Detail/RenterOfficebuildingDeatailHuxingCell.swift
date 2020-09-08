@@ -12,6 +12,8 @@ class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
 
     @IBOutlet weak var huxingImgConstantHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var huxingImgBottomConstantHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var huxingConstangHeight: NSLayoutConstraint!
     
     ///户型格局图
@@ -27,11 +29,13 @@ class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
     }
 
     func setCellWithViewModel(viewModel: FangYuanBuildingFYDetailBasicInformationViewModel) {
-        unitPatternImgView.setImage(with: viewModel.unitPatternImg ?? "", placeholder: UIImage.init(named: Default_4x3_large))
-        unitPatternRemarkLabel.text = viewModel.unitPatternRemark
         huxingConstangHeight.constant = viewModel.textHeight
         huxingImgConstantHeight.constant = viewModel.patternHeight
-        huxingConstangHeight.constant = viewModel.textHeight
+        if viewModel.patternHeight == 0 {
+            huxingImgBottomConstantHeight.constant = viewModel.patternHeight
+        }
+        unitPatternImgView.setImage(with: viewModel.unitPatternImg ?? "", placeholder: UIImage.init(named: Default_4x3_large))
+        unitPatternRemarkLabel.text = viewModel.unitPatternRemark
     }
     
     override func awakeFromNib() {

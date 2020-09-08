@@ -337,13 +337,16 @@ class FangYuanBuildingFYDetailBasicInformationViewModel: NSObject {
         
         unitPatternImg = model.unitPatternImg
         
+//        model.unitPatternRemark = "textHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeighttextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeighttextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeighttextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeighttextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeight"
         unitPatternRemark = model.unitPatternRemark
         
-        let size: CGSize = model.unitPatternRemark?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_LIGHT_11, lines: 0) ?? CGSize(width: kWidth - left_pending_space_17 * 2, height: 25)
-        if size.height < 25 {
-            textHeight = 25
-        }else{
-            textHeight = size.height
+        if let unitPatternRemark = model.unitPatternRemark {
+            let size: CGSize = unitPatternRemark.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_LIGHT_11, lines: 0) 
+            if size.height < 25 {
+                textHeight = 25 + 25
+            }else{
+                textHeight = size.height + 60
+            }
         }
         
         if let patternImg = model.unitPatternImg {
@@ -353,7 +356,7 @@ class FangYuanBuildingFYDetailBasicInformationViewModel: NSObject {
         }
         
         if patternHeight > 0 {
-            patternHeight += 17
+            patternHeight += 30
         }
         
         if (textHeight + patternHeight) > 0 {
