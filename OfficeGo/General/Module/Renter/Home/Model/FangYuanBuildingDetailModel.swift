@@ -329,7 +329,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             if shareServices?.count ?? 0 > 0 {
                 if let shareservices = shareServices {
                     ///加26 当作底部的按钮
-                    shareServicesHeight = CGFloat(50 + shareservices.count * (20 + 18 + 18 + 26) + 26)
+                    shareServicesHeight = CGFloat(50 + shareservices.count * (20 + 18 + 18 + 26) + 20)
                 }
             }
         }
@@ -435,7 +435,7 @@ class FangYuanBuildingIntroductionViewModel: NSObject {
     
     init(model:FangYuanBuildingIntroductionModel)
     {
-//        model.buildingMsg?[1].value = "阿里巴巴巴巴阿里巴巴阿里巴巴阿里巴巴阿12"
+//        model.buildingMsg?[1].value = "阿里巴巴巴巴阿里巴巴阿里巴巴阿里巴巴阿12cctv、上海东方明珠、芒果"
 //        settlementLicence = "cctv、上海东方明珠、芒果tv、腾讯视频、百度、阿里巴巴、哔哩哔哩、cctv、上海东方明珠、芒果tv、腾讯视频、百度、阿里巴巴、哔哩哔哩"
 
         if let msg = model.buildingMsg {

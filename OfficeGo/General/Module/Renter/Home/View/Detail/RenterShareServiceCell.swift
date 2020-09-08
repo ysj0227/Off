@@ -25,8 +25,8 @@ class RenterShareServiceCell: BaseTableViewCell {
     lazy var featureCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: left_pending_space_17, bottom: 0, right: left_pending_space_17)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsHorizontalScrollIndicator = false
@@ -219,6 +219,9 @@ class ShareItemBtnView: UIButton {
     var itemwidth: CGFloat = 20
     
     func setUpFeatureSubviews(str: [DictionaryModel]) {
+        self.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
         var width: CGFloat = 0.0
         for strs in str {
             if (width + (itemwidth + space)) > self.width {
