@@ -186,7 +186,7 @@ struct SensorsAnalyticsEvent {
             
         }
         ///设置公共属性基本信息
-        SensorsAnalyticsSDK.sharedInstance()?.registerSuperProperties(["platform_type": "iOS", "app_name": Device.appName ?? "OfficeGo"])
+        SensorsAnalyticsSDK.sharedInstance()?.registerSuperProperties(["platform_type": "iOS", "app_name": Device.appName])
         
         ///设置动态属性
         SensorsAnalyticsSDK.sharedInstance()?.registerDynamicSuperProperties({ () -> [String : Any] in
@@ -930,7 +930,7 @@ struct SensorsAnalyticsEvent {
    static func timeIntervalChangeToYYMMHHMMTimeStr(timeInterval:TimeInterval) -> String {
        let date:NSDate = NSDate.init(timeIntervalSince1970: timeInterval)
        let formatter = DateFormatter.init()
-       formatter.dateFormat = "MM月dd日HH:mm"
+       formatter.dateFormat = "yyyy-MM-dd HH:mm"
        return formatter.string(from: date as Date)
    }
     ///时间戳转成字符串 - MM月dd日
