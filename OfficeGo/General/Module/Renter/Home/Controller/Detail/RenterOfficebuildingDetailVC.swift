@@ -1008,7 +1008,7 @@ class RenterDetailSourceView: UIView {
                 
                 if model.isHasVideo == true {
                     
-                    let videoUrl = model.vrUrl?[0]
+                    let videoUrl = model.videoUrl?[0]
                     let player = WMPlayerModel()
                     player.videoURL = URL.init(string: videoUrl ?? "")
                     playerModel = player
