@@ -129,6 +129,23 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_1x1))
         houseNameLabel.text = viewModel.buildingName
         houseAddressLabel.text = viewModel.addressString
+        if viewModel.addressString?.isBlankString == true {
+            houseaddressIcon.isHidden = true
+            houseAddressLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(houseNameLabel).offset(12 + 4)
+                make.top.equalTo(houseNameLabel.snp.bottom).offset(0)
+                make.trailing.equalTo(houseNameLabel)
+                make.height.equalTo(0)
+            }
+        }else {
+            houseaddressIcon.isHidden = false
+            houseAddressLabel.snp.remakeConstraints { (make) in
+                make.leading.equalTo(houseNameLabel).offset(12 + 4)
+                make.top.equalTo(houseNameLabel.snp.bottom).offset(6)
+                make.trailing.equalTo(houseNameLabel)
+                make.height.equalTo(15)
+            }
+        }
         
         if viewModel.btype == 1 {
             
@@ -179,20 +196,22 @@ class RenterCollectOfficeCell: BaseTableViewCell {
             make.top.equalTo(houseImageview)
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
         }
+        houseAddressLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(houseNameLabel).offset(12 + 4)
+            make.top.equalTo(houseNameLabel.snp.bottom).offset(6)
+            make.trailing.equalTo(houseNameLabel)
+            make.height.equalTo(15)
+        }
         houseaddressIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseNameLabel.snp.bottom).offset(4)
-            make.size.equalTo(CGSize(width: 12, height: 18))
+            make.centerY.height.equalTo(houseAddressLabel)
+            make.width.equalTo(12)
         }
-        houseAddressLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(houseaddressIcon.snp.trailing).offset(4)
-            make.centerY.equalTo(houseaddressIcon)
-            make.trailing.equalTo(houseNameLabel.snp.trailing)
-        }
+        
         let width = (kWidth - 92 - left_pending_space_17 * 2 - 13) / 3.0
         firstItem.snp.makeConstraints { (make) in
             make.leading.equalTo(houseNameLabel)
-            make.top.equalTo(houseaddressIcon.snp.bottom).offset(7)
+            make.top.equalTo(houseAddressLabel.snp.bottom).offset(7)
             make.width.equalTo(width)
         }
         secondItem.snp.makeConstraints { (make) in
