@@ -27,7 +27,7 @@ class RenterUserHeaderView: UIView {
     
     lazy var headerImg: BaseImageView = {
         let view = BaseImageView.init()
-        view.contentMode = .scaleAspectFill
+//        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.image = UIImage.init(named: "avatar")
         view.layer.cornerRadius = heder_cordious_36
