@@ -340,12 +340,16 @@ class FangYuanBuildingFYDetailBasicInformationViewModel: NSObject {
 //        model.unitPatternRemark = "textHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeighttextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeighttextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeighttextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeighttextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeightextHeight爸比高昂卡诶更博啊个textHeighttextHeighttextHeighttextHeighttextHeight"
         unitPatternRemark = model.unitPatternRemark
         
-        if let unitPatternRemark = model.unitPatternRemark {
-            let size: CGSize = unitPatternRemark.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_LIGHT_11, lines: 0) 
-            if size.height < 25 {
-                textHeight = 25 + 25
-            }else{
-                textHeight = size.height + 60
+        if let unitPatternRemarkStr = model.unitPatternRemark {
+            if unitPatternRemarkStr.isBlankString != true {
+                let size: CGSize = unitPatternRemarkStr.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_LIGHT_11, lines: 0)
+                if size.height < 25 {
+                    textHeight = 25 + 25
+                }else{
+                    textHeight = size.height + 60
+                }
+            }else {
+                textHeight = 0
             }
         }
         
