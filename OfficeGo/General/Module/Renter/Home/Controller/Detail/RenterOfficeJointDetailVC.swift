@@ -853,7 +853,7 @@ extension RenterOfficeJointDetailVC {
                     }
                 }else {
                     if buildingDetailModel?.building?.nearbySubwayTime?.count ?? 0 > 0 {
-                        return 45 + 30 + 2
+                        return 42 + 30 + 2
                     }else {
                         return 45 + 2
                     }

@@ -528,7 +528,7 @@ extension RenterOfficebuildingFYDetailVC {
                 }
             }else {
                 if buildingFYDetailViewModel?.houseViewModel?.walkTimesubwayAndStationStringArr?.count ?? 0 > 0 {
-                    return 45 + 30 + 2
+                    return 42 + 30 + 2
                 }else {
                     return 45 + 2
                 }

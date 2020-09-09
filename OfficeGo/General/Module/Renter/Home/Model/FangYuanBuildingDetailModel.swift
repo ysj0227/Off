@@ -584,8 +584,8 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
             }else {
                 buildinSeats = "最多0个工位"
             }
-            buildingDayPriceString = "¥\(model.dayPrice ?? 0) /㎡/天" 
-            buildingMonthPriceString = "¥\(model.monthPrice ?? 0) /月"
+            buildingDayPriceString = "¥\(model.dayPrice ?? 0)/㎡/天"
+            buildingMonthPriceString = "¥\(model.monthPrice ?? 0)/月"
             buildingDecoration = model.decoration ?? ""
             if model.floor?.isBlankString ?? false == true && model.totalFloor?.isBlankString ?? false == true {
                 buildingFloor = "--"

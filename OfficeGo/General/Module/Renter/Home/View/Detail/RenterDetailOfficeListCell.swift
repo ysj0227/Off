@@ -22,6 +22,7 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
         view.textAlignment = .left
         view.font = FONT_11
         view.textColor = kAppColor_333333
+        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     
@@ -30,6 +31,7 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
         view.textAlignment = .left
         view.font = FONT_9
         view.textColor = kAppColor_333333
+        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     
@@ -38,6 +40,7 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
         view.textAlignment = .center
         view.font = FONT_11
         view.textColor = kAppColor_333333
+        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     
@@ -46,6 +49,7 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
         view.textAlignment = .center
         view.font = FONT_9
         view.textColor = kAppColor_333333
+        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     
@@ -54,6 +58,7 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
         view.textAlignment = .right
         view.font = FONT_11
         view.textColor = kAppBlueColor
+        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     
@@ -62,6 +67,7 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
         view.textAlignment = .right
         view.font = FONT_9
         view.textColor = kAppColor_333333
+        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     lazy var lineView: UIView = {

@@ -111,6 +111,8 @@ class RenterDetailTrafficCell: BaseTableViewCell {
             view.text = strs
             view.font = FONT_11
             view.textColor = kAppColor_666666
+            view.numberOfLines = 2
+            view.adjustsFontSizeToFitWidth = true
             height =  height + itemHeight
             trafficLineView.addSubview(view)
         }

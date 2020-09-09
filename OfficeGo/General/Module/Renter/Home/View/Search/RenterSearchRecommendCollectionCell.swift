@@ -70,7 +70,7 @@ class RenterSearchRecommendCollectionCell:  BaseCollectionViewCell {
             houseNumberLabel.text = "1"
             houseNameLabel.text = "上海中心大厦"
             houseKmAndAddressLabel.text = "2.1km | 徐汇区 · 漕河泾"
-            housePriceLabel.text = "￥2 /㎡/天起"
+            housePriceLabel.text = "￥2/㎡/天起"
         }
     }
     
