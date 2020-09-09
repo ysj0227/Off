@@ -863,7 +863,7 @@ struct SensorsAnalyticsEvent {
         if phoneNumber.count == 0 {
             return false
         }
-        let mobile = "^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$"
+        let mobile = "^^(1[3-9][0-9])\\d{8}$"
         let regexMobile = NSPredicate(format: "SELF MATCHES %@",mobile)
         if regexMobile.evaluate(with: phoneNumber) == true {
             return true
