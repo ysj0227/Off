@@ -268,7 +268,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     }
     @objc func valueDidChange() {
         
-        //只有办公楼地址要在编辑结束的时候传过去
+        //只有写字楼地址要在编辑结束的时候传过去
         if model.type == .OwnerCompanyIedntifyTypeCompanyname {
             guard let blockk = self.companyNameClickClouse else {
                 return
@@ -284,7 +284,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
             
             blockk(numDescTF.text ?? "")
         }
-            //只有办公楼地址要在编辑结束的时候传过去
+            //只有写字楼地址要在编辑结束的时候传过去
         else if model.type == .OwnerCompanyIedntifyTypeBuildingName {
             guard let blockk = self.buildingNameClickClouse else {
                 return
@@ -317,14 +317,14 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
 
 extension OwnerCompanyIdentifyCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        //只有办公楼地址要在编辑结束的时候传过去
+        //只有写字楼地址要在编辑结束的时候传过去
         if model.type == .OwnerCompanyIedntifyTypeBuildingAddress {
             guard let blockk = self.buildingAddresEndEditingMessageCell else {
                 return
             }
             blockk(textField.text ?? "")
         }
-        //只有办公楼名称要在编辑结束的时候传过去
+        //只有写字楼名称要在编辑结束的时候传过去
         if model.type == .OwnerCompanyIedntifyTypeBuildingName {
             guard let blockk = self.buildingNameEndEditingMessageCell else {
                 return

@@ -125,7 +125,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     func setItemFunc() {
         
-        //1是办公楼，2是共享办公
+        //1是写字楼，2是共享办公
         //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
         if let params = shaiXuanParams {
             if let seats = params["seats"] {
@@ -382,7 +382,7 @@ class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
         //设置头部
         self.tableView.tableHeaderView = tableHeaderView
         
-        //头部-三项显示 - 办公楼-
+        //头部-三项显示 - 写字楼-
         self.tableView.register(RenterDetailNameCell.self, forCellReuseIdentifier: RenterDetailNameCell.reuseIdentifierStr)
         
         //头部-三项显示 - 共享办公- 有标签-
@@ -684,7 +684,7 @@ extension RenterOfficeJointDetailVC: RenterDetailSourceViewImgScanDelegate{
 extension RenterOfficeJointDetailVC {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        //办公楼
+        //写字楼
         dataSourceArr.count
     }
     

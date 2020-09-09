@@ -179,7 +179,7 @@ class OwnerCompanyIeditnfyVC: BaseViewController {
             self?.requestCreateCompanySuccess()
         }
         
-        //公司认证 - 创建办公楼通知
+        //公司认证 - 创建写字楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
             self?.isHasBuilding = true
@@ -601,7 +601,7 @@ extension OwnerCompanyIeditnfyVC {
         companySearchResultVC?.closeButtonCallClick = {[weak self] in
             self?.companySearchResultVC?.view.isHidden = true
         }
-        //办公楼
+        //写字楼
         buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
         buildingNameSearchResultVC?.view.isHidden = true
         self.view.addSubview(buildingNameSearchResultVC?.view ?? UIView())

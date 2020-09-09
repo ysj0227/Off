@@ -406,7 +406,7 @@ extension RenterOfficeJointFYDetailVC: RenterDetailSourceViewImgScanDelegate{
 extension RenterOfficeJointFYDetailVC {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        //办公楼
+        //写字楼
         dataSourceArr.count
     }
     
@@ -477,7 +477,7 @@ extension RenterOfficeJointFYDetailVC {
         case FYDetailItemType.FYDetailItemTypeLianheOpenList:
             return UITableViewCell.init(frame: .zero)
             
-        case FYDetailItemType.FYDetailItemTypeFYList: //在租办公楼 -
+        case FYDetailItemType.FYDetailItemTypeFYList: //在租写字楼 -
             return UITableViewCell.init(frame: .zero)
             
         case .FYDetailItemTypeShareServices:

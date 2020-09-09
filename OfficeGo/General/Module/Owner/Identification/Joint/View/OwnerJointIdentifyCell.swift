@@ -271,7 +271,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
     }
     @objc func valueDidChange() {
         
-        //只有办公楼地址要在编辑结束的时候传过去
+        //只有写字楼地址要在编辑结束的时候传过去
         if model.type == .OwnerJointIedntifyTypeBranchname {
             guard let blockk = self.branchNameClickClouse else {
                 return
@@ -288,7 +288,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
             blockk(numDescTF.text ?? "")
         }
         
-        //只有办公楼地址要在编辑结束的时候传过去
+        //只有写字楼地址要在编辑结束的时候传过去
         if model.type == .OwnerJointIedntifyTypeCompanyname {
             guard let blockk = self.companyNameClickClouse else {
                 return

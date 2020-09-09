@@ -307,6 +307,8 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         //        requestGetBuildingList()
         
         notifyDeal()
+        
+        self.view.backgroundColor = kAppBlueColor
     }
     
     func notifyDeal() {

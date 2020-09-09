@@ -155,7 +155,7 @@ class OwnerPersonalIeditnfyVC: BaseViewController {
     }
     func addNotify() {
         
-        //个人认证 - 创建办公楼通知
+        //个人认证 - 创建写字楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
             self?.isHasBuilding = true
@@ -593,7 +593,7 @@ extension OwnerPersonalIeditnfyVC {
         
         headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
         
-        //办公楼
+        //写字楼
         buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
         buildingNameSearchResultVC?.view.isHidden = true
         self.view.addSubview(buildingNameSearchResultVC?.view ?? UIView())

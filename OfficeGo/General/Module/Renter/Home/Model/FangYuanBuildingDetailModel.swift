@@ -10,7 +10,7 @@ import UIKit
 
 //MARK: 楼盘和共享办公详情
 class FangYuanBuildingDetailModel: BaseModel {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     ///是否收藏：为0时是未为收藏 ，其他是已经收藏
     var IsFavorite : Bool?
@@ -27,7 +27,7 @@ class FangYuanBuildingDetailModel: BaseModel {
 
 
 class FangYuanBuildingDetailViewModel: NSObject {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     ///是否收藏：为0时是未为收藏 ，其他是已经收藏
     var IsFavorite : Bool?
@@ -119,7 +119,7 @@ class FangYuanBuildingDetailViewModel: NSObject {
 }
 
 class FangYuanBuildingBuildingModel: BaseModel {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     ///地址
     var address : String?
@@ -185,7 +185,7 @@ class FangYuanBuildingBuildingModel: BaseModel {
 
 //楼盘基本信息 - 楼盘名字 地址 公交
 class FangYuanBuildingBuildingViewModel: NSObject {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     
     var buildingId : Int?
@@ -264,7 +264,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
         ///是否显示开发工位的字段
         openStationFlag = model.openStationFlag
         
-        ///办公楼
+        ///写字楼
         if btype == 1 {
             houseCountString = "\(model.houseCount ?? 0)" + "套"
             ///最小面积-最大面积 - 如果一样，显示一个
@@ -379,7 +379,7 @@ class ShareServiceModel: BaseModel {
     var itemArr: [DictionaryModel]?
 }
 class FangYuanBuildingFactorModel: BaseModel {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     var buildingItem0: Int?
     var buildingItem1 : Int?
@@ -469,7 +469,7 @@ class FangYuanBuildingIntroductionViewModel: NSObject {
 
 ///房源列表模型
 class FangYuanBuildingOpenStationModel: BaseModel {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     ///每工位每月租金  3000.0
     var dayPrice : Float?
@@ -503,7 +503,7 @@ class FangYuanBuildingOpenStationModel: BaseModel {
 }
 ///房源列表viewmodel模型
 class FangYuanBuildingOpenStationViewModel: NSObject {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     ///房源id
     var id : Int?

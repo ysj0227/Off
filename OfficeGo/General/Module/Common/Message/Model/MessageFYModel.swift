@@ -14,7 +14,7 @@ class MessageFYViewModel: NSObject {
     var buildOrHouse : String?
     ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
     var isBuildOrHouse : Int?
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype : Int?
     var buildingId : Int?
     var houseId : Int?
@@ -53,7 +53,7 @@ class MessageFYViewModel: NSObject {
         ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
         if model.isBuildOrHouse == 1 {
             
-            ///1是办公楼，2是共享办公
+            ///1是写字楼，2是共享办公
             if model.building?.btype == 1 {
                 buildOrHouse = "楼盘"
             }else {
@@ -75,8 +75,16 @@ class MessageFYViewModel: NSObject {
             }
             IsFavorite = model.IsFavorite
             buildingName = model.building?.buildingName
-            houseName = model.building?.buildingName
-            distanceDistrictString = "\(model.building?.distance ?? "0")km | \(model.building?.district ?? "")"
+            houseName = model.building?.houseName
+            if let distance = model.building?.distance {
+                if distance.isBlankString == true || distance == "0" {
+                    distanceDistrictString = "\(model.building?.district ?? "")"
+                }else {
+                    distanceDistrictString = "\(distance)km | \(model.building?.district ?? "")"
+                }
+            }else {
+                distanceDistrictString = "\(model.building?.district ?? "")"
+            }
             distanceString = model.building?.distance?.count ?? 0 > 0 ? "\(model.building?.distance ?? "0")km" : ""
             districtString = model.building?.district ?? ""
             guard let nearbySubwayTime = model.building?.nearbySubwayTime else {
@@ -140,25 +148,39 @@ class MessageFYViewModel: NSObject {
             IsFavorite = model.IsFavorite
             buildingName = model.house?.buildingName
             houseName = model.house?.houseName
-            distanceDistrictString = "\(model.house?.distance ?? "0")km | \(model.house?.district ?? "")"
+            if let distance = model.house?.distance {
+                if distance.isBlankString == true || distance == "0" {
+                    distanceDistrictString = "\(model.house?.district ?? "")"
+                }else {
+                    distanceDistrictString = "\(distance)km | \(model.house?.district ?? "")"
+                }
+            }else {
+                distanceDistrictString = "\(model.house?.district ?? "")"
+            }
+            
             distanceString = model.house?.distance?.count ?? 0 > 0 ? "\(model.house?.distance ?? "0")km" : ""
             districtString = model.house?.district ?? ""
-            walkTimesubwayAndStationString = "步行"
-            guard let nearbySubwayTime = model.house?.nearbySubwayTime else {
+            guard let nearbySubwayTime = model.building?.nearbySubwayTime else {
                 return
             }
-            walkTimesubwayAndStationString?.append(nearbySubwayTime.count > 0 ? nearbySubwayTime[0] : "")
-            walkTimesubwayAndStationString?.append("分钟到 | ")
-            guard let stationline = model.house?.stationline else {
-                return
+            if nearbySubwayTime.count > 0 {
+                walkTimesubwayAndStationString = "步行"
+                guard let nearbySubwayTime = model.house?.nearbySubwayTime else {
+                    return
+                }
+                walkTimesubwayAndStationString?.append(nearbySubwayTime.count > 0 ? nearbySubwayTime[0] : "")
+                walkTimesubwayAndStationString?.append("分钟到 | ")
+                guard let stationline = model.house?.stationline else {
+                    return
+                }
+                walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
+                walkTimesubwayAndStationString?.append("号线 ·")
+                guard let stationNames = model.house?.stationNames else {
+                    return
+                }
+                walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
+                walkTimesubwayAndStationString?.append("站")
             }
-            walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
-            walkTimesubwayAndStationString?.append("号线 ·")
-            guard let stationNames = model.house?.stationNames else {
-                return
-            }
-            walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
-            walkTimesubwayAndStationString?.append("站")
             
             dayPriceNoUnitString = "¥\(model.house?.minSinglePrice ?? 0)"
             

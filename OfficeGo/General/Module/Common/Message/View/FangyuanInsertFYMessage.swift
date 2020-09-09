@@ -11,7 +11,7 @@ import UIKit
 class FangyuanInsertFYMessage: RCMessageContent, NSCoding {
     ///1:从楼盘进入返回building对象,2:从房源进入返回house对象
     var isBuildOrHouse : Int?
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype : Int?
     var buildingId : Int?
     var houseId : Int?
@@ -309,7 +309,11 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         let viewModel = model.content as? FangyuanInsertFYMessage
 
         houseMainImg.setImage(with: viewModel?.mainPic ?? "", placeholder: UIImage.init(named: Default_1x1))
-        houseNameLabel.text = viewModel?.houseName ?? ""
+        if viewModel?.isBuildOrHouse == 1 {
+            houseNameLabel.text = viewModel?.buildingName ?? ""
+        }else if viewModel?.isBuildOrHouse == 2 {
+            houseNameLabel.text = viewModel?.houseName ?? ""
+        }
         houseKmAndAddressLabel.text = viewModel?.distanceDistrictString ?? ""
         if viewModel?.walkTimesubwayAndStationString?.count ?? 0 > 0 {
             houseTrafficLabel.snp.remakeConstraints { (make) in
@@ -356,7 +360,9 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
     func initialize() {
         SSLog("----\\\\----\(UIScreen.main.bounds.size.width)")
         
-        bgcontentView.frame = CGRect(x: 0, y:0, width: UIScreen.main.bounds.size.width, height: 188)
+        bgcontentView.frame = CGRect(x: left_pending_space_17, y:0, width: UIScreen.main.bounds.size.width - left_pending_space_17 * 2, height: 188)
+        bgcontentView.clipsToBounds = true
+//        bgcontentView.layer.cornerRadius = button_cordious_8
 
         baseContentView.addSubview(bgcontentView)
         

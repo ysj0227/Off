@@ -223,9 +223,9 @@ class HouseListTableViewCell: BaseTableViewCell {
     ///列表页面
     func setCellWithViewModel(viewModel: FangYuanListViewModel) {
         houseTypTags.isHidden = false
-        ///1是办公楼，2是共享办公
+        ///1是写字楼，2是共享办公
         if viewModel.btype == 1 {
-            houseTypTags.text = "  办公楼  "
+            houseTypTags.text = "  写字楼  "
         }else if viewModel.btype == 2 {
             houseTypTags.text = "  共享办公  "
         }
@@ -242,7 +242,7 @@ class HouseListTableViewCell: BaseTableViewCell {
             }
         }else {
             houseAddressLabel.snp.remakeConstraints { (make) in
-                make.top.equalTo(houseNameLabel.snp.bottom)
+                make.top.equalTo(houseNameLabel.snp.bottom).offset(6)
                 make.leading.equalTo(houseNameLabel).offset(12 + 8)
                 make.height.equalTo(0)
                 make.trailing.equalTo(houseNameLabel)
@@ -298,7 +298,7 @@ class HouseListTableViewCell: BaseTableViewCell {
             }
         }else {
             houseAddressLabel.snp.remakeConstraints { (make) in
-                make.top.equalTo(houseNameLabel.snp.bottom)
+                make.top.equalTo(houseNameLabel.snp.bottom).offset(6)
                 make.leading.equalTo(houseNameLabel).offset(12 + 8)
                 make.height.equalTo(0)
                 make.trailing.equalTo(houseNameLabel)

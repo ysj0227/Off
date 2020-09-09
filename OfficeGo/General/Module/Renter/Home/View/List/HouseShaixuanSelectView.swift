@@ -150,7 +150,7 @@ class HouseShaixuanSelectView: UIView {
         LianHeBanGongdataArray.append([IWantToFindType.IWantToFindTypeGongwei, IWantToFindType.IWantToFindTypeZujin])
         //LianHeBanGongdataArray.append([IWantToFindType.IWantToFindTypeFeature])
         
-        //办公楼
+        //写字楼
         XieZiLouDataArray.append([
             IWantToFindType.IWantToFindTypeHouseType])
         XieZiLouDataArray.append([

@@ -69,6 +69,8 @@ let cell_height_30: CGFloat = 30
 //按钮的圆角
 let button_cordious_2: CGFloat = 2
 
+let button_cordious_8: CGFloat = 8
+
 //头像的圆角
 let heder_cordious_36: CGFloat = 36
 

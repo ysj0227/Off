@@ -263,7 +263,7 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
     }
     @objc func valueDidChange() {
         
-        //只有办公楼地址要在编辑结束的时候传过去
+        //只有写字楼地址要在编辑结束的时候传过去
         if model.type == .OwnerPersonalIedntifyTypeBuildingName {
             guard let blockk = self.buildingNameClickClouse else {
                 return
@@ -339,14 +339,14 @@ extension OwnerPersonalIdentifyCell: UITextFieldDelegate {
             }
             blockk(textField.text ?? "")
         }
-//        //只有办公楼地址要在编辑结束的时候传过去
+//        //只有写字楼地址要在编辑结束的时候传过去
 //        else if model.type == .OwnerPersonalIedntifyTypeBuildingAddress {
 //            guard let blockk = self.buildingAddresEndEditingMessageCell else {
 //                return
 //            }
 //            blockk(textField.text ?? "")
 //        }
-        //只有办公楼名称要在编辑结束的时候传过去
+        //只有写字楼名称要在编辑结束的时候传过去
         else if model.type == .OwnerPersonalIedntifyTypeBuildingName {
             guard let blockk = self.buildingNameEndEditingMessageCell else {
                 return

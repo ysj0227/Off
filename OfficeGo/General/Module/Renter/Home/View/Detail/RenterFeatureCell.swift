@@ -92,7 +92,7 @@ class RenterFeatureCell: BaseTableViewCell {
 
 class FeatureView: UIView {
       
-    //办公楼面积显示 - 列表
+    //写字楼面积显示 - 列表
     var mianjiStringList: [String] = [] {
         didSet {
             widthAdd = 30

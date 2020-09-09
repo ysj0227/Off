@@ -9,7 +9,7 @@
 import UIKit
 
 class FangYuanBuildingFYDetailModel: BaseModel {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     ///是否收藏：为0时是未为收藏 ，其他是已经收藏
     var IsFavorite : Bool?
@@ -19,7 +19,7 @@ class FangYuanBuildingFYDetailModel: BaseModel {
     var vrUrl : [BannerModel]?
 }
 class FangYuanBuildingFYDetailViewModel: NSObject {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     ///是否收藏：为0时是未为收藏 ，其他是已经收藏
     var IsFavorite : Bool?
@@ -67,7 +67,7 @@ class FangYuanBuildingFYDetailViewModel: NSObject {
     }
 }
 class FangYuanBuildingFYDetailHouseModel: BaseModel {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     var buildingId : Int?
     var id : Int?
@@ -116,7 +116,7 @@ class FangYuanBuildingFYDetailHouseModel: BaseModel {
 
 }
 class FangYuanBuildingFYDetailHouseViewModel: NSObject {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     var buildingId : Int?
     var id : Int?
@@ -292,7 +292,7 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
 }
 
 class FangYuanBuildingFYDetailBasicInformationModel: BaseModel {
-    ///1是办公楼，2是共享办公 用来判断最短租期单位
+    ///1是写字楼，2是共享办公 用来判断最短租期单位
     var btype: Int?
     ///户型格局图
     var unitPatternImg : String?
@@ -303,7 +303,7 @@ class FangYuanBuildingFYDetailBasicInformationModel: BaseModel {
     var houseMsg : [FangYuanBuildingIntroductionMsgModel]?
 }
 class FangYuanBuildingFYDetailBasicInformationViewModel: NSObject {
-    ///1是办公楼，2是共享办公 用来判断最短租期单位
+    ///1是写字楼，2是共享办公 用来判断最短租期单位
     var btype: Int?
     ///户型格局图
     var unitPatternImg : String?

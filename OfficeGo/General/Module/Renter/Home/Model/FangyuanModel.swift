@@ -53,7 +53,7 @@ class BuildingMap : BaseModel {
     var stationline : [String]?         //距离最近地铁先，进的在前
 }
 class FangYuanListViewModel: NSObject {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var btype: Int?
     var idString: Int?                  //房源id
     var Isfailure : Int?                //0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除

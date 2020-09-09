@@ -22,7 +22,7 @@ class OwnerESBuildingSearchModel: BaseModel {
     var buildingAddress : String?
 }
 class OwnerESBuildingSearchViewModel: NSObject {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var buildType: Int?
     ///楼盘id
     var bid : String?

@@ -52,7 +52,7 @@ class HouseShaixuanModel: HandyJSON {
     
     var isShaixuan: Bool?
     
-    //办公楼筛选范围
+    //写字楼筛选范围
     var mianjiofficeBuildingExtentModel: SliderExtentModel = {
         var model = SliderExtentModel()
         model.minimumValue = 0
@@ -101,7 +101,7 @@ class HouseShaixuanModel: HandyJSON {
     // 房源特色数据
     var featureModelArr = [HouseFeatureModel]()
     
-    //    //房源特色 - 选择办公楼
+    //    //房源特色 - 选择写字楼
     //    var featureofficeBuildingSelectedArr = [HouseFeatureModel]()
     //
     //    //房源特色 - 选择共享办公
@@ -124,7 +124,7 @@ class SliderExtentModel: HandyJSON {
 //筛选特色
 class HouseFeatureModel: DictionaryModel {
     
-    //办公楼特色选择
+    //写字楼特色选择
     var isOfficeBuildingSelected: Bool = false
     
     //共享办公特色选择

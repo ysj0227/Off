@@ -124,7 +124,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     
     func setItemFunc() {
         
-        //1是办公楼，2是共享办公
+        //1是写字楼，2是共享办公
         
         //判断 - 如果传过来的面积值字符串大于0 说明有筛选过
         if let params = shaiXuanParams {
@@ -144,7 +144,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         }
         
         
-        //办公楼 -
+        //写字楼 -
         //名称基本信息 - 公交 特色
         self.dataSourceArr.append([
             FYDetailItemType.FYDetailItemOfficeBuildingNameView,
@@ -168,7 +168,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
     }
     
     ///获取点击的条件
-    func getClickItemString(index: Int) { //办公楼
+    func getClickItemString(index: Int) { //写字楼
         
         switch index {
         case 0:
@@ -381,7 +381,7 @@ class RenterOfficebuildingDetailVC: BaseTableViewController, WMPlayerDelegate {
         //设置头部
         self.tableView.tableHeaderView = tableHeaderView
         
-        //头部-三项显示 - 办公楼-
+        //头部-三项显示 - 写字楼-
         self.tableView.register(RenterDetailNameCell.self, forCellReuseIdentifier: RenterDetailNameCell.reuseIdentifierStr)
         
         //头部-三项显示 - 共享办公- 有标签-
@@ -675,11 +675,11 @@ extension RenterOfficebuildingDetailVC: RenterDetailSourceViewImgScanDelegate{
 extension RenterOfficebuildingDetailVC {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        //办公楼
+        //写字楼
         dataSourceArr.count
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { //办公楼
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { //写字楼
         //在租写字楼
         if section == 1 {
             return dataSource.count
@@ -688,7 +688,7 @@ extension RenterOfficebuildingDetailVC {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { //办公楼
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { //写字楼
         if indexPath.section == 1 {
             //办公室
             let cell = tableView.dequeueReusableCell(withIdentifier: RenterDetailOfficeListCell.reuseIdentifierStr) as? RenterDetailOfficeListCell
@@ -738,7 +738,7 @@ extension RenterOfficebuildingDetailVC {
             case FYDetailItemType.FYDetailItemTypeLianheOpenList:
                 return UITableViewCell.init(frame: .zero)
                 
-            case FYDetailItemType.FYDetailItemTypeFYList: //在租办公楼 -
+            case FYDetailItemType.FYDetailItemTypeFYList: //在租写字楼 -
                 return UITableViewCell.init(frame: .zero)
                 
             case FYDetailItemType.FYDetailItemTypeOfficeDeatail:
@@ -764,7 +764,7 @@ extension RenterOfficebuildingDetailVC {
         
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { //办公楼
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { //写字楼
         if indexPath.section == 1 {
             return RenterDetailOfficeListCell.rowHeight()
         }else {
@@ -824,7 +824,7 @@ extension RenterOfficebuildingDetailVC {
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { //办公楼
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { //写字楼
         if section == 1 {
             return 61 + 46 + 15
         }else {
@@ -832,7 +832,7 @@ extension RenterOfficebuildingDetailVC {
         }
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { //办公楼
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { //写字楼
         if section == 1 {
             //如果开放工位数据数组大于0显示
             let view = UIView()
@@ -859,9 +859,9 @@ extension RenterOfficebuildingDetailVC {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { //办公楼
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { //写字楼
         if section == 1 {
-            //如果办公楼数据数组大于0显示
+            //如果写字楼数据数组大于0显示
             if isHiddenMoreData ?? false == true {
                 return 0
             }else {
@@ -872,7 +872,7 @@ extension RenterOfficebuildingDetailVC {
         }
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { //办公楼
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { //写字楼
         if section == 1 {
             //如果开放工位数据数组大于0显示
             let view = UIView()
@@ -904,7 +904,7 @@ extension RenterOfficebuildingDetailVC {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //办公楼
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { //写字楼
         if indexPath.section == 1 {
             if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
                 model.btype = 1

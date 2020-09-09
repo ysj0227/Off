@@ -79,7 +79,7 @@ class RenterOfficebuildingFYDetailVC: BaseTableViewController {
     }
     
     func setItemFunc() {
-        //办公楼 - 办公室
+        //写字楼 - 办公室
         //名称基本信息 -房源信息- 户型 - 工交 -特色 - 周边配套
         
         self.dataSourceArr.append([
@@ -411,7 +411,7 @@ extension RenterOfficebuildingFYDetailVC: RenterDetailSourceViewImgScanDelegate{
 extension RenterOfficebuildingFYDetailVC {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        //办公楼
+        //写字楼
         dataSourceArr.count
     }
     
@@ -484,7 +484,7 @@ extension RenterOfficebuildingFYDetailVC {
         case FYDetailItemType.FYDetailItemTypeLianheOpenList:
             return UITableViewCell.init(frame: .zero)
             
-        case FYDetailItemType.FYDetailItemTypeFYList: //在租办公楼 -
+        case FYDetailItemType.FYDetailItemTypeFYList: //在租写字楼 -
             return UITableViewCell.init(frame: .zero)
             
         case .FYDetailItemTypeShareServices:

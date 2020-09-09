@@ -15,7 +15,7 @@ class SearchHistoryModel: BaseModel {
 }
 
 class FangYuanSearchResultModel: BaseModel {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var buildType: Int?
     ///楼盘id
     var bid : Int?
@@ -31,7 +31,7 @@ class FangYuanSearchResultModel: BaseModel {
 }
 
 class FangYuanSearchResultViewModel: NSObject {
-    ///1是办公楼，2是共享办公
+    ///1是写字楼，2是共享办公
     var buildType: Int?
     ///楼盘id
     var bid : Int?

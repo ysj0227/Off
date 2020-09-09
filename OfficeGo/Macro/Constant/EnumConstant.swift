@@ -115,14 +115,14 @@ public enum IWantToFindType {
     case IWantToFindTypeFeature     //房源特色
 }
 
-//办公楼和共享办公详情页面枚举
+//写字楼和共享办公详情页面枚举
 public enum FYDetailItemType {
     case FYDetailItemOfficeBuildingNameView //头部名字
     case FYDetailItemTypeJointNameView  //共享办公 - 头部 - 开放工位和独立办公室
     case FYDetailItemTypeTraffic        //交通
     case FYDetailItemTypeFeature        //特色
     case FYDetailItemTypeLianheOpenList //共享办公开放工位列表
-    case FYDetailItemTypeFYList         //房源列表 - 办公楼办公室 / 共享办公独立办公室列表
+    case FYDetailItemTypeFYList         //房源列表 - 写字楼办公室 / 共享办公独立办公室列表
     case FYDetailItemTypeShareServices  //共享服务
     case FYDetailItemTypeOfficeDeatail  //楼盘详情
     case FYDetailItemTypeAmbitusMating  //周边配套
