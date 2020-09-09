@@ -374,9 +374,17 @@ class FangYuanBuildingFYDetailBasicInformationViewModel: NSObject {
             }
         }
         
-        houseMsgHeight = (CGFloat(houseMsg?.count ?? 0 + 1) / 2.0) * (12 * 3 + 36) + 40
+        if houseMsg?.count ?? 0 > 0 {
+            houseMsgHeight = (CGFloat(houseMsg?.count ?? 0 + 1) / 2.0) * (12 * 3 + 36) + 40
+        }else {
+            houseMsgHeight = 0
+        }
         
         //50为标题
-        cellHeight = houseMsgHeight + 50
+        if houseMsgHeight > 0 {
+            cellHeight = houseMsgHeight + 50
+        }else {
+            cellHeight = 0
+        }
     }
 }

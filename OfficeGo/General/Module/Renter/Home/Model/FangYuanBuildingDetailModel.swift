@@ -451,19 +451,29 @@ class FangYuanBuildingIntroductionViewModel: NSObject {
         
         settlementLicence = model.settlementLicence
         
-        if settlementLicence?.isBlankString != true {
-            let size: CGSize = settlementLicence?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_12, lines: 0) ?? CGSize(width: (kWidth - left_pending_space_17 * 2) / 2.0 + 1, height: 25)
-            
-            settlementLicenceHeight = 12 + 18 + 12 + size.height + 12
-        }else {
-            settlementLicenceHeight = 0
+        if let settlementlicenceStr = settlementLicence {
+            if settlementlicenceStr.isBlankString != true {
+                let size: CGSize = settlementlicenceStr.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 * 2, height: 9999), font: FONT_12, lines: 0)
+                
+                settlementLicenceHeight = 12 + 18 + 12 + size.height + 12
+            }else {
+                settlementLicenceHeight = 0
+            }
         }
-
         
-        buildingMsgHeight = (CGFloat(buildingMsg?.count ?? 0 + 1) / 2.0) * (12 * 3 + 36) + 40
+
+        if buildingMsg?.count ?? 0 > 0 {
+            buildingMsgHeight = (CGFloat(buildingMsg?.count ?? 0 + 1) / 2.0) * (12 * 3 + 36) + 40
+        }else {
+            buildingMsgHeight = 0
+        }
         
         //50为标题
-        cellHeight = buildingMsgHeight  + settlementLicenceHeight + 50
+        if (buildingMsgHeight + settlementLicenceHeight) > 0 {
+            cellHeight = buildingMsgHeight  + settlementLicenceHeight + 50
+        }else {
+            cellHeight = 0
+        }
     }
 }
 
