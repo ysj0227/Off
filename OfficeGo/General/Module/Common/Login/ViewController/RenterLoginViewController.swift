@@ -405,6 +405,10 @@ class RenterLoginViewController: BaseViewController {
         getCodeButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 let mobile = self?.phoneField.text
+                if SSTool.isPhoneNumber(phoneNumber: mobile ?? "") != true {
+                    AppUtilities.makeToast("请输入正确的手机号")
+                    return
+                }
                 self?.phoneField.isEnabled = false
                 self?.getSmsCode()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
@@ -421,6 +425,10 @@ class RenterLoginViewController: BaseViewController {
                 if self?.isClickVerify == true {
                     self?.checkVerifyCode()
                 }else {
+                    if SSTool.isPhoneNumber(phoneNumber: self?.phoneField.text ?? "") != true {
+                        AppUtilities.makeToast("请输入正确的手机号")
+                        return
+                    }
                     self?.isClickVerify = true
                     self?.updateFrame()
                     let mobile = self?.phoneField.text
@@ -607,6 +615,10 @@ class RenterLoginViewController: BaseViewController {
         
         if mobile?.isBlankString == true {
             AppUtilities.makeToast("请输入手机号")
+            return
+        }
+        if SSTool.isPhoneNumber(phoneNumber: mobile ?? "") != true {
+            AppUtilities.makeToast("请输入正确的手机号")
             return
         }
         if code?.isBlankString == true {
