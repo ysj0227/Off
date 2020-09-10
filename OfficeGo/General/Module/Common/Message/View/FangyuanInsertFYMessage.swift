@@ -362,7 +362,7 @@ class FangyuanInsertFYMessageCell: RCMessageBaseCell {
         
         bgcontentView.frame = CGRect(x: left_pending_space_17, y:0, width: UIScreen.main.bounds.size.width - left_pending_space_17 * 2, height: 188)
         bgcontentView.clipsToBounds = true
-//        bgcontentView.layer.cornerRadius = button_cordious_8
+        bgcontentView.layer.cornerRadius = button_cordious_8
 
         baseContentView.addSubview(bgcontentView)
         
