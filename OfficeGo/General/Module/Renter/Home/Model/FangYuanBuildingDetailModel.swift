@@ -349,9 +349,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             guard let stationNames = model.stationNames else {
                 return
             }
-            
-            let zhanStr = "站"
-            
+                        
             if nearbySubwayTime.count == stationline.count && nearbySubwayTime.count == stationNames.count && nearbySubwayTime.count > 0 {
                 
                 walkTimesubwayAndStationStringArr = []
@@ -366,7 +364,6 @@ class FangYuanBuildingBuildingViewModel: NSObject {
                     timestring.append(xianStr)
                     let stationName = stationNames[index ?? 0]
                     timestring.append(stationName)
-                    timestring.append(zhanStr)
                     self.walkTimesubwayAndStationStringArr?.append(timestring)
                     
                 }

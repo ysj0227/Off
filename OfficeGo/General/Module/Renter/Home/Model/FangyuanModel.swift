@@ -94,7 +94,6 @@ class FangYuanListViewModel: NSObject {
                 return
             }
             walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
-            walkTimesubwayAndStationString?.append("站")
             
         }
 

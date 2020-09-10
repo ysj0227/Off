@@ -230,7 +230,6 @@ class UserTool: NSObject {
     
     func forwardLogin() {
         UserTool.shared.removeAll()
-        
     }
     
     func synchronize() {
@@ -252,7 +251,6 @@ class UserTool: NSObject {
         userDefault.removeObject(forKey: "user_sex")
         userDefault.removeObject(forKey: "user_company")
         userDefault.removeObject(forKey: "user_job")
-        userDefault.removeObject(forKey: "user_rongyuntoken")
         
         /*
         userDefault.setValue(false, forKey: "isCloseCancelVersionUpdate")

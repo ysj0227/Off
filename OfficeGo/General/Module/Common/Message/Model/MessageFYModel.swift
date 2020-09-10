@@ -103,7 +103,6 @@ class MessageFYViewModel: NSObject {
                     return
                 }
                 walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
-                walkTimesubwayAndStationString?.append("站")
             }
             
             dayPriceNoUnitString = "¥\(model.building?.minSinglePrice ?? 0)"
@@ -179,7 +178,6 @@ class MessageFYViewModel: NSObject {
                     return
                 }
                 walkTimesubwayAndStationString?.append(stationNames.count > 0 ? stationNames[0] : "")
-                walkTimesubwayAndStationString?.append("站")
             }
             
             dayPriceNoUnitString = "¥\(model.house?.minSinglePrice ?? 0)"

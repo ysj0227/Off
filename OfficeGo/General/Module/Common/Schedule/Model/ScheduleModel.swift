@@ -300,9 +300,7 @@ class ScheduleListDetailBuildingViewModel : NSObject {
         guard let stationNames = model.stationNames else {
             return
         }
-        
-        let zhanStr = "站"
-        
+                
         if stationNames.count == stationline.count && stationNames.count > 0 {
                         
             trafficString = ""
@@ -315,7 +313,6 @@ class ScheduleListDetailBuildingViewModel : NSObject {
                 timestring.append(xianStr)
                 let stationName = stationNames[index ?? 0]
                 timestring.append(stationName)
-                timestring.append(zhanStr)
                 
                 if index == stationline.count - 1 {
                     trafficString?.append("\(timestring)")
