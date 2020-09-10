@@ -20,7 +20,7 @@ class SearchResultTableViewCell: BaseTableViewCell {
     lazy var houseDictrictIcon: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
-        view.image = UIImage.init(named: "trafficIcon")
+        view.image = UIImage.init(named: "searchAddress")
         return view
     }()
     lazy var houseDistrictBusinessLabel: UILabel = {
