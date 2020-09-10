@@ -326,8 +326,8 @@ class ScheduleViewingMessageCell: RCMessageCell {
         buildingNameLabel.text = "名字：\(testMessage?.buildingName ?? "")"
         buildingAddressLabel.text = "地址：\(testMessage?.buildingAddress ?? "")"
 
-        let textLabelSize = ScheduleViewingMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", fyId: "0", time: "0", buildingName: "", buildingAddress: ""), messageDirection: messageDirection)
-        let bubbleBackgroundViewSize = ScheduleViewingMessageCell.getBubbleSize(textLabelSize)
+        let contentSize = ScheduleViewingMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", fyId: "0", time: "0", buildingName: "", buildingAddress: ""), messageDirection: messageDirection)
+        let bubbleBackgroundViewSize = ScheduleViewingMessageCell.getBubbleSize(contentSize)
         var messageContentViewRect = messageContentView.frame
         
         //接收
@@ -337,13 +337,13 @@ class ScheduleViewingMessageCell: RCMessageCell {
             lookupBtn.isHidden = false
             lineView.isHidden = false
             btnlineView.isHidden = false
-            iconimg.frame = CGRect(x: 12, y: 7, width: 23, height: textLabelSize.height - 45 - 30 - 30 * 2)
-            textLabel.frame = CGRect(x: iconimg.right + 10, y: 7, width: textLabelSize.width, height: textLabelSize.height - 45 - 30 - 30 * 2)
+            iconimg.frame = CGRect(x: 12, y: 7, width: 23, height: contentSize.height - 45 - 30 - 30 * 2)
+            textLabel.frame = CGRect(x: iconimg.right + 10, y: 7, width: contentSize.width, height: contentSize.height - 45 - 30 - 30 * 2)
             
-            buildingNameLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom + 3, width: textLabelSize.width, height: 30)
-            buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: textLabelSize.width, height: 30)
+            buildingNameLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom + 3, width: contentSize.width, height: 30)
+            buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: contentSize.width + 12, height: 30)
             
-            timeLabel.frame = CGRect(x: textLabel.left, y: buildingAddressLabel.bottom, width: textLabelSize.width, height: 30)
+            timeLabel.frame = CGRect(x: textLabel.left, y: buildingAddressLabel.bottom, width: contentSize.width, height: 30)
             lineView.frame = CGRect(x: 6, y: timeLabel.bottom + 7, width: bubbleBackgroundViewSize.width - 12, height: 1)
             rejectBtn.frame = CGRect(x: 0, y: lineView.bottom, width: bubbleBackgroundViewSize.width / 2.0, height: 45)
             btnlineView.frame = CGRect(x: rejectBtn.right, y: rejectBtn.top, width: 1.0, height: rejectBtn.height)
@@ -360,12 +360,12 @@ class ScheduleViewingMessageCell: RCMessageCell {
             lookupBtn.isHidden = true
             lineView.isHidden = true
             btnlineView.isHidden = true
-            textLabel.frame = CGRect(x: 18, y: (bubbleBackgroundViewSize.height - textLabelSize.height) / 2.0, width: textLabelSize.width, height: textLabelSize.height - 30 - 30 * 2)
+            textLabel.frame = CGRect(x: 18, y: (bubbleBackgroundViewSize.height - contentSize.height) / 2.0, width: contentSize.width, height: contentSize.height - 30 - 30 * 2)
             
-            buildingNameLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom + 3, width: textLabelSize.width, height: 30)
-            buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: textLabelSize.width, height: 30)
-            
-            timeLabel.frame = CGRect(x: textLabel.left, y: buildingAddressLabel.bottom, width: textLabelSize.width, height: 30)
+            buildingNameLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom + 3, width: contentSize.width, height: 30)
+            buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: contentSize.width + 12, height: 30)
+
+            timeLabel.frame = CGRect(x: textLabel.left, y: buildingAddressLabel.bottom, width: contentSize.width, height: 30)
             
             messageContentViewRect.size.width = bubbleBackgroundViewSize.width
             messageContentViewRect.size.height = bubbleBackgroundViewSize.height
