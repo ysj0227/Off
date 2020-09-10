@@ -47,6 +47,7 @@ class CycleCell: UICollectionViewCell {
     lazy var imageView : BaseImageView = {
         let imageView = BaseImageView(frame: bounds)
         imageView.clipsToBounds = true
+        imageView.backgroundColor = kAppWhiteColor
         return imageView
     }()
 }
