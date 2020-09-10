@@ -74,8 +74,8 @@ import Foundation
 //    static var SSWebHosts = ["Dev": "http://webapi.officego.com/",
 //                             "Release": "http://webapi.officego.com/"]
 //
-//    static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac",
-//                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac"]
+//    static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
+//                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
     
     
     //    调试接口地址:debug.officego.com.cn
