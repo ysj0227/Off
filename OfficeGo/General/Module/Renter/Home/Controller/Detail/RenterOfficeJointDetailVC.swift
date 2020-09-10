@@ -11,7 +11,7 @@ import WMPlayer
 import HandyJSON
 import SwiftyJSON
 
-class RenterOfficeJointDetailVC: BaseTableViewController, WMPlayerDelegate {
+class RenterOfficeJointDetailVC: BaseGroupTableViewController, WMPlayerDelegate {
     
     ///神策添加字段
     var buildLocation: Int = 0

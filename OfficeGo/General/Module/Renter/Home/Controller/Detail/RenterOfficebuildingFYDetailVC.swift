@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RenterOfficebuildingFYDetailVC: BaseTableViewController {
+class RenterOfficebuildingFYDetailVC: BaseGroupTableViewController {
     
     //表头
     let tableHeaderView: RenterDetailSourceView = {

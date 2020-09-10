@@ -25,6 +25,7 @@
 		04266B6724FF6FB10027348B /* BannerOutClickWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04266B6624FF6FB10027348B /* BannerOutClickWebViewController.swift */; };
 		042D73D524BDAC600062FA7B /* OwnerCreateCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */; };
 		042D73D724BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D73D624BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift */; };
+		042D95012509FD2500BEACED /* BaseGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D95002509FD2500BEACED /* BaseGroupTableViewController.swift */; };
 		042E5E4324964913008B8E14 /* NetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E4224964913008B8E14 /* NetReachability.swift */; };
 		0434D67924DAC73E00582B3B /* OwnerEnterCreatedCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0434D67824DAC73D00582B3B /* OwnerEnterCreatedCompanyViewController.swift */; };
 		0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB0247E15B80015C355 /* SSNetworkTool.swift */; };
@@ -300,6 +301,7 @@
 		04266B6624FF6FB10027348B /* BannerOutClickWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerOutClickWebViewController.swift; sourceTree = "<group>"; };
 		042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCreateCompanyViewController.swift; sourceTree = "<group>"; };
 		042D73D624BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerApplyEnterCompanyViewController.swift; sourceTree = "<group>"; };
+		042D95002509FD2500BEACED /* BaseGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupTableViewController.swift; sourceTree = "<group>"; };
 		042E5E4224964913008B8E14 /* NetReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetReachability.swift; sourceTree = "<group>"; };
 		0434D67824DAC73D00582B3B /* OwnerEnterCreatedCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerEnterCreatedCompanyViewController.swift; sourceTree = "<group>"; };
 		0437CFB0247E15B80015C355 /* SSNetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSNetworkTool.swift; sourceTree = "<group>"; };
@@ -1752,6 +1754,7 @@
 				EEE87B7624559FE700C03424 /* UICollectionViewLeftAlignedLayout.swift */,
 				EE353EC02456DC8E00057545 /* BaseTableViewController.swift */,
 				046F1A7C24FDF0680029A965 /* VRScanWebViewController.swift */,
+				042D95002509FD2500BEACED /* BaseGroupTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2193,6 +2196,7 @@
 				EEE87B3C24558F6A00C03424 /* UIImageExtension.swift in Sources */,
 				04121F3124BF0CE900864E51 /* OwnerJointIdentifyCell.swift in Sources */,
 				EE4914DD24692D62008D5689 /* LLSegmentViewController.swift in Sources */,
+				042D95012509FD2500BEACED /* BaseGroupTableViewController.swift in Sources */,
 				EE4914DC24692D62008D5689 /* LLIndicatorView.swift in Sources */,
 				EEE87B262455856800C03424 /* JHToolsDefine.swift in Sources */,
 				04CB4790249CB250001BCC8F /* RenterUserMsgViewController.swift in Sources */,
