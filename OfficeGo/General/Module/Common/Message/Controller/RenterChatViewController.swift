@@ -750,7 +750,7 @@ extension RenterChatViewController {
         
         ///从楼盘进入
         if messageFYViewModel?.isBuildOrHouse == 1 {
-            let str = "\(UserTool.shared.user_uid ?? 0)-\(targetId ?? "")-\(messageFYModel?.building?.buildingId ?? 0)-\(messageFYModel?.building?.houseId ?? 0)"
+            let str = "\(UserTool.shared.user_uid ?? 0)-\(targetId ?? "")-\(messageFYModel?.building?.buildingId ?? 0)"
             let isExisted = SSTool.isKeyPresentInUserDefaults(key: str)
             if isExisted {
                 
