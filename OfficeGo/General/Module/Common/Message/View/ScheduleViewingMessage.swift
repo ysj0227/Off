@@ -150,7 +150,6 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let label = UILabel(frame: CGRect.zero)
         label.font = FONT_13
         label.numberOfLines = 1
-        label.lineBreakMode = .byWordWrapping
         label.textAlignment = .left
         label.textColor = kAppColor_333333
         return label
@@ -160,10 +159,10 @@ class ScheduleViewingMessageCell: RCMessageCell {
     lazy var buildingAddressLabel: UILabel = {
         let label = UILabel(frame: CGRect.zero)
         label.font = FONT_13
-        label.numberOfLines = 1
-        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 2
         label.textAlignment = .left
         label.textColor = kAppColor_333333
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -172,7 +171,6 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let label = UILabel(frame: CGRect.zero)
         label.font = FONT_13
         label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
         label.textAlignment = .left
         label.textColor = kAppBlueColor
         return label
@@ -324,7 +322,7 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let dateStr = date.localDateString()
         timeLabel.text = "约看时间：\(dateStr)"
         buildingNameLabel.text = "名字：\(testMessage?.buildingName ?? "")"
-        buildingAddressLabel.text = "地址：\(testMessage?.buildingAddress ?? "")"
+        buildingAddressLabel.text = "地址：\(testMessage?.buildingAddress ?? "")\(testMessage?.buildingAddress ?? "")"
 
         let contentSize = ScheduleViewingMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", fyId: "0", time: "0", buildingName: "", buildingAddress: ""), messageDirection: messageDirection)
         let bubbleBackgroundViewSize = ScheduleViewingMessageCell.getBubbleSize(contentSize)
