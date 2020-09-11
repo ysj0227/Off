@@ -78,10 +78,23 @@ class OwnerIdenfySelectVC: BaseTableViewController {
     }
     
     @objc func clickToRenter() {
-        requestRoleChange()
         
-        ///房东切换成租户
-        SensorsAnalyticsFunc.owne_to_tenant()
+        let alert = SureAlertView(frame: self.view.frame)
+        var aelrtMsg: String = ""
+        if UserTool.shared.user_id_type == 1 {
+            
+            aelrtMsg = "是否确认切换为租户？"
+        }
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            
+            self?.requestRoleChange()
+            
+            ///房东切换成租户
+            SensorsAnalyticsFunc.owne_to_tenant()
+        }
+
     }
     
     ///切换身份接口
