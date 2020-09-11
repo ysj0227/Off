@@ -37,7 +37,10 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
             //只有数组大于1才能滑动,只有一张的时候不能滑动
             if imageURLStringArr.count <= 1 {
                 collectionView.isScrollEnabled = false
+                pageControl.isHidden = true
             }else {
+
+                pageControl.isHidden = false
 
                 //启动定时器
                 //在详情页的时候，timer已经置为空了 所以只有在首页轮播才会启动定时器
