@@ -159,10 +159,9 @@ class ScheduleViewingMessageCell: RCMessageCell {
     lazy var buildingAddressLabel: UILabel = {
         let label = UILabel(frame: CGRect.zero)
         label.font = FONT_13
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.textAlignment = .left
         label.textColor = kAppColor_333333
-        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -322,11 +321,18 @@ class ScheduleViewingMessageCell: RCMessageCell {
         let dateStr = date.localDateString()
         timeLabel.text = "约看时间：\(dateStr)"
         buildingNameLabel.text = "名字：\(testMessage?.buildingName ?? "")"
-        buildingAddressLabel.text = "地址：\(testMessage?.buildingAddress ?? "")\(testMessage?.buildingAddress ?? "")"
+        buildingAddressLabel.text = "地址：\(testMessage?.buildingAddress ?? "")"
 
-        let contentSize = ScheduleViewingMessageCell.getTextLabelSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", fyId: "0", time: "0", buildingName: "", buildingAddress: ""), messageDirection: messageDirection)
-        let bubbleBackgroundViewSize = ScheduleViewingMessageCell.getBubbleSize(contentSize)
+        let contentSize = ScheduleViewingMessageCell.getContentSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", fyId: "0", time: "0", buildingName: "", buildingAddress: ""), messageDirection: messageDirection)
+        
+        let addresSize = ScheduleViewingMessageCell.getAddressSize(testMessage ?? ScheduleViewingMessage.messageWithContent(content: "", fyId: "0", time: "0", buildingName: "", buildingAddress: ""), messageDirection: messageDirection)
+        
+        let messageSize = ScheduleViewingMessageCell.getMessageContentSize(contentSize: contentSize, addressSize: addresSize, messageDirection: messageDirection)
+                
+        let bubbleBackgroundViewSize = ScheduleViewingMessageCell.getBubbleSize(messageSize)
+        
         var messageContentViewRect = messageContentView.frame
+        
         
         //接收
         if RCMessageDirection.MessageDirection_RECEIVE == messageDirection {
@@ -335,11 +341,11 @@ class ScheduleViewingMessageCell: RCMessageCell {
             lookupBtn.isHidden = false
             lineView.isHidden = false
             btnlineView.isHidden = false
-            iconimg.frame = CGRect(x: 12, y: 7, width: 23, height: contentSize.height - 45 - 30 - 30 * 2)
-            textLabel.frame = CGRect(x: iconimg.right + 10, y: 7, width: contentSize.width, height: contentSize.height - 45 - 30 - 30 * 2)
-            
+            iconimg.frame = CGRect(x: 12, y: 7, width: 23, height: 23)
+            textLabel.frame = CGRect(x: iconimg.right + 10, y: 7, width: contentSize.width, height: contentSize.height)
+
             buildingNameLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom + 3, width: contentSize.width, height: 30)
-            buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: contentSize.width + 12, height: 30)
+            buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: addresSize.width + 12, height: addresSize.height)
             
             timeLabel.frame = CGRect(x: textLabel.left, y: buildingAddressLabel.bottom, width: contentSize.width, height: 30)
             lineView.frame = CGRect(x: 6, y: timeLabel.bottom + 7, width: bubbleBackgroundViewSize.width - 12, height: 1)
@@ -358,10 +364,10 @@ class ScheduleViewingMessageCell: RCMessageCell {
             lookupBtn.isHidden = true
             lineView.isHidden = true
             btnlineView.isHidden = true
-            textLabel.frame = CGRect(x: 18, y: (bubbleBackgroundViewSize.height - contentSize.height) / 2.0, width: contentSize.width, height: contentSize.height - 30 - 30 * 2)
-            
+            textLabel.frame = CGRect(x: 18, y: 7, width: contentSize.width, height: contentSize.height)
+
             buildingNameLabel.frame = CGRect(x: textLabel.left, y: textLabel.bottom + 3, width: contentSize.width, height: 30)
-            buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: contentSize.width + 12, height: 30)
+            buildingAddressLabel.frame = CGRect(x: textLabel.left, y: buildingNameLabel.bottom, width: addresSize.width + 12, height: addresSize.height)
 
             timeLabel.frame = CGRect(x: textLabel.left, y: buildingAddressLabel.bottom, width: contentSize.width, height: 30)
             
@@ -378,7 +384,28 @@ class ScheduleViewingMessageCell: RCMessageCell {
         
     }
     
-    private class func getTextLabelSize(_ message: ScheduleViewingMessage, messageDirection: RCMessageDirection) -> CGSize {
+    private class func getAddressSize(_ message: ScheduleViewingMessage, messageDirection: RCMessageDirection) -> CGSize {
+        
+        if let buildingAddress = message.buildingAddress {
+            if buildingAddress.isBlankString != true {
+                let screenWidth = UIScreen.main.bounds.size.width
+                let portraitWidth = RCIM.shared()?.globalMessagePortraitSize.width
+                let portrait = (10 + (portraitWidth ?? 0.0) + 10) * 2
+                let maxWidth = screenWidth - portrait - 5 - 35
+                
+                var addressRect = ("地址：\(buildingAddress)").boundingRect(with: CGSize(width: maxWidth, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
+                addressRect.size.height = CGFloat(ceilf(Float(addressRect.size.height))) + 2
+                if addressRect.size.height < 30 {
+                    addressRect.size.height = 30
+                }
+                return addressRect.size
+            }
+        }
+        
+        return CGSize.zero
+    }
+    
+    private class func getContentSize(_ message: ScheduleViewingMessage, messageDirection: RCMessageDirection) -> CGSize {
         
         if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
             if UserTool.shared.user_id_type == 0 {
@@ -399,15 +426,20 @@ class ScheduleViewingMessageCell: RCMessageCell {
             var textRect = (message.content).boundingRect(with: CGSize(width: maxWidth, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: textMessageFontSize)], context: nil)
             textRect.size.height = CGFloat(ceilf(Float(textRect.size.height))) + 2
             textRect.size.width = CGFloat(ceilf(Float(textRect.size.width)))
-            //            return CGSize(width: textRect.size.width + 5, height: textRect.size.height + 5)
             
-            if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
-                return CGSize(width: textRect.size.width + 5 + 30, height: textRect.size.height + 45 + 30 + 30 * 2)
-            }else {
-                return CGSize(width: textRect.size.width, height: textRect.size.height + 30 + 30 * 2)
-            }
+            return CGSize(width: textRect.size.width + 5 + 30, height: textRect.size.height)
+
         } else {
             return CGSize.zero
+        }
+    }
+    
+    private class func getMessageContentSize(contentSize: CGSize, addressSize: CGSize, messageDirection: RCMessageDirection) -> CGSize {
+        
+        if messageDirection == RCMessageDirection.MessageDirection_RECEIVE {
+            return CGSize(width: contentSize.width + 5 + 30, height: contentSize.height + 45 + 30 + 30 + addressSize.height)
+        }else {
+            return CGSize(width: contentSize.width, height: contentSize.height + 30 + 30 + addressSize.height)
         }
     }
     
@@ -431,8 +463,13 @@ class ScheduleViewingMessageCell: RCMessageCell {
     
     public class func getBubbleBackgroundViewSize(_ message: ScheduleViewingMessage, messageDirection: RCMessageDirection) -> CGSize {
         
-        let textLabelSize = ScheduleViewingMessageCell.getTextLabelSize(message, messageDirection: messageDirection)
-        return ScheduleViewingMessageCell.getBubbleSize(textLabelSize)
+        let contentSize = ScheduleViewingMessageCell.getContentSize(message, messageDirection: messageDirection)
+        
+        let addresSize = ScheduleViewingMessageCell.getAddressSize(message, messageDirection: messageDirection)
+        
+        let messageSize = ScheduleViewingMessageCell.getMessageContentSize(contentSize: contentSize, addressSize: addresSize, messageDirection: messageDirection)
+        
+        return ScheduleViewingMessageCell.getBubbleSize(messageSize)
         
     }
     
