@@ -98,7 +98,7 @@ class RenterLoginViewController: BaseViewController {
     
     lazy var getCodeButton: UIButton = {
         let getCodeButton = UIButton.init(type: .custom)
-        getCodeButton.setTitle(NSLocalizedString("获取短信验证码", comment: ""), for: .normal)
+        getCodeButton.setTitle(NSLocalizedString("获取验证码", comment: ""), for: .normal)
         getCodeButton.setTitleColor(kAppColor_line_D8D8D8, for: .normal)
         getCodeButton.clipsToBounds = true
         getCodeButton.layer.cornerRadius = button_cordious_2
@@ -109,7 +109,7 @@ class RenterLoginViewController: BaseViewController {
     
     lazy var nextButton: UIButton = {
         let nextButton = UIButton.init(type: .custom)
-        nextButton.setTitle(NSLocalizedString("获取验证码", comment: ""), for: .normal)
+        nextButton.setTitle(NSLocalizedString("获取短信验证码", comment: ""), for: .normal)
         nextButton.setTitleColor(.white, for: .normal)
         nextButton.clipsToBounds = true
         nextButton.layer.cornerRadius = button_cordious_2
@@ -171,7 +171,7 @@ class RenterLoginViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.phoneField.isEnabled = true
-        self.getCodeButton.setTitle(NSLocalizedString("获取短信验证码", comment: ""), for: .normal)
+        self.getCodeButton.setTitle(NSLocalizedString("获取验证码", comment: ""), for: .normal)
         UserInfo.shared().verifyCodeSendTime = 0
         let phoneTextLength = self.phoneField.text?.count ?? 0
         self.areaLabel.isUserInteractionEnabled = true
@@ -640,7 +640,7 @@ class RenterLoginViewController: BaseViewController {
             }
         } else {
             self.phoneField.isEnabled = true
-            self.getCodeButton.setTitle(NSLocalizedString("获取短信验证码", comment: ""), for: .normal)
+            self.getCodeButton.setTitle(NSLocalizedString("重新获取", comment: ""), for: .normal)
             UserInfo.shared().verifyCodeSendTime = 0
             let phoneTextLength = self.phoneField.text?.count ?? 0
             self.areaLabel.isUserInteractionEnabled = true
