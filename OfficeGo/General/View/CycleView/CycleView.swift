@@ -165,6 +165,14 @@ extension CycleView {
         timer?.invalidate()
         timer = nil
     }
+    
+    func startTimer() {
+        timer?.fireDate = Date.distantPast
+    }
+    
+    func stopTimer() {
+        timer?.fireDate = Date.distantFuture
+    }
 }
 
 //MARK: 数据源和代理方法
