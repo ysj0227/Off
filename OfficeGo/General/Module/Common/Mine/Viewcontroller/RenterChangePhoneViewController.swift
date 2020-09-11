@@ -253,6 +253,11 @@ extension RenterChangePhoneViewController {
             return
         }
         
+        if SSTool.isPhoneNumber(phoneNumber: phoneNewField.text ?? "") != true {
+            AppUtilities.makeToast("请输入正确的手机号")
+            return
+        }
+        
         if verifyCodeField.text?.isBlankString ?? false {
             AppUtilities.makeToast("请输入验证码")
             return
