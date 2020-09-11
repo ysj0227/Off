@@ -433,7 +433,7 @@ extension OwnerMineViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .OwnerMineTypeRegisterAgent:
-            let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
+            let vc = BaseWebViewController.init(protocalType: .ProtocalTypePrivacyProtocolUrl)
             vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? OwnerMineType.OwnerMineTypeRegisterAgent)
             self.navigationController?.pushViewController(vc, animated: true)
             

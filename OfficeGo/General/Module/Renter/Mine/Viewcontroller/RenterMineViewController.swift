@@ -242,7 +242,7 @@ extension RenterMineViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .RenterMineTypeRegisterAgent:
-            let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
+            let vc = BaseWebViewController.init(protocalType: .ProtocalTypePrivacyProtocolUrl)
             vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
             self.navigationController?.pushViewController(vc, animated: true)
             
