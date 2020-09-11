@@ -23,6 +23,12 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d68-88-qHu">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <connections>
+                        <action selector="cancelShare:" destination="-1" eventType="touchUpInside" id="Hxr-lK-cDf"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8zn-uW-TRk">
                     <rect key="frame" x="0.0" y="662" width="414" height="200"/>
                     <subviews>
@@ -140,12 +146,16 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="d68-88-qHu" secondAttribute="bottom" id="HIV-DC-CZz"/>
                 <constraint firstItem="8zn-uW-TRk" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Kna-a6-a4b"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="8zn-uW-TRk" secondAttribute="bottom" id="T9m-Jx-3le"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="8zn-uW-TRk" secondAttribute="trailing" id="Vge-9N-jKy"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="d68-88-qHu" secondAttribute="trailing" id="Z97-Gj-2gt"/>
+                <constraint firstItem="d68-88-qHu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="cRg-le-H6J"/>
+                <constraint firstItem="d68-88-qHu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="sWT-nb-jIP"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="139" y="100"/>
+            <point key="canvasLocation" x="137.68115942028987" y="99.776785714285708"/>
         </view>
     </objects>
     <resources>
