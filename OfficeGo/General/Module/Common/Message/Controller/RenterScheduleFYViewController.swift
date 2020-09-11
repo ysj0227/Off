@@ -215,7 +215,7 @@ extension RenterScheduleFYViewController {
             cell?.selectionStyle = .none
             cell?.titleLabel.text = "看房时间"
             cell?.editLabel.placeholder = "请选择看房时间"
-            cell?.editLabel.text = dateSelect?.getString(format: "MM月dd日 HH:mm")
+            cell?.editLabel.text = dateSelect?.getString(format: "yyyy-MM-dd HH:mm")
             cell?.detailIcon.isHidden = false
             return cell ?? RenterScheduleUserBasicCell.init(frame: .zero)
         }else {
