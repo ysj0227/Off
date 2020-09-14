@@ -225,6 +225,8 @@ class OwnerHomeViewController: BaseViewController {
         if auditStatus == 0 || auditStatus == 1 {
             addWebview()
         }else {
+            fyWebview?.view.removeFromSuperview()
+            fyWebview?.clearCache()
             showIdifyAlertview(identify: identify, auditStatus: auditStatus, remark: userModel?.remark ?? "")
         }
     }
