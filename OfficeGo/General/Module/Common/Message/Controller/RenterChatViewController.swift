@@ -16,7 +16,11 @@ class RenterChatViewController: RCConversationViewController {
                 buttonView.setButtonSelected(btn: buttonView.phoneChangeBtn, selected: true)
                 buttonView.setButtonSelected(btn: buttonView.wechatChangeBtn, selected: true)
                 exchangeAlertView.isHidden = true
-                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: self.view.height - (kNavigationHeight + 70) - 70)
+                if kIsiPhoneX {
+                    self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: self.view.height - (kNavigationHeight + 70) - 70 - 10)
+                }else {
+                    self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70, width: kWidth, height: self.view.height - (kNavigationHeight + 70) - 70 + 20)
+                }
                 if Device.isIPad == true {
                      self.conversationMessageCollectionView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
                  }
@@ -24,7 +28,11 @@ class RenterChatViewController: RCConversationViewController {
                 buttonView.setButtonSelected(btn: buttonView.phoneChangeBtn, selected: false)
                 buttonView.setButtonSelected(btn: buttonView.wechatChangeBtn, selected: false)
                 exchangeAlertView.isHidden = false
-                self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70 + 43, width: kWidth, height: self.view.height - (kNavigationHeight + 70 + 43) - 70)
+                if kIsiPhoneX {
+                    self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70 + 43, width: kWidth, height: self.view.height - (kNavigationHeight + 70 + 43) - 70 - 10)
+                }else {
+                    self.conversationMessageCollectionView.frame = CGRect(x: 0, y: kNavigationHeight + 70 + 43, width: kWidth, height: self.view.height - (kNavigationHeight + 70 + 43) - 70 + 20)
+                }
                 if Device.isIPad == true {
                     self.conversationMessageCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }

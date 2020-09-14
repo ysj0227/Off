@@ -43,7 +43,7 @@ open class LLSegmentViewController: UIViewController {
     public let pageView:LLCtlPageView = LLCtlPageView(frame: CGRect.zero, ctls: [UIViewController]())
     public let containerScrView = LLContainerScrollView()
     public private (set) var ctls = [UIViewController]()
-
+    
     private let cellIdentifier = "cellIdentifier"
     private let layout = UICollectionViewFlowLayout()
     open override func viewDidLoad() {
@@ -78,7 +78,7 @@ extension LLSegmentViewController{
         var containerFrameY:CGFloat = 0
         var segmentCtlViewY:CGFloat = 0
         var containerHeight:CGFloat = 0
-
+        
         switch layoutInfo.segmentControlPositionType {
         case .nav(let size):
             containerHeight = screenH - (containerScrView.paralaxHeader.minimumHeight)
