@@ -438,6 +438,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
         segmentTitleSelectview.selectView.houseTypeSelectBtn.setTitle(selectModel.typeModel.type?.rawValue, for: .normal)
         segmentTitleSelectview.selectView.houseTypeSelectBtn.isSelected = true
+        segmentTitleSelectview.selectView.houseTypeSelectBtn.layoutButton(.imagePositionRight, space: 6)
     }
     
     func clearShaixuanData(selectModel: HouseSelectModel) {
