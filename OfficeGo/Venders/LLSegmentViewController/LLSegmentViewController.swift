@@ -52,6 +52,11 @@ open class LLSegmentViewController: UIViewController {
         initSubviews()
         relayoutSubViews()
         containerScrView.backgroundColor = UIColor.clear
+        containerScrView.scrollsToTop = false
+        if #available(iOS 11.0, *) {
+            containerScrView.contentInsetAdjustmentBehavior = .never
+        }else {
+        }
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         if let screenEdgePanGestureRecognizer = getScreenEdgePanGestureRecognizer() {
             containerScrView.panGestureRecognizer.require(toFail: screenEdgePanGestureRecognizer)
