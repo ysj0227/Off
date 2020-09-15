@@ -187,6 +187,8 @@ extension RenterUserMsgViewController {
     
     func requestEditUserMessage() {
         
+        self.tableView.endEditing(true)
+        
        if userModel?.realname?.isBlankString == true {
            AppUtilities.makeToast("请输入姓名")
            return
@@ -405,6 +407,10 @@ class RenterMineUserMsgCell: BaseEditCell {
     var userModel: LoginUserModel?
     
     var endEditingMessageCell:((LoginUserModel) -> Void)?
+    
+    override func setDelegate() {
+        editLabel.delegate = self
+    }
     
     var model: UserMsgConfigureModel = UserMsgConfigureModel(types: RenterUserMsgType.RenterUserMsgTypeAvatar) {
         didSet {

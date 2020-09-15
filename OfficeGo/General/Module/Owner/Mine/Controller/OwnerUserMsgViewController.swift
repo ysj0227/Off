@@ -188,6 +188,8 @@ extension OwnerUserMsgViewController {
     
     func requestEditUserMessage() {
         
+        self.tableView.endEditing(true)
+        
         if userModel?.proprietorRealname?.isBlankString == true {
             AppUtilities.makeToast("请输入姓名")
             return
