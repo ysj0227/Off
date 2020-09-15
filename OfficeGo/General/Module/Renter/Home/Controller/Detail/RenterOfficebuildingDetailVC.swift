@@ -131,8 +131,8 @@ class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelega
             if let seats = params["area"] {
                 let str = seats as? String
                 if str?.count ?? 0 > 0 {
-                    
-                    shaixuanAreaSeatsString = str?.replacingOccurrences(of: String(format: ",%.0f", noLimitMaxNum), with: "~不限")
+                    shaixuanAreaSeatsString = str?.replacingOccurrences(of: ",", with: "~")
+                    shaixuanAreaSeatsString = shaixuanAreaSeatsString?.replacingOccurrences(of: String(format: "%.0f", noLimitMaxNum), with: "不限")
                     isClearCondition = false
                 }else {
                     isClearCondition = true

@@ -19,6 +19,9 @@ class FangYuanBuildingFYDetailModel: BaseModel {
     var vrUrl : [BannerModel]?
 }
 class FangYuanBuildingFYDetailViewModel: NSObject {
+    //标准下的最短租期单位是年   联合下的最短租期单位是月
+    ///1是办公楼，2是共享办公 用来判断最短租期单位
+
     ///1是写字楼，2是共享办公
     var btype: Int?
     ///是否收藏：为0时是未为收藏 ，其他是已经收藏
