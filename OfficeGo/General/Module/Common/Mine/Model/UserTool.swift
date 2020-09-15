@@ -37,6 +37,15 @@ class UserTool: NSObject {
             return false
         }
     }
+
+    var API_Setting:String?{
+        get{
+            return userDefault.value(forKey: "API_Setting") as? String
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "API_Setting")
+        }
+    }
     
     func isHasWX() -> Bool {
         if let userwechat = self.user_wechat {

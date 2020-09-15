@@ -13,16 +13,23 @@ import Foundation
     enum AppBuildType: Int {
         case Dev
         case Test
-        case Uat
-        case Tag
         case Release
     }
     
+    //    #if DEBUG
+    //    static let RCAppKey = "kj7swf8oknm02"
+    //    static let RCAppSecret = "OF78PpILjjRk4"
+    //    #else  //REALEASE
+    //    static let RCAppKey = "qf3d5gbjq94mh"
+    //    static let RCAppSecret = "xtDkNCjJse"
+    //    #endif
     enum BackgroundServerType: Int {
         case SSApiHost
         case SSH5Host
         case SSWebHost
         case SensorsAnalyticsSDK
+        case RCAppKey
+        case RCAppSecret
     }
     
     // DEBUG 开发环境,供技术内部联调
@@ -30,53 +37,34 @@ import Foundation
     // UAT 预上线环境，供测试在仿生产环境测试
     // REALEASE or Tag 正式环境, REALEASE testflight上测试, Tag adhoc
     // 激光推送 App 是 ad-hoc 打包或者App Store 版本（发布证书 Production）https://docs.jiguang.cn/jpush/client/iOS/ios_debug_guide/
-    
-
-    
-    
+        
     ///开发环境
     ///接口
     static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
-                             "Release": "http://debug.officego.com.cn/"]
+                             "Test": "http://admin.officego.com.cn/",
+                             "Release": "https://api.officego.com/"]
     ///h5
     static var SSH5Hosts = ["Dev": "http://test1.officego.com.cn/",
-                            "Release": "http://test1.officego.com.cn/"]
+                            "Test": "http://test.officego.com.cn/",
+                            "Release": "https://m.officego.com/"]
     
     static var SSWebHosts = ["Dev": "http://debugweb.officego.com.cn/",
-                             "Release": "http://debugweb.officego.com.cn/"]
+                             "Test": "http://debugweb.officego.com.cn/",
+                             "Release": "http://webapi.officego.com/"]
     
     ///神策
     static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
-                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
-    
-    
-    //    ///预发测试环境
-//    static var SSApiHosts = ["Dev": "http://admin.officego.com.cn/",
-//                             "Release": "http://admin.officego.com.cn/"]
-//
-//    static var SSH5Hosts = ["Dev": "http://test.officego.com.cn/",
-//                            "Release": "http://test.officego.com.cn/"]
-//
-//    static var SSWebHosts = ["Dev": "http://debugweb.officego.com.cn/",
-//                             "Release": "http://debugweb.officego.com.cn/"]
-//
-//    static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
-//                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
-    
-    
-    ///正式环境
-//    static var SSApiHosts = ["Dev": "https://api.officego.com/",
-//                             "Release": "https://api.officego.com/"]
-//
-//    static var SSH5Hosts = ["Dev": "https://m.officego.com/",
-//                            "Release": "https://m.officego.com/"]
-//
-//    static var SSWebHosts = ["Dev": "http://webapi.officego.com/",
-//                             "Release": "http://webapi.officego.com/"]
-//
-//    static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac",
-//                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac"]
-    
+                                       "Test":"https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
+                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a74"]
+    ///融云appkey
+    static var RCAppKeys = ["Dev": "kj7swf8oknm02",
+                            "Test":"kj7swf8oknm02",
+                            "Release": "qf3d5gbjq94mh"]
+
+    ///融云secret
+    static var RCAppSecrets = ["Dev": "OF78PpILjjRk4",
+                               "Test":"OF78PpILjjRk4",
+                               "Release": "xtDkNCjJse"]
     
     //    调试接口地址:debug.officego.com.cn
     //    调试前端地址:test1.officego.com.cn
@@ -96,6 +84,12 @@ import Foundation
             
         case .SensorsAnalyticsSDK:
             addrese = SensorsAnalyticsSDKs[buildType]!
+            
+        case .RCAppKey:
+            addrese = RCAppKeys[buildType]!
+            
+        case .RCAppSecret:
+            addrese = RCAppSecrets[buildType]!
         }
         return addrese
     }
@@ -112,30 +106,15 @@ import Foundation
     }
     
     static  func getUrlByServerType(serverType: BackgroundServerType) -> String {
-        #if DEBUG
-        return getUrlAddress(buildType: .Dev,serverType: serverType)
-        #elseif TEST
-        return getUrlAddress(buildType: .Test,serverType:serverType)
-        #elseif UAT
-        return getUrlAddress(buildType: .Uat,serverType: serverType)
-        #elseif TAG
-        return getUrlAddress(buildType: .Tag,serverType: serverType)
-        #else  //REALEASE
-        let releaseBuildType = "\(AppBuildType.Release)"
-        var url = ""
-        switch serverType {
-        case .SSApiHost:
-            url = SSApiHosts[releaseBuildType]!
-        case .SSH5Host:
-            url = SSH5Hosts[releaseBuildType]!
-        case .SSWebHost:
-             url = SSWebHosts[releaseBuildType]!
-        case .SensorsAnalyticsSDK:
-            url = SensorsAnalyticsSDKs[releaseBuildType]!
+        if UserTool.shared.API_Setting == API_Debug {
+            return getUrlAddress(buildType: .Dev,serverType: serverType)
+        }else if UserTool.shared.API_Setting == API_Test {
+            return getUrlAddress(buildType: .Test,serverType: serverType)
+        }else if UserTool.shared.API_Setting == API_Release {
+            return getUrlAddress(buildType: .Release,serverType: serverType)
+        }else {
+            return getUrlAddress(buildType: .Dev,serverType: serverType)
         }
-        SSLog("url:\(url)")
-        return url
-        #endif
     }
     
     
@@ -155,6 +134,13 @@ import Foundation
         return getUrlByServerType(serverType: .SensorsAnalyticsSDK)
     }
     
+    static var RCAppKey: String {
+        return getUrlByServerType(serverType: .RCAppKey)
+    }
+    
+    static var RCAppSecret: String {
+        return getUrlByServerType(serverType: .RCAppSecret)
+    }
 }
 
 extension SSAPI.AppBuildType: CustomStringConvertible {
@@ -164,10 +150,6 @@ extension SSAPI.AppBuildType: CustomStringConvertible {
             return "Dev"
         case .Test:
             return "Test"
-        case .Uat:
-            return "Uat"
-        case .Tag:
-            return "Tag"
         case .Release:
             return "Release"
         }
@@ -184,6 +166,10 @@ extension SSAPI.BackgroundServerType: CustomStringConvertible {
             return "SSWebHost"
         case .SensorsAnalyticsSDK:
             return "SensorsAnalyticsSDK"
+        case .RCAppKey:
+            return "RCAppKey"
+        case .RCAppSecret:
+            return "RCAppSecret"
         }
     }
 }

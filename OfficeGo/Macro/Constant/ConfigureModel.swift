@@ -448,6 +448,8 @@ class SettingConfigureModel: NSObject {
             return "修改手机号"
         case .RenterSettingTypeChangeWechat:
             return "绑定微信"
+        case .RenterSettingTypeAPISet:
+            return "切换环境"
         }
     }
 }

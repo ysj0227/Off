@@ -156,6 +156,8 @@ public enum RenterSettingType {
     case RenterSettingTypeRoleChange        //切换身份
     case RenterSettingTypeChangePhone       //修改手机号
     case RenterSettingTypeChangeWechat      //修改微信
+    case RenterSettingTypeAPISet            //环境修改
+
 }
 
 //基本信息页面

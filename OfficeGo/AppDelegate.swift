@@ -641,7 +641,7 @@ extension AppDelegate {
         
         
         //融云集成初始化 -
-        RCIM.shared()?.initWithAppKey(AppKey.RCAppKey)
+        RCIM.shared()?.initWithAppKey(SSAPI.RCAppKey)
         
         //设置消息监听
         RCIM.shared()?.receiveMessageDelegate = self

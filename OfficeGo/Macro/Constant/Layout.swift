@@ -98,6 +98,15 @@ let kIsiPhoneX = kStatusBarHeight == 44 ? true : false
 
 let noLimitMaxNum: Double  = 999999
 
+///开发debug
+let API_Debug: String = "debug"
+
+///预发test
+let API_Test: String = "test"
+
+///正式release
+let API_Release: String = "release"
+
 func bottomMargin() -> CGFloat {
     if #available(iOS 11.0, *) {
         return UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0
