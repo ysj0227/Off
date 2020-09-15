@@ -491,6 +491,7 @@ class RenterLoginViewController: BaseViewController {
                 UserTool.shared.user_name = model.nickName
                 UserTool.shared.user_phone = self?.phoneField.text
                 
+                ///如果当前登录的身份和接口返回的不一致，以接口返回的为准
                 if UserTool.shared.user_id_type != model.rid {
                     UserTool.shared.user_id_type = model.rid
                     NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
