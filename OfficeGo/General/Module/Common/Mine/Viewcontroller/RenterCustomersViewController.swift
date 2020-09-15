@@ -15,6 +15,7 @@ class RenterCustomersViewController: BaseViewController, MFMailComposeViewContro
         let view = UIImageView()
         view.image = UIImage.init(named: "customerBgImg")
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         return view
     }()
     

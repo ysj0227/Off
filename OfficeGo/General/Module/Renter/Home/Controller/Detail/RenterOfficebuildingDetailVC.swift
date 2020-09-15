@@ -1147,6 +1147,7 @@ class RenterDetailSourceView: UIView {
         view.isUserInteractionEnabled = true
         view.backgroundColor = kAppClearColor
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         return view
     }()
     
