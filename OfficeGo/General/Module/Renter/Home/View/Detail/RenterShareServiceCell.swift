@@ -45,7 +45,11 @@ class RenterShareServiceCell: BaseTableViewCell {
     
     var buildingViewModel: FangYuanBuildingBuildingViewModel = FangYuanBuildingBuildingViewModel.init(model: FangYuanBuildingBuildingModel()) {
         didSet {
-            titleLabel.text = "共享服务"
+            if buildingViewModel.shareServices?.count ?? 0 > 0 {
+                titleLabel.text = "共享服务"
+            }else {
+                titleLabel.text = ""
+            }
             reloadData()
         }
     }
