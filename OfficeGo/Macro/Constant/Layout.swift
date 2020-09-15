@@ -96,6 +96,8 @@ let kMessageInputAlertHeight: CGFloat = 158
 
 let kIsiPhoneX = kStatusBarHeight == 44 ? true : false
 
+let noLimitMaxNum: Double  = 999999
+
 func bottomMargin() -> CGFloat {
     if #available(iOS 11.0, *) {
         return UIApplication.shared.delegate?.window??.safeAreaInsets.bottom ?? 0

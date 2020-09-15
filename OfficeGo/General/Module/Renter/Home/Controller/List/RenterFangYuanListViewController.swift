@@ -664,7 +664,9 @@ class RenterShaixuanView: UIView {
                         shaixuanString = ""
                     }else {
                         if self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
-                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum) + "人" + "  x" + "  "
+//                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum) + "人" + "  x" + "  "
+                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "-" + "不限" + "人" + "  x" + "  "
+
                         }else {
                             shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue ?? 0) + "人" + "  x" + "  "
                         }
@@ -676,7 +678,9 @@ class RenterShaixuanView: UIView {
                         shaixuanString = ""
                     }else {
                         if self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
-                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum) + "m²" + "  x" + "  "
+//                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum) + "m²" + "  x" + "  "
+                            shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "-" + "不限" + "m²" + "  x" + "  "
+
                         }else {
                             shaixuanString = "  " + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "-" + String(format: "%.0f", self.houseSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue ?? 0) + "m²" + "  x" + "  "
                         }
