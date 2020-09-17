@@ -310,7 +310,7 @@ class FangYuanBuildingBuildingViewModel: NSObject {
             
             if model.corporateServices?.count ?? 0 > 0 {
                 let corporateServicesModel = ShareServiceModel()
-                corporateServicesModel.title = "创业服务"
+                corporateServicesModel.title = "企业服务"
                 if let arr = model.corporateServices {
                     corporateServicesModel.itemArr = arr
                 }
