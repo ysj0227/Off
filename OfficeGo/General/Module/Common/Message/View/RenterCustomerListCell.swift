@@ -50,7 +50,7 @@ class RenterCustomerListCell: RCConversationBaseCell {
     }
     
     func setChatListDataModel(_ model: ChatListModel!) {
-        ivAva.setImage(with: model.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
+        ivAva.setImage(with: model.avatar ?? "", placeholder: UIImage.init(named: "grayAvatar"))
         lblName.text = model.nickname
         lblDetail.text = "楼盘名称：" + "\(model.buildingName ?? "")"
     }
