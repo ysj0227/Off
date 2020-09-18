@@ -20,6 +20,7 @@ class RenterMineViewController: BaseTableViewController {
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeHouseSchedule))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeHelpAndFeedback))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeCusomers))
+        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeServiceAgent))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeRegisterAgent))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeAboutus))
         return arr
@@ -234,16 +235,19 @@ extension RenterMineViewController {
             
         case .RenterMineTypeHelpAndFeedback:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeHelpAndFeedbackUrl)
-            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeHelpAndFeedback)
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .RenterMineTypeCusomers:
             let vc = RenterCustomersViewController()
             self.navigationController?.pushViewController(vc, animated: true)
-            
+        case .RenterMineTypeServiceAgent:
+            let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeServiceAgent)
+            self.navigationController?.pushViewController(vc, animated: true)
         case .RenterMineTypeRegisterAgent:
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypePrivacyProtocolUrl)
-            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeRegisterAgent)
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .RenterMineTypeAboutus:

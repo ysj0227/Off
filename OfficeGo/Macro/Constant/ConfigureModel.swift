@@ -357,6 +357,8 @@ class RenterMineConfigureModel: ConfigureModel {
             return "帮助与反馈"
         case .RenterMineTypeCusomers:
             return "客服"
+        case .RenterMineTypeServiceAgent:
+            return "服务协议"
         case .RenterMineTypeRegisterAgent:
             return "隐私条款"
         case .RenterMineTypeAboutus:
@@ -373,6 +375,8 @@ class RenterMineConfigureModel: ConfigureModel {
             return "helpAndFeedback"
         case .RenterMineTypeCusomers:
             return "customers"
+        case .RenterMineTypeServiceAgent:
+            return "serviceAgent"
         case .RenterMineTypeRegisterAgent:
             return "agentRegular"
         case .RenterMineTypeAboutus:
@@ -397,6 +401,8 @@ class OwnerMineConfigureModel: ConfigureModel {
             return "帮助与反馈"
         case .OwnerMineTypeCusomers:
             return "客服"
+        case .OwnerMineTypeServiceAgent:
+            return "服务协议"
         case .OwnerMineTypeRegisterAgent:
             return "隐私条款"
         case .OwnerMineTypeAboutus:
@@ -411,6 +417,8 @@ class OwnerMineConfigureModel: ConfigureModel {
             return "helpAndFeedback"
         case .OwnerMineTypeCusomers:
             return "customers"
+        case .OwnerMineTypeServiceAgent:
+            return "serviceAgent"
         case .OwnerMineTypeRegisterAgent:
             return "agentRegular"
         case .OwnerMineTypeAboutus:

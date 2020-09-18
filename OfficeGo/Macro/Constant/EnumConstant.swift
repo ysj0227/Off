@@ -143,7 +143,8 @@ public enum RenterMineType {
     case RenterMineTypeHouseSchedule    //看房行程
     case RenterMineTypeHelpAndFeedback  //帮助与反馈
     case RenterMineTypeCusomers         //客服
-    case RenterMineTypeRegisterAgent    //注册协议与隐私条款
+    case RenterMineTypeServiceAgent     //服务协议
+    case RenterMineTypeRegisterAgent    //隐私条款
     case RenterMineTypeAboutus          //关于我们
 }
 //设置页面
@@ -179,7 +180,8 @@ public enum OwnerMineType {
     case OwnerMineTypeAuthority         //员工管理 - 0 员工 1 管理员
     case OwnerMineTypeHelpAndFeedback  //帮助与反馈
     case OwnerMineTypeCusomers         //客服
-    case OwnerMineTypeRegisterAgent    //注册协议与隐私条款
+    case OwnerMineTypeRegisterAgent    //隐私条款
+    case OwnerMineTypeServiceAgent      //服务协议
     case OwnerMineTypeAboutus          //关于我们
 }
 

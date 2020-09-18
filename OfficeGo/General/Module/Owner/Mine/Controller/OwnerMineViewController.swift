@@ -19,6 +19,7 @@ class OwnerMineViewController: BaseTableViewController {
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeAuthority))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeHelpAndFeedback))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeCusomers))
+        arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeServiceAgent))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeRegisterAgent))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeAboutus))
         return arr
@@ -403,6 +404,9 @@ extension OwnerMineViewController {
         case .OwnerMineTypeCusomers:
             return RenterMineCell.rowHeight()
             
+        case .OwnerMineTypeServiceAgent:
+            return RenterMineCell.rowHeight()
+
         case .OwnerMineTypeRegisterAgent:
             return RenterMineCell.rowHeight()
             
@@ -430,6 +434,11 @@ extension OwnerMineViewController {
             
         case .OwnerMineTypeCusomers:
             let vc = RenterCustomersViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        case .OwnerMineTypeServiceAgent:
+            let vc = BaseWebViewController.init(protocalType: .ProtocalTypeRegisterProtocol)
+            vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? OwnerMineType.OwnerMineTypeServiceAgent)
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .OwnerMineTypeRegisterAgent:
