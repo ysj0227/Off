@@ -21,5 +21,9 @@ class CustomerService: NSObject {
     static let CustomerJiShuZhiChiTel = "13052007068"
     ///邮箱
     static let CustomerEmail = "Clientservice@officego.com"
+    ///租户端邮箱
+    static let RenterCustomerEmail = "service@officego.com"
+    ///业主端邮箱
+    static let OwnerCustomerEmail = "business@officego.com"
 
 }

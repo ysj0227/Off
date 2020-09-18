@@ -95,7 +95,11 @@ class RenterCustomersViewController: BaseViewController, MFMailComposeViewContro
         mailComposeVC.mailComposeDelegate = self
 
         //设置邮件地址、主题及正文
-        mailComposeVC.setToRecipients([CustomerService.CustomerEmail])
+        if UserTool.shared.user_id_type == 0 {
+            mailComposeVC.setToRecipients([CustomerService.RenterCustomerEmail])
+        }else if UserTool.shared.user_id_type == 1 {
+            mailComposeVC.setToRecipients([CustomerService.OwnerCustomerEmail])
+        }
 
         mailComposeVC.setSubject("")
         mailComposeVC.setMessageBody("", isHTML: false)
