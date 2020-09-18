@@ -119,6 +119,9 @@ class SSOwnerIdentifyURL: NSObject {
 //  MARK:   --聊天
 class SSChatURL: NSObject {
     
+    //聊天列表调用接口
+    static let getChatList = "api/chat/chatListApp"
+    
     //获取融云token
     static let getRongYunToken = "api/user/rongYunToken"
     

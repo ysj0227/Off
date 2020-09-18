@@ -40,10 +40,15 @@ class RenterChatListViewController: RCConversationListViewController {
         //登录直接请求数据
         if UserTool.shared.isLogin() == true {
             
+            titleview?.rightButton.isHidden = false
+            
             nologindataView?.isHidden = true
             
             self.refreshConversationTableViewIfNeeded()
         }else {
+            
+            titleview?.rightButton.isHidden = true
+
             //没登录 - 显示登录按钮view
             nologindataView?.isHidden = false
             
@@ -96,12 +101,20 @@ extension RenterChatListViewController {
     func setupView() {
                 
         titleview = ThorNavigationView.init(type: .messageTitleSearchBarSearchBtn)
-        titleview?.rightButton.isHidden = true
-        titleview?.searchBarView.isHidden = true
-        titleview?.rightBtnClickBlock = { [weak self] in
-            self?.titleview?.rightButton.isHidden = true
-            self?.titleview?.searchBarView.isHidden = false
+        titleview?.rightButton.isHidden = false
+        titleview?.rightButton.titleLabel?.font = FONT_15
+        titleview?.rightButton.setTitle("历史联系人", for: .normal)
+        titleview?.rightButton.setImage(UIImage.init(named: ""), for: .normal)
+        titleview?.rightButton.snp.remakeConstraints { (make) in
+            make.trailing.equalToSuperview().offset(-left_pending_space_17)
+            make.height.equalTo(26)
+            make.top.bottom.equalToSuperview()
         }
+        titleview?.rightBtnClickBlock = { [weak self] in
+            let vc = RenterCustomerListViewController()
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+        titleview?.searchBarView.isHidden = true
         titleview?.searchBarView.searchTextfiled.delegate = self
         titleview?.searchBarView.searchTextfiled.clearButtonMode = .always
         self.view.addSubview(titleview!)
@@ -116,6 +129,7 @@ extension RenterChatListViewController {
         }
         nologindataView = NoDataShowView.init(frame: CGRect(x: 0, y: kNavigationHeight, width: self.view.width, height: self.view.height - kNavigationHeight))
         nologindataView?.isHidden = true
+        titleview?.rightButton.isHidden = true
         self.view.addSubview(nologindataView ?? NoDataShowView(frame: CGRect(x: 0, y: kNavigationHeight, width: self.view.width, height: self.conversationListTableView.height - kTabBarHeight - kTabBarHeight)))
         
         nologindataView?.loginCallBack = {[weak self] in
@@ -241,15 +255,6 @@ extension RenterChatListViewController {
         
     }
     
-//    override func willDisplayConversationTableCell(_ cell: RCConversationBaseCell!, at indexPath: IndexPath!) {
-//        if let model = self.conversationListDataSource[indexPath.row] as? RCConversationModel {
-//            weak var weakSelf = self
-//            RCDUserService.shared.getUserInfo(withUserId:model.targetId) { (userInfo) in
-//                weakSelf?.updateCell(at: indexPath)
-//            }
-//        }
-//    }
-
 }
 
 extension RenterChatListViewController :UITextFieldDelegate {
