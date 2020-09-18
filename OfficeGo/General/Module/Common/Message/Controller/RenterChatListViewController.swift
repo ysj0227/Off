@@ -102,6 +102,7 @@ extension RenterChatListViewController {
                 
         titleview = ThorNavigationView.init(type: .messageTitleSearchBarSearchBtn)
         titleview?.rightButton.isHidden = false
+        titleview?.rightButton.titleLabel?.font = FONT_15
         titleview?.rightButton.setTitle("历史联系人", for: .normal)
         titleview?.rightButton.setImage(UIImage.init(named: ""), for: .normal)
         titleview?.rightButton.snp.remakeConstraints { (make) in

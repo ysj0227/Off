@@ -25,7 +25,7 @@ class RenterCustomerListCell: RCConversationBaseCell {
     lazy var lblName: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_SEMBLOD_15
+        view.font = FONT_MEDIUM_15
         view.textColor = kAppColor_333333
         return view
     }()
