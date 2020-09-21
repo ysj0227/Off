@@ -214,15 +214,19 @@ extension RenterMineSettingViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
                 break
             case .RenterSettingTypeAPISet:
+                UserTool.shared.removeAll()
                 let alertController = UIAlertController.init(title: "修改环境之后，为了聊天正常进行，麻烦杀掉进程重启app", message: nil, preferredStyle: .actionSheet)
                 let debugAction = UIAlertAction.init(title: "测试环境", style: .default) { (action: UIAlertAction) in
                     UserTool.shared.API_Setting = API_Debug
+                    exit(0)
                 }
                 let testAction = UIAlertAction.init(title: "预发环境", style: .default) { (action: UIAlertAction) in
                     UserTool.shared.API_Setting = API_Test
+                    exit(0)
                 }
                 let releaseAction = UIAlertAction.init(title: "正式环境", style: .default) { (action: UIAlertAction) in
                     UserTool.shared.API_Setting = API_Release
+                    exit(0)
                 }
                 let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
                 }
@@ -295,6 +299,14 @@ class RenterSettingCell: BaseTableViewCell {
                     numDescLabel.text = UserTool.shared.user_wechat
                 }else if model.type == RenterSettingType.RenterSettingTypeVersionUpdate {
                     numDescLabel.text = "v" + SSTool.getVersion()
+                }else if model.type == RenterSettingType.RenterSettingTypeAPISet {
+                    if UserTool.shared.API_Setting == API_Debug {
+                        numDescLabel.text = "当前为开发环境"
+                    }else if UserTool.shared.API_Setting == API_Test {
+                        numDescLabel.text = "当前为预发环境"
+                    }else {
+                        numDescLabel.text = "当前为正式环境"
+                    }
                 }
             }
         }
