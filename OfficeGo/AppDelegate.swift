@@ -43,6 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         notifyObserve()
         
+        UserTool.shared.API_Setting = API_Release
+        
         runTabBarViewController()
         
         setStaticGuidePage()

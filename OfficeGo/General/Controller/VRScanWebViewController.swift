@@ -40,7 +40,6 @@ class VRScanWebViewController: BaseViewController, UINavigationControllerDelegat
     
     func loadWebview() {
         if let url = URL(string: urlString ?? "") {
-//        if let url = URL(string: "https://sky.city8.com/panoramic-images/IMG_339520200828-125117-122787.html") {
             LoadingHudView.showHud()
             let request = URLRequest(url: url)
             self.webView?.load(request)
