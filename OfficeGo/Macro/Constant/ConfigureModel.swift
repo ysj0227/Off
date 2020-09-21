@@ -363,6 +363,8 @@ class RenterMineConfigureModel: ConfigureModel {
             return "隐私条款"
         case .RenterMineTypeAboutus:
             return "关于我们"
+        case .RenterMineTypeRoleChange:
+            return "切换为房东"
         }
     }
     func getIconFormType(type: RenterMineType) -> String{
@@ -381,6 +383,8 @@ class RenterMineConfigureModel: ConfigureModel {
             return "agentRegular"
         case .RenterMineTypeAboutus:
             return "aboutUS"
+        case .RenterMineTypeRoleChange:
+            return "rolechange"
         }
     }
 }
@@ -407,6 +411,8 @@ class OwnerMineConfigureModel: ConfigureModel {
             return "隐私条款"
         case .OwnerMineTypeAboutus:
             return "关于我们"
+        case .OwnerMineTypeRoleChange:
+            return "切换为租户"
         }
     }
     func getIconFormType(type: OwnerMineType) -> String{
@@ -423,6 +429,8 @@ class OwnerMineConfigureModel: ConfigureModel {
             return "agentRegular"
         case .OwnerMineTypeAboutus:
             return "aboutUS"
+        case .OwnerMineTypeRoleChange:
+            return "rolechange"
         }
     }
 }

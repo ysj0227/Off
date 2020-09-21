@@ -23,6 +23,7 @@ class RenterMineViewController: BaseTableViewController {
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeServiceAgent))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeRegisterAgent))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeAboutus))
+        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeRoleChange))
         return arr
     }()
     
@@ -206,6 +207,67 @@ extension RenterMineViewController {
         RCIM.shared()?.refreshUserInfoCache(info, withUserId: "\(UserTool.shared.user_uid ?? 0)\(UserTool.shared.user_id_type ?? 9)")
     }
     
+    ///切换身份ui
+    func roleChangeClick() {
+        
+        let alert = SureAlertView(frame: self.view.frame)
+        var aelrtMsg: String = ""
+        if UserTool.shared.user_id_type == 0 {
+            
+            aelrtMsg = "是否确认切换为房东？"
+            
+            ///租户切换成房东
+            SensorsAnalyticsFunc.tenant_to_owner()
+            
+        }else if UserTool.shared.user_id_type == 1 {
+            
+            aelrtMsg = "是否确认切换为租户？"
+            
+            ///房东切换成租户
+            SensorsAnalyticsFunc.owne_to_tenant()
+        }
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "温馨提示", descMsg: aelrtMsg, cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            
+            self?.requestRoleChange()
+        }
+    }
+    
+    ///切换身份接口
+    func requestRoleChange() {
+        var params = [String:AnyObject]()
+        if UserTool.shared.user_id_type == 0 {
+            params["roleType"] = "1" as AnyObject?
+        }else if UserTool.shared.user_id_type == 1 {
+            params["roleType"] = "0" as AnyObject?
+        }
+        params["token"] = UserTool.shared.user_token as AnyObject?
+
+        SSNetworkTool.SSMine.request_roleChange(params: params, success: { (response) in
+            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
+                UserTool.shared.user_id_type = model.rid
+                UserTool.shared.user_rongyuntoken = model.rongyuntoken
+                UserTool.shared.user_uid = model.uid
+                UserTool.shared.user_token = model.token
+                UserTool.shared.user_avatars = model.avatar
+                UserTool.shared.user_name = model.nickName
+                UserTool.shared.synchronize()
+                NotificationCenter.default.post(name: NSNotification.Name.UserRoleChange, object: nil)
+            }
+        }, failure: {[weak self] (error) in
+                
+
+        }) {[weak self] (code, message) in
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+        
+        
+    }
+    
 }
 
 extension RenterMineViewController {
@@ -254,6 +316,9 @@ extension RenterMineViewController {
             let vc = BaseWebViewController.init(protocalType: .ProtocalTypeAboutUs)
             vc.titleString = typeSourceArray[indexPath.row].getNameFormType(type: typeSourceArray[indexPath.row].type ?? RenterMineType.RenterMineTypeAboutus)
             self.navigationController?.pushViewController(vc, animated: true)
+            
+        case .RenterMineTypeRoleChange:
+            roleChangeClick()
             
         case .none:
             SSLog(typeSourceArray[indexPath.row].type)

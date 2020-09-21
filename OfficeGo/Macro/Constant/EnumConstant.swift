@@ -146,6 +146,7 @@ public enum RenterMineType {
     case RenterMineTypeServiceAgent     //服务协议
     case RenterMineTypeRegisterAgent    //隐私条款
     case RenterMineTypeAboutus          //关于我们
+    case RenterMineTypeRoleChange        //切换身份
 }
 //设置页面
 public enum RenterSettingType {
@@ -183,6 +184,7 @@ public enum OwnerMineType {
     case OwnerMineTypeRegisterAgent    //隐私条款
     case OwnerMineTypeServiceAgent      //服务协议
     case OwnerMineTypeAboutus          //关于我们
+    case OwnerMineTypeRoleChange        //切换身份
 }
 
 
