@@ -35,9 +35,8 @@ target 'OfficeGo' do
   #  视频播放
   pod 'WMPlayer', '5.0.0' #,  :git => 'https://github.com/zhengwenming/WMPlayer.git'
   
-  pod 'RongCloudIM/IMLib', '2.10.4'
-  pod 'RongCloudIM/IMKit', '2.10.4'
-  
+  pod 'RongCloudIM/IMLib', '2.10.6'
+  pod 'RongCloudIM/IMKit', '2.10.6'
   
   # 接入神策统计sdk
   pod 'SensorsAnalyticsSDK', :subspecs => ['DISABLE_UIWEBVIEW']
