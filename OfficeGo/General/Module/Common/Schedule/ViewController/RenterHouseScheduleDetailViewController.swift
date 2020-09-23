@@ -83,7 +83,7 @@ extension RenterHouseScheduleDetailViewController {
         msgView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.top.equalTo(kNavigationHeight + 47)
-            make.height.equalTo(202)
+            make.height.equalTo(260)
         }
     }
     
@@ -96,7 +96,7 @@ extension RenterHouseScheduleDetailViewController {
             self?.msgView.snp.remakeConstraints { (make) in
                 make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
                 make.top.equalTo(kNavigationHeight + 47)
-                make.height.equalTo(202 - 30 + height)
+                make.height.equalTo(260 - 30 + height)
             }
             self?.msgView.buildingViewModel = self?.scheduleListDetailViewModel?.buildingViewModel
         }

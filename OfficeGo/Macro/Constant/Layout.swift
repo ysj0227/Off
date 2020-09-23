@@ -96,7 +96,7 @@ let kMessageInputAlertHeight: CGFloat = 158
 
 let kIsiPhoneX = kStatusBarHeight == 44 ? true : false
 
-let noLimitMaxNum: Double  = 999999
+let noLimitMaxNum: Double  = 999999999
 
 ///开发debug
 let API_Debug: String = "debug"

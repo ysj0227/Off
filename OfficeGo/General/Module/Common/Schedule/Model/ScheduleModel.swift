@@ -257,6 +257,8 @@ class ScheduleListDetailBuildingViewModel : NSObject {
     
     var trafficHeight: CGFloat = 30
 
+    var trafficTopConstant: CGFloat = 0
+
     init(model:ScheduleListDetailBuildingModel) {
         
         super.init()
@@ -315,13 +317,22 @@ class ScheduleListDetailBuildingViewModel : NSObject {
                 timestring.append(stationName)
                 
                 if index == stationline.count - 1 {
+     
                     trafficString?.append("\(timestring)")
                 }else {
-                    trafficString?.append("\(timestring) \n")
+                    trafficString?.append("\(timestring) \n  \n")
                 }
             }
+            
+            if stationline.count > 1 {
+                trafficTopConstant = 5
+            }else {
+                trafficTopConstant = 0
+            }
+        }else {
+            trafficTopConstant = 0
         }
-        
+                
         let size = trafficString?.boundingRect(with: CGSize(width: kWidth - 35 - left_pending_space_17 * 2, height: kHeight), font: FONT_12)
         if size?.height ?? 0 <= 30.0 {
             trafficHeight = 30

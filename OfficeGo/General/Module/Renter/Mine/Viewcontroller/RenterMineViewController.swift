@@ -22,8 +22,8 @@ class RenterMineViewController: BaseTableViewController {
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeCusomers))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeServiceAgent))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeRegisterAgent))
-        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeAboutus))
         arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeRoleChange))
+        arr.append(RenterMineConfigureModel.init(types: .RenterMineTypeAboutus))
         return arr
     }()
     

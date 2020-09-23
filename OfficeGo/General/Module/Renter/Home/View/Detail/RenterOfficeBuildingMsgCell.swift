@@ -61,7 +61,7 @@ class RenterOfficeBuildingMsgCell: BaseTableViewCell {
         featureCollectionView.delegate = self
         featureCollectionView.dataSource = self
         featureCollectionView.register(RenterBuildingMsgHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "RenterBuildingMsgHeader")
-        featureCollectionView.register(RenterBuildingMsgFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "RenterBuildingMsgFooter")
+        featureCollectionView.register(RenterBuildingMsgFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "RenterBuildingMsgFooter")
     }
     
     func reloadData() {
@@ -100,7 +100,7 @@ extension RenterOfficeBuildingMsgCell: UICollectionViewDataSource, UICollectionV
             
             return header ?? UICollectionReusableView()
         }else {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "RenterBuildingMsgFooter", for: indexPath) as? RenterBuildingMsgFooter
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "RenterBuildingMsgFooter", for: indexPath) as? RenterBuildingMsgFooter
             header?.nameLabel.text = buildingMsgViewModel.settlementLicenceName
             header?.nameValueLabel.text = buildingMsgViewModel.settlementLicence
 

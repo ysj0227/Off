@@ -26,7 +26,7 @@ class RenterMineCell: BaseTableViewCell {
         let view = UILabel()
         view.isHidden = true
         view.textAlignment = .right
-        view.font = FONT_11
+        view.font = FONT_12
         view.textColor = kAppColor_666666
         return view
     }()

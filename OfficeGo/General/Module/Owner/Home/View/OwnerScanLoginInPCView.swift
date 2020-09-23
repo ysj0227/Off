@@ -32,7 +32,7 @@ class OwnerScanLoginInPCView: UIView {
         view.font = FONT_15
         view.numberOfLines = 2
         view.lineBreakMode = .byWordWrapping
-        view.text = "打开http://www.officego.com.cn" + "\n" + "在电脑上发布和管理房源"
+        view.text = "打开https://www.officego.com" + "\n" + "在电脑上发布和管理房源"
         view.textAlignment = .center
         view.textColor = kAppColor_333333
         return view
@@ -56,7 +56,7 @@ class OwnerScanLoginInPCView: UIView {
         let button = UIButton.init()
         button.setTitle("继续在APP上编辑", for: .normal)
         button.setTitleColor(kAppBlueColor, for: .normal)
-        button.titleLabel?.font = FONT_13
+        button.titleLabel?.font = FONT_14
         button.layer.borderColor = kAppBlueColor.cgColor
         button.layer.borderWidth = 1.0
         button.layer.cornerRadius = button_cordious_2
@@ -70,7 +70,7 @@ class OwnerScanLoginInPCView: UIView {
         button.setImage(UIImage.init(named: "QScan"), for: .normal)
         button.setTitle(" 去电脑上编辑", for: .normal)
         button.setTitleColor(kAppWhiteColor, for: .normal)
-        button.titleLabel?.font = FONT_13
+        button.titleLabel?.font = FONT_14
         button.layer.cornerRadius = button_cordious_2
         button.backgroundColor = kAppBlueColor
         button.addTarget(self, action: #selector(clickToPcScanView), for: .touchUpInside)
@@ -154,7 +154,7 @@ class OwnerScanLoginInPCView: UIView {
             make.top.leading.bottom.trailing.equalToSuperview()
         }
         bgview.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 299, height: 391))
+            make.size.equalTo(CGSize(width: 299, height: 391 + 16))
             make.center.equalToSuperview()
         }
         closeBtn.snp.makeConstraints { (make) in
@@ -168,7 +168,7 @@ class OwnerScanLoginInPCView: UIView {
         }
         pcEditBtn.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().inset(35)
-            make.size.equalTo(CGSize(width: 142, height: 32))
+            make.size.equalTo(CGSize(width: 160, height: 40))
             make.centerX.equalToSuperview()
         }
         continueEditBtn.snp.makeConstraints { (make) in

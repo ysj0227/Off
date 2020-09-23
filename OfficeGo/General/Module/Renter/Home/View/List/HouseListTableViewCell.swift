@@ -225,7 +225,7 @@ class HouseListTableViewCell: BaseTableViewCell {
         houseTypTags.isHidden = false
         ///1是写字楼，2是共享办公
         if viewModel.btype == 1 {
-            houseTypTags.text = "  写字楼  "
+            houseTypTags.text = ""
         }else if viewModel.btype == 2 {
             houseTypTags.text = "  共享办公  "
         }

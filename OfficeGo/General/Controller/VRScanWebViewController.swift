@@ -17,7 +17,7 @@ class VRScanWebViewController: BaseViewController, UINavigationControllerDelegat
     }
     var titleString: String? {
         didSet {
-            titleview?.titleLabel.text = titleString
+            titleview?.titleLabel.text = "\(titleString ?? "")" + "VR看房_OfficeGo办公租赁平台"
         }
     }
     
@@ -87,8 +87,14 @@ class VRScanWebViewController: BaseViewController, UINavigationControllerDelegat
         
         view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
-        titleview?.titleLabel.text = "VR"
-        
+        titleview?.titleLabel.text = "\(titleString ?? "")" + "VR看房_OfficeGo办公租赁平台"
+        titleview?.titleLabel.font = FONT_MEDIUM_15
+        titleview?.titleLabel.snp.remakeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().inset(44)
+            make.trailing.equalToSuperview().inset(17)
+
+        }
         if let webView = webView {
             view.insertSubview(webView, at: 0)
             webView.snp.makeConstraints { (make) in

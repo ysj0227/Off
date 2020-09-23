@@ -870,7 +870,7 @@ extension RenterChatViewController {
         if agree {
 
             if UserTool.shared.isHasWX() == true {
-                sendMesExchangeWechatAgreeOrReject(agree: false, otherWechat: otherWechat, messageUid: messageUid)
+                sendMesExchangeWechatAgreeOrReject(agree: true, otherWechat: otherWechat, messageUid: messageUid)
             }else{
                 showBtnWXInputAlertview(otherWechat: otherWechat, messageUid: messageUid)
             }
@@ -888,7 +888,7 @@ extension RenterChatViewController {
         
         
         let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和你交换微信": "我拒绝和你交换微信", isAgree: agree, sendNumber: otherWechat, receiveNumber: UserTool.shared.user_wechat ?? "")
-        sendMessage(messageContent, pushContent: "交换信成功回复")
+        sendMessage(messageContent, pushContent: "交换微信成功回复")
     }
     
     //看房邀约同意拒绝消息

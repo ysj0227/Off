@@ -16,7 +16,7 @@ class RenterMineSettingViewController: BaseTableViewController {
         //目前隐藏微信授权
         //arr.append(SettingConfigureModel.init(types: .RenterSettingTypeChangeWechat))
         arr.append(SettingConfigureModel.init(types: .RenterSettingTypeVersionUpdate))
-        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeRoleChange))
+//        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeRoleChange))
 //        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeAPISet))
         return arr
     }()
@@ -239,7 +239,7 @@ class RenterSettingCell: BaseTableViewCell {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_14
+        view.font = FONT_15
         view.textColor = kAppColor_333333
         return view
     }()

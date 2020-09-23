@@ -187,7 +187,7 @@ class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelega
         case 6:
             clickItemString = "500,1000"
         case 7:
-            clickItemString = "1000,99999"
+            clickItemString = "1000,999999999"
         default:
             clickItemString = ""
         }
@@ -657,6 +657,7 @@ extension RenterOfficebuildingDetailVC: RenterDetailSourceViewImgScanDelegate{
                 let vrModel = vrArr[0]
                 let vc = VRScanWebViewController()
                 vc.urlString = vrModel.imgUrl
+                vc.titleString = buildingDetailModel?.building?.name
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }

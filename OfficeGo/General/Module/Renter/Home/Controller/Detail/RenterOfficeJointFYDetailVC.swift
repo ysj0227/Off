@@ -388,6 +388,7 @@ extension RenterOfficeJointFYDetailVC: RenterDetailSourceViewImgScanDelegate{
                 let vrModel = vrArr[0]
                 let vc = VRScanWebViewController()
                 vc.urlString = vrModel.imgUrl
+                vc.titleString = buildingFYDetailModel?.house?.buildingName
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }

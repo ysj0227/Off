@@ -21,8 +21,8 @@ class OwnerMineViewController: BaseTableViewController {
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeCusomers))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeServiceAgent))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeRegisterAgent))
-        arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeAboutus))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeRoleChange))
+        arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeAboutus))
         return arr
     }()
     

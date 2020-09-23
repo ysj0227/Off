@@ -657,7 +657,7 @@ extension AppDelegate {
         ///是否将用户信息和群组信息在本地持久化存储
         RCIM.shared()?.enablePersistentUserInfoCache = true
         
-//        RCIM.shared().enabledReadReceiptConversationTypeList = [RCConversationType.ConversationType_SYSTEM]
+        RCIM.shared().enabledReadReceiptConversationTypeList = [RCConversationType.ConversationType_SYSTEM]
         
         //没懂什么意思Mark Mark - 信息提供者
         RCIM.shared()?.userInfoDataSource = RCDUserService.shared
