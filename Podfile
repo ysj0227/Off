@@ -41,6 +41,11 @@ target 'OfficeGo' do
   # 接入神策统计sdk
   pod 'SensorsAnalyticsSDK', :subspecs => ['DISABLE_UIWEBVIEW']
   
+  #  接入高德地图
+  #  Installing AMapFoundation (1.6.3)
+  #  Installing AMapLocation (2.6.5)
+  pod 'AMapLocation'  #定位sdk
+  
   target 'OfficeGoTests' do
     inherit! :search_paths
     
