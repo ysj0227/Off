@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         notifyObserve()
         
-        UserTool.shared.API_Setting = API_Test
+        UserTool.shared.API_Setting = API_Debug
         
         configLocationManager()
         
@@ -829,9 +829,9 @@ extension AppDelegate: RCIMConnectionStatusDelegate {
         
         //SDK 与融云服务器的连接状态
         if status == RCConnectionStatus.ConnectionStatus_KICKED_OFFLINE_BY_OTHER_CLIENT {
-            //            AppUtilities.makeToast("您的账号在别的设备上登录了")
-            showLogotAlertview()
-            
+            if UserTool.shared.isLogin() == true {
+                showLogotAlertview()
+            }
         }else if status == RCConnectionStatus.ConnectionStatus_TOKEN_INCORRECT {
             AppUtilities.makeToast("您的token不对")
             ///退出到登录
