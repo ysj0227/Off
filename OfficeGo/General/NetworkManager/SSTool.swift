@@ -1239,4 +1239,12 @@ struct SensorsAnalyticsEvent {
 //        alert.setupDiskAlert(judgeStr: judgeStr, titleStr: titleStr)
 //        alert.show()
     }
+    
+    static func isLocationServiceOpen() -> Bool {
+        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.denied {
+            return false
+        } else {
+            return true
+        }
+    }
 }

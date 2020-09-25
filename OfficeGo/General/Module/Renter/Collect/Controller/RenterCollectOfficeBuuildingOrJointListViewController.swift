@@ -65,8 +65,8 @@ class RenterCollectOfficeBuuildingOrJointListViewController: BaseTableViewContro
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject
-        params["longitude"] = "" as AnyObject
-        params["latitude"] = "" as AnyObject
+        params["longitude"] = (UIApplication.shared.delegate as? AppDelegate)?.longitude as AnyObject?
+        params["latitude"] = (UIApplication.shared.delegate as? AppDelegate)?.latitude as AnyObject?
         params["pageNo"] = self.pageNo as AnyObject
         params["pageSize"] = self.pageSize as AnyObject
         params["type"] = self.type as AnyObject

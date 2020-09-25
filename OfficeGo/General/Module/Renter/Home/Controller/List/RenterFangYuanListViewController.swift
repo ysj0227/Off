@@ -84,6 +84,24 @@ class RenterFangYuanListViewController: BaseTableViewController {
     //MARK: 获取首页列表数据
     override func refreshData() {
         
+        if SSTool.isLocationServiceOpen() == true {
+            if (UIApplication.shared.delegate as? AppDelegate)?.longitude == nil {
+                
+                LoadingHudView.showHud()
+                
+                SSTool.delay(time: 2) { [weak self] in
+                    self?.requestHouseList()
+                }
+            }else {
+                requestHouseList()
+            }
+        }else {
+            requestHouseList()
+        }
+    }
+    
+    
+    func requestHouseList() {
         if pageNo == 1 {
             if self.dataSourceViewModel.count > 0 {
                 self.dataSourceViewModel.removeAll()
@@ -93,6 +111,9 @@ class RenterFangYuanListViewController: BaseTableViewController {
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        params["longitude"] = (UIApplication.shared.delegate as? AppDelegate)?.longitude as AnyObject?
+        params["latitude"] = (UIApplication.shared.delegate as? AppDelegate)?.latitude as AnyObject?
         
         //商圈和地铁
         //商圈
@@ -184,12 +205,12 @@ class RenterFangYuanListViewController: BaseTableViewController {
             //租金 - 两者都有
             var zujinExtentStr: String?
             /*
-            //房源特色 - 两者都有
-            var featureArr: [String] = []*/
+             //房源特色 - 两者都有
+             var featureArr: [String] = []*/
             
             //共享办公
             if btype == 2 {
-                 
+                
                 if self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.highValue == self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.maximumValue {
                     gongweiExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.gongweijointOfficeExtentModel.noLimitNum)
                 }else {
@@ -204,12 +225,12 @@ class RenterFangYuanListViewController: BaseTableViewController {
                     zujinExtentStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.zujinjointOfficeExtentModel.highValue ?? 0)
                 }
                 /*
-                //房源特色 - 两者都有
-                for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
-                    if model.isOfficejointOfficeSelected {
-                        featureArr.append("\(model.dictValue ?? 0)")
-                    }
-                }*/
+                 //房源特色 - 两者都有
+                 for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
+                 if model.isOfficejointOfficeSelected {
+                 featureArr.append("\(model.dictValue ?? 0)")
+                 }
+                 }*/
                 
             }else if btype == 1 {
                 
@@ -221,7 +242,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 
                 //办公室 - 面积传值
                 var mianjiStr: String?
-                    
+                
                 if self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.highValue == self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.maximumValue {
                     mianjiStr = String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.lowValue ?? 0) + "," + String(format: "%.0f", self.recommendSelectModel.shaixuanModel.mianjiofficeBuildingExtentModel.noLimitNum)
                 }else {
@@ -239,19 +260,19 @@ class RenterFangYuanListViewController: BaseTableViewController {
                 let documentStr: String = documentArr.joined(separator: ",")
                 params["decoration"] = documentStr as AnyObject?
                 /*
-                //房源特色 - 两者都有
-                for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
-                    if model.isOfficeBuildingSelected {
-                        featureArr.append("\(model.dictValue ?? 0)")
-                    }
-                }*/
+                 //房源特色 - 两者都有
+                 for model in self.recommendSelectModel.shaixuanModel.featureModelArr {
+                 if model.isOfficeBuildingSelected {
+                 featureArr.append("\(model.dictValue ?? 0)")
+                 }
+                 }*/
             }
             
             params["dayPrice"] = zujinExtentStr as AnyObject?
             /*
-            //房源特色 - 两者都有
-            let featureStr: String = featureArr.joined(separator: ",")
-            params["houseTags"] = featureStr as AnyObject?*/
+             //房源特色 - 两者都有
+             let featureStr: String = featureArr.joined(separator: ",")
+             params["houseTags"] = featureStr as AnyObject?*/
         }
         
         params["pageNo"] = self.pageNo as AnyObject

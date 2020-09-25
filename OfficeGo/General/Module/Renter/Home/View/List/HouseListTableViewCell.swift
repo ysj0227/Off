@@ -54,7 +54,7 @@ class HouseListTableViewCell: BaseTableViewCell {
     lazy var houseDistanceLabel: UILabel = {
         let view = UILabel()
         //TODO: 暂时隐藏距离 - 目前为0
-        view.isHidden = true
+        //view.isHidden = true
         view.textAlignment = .left
         view.font = FONT_LIGHT_10
         view.textColor = kAppColor_333333

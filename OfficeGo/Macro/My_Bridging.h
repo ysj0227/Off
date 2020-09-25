@@ -32,5 +32,7 @@
 
 #import <SensorsAnalyticsSDK/SensorsAnalyticsSDK.h>
 
+#import <AMapLocationKit/AMapLocationKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
 
 #endif /* My_Bridging_h */

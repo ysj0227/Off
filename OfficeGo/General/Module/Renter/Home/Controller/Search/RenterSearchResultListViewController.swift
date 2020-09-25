@@ -208,6 +208,9 @@ class RenterSearchResultListViewController: BaseTableViewController {
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         
+        params["longitude"] = (UIApplication.shared.delegate as? AppDelegate)?.longitude as AnyObject?
+        params["latitude"] = (UIApplication.shared.delegate as? AppDelegate)?.latitude as AnyObject?
+        
         params["keyWord"] = searchString as AnyObject?
         
         

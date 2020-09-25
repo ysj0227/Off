@@ -15,7 +15,23 @@ import Bugly
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
+    
+    
+    var longitude: String?
+    
+    var latitude: String?
+    
+    lazy var locationManager = AMapLocationManager()
+    
     var window: UIWindow?
+    
+    func configLocationManager() {
+        locationManager.delegate = self
+        
+        locationManager.pausesLocationUpdatesAutomatically = false
+        
+        //locationManager.allowsBackgroundLocationUpdates = true
+    }
     
     static func shared() -> AppDelegate {
         return UIApplication.shared.delegate as? AppDelegate ?? AppDelegate()
@@ -43,7 +59,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         notifyObserve()
         
-        UserTool.shared.API_Setting = API_Release
+        UserTool.shared.API_Setting = API_Test
+        
+        configLocationManager()
         
         runTabBarViewController()
         
@@ -364,6 +382,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         }
     }
     
+    //MARK: - 激活开始定位
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        if UserTool.shared.user_id_type == 0 {
+            startLocation()
+        }
+    }
+    
+    //MARK: - 进入后台关闭定位
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        stopLocation()
+    }
+    
     func onReq(_ req: BaseReq) {
         
     }
@@ -374,6 +404,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     //设置tabbar - 租户
     @objc func setRenterTabar(){
+        
+        startLocation()
         
         //0:租户,1:房东,9:其他
         if UserTool.shared.user_id_type == 0 {
@@ -390,6 +422,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     //设置tabbar - 房东
     @objc func setOwnerTabar(){
+        
+        stopLocation()
         
         //0:租户,1:房东,9:其他
         if UserTool.shared.user_id_type == 1 {
@@ -437,7 +471,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         loginRongCloud()
         
         if UserTool.shared.user_id_type == 0 {
-            
+                    
             setRenterTabar()
             
         }else if UserTool.shared.user_id_type == 1 {
@@ -633,6 +667,9 @@ extension AppDelegate {
         Bugly.setUserIdentifier("\(UserTool.shared.user_uid ?? 0)")
         
         
+        ///高德地图
+        AMapServices.shared()?.apiKey = AppKey.AMapLocationKey
+        
         
         //微信
         WXApi.registerApp(AppKey.WeChatAppId, universalLink: AppKey.UniversalLink)
@@ -812,5 +849,47 @@ extension URL {
         return queryItems.reduce(into: [String: String]()) { (result, item) in
             result[item.name] = item.value
         }
+    }
+}
+
+
+
+//MARK: - AMapLocationManagerDelegate
+extension AppDelegate : AMapLocationManagerDelegate {
+    
+    func amapLocationManager(_ manager: AMapLocationManager!, doRequireLocationAuth locationManager: CLLocationManager!) {
+        locationManager.requestAlwaysAuthorization()
+    }
+    
+    func amapLocationManager(_ manager: AMapLocationManager!, didFailWithError error: Error!) {
+        let error = error as NSError
+        NSLog("didFailWithError:{\(error.code) - \(error.localizedDescription)};")
+    }
+    
+    func amapLocationManager(_ manager: AMapLocationManager!, didUpdate location: CLLocation!, reGeocode: AMapLocationReGeocode?) {
+        NSLog("location:{lat:\(location.coordinate.latitude); lon:\(location.coordinate.longitude); accuracy:\(location.horizontalAccuracy);};");
+        
+        longitude = "\(location.coordinate.longitude)"
+        
+        latitude = "\(location.coordinate.latitude)"
+
+        if let reGeocode = reGeocode {
+            NSLog("reGeocode:%@", reGeocode)
+        }
+        
+    }
+    
+}
+
+extension AppDelegate {
+    
+    ///开始定位
+    func startLocation() {
+        locationManager.startUpdatingLocation()
+    }
+    
+    ///停止定位
+    func stopLocation() {
+        locationManager.stopUpdatingLocation()
     }
 }

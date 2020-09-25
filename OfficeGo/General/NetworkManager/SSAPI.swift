@@ -52,10 +52,10 @@ import Foundation
                              "Test": "http://debugweb.officego.com.cn/",
                              "Release": "http://webapi.officego.com/"]
     
-    ///神策
+    ///神策 "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a74"
     static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
                                        "Test":"https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
-                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a74"]
+                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
     ///融云appkey
     static var RCAppKeys = ["Dev": "kj7swf8oknm02",
                             "Test":"kj7swf8oknm02",
@@ -113,8 +113,8 @@ import Foundation
         }else if UserTool.shared.API_Setting == API_Release {
             return getUrlAddress(buildType: .Release,serverType: serverType)
         }else {
-            UserTool.shared.API_Setting = API_Release
-            return getUrlAddress(buildType: .Release,serverType: serverType)
+            UserTool.shared.API_Setting = API_Debug
+            return getUrlAddress(buildType: .Dev,serverType: serverType)
         }
     }
     

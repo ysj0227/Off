@@ -15,6 +15,9 @@ struct AppKey {
     //    static let jpushChannel = "Publish channel"
     //    static let isProduction = true
     
+    ///高德地图key
+    static let AMapLocationKey = ""
+    
     static let UMKey = "5ee885e8978eea085c5464c2"
     
     /// 微信appid
