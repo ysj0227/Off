@@ -10,6 +10,8 @@ import UIKit
 
 class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
 
+    @IBOutlet weak var huxingLabel: UILabel!
+    
     @IBOutlet weak var huxingImgConstantHeight: NSLayoutConstraint!
     
     @IBOutlet weak var huxingImgBottomConstantHeight: NSLayoutConstraint!
@@ -29,6 +31,11 @@ class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
     }
 
     func setCellWithViewModel(viewModel: FangYuanBuildingFYDetailBasicInformationViewModel) {
+        if viewModel.patternCellHeight == 0 {
+            huxingLabel.isHidden = true
+        }else {
+            huxingLabel.isHidden = true
+        }
         huxingConstangHeight.constant = viewModel.textHeight
         huxingImgConstantHeight.constant = viewModel.patternHeight
         if viewModel.patternHeight == 0 {

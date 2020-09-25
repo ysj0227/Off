@@ -69,6 +69,7 @@
                 <outlet property="huxingConstangHeight" destination="zhN-62-aF5" id="ANU-cK-dgX"/>
                 <outlet property="huxingImgBottomConstantHeight" destination="sAM-wU-8Ek" id="mYv-n1-owi"/>
                 <outlet property="huxingImgConstantHeight" destination="FwZ-Bk-9Bv" id="riG-30-sDM"/>
+                <outlet property="huxingLabel" destination="Uve-aE-tcP" id="brg-EO-lQ9"/>
                 <outlet property="unitPatternImgView" destination="by0-dW-eTW" id="Vg5-WF-h1Q"/>
                 <outlet property="unitPatternRemarkLabel" destination="xoJ-OW-yIH" id="xDh-OR-R8y"/>
             </connections>
