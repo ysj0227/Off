@@ -13,18 +13,18 @@ target 'OfficeGo' do
 #  pod 'CocoaDebug', :configurations => ['Debug']
   
   pod 'SnapKit',        '5.0.1'
-  pod 'MJRefresh',      '3.5.0'
+  pod 'MJRefresh',      '3.5.0' #3.5.0 (was 3.3.1)
   pod 'RxCocoa',        '~> 5.1.1'
   pod 'RxSwift',        '~> 5.1.1'
-  pod 'HandyJSON',      '5.0.0'
+  pod 'HandyJSON',      '5.0.3-beta' #5.0.3-beta (was 5.0.0)
   pod 'SwiftyJSON',     '5.0.0'
-  pod 'Kingfisher',     '5.8.3'
-  pod 'Alamofire'       #,      '~> 5.2'
+  pod 'Kingfisher',     '5.15.4' #5.15.4 (was 5.8.3)
+  pod 'Alamofire',      '4.9.0' #5.2.2 (was 4.9.0)
   pod 'Masonry',        '1.1.0'
   # pod 'lottie-ios',     '3.1.3'
   # pod 'SKPhotoBrowser'
-  pod 'IQKeyboardManagerSwift', '6.3.0'
-  pod 'FSCalendar', '2.8.0'
+  pod 'IQKeyboardManagerSwift', '6.5.6' #6.5.6 (was 6.3.0)
+  pod 'FSCalendar', '2.8.1'
   pod 'Bugly', '2.5.71'
 
   pod 'WechatOpenSDK'

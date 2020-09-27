@@ -5,12 +5,12 @@ PODS:
     - AMapFoundation (~> 1.6.4)
   - Bugly (2.5.71)
   - CLImagePickerTool (3.1.3)
-  - FSCalendar (2.8.0)
-  - HandyJSON (5.0.0)
-  - IQKeyboardManagerSwift (6.3.0)
-  - Kingfisher (5.8.3):
-    - Kingfisher/Core (= 5.8.3)
-  - Kingfisher/Core (5.8.3)
+  - FSCalendar (2.8.1)
+  - HandyJSON (5.0.3-beta)
+  - IQKeyboardManagerSwift (6.5.6)
+  - Kingfisher (5.15.4):
+    - Kingfisher/Core (= 5.15.4)
+  - Kingfisher/Core (5.15.4)
   - Masonry (1.1.0)
   - MJRefresh (3.5.0)
   - RongCloudIM/IMKit (2.10.6):
@@ -32,14 +32,14 @@ PODS:
     - Masonry
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (= 4.9.0)
   - AMapLocation
   - Bugly (= 2.5.71)
   - CLImagePickerTool (from `https://github.com/Darren-chenchen/CLImagePickerTool.git`)
-  - FSCalendar (= 2.8.0)
-  - HandyJSON (= 5.0.0)
-  - IQKeyboardManagerSwift (= 6.3.0)
-  - Kingfisher (= 5.8.3)
+  - FSCalendar (= 2.8.1)
+  - HandyJSON (= 5.0.3-beta)
+  - IQKeyboardManagerSwift (= 6.5.6)
+  - Kingfisher (= 5.15.4)
   - Masonry (= 1.1.0)
   - MJRefresh (= 3.5.0)
   - RongCloudIM/IMKit (= 2.10.6)
@@ -89,10 +89,10 @@ SPEC CHECKSUMS:
   AMapLocation: a46c30d9930d0f3a3bd21139d8f845d10ac3f01d
   Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   CLImagePickerTool: 2ef59c6524efd493571a0ee2bc42f445b4c5b2cb
-  FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
-  HandyJSON: 992f2d661716d6a91de82d0056927bc7813b5770
-  IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
-  Kingfisher: b7e4cb65ff24c264bd2a1284b75b974d907afd94
+  FSCalendar: 5245140456fcbcac5824c203b98bd8068bdfee1a
+  HandyJSON: 88e8ea5f66ab65c3b8768499a1935d0509c460d4
+  IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
+  Kingfisher: 657dc1077e5bbbfff864194c79f29e35b722d062
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
   RongCloudIM: b1768dcb3af90d00ce621f7de4f787285435fbe3
@@ -105,6 +105,6 @@ SPEC CHECKSUMS:
   WechatOpenSDK: 368ae03b72ee3ea1328c4f11326fbb5d2721d118
   WMPlayer: a914f80ed5dca7cd9e3a94ec07a2b02eec8c15c0
 
-PODFILE CHECKSUM: 2aead8dc93cc47cd3af624ae7bab836e8f910858
+PODFILE CHECKSUM: f1ba847c9a97da984030a3dd43360972d5b18dea
 
 COCOAPODS: 1.10.0.rc.1
