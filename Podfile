@@ -13,7 +13,7 @@ target 'OfficeGo' do
 #  pod 'CocoaDebug', :configurations => ['Debug']
   
   pod 'SnapKit',        '5.0.1'
-  pod 'MJRefresh',      '3.3.1'
+  pod 'MJRefresh',      '3.5.0'
   pod 'RxCocoa',        '~> 5.1.1'
   pod 'RxSwift',        '~> 5.1.1'
   pod 'HandyJSON',      '5.0.0'

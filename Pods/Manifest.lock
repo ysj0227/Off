@@ -12,7 +12,7 @@ PODS:
     - Kingfisher/Core (= 5.8.3)
   - Kingfisher/Core (5.8.3)
   - Masonry (1.1.0)
-  - MJRefresh (3.3.1)
+  - MJRefresh (3.5.0)
   - RongCloudIM/IMKit (2.10.6):
     - RongCloudIM/IMLib
   - RongCloudIM/IMLib (2.10.6)
@@ -41,7 +41,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift (= 6.3.0)
   - Kingfisher (= 5.8.3)
   - Masonry (= 1.1.0)
-  - MJRefresh (= 3.3.1)
+  - MJRefresh (= 3.5.0)
   - RongCloudIM/IMKit (= 2.10.6)
   - RongCloudIM/IMLib (= 2.10.6)
   - RxCocoa (~> 5.1.1)
@@ -94,7 +94,7 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   Kingfisher: b7e4cb65ff24c264bd2a1284b75b974d907afd94
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
+  MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
   RongCloudIM: b1768dcb3af90d00ce621f7de4f787285435fbe3
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
@@ -105,6 +105,6 @@ SPEC CHECKSUMS:
   WechatOpenSDK: 368ae03b72ee3ea1328c4f11326fbb5d2721d118
   WMPlayer: a914f80ed5dca7cd9e3a94ec07a2b02eec8c15c0
 
-PODFILE CHECKSUM: d53ed69828694d6d20485e43e4b3ec36382d744d
+PODFILE CHECKSUM: 2aead8dc93cc47cd3af624ae7bab836e8f910858
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0.rc.1
