@@ -34,7 +34,7 @@ class RenterOfficebuildingDeatailHuxingCell: BaseTableViewCell {
         if viewModel.patternCellHeight == 0 {
             huxingLabel.isHidden = true
         }else {
-            huxingLabel.isHidden = true
+            huxingLabel.isHidden = false
         }
         huxingConstangHeight.constant = viewModel.textHeight
         huxingImgConstantHeight.constant = viewModel.patternHeight
