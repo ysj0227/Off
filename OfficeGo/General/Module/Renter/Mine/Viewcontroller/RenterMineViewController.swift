@@ -318,7 +318,11 @@ extension RenterMineViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             
         case .RenterMineTypeRoleChange:
-            roleChangeClick()
+            if isLogin() == true {
+                roleChangeClick()
+            }else {
+                showLoginVC()
+            }
             
         case .none:
             SSLog(typeSourceArray[indexPath.row].type)

@@ -52,10 +52,9 @@ import Foundation
                              "Test": "http://debugweb.officego.com.cn/",
                              "Release": "http://webapi.officego.com/"]
     
-    ///神策 "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a74"
     static var SensorsAnalyticsSDKs = ["Dev": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
                                        "Test":"https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac",
-                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=default&token=d0db7a742f154aac"]
+                                       "Release": "https://officego.datasink.sensorsdata.cn/sa?project=production&token=d0db7a742f154aac"]
     ///融云appkey
     static var RCAppKeys = ["Dev": "kj7swf8oknm02",
                             "Test":"kj7swf8oknm02",
