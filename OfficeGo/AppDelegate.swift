@@ -48,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         window?.makeKeyAndVisible()
         
+        
         //每次启动，如果有版本更新只显示一次
         UserTool.shared.isCloseCancelVersionUpdate = false
         
@@ -58,9 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         setUpSDKs(launchOptions: launchOptions)
         
         notifyObserve()
-        
-        UserTool.shared.API_Setting = API_Debug
-        
+                
         configLocationManager()
         
         runTabBarViewController()

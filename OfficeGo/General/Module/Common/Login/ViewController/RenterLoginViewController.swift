@@ -155,6 +155,46 @@ class RenterLoginViewController: BaseViewController {
     }()
     
     
+    
+    
+    
+    lazy var testphoneField: UITextField = {
+        let phoneField = UITextField()
+        phoneField.placeholder = NSLocalizedString("请输入手机号码", comment: "")
+        phoneField.keyboardType = .phonePad
+        phoneField.clearsOnBeginEditing = false
+        phoneField.textColor = kAppColor_333333
+        phoneField.font = FONT_16
+        return phoneField
+    }()
+    
+    lazy var testverifyCodeField: UITextField = {
+        let view = UITextField()
+        view.delegate = self
+        view.placeholder = NSLocalizedString("请输入验证码", comment: "")
+        view.keyboardType = .phonePad
+        view.clearsOnBeginEditing = false
+        view.textColor = kAppColor_333333
+        view.font = FONT_16
+        return view
+    }()
+    
+    lazy var testLoginButton: UIButton = {
+        let nextButton = UIButton.init(type: .custom)
+        nextButton.setTitle(NSLocalizedString("登录", comment: ""), for: .normal)
+        nextButton.setTitleColor(.white, for: .normal)
+        nextButton.clipsToBounds = true
+        nextButton.layer.cornerRadius = button_cordious_2
+        nextButton.backgroundColor = kAppBlueColor
+        nextButton.titleLabel?.font = FONT_MEDIUM_15
+        nextButton.addTarget(self, action: #selector(loginWith18516765366Code), for: .touchUpInside)
+        return nextButton
+    }()
+    
+    
+    
+    
+    
     var timer: Timer?
     
     func clickToRegisterVC() {
@@ -359,6 +399,35 @@ class RenterLoginViewController: BaseViewController {
         }*/
         
         areaLabel.addGestureRecognizer(areaGesture)
+        
+        
+        
+        
+        #if DEBUG
+        view.addSubview(testLoginButton)
+        view.addSubview(testverifyCodeField)
+        view.addSubview(testphoneField)
+
+        testLoginButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(login_left_pending_space_30)
+            make.bottom.equalToSuperview().offset(-bottomMargin())
+            make.height.equalTo(btnHeight)
+        }
+        
+        testverifyCodeField.snp.makeConstraints { (make) in
+            make.leading.trailing.equalTo(testLoginButton)
+            make.height.equalTo(63)
+            make.bottom.equalTo(testLoginButton.snp.top).offset(-10)
+        }
+        
+        testphoneField.snp.makeConstraints { (make) in
+            make.leading.trailing.equalTo(testLoginButton)
+            make.height.equalTo(63)
+            make.bottom.equalTo(testverifyCodeField.snp.top).offset(-10)
+        }
+        #else
+        #endif
     }
     
     
@@ -529,25 +598,19 @@ class RenterLoginViewController: BaseViewController {
     }
     
     func testPhoneLogin() {
-        let alert = SureAlertView(frame: self.view.frame)
-        alert.inputTFView.placeholder = "请输入手机号"
-        alert.ShowInputAlertView(message: "请输入手机号", cancelButtonCallClick: {
-            
-        }) { [weak self] (str) in
-            self?.loginWith18516765366Code(phone: str)
-        }
+       
     }
     
     //验证码登录接口
-    func loginWith18516765366Code(phone: String) {
+    @objc func loginWith18516765366Code() {
         
         //nextButton.isUserInteractionEnabled = false
         
         //调用登录接口 - 成功跳转下个页面-
         var params = [String:AnyObject]()
-        params["phone"] = phone as AnyObject?
+        params["phone"] = testphoneField.text as AnyObject?
         //            params["phone"] = "19111111111" as AnyObject?
-        params["code"] = "123465" as AnyObject?
+        params["code"] = testverifyCodeField.text as AnyObject?
         params["channel"] = UserTool.shared.user_channel as AnyObject
         params["idType"] = UserTool.shared.user_id_type as AnyObject?
         SSNetworkTool.SSLogin.request_loginWithCode(params: params, success: { [weak self] (response) in
