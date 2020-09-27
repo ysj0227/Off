@@ -217,7 +217,7 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
             }
         }else {
             
-            dayPriceString = "¥\(model.dayPrice ?? 0)/位/天"
+            dayPriceString = "¥\(model.dayPrice ?? 0)/位/月"
             
             seatsString = "\(model.seats ?? 0)个工位"
         }
