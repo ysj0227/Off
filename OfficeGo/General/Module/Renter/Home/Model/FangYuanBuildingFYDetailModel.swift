@@ -91,6 +91,7 @@ class FangYuanBuildingFYDetailHouseModel: BaseModel {
     var decoration : String?
     
     var mainPic : String?
+    var smallImg : String?
     var licenceId : Int?
     var monthPrice : Float?
     /// 办公类型1是独立办公室，2是开放工位
@@ -139,6 +140,7 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     var decorationString : String?
     
     var mainPic : String?
+    var smallImg : String?
     var licenceId : Int?
     var monthPriceString : String?
     
@@ -172,6 +174,8 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
         id = model.id
         
         mainPic = model.mainPic
+        
+        smallImg = model.smallImg
         
         if btype == 1 {
             buildingName = model.buildingName

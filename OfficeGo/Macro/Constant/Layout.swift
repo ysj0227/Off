@@ -19,6 +19,8 @@ let maxImgWidthOrHeight_1500: CGFloat = 1000.0
 //图片最大体积数
 let maxImgSize_20480: CGFloat = 20480.0 * 1000
 
+let maxImgSize_20: CGFloat = 20.0 * 1000
+
 //房产证最多图片数
 let ownerMaxFCZNumber = 4
 

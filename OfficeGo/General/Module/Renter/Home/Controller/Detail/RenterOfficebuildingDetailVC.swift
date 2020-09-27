@@ -116,7 +116,7 @@ class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelega
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingDetailViewModel?.buildingViewModel?.buildingName ?? ""
         shareVC.descriptionString = buildingDetailViewModel?.buildingViewModel?.addressString ?? ""
-        shareVC.thumbImage = buildingDetailViewModel?.buildingViewModel?.mainPic
+        shareVC.thumbImage = buildingDetailViewModel?.buildingViewModel?.smallImg
         shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BuildingDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(buildingDetailViewModel?.buildingViewModel?.buildingId ?? 0)"
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})

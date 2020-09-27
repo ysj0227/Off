@@ -128,4 +128,61 @@ extension UIImage {
         SSLog("图片裁剪尺寸比例----width=\(newImage.size.width)--height=\(newImage.size.height)")
         return newImage
     }
+    
+     func getNewSize200() ->CGSize{
+            var width = self.size.width
+            var height = self.size.height
+            SSLog("图片原始尺寸比例----width=\(width)--height=\(height)")
+            let boundary:CGFloat = maxImgWidthOrHeight_1500
+            guard width > boundary && height > boundary else {
+                return CGSize(width: width, height: height)
+            }
+    //        if height > maxImgWidthOrHeight || width > maxImgWidthOrHeight {
+    //            if width > height {
+    //                width = maxImgWidthOrHeight
+    //                height = maxImgWidthOrHeight * widthMaxScale
+    //
+    //            }else {
+    //                height = maxImgWidthOrHeight
+    //                width = maxImgWidthOrHeight * heightMaxScale
+    //            }
+    //        }
+            let x = max(width, height) / boundary
+            if width > height {
+                width = boundary
+                height = height / x
+            } else {
+                height = boundary
+                width = width / x
+            }
+            return CGSize(width: width, height: height)
+        }
+        
+        
+        ///房东 - 认证图片处理 - 把图片处理为宽高最高为1500
+        func resizeMax200Image() -> UIImage? {
+            let newSize = getNewSize200()
+            let rect = CGRect.init(x: 0, y: 0, width: newSize.width, height: newSize.height)
+            UIGraphicsBeginImageContext(newSize)
+            var newImage = UIImage(cgImage: self.cgImage!, scale: 1, orientation: self.imageOrientation)
+            newImage.draw(in: rect)
+            newImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+            
+             //暂时隐藏体积处理
+            let byte: CGFloat = CGFloat(newImage.pngData()?.count ?? 0)
+            SSLog("图片裁剪体积----byte=\(byte)")
+
+            if byte > maxImgSize_20 {
+                let scale: CGFloat = maxImgSize_20 / byte
+                if let imgdata = newImage.jpegData(compressionQuality: scale) {
+                    newImage = UIImage.init(data: imgdata) ?? UIImage()
+                }
+                SSLog("图片裁剪尺寸比例----width=\(newImage.size.width)--height=\(newImage.size.height)--scale\(scale)")
+
+            }
+            
+            SSLog("图片裁剪尺寸比例----width=\(newImage.size.width)--height=\(newImage.size.height)")
+            return newImage
+        }
 }

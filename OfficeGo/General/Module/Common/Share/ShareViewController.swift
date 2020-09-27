@@ -99,22 +99,48 @@ class ShareViewController: UIViewController {
         let message = WXMediaMessage()
         message.title = buildingName
         message.description = descriptionString
+//        let imageview = BaseImageView()
         if let url = thumbImage {
             let imageview = BaseImageView()
-            imageview.setImage(with: url, placeholder: UIImage(named: Default_1x1))
-            if let image = imageview.image {
-                message.setThumbImage(image.scaleImage(scaleSize: 200))
+            imageview.setImage(with: url, placeholder: UIImage(named: "shareDefault"), progress: nil) {[weak self] (image, error, url) in
+                if let img = image?.resizeMax200Image() {
+                    message.setThumbImage(img)
+                    message.mediaObject = webpageObject
+                    
+                    let req = SendMessageToWXReq()
+                    req.bText = false;
+                    req.message = message;
+                    req.scene = Int32(platformType);
+                    WXApi.send(req, completion: nil)
+                    
+                    self?.cancelShare(sender)
+                }else {
+                    if let img = imageview.image {
+                        message.setThumbImage(img)
+                        message.mediaObject = webpageObject
+                        
+                        let req = SendMessageToWXReq()
+                        req.bText = false;
+                        req.message = message;
+                        req.scene = Int32(platformType);
+                        WXApi.send(req, completion: nil)
+                        
+                        self?.cancelShare(sender)
+                    }
+                }
             }
+        }else {
+            message.mediaObject = webpageObject
+            
+            let req = SendMessageToWXReq()
+            req.bText = false;
+            req.message = message;
+            req.scene = Int32(platformType);
+            WXApi.send(req, completion: nil)
+            
+            cancelShare(sender)
         }
-        message.mediaObject = webpageObject
-        
-        let req = SendMessageToWXReq()
-        req.bText = false;
-        req.message = message;
-        req.scene = Int32(platformType);
-        WXApi.send(req, completion: nil)
-        
-        cancelShare(sender)
+
     }
     
 }

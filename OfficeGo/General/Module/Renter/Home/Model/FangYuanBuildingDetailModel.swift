@@ -131,7 +131,8 @@ class FangYuanBuildingBuildingModel: BaseModel {
     var buildingId : Int?
     var businessDistrict : String?
     var mainPic : String?
-    
+    var smallImg : String?
+
     ///楼盘
     ///房源数
     var houseCount : Int?
@@ -198,6 +199,8 @@ class FangYuanBuildingBuildingViewModel: NSObject {
     
     var mainPic : String?
 
+    var smallImg : String?
+    
     ///楼盘
     ///房源数
     var houseCountString : String?
@@ -258,6 +261,9 @@ class FangYuanBuildingBuildingViewModel: NSObject {
         buildingName = model.name
         
         mainPic = model.mainPic
+        
+        smallImg = model.smallImg
+        
         ///addressString = model.businessDistrict ?? ""
         addressString = model.address ?? ""
         

@@ -72,7 +72,7 @@ class RenterOfficeJointFYDetailVC: BaseGroupTableViewController {
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingFYDetailViewModel?.houseViewModel?.buildingName ?? ""
         shareVC.descriptionString = buildingFYDetailViewModel?.houseViewModel?.addressString ?? ""
-        shareVC.thumbImage = buildingFYDetailViewModel?.houseViewModel?.mainPic
+        shareVC.thumbImage = buildingFYDetailViewModel?.houseViewModel?.smallImg
         shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BJointFYDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(buildingFYDetailViewModel?.houseViewModel?.buildingId ?? 0)&houseId=\(buildingFYDetailModel?.house?.id ?? 0)"
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
