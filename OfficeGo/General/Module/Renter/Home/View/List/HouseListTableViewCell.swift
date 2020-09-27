@@ -47,7 +47,7 @@ class HouseListTableViewCell: BaseTableViewCell {
     lazy var houseAddressLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_LIGHT_10
+        view.font = FONT_LIGHT_11
         view.textColor = kAppColor_333333
         return view
     }()
@@ -56,7 +56,7 @@ class HouseListTableViewCell: BaseTableViewCell {
         //TODO: 暂时隐藏距离 - 目前为0
         //view.isHidden = true
         view.textAlignment = .left
-        view.font = FONT_LIGHT_10
+        view.font = FONT_LIGHT_11
         view.textColor = kAppColor_333333
         return view
     }()
@@ -70,7 +70,7 @@ class HouseListTableViewCell: BaseTableViewCell {
     lazy var houseRouteLineLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_LIGHT_10
+        view.font = FONT_LIGHT_11
         view.textColor = kAppColor_333333
         return view
     }()
@@ -78,14 +78,14 @@ class HouseListTableViewCell: BaseTableViewCell {
     lazy var housePriceLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_SEMBLOD_14
+        view.font = FONT_SEMBLOD_15
         view.textColor = kAppBlueColor
         return view
     }()
     lazy var housePriceUnitLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_LIGHT_10
+        view.font = FONT_LIGHT_11
         view.textColor = kAppColor_333333
         return view
     }()
