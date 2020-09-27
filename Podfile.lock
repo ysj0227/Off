@@ -44,8 +44,8 @@ DEPENDENCIES:
   - MJRefresh (= 3.5.0)
   - RongCloudIM/IMKit (= 2.10.6)
   - RongCloudIM/IMLib (= 2.10.6)
-  - RxCocoa (~> 5.1.1)
-  - RxSwift (~> 5.1.1)
+  - RxCocoa (= 5.1.1)
+  - RxSwift (= 5.1.1)
   - SensorsAnalyticsSDK/DISABLE_UIWEBVIEW
   - SnapKit (= 5.0.1)
   - SwiftyJSON (= 5.0.0)
@@ -105,6 +105,6 @@ SPEC CHECKSUMS:
   WechatOpenSDK: 368ae03b72ee3ea1328c4f11326fbb5d2721d118
   WMPlayer: a914f80ed5dca7cd9e3a94ec07a2b02eec8c15c0
 
-PODFILE CHECKSUM: f1ba847c9a97da984030a3dd43360972d5b18dea
+PODFILE CHECKSUM: c3d5cafbe6b76771df8f507571344e34973f66a8
 
 COCOAPODS: 1.10.0.rc.1
