@@ -691,40 +691,57 @@ extension RenterChatViewController {
         if messageContent.btype == 1 {
             ///楼盘
             if messageContent.isBuildOrHouse == 1 {
-                let model = FangYuanListModel()
-                model.btype = messageContent.btype
-                model.id = messageContent.buildingId
-                let vc = RenterOfficebuildingDetailVC()
-                vc.buildingModel = model
-                self.navigationController?.pushViewController(vc, animated: true)
+                
+                if let buildingId = messageContent.buildingId {
+                    if buildingId != 0 {
+                        let model = FangYuanListModel()
+                        model.btype = messageContent.btype
+                        model.id = messageContent.buildingId
+                        let vc = RenterOfficebuildingDetailVC()
+                        vc.buildingModel = model
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+
+                }
                
             }else {
-                let model = FangYuanBuildingOpenStationModel()
-                model.btype = messageContent.btype
-                model.id = messageContent.houseId
-                let vc = RenterOfficebuildingFYDetailVC()
-                vc.model = model
-                self.navigationController?.pushViewController(vc, animated: true)
-                               
+                if let buildingId = messageContent.houseId  {
+                    if buildingId != 0 {
+                        let model = FangYuanBuildingOpenStationModel()
+                        model.btype = messageContent.btype
+                        model.id = messageContent.houseId
+                        let vc = RenterOfficebuildingFYDetailVC()
+                        vc.model = model
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+
+                }
             }
         }else if messageContent.btype == 2 {
             ///网点
             if messageContent.isBuildOrHouse == 1 {
-               let model = FangYuanListModel()
-                model.btype = messageContent.btype
-                model.id = messageContent.buildingId
-                let vc = RenterOfficeJointDetailVC()
-                vc.buildingModel = model
-                self.navigationController?.pushViewController(vc, animated: true)
+                if let buildingId = messageContent.buildingId  {
+                    if buildingId != 0 {
+                        let model = FangYuanListModel()
+                        model.btype = messageContent.btype
+                        model.id = messageContent.buildingId
+                        let vc = RenterOfficeJointDetailVC()
+                        vc.buildingModel = model
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
                 
             }else {
-                let model = FangYuanBuildingOpenStationModel()
-                model.btype = messageContent.btype
-                model.id = messageContent.houseId
-                let vc = RenterOfficeJointFYDetailVC()
-                vc.model = model
-                self.navigationController?.pushViewController(vc, animated: true)
-
+                if let buildingId = messageContent.houseId  {
+                    if buildingId != 0 {
+                        let model = FangYuanBuildingOpenStationModel()
+                        model.btype = messageContent.btype
+                        model.id = messageContent.houseId
+                        let vc = RenterOfficeJointFYDetailVC()
+                        vc.model = model
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
             }
             
         }
@@ -766,8 +783,8 @@ extension RenterChatViewController {
                 let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "消息")
                 messageContent.isBuildOrHouse = messageFYViewModel?.isBuildOrHouse
                 messageContent.btype = messageFYViewModel?.btype
-                messageContent.buildingId = messageFYViewModel?.buildingId
-                messageContent.houseId = messageFYViewModel?.houseId
+//                messageContent.buildingId = messageFYViewModel?.buildingId
+//                messageContent.houseId = messageFYViewModel?.houseId
                 messageContent.mainPic = messageFYViewModel?.mainPic
                 messageContent.createTimeAndByWho = messageFYViewModel?.createTimeAndByWho
                 messageContent.isFavorite = messageFYViewModel?.IsFavorite ?? false
