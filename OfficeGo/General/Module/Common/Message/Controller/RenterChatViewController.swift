@@ -783,8 +783,8 @@ extension RenterChatViewController {
                 let messageContent = FangyuanInsertFYMessage.messageWithContent(content: "消息")
                 messageContent.isBuildOrHouse = messageFYViewModel?.isBuildOrHouse
                 messageContent.btype = messageFYViewModel?.btype
-//                messageContent.buildingId = messageFYViewModel?.buildingId
-//                messageContent.houseId = messageFYViewModel?.houseId
+                messageContent.buildingId = messageFYViewModel?.buildingId
+                messageContent.houseId = messageFYViewModel?.houseId
                 messageContent.mainPic = messageFYViewModel?.mainPic
                 messageContent.createTimeAndByWho = messageFYViewModel?.createTimeAndByWho
                 messageContent.isFavorite = messageFYViewModel?.IsFavorite ?? false
