@@ -390,7 +390,7 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
             case .IWantToFindTypeZujin:
                 let cell = tableView.dequeueReusableCell(withIdentifier: ExtentSelectCell.reuseIdentifierStr) as? ExtentSelectCell
                 cell?.categoryTitleLabel.text = "租金"
-                cell?.unit = "元/m²/天"
+                cell?.unit = "元/m²/月"
                 cell?.minimumValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.minimumValue
                 cell?.maximumValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.maximumValue
                 cell?.lowValue = self.selectModel.shaixuanModel.zujinjointOfficeExtentModel.lowValue
@@ -458,7 +458,7 @@ extension HouseShaixuanSelectView: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: ExtentSelectCell.reuseIdentifierStr) as? ExtentSelectCell
                 cell?.selectionStyle = .none
                 cell?.categoryTitleLabel.text = "租金"
-                cell?.unit = "元/m²/月"
+                cell?.unit = "元/m²/天"
                 cell?.minimumValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.minimumValue
                 cell?.maximumValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.maximumValue
                 cell?.lowValue = self.selectModel.shaixuanModel.zujinofficeBuildingExtentModel.lowValue
