@@ -598,7 +598,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
                 individualAreaString = String(format: "%.0f㎡", model.area ?? 0)
                 individualMonthPriceString = "¥\(model.monthPrice ?? 0)"
                 individualSeatsString = "\(model.seats ?? 0)" + "工位"
-                individualDayPriceString = "¥\(model.dayPrice ?? 0) /位/天"
+                individualDayPriceString = "¥\(model.dayPrice ?? 0)/位/月"
             }else {
                 openSeatsString = "\(model.seats ?? 0)" + "工位"
                 openSeatsUnitLBString = "工位"
