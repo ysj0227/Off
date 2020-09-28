@@ -19,7 +19,7 @@ class RenterDetailFYListCell: BaseTableViewCell {
     lazy var leftTopLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_11
+        view.font = FONT_12
         view.textColor = kAppColor_333333
         return view
     }()
@@ -183,8 +183,8 @@ class RenterDetailFYListCell: BaseTableViewCell {
     }
     func setDuliCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
         mainImageView.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_80x60))
-        leftTopLabel.text = viewModel.individualAreaString
-        leftbottomLabel.text = viewModel.individualSeatsString
+        leftTopLabel.text = viewModel.individualSeatsString
+        leftbottomLabel.text = viewModel.individualAreaString
         rightPriceLabel.text = viewModel.individualMonthPriceString
         rightUnitLabel.text = "/月"
         rightBottomUnitLabel.text = viewModel.individualDayPriceString
