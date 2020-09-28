@@ -174,6 +174,9 @@
 		04EF1E45247777E400871762 /* SSTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E42247777E200871762 /* SSTabBarItem.swift */; };
 		04EF1E46247777E400871762 /* SSTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E43247777E300871762 /* SSTabBarView.swift */; };
 		04EF1E47247777E400871762 /* SSTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF1E44247777E400871762 /* SSTabBarItemView.swift */; };
+		8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486925217C2800F43373 /* OwnerFYListCell.swift */; };
+		8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */; };
+		8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */; };
 		A7971EB22F21F910CD4CFEDE /* Pods_OfficeGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4A347C2B62727595AA17EB /* Pods_OfficeGo.framework */; };
 		D371ED2B2487AF7E0000A9EE /* AppDeleagate+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */; };
 		DE0306DAC522233E2C5CE8D3 /* Pods_OfficeGoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */; };
@@ -459,6 +462,9 @@
 		2D4A347C2B62727595AA17EB /* Pods_OfficeGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OfficeGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E7878BD0BC6D50E8C42540D /* Pods-OfficeGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGo.debug.xcconfig"; path = "Target Support Files/Pods-OfficeGo/Pods-OfficeGo.debug.xcconfig"; sourceTree = "<group>"; };
 		5BD0AE81A9F960371D9FF994 /* Pods-OfficeGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGo.release.xcconfig"; path = "Target Support Files/Pods-OfficeGo/Pods-OfficeGo.release.xcconfig"; sourceTree = "<group>"; };
+		8E50486925217C2800F43373 /* OwnerFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListCell.swift; sourceTree = "<group>"; };
+		8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListViewController.swift; sourceTree = "<group>"; };
+		8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYMoreSettingView.swift; sourceTree = "<group>"; };
 		A4D3C24013D5B3F294FF583B /* Pods-OfficeGoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGoTests.release.xcconfig"; path = "Target Support Files/Pods-OfficeGoTests/Pods-OfficeGoTests.release.xcconfig"; sourceTree = "<group>"; };
 		CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OfficeGoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDeleagate+Ext.swift"; sourceTree = "<group>"; };
@@ -1301,6 +1307,7 @@
 			children = (
 				04E23986249B3C75009DCCEC /* OwnerHomeViewController.swift */,
 				046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */,
+				8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1316,6 +1323,8 @@
 			isa = PBXGroup;
 			children = (
 				046CEF8224F38E9300B061B8 /* OwnerScanLoginInPCView.swift */,
+				8E50486925217C2800F43373 /* OwnerFYListCell.swift */,
+				8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2021,6 +2030,7 @@
 				EEE87B5C24558F9800C03424 /* AnimateRefreshHeader.swift in Sources */,
 				04E23927249B3ABB009DCCEC /* FangyuanModel.swift in Sources */,
 				0407F93624BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift in Sources */,
+				8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */,
 				EE02BA4724654BA600B51D34 /* NetworkErrorManager.swift in Sources */,
 				041DEDA12505E705008DEBB2 /* RenterOfficeBuildingMsgCell.swift in Sources */,
 				EEE87B1B2455856800C03424 /* UINavigationControllerEx.swift in Sources */,
@@ -2081,6 +2091,7 @@
 				EE353ED92456FFDF00057545 /* BaseTableViewCell.swift in Sources */,
 				04E23925249B3ABB009DCCEC /* FangYuanBuildingFYDetailModel.swift in Sources */,
 				EE02BA4624654BA600B51D34 /* RequestAPIs.swift in Sources */,
+				8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */,
 				04E23995249B4745009DCCEC /* OwnerHouseScheduleViewController.swift in Sources */,
 				EEB1F9C32458299D000500A3 /* CycleCell.swift in Sources */,
 				04E23939249B3ABB009DCCEC /* RenterShareServiceShowView.swift in Sources */,
@@ -2195,6 +2206,7 @@
 				0407F92A24BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift in Sources */,
 				EEE87B1F2455856800C03424 /* UIButtonEx.swift in Sources */,
 				0407F93A24BD963400C9F581 /* OwnerESBuildingSearchModel.swift in Sources */,
+				8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */,
 				04E23987249B3C75009DCCEC /* OwnerHomeViewController.swift in Sources */,
 				041DEDA325063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift in Sources */,
 				04266B6724FF6FB10027348B /* BannerOutClickWebViewController.swift in Sources */,
