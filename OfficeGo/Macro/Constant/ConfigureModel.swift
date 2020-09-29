@@ -14,6 +14,115 @@ class ConfigureModel: NSObject {
     var isShowDetailIcon: Bool?
 }
 
+
+class OwnerBuildingEditConfigureModel : NSObject {
+    var type : OwnerBuildingEditType?
+    
+    init(types: OwnerBuildingEditType) {
+        type = types
+    }
+    
+    func getNameFormType(type: OwnerBuildingEditType) -> NSMutableAttributedString{
+        switch type {
+        ///楼盘类型
+        case .OwnerBuildingEditTypeBuildingTypew:
+            return FuWenBen(name: "楼盘类型", centerStr: " * ", last: "")
+        ///写字楼名称
+        case .OwnerBuildingEditTypeBuildingName:
+            return FuWenBen(name: "写字楼名称", centerStr: " * ", last: "")
+        ///所在区域
+        case .OwnerBuildingEditTypeDisctict:
+            return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
+        ///详细地址
+        case .OwnerBuildingEditTypeDetailAddress:
+            return FuWenBen(name: "详细地址", centerStr: " * ", last: "")
+        ///总楼层
+        case .OwnerBuildingEditTypeTotalFloor:
+            return FuWenBen(name: "总楼层", centerStr: " * ", last: "")
+        ///竣工时间
+        case .OwnerBuildingEditTypeCompelteTime:
+            return FuWenBen(name: "竣工时间", centerStr: " * ", last: "")
+        ///翻新时间
+        case .OwnerBuildingEditTypeRenovationTime:
+            return FuWenBen(name: "翻新时间", centerStr: "", last: "")
+        ///建筑面积
+        case .OwnerBuildingEditTypeArea:
+            return FuWenBen(name: "建筑面积", centerStr: "", last: "")
+        ///净高
+        case .OwnerBuildingEditTypeClearHeight:
+            return FuWenBen(name: "净高", centerStr: " * ", last: "")
+        ///层高
+        case .OwnerBuildingEditTypeFloorHeight:
+            return FuWenBen(name: "层高", centerStr: "", last: "")
+        ///物业公司
+        case .OwnerBuildingEditTypePropertyCompany:
+            return FuWenBen(name: "物业公司", centerStr: " * ", last: "")
+        ///物业费
+        case .OwnerBuildingEditTypePropertyCoast:
+            return FuWenBen(name: "物业费", centerStr: " * ", last: "")
+        ///车位数
+        case .OwnerBuildingEditTypeParkingNum:
+            return FuWenBen(name: "车位数", centerStr: " * ", last: "")
+        ///车位费
+        case .OwnerBuildingEditTypeParkingCoast:
+            return FuWenBen(name: "车位费", centerStr: "", last: "")
+        ///空调类型
+        case .OwnerBuildingEditTypeAirConditionType:
+            return FuWenBen(name: "空调类型", centerStr: " * ", last: "")
+        ///空调费
+        case .OwnerBuildingEditTypeAirConditionCoast:
+            return FuWenBen(name: "空调费", centerStr: "", last: "")
+        ///电梯数
+        case .OwnerBuildingEditTypeFloorNum:
+            return FuWenBen(name: "电梯数", centerStr: " * ", last: "")
+        ///网络
+        case .OwnerBuildingEditTypeNetwork:
+            return FuWenBen(name: "网络", centerStr: "", last: "")
+        ///入驻企业
+        case .OwnerBuildingEditTypeEnterCompany:
+            return FuWenBen(name: "入驻企业", centerStr: "", last: "")
+        ///详细介绍
+        case .OwnerBuildingEditTypeDetailIntroduction:
+            return FuWenBen(name: "详细介绍", centerStr: "", last: "")
+        ///特色
+        case .OwnerBuildingEditTypeFeature:
+            return FuWenBen(name: "特色", centerStr: "", last: "")
+        ///上传楼盘图片
+        case .OwnerBuildingEditTypeBuildingImage:
+            return FuWenBen(name: "上传楼盘图片", centerStr: "", last: "")
+        }
+    }
+    
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
+}
+
 //房东
 //网点创建
 class OwnerCreatBranchConfigureModel: NSObject {

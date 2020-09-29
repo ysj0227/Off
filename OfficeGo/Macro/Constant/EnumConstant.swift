@@ -264,3 +264,54 @@ public enum OwnerCreteBuildingType {
     case OwnerCreteBuildingTypeBranchAddress          //网点地址
     case OwnerCreteBuildingTypeUploadYingyePhoto          //网点地址
 }
+
+
+//房东
+//编辑写字楼页面
+public enum OwnerBuildingEditType {
+    ///楼盘类型
+    case OwnerBuildingEditTypeBuildingTypew
+    ///写字楼名称
+    case OwnerBuildingEditTypeBuildingName
+    ///所在区域
+    case OwnerBuildingEditTypeDisctict
+    ///详细地址
+    case OwnerBuildingEditTypeDetailAddress
+    ///总楼层
+    case OwnerBuildingEditTypeTotalFloor
+    ///竣工时间
+    case OwnerBuildingEditTypeCompelteTime
+    ///翻新时间
+    case OwnerBuildingEditTypeRenovationTime
+    ///建筑面积
+    case OwnerBuildingEditTypeArea
+    ///净高
+    case OwnerBuildingEditTypeClearHeight
+    ///层高
+    case OwnerBuildingEditTypeFloorHeight
+    ///物业公司
+    case OwnerBuildingEditTypePropertyCompany
+    ///物业费
+    case OwnerBuildingEditTypePropertyCoast
+    ///车位数
+    case OwnerBuildingEditTypeParkingNum
+    ///车位费
+    case OwnerBuildingEditTypeParkingCoast
+    ///空调类型
+    case OwnerBuildingEditTypeAirConditionType
+    ///空调费
+    case OwnerBuildingEditTypeAirConditionCoast
+    ///电梯数
+    case OwnerBuildingEditTypeFloorNum
+    ///网络
+    case OwnerBuildingEditTypeNetwork
+    ///入驻企业
+    case OwnerBuildingEditTypeEnterCompany
+    ///详细介绍
+    case OwnerBuildingEditTypeDetailIntroduction
+    ///特色
+    case OwnerBuildingEditTypeFeature
+    ///上传楼盘图片
+    case OwnerBuildingEditTypeBuildingImage
+
+}

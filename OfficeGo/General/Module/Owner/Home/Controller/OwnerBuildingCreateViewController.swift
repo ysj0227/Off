@@ -1,5 +1,5 @@
 //
-//  OwnerFYListViewController.swift
+//  OwnerBuildingCreateViewController.swift
 //  OfficeGo
 //
 //  Created by Mac pro on 2020/9/28.
@@ -10,32 +10,16 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 
-class OwnerFYListViewController: BaseTableViewController {
-            
-    var dataSourceViewModel: [FangYuanListViewModel?] = []
+class OwnerBuildingCreateViewController: BaseTableViewController {
     
-    lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
-        let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
-        return view
-    }()
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
-        tab?.customTabBar.isHidden = true
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
-        tab?.customTabBar.isHidden = false
-                
-    }
+    var dataSourceViewModel: [FangYuanListViewModel?] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
     }
-
+    
     //MARK: 获取首页列表数据
     override func refreshData() {
         
@@ -83,13 +67,13 @@ class OwnerFYListViewController: BaseTableViewController {
             }
         }
     }
-        
+    
 }
 
-extension OwnerFYListViewController {
+extension OwnerBuildingCreateViewController {
     
     func setUpView() {
-                
+        
         titleview = ThorNavigationView.init(type: .backTitleRight)
         //设置背景颜色为蓝色 文字白色 -
         titleview?.backgroundColor = kAppBlueColor
@@ -101,17 +85,21 @@ extension OwnerFYListViewController {
             make.width.equalTo(65)
             make.top.bottom.equalToSuperview()
         }
-        titleview?.rightButton.setImage(UIImage.init(named: "addBlue"), for: .normal)
-        titleview?.leftButton.isHidden = true
+        
+        titleview?.leftButton.setImage(UIImage.init(named: "backWhite"), for: .normal)
+        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
+        titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = false
-        titleview?.rightButton.layoutButton(.imagePositionRight, margin: 2)
-        titleview?.titleLabel.text = "房源列表"
+        titleview?.titleLabel.text = "编辑写字楼"
+        titleview?.leftButtonCallBack = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
         titleview?.rightBtnClickBlock = { [weak self] in
             let vc = OwnerBuildingCreateViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
-
+        
         requestSet()
     }
     
@@ -137,7 +125,7 @@ extension OwnerFYListViewController {
     
 }
 
-extension OwnerFYListViewController {
+extension OwnerBuildingCreateViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -146,18 +134,6 @@ extension OwnerFYListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: OwnerFYListCell.reuseIdentifierStr) as? OwnerFYListCell
         cell?.selectionStyle = .none
-        if self.dataSource.count > 0 {
-            if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as? FangYuanListModel ?? FangYuanListModel()
-                cell?.moreBtnClickBlock = { [weak self] in
-                    self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum.xiaJiaEnum, OWnerFYMoreSettingEnum.deleteEnum, OWnerFYMoreSettingEnum.sharepEnum], clearButtonCallBack: {
-                        
-                    }) { (settingEnum) in
-                        SSLog("-----点击的是---\(settingEnum.rawValue)")
-                    }
-                }
-            }
-        }
         return cell ?? OwnerFYListCell.init(frame: .zero)
     }
     
@@ -197,7 +173,7 @@ extension OwnerFYListViewController {
         return view
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    
+        
         return 0
     }
 }

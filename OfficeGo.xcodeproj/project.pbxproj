@@ -177,6 +177,8 @@
 		8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486925217C2800F43373 /* OwnerFYListCell.swift */; };
 		8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */; };
 		8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */; };
+		8E6D0A3A2521D903005EFDEF /* OwnerBuildingCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */; };
+		8E6D0A3C2521F670005EFDEF /* OwnerBuildingEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A3B2521F670005EFDEF /* OwnerBuildingEditCell.swift */; };
 		A7971EB22F21F910CD4CFEDE /* Pods_OfficeGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4A347C2B62727595AA17EB /* Pods_OfficeGo.framework */; };
 		D371ED2B2487AF7E0000A9EE /* AppDeleagate+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */; };
 		DE0306DAC522233E2C5CE8D3 /* Pods_OfficeGoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */; };
@@ -465,6 +467,8 @@
 		8E50486925217C2800F43373 /* OwnerFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListCell.swift; sourceTree = "<group>"; };
 		8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListViewController.swift; sourceTree = "<group>"; };
 		8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYMoreSettingView.swift; sourceTree = "<group>"; };
+		8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateViewController.swift; sourceTree = "<group>"; };
+		8E6D0A3B2521F670005EFDEF /* OwnerBuildingEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingEditCell.swift; sourceTree = "<group>"; };
 		A4D3C24013D5B3F294FF583B /* Pods-OfficeGoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGoTests.release.xcconfig"; path = "Target Support Files/Pods-OfficeGoTests/Pods-OfficeGoTests.release.xcconfig"; sourceTree = "<group>"; };
 		CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OfficeGoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDeleagate+Ext.swift"; sourceTree = "<group>"; };
@@ -1308,6 +1312,7 @@
 				04E23986249B3C75009DCCEC /* OwnerHomeViewController.swift */,
 				046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */,
 				8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */,
+				8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1325,6 +1330,7 @@
 				046CEF8224F38E9300B061B8 /* OwnerScanLoginInPCView.swift */,
 				8E50486925217C2800F43373 /* OwnerFYListCell.swift */,
 				8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */,
+				8E6D0A3B2521F670005EFDEF /* OwnerBuildingEditCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2028,6 +2034,7 @@
 				042D12542512FA1800292EE4 /* RenterCustomerListViewController.swift in Sources */,
 				04CB46C0249CAF3A001BCC8F /* LoginRoleViewController.swift in Sources */,
 				EEE87B5C24558F9800C03424 /* AnimateRefreshHeader.swift in Sources */,
+				8E6D0A3C2521F670005EFDEF /* OwnerBuildingEditCell.swift in Sources */,
 				04E23927249B3ABB009DCCEC /* FangyuanModel.swift in Sources */,
 				0407F93624BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift in Sources */,
 				8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */,
@@ -2047,6 +2054,7 @@
 				046CEF8F24F3D41B00B061B8 /* LBXScanWrapper.swift in Sources */,
 				EE4914D924692D62008D5689 /* LLSegmentItemTitleView.swift in Sources */,
 				04CB4700249CB02C001BCC8F /* RenterScheduleFYViewController.swift in Sources */,
+				8E6D0A3A2521D903005EFDEF /* OwnerBuildingCreateViewController.swift in Sources */,
 				EEE87ACB2455854C00C03424 /* ViewController.swift in Sources */,
 				04E2392A249B3ABB009DCCEC /* RenterSearchRecommendCollectionCell.swift in Sources */,
 				EE4914B124692D35008D5689 /* MLMSegmentManager.m in Sources */,
