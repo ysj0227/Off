@@ -162,7 +162,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
                 search?.aMapReGoecodeSearch(regeocodeRequest)
             }
         }else {
-            
+            titleview?.locationBtn.setTitle("  上海", for: .normal)
         }
     }
     
