@@ -1245,10 +1245,18 @@ struct SensorsAnalyticsEvent {
     }
     
     static func isLocationServiceOpen() -> Bool {
-        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.denied {
+        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.denied || CLLocationManager.authorizationStatus() == CLAuthorizationStatus.restricted {
             return false
         } else {
             return true
+        }
+    }
+    
+    static func isLocationAskServiceOpen() -> Bool {
+        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined{
+            return true
+        } else {
+            return false
         }
     }
 }

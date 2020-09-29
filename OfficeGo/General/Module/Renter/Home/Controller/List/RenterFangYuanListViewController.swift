@@ -49,6 +49,15 @@ class RenterFangYuanListViewController: BaseTableViewController {
         
         requestSet()
         
+        
+        //首次获取到定位
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.GetFirstLocation, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            SSLog("------请求总--------·············获取到定位通知")
+
+            self?.pageNo = 1
+            self?.requestHouseList()
+        }
+        
     }
     
     override func layoutSet () {
@@ -76,25 +85,35 @@ class RenterFangYuanListViewController: BaseTableViewController {
     
     //MARK: 获取首页列表数据
     override func refreshData() {
-        
-        SSLog("------请求总--------·············")
-        
+                
+        ///是一直和使用
         if SSTool.isLocationServiceOpen() == true {
-            if (UIApplication.shared.delegate as? AppDelegate)?.longitude == nil {
+                        
+            if SSTool.isLocationAskServiceOpen() == true {
                 
-                LoadingHudView.showHud()
+                pageNo = 1
                 
-                //首次获取到定位
-                NotificationCenter.default.addObserver(forName: NSNotification.Name.GetFirstLocation, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-                    SSLog("------请求总--------·············获取到定位通知")
-
-                    self?.requestHouseList()
-                }
-            }else {
                 requestHouseList()
+                
+            }else {
+                
+                if (UIApplication.shared.delegate as? AppDelegate)?.longitude == nil {
+                    
+                    LoadingHudView.showHud()
+
+                }else {
+
+                    requestHouseList()
+                }
             }
+
         }else {
+            
+            ///权限关闭，默认获取不到定位
+            UserTool.shared.Has_get_location = false
+            
             requestHouseList()
+            
         }
     }
     
@@ -102,6 +121,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
     func requestHouseList() {
         if pageNo == 1 {
             if self.dataSourceViewModel.count > 0 {
+                self.dataSource.removeAll()
                 self.dataSourceViewModel.removeAll()
             }
         }
@@ -457,7 +477,11 @@ extension RenterFangYuanListViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if dataSourceViewModel.count > 0 {
-            return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
+            if dataSourceViewModel.count - 1 > indexPath.row {
+                return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
+            }else {
+                return 192
+            }
         }else {
             return 192
         }
