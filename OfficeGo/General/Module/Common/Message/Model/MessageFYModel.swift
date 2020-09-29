@@ -98,7 +98,7 @@ class MessageFYViewModel: NSObject {
                     return
                 }
                 walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
-                walkTimesubwayAndStationString?.append("号线 ·")
+                walkTimesubwayAndStationString?.append("号线 · ")
                 guard let stationNames = model.building?.stationNames else {
                     return
                 }
@@ -173,7 +173,7 @@ class MessageFYViewModel: NSObject {
                     return
                 }
                 walkTimesubwayAndStationString?.append(stationline.count > 0 ? stationline[0] : "")
-                walkTimesubwayAndStationString?.append("号线 ·")
+                walkTimesubwayAndStationString?.append("号线 · ")
                 guard let stationNames = model.house?.stationNames else {
                     return
                 }

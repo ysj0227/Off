@@ -298,7 +298,7 @@ class ScheduleListDetailBuildingViewModel : NSObject {
             return
         }
         
-        let xianStr = "号线 ·"
+        let xianStr = "号线 · "
         guard let stationNames = model.stationNames else {
             return
         }
