@@ -16,13 +16,6 @@ import Foundation
         case Release
     }
     
-    //    #if DEBUG
-    //    static let RCAppKey = "kj7swf8oknm02"
-    //    static let RCAppSecret = "OF78PpILjjRk4"
-    //    #else  //REALEASE
-    //    static let RCAppKey = "qf3d5gbjq94mh"
-    //    static let RCAppSecret = "xtDkNCjJse"
-    //    #endif
     enum BackgroundServerType: Int {
         case SSApiHost
         case SSH5Host
