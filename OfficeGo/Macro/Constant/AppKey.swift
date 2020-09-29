@@ -16,7 +16,7 @@ struct AppKey {
     //    static let isProduction = true
     
     ///高德地图key
-    static let AMapLocationKey = ""
+    static let AMapLocationKey = "a26cba7e4e9fb502d26b07090e9e9cb3"
     
     static let UMKey = "5ee885e8978eea085c5464c2"
     

@@ -34,5 +34,6 @@
 
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
 #endif /* My_Bridging_h */

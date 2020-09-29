@@ -10,7 +10,7 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 
-class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, LLSegmentedControlDelegate {
+class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, LLSegmentedControlDelegate, AMapSearchDelegate {
     
     var bannerArr: [BannerModel?] = []
     
@@ -123,6 +123,10 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         view.isHidden = true
         return view
     }()
+    
+    var search: AMapSearchAPI?
+    
+    var regeocodeRequest : AMapReGeocodeSearchRequest?
       
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -146,8 +150,39 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         }
         
         requestVersionUpdate()
+        
+        if SSTool.isLocationServiceOpen() == true {
+            if (UIApplication.shared.delegate as? AppDelegate)?.longitude == nil {
+                SSTool.delay(time: 2) { [weak self] in
+                    self?.regeocodeRequest?.location = AMapGeoPoint.location(withLatitude: (UIApplication.shared.delegate as? AppDelegate)?.latitudeFloat ?? 0, longitude: (UIApplication.shared.delegate as? AppDelegate)?.longitudeFloat ?? 0)
+                    self?.search?.aMapReGoecodeSearch(self?.regeocodeRequest)
+                }
+            }else {
+                regeocodeRequest?.location = AMapGeoPoint.location(withLatitude: (UIApplication.shared.delegate as? AppDelegate)?.latitudeFloat ?? 0, longitude: (UIApplication.shared.delegate as? AppDelegate)?.longitudeFloat ?? 0)
+                search?.aMapReGoecodeSearch(regeocodeRequest)
+            }
+        }else {
+            
+        }
     }
     
+    func onReGeocodeSearchDone(_ request: AMapReGeocodeSearchRequest!, response: AMapReGeocodeSearchResponse!) {
+     
+        if response.regeocode == nil {
+            return
+        }
+        
+        SSLog("response地址 -----\(response.regeocode.addressComponent.city ?? "")")
+        //解析response获取地址描述，具体解析见 Demo
+        let city = response.regeocode.addressComponent.city
+        if city?.count ?? 0 > 2 {
+            let index = city?.index((city?.startIndex)!, offsetBy: 2)
+            let str = city?.substring(to: index!)
+            titleview?.locationBtn.setTitle("  \(str ?? "上海")", for: .normal)
+        }else {
+            titleview?.locationBtn.setTitle("  \(city ?? "上海")", for: .normal)
+        }
+    }
     ///版本更新判断
     func requestVersionUpdate() {
         
@@ -202,10 +237,20 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
     }
     
+    func locatonRequestSet() {
+        search = AMapSearchAPI()
+        search?.delegate = self
+        
+        regeocodeRequest = AMapReGeocodeSearchRequest()
+        regeocodeRequest?.requireExtension = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //closeAutomaticallyAdjusts()
+        
+        locatonRequestSet()
         
         request_bannerlist()
         
@@ -316,7 +361,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         ///添加了如果上面的筛选view透明度大于等于0.97，则可以点击，否则筛选按钮不可点击
         NotificationCenter.default.addObserver(forName: NSNotification.Name.HomeBtnLocked, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
-            SSLog("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
+//            SSLog("-----``````----------****\(self?.containerScrView.contentOffset.y ?? 0)")
             
             if self?.containerScrView.contentOffset.y ?? 0 > -(60 + kStatusBarHeight) {
                 self?.segmentTitleSelectview.alpha = 1
@@ -335,7 +380,7 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
                 }else {
                     self?.segmentTitleSelectview.isUserInteractionEnabled = false
                 }
-                SSLog("*******************---****\(alpha)")
+//                SSLog("*******************---****\(alpha)")
                 
                 self?.shaixuanview.isHidden = true
             }

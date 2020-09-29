@@ -21,6 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     var latitude: String?
     
+    var longitudeFloat: CGFloat?
+    
+    var latitudeFloat: CGFloat?
+    
     lazy var locationManager = AMapLocationManager()
     
     var window: UIWindow?
@@ -871,6 +875,10 @@ extension AppDelegate : AMapLocationManagerDelegate {
         longitude = "\(location.coordinate.longitude)"
         
         latitude = "\(location.coordinate.latitude)"
+        
+        longitudeFloat = CGFloat(location.coordinate.longitude)
+
+        latitudeFloat = CGFloat(location.coordinate.latitude)
 
         if let reGeocode = reGeocode {
             NSLog("reGeocode:%@", reGeocode)

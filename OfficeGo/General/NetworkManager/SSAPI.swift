@@ -112,8 +112,8 @@ import Foundation
         }else if UserTool.shared.API_Setting == API_Release {
             return getUrlAddress(buildType: .Release,serverType: serverType)
         }else {
-            UserTool.shared.API_Setting = API_Test
-            return getUrlAddress(buildType: .Test,serverType: serverType)
+            UserTool.shared.API_Setting = API_Release
+            return getUrlAddress(buildType: .Release,serverType: serverType)
         }
     }
     

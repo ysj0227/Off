@@ -45,7 +45,7 @@ target 'OfficeGo' do
   #  Installing AMapFoundation (1.6.3)
   #  Installing AMapLocation (2.6.5)
   pod 'AMapLocation'  #定位sdk
-  
+  pod 'AMapSearch', '7.6.0' #搜索功能
   target 'OfficeGoTests' do
     inherit! :search_paths
     
