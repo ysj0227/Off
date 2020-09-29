@@ -179,14 +179,22 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
         SSLog("response地址 -----\(response.regeocode.addressComponent.city ?? "")")
         //解析response获取地址描述，具体解析见 Demo
-        let city = response.regeocode.addressComponent.city
-        if city?.count ?? 0 > 2 {
-            let index = city?.index((city?.startIndex)!, offsetBy: 2)
-            let str = city?.substring(to: index!)
-            titleview?.locationBtn.setTitle("  \(str ?? "上海")", for: .normal)
+        if let city = response.regeocode.addressComponent.city {
+            if city.count > 0 {
+                if city.count > 2 {
+                    let index = city.index((city.startIndex), offsetBy: 2)
+                    let str = city.substring(to: index)
+                    titleview?.locationBtn.setTitle("  \(str)", for: .normal)
+                }else {
+                    titleview?.locationBtn.setTitle("  \(city)", for: .normal)
+                }
+            }else {
+                titleview?.locationBtn.setTitle("  上海", for: .normal)
+            }
         }else {
-            titleview?.locationBtn.setTitle("  \(city ?? "上海")", for: .normal)
+            titleview?.locationBtn.setTitle("  上海", for: .normal)
         }
+        
     }
     ///版本更新判断
     func requestVersionUpdate() {
