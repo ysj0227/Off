@@ -10,8 +10,8 @@ import UIKit
 
 class FangYuanListModel: BaseModel {
     
-    ///是否VC
-    var isVr : Bool?
+    ///是否有vr，1 有，0 没有
+    var vr: String?
     
     var address : String?               //距离
     var areaMap : [Float]?
@@ -53,6 +53,8 @@ class BuildingMap : BaseModel {
     var stationline : [String]?         //距离最近地铁先，进的在前
 }
 class FangYuanListViewModel: NSObject {
+    ///是否有vr，1 有，0 没有
+    var vr: String?
     ///1是写字楼，2是共享办公
     var btype: Int?
     var idString: Int?                  //房源id
@@ -71,6 +73,7 @@ class FangYuanListViewModel: NSObject {
     
     init(model:FangYuanListModel) {
         super.init()
+        vr = model.vr
         btype = model.btype
         idString = model.id
         Isfailure = model.Isfailure
