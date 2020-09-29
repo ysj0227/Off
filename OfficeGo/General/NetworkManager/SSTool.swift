@@ -784,8 +784,12 @@ struct SensorsAnalyticsEvent {
      *buildLocation    楼盘列表位置    NUMBER
      *isVr    是否VR    BOOL
      */
-    class func clickShow(buildingId: String, buildLocation: Int, isVr: Bool) {
-        SensorsTrackEvent(event: SensorsAnalyticsEvent.clickShow, params: ["buildingId": buildingId, "buildLocation": buildLocation, "isVr": isVr])
+    class func clickShow(buildingId: String, buildLocation: Int, isVr: String) {
+        if isVr == "1" {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.clickShow, params: ["buildingId": buildingId, "buildLocation": buildLocation, "isVr": true])
+        }else {
+            SensorsTrackEvent(event: SensorsAnalyticsEvent.clickShow, params: ["buildingId": buildingId, "buildLocation": buildLocation, "isVr": false])
+        }
     }
     
 }

@@ -482,6 +482,8 @@ class FangYuanBuildingIntroductionViewModel: NSObject {
 
 ///房源列表模型
 class FangYuanBuildingOpenStationModel: BaseModel {
+    ///是否有vr，1 有，0 没有
+    var vr: String?
     ///1是写字楼，2是共享办公
     var btype: Int?
     ///每工位每月租金  3000.0
@@ -516,6 +518,8 @@ class FangYuanBuildingOpenStationModel: BaseModel {
 }
 ///房源列表viewmodel模型
 class FangYuanBuildingOpenStationViewModel: NSObject {
+    ///是否有vr，1 有，0 没有
+    var vr: String?
     ///1是写字楼，2是共享办公
     var btype: Int?
     ///房源id
@@ -570,6 +574,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     
     
     init(model:FangYuanBuildingOpenStationModel) {
+        vr = model.vr
         Isfailure = model.Isfailure
         btype = model.btype
         id = model.id

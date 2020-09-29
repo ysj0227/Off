@@ -472,7 +472,7 @@ extension RenterFangYuanListViewController {
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
             
             ///点击楼盘卡片
-            SensorsAnalyticsFunc.clickShow(buildingId: "\(model.id ?? 0)", buildLocation: indexPath.row, isVr: model.isVr ?? false)
+            SensorsAnalyticsFunc.clickShow(buildingId: "\(model.id ?? 0)", buildLocation: indexPath.row, isVr: model.vr ?? "0")
 
             if model.btype == 1 {
                 let vc = RenterOfficebuildingDetailVC()
