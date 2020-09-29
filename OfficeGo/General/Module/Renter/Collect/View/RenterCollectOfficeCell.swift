@@ -134,7 +134,7 @@ class RenterCollectOfficeCell: BaseTableViewCell {
      */
     func setCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
         if viewModel.vr == "1" {
-            vrImageview.image = UIImage.init(named: "vrPlay")
+            vrImageview.image = UIImage.init(named: "vrPlayGray")
         }else {
             vrImageview.image = UIImage.init(named: "")
         }
