@@ -56,29 +56,22 @@ class RenterFangYuanListViewController: BaseTableViewController {
     }
     
     override func noDataViewSet() {
-        //        noDataView.snp.remakeConstraints { (make) in
-        //            make.centerX.equalToSuperview()
-        //            make.centerX.equalToSuperview()
-        //            make.top.equalTo(120)
-        //            make.size.equalTo(CGSize(width: 160, height: 190))
-        //        }
-        //        if self.dataSource.count > 0 {
-        //            noDataView.isHidden = true
-        //        }else {
-        //            noDataView.isHidden = false
-        //            switch NetAlamofireReachability.shared.status {
-        //            case .Unknown, .NotReachable:
-        //                noDataButton.isHidden = false
-        //                noDataImageView.image = UIImage(named: "no_network_image")
-        //                noDataLabel.text = "网络连接失败，请查看你的网络设置"
-        //            case .WiFi, .Wwan:
-        //                noDataButton.isHidden = true
-        //                noDataImageView.image = UIImage(named: "no_data_image")
-        //                noDataLabel.text = "暂无数据，点击重试"
-        //            }
-        //        }
+        noDataView.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(120)
+            make.size.equalTo(CGSize(width: 160, height: 190))
+        }
+        if self.dataSource.count > 0 {
+            noDataView.isHidden = true
+        }else {
+            noDataView.isHidden = false
+            noDataButton.isHidden = true
+            noDataImageView.image = UIImage(named: "no_data_image")
+            noDataLabel.text = "暂无数据，点击重试"
+        }
         
-        noDataView.isHidden = true
+//        noDataView.isHidden = true
     }
     
     //MARK: 获取首页列表数据
