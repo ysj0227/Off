@@ -1155,7 +1155,7 @@ class RenterDetailSourceView: UIView {
     //vr播放按钮
     lazy var vrPlayBtn: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage.init(named: "vrPlay"), for: .normal)
+        view.setImage(UIImage.init(named: "vrPlayBlue"), for: .normal)
         return view
     }()
     

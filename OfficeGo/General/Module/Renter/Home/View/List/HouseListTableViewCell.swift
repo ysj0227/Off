@@ -242,7 +242,7 @@ class HouseListTableViewCell: BaseTableViewCell {
             houseTypTags.text = "  共享办公  "
         }
         if viewModel.vr == "1" {
-            vrImageview.image = UIImage.init(named: "vrPlay")
+            vrImageview.image = UIImage.init(named: "vrPlayGray")
         }else {
             vrImageview.image = UIImage.init(named: "")
         }
