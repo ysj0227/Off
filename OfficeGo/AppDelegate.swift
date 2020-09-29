@@ -16,7 +16,7 @@ import Bugly
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
-    
+
     var longitude: String?
     
     var latitude: String?
@@ -52,6 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         window?.makeKeyAndVisible()
         
+        
+        UserTool.shared.API_Setting = API_Release
         
         //每次启动，如果有版本更新只显示一次
         UserTool.shared.isCloseCancelVersionUpdate = false
@@ -408,6 +410,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     //设置tabbar - 租户
     @objc func setRenterTabar(){
         
+        ///获取到初次定位为否
+        UserTool.shared.Has_get_location = false
+        
         startLocation()
         
         //0:租户,1:房东,9:其他
@@ -425,6 +430,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     //设置tabbar - 房东
     @objc func setOwnerTabar(){
+        
+        ///获取到初次定位为否
+        UserTool.shared.Has_get_location = false
         
         stopLocation()
         
@@ -872,6 +880,7 @@ extension AppDelegate : AMapLocationManagerDelegate {
     func amapLocationManager(_ manager: AMapLocationManager!, didUpdate location: CLLocation!, reGeocode: AMapLocationReGeocode?) {
         NSLog("location:{lat:\(location.coordinate.latitude); lon:\(location.coordinate.longitude); accuracy:\(location.horizontalAccuracy);};");
         
+       
         longitude = "\(location.coordinate.longitude)"
         
         latitude = "\(location.coordinate.latitude)"
@@ -879,6 +888,17 @@ extension AppDelegate : AMapLocationManagerDelegate {
         longitudeFloat = CGFloat(location.coordinate.longitude)
 
         latitudeFloat = CGFloat(location.coordinate.latitude)
+        
+        if UserTool.shared.Has_get_location == true {
+            
+        }else {
+            
+            ///记录已经获取到了经纬度
+            UserTool.shared.Has_get_location = true
+            SSLog("------请求总--------·············获取到定位")
+            NotificationCenter.default.post(name: NSNotification.Name.GetFirstLocation, object: nil)
+        }
+
 
         if let reGeocode = reGeocode {
             NSLog("reGeocode:%@", reGeocode)
