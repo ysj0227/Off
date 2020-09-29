@@ -84,12 +84,17 @@ class RenterFangYuanListViewController: BaseTableViewController {
     //MARK: 获取首页列表数据
     override func refreshData() {
         
+        SSLog("------请求总--------·············")
+        
         if SSTool.isLocationServiceOpen() == true {
             if (UIApplication.shared.delegate as? AppDelegate)?.longitude == nil {
                 
                 LoadingHudView.showHud()
                 
-                SSTool.delay(time: 2) { [weak self] in
+                //首次获取到定位
+                NotificationCenter.default.addObserver(forName: NSNotification.Name.GetFirstLocation, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+                    SSLog("------请求总--------·············获取到定位通知")
+
                     self?.requestHouseList()
                 }
             }else {

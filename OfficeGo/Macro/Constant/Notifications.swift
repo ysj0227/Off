@@ -9,6 +9,12 @@
 import Foundation
 
 extension Notification.Name {
+    
+    
+    /// 记录租户端 - 第一次获取到定位请求数据
+    public static let GetFirstLocation = Notification.Name("GetFirstLocation")
+    
+    
     /// 网络状态通知
     public static let NetStatusChange = Notification.Name("NetStatusChange")
     

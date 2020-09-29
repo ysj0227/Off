@@ -153,10 +153,15 @@ class RenterHomePageViewController: LLSegmentViewController, CycleViewDelegate, 
         
         if SSTool.isLocationServiceOpen() == true {
             if (UIApplication.shared.delegate as? AppDelegate)?.longitude == nil {
-                SSTool.delay(time: 2) { [weak self] in
+
+                //首次获取到定位
+                NotificationCenter.default.addObserver(forName: NSNotification.Name.GetFirstLocation, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+                    SSLog("------请求总--------·············获取到定位通知")
+
                     self?.regeocodeRequest?.location = AMapGeoPoint.location(withLatitude: (UIApplication.shared.delegate as? AppDelegate)?.latitudeFloat ?? 0, longitude: (UIApplication.shared.delegate as? AppDelegate)?.longitudeFloat ?? 0)
                     self?.search?.aMapReGoecodeSearch(self?.regeocodeRequest)
                 }
+                
             }else {
                 regeocodeRequest?.location = AMapGeoPoint.location(withLatitude: (UIApplication.shared.delegate as? AppDelegate)?.latitudeFloat ?? 0, longitude: (UIApplication.shared.delegate as? AppDelegate)?.longitudeFloat ?? 0)
                 search?.aMapReGoecodeSearch(regeocodeRequest)

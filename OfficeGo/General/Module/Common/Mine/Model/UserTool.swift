@@ -37,6 +37,15 @@ class UserTool: NSObject {
             return false
         }
     }
+    
+    var Has_get_location:Bool?{
+        get{
+            return userDefault.value(forKey: "Has_get_location") as? Bool
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "Has_get_location")
+        }
+    }
 
     var API_Setting:String?{
         get{
