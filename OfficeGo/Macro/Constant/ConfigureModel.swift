@@ -44,16 +44,16 @@ class OwnerBuildingEditConfigureModel : NSObject {
             return FuWenBen(name: "竣工时间", centerStr: " * ", last: "")
         ///翻新时间
         case .OwnerBuildingEditTypeRenovationTime:
-            return FuWenBen(name: "翻新时间", centerStr: "", last: "")
+            return FuWenBen(name: "翻新时间", centerStr: "   ", last: "")
         ///建筑面积
         case .OwnerBuildingEditTypeArea:
-            return FuWenBen(name: "建筑面积", centerStr: "", last: "")
+            return FuWenBen(name: "建筑面积", centerStr: "   ", last: "")
         ///净高
         case .OwnerBuildingEditTypeClearHeight:
             return FuWenBen(name: "净高", centerStr: " * ", last: "")
         ///层高
         case .OwnerBuildingEditTypeFloorHeight:
-            return FuWenBen(name: "层高", centerStr: "", last: "")
+            return FuWenBen(name: "层高", centerStr: "   ", last: "")
         ///物业公司
         case .OwnerBuildingEditTypePropertyCompany:
             return FuWenBen(name: "物业公司", centerStr: " * ", last: "")
@@ -65,31 +65,120 @@ class OwnerBuildingEditConfigureModel : NSObject {
             return FuWenBen(name: "车位数", centerStr: " * ", last: "")
         ///车位费
         case .OwnerBuildingEditTypeParkingCoast:
-            return FuWenBen(name: "车位费", centerStr: "", last: "")
+            return FuWenBen(name: "车位费", centerStr: "   ", last: "")
         ///空调类型
         case .OwnerBuildingEditTypeAirConditionType:
             return FuWenBen(name: "空调类型", centerStr: " * ", last: "")
         ///空调费
         case .OwnerBuildingEditTypeAirConditionCoast:
-            return FuWenBen(name: "空调费", centerStr: "", last: "")
-        ///电梯数
-        case .OwnerBuildingEditTypeFloorNum:
+            return FuWenBen(name: "空调费", centerStr: "   ", last: "")
+        ///电梯数 - 客梯
+        case .OwnerBuildingEditTypePassengerNum:
             return FuWenBen(name: "电梯数", centerStr: " * ", last: "")
+        ///电梯数 - 客、货梯
+        case .OwnerBuildingEditTypeFloorCargoNum:
+            return FuWenBen(name: "          ", centerStr: "   ", last: "")
         ///网络
         case .OwnerBuildingEditTypeNetwork:
-            return FuWenBen(name: "网络", centerStr: "", last: "")
+            return FuWenBen(name: "网络", centerStr: "   ", last: "")
         ///入驻企业
         case .OwnerBuildingEditTypeEnterCompany:
-            return FuWenBen(name: "入驻企业", centerStr: "", last: "")
+            return FuWenBen(name: "入驻企业", centerStr: "   ", last: "")
         ///详细介绍
         case .OwnerBuildingEditTypeDetailIntroduction:
-            return FuWenBen(name: "详细介绍", centerStr: "", last: "")
+            return FuWenBen(name: "详细介绍", centerStr: "   ", last: "")
         ///特色
         case .OwnerBuildingEditTypeFeature:
-            return FuWenBen(name: "特色", centerStr: "", last: "")
+            return FuWenBen(name: "特色", centerStr: "   ", last: "")
         ///上传楼盘图片
         case .OwnerBuildingEditTypeBuildingImage:
-            return FuWenBen(name: "上传楼盘图片", centerStr: "", last: "")
+            return FuWenBen(name: "上传楼盘图片", centerStr: "   ", last: "")
+        ///上传楼盘视频
+        case .OwnerBuildingEditTypeBuildingVideo:
+            return FuWenBen(name: "上传楼盘视频", centerStr: "   ", last: "")
+        ///上传楼盘vr
+        case .OwnerBuildingEditTypeBuildingVR:
+            return FuWenBen(name: "VR全景展示", centerStr: "   ", last: "")
+        }
+    }
+    
+    func getPalaceHolderFormType(type: OwnerBuildingEditType) -> String{
+        switch type {
+        ///楼盘类型
+        case .OwnerBuildingEditTypeBuildingTypew:
+            return "楼盘类型"
+        ///写字楼名称
+        case .OwnerBuildingEditTypeBuildingName:
+            return "请输入写字楼名称"
+        ///所在区域
+        case .OwnerBuildingEditTypeDisctict:
+            return "请选择城市、区域与商圈"
+        ///详细地址
+        case .OwnerBuildingEditTypeDetailAddress:
+            return "请输入详细地址（2～100个字）"
+        ///总楼层
+        case .OwnerBuildingEditTypeTotalFloor:
+            return "层"
+        ///竣工时间
+        case .OwnerBuildingEditTypeCompelteTime:
+            return "请选择时间"
+        ///翻新时间
+        case .OwnerBuildingEditTypeRenovationTime:
+            return "请选择时间"
+        ///建筑面积
+        case .OwnerBuildingEditTypeArea:
+            return "万 M²"
+        ///净高
+        case .OwnerBuildingEditTypeClearHeight:
+            return "米"
+        ///层高
+        case .OwnerBuildingEditTypeFloorHeight:
+            return "米"
+        ///物业公司
+        case .OwnerBuildingEditTypePropertyCompany:
+            return "请填写物业公司名称"
+        ///物业费
+        case .OwnerBuildingEditTypePropertyCoast:
+            return "元/㎡/月"
+        ///车位数
+        case .OwnerBuildingEditTypeParkingNum:
+            return "个"
+        ///车位费
+        case .OwnerBuildingEditTypeParkingCoast:
+            return "元/月"
+        ///空调类型
+        case .OwnerBuildingEditTypeAirConditionType:
+            return "空调类型"
+        ///空调费
+        case .OwnerBuildingEditTypeAirConditionCoast:
+            return "空调费"
+        ///电梯数 - 客梯
+        case .OwnerBuildingEditTypePassengerNum:
+            return "个 (客梯)"
+        ///电梯数 - 客、货梯
+        case .OwnerBuildingEditTypeFloorCargoNum:
+            return "个 (货梯)"
+        ///网络
+        case .OwnerBuildingEditTypeNetwork:
+            return ""
+        ///入驻企业
+        case .OwnerBuildingEditTypeEnterCompany:
+            return "请输入企业"
+        ///详细介绍
+        case .OwnerBuildingEditTypeDetailIntroduction:
+            return ""
+        ///特色
+        case .OwnerBuildingEditTypeFeature:
+            return ""
+        ///上传楼盘图片
+        case .OwnerBuildingEditTypeBuildingImage:
+            return "可上传9张图片，单张不大于10M，支持jpg、jpeg、png格式"
+        ///上传楼盘视频
+        case .OwnerBuildingEditTypeBuildingVideo:
+            return "上传视频不大于100M，支持mp4、Mov格式"
+        ///上传楼盘vr
+        case .OwnerBuildingEditTypeBuildingVR:
+            return "请输入URL"
         }
     }
     
@@ -100,7 +189,7 @@ class OwnerBuildingEditConfigureModel : NSObject {
         let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
         
         if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(nameAtt)
             
         }

@@ -301,8 +301,10 @@ public enum OwnerBuildingEditType {
     case OwnerBuildingEditTypeAirConditionType
     ///空调费
     case OwnerBuildingEditTypeAirConditionCoast
-    ///电梯数
-    case OwnerBuildingEditTypeFloorNum
+    ///电梯数 - 客梯
+    case OwnerBuildingEditTypePassengerNum
+    ///电梯数 - 货梯
+    case OwnerBuildingEditTypeFloorCargoNum
     ///网络
     case OwnerBuildingEditTypeNetwork
     ///入驻企业
@@ -313,5 +315,9 @@ public enum OwnerBuildingEditType {
     case OwnerBuildingEditTypeFeature
     ///上传楼盘图片
     case OwnerBuildingEditTypeBuildingImage
+    ///上传楼盘视频
+    case OwnerBuildingEditTypeBuildingVideo
+    ///上传楼盘vr
+    case OwnerBuildingEditTypeBuildingVR
 
 }

@@ -400,8 +400,31 @@ class RenterLoginViewController: BaseViewController {
         
         areaLabel.addGestureRecognizer(areaGesture)
         
+        #if DEBUG
+        view.addSubview(testLoginButton)
+        view.addSubview(testverifyCodeField)
+        view.addSubview(testphoneField)
+
+        testLoginButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(login_left_pending_space_30)
+            make.bottom.equalToSuperview().offset(-bottomMargin())
+            make.height.equalTo(btnHeight)
+        }
         
+        testverifyCodeField.snp.makeConstraints { (make) in
+            make.leading.trailing.equalTo(testLoginButton)
+            make.height.equalTo(63)
+            make.bottom.equalTo(testLoginButton.snp.top).offset(-10)
+        }
         
+        testphoneField.snp.makeConstraints { (make) in
+            make.leading.trailing.equalTo(testLoginButton)
+            make.height.equalTo(63)
+            make.bottom.equalTo(testverifyCodeField.snp.top).offset(-10)
+        }
+        #else
+        #endif
         
        
     }

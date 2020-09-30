@@ -12,62 +12,75 @@ import SwiftyJSON
 
 class OwnerBuildingCreateViewController: BaseTableViewController {
     
-    var dataSourceViewModel: [FangYuanListViewModel?] = []
+    var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
+
+    var companyModel: OwnerIdentifyUserModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpData()
+        
         setUpView()
     }
     
-    //MARK: 获取首页列表数据
-    override func refreshData() {
+    func setUpData() {
         
-        requestHouseList()
-    }
-    
-    
-    func requestHouseList() {
-        if pageNo == 1 {
-            if self.dataSourceViewModel.count > 0 {
-                self.dataSourceViewModel.removeAll()
-            }
+        ///楼盘类型
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingTypew))
+        ///写字楼名称
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingName))
+        ///所在区域
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeDisctict))
+        ///详细地址
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeDetailAddress))
+        ///总楼层
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeTotalFloor))
+        ///竣工时间
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeCompelteTime))
+        ///翻新时间
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeRenovationTime))
+        ///建筑面积
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeArea))
+        ///净高
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeClearHeight))
+        ///层高
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeFloorHeight))
+        ///物业公司
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypePropertyCompany))
+        ///物业费
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypePropertyCoast))
+        ///车位数
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeParkingNum))
+        ///车位费
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeParkingCoast))
+        ///空调类型
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeAirConditionType))
+        ///空调费
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeAirConditionCoast))
+        ///电梯数 - 客梯
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypePassengerNum))
+        ///电梯数 - 货梯
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeFloorCargoNum))
+        ///网络
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeNetwork))
+        ///入驻企业
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeEnterCompany))
+        ///详细介绍
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeDetailIntroduction))
+        ///特色
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeFeature))
+        ///上传楼盘图片
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingImage))
+        
+        if companyModel != nil {
+            
+        }else {
+            companyModel = OwnerIdentifyUserModel()
         }
         
-        var params = [String:AnyObject]()
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        params["pageNo"] = self.pageNo as AnyObject
-        params["pageSize"] = self.pageSize as AnyObject
-        SSNetworkTool.SSHome.request_getselectBuildingApp(params: params, success: { [weak self] (response) in
-            guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<FangYuanListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
-                weakSelf.dataSource = weakSelf.dataSource + decoratedArray
-                for model in decoratedArray {
-                    let viewmodel = FangYuanListViewModel.init(model: model ?? FangYuanListModel())
-                    weakSelf.dataSourceViewModel.append(viewmodel)
-                }
-                weakSelf.endRefreshWithCount(decoratedArray.count)
-            }
-            
-            }, failure: {[weak self] (error) in
-                guard let weakSelf = self else {return}
-                
-                weakSelf.endRefreshAnimation()
-                
-        }) {[weak self] (code, message) in
-            
-            guard let weakSelf = self else {return}
-            
-            weakSelf.endRefreshAnimation()
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
+        self.tableView.reloadData()
     }
-    
 }
 
 extension OwnerBuildingCreateViewController {
@@ -111,12 +124,24 @@ extension OwnerBuildingCreateViewController {
         
         self.tableView.backgroundColor = kAppColor_bgcolor_F7F7F7
         
+        ///选择cell
+        self.tableView.register(OwnerBuildingClickCell.self, forCellReuseIdentifier: OwnerBuildingClickCell.reuseIdentifierStr)
+
+        ///文本输入cell
+        self.tableView.register(OwnerBuildingInputCell.self, forCellReuseIdentifier: OwnerBuildingInputCell.reuseIdentifierStr)
+
+        ///数字文本输入cell
+        self.tableView.register(OwnerBuildingNumInputCell.self, forCellReuseIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr)
+
+        ///带框文本输入cell
+        self.tableView.register(OwnerBuildingBorderInputCell.self, forCellReuseIdentifier: OwnerBuildingBorderInputCell.reuseIdentifierStr)
+
+        
         self.tableView.snp.remakeConstraints { (make) in
-            make.top.equalTo(kNavigationHeight + 7)
+            make.top.equalTo(kNavigationHeight)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-kTabBarHeight)
+            make.bottom.equalToSuperview().offset(-bottomMargin())
         }
-        self.tableView.register(OwnerFYListCell.self, forCellReuseIdentifier: OwnerFYListCell.reuseIdentifierStr)
         
         refreshData()
         
@@ -132,37 +157,122 @@ extension OwnerBuildingCreateViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: OwnerFYListCell.reuseIdentifierStr) as? OwnerFYListCell
-        cell?.selectionStyle = .none
-        return cell ?? OwnerFYListCell.init(frame: .zero)
+        let model:OwnerBuildingEditConfigureModel = typeSourceArray[indexPath.row]
+        
+        switch model.type {
+        ///选择cell
+        ///楼盘类型
+        ///所在区域
+        ///竣工时间
+        ///翻新时间
+        ///空调类型
+        case .OwnerBuildingEditTypeBuildingTypew, .OwnerBuildingEditTypeDisctict, .OwnerBuildingEditTypeCompelteTime, .OwnerBuildingEditTypeRenovationTime, .OwnerBuildingEditTypeAirConditionType:
+            
+            ///点击cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
+            cell?.selectionStyle = .none
+            cell?.model = model
+            return cell ?? OwnerBuildingClickCell.init(frame: .zero)
+            
+            
+        ///文本输入cell
+        ///写字楼名称
+        ///详细地址
+        ///物业公司
+        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
+            
+            ///文本输入cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
+            cell?.selectionStyle = .none
+            cell?.model = model
+            return cell ?? OwnerBuildingInputCell.init(frame: .zero)
+            
+            
+            
+        ///数字文本输入cell
+        ///总楼层
+        ///建筑面积
+        ///净高
+        ///层高
+        ///物业费
+        ///车位数
+        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeArea, .OwnerBuildingEditTypeClearHeight, .OwnerBuildingEditTypeFloorHeight, .OwnerBuildingEditTypePropertyCoast, .OwnerBuildingEditTypeParkingNum:
+            
+            ///数字文本输入cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
+            cell?.selectionStyle = .none
+            cell?.model = model
+            return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
+                
+            
+            
+        ///有框框文本输入cell
+        ///车位费
+        ///电梯数 - 客梯
+        ///电梯数 - 客、货梯
+        case .OwnerBuildingEditTypeParkingCoast, .OwnerBuildingEditTypePassengerNum, .OwnerBuildingEditTypeFloorCargoNum:
+           
+            ///有框框文本输入cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingBorderInputCell.reuseIdentifierStr) as? OwnerBuildingBorderInputCell
+            cell?.selectionStyle = .none
+            cell?.model = model
+            return cell ?? OwnerBuildingBorderInputCell.init(frame: .zero)
+             
+            
+            
+        ///空调费
+        case .OwnerBuildingEditTypeAirConditionCoast:
+            return UITableViewCell.init(frame: .zero)
+            
+        ///网络
+        case .OwnerBuildingEditTypeNetwork:
+            return UITableViewCell.init(frame: .zero)
+
+        ///入驻企业
+        case .OwnerBuildingEditTypeEnterCompany:
+            return UITableViewCell.init(frame: .zero)
+
+        ///详细介绍
+        case .OwnerBuildingEditTypeDetailIntroduction:
+            return UITableViewCell.init(frame: .zero)
+
+        ///特色
+        case .OwnerBuildingEditTypeFeature:
+            return UITableViewCell.init(frame: .zero)
+
+        ///上传楼盘图片
+        case .OwnerBuildingEditTypeBuildingImage:
+            return UITableViewCell.init(frame: .zero)
+
+        ///上传楼盘视频
+        case .OwnerBuildingEditTypeBuildingVideo:
+            return UITableViewCell.init(frame: .zero)
+
+        ///上传楼盘vr
+        case .OwnerBuildingEditTypeBuildingVR:
+            return UITableViewCell.init(frame: .zero)
+
+        case .none:
+            return UITableViewCell.init(frame: .zero)
+            break
+        }
+        
+        return UITableViewCell.init(frame: .zero)
+
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        return typeSourceArray.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return OwnerFYListCell.rowHeight()
+        return BaseEditCell.rowHeight()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.dataSource.count <= 0 {
             return
-        }
-        if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
-            
-            if model.btype == 1 {
-                let vc = RenterOfficebuildingDetailVC()
-                vc.buildLocation = indexPath.row
-                vc.buildingModel = model
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model.btype == 2 {
-                let vc = RenterOfficeJointDetailVC()
-                vc.buildLocation = indexPath.row
-                vc.buildingModel = model
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
         }
         
     }
