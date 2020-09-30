@@ -278,6 +278,8 @@ class ScheduleListDetailBuildingViewModel : NSObject {
                 auditStatusString = "待接受"
             case 1:
                 auditStatusString = "已预约"
+            case 2:
+                auditStatusString = "预约失败"
             case 3:
                 auditStatusString = "已完成"
             default:
