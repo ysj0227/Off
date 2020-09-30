@@ -905,7 +905,7 @@ extension RenterChatViewController {
         
         
         let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和你交换微信": "我拒绝和你交换微信", isAgree: agree, sendNumber: otherWechat, receiveNumber: UserTool.shared.user_wechat ?? "")
-        sendMessage(messageContent, pushContent: "交换微信成功回复")
+        sendMessage(messageContent, pushContent: "交换微信号回复")
     }
     
     //看房邀约同意拒绝消息
