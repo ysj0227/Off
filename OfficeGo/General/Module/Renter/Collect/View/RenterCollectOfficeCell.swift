@@ -28,6 +28,12 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         return view
     }()
     
+    lazy var vrImageview: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFill
+        return view
+    }()
+    
     lazy var houseNameLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
@@ -127,7 +133,11 @@ class RenterCollectOfficeCell: BaseTableViewCell {
      var buildingFloor : String?
      */
     func setCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
-        
+        if viewModel.vr == "1" {
+            vrImageview.image = UIImage.init(named: "vrPlayGray")
+        }else {
+            vrImageview.image = UIImage.init(named: "")
+        }
         houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_1x1))
         houseNameLabel.text = viewModel.buildingName
         houseAddressLabel.text = viewModel.addressString
@@ -184,10 +194,16 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         self.addSubview(secondItem)
         self.addSubview(thirdItem)
         self.addSubview(lineView)
-        
+        addSubview(vrImageview)
+
         houseImageview.snp.makeConstraints { (make) in
             make.top.leading.equalTo(left_pending_space_17)
             make.size.equalTo(92)
+        }
+        
+        vrImageview.snp.makeConstraints { (make) in
+            make.center.equalTo(houseImageview)
+            make.size.equalTo(24)
         }
         houseTagLabel.snp.makeConstraints { (make) in
             make.top.leading.equalToSuperview()

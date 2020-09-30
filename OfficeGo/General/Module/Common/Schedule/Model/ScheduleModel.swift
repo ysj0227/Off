@@ -278,6 +278,8 @@ class ScheduleListDetailBuildingViewModel : NSObject {
                 auditStatusString = "待接受"
             case 1:
                 auditStatusString = "已预约"
+            case 2:
+                auditStatusString = "预约失败"
             case 3:
                 auditStatusString = "已完成"
             default:
@@ -298,7 +300,7 @@ class ScheduleListDetailBuildingViewModel : NSObject {
             return
         }
         
-        let xianStr = "号线 ·"
+        let xianStr = "号线 · "
         guard let stationNames = model.stationNames else {
             return
         }

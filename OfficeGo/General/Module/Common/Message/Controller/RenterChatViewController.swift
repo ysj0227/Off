@@ -107,7 +107,7 @@ class RenterChatViewController: RCConversationViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        requestExchangePhoneVerification()
+        requestExchangePhoneVerificationEnter()
     }
     
     override func viewDidLoad() {
@@ -164,7 +164,7 @@ class RenterChatViewController: RCConversationViewController {
 extension RenterChatViewController {
     
     ///交换手机微信号判断
-    func requestExchangePhoneVerification() {
+    func requestExchangePhoneVerificationEnter() {
         
         var params = [String:AnyObject]()
         
@@ -186,6 +186,35 @@ extension RenterChatViewController {
                 
         }) { (code, message) in
             
+        }
+    }
+    
+    ///交换手机微信号判断
+    func requestExchangePhoneVerification() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        params["targetId"] = targetId as AnyObject
+        
+        SSNetworkTool.SSChat.request_getExchangePhoneVerification(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = ChatIsCanExchagePhoneWechat.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.exchangeModel = model
+            }
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
         }
     }
     
@@ -905,7 +934,7 @@ extension RenterChatViewController {
         
         
         let messageContent = WechatExchangeStatusMessage.messageWithContent(content: agree ? "我同意和你交换微信": "我拒绝和你交换微信", isAgree: agree, sendNumber: otherWechat, receiveNumber: UserTool.shared.user_wechat ?? "")
-        sendMessage(messageContent, pushContent: "交换微信成功回复")
+        sendMessage(messageContent, pushContent: "交换微信号回复")
     }
     
     //看房邀约同意拒绝消息

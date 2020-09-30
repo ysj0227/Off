@@ -31,6 +31,12 @@ class HouseListTableViewCell: BaseTableViewCell {
         return view
     }()
     
+    lazy var vrImageview: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFill
+        return view
+    }()
+    
     lazy var houseNameLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
@@ -136,10 +142,16 @@ class HouseListTableViewCell: BaseTableViewCell {
         addSubview(lineView)
         
         addSubview(houseTypTags)
+        addSubview(vrImageview)
         
         houseImageview.snp.makeConstraints { (make) in
             make.leading.top.equalTo(left_pending_space_17)
             make.size.equalTo(92)
+        }
+        
+        vrImageview.snp.makeConstraints { (make) in
+            make.center.equalTo(houseImageview)
+            make.size.equalTo(24)
         }
         
         houseTypTags.snp.makeConstraints { (make) in
@@ -228,6 +240,11 @@ class HouseListTableViewCell: BaseTableViewCell {
             houseTypTags.text = ""
         }else if viewModel.btype == 2 {
             houseTypTags.text = "  共享办公  "
+        }
+        if viewModel.vr == "1" {
+            vrImageview.image = UIImage.init(named: "vrPlayGray")
+        }else {
+            vrImageview.image = UIImage.init(named: "")
         }
         houseImageview.setImage(with: viewModel.mainPicImgString ?? "", placeholder: UIImage(named: Default_1x1))
         houseNameLabel.text = viewModel.buildingName

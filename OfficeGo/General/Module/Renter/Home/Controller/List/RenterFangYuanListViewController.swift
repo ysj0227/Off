@@ -49,6 +49,15 @@ class RenterFangYuanListViewController: BaseTableViewController {
         
         requestSet()
         
+        
+        //首次获取到定位
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.GetFirstLocation, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            SSLog("------请求总--------·············获取到定位通知")
+
+            self?.pageNo = 1
+            self?.requestHouseList()
+        }
+        
     }
     
     override func layoutSet () {
@@ -56,47 +65,55 @@ class RenterFangYuanListViewController: BaseTableViewController {
     }
     
     override func noDataViewSet() {
-        //        noDataView.snp.remakeConstraints { (make) in
-        //            make.centerX.equalToSuperview()
-        //            make.centerX.equalToSuperview()
-        //            make.top.equalTo(120)
-        //            make.size.equalTo(CGSize(width: 160, height: 190))
-        //        }
-        //        if self.dataSource.count > 0 {
-        //            noDataView.isHidden = true
-        //        }else {
-        //            noDataView.isHidden = false
-        //            switch NetAlamofireReachability.shared.status {
-        //            case .Unknown, .NotReachable:
-        //                noDataButton.isHidden = false
-        //                noDataImageView.image = UIImage(named: "no_network_image")
-        //                noDataLabel.text = "网络连接失败，请查看你的网络设置"
-        //            case .WiFi, .Wwan:
-        //                noDataButton.isHidden = true
-        //                noDataImageView.image = UIImage(named: "no_data_image")
-        //                noDataLabel.text = "暂无数据，点击重试"
-        //            }
-        //        }
+        noDataView.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(120)
+            make.size.equalTo(CGSize(width: 160, height: 190))
+        }
+        if self.dataSource.count > 0 {
+            noDataView.isHidden = true
+        }else {
+            noDataView.isHidden = false
+            noDataButton.isHidden = true
+            noDataImageView.image = UIImage(named: "no_data_image")
+            noDataLabel.text = "暂无数据，点击重试"
+        }
         
-        noDataView.isHidden = true
+//        noDataView.isHidden = true
     }
     
     //MARK: 获取首页列表数据
     override func refreshData() {
-        
+                
+        ///是一直和使用
         if SSTool.isLocationServiceOpen() == true {
-            if (UIApplication.shared.delegate as? AppDelegate)?.longitude == nil {
+                        
+            if SSTool.isLocationAskServiceOpen() == true {
                 
-                LoadingHudView.showHud()
+                pageNo = 1
                 
-                SSTool.delay(time: 2) { [weak self] in
-                    self?.requestHouseList()
-                }
-            }else {
                 requestHouseList()
+                
+            }else {
+                
+                if (UIApplication.shared.delegate as? AppDelegate)?.longitude == nil {
+                    
+                    LoadingHudView.showHud()
+
+                }else {
+
+                    requestHouseList()
+                }
             }
+
         }else {
+            
+            ///权限关闭，默认获取不到定位
+            UserTool.shared.Has_get_location = false
+            
             requestHouseList()
+            
         }
     }
     
@@ -104,6 +121,7 @@ class RenterFangYuanListViewController: BaseTableViewController {
     func requestHouseList() {
         if pageNo == 1 {
             if self.dataSourceViewModel.count > 0 {
+                self.dataSource.removeAll()
                 self.dataSourceViewModel.removeAll()
             }
         }
@@ -459,7 +477,11 @@ extension RenterFangYuanListViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if dataSourceViewModel.count > 0 {
-            return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
+            if dataSourceViewModel.count - 1 > indexPath.row {
+                return dataSourceViewModel[indexPath.row]?.rowHeight ?? 192
+            }else {
+                return 192
+            }
         }else {
             return 192
         }
@@ -472,7 +494,7 @@ extension RenterFangYuanListViewController {
         if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
             
             ///点击楼盘卡片
-            SensorsAnalyticsFunc.clickShow(buildingId: "\(model.id ?? 0)", buildLocation: indexPath.row, isVr: model.isVr ?? false)
+            SensorsAnalyticsFunc.clickShow(buildingId: "\(model.id ?? 0)", buildLocation: indexPath.row, isVr: model.vr ?? "0")
 
             if model.btype == 1 {
                 let vc = RenterOfficebuildingDetailVC()
