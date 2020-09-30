@@ -33,7 +33,7 @@ class RenterCollectPageViewController: BaseViewController {
         segHead?.fontSize = 15
         segHead?.fontScale = 1.2
         segHead?.equalSize = false
-        segHead?.selectedBold = true
+        segHead?.selectedBold = false
         segHead?.gradualChangeTitleColor = false
         segHead?.deSelectColor = kAppColor_333333
         segHead?.selectColor = kAppColor_333333
@@ -47,7 +47,7 @@ class RenterCollectPageViewController: BaseViewController {
         //            segHead?.bringSubviewToFront(btn)
         
         segScroll = MLMSegmentScroll.init(frame: segScrollFrame, vcOrViews: customChildController())
-        segScroll?.canPaged = true
+        segScroll?.canPaged = false
         MLMSegmentManager.associateHead(segHead, with: segScroll, contentChangeAni: true, completion: {[weak self] in
             guard let weakSelf = self else {return}
             weakSelf.view.addSubview(weakSelf.segScroll!)
