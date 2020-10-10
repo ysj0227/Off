@@ -229,7 +229,7 @@ class OwnerJointIdentifyCell: BaseCollectionViewCell {
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
         
         detailIcon.snp.makeConstraints { (make) in

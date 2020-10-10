@@ -509,7 +509,7 @@ class OwnerEnterCreateCompanyCell : BaseTableViewCell {
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(addressIcon.snp.trailing)
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
         
         editLabel.snp.makeConstraints { (make) in

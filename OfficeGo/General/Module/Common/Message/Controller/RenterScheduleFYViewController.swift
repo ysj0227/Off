@@ -298,7 +298,7 @@ class RenterScheduleUserBasicCell: BaseTableViewCell {
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
             make.width.equalTo(57)
         }
         

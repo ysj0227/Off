@@ -177,11 +177,18 @@
 		8E14F58225245602007F2096 /* OwnerBuildingClickCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F58125245602007F2096 /* OwnerBuildingClickCell.swift */; };
 		8E14F58425245E1F007F2096 /* OwnerBuildingNumInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F58325245E1F007F2096 /* OwnerBuildingNumInputCell.swift */; };
 		8E14F58625246222007F2096 /* OwnerBuildingBorderInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F58525246222007F2096 /* OwnerBuildingBorderInputCell.swift */; };
+		8E14F58F253033AE007F2096 /* FangYuanBuildingEditDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */; };
+		8E14F59525304EF7007F2096 /* OwnerBuildingIntroductionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */; };
+		8E14F59725305725007F2096 /* OwnerBuildingNetworkSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */; };
 		8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486925217C2800F43373 /* OwnerFYListCell.swift */; };
 		8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */; };
 		8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */; };
 		8E6D0A3A2521D903005EFDEF /* OwnerBuildingCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */; };
 		8E6D0A3C2521F670005EFDEF /* OwnerBuildingInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A3B2521F670005EFDEF /* OwnerBuildingInputCell.swift */; };
+		8EECEF32253153C600D480B2 /* OwnerBuildingImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */; };
+		8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */; };
+		8EECEF362531B08200D480B2 /* OwnerBuildingVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */; };
+		8EECEF382531BA4800D480B2 /* OwnerBuildingVRCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF372531BA4800D480B2 /* OwnerBuildingVRCell.swift */; };
 		A7971EB22F21F910CD4CFEDE /* Pods_OfficeGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4A347C2B62727595AA17EB /* Pods_OfficeGo.framework */; };
 		D371ED2B2487AF7E0000A9EE /* AppDeleagate+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */; };
 		DE0306DAC522233E2C5CE8D3 /* Pods_OfficeGoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */; };
@@ -470,11 +477,18 @@
 		8E14F58125245602007F2096 /* OwnerBuildingClickCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingClickCell.swift; sourceTree = "<group>"; };
 		8E14F58325245E1F007F2096 /* OwnerBuildingNumInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNumInputCell.swift; sourceTree = "<group>"; };
 		8E14F58525246222007F2096 /* OwnerBuildingBorderInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingBorderInputCell.swift; sourceTree = "<group>"; };
+		8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FangYuanBuildingEditDetailModel.swift; sourceTree = "<group>"; };
+		8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingIntroductionCell.swift; sourceTree = "<group>"; };
+		8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNetworkSelectCell.swift; sourceTree = "<group>"; };
 		8E50486925217C2800F43373 /* OwnerFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListCell.swift; sourceTree = "<group>"; };
 		8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListViewController.swift; sourceTree = "<group>"; };
 		8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYMoreSettingView.swift; sourceTree = "<group>"; };
 		8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateViewController.swift; sourceTree = "<group>"; };
 		8E6D0A3B2521F670005EFDEF /* OwnerBuildingInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingInputCell.swift; sourceTree = "<group>"; };
+		8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingImgCell.swift; sourceTree = "<group>"; };
+		8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateVideoVRViewController.swift; sourceTree = "<group>"; };
+		8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingVideoCell.swift; sourceTree = "<group>"; };
+		8EECEF372531BA4800D480B2 /* OwnerBuildingVRCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingVRCell.swift; sourceTree = "<group>"; };
 		A4D3C24013D5B3F294FF583B /* Pods-OfficeGoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGoTests.release.xcconfig"; path = "Target Support Files/Pods-OfficeGoTests/Pods-OfficeGoTests.release.xcconfig"; sourceTree = "<group>"; };
 		CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OfficeGoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDeleagate+Ext.swift"; sourceTree = "<group>"; };
@@ -1305,8 +1319,8 @@
 		04E2397E249B3C3D009DCCEC /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				8E14F58D253033AD007F2096 /* Model */,
 				04E2397F249B3C3D009DCCEC /* Controller */,
-				04E23980249B3C3D009DCCEC /* Model */,
 				04E23981249B3C3D009DCCEC /* View */,
 			);
 			path = Home;
@@ -1319,15 +1333,9 @@
 				046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */,
 				8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */,
 				8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */,
+				8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		04E23980249B3C3D009DCCEC /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		04E23981249B3C3D009DCCEC /* View */ = {
@@ -1340,6 +1348,11 @@
 				8E6D0A3B2521F670005EFDEF /* OwnerBuildingInputCell.swift */,
 				8E14F58325245E1F007F2096 /* OwnerBuildingNumInputCell.swift */,
 				8E14F58525246222007F2096 /* OwnerBuildingBorderInputCell.swift */,
+				8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */,
+				8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */,
+				8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */,
+				8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */,
+				8EECEF372531BA4800D480B2 /* OwnerBuildingVRCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1428,6 +1441,14 @@
 				CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E14F58D253033AD007F2096 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		EE02BA3D24654B7800B51D34 /* NetworkManager */ = {
@@ -2071,6 +2092,7 @@
 				04CB46F9249CB02C001BCC8F /* PhoneExchangeStatusMessage.swift in Sources */,
 				042D125825130BA000292EE4 /* RenterCustomerListCell.swift in Sources */,
 				0407F92E24BC3CE200C9F581 /* OwnerImagePickerCell.swift in Sources */,
+				8EECEF362531B08200D480B2 /* OwnerBuildingVideoCell.swift in Sources */,
 				04E23989249B3ED2009DCCEC /* OwnerMineViewController.swift in Sources */,
 				EEE87B3A24558F6A00C03424 /* UIDeviceExtension.swift in Sources */,
 				04E2394B249B3ABB009DCCEC /* RenterCollectOfficeListViewController.swift in Sources */,
@@ -2112,6 +2134,7 @@
 				8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */,
 				04E23995249B4745009DCCEC /* OwnerHouseScheduleViewController.swift in Sources */,
 				EEB1F9C32458299D000500A3 /* CycleCell.swift in Sources */,
+				8E14F59525304EF7007F2096 /* OwnerBuildingIntroductionCell.swift in Sources */,
 				04E23939249B3ABB009DCCEC /* RenterShareServiceShowView.swift in Sources */,
 				04E2393C249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.swift in Sources */,
 				042E5E4324964913008B8E14 /* NetReachability.swift in Sources */,
@@ -2160,6 +2183,7 @@
 				04E2391D249B3ABB009DCCEC /* RenterSearchViewController.swift in Sources */,
 				EE4914DB24692D62008D5689 /* LLSegmentedControl.swift in Sources */,
 				04CB478F249CB250001BCC8F /* RenterChangeWechatViewController.swift in Sources */,
+				8E14F59725305725007F2096 /* OwnerBuildingNetworkSelectCell.swift in Sources */,
 				04CB46DC249CAFE9001BCC8F /* CityOrRegionSelectCell.swift in Sources */,
 				04E23922249B3ABB009DCCEC /* CitySelectorViewController.swift in Sources */,
 				04CB4780249CB1D9001BCC8F /* RenterScheduleDetailView.swift in Sources */,
@@ -2169,6 +2193,7 @@
 				EEE87B5824558F9800C03424 /* AnimateRefreshFooter.swift in Sources */,
 				04D972292497466500C87168 /* LoadingHudView.swift in Sources */,
 				EEE87B7124559F5100C03424 /* BaseViewController.swift in Sources */,
+				8EECEF32253153C600D480B2 /* OwnerBuildingImgCell.swift in Sources */,
 				EEE87B5224558F9800C03424 /* ThorTabBarItem.swift in Sources */,
 				04CB46D4249CAFE9001BCC8F /* HouseTypeCell.swift in Sources */,
 				04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */,
@@ -2192,6 +2217,7 @@
 				EEE87B7924559FE800C03424 /* BaseWebViewController.swift in Sources */,
 				04E052B724C5667800D7CA96 /* CityDistrictAddressSelectView.swift in Sources */,
 				04CB4702249CB02C001BCC8F /* RenterChatListViewController.swift in Sources */,
+				8EECEF382531BA4800D480B2 /* OwnerBuildingVRCell.swift in Sources */,
 				04E23931249B3ABB009DCCEC /* RenterDetailTrafficCell.swift in Sources */,
 				04E2394D249B3ABB009DCCEC /* RenterCollectOfficeCell.swift in Sources */,
 				04E2391E249B3ABB009DCCEC /* RenterOfficebuildingFYDetailVC.swift in Sources */,
@@ -2199,6 +2225,7 @@
 				04CBB65424C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift in Sources */,
 				046689222472548800A76669 /* ConfigureModel.swift in Sources */,
 				047333252473D77700755192 /* UIView+Extension.swift in Sources */,
+				8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */,
 				04E23924249B3ABB009DCCEC /* RenterFangYuanListViewController.swift in Sources */,
 				04CBB64E24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift in Sources */,
 				04CB46FD249CB02C001BCC8F /* WechatExchangeMessage.swift in Sources */,
@@ -2259,6 +2286,7 @@
 				04EF1E45247777E400871762 /* SSTabBarItem.swift in Sources */,
 				EE02B9E82463B34200B51D34 /* String+SoolyCitySelector.swift in Sources */,
 				04E2398B249B3F0D009DCCEC /* OwnerChatListViewController.swift in Sources */,
+				8E14F58F253033AE007F2096 /* FangYuanBuildingEditDetailModel.swift in Sources */,
 				04E23966249B3ABB009DCCEC /* IWantToFindViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

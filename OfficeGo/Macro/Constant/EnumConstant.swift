@@ -321,3 +321,28 @@ public enum OwnerBuildingEditType {
     case OwnerBuildingEditTypeBuildingVR
 
 }
+
+/*
+ 空调
+ 中央空调 0
+ 独立空调 1
+ 无空调 2
+ */
+public enum OwnerAircontiditonType: String {
+    case OwnerAircontiditonTypeDefault = ""            //默认为空
+    case OwnerAircontiditonTypeCenter = "中央空调"      //写字楼名称
+    case OwnerAircontiditonTypeIndividual = "独立空调"  //所在区域
+    case OwnerAircontiditonTypeNone = "无空调"         //网点地址
+}
+
+/*
+ 空调费
+ 中央空调 “包含在物业费内，加时另计”
+ 独立空调 “按电表计费”
+ 无空调 “无“
+ */
+public enum OwnerAircontiditonFeeType: String {
+    case OwnerAircontiditonFeeTypeCenter = "包含在物业费内，加时另计"
+    case OwnerAircontiditonFeeTypeIndividual = "按电表计费"
+    case OwnerAircontiditonFeeTypeNone = "无"
+}

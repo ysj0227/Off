@@ -15,6 +15,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
 
     override func setExtraView() {
+        editLabel.font = FONT_14
         titleLabel.textColor = kAppColor_333333
     }
     

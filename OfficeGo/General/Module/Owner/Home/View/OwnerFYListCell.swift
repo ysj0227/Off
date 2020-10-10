@@ -41,7 +41,7 @@ class OwnerFYListCell: BaseTableViewCell {
     lazy var houseNameLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_15
+        view.font = FONT_14
         view.numberOfLines = 2
         view.textColor = kAppColor_333333
         return view

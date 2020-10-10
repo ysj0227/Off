@@ -148,7 +148,7 @@ class OwnerBuildingEditConfigureModel : NSObject {
             return "元/月"
         ///空调类型
         case .OwnerBuildingEditTypeAirConditionType:
-            return "空调类型"
+            return "请选择空调类型"
         ///空调费
         case .OwnerBuildingEditTypeAirConditionCoast:
             return "空调费"

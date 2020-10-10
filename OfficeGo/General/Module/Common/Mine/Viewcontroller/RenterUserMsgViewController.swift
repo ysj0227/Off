@@ -356,7 +356,7 @@ class BaseEditCell: BaseTableViewCell {
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
         
         editLabel.snp.makeConstraints { (make) in
