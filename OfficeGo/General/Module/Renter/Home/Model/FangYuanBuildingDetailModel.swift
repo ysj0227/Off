@@ -540,6 +540,8 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     ///开放工位
     ///工位数 - 30工位
     var openSeatsString : String?
+    var openSeatsStringAttri : NSMutableAttributedString?
+
     ///工位
     var openSeatsUnitLBString : String?
     ///月租金
@@ -556,6 +558,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     var individualMonthPriceString : String?
     ///工位数 - 30工位
     var individualSeatsString : String?
+    var individualSeatsStringAttri : NSMutableAttributedString?
     ///每工位每天租金  3000.0
     var individualDayPriceString : String?
     
@@ -574,6 +577,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     
     
     init(model:FangYuanBuildingOpenStationModel) {
+        super.init()
         vr = model.vr
         Isfailure = model.Isfailure
         btype = model.btype
@@ -608,14 +612,37 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
             if officeType == 1 {
                 individualAreaString = String(format: "%.0f㎡", model.area ?? 0)
                 individualMonthPriceString = "¥\(model.monthPrice ?? 0)"
-                individualSeatsString = "\(model.seats ?? 0)" + "工位"
+                individualSeatsString = "\(model.seats ?? 0)" + "人间"
+                individualSeatsStringAttri = FuWenBen(name: "\(model.seats ?? 0)", centerStr: "人间")
                 individualDayPriceString = "¥\(model.dayPrice ?? 0)/位/月"
             }else {
                 openSeatsString = "\(model.seats ?? 0)" + "工位"
-                openSeatsUnitLBString = "工位"
+                openSeatsStringAttri = FuWenBen(name: "\(model.seats ?? 0)", centerStr: "工位")
+                openSeatsUnitLBString = "开发工位"
                 openMonthPriceString = "¥\(model.dayPrice ?? 0)"
                 openMinimumLeaseString = "\(model.minimumLease ?? "")" + "个月起租"
             }
         }
+    }
+    
+    func FuWenBen(name: String, centerStr: String) -> NSMutableAttributedString {
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_MEDIUM_13])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_666666 , NSAttributedString.Key.font : FONT_12])
+
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        return attributedStrM
     }
 }

@@ -108,11 +108,11 @@ class MessageFYViewModel: NSObject {
             dayPriceNoUnitString = "¥\(model.building?.minSinglePrice ?? 0)"
             
             if model.building?.btype == 1 {
-                dayPriceString = "¥\(model.building?.minSinglePrice ?? 0) /㎡/天"
+                dayPriceString = "¥\(model.building?.minSinglePrice ?? 0)/㎡/天"
                 unitString = "/㎡/天"
             }else if model.building?.btype == 2 {
                 
-                dayPriceString = "¥\(model.building?.minSinglePrice ?? 0) /位/月"
+                dayPriceString = "¥\(model.building?.minSinglePrice ?? 0)/位/月"
                 unitString = "/位/月"
             }
             

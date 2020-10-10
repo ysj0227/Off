@@ -19,7 +19,7 @@ class RenterDetailFYListCell: BaseTableViewCell {
     lazy var leftTopLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_12
+        view.font = FONT_MEDIUM_13
         view.textColor = kAppColor_333333
         return view
     }()
@@ -28,13 +28,13 @@ class RenterDetailFYListCell: BaseTableViewCell {
         let view = UILabel()
         view.textAlignment = .left
         view.font = FONT_9
-        view.textColor = kAppColor_333333
+        view.textColor = kAppColor_999999
         return view
     }()
     lazy var rightPriceLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .right
-        view.font = FONT_11
+        view.font = FONT_MEDIUM_13
         view.textColor = kAppBlueColor
         return view
     }()
@@ -42,15 +42,15 @@ class RenterDetailFYListCell: BaseTableViewCell {
     lazy var rightUnitLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .right
-        view.font = FONT_11
-        view.textColor = kAppColor_333333
+        view.font = FONT_12
+        view.textColor = kAppColor_666666
         return view
     }()
     lazy var rightBottomUnitLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .right
         view.font = FONT_9
-        view.textColor = kAppColor_333333
+        view.textColor = kAppColor_999999
         return view
     }()
     lazy var lineView: UIView = {
@@ -149,7 +149,7 @@ class RenterDetailFYListCell: BaseTableViewCell {
     func setCellWithViewModel(viewModel: FangYuanBuildingBuildingViewModel) {
         
         mainImageView.setImage(with: viewModel.openStationViewModel?.mainPic ?? "", placeholder: UIImage(named: Default_80x60))
-        leftTopLabel.text = viewModel.openStationViewModel?.openSeatsString
+        leftTopLabel.attributedText = viewModel.openStationViewModel?.openSeatsStringAttri
         leftbottomLabel.text = viewModel.openStationViewModel?.openSeatsUnitLBString
         rightPriceLabel.text = viewModel.openStationViewModel?.openMonthPriceString
         rightUnitLabel.text = "/位/月"
@@ -183,7 +183,7 @@ class RenterDetailFYListCell: BaseTableViewCell {
     }
     func setDuliCellWithViewModel(viewModel: FangYuanBuildingOpenStationViewModel) {
         mainImageView.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_80x60))
-        leftTopLabel.text = viewModel.individualSeatsString
+        leftTopLabel.attributedText = viewModel.individualSeatsStringAttri
         leftbottomLabel.text = viewModel.individualAreaString
         rightPriceLabel.text = viewModel.individualMonthPriceString
         rightUnitLabel.text = "/月"
