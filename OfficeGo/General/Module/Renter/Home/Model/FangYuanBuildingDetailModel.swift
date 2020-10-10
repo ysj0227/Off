@@ -618,7 +618,7 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
             }else {
                 openSeatsString = "\(model.seats ?? 0)" + "工位"
                 openSeatsStringAttri = FuWenBen(name: "\(model.seats ?? 0)", centerStr: "工位")
-                openSeatsUnitLBString = "开发工位"
+                openSeatsUnitLBString = "开放工位"
                 openMonthPriceString = "¥\(model.dayPrice ?? 0)"
                 openMinimumLeaseString = "\(model.minimumLease ?? "")" + "个月起租"
             }
