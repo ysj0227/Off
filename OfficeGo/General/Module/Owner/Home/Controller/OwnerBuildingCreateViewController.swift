@@ -14,6 +14,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     
     var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
     
+    var companyArr: [String] = [""]
+    
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
     
@@ -224,7 +226,7 @@ extension OwnerBuildingCreateViewController {
         }
         
         titleview?.leftButton.setImage(UIImage.init(named: "backWhite"), for: .normal)
-//        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
+        //        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
         titleview?.titleLabel.text = "编辑写字楼"
@@ -299,21 +301,54 @@ extension OwnerBuildingCreateViewController {
         ///图片选择
         self.tableView.register(OwnerBuildingImgCell.self, forCellReuseIdentifier: OwnerBuildingImgCell.reuseIdentifierStr)
         
+        ///入住企业
+        self.tableView.register(OwnerBuildingEnterCompanyCell.self, forCellReuseIdentifier: OwnerBuildingEnterCompanyCell.reuseIdentifierStr)
+        
+        
         refreshData()
         
     }
     
     
+    func loadEnterCompany(index: Int) {
+        if index == companyArr.count - 1 {
+            if companyArr.count < 4 {
+                companyArr.append("")
+            }
+        }else {
+            if index <= companyArr.count - 1 {
+                companyArr.remove(at: index)
+            }
+        }
+        
+        tableView.reloadSections(NSIndexSet.init(index: 19) as IndexSet, with: UITableView.RowAnimation.none)
+    }
+    
+    func loadEnterCompanyInputComplete(Str: String, index: Int) {
+        if index <= companyArr.count - 1 {
+            companyArr[index] = Str
+        }
+//        tableView.reloadSections(NSIndexSet.init(index: 19) as IndexSet, with: UITableView.RowAnimation.none)
+//        tableView.endEditing(true)
+    }
 }
 
 extension OwnerBuildingCreateViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return typeSourceArray.count
     }
     
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if typeSourceArray[section].type == .OwnerBuildingEditTypeEnterCompany {
+            return companyArr.count
+        }else {
+            return 1
+        }
+    }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model:OwnerBuildingEditConfigureModel = typeSourceArray[indexPath.row]
+        let model:OwnerBuildingEditConfigureModel = typeSourceArray[indexPath.section]
         
         switch model.type {
             ///选择cell
@@ -414,7 +449,30 @@ extension OwnerBuildingCreateViewController {
             
         ///入驻企业
         case .OwnerBuildingEditTypeEnterCompany:
-            return UITableViewCell.init(frame: .zero)
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingEnterCompanyCell.reuseIdentifierStr) as? OwnerBuildingEnterCompanyCell
+            cell?.selectionStyle = .none
+            cell?.indexPathRow = indexPath.row
+            cell?.model = model
+            cell?.editLabel.text = companyArr[indexPath.row]
+            if indexPath.row == 0 {
+                cell?.titleLabel.isHidden = false
+            }else {
+                cell?.titleLabel.isHidden = true
+            }
+            if indexPath.row == companyArr.count - 1 {
+                cell?.detailIcon.setImage(UIImage.init(named: "addBlue"), for: .normal)
+                cell?.lineView.isHidden = false
+            }else {
+                cell?.detailIcon.setImage(UIImage.init(named: "closeBlue"), for: .normal)
+                cell?.lineView.isHidden = true
+            }
+            cell?.closeBtnClickClouse = { [weak self] (index) in
+                self?.loadEnterCompany(index: index)
+            }
+            cell?.endEditingMessageCell = { [weak self] (str, index) in
+                self?.loadEnterCompanyInputComplete(Str: str, index: index)
+            }
+            return cell ?? OwnerBuildingEnterCompanyCell.init(frame: .zero)
             
         ///详细介绍
         case .OwnerBuildingEditTypeDetailIntroduction:
@@ -453,13 +511,9 @@ extension OwnerBuildingCreateViewController {
         
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return typeSourceArray.count
-    }
-    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch typeSourceArray[indexPath.row].type {
+        switch typeSourceArray[indexPath.section].type {
             ///选择cell
             ///楼盘类型
             ///所在区域
@@ -517,7 +571,7 @@ extension OwnerBuildingCreateViewController {
             
         ///入驻企业
         case .OwnerBuildingEditTypeEnterCompany:
-            return BaseEditCell.rowHeight()
+            return OwnerBuildingEnterCompanyCell.rowHeight()
             
         ///详细介绍
         case .OwnerBuildingEditTypeDetailIntroduction:
@@ -532,7 +586,7 @@ extension OwnerBuildingCreateViewController {
             
         ///上传楼盘图片
         case .OwnerBuildingEditTypeBuildingImage:
-            return 500
+            return ((kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 + 10) * 4 + 68
             
         ///上传楼盘视频
         case .OwnerBuildingEditTypeBuildingVideo:
@@ -551,7 +605,7 @@ extension OwnerBuildingCreateViewController {
         if self.typeSourceArray.count <= 0 {
             return
         }
-        switch typeSourceArray[indexPath.row].type {
+        switch typeSourceArray[indexPath.section].type {
             ///选择cell
             ///楼盘类型
             ///所在区域
@@ -559,19 +613,19 @@ extension OwnerBuildingCreateViewController {
             ///翻新时间
         ///空调类型
         case .OwnerBuildingEditTypeBuildingTypew:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         case .OwnerBuildingEditTypeDisctict:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         case .OwnerBuildingEditTypeCompelteTime:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         case .OwnerBuildingEditTypeRenovationTime:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         case .OwnerBuildingEditTypeAirConditionType:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
             
             ///文本输入cell
@@ -579,7 +633,7 @@ extension OwnerBuildingCreateViewController {
             ///详细地址
         ///物业公司
         case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
             
             ///数字文本输入cell
@@ -590,51 +644,51 @@ extension OwnerBuildingCreateViewController {
             ///物业费
         ///车位数
         case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeArea, .OwnerBuildingEditTypeClearHeight, .OwnerBuildingEditTypeFloorHeight, .OwnerBuildingEditTypePropertyCoast, .OwnerBuildingEditTypeParkingNum:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
             ///有框框文本输入cell
             ///车位费
             ///电梯数 - 客梯
         ///电梯数 - 客、货梯
         case .OwnerBuildingEditTypeParkingCoast, .OwnerBuildingEditTypePassengerNum, .OwnerBuildingEditTypeFloorCargoNum:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
             
         ///空调费 - 没有右边的箭头
         case .OwnerBuildingEditTypeAirConditionCoast:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         ///网络
         case .OwnerBuildingEditTypeNetwork:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         ///入驻企业
         case .OwnerBuildingEditTypeEnterCompany:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         ///详细介绍
         case .OwnerBuildingEditTypeDetailIntroduction:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         ///特色
         case .OwnerBuildingEditTypeFeature:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         ///上传楼盘图片
         case .OwnerBuildingEditTypeBuildingImage:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         ///上传楼盘视频
         case .OwnerBuildingEditTypeBuildingVideo:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
         ///上传楼盘vr
         case .OwnerBuildingEditTypeBuildingVR:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
             
             
         case .none:
-            SSLog(typeSourceArray[indexPath.row].type)
+            SSLog(typeSourceArray[indexPath.section].type)
         }
     }
     

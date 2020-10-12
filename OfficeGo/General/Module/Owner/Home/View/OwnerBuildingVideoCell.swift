@@ -10,14 +10,14 @@ import UIKit
 import WMPlayer
 
 class OwnerBuildingVideoCell: BaseTableViewCell {
-
+    
     @objc var closeBtnClickClouse: CloseBtnClickClouse?
-
+    
     let closeBtn: UIButton = {
-           let view = UIButton()
-           view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
-           return view
-       }()
+        let view = UIButton()
+        view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
+        return view
+    }()
     
     lazy var titleLabel: UILabel = {
         let view = UILabel()
@@ -42,8 +42,8 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
     }()
     
     class func rowHeight() -> CGFloat {
-         return 69 + (SCREEN_WIDTH - left_pending_space_17 * 2) * 3 / 4.0
-     }
+        return 69 + (SCREEN_WIDTH - left_pending_space_17 * 2) * 3 / 4.0
+    }
     
     deinit {
         wmPlayer?.pause()
@@ -128,7 +128,7 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
         addSubview(descLabel)
         addSubview(videoView)
         addSubview(closeBtn)
-
+        
         titleLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.top.equalToSuperview()
@@ -153,12 +153,12 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
     }
     
     /// 关闭按钮
-       @objc func clickCloseBtn(btn:UIButton) {
-           
-           if self.closeBtnClickClouse != nil {
-               self.closeBtnClickClouse!(btn.tag)
-           }
-       }
+    @objc func clickCloseBtn(btn:UIButton) {
+        
+        if self.closeBtnClickClouse != nil {
+            self.closeBtnClickClouse!(btn.tag)
+        }
+    }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
