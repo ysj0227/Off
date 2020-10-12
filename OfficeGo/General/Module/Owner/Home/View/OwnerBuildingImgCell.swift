@@ -96,7 +96,7 @@ class OwnerBuildingImgCell: BaseTableViewCell {
 extension OwnerBuildingImgCell {
     func selectFCZPicker() {
         var imgArr = [BannerModel]()
-        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerMaxFCZNumber - uploadPicModelFCZArr.count) {[weak self] (asset,cutImage) in
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber - uploadPicModelFCZArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
@@ -183,7 +183,11 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == uploadPicModelFCZArr.count {
-            selectFCZPicker()
+            if indexPath.item < ownerBuildingImageNumber {
+                selectFCZPicker()
+            }else {
+                AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber)张图片")
+            }
         }
     }
     

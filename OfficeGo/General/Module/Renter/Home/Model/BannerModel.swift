@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class BannerModel: BaseModel {
     var bannerName : String?
@@ -42,5 +43,6 @@ class BannerModel: BaseModel {
     ///默认是网络图片- 为true表示是本地选择上传的图片
     var isLocal: Bool = false
     var imgUrl : String?
+    var videoAsset: PHAsset?
 }
 

@@ -27,6 +27,10 @@ let ownerMaxFCZNumber = 4
 //租赁协议最多图片数
 let ownerMaxZLAgentNumber = 5
 
+///创建楼盘上传的楼盘图片
+let ownerBuildingImageNumber = 9
+
+
 //房东 - 认证 -公司名称最大数
 let ownerMaxCompanynameNumber = 20
 

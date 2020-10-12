@@ -10,8 +10,11 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 import CLImagePickerTool
+import Photos
 
 class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
+    
+    var videoModel: BannerModel = BannerModel()
     
     var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
 
@@ -20,7 +23,7 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
 
     lazy var fczImagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
-        picker.cameraOut = true
+        picker.onlyChooseImageOrVideo = true
         picker.isHiddenImage = true
         return picker
     }()
@@ -104,6 +107,7 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
             
         }else {
             buildingModel = FangYuanBuildingEditDetailModel()
+            buildingModel?.videoUrl = []
         }
     }
 }
@@ -125,7 +129,6 @@ extension OwnerBuildingCreateVideoVRViewController {
         }
         
         titleview?.leftButton.setImage(UIImage.init(named: "backWhite"), for: .normal)
-        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
         titleview?.titleLabel.text = "上传视频"
@@ -173,17 +176,17 @@ extension OwnerBuildingCreateVideoVRViewController {
     }
     
     func selectFCZPicker() {
-           var imgArr = [BannerModel]()
            fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 1) {[weak self] (asset,cutImage) in
                // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
-               CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                   let img = image.resizeMax1500Image()
-                   
-                   let fczBannerModel = BannerModel()
-                   fczBannerModel.isLocal = true
-                   fczBannerModel.image = img
-                   imgArr.append(fczBannerModel)
-                   }, failedClouse: { () in
+            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                let img = image.resizeMax1500Image()
+                self?.videoModel.isLocal = true
+                self?.videoModel.image = img
+                self?.videoModel.videoAsset = assetItem
+                self?.buildingModel?.videoUrl?.removeAll()
+                self?.buildingModel?.videoUrl?.append(self?.videoModel ?? BannerModel())
+                self?.tableView.reloadData()
+                }, failedClouse: { () in
                        
                })
               
@@ -202,11 +205,15 @@ extension OwnerBuildingCreateVideoVRViewController {
         
         if model.type == .OwnerBuildingEditTypeBuildingVideo {
             ///点击cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVideoCell.reuseIdentifierStr) as? OwnerBuildingVideoCell
-            cell?.selectionStyle = .none
-            cell?.model = model
-            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
-            return cell ?? OwnerBuildingVideoCell.init(frame: .zero)
+            let videoCell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVideoCell.reuseIdentifierStr) as? OwnerBuildingVideoCell
+            videoCell?.selectionStyle = .none
+            videoCell?.model = model
+            videoCell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
+            videoCell?.closeBtnClickClouse = { [weak self] (index) in
+                self?.buildingModel?.videoUrl?.removeAll()
+                self?.tableView.reloadData()
+            }
+            return videoCell ?? OwnerBuildingVideoCell.init(frame: .zero)
         }else if model.type == .OwnerBuildingEditTypeBuildingVR {
             ///点击cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell

@@ -224,9 +224,9 @@ extension OwnerBuildingCreateViewController {
         }
         
         titleview?.leftButton.setImage(UIImage.init(named: "backWhite"), for: .normal)
-        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
+//        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
         titleview?.leftButton.isHidden = false
-        titleview?.rightButton.isHidden = false
+        titleview?.rightButton.isHidden = true
         titleview?.titleLabel.text = "编辑写字楼"
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)

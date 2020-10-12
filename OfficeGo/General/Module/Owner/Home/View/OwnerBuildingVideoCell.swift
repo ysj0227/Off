@@ -11,6 +11,14 @@ import WMPlayer
 
 class OwnerBuildingVideoCell: BaseTableViewCell {
 
+    @objc var closeBtnClickClouse: CloseBtnClickClouse?
+
+    let closeBtn: UIButton = {
+           let view = UIButton()
+           view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
+           return view
+       }()
+    
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.font = FONT_14
@@ -38,6 +46,12 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
      }
     
     deinit {
+        wmPlayer?.pause()
+        wmPlayer?.removeFromSuperview()
+        wmPlayer = nil
+    }
+    
+    func removePlayer() {
         wmPlayer?.pause()
         wmPlayer?.removeFromSuperview()
         wmPlayer = nil
@@ -72,10 +86,25 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
     }
     var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
         didSet {
-//            let videoUrl = "https://img.officego.com/test/1596620185492.mp4"
-//            let player = WMPlayerModel()
-//            player.videoURL = URL.init(string: videoUrl ?? "")
-//            playerModel = player
+            if buildingModel.videoUrl?.count ?? 0 > 0 {
+                closeBtn.isHidden = false
+                if buildingModel.videoUrl?[0].isLocal == true {
+                    let videoUrl = "https://img.officego.com/test/1596620185492.mp4"
+                    let player = WMPlayerModel()
+                    player.videoURL = URL.init(string: videoUrl ?? "")
+                    playerModel = player
+                }else {
+                    if buildingModel.videoUrl?[0].imgUrl?.count ?? 0 > 0 {
+                        let videoUrl = "https://img.officego.com/test/1596620185492.mp4"
+                        let player = WMPlayerModel()
+                        player.videoURL = URL.init(string: videoUrl ?? "")
+                        playerModel = player
+                    }
+                }
+            }else {
+                closeBtn.isHidden = true
+                removePlayer()
+            }
         }
     }
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingVideo) {
@@ -98,7 +127,8 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
         addSubview(titleLabel)
         addSubview(descLabel)
         addSubview(videoView)
-        
+        addSubview(closeBtn)
+
         titleLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.top.equalToSuperview()
@@ -114,8 +144,21 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
             make.top.equalTo(descLabel.snp.bottom)
             make.height.equalTo((SCREEN_WIDTH - left_pending_space_17 * 2) * 3 / 4.0)
         }
+        closeBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(videoView).offset(-10)
+            make.trailing.equalTo(videoView).offset(10)
+            make.size.equalTo(20)
+        }
+        closeBtn.addTarget(self, action: #selector(clickCloseBtn(btn:)), for: .touchUpInside)
     }
     
+    /// 关闭按钮
+       @objc func clickCloseBtn(btn:UIButton) {
+           
+           if self.closeBtnClickClouse != nil {
+               self.closeBtnClickClouse!(btn.tag)
+           }
+       }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
