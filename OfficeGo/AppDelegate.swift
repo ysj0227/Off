@@ -52,9 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         window?.makeKeyAndVisible()
         
-        
-        UserTool.shared.API_Setting = API_Release
-        
+                
         //每次启动，如果有版本更新只显示一次
         UserTool.shared.isCloseCancelVersionUpdate = false
         
