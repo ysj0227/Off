@@ -9,14 +9,10 @@
 import UIKit
 
 
-///业主 - 更多操作
-enum OWnerFYMoreSettingEnum: String {
-    case xiaJiaEnum = "下架"
-    case deleteEnum = "删除"
-    case sharepEnum = "分享"
-}
 
 class OwnerFYMoreSettingView: UIView {
+    
+    var titleString: String?
     
     lazy var blackAlphabgView: UIButton = {
         let button = UIButton.init()
@@ -40,7 +36,7 @@ class OwnerFYMoreSettingView: UIView {
     fileprivate var clearButtonCallBack:(() -> Void)?
     
     //选择排序block
-    fileprivate var sureHouseSortButtonCallBack:((OWnerFYMoreSettingEnum) -> Void)?
+    fileprivate var sureHouseSortButtonCallBack:((Int) -> Void)?
         
     fileprivate var datasource: [Any] = [] {
         didSet {
@@ -66,7 +62,7 @@ class OwnerFYMoreSettingView: UIView {
     
     
     // MARK: - 弹出view显示 - 排序
-    func ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum], clearButtonCallBack: @escaping (() -> Void), sureHouseSortButtonCallBack: @escaping ((OWnerFYMoreSettingEnum) -> Void)) -> Void {
+    func ShowOwnerFYMoreSettingView(datasource: [String], clearButtonCallBack: @escaping (() -> Void), sureHouseSortButtonCallBack: @escaping ((Int) -> Void)) -> Void {
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: OwnerFYMoreSettingView.self) {
                 view.removeFromSuperview()
@@ -120,8 +116,7 @@ extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
         cell?.selectionStyle = .blue
         cell?.titleLabel.font = FONT_15
         if self.datasource.count > 0 {
-            let model = self.datasource[indexPath.row]
-            cell?.titleLabel.text = (model as? OWnerFYMoreSettingEnum)?.rawValue
+            cell?.titleLabel.text = self.datasource[indexPath.row] as? String
         }
         return cell ?? TypeAndSortCell()
     }
@@ -135,7 +130,11 @@ extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
         let title = UILabel()
         title.font = FONT_16
         title.textColor = kAppColor_333333
-        title.text = "更多操作"
+        if titleString != nil {
+            title.text = titleString
+        }else {
+            title.text = "更多操作"
+        }
         title.frame = CGRect(x: left_pending_space_17, y: 0, width: 200, height: 53)
         let button = UIButton(frame: CGRect(x: kWidth - left_pending_space_17 * 3, y: 0, width: left_pending_space_17 * 3, height: 53))
         button.setImage(UIImage.init(named: "closeGray"), for: .normal)
@@ -162,7 +161,7 @@ extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
         guard let blockk = sureHouseSortButtonCallBack else {
             return
         }
-        blockk(datasource[indexPath.row] as? OWnerFYMoreSettingEnum ?? OWnerFYMoreSettingEnum.sharepEnum)
+        blockk(indexPath.row)
         selfRemove()
         
     }

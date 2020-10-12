@@ -12,11 +12,20 @@ import SwiftyJSON
 
 class OwnerBuildingCreateViewController: BaseTableViewController {
     
+    ///选择弹框
+    lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
+        let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
+        view.titleString = "请选择"
+        return view
+    }()
+    
     //记录是否已经点了关闭pc按钮
     var isClose: Bool?
     
+    ///类型数据源
     var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
     
+    ///入住公司数组
     var companyArr: [String] = [""]
     
     ///
@@ -632,25 +641,37 @@ extension OwnerBuildingCreateViewController {
         switch typeSourceArray[indexPath.section].type {
             ///选择cell
             ///楼盘类型
-            ///所在区域
-            ///竣工时间
-            ///翻新时间
-        ///空调类型
         case .OwnerBuildingEditTypeBuildingTypew:
+            ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerBuildingTypeEnum.xieziEnum.rawValue, OWnerBuildingTypeEnum.chuangyiEnum.rawValue, OWnerBuildingTypeEnum.chanyeEnum.rawValue], clearButtonCallBack: {
+                
+            }) { (settingEnumIndex) in
+                SSLog("-----点击的是---\(settingEnumIndex)")
+            }
             SSLog(typeSourceArray[indexPath.section].type)
             
+        ///所在区域
         case .OwnerBuildingEditTypeDisctict:
             SSLog(typeSourceArray[indexPath.section].type)
+        
             
+        ///竣工时间
         case .OwnerBuildingEditTypeCompelteTime:
             SSLog(typeSourceArray[indexPath.section].type)
             
+        ///翻新时间
         case .OwnerBuildingEditTypeRenovationTime:
             SSLog(typeSourceArray[indexPath.section].type)
             
+        
+        ///空调类型
         case .OwnerBuildingEditTypeAirConditionType:
             SSLog(typeSourceArray[indexPath.section].type)
-            
+            ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue], clearButtonCallBack: {
+                
+            }) { (settingEnumIndex) in
+                SSLog("-----点击的是---\(settingEnumIndex)")
+            }
+                
             
             ///文本输入cell
             ///写字楼名称

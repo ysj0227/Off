@@ -346,3 +346,19 @@ public enum OwnerAircontiditonFeeType: String {
     case OwnerAircontiditonFeeTypeIndividual = "按电表计费"
     case OwnerAircontiditonFeeTypeNone = "无"
 }
+
+
+
+///业主 - 更多操作
+public enum OWnerFYMoreSettingEnum: String {
+    case xiaJiaEnum = "下架"
+    case deleteEnum = "删除"
+    case sharepEnum = "分享"
+}
+
+///业主 - 添加楼盘 楼盘类型
+public enum OWnerBuildingTypeEnum: String {
+    case xieziEnum = "写字楼"
+    case chuangyiEnum = "创意园"
+    case chanyeEnum = "产业园"
+}

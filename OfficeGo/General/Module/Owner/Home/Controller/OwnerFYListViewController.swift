@@ -150,10 +150,10 @@ extension OwnerFYListViewController {
             if let model = self.dataSource[indexPath.row]  {
                 cell?.model = model as? FangYuanListModel ?? FangYuanListModel()
                 cell?.moreBtnClickBlock = { [weak self] in
-                    self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum.xiaJiaEnum, OWnerFYMoreSettingEnum.deleteEnum, OWnerFYMoreSettingEnum.sharepEnum], clearButtonCallBack: {
+                    self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum.xiaJiaEnum.rawValue, OWnerFYMoreSettingEnum.deleteEnum.rawValue, OWnerFYMoreSettingEnum.sharepEnum.rawValue], clearButtonCallBack: {
                         
-                    }) { (settingEnum) in
-                        SSLog("-----点击的是---\(settingEnum.rawValue)")
+                    }) { (settingEnumIndex) in
+                        SSLog("-----点击的是---\(settingEnumIndex)")
                     }
                 }
             }
