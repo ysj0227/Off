@@ -25,7 +25,7 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
         view.font = FONT_15
         view.textColor = kAppColor_333333
         view.clearButtonMode = .whileEditing
-        view.keyboardType = .phonePad
+        view.keyboardType = .numberPad
         view.clipsToBounds = true
         view.layer.borderColor = kAppColor_line_EEEEEE.cgColor
         view.layer.borderWidth = 1
@@ -97,12 +97,8 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
     
     @objc func valueDidChange() {
         let textNum = editLabel.text?.count
-        ///车位费
-        if model.type == .OwnerBuildingEditTypeParkingCoast {
-            
-        }
         ///电梯数 - 客梯
-        else if model.type == .OwnerBuildingEditTypePassengerNum {
+        if model.type == .OwnerBuildingEditTypePassengerNum {
             
         }
         ///电梯数 - 货梯
@@ -119,12 +115,8 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
 
-            ///车位费
-            if model.type == .OwnerBuildingEditTypeParkingCoast {
-                
-            }
             ///电梯数 - 客梯
-            else if model.type == .OwnerBuildingEditTypePassengerNum {
+            if model.type == .OwnerBuildingEditTypePassengerNum {
                 
             }
             ///电梯数 - 货梯
@@ -137,13 +129,9 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
 
 extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        ///车位费
-        if model.type == .OwnerBuildingEditTypeParkingCoast {
-            
-        }
+       
         ///电梯数 - 客梯
-        else if model.type == .OwnerBuildingEditTypePassengerNum {
+        if model.type == .OwnerBuildingEditTypePassengerNum {
             
         }
         ///电梯数 - 货梯

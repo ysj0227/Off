@@ -74,16 +74,8 @@ class OwnerBuildingVRCell: BaseTableViewCell {
     
     @objc func valueDidChange() {
         let textNum = editLabel.text?.count
-        ///车位费
-        if model.type == .OwnerBuildingEditTypeParkingCoast {
-            
-        }
-            ///电梯数 - 客梯
-        else if model.type == .OwnerBuildingEditTypePassengerNum {
-            
-        }
-            ///电梯数 - 货梯
-        else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
+        ///vr
+        if model.type == .OwnerBuildingEditTypeBuildingVR {
             
         }
     }

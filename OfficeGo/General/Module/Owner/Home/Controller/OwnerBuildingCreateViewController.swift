@@ -12,6 +12,9 @@ import SwiftyJSON
 
 class OwnerBuildingCreateViewController: BaseTableViewController {
     
+    //记录是否已经点了关闭pc按钮
+    var isClose: Bool?
+    
     var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
     
     var companyArr: [String] = [""]
@@ -63,6 +66,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     
     @objc func saveClick() {
         let vc = OwnerBuildingCreateVideoVRViewController()
+        vc.isClose = isClose
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -71,6 +75,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     }
     
     @objc func closePcEditClick() {
+        isClose = true
         pcEditBtn.snp.remakeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.bottom.equalToSuperview().offset(-(bottomMargin()))
@@ -285,8 +290,11 @@ extension OwnerBuildingCreateViewController {
         ///文本输入cell
         self.tableView.register(OwnerBuildingInputCell.self, forCellReuseIdentifier: OwnerBuildingInputCell.reuseIdentifierStr)
         
-        ///数字文本输入cell
+        ///数字文本输入cell - 正整数
         self.tableView.register(OwnerBuildingNumInputCell.self, forCellReuseIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr)
+        
+        ///数字文本输入cell - 带一位小数点
+        self.tableView.register(OwnerBuildingDecimalNumInputCell.self, forCellReuseIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr)
         
         ///带框文本输入cell
         self.tableView.register(OwnerBuildingBorderInputCell.self, forCellReuseIdentifier: OwnerBuildingBorderInputCell.reuseIdentifierStr)
@@ -328,8 +336,8 @@ extension OwnerBuildingCreateViewController {
         if index <= companyArr.count - 1 {
             companyArr[index] = Str
         }
-//        tableView.reloadSections(NSIndexSet.init(index: 19) as IndexSet, with: UITableView.RowAnimation.none)
-//        tableView.endEditing(true)
+        //        tableView.reloadSections(NSIndexSet.init(index: 19) as IndexSet, with: UITableView.RowAnimation.none)
+        //        tableView.endEditing(true)
     }
 }
 
@@ -388,15 +396,11 @@ extension OwnerBuildingCreateViewController {
             
             
             
-            ///数字文本输入cell
+            ///正数字文本输入cell
             ///总楼层
-            ///建筑面积
-            ///净高
-            ///层高
-            ///物业费
             ///车位数
         ///车位费
-        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeArea, .OwnerBuildingEditTypeClearHeight, .OwnerBuildingEditTypeFloorHeight, .OwnerBuildingEditTypePropertyCoast, .OwnerBuildingEditTypeParkingNum,
+        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeParkingNum,
              .OwnerBuildingEditTypeParkingCoast:
             
             ///数字文本输入cell
@@ -405,6 +409,19 @@ extension OwnerBuildingCreateViewController {
             cell?.model = model
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
+            
+            ///数字 - 一位小数点文本输入cell
+            ///建筑面积
+            ///净高
+            ///层高
+        ///物业费
+        case .OwnerBuildingEditTypeArea, .OwnerBuildingEditTypeClearHeight, .OwnerBuildingEditTypeFloorHeight, .OwnerBuildingEditTypePropertyCoast:
+            
+            ///数字文本输入cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
+            cell?.selectionStyle = .none
+            cell?.model = model
+            return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
             
             ///有框框文本输入cell
@@ -533,14 +550,21 @@ extension OwnerBuildingCreateViewController {
             return BaseEditCell.rowHeight()
             
             
-            ///数字文本输入cell
+            ///正数字文本输入cell
             ///总楼层
+            ///车位数
+        ///车位费
+        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeParkingNum,
+             .OwnerBuildingEditTypeParkingCoast:
+            
+            return BaseEditCell.rowHeight()
+            
+            ///数字 - 一位小数点文本输入cell
             ///建筑面积
             ///净高
             ///层高
-            ///物业费
-        ///车位数
-        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeArea, .OwnerBuildingEditTypeClearHeight, .OwnerBuildingEditTypeFloorHeight, .OwnerBuildingEditTypePropertyCoast, .OwnerBuildingEditTypeParkingNum:
+        ///物业费
+        case .OwnerBuildingEditTypeArea, .OwnerBuildingEditTypeClearHeight, .OwnerBuildingEditTypeFloorHeight, .OwnerBuildingEditTypePropertyCoast:
             
             return BaseEditCell.rowHeight()
             
@@ -636,14 +660,22 @@ extension OwnerBuildingCreateViewController {
             SSLog(typeSourceArray[indexPath.section].type)
             
             
-            ///数字文本输入cell
+            ///正数字文本输入cell
             ///总楼层
+            ///车位数
+        ///车位费
+        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeParkingNum,
+             .OwnerBuildingEditTypeParkingCoast:
+            
+            SSLog(typeSourceArray[indexPath.section].type)
+            
+            ///数字 - 一位小数点文本输入cell
             ///建筑面积
             ///净高
             ///层高
-            ///物业费
-        ///车位数
-        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeArea, .OwnerBuildingEditTypeClearHeight, .OwnerBuildingEditTypeFloorHeight, .OwnerBuildingEditTypePropertyCoast, .OwnerBuildingEditTypeParkingNum:
+        ///物业费
+        case .OwnerBuildingEditTypeArea, .OwnerBuildingEditTypeClearHeight, .OwnerBuildingEditTypeFloorHeight, .OwnerBuildingEditTypePropertyCoast:
+            
             SSLog(typeSourceArray[indexPath.section].type)
             
             ///有框框文本输入cell

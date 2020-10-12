@@ -14,6 +14,9 @@ import Photos
 
 class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     
+    //记录是否已经点了关闭pc按钮
+    var isClose: Bool?
+    
     var videoModel: BannerModel = BannerModel()
     
     var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
@@ -54,6 +57,13 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
         return button
     }()
     
+    lazy var closePcEditBtn: UIButton = {
+        let button = UIButton.init()
+        button.setImage(UIImage.init(named: "closeBlue"), for: .normal)
+        button.addTarget(self, action: #selector(closePcEditClick), for: .touchUpInside)
+        return button
+    }()
+    
     @objc func saveClick() {
         let vc = OwnerBuildingCreateVideoVRViewController()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -62,6 +72,17 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     @objc func pcEditClick() {
         clickToQCode()
     }
+    
+    @objc func closePcEditClick() {
+        isClose = true
+        pcEditBtn.snp.remakeConstraints { (make) in
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.bottom.equalToSuperview().offset(-(bottomMargin()))
+            make.height.equalTo(0)
+        }
+        closePcEditBtn.isHidden = true
+    }
+    
     ///跳转二维码页面页面
     func clickToQCode() {
         //设置扫码区域参数
@@ -146,6 +167,7 @@ extension OwnerBuildingCreateVideoVRViewController {
             make.bottom.equalToSuperview().offset(-(bottomMargin() + 20))
             make.height.equalTo(40)
         }
+
         saveBtn.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.bottom.equalTo(pcEditBtn.snp.top).offset(-20)
@@ -156,6 +178,23 @@ extension OwnerBuildingCreateVideoVRViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(saveBtn.snp.top)
         }
+        
+        ///pc登录按钮显示
+        if isClose == true {
+            pcEditBtn.snp.remakeConstraints { (make) in
+                make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+                make.bottom.equalToSuperview().offset(-(bottomMargin()))
+                make.height.equalTo(0)
+            }
+        }else {
+            self.view.addSubview(closePcEditBtn)
+            closePcEditBtn.snp.makeConstraints { (make) in
+                make.trailing.equalToSuperview()
+                make.bottom.equalTo(pcEditBtn.snp.top).offset(20)
+                make.size.equalTo(40)
+            }
+        }
+        
         requestSet()
     }
     

@@ -127,7 +127,21 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isDocumentType == true {
-            buildingModel.tags[indexPath.item].isDocumentSelected = !(buildingModel.tags[indexPath.item].isDocumentSelected)
+            var num = 0
+            for model in buildingModel.tags {
+                if model.isDocumentSelected == true {
+                    num += 1
+                }
+            }
+            if num >= 4 {
+                if buildingModel.tags[indexPath.item].isDocumentSelected != true {
+                    AppUtilities.makeToast("最多可选择4个")
+                }else {
+                    buildingModel.tags[indexPath.item].isDocumentSelected = !(buildingModel.tags[indexPath.item].isDocumentSelected)
+                }
+            }else {
+                buildingModel.tags[indexPath.item].isDocumentSelected = !(buildingModel.tags[indexPath.item].isDocumentSelected)
+            }
             
         }else {
             buildingModel.networks[indexPath.item].isOfficeBuildingSelected = !(buildingModel.networks[indexPath.item].isOfficeBuildingSelected)

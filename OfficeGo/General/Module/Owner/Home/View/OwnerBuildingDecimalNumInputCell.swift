@@ -1,14 +1,14 @@
 //
-//  OwnerBuildingNumInputCell.swift
+//  OwnerBuildingDecimalNumInputCell.swift
 //  OfficeGo
 //
-//  Created by Mac pro on 2020/9/30.
+//  Created by Mac pro on 2020/10/12.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
 import UIKit
 
-class OwnerBuildingNumInputCell: BaseEditCell {
+class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     
     var userModel: OwnerIdentifyUserModel?
 
@@ -20,23 +20,27 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     }
     
     override func setDelegate() {
-        editLabel.keyboardType = .numberPad
+        editLabel.keyboardType = .decimalPad
         editLabel.delegate = self
         editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
     }
     
     @objc func valueDidChange() {
         let textNum = editLabel.text?.count
-        ///总楼层
-        if model.type == .OwnerBuildingEditTypeTotalFloor {
+        ///建筑面积
+        if model.type == .OwnerBuildingEditTypeArea {
             
         }
-        ///车位数
-        else if model.type == .OwnerBuildingEditTypeParkingNum {
+        ///净高
+        else if model.type == .OwnerBuildingEditTypeClearHeight {
             
         }
-        ///车位费
-        else if model.type == .OwnerBuildingEditTypeParkingCoast {
+        ///层高
+        else if model.type == .OwnerBuildingEditTypeFloorHeight {
+            
+        }
+        ///物业费
+        else if model.type == .OwnerBuildingEditTypePropertyCoast {
             
         }
     }
@@ -50,35 +54,43 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
 
-            ///总楼层
-            if model.type == .OwnerBuildingEditTypeTotalFloor {
+            ///建筑面积
+            if model.type == .OwnerBuildingEditTypeArea {
                 
             }
-            ///车位数
-            else if model.type == .OwnerBuildingEditTypeParkingNum {
+            ///净高
+            else if model.type == .OwnerBuildingEditTypeClearHeight {
                 
             }
-            ///车位费
-            else if model.type == .OwnerBuildingEditTypeParkingCoast {
+            ///层高
+            else if model.type == .OwnerBuildingEditTypeFloorHeight {
+                
+            }
+            ///物业费
+            else if model.type == .OwnerBuildingEditTypePropertyCoast {
                 
             }
         }
     }
 }
 
-extension OwnerBuildingNumInputCell: UITextFieldDelegate {
+extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        ///总楼层
-        if model.type == .OwnerBuildingEditTypeTotalFloor {
+        ///建筑面积
+        if model.type == .OwnerBuildingEditTypeArea {
             
         }
-        ///车位数
-        else if model.type == .OwnerBuildingEditTypeParkingNum {
+        ///净高
+        else if model.type == .OwnerBuildingEditTypeClearHeight {
             
         }
-        ///车位费
-        else if model.type == .OwnerBuildingEditTypeParkingCoast {
+        ///层高
+        else if model.type == .OwnerBuildingEditTypeFloorHeight {
+            
+        }
+        ///物业费
+        else if model.type == .OwnerBuildingEditTypePropertyCoast {
             
         }
         
