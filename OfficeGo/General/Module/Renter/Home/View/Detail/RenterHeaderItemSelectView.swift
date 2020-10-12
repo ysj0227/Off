@@ -49,7 +49,7 @@ class RenterHeaderItemSelectView: UIView {
                 }
                 if self.factorMap.buildingItem2 ?? 0 > 0 {
                     let model = BuildingItemModel()
-                    model.title = "100-200 \n \(self.factorMap.buildingItem2 ?? 0)套"
+                    model.title = "100-200㎡ \n \(self.factorMap.buildingItem2 ?? 0)套"
                     model.index = 2
                     dataArray.append(model)
                 }
