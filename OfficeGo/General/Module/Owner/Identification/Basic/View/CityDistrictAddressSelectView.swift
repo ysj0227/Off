@@ -66,6 +66,11 @@ class CityDistrictAddressSelectView: UIView {
         view.leftBtn.setTitle("取消", for: .normal)
         return view
     }()
+    lazy var bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppWhiteColor
+        return view
+    }()
     
     lazy var cityLabel: UIButton = {
         let view = UIButton()
@@ -176,6 +181,7 @@ class CityDistrictAddressSelectView: UIView {
         addSubview(firstLevelTableView)
         addSubview(secondLevelTableView)
         addSubview(bottomBtnView)
+        addSubview(bottomView)
         
         bottomBtnView.leftBtnClickBlock = { [weak self] in
 //            self?.clearData()
@@ -207,28 +213,32 @@ class CityDistrictAddressSelectView: UIView {
         blackAlphabgView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
-        
-        bottomBtnView.snp.makeConstraints { (make) in
+        bottomView.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(bottomMargin())
+        }
+        bottomBtnView.snp.makeConstraints { (make) in
+            make.bottom.equalTo(bottomView.snp.top)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(44)
         }
-        
         cityLabel.snp.makeConstraints { (make) in
-            make.top.leading.equalToSuperview()
+            make.top.equalToSuperview().offset(kNavigationHeight + cell_height_58 * 2)
+            make.leading.equalToSuperview()
             make.height.equalTo(cell_height_58)
             make.width.equalTo(1 / 4.0 * kWidth)
         }
         
         districtLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+            make.top.equalTo(cityLabel)
             make.leading.equalTo(1 / 4.0 * kWidth)
             make.height.equalTo(cell_height_58)
             make.width.equalTo(9 / 32.0 * kWidth)
         }
         
         areaDistrictLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+            make.top.equalTo(cityLabel)
             make.leading.equalTo(1 / 4.0 * kWidth + 9 / 32.0 * kWidth)
             make.height.equalTo(cell_height_58)
             make.trailing.equalToSuperview()

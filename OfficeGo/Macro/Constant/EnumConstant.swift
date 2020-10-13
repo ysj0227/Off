@@ -342,6 +342,7 @@ public enum OwnerAircontiditonType: String {
  无空调 “无“
  */
 public enum OwnerAircontiditonFeeType: String {
+    case OwnerAircontiditonFeeTypeDefault = ""
     case OwnerAircontiditonFeeTypeCenter = "包含在物业费内，加时另计"
     case OwnerAircontiditonFeeTypeIndividual = "按电表计费"
     case OwnerAircontiditonFeeTypeNone = "无"

@@ -10,8 +10,7 @@ import UIKit
 
 class OwnerBuildingClickCell: BaseEditCell {
     
-    var userModel: OwnerIdentifyUserModel?
-        
+    var buildingModel: FangYuanBuildingEditDetailModel?
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {
         didSet {
             
@@ -23,18 +22,44 @@ class OwnerBuildingClickCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = false
 
             if model.type == .OwnerBuildingEditTypeBuildingTypew{
+                
                 detailIcon.image = UIImage.init(named: "moreDetail")
                 
+                editLabel.text = buildingModel?.buildingType?.rawValue
+
             }else if model.type == .OwnerBuildingEditTypeDisctict{
+                
                 detailIcon.image = UIImage.init(named: "moreDetail")
+                
+                editLabel.text = "\(buildingModel?.districtString ?? "")\(buildingModel?.businessString ?? "")"
+
             }else if model.type == .OwnerBuildingEditTypeCompelteTime{
+                
                 detailIcon.image = UIImage.init(named: "dateSelectBule")
+                
             }else if model.type == .OwnerBuildingEditTypeRenovationTime{
+                
                 detailIcon.image = UIImage.init(named: "dateSelectBule")
+                
             }else if model.type == .OwnerBuildingEditTypeAirConditionType{
+                
                 detailIcon.image = UIImage.init(named: "moreDetail")
-            }else {
+                
+                editLabel.text = buildingModel?.airditionType?.rawValue
+
+            }else if model.type == .OwnerBuildingEditTypeAirConditionCoast{
+                
                 detailIcon.image = UIImage.init(named: "")
+                
+                if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
+                    editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeCenter.rawValue
+                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
+                    editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeIndividual.rawValue
+                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
+                    editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue
+                }else {
+                    editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeDefault.rawValue
+                }
             }
         }
     }

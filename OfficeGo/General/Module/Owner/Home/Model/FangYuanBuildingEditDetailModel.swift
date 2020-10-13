@@ -10,8 +10,11 @@ import UIKit
 
 //MARK: 楼盘和共享办公详情
 class FangYuanBuildingEditDetailModel: BaseModel {
-    ///1是写字楼，2是共享办公
-    var btype: Int?
+    ///写字楼，创意园，产业园
+    var buildingType: OWnerBuildingTypeEnum?
+    
+    ///空调类型 中央空调，独立空调，无空调
+    var airditionType: OwnerAircontiditonType?
     ///是否收藏：为0时是未为收藏 ，其他是已经收藏
     var IsFavorite : Bool?
     var building : FangYuanBuildingEditBuildingModel?
@@ -27,6 +30,20 @@ class FangYuanBuildingEditDetailModel: BaseModel {
     var vrUrl : [BannerModel]?
     //用户id 发布者
     var userId : String?
+    
+    ///大区id
+    var district : String?
+    
+    ///商圈id
+    var business : String?
+    
+    
+    ///自己添加的显示的参数
+    ///大区id
+    var districtString : String?
+    
+    ///商圈id
+    var businessString : String?
 }
 
 

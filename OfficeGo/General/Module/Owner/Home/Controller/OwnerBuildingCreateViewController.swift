@@ -12,10 +12,24 @@ import SwiftyJSON
 
 class OwnerBuildingCreateViewController: BaseTableViewController {
     
+    var areaModelCount: CityAreaCategorySelectModel?
+    
+    ///地址区域
+    lazy var areaView: CityDistrictAddressSelectView = {
+        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
+        return view
+    }()
+
     ///选择弹框
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
         view.titleString = "请选择"
+        return view
+    }()
+    
+    ///共享服务选择弹框
+    lazy var shareView: OwnerShareServiceShowView = {
+        let view = OwnerShareServiceShowView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
         return view
     }()
     
@@ -30,9 +44,6 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
-    
-    ///空调类型
-    var airditionType: OwnerAircontiditonType = OwnerAircontiditonType.OwnerAircontiditonTypeNone
     
     ///网络
     var networkModelArr = [HouseFeatureModel]()
@@ -195,6 +206,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         
         requestGetFeature()
         
+        request_getDistrict()
     }
     
     //MARK: 获取特色接口
@@ -207,13 +219,13 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                     weakSelf.buildingModel?.tags.append(model ?? HouseFeatureModel())
                 }
             }
-            weakSelf.tableView.reloadData()
+            weakSelf.loadTableview()
             
             }, failure: {[weak self] (error) in
-                self?.tableView.reloadData()
+                self?.loadTableview()
                 
         }) {[weak self] (code, message) in
-            self?.tableView.reloadData()
+            self?.loadTableview()
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
@@ -338,15 +350,88 @@ extension OwnerBuildingCreateViewController {
             }
         }
         
-        tableView.reloadSections(NSIndexSet.init(index: 19) as IndexSet, with: UITableView.RowAnimation.none)
+        loadSecion(section: 19)
     }
     
     func loadEnterCompanyInputComplete(Str: String, index: Int) {
         if index <= companyArr.count - 1 {
             companyArr[index] = Str
         }
-        //        tableView.reloadSections(NSIndexSet.init(index: 19) as IndexSet, with: UITableView.RowAnimation.none)
-        //        tableView.endEditing(true)
+    }
+    
+    func loadSecion(section: Int) {
+        tableView.reloadSections(NSIndexSet.init(index: section) as IndexSet, with: UITableView.RowAnimation.none)
+    }
+    
+    func loadSections(indexSet: IndexSet) {
+        tableView.reloadSections(NSIndexSet.init(indexSet: indexSet) as IndexSet, with: UITableView.RowAnimation.none)
+    }
+}
+
+extension OwnerBuildingCreateViewController {
+    func judgeHasData() {
+        if areaModelCount?.data.count ?? 0  > 0 {
+            self.showArea(isFrist: true)
+        }else {
+            request_getDistrict()
+        }
+    }
+    
+    func showArea(isFrist: Bool) {
+        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { (_ selectModel: CityAreaCategorySelectModel) -> Void in
+            
+            }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+                self?.areaModelCount = selectModel
+                self?.buildingModel?.district = selectModel.isFirstSelectedModel?.districtID
+                self?.buildingModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
+                self?.buildingModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
+                self?.buildingModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+                self?.loadSecion(section: 2)
+                
+        })
+    }
+    //MARK: 获取商圈数据
+    func request_getDistrict() {
+        //查询类型，1：全部，0：系统已有楼盘的商圈
+        var params = [String:AnyObject]()
+        params["type"] = 1 as AnyObject?
+        SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
+            if let model = CityAreaCategorySelectModel.deserialize(from: response) {
+                model.name = "上海市"
+                self?.areaModelCount = model
+                self?.getSelectedDistrictBusiness()
+            }
+            
+            }, failure: { (error) in
+                
+        }) {  (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    func getSelectedDistrictBusiness() {
+        areaModelCount?.data.forEach({ (model) in
+            if model.districtID == buildingModel?.district {
+                areaModelCount?.isFirstSelectedModel = model
+                buildingModel?.districtString = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
+                areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
+                    if areaModel.id == buildingModel?.business {
+                        areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
+                        buildingModel?.businessString = areaModel.area
+                        loadTableview()
+                    }
+                })
+                
+            }
+        })
+    }
+    
+    func loadTableview() {
+        tableView.reloadData()
     }
 }
 
@@ -358,7 +443,16 @@ extension OwnerBuildingCreateViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if typeSourceArray[section].type == .OwnerBuildingEditTypeEnterCompany {
+        ///楼盘类型 - 当为创意园，产业园 多显示一个楼号
+        if typeSourceArray[section].type == .OwnerBuildingEditTypeBuildingName {
+            if buildingModel?.buildingType == OWnerBuildingTypeEnum.xieziEnum {
+                return 1
+            }else {
+                return 2
+            }
+        }
+        ///入住企业
+        else if typeSourceArray[section].type == .OwnerBuildingEditTypeEnterCompany {
             return companyArr.count
         }else {
             return 1
@@ -377,6 +471,7 @@ extension OwnerBuildingCreateViewController {
             ///点击cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
             cell?.model = model
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
@@ -452,16 +547,8 @@ extension OwnerBuildingCreateViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
             cell?.detailIcon.isHidden = true
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
             cell?.model = model
-            if airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault {
-                cell?.editLabel.text = ""
-            }else if airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
-                cell?.editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeCenter.rawValue
-            }else if airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
-                cell?.editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeIndividual.rawValue
-            }else if airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
-                cell?.editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue
-            }
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
         ///网络
@@ -582,14 +669,14 @@ extension OwnerBuildingCreateViewController {
             ///车位费
             ///电梯数 - 客梯
         ///电梯数 - 客、货梯
-        case .OwnerBuildingEditTypeParkingCoast, .OwnerBuildingEditTypePassengerNum, .OwnerBuildingEditTypeFloorCargoNum:
+        case .OwnerBuildingEditTypePassengerNum, .OwnerBuildingEditTypeFloorCargoNum:
             
             return BaseEditCell.rowHeight()
             
             
         ///空调费 - 没有右边的箭头
         case .OwnerBuildingEditTypeAirConditionCoast:
-            if airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault {
+            if buildingModel?.airditionType == nil || buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault {
                 return 0
             }else {
                 return BaseEditCell.rowHeight()
@@ -642,34 +729,71 @@ extension OwnerBuildingCreateViewController {
             ///选择cell
             ///楼盘类型
         case .OwnerBuildingEditTypeBuildingTypew:
+            
+            endEdting()
+            
             ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerBuildingTypeEnum.xieziEnum.rawValue, OWnerBuildingTypeEnum.chuangyiEnum.rawValue, OWnerBuildingTypeEnum.chanyeEnum.rawValue], clearButtonCallBack: {
                 
-            }) { (settingEnumIndex) in
-                SSLog("-----点击的是---\(settingEnumIndex)")
+            }) {[weak self] (settingEnumIndex) in
+                if settingEnumIndex == 0 {
+                    SSLog("-----点击的是---写字楼")
+                    self?.buildingModel?.buildingType = .xieziEnum
+                }else if settingEnumIndex == 1 {
+                    SSLog("-----点击的是---创意园")
+                    self?.buildingModel?.buildingType = .chuangyiEnum
+                }else if settingEnumIndex == 2 {
+                    SSLog("-----点击的是---产业园")
+                    self?.buildingModel?.buildingType = .chanyeEnum
+                }
+                self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
             }
-            SSLog(typeSourceArray[indexPath.section].type)
             
         ///所在区域
         case .OwnerBuildingEditTypeDisctict:
-            SSLog(typeSourceArray[indexPath.section].type)
-        
+            
+            endEdting()
+
+            endEdting()
+            ///区域商圈选择
+            judgeHasData()
             
         ///竣工时间
         case .OwnerBuildingEditTypeCompelteTime:
+            
+            endEdting()
+            
+            shareView.ShowShareView(serviceModel: ShareServiceModel())
+
             SSLog(typeSourceArray[indexPath.section].type)
             
         ///翻新时间
         case .OwnerBuildingEditTypeRenovationTime:
+            
+            endEdting()
+
             SSLog(typeSourceArray[indexPath.section].type)
             
         
         ///空调类型
         case .OwnerBuildingEditTypeAirConditionType:
-            SSLog(typeSourceArray[indexPath.section].type)
+            
+            endEdting()
+
             ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue], clearButtonCallBack: {
                 
-            }) { (settingEnumIndex) in
-                SSLog("-----点击的是---\(settingEnumIndex)")
+            }) {[weak self] (settingEnumIndex) in
+                //中央空调，独立空调，无空调
+                if settingEnumIndex == 0 {
+                    SSLog("-----点击的是---中央空调")
+                    self?.buildingModel?.airditionType = .OwnerAircontiditonTypeCenter
+                }else if settingEnumIndex == 1 {
+                    SSLog("-----点击的是---独立空调")
+                    self?.buildingModel?.airditionType = .OwnerAircontiditonTypeIndividual
+                }else if settingEnumIndex == 2 {
+                    SSLog("-----点击的是---无空调")
+                    self?.buildingModel?.airditionType = .OwnerAircontiditonTypeNone
+                }
+                self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
             }
                 
             
