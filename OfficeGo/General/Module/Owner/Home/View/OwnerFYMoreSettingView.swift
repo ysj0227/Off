@@ -144,7 +144,7 @@ extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
         return view
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 80 + bottomMargin()
+        return 80
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView()

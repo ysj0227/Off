@@ -61,6 +61,13 @@ extension RenterAmbitusMatingCell: UICollectionViewDataSource, UICollectionViewD
 
 
 class RenterFeatureCollectionCell: BaseCollectionViewCell {
+    
+    lazy var selectImg: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
     lazy var itemImg: BaseImageView = {
         let view = BaseImageView()
         view.contentMode = .scaleAspectFit
@@ -94,10 +101,17 @@ class RenterFeatureCollectionCell: BaseCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addSubview(selectImg)
         addSubview(itemImg)
         addSubview(titleLabel)
         addSubview(numLabel)
 
+        selectImg.snp.makeConstraints { (make) in
+            make.size.equalTo(16)
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(3)
+        }
+        
         itemImg.snp.makeConstraints { (make) in
             make.top.equalTo(9)
             make.leading.equalTo(3)

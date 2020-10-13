@@ -30,6 +30,9 @@ class OwnerBuildingEditConfigureModel : NSObject {
         ///写字楼名称
         case .OwnerBuildingEditTypeBuildingName:
             return FuWenBen(name: "写字楼名称", centerStr: " * ", last: "")
+        ///楼号/楼名
+        case .OwnerBuildingEditTypeBuildingNum:
+            return FuWenBen(name: "楼号/楼名", centerStr: " * ", last: "")
         ///所在区域
         case .OwnerBuildingEditTypeDisctict:
             return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
@@ -110,6 +113,9 @@ class OwnerBuildingEditConfigureModel : NSObject {
         ///写字楼名称
         case .OwnerBuildingEditTypeBuildingName:
             return "请输入写字楼名称"
+        ///楼号/楼名
+        case .OwnerBuildingEditTypeBuildingNum:
+            return "请输入楼号/楼名"
         ///所在区域
         case .OwnerBuildingEditTypeDisctict:
             return "请选择城市、区域与商圈"

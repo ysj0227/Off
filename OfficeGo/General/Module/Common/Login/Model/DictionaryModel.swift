@@ -20,4 +20,7 @@ class DictionaryModel: BaseModel {
     
     ///房源详情 - 共享服务 - 黑色图标
     var dictImgBlack: String?
+    
+    ///共享服务 - 判断是否选中
+    var isSelected: Bool?
 }

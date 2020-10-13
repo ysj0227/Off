@@ -273,6 +273,8 @@ public enum OwnerBuildingEditType {
     case OwnerBuildingEditTypeBuildingTypew
     ///写字楼名称
     case OwnerBuildingEditTypeBuildingName
+    ///楼号/楼名
+    case OwnerBuildingEditTypeBuildingNum
     ///所在区域
     case OwnerBuildingEditTypeDisctict
     ///详细地址

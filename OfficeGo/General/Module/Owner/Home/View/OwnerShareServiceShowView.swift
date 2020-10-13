@@ -17,11 +17,21 @@ class OwnerShareServiceShowView: UIView {
         return button
     }()
     
+    var header: OwnerShareViewHeader = {
+        let view = OwnerShareViewHeader()
+        return view
+    }()
+    
+    var footer: OwnerShareViewFooter = {
+        let view = OwnerShareViewFooter()
+        return view
+    }()
+    
     var featureCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: left_pending_space_17, bottom: 0, right: left_pending_space_17)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsHorizontalScrollIndicator = false
         view.backgroundColor = kAppWhiteColor
@@ -75,6 +85,9 @@ class OwnerShareServiceShowView: UIView {
             }
         })
                 
+        
+        header.titleLabel.text = serviceModel.title
+
         if let item = serviceModel.itemArr {
             self.dataSourceArr = item
         }
@@ -91,26 +104,41 @@ class OwnerShareServiceShowView: UIView {
         addSubview(blurView)
         
         addSubview(blackAlphabgView)
+        addSubview(header)
+        addSubview(footer)
         addSubview(featureCollectionView)
+        
+        header.closeButtonCallBack = { [weak self] in
+            self?.removeFromSuperview()
+        }
+        
+        footer.sureButtonCallBack = { [weak self] in
+            self?.removeFromSuperview()
+        }
         
         blackAlphabgView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
        
-        featureCollectionView.snp.makeConstraints { (make) in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(53 + 80 + bottomMargin() + cell_height_58 * 5)
+        footer.snp.makeConstraints { (make) in
+            make.leading.bottom.trailing.equalToSuperview()
+            make.height.equalTo(80)
         }
-        
+        featureCollectionView.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(cell_height_58 * 5)
+            make.bottom.equalTo(footer.snp.top)
+        }
+        header.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(53)
+            make.bottom.equalTo(featureCollectionView.snp.top)
+        }
         featureCollectionView.register(RenterFeatureCollectionCell.self, forCellWithReuseIdentifier: RenterFeatureCollectionCell.reuseIdentifierStr)
-        
-        featureCollectionView.register(OwnerShareViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerShareViewHeader")
-
-        
-        featureCollectionView.register(OwnerShareViewFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "OwnerShareViewFooter")
 
         featureCollectionView.delegate = self
         featureCollectionView.dataSource = self
+        
         reloadData()
     }
 }
@@ -119,20 +147,20 @@ extension OwnerShareServiceShowView: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterFeatureCollectionCell.reuseIdentifierStr, for: indexPath as IndexPath) as? RenterFeatureCollectionCell
-        cell?.model = HouseFeatureModel()
-        cell?.titleLabel.textColor = kAppWhiteColor
         cell?.titleLabel.font = FONT_12
-        cell?.numLabel.textColor = kAppWhiteColor
-        cell?.numLabel.font = FONT_LIGHT_12
+
         cell?.itemImg.snp.updateConstraints { (make) in
             make.top.equalTo(9)
-            make.leading.equalTo(5)
+            make.leading.equalTo(3 + 16 + 8)
             make.size.equalTo(24)
         }
-//        cell?.itemImg.setImage(with: dataSourceArr[indexPath.row].dictImg ?? "", placeholder: UIImage.init(named: ""))
-//        cell?.titleLabel.text = dataSourceArr[indexPath.row].dictCname ?? ""
-        cell?.itemImg.image = UIImage.init(named: "wechat")
-        cell?.titleLabel.text = "124dgdg"
+        if dataSourceArr[indexPath.row].isSelected == true {
+            cell?.selectImg.image = UIImage.init(named: "circleSelected")
+        }else {
+            cell?.selectImg.image = UIImage.init(named: "circleUnSelected")
+        }
+        cell?.itemImg.setImage(with: dataSourceArr[indexPath.row].dictImg ?? "", placeholder: UIImage.init(named: "shareservice"))
+        cell?.titleLabel.text = dataSourceArr[indexPath.row].dictCname ?? ""
         return cell ?? RenterFeatureCollectionCell()
     }
     
@@ -142,11 +170,11 @@ extension OwnerShareServiceShowView: UICollectionViewDataSource, UICollectionVie
     }
     //返回多少个cell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return dataSourceArr.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (kWidth - left_pending_space_17 - 10 - kWidth * 50 / 320.0) / 2.0, height: cell_height_58)
+        return CGSize(width: (kWidth - left_pending_space_17 - 10 - kWidth * 50 / 320.0) / 2.0, height: 46)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -154,35 +182,11 @@ extension OwnerShareServiceShowView: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerShareViewHeader", for: indexPath) as? OwnerShareViewHeader
-            header?.titleLabel.text = "serviceModel.title"
-            header?.closeButtonCallBack = { [weak self] in
-                self?.removeFromSuperview()
-            }
-            return header ?? UICollectionReusableView()
-        }else if kind == UICollectionView.elementKindSectionFooter {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "OwnerShareViewFooter", for: indexPath) as? OwnerShareViewFooter
-            header?.sureButtonCallBack = { [weak self] in
-                self?.removeFromSuperview()
-            }
-            return header ?? UICollectionReusableView()
-        }
-        
-        return UICollectionReusableView()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: kWidth, height: 53)
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: kWidth, height: 80 + bottomMargin())
+        dataSourceArr[indexPath.item].isSelected = !(dataSourceArr[indexPath.item].isSelected ?? false)
+        featureCollectionView.reloadData()
     }
 }
-class OwnerShareViewHeader: UICollectionReusableView {
+class OwnerShareViewHeader: UIView {
     
     //去掉block
     fileprivate var closeButtonCallBack:(() -> Void)?
@@ -208,6 +212,9 @@ class OwnerShareViewHeader: UICollectionReusableView {
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.backgroundColor = kAppWhiteColor
+
         addSubview(titleLabel)
         addSubview(closeBtn)
         titleLabel.snp.makeConstraints { (make) in
@@ -227,7 +234,7 @@ class OwnerShareViewHeader: UICollectionReusableView {
     
 }
 
-class OwnerShareViewFooter: UICollectionReusableView {
+class OwnerShareViewFooter: UIView {
     
     //去掉block
     fileprivate var sureButtonCallBack:(() -> Void)?
@@ -249,6 +256,9 @@ class OwnerShareViewFooter: UICollectionReusableView {
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.backgroundColor = kAppWhiteColor
+        
         addSubview(closeBtn)
        
         closeBtn.snp.makeConstraints { (make) in

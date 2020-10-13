@@ -36,7 +36,16 @@ class OwnerBuildingInputCell: BaseEditCell {
                 editLabel.text = str
             }
         }
-        ///详细地址
+            ///楼号/楼名
+        else if model.type == .OwnerBuildingEditTypeBuildingNum {
+            //截取
+            if textNum! > ownerMaxBuildingnameNumber {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+                let str = editLabel.text?.substring(to: index!)
+                editLabel.text = str
+            }
+        }
+            ///详细地址
         else if model.type == .OwnerBuildingEditTypeDetailAddress{
             //截取
             if textNum! > ownerMaxAddressDetailNumber {
@@ -69,6 +78,10 @@ class OwnerBuildingInputCell: BaseEditCell {
             if model.type == .OwnerBuildingEditTypeBuildingName {
                 
             }
+            ///楼号/楼名
+            else if model.type == .OwnerBuildingEditTypeBuildingNum {
+                
+            }
             ///详细地址
             else if model.type == .OwnerBuildingEditTypeDetailAddress{
                 
@@ -86,6 +99,10 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         
         ///写字楼名称
         if model.type == .OwnerBuildingEditTypeBuildingName {
+            
+        }
+        ///楼号/楼名
+        else if model.type == .OwnerBuildingEditTypeBuildingNum {
             
         }
         ///详细地址

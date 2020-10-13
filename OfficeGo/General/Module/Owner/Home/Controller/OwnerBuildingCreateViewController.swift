@@ -143,6 +143,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingTypew))
         ///写字楼名称
         typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingName))
+        ///楼号/楼名
+        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingNum))
         ///所在区域
         typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeDisctict))
         ///详细地址
@@ -442,17 +444,9 @@ extension OwnerBuildingCreateViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        ///楼盘类型 - 当为创意园，产业园 多显示一个楼号
-        if typeSourceArray[section].type == .OwnerBuildingEditTypeBuildingName {
-            if buildingModel?.buildingType == OWnerBuildingTypeEnum.xieziEnum {
-                return 1
-            }else {
-                return 2
-            }
-        }
+    
         ///入住企业
-        else if typeSourceArray[section].type == .OwnerBuildingEditTypeEnterCompany {
+        if typeSourceArray[section].type == .OwnerBuildingEditTypeEnterCompany {
             return companyArr.count
         }else {
             return 1
@@ -488,9 +482,10 @@ extension OwnerBuildingCreateViewController {
             
             ///文本输入cell
             ///写字楼名称
+            ///楼号/楼名
             ///详细地址
         ///物业公司
-        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
+        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeBuildingNum, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
             
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
@@ -646,6 +641,16 @@ extension OwnerBuildingCreateViewController {
             return BaseEditCell.rowHeight()
             
             
+        ///楼号/楼名
+        case .OwnerBuildingEditTypeBuildingNum:
+            ///楼盘类型 - 当为创意园，产业园 多显示一个楼号
+            if buildingModel?.buildingType == nil || buildingModel?.buildingType == OWnerBuildingTypeEnum.xieziEnum {
+                return 0
+            }else {
+                return BaseEditCell.rowHeight()
+            }
+            
+            
             ///正数字文本输入cell
             ///总楼层
             ///车位数
@@ -762,7 +767,41 @@ extension OwnerBuildingCreateViewController {
             
             endEdting()
             
-            shareView.ShowShareView(serviceModel: ShareServiceModel())
+            let service = ShareServiceModel()
+            service.title = "共享服务"
+            service.itemArr = []
+            
+            let dic = DictionaryModel()
+            dic.dictImg = ""
+            dic.dictCname = "公司体检"
+            service.itemArr?.append(dic)
+            let dic1 = DictionaryModel()
+            dic1.dictImg = ""
+            dic1.dictCname = "公司体检1"
+            service.itemArr?.append(dic1)
+            let dic2 = DictionaryModel()
+            dic2.dictImg = ""
+            dic2.dictCname = "公司体检2"
+            service.itemArr?.append(dic2)
+            let dic3 = DictionaryModel()
+            dic3.dictImg = ""
+            dic3.dictCname = "公司体检3"
+            service.itemArr?.append(dic3)
+            
+            service.itemArr?.append(dic3)
+            service.itemArr?.append(dic2)
+            service.itemArr?.append(dic1)
+            service.itemArr?.append(dic)
+            service.itemArr?.append(dic3)
+            service.itemArr?.append(dic2)
+            service.itemArr?.append(dic1)
+            service.itemArr?.append(dic)
+            service.itemArr?.append(dic3)
+            service.itemArr?.append(dic2)
+            service.itemArr?.append(dic1)
+
+            
+            shareView.ShowShareView(serviceModel: service)
 
             SSLog(typeSourceArray[indexPath.section].type)
             
@@ -799,9 +838,10 @@ extension OwnerBuildingCreateViewController {
             
             ///文本输入cell
             ///写字楼名称
+            ///楼号/楼名
             ///详细地址
         ///物业公司
-        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
+        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeBuildingNum, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
             SSLog(typeSourceArray[indexPath.section].type)
             
             
