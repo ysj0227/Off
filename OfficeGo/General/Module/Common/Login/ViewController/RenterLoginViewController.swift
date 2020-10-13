@@ -14,6 +14,12 @@ import SwiftyJSON
 
 class RenterLoginViewController: BaseViewController {
     
+    var isHiddenBack: Bool = false {
+        didSet {
+            titleview?.leftButton.isHidden = isHiddenBack
+        }
+    }
+    
     ///0 是退出登录。1是登录完成
     public var closeViewBack:((Int) -> Void) = {_ in }
     
@@ -279,6 +285,9 @@ class RenterLoginViewController: BaseViewController {
         }else {
             titleview?.leftButton.isHidden = false
             titleview?.rightButton.isHidden = false
+            if isHiddenBack == true {
+                titleview?.leftButton.isHidden = true
+            }
         }
         
         
