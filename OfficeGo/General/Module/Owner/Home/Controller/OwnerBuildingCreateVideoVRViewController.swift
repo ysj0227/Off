@@ -9,7 +9,6 @@
 import UIKit
 import HandyJSON
 import SwiftyJSON
-import CLImagePickerTool
 import Photos
 
 class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
@@ -24,10 +23,8 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
 
-    lazy var fczImagePickTool: CLImagePickerTool = {
-        let picker = CLImagePickerTool()
-        picker.onlyChooseImageOrVideo = true
-        picker.isHiddenImage = true
+    lazy var fczImagePickTool: UploadVideoTool = {
+        let picker = UploadVideoTool()
         return picker
     }()
     
@@ -215,21 +212,13 @@ extension OwnerBuildingCreateVideoVRViewController {
     }
     
     func selectFCZPicker() {
-           fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 1) {[weak self] (asset,cutImage) in
-               // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
-            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                let img = image.resizeMax1500Image()
-                self?.videoModel.isLocal = true
-                self?.videoModel.image = img
-                self?.videoModel.videoAsset = assetItem
-                self?.buildingModel?.videoUrl?.removeAll()
-                self?.buildingModel?.videoUrl?.append(self?.videoModel ?? BannerModel())
-                self?.tableView.reloadData()
-                }, failedClouse: { () in
-                       
-               })
-              
-           }
+        fczImagePickTool.chooseMultimediaWihtType(.forVideo, chooseVideoDone: {[weak self] (videoPath) in
+            self?.videoModel.isLocal = true
+            self?.videoModel.imgUrl = videoPath
+            self?.buildingModel?.videoUrl?.removeAll()
+            self?.buildingModel?.videoUrl?.append(self?.videoModel ?? BannerModel())
+            self?.tableView.reloadData()
+        }, chooseImageDone: nil)
        }
 }
 
@@ -252,6 +241,10 @@ extension OwnerBuildingCreateVideoVRViewController {
                 self?.buildingModel?.videoUrl?.removeAll()
                 self?.tableView.reloadData()
             }
+            videoCell?.selectVideoClickClouse = { [weak self] (index) in
+                self?.selectFCZPicker()
+            }
+            
             return videoCell ?? OwnerBuildingVideoCell.init(frame: .zero)
         }else if model.type == .OwnerBuildingEditTypeBuildingVR {
             ///点击cell
@@ -284,10 +277,6 @@ extension OwnerBuildingCreateVideoVRViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.typeSourceArray.count <= 0 {
             return
-        }
-        if typeSourceArray[indexPath.row].type == .OwnerBuildingEditTypeBuildingVideo {
-            
-            selectFCZPicker()
         }
     }
     

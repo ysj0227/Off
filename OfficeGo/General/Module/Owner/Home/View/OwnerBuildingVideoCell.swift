@@ -13,6 +13,8 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
     
     @objc var closeBtnClickClouse: CloseBtnClickClouse?
     
+    @objc var selectVideoClickClouse: CloseBtnClickClouse?
+
     let closeBtn: UIButton = {
         let view = UIButton()
         view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
@@ -89,9 +91,10 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
             if buildingModel.videoUrl?.count ?? 0 > 0 {
                 closeBtn.isHidden = false
                 if buildingModel.videoUrl?[0].isLocal == true {
-                    let videoUrl = "https://img.officego.com/test/1596620185492.mp4"
+                    let videoUrl = buildingModel.videoUrl?[0].imgUrl
                     let player = WMPlayerModel()
-                    player.videoURL = URL.init(string: videoUrl ?? "")
+//                    player.videoURL = URL.init(string: videoUrl ?? "")
+                    player.playerItem = AVPlayerItem.init(url: URL.init(string: videoUrl ?? "")!)
                     playerModel = player
                 }else {
                     if buildingModel.videoUrl?[0].imgUrl?.count ?? 0 > 0 {
@@ -150,6 +153,10 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
             make.size.equalTo(20)
         }
         closeBtn.addTarget(self, action: #selector(clickCloseBtn(btn:)), for: .touchUpInside)
+        
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(tapTextMessage(_:)))
+         singleTap.numberOfTapsRequired = 1
+         videoView.addGestureRecognizer(singleTap)
     }
     
     /// 关闭按钮
@@ -165,6 +172,14 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
         
     }
     
+    /*!
+      单击操作，跳转消息详情
+      */
+    @objc private func tapTextMessage(_ tap: UITapGestureRecognizer) {
+        if self.selectVideoClickClouse != nil {
+            self.selectVideoClickClouse!(0)
+        }
+    }
 }
 
 extension OwnerBuildingVideoCell: WMPlayerDelegate{

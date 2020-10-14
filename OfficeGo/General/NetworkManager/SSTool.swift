@@ -796,6 +796,171 @@ struct SensorsAnalyticsEvent {
 
 @objcMembers class SSTool: NSObject {
     
+    
+    //MARK: 业主 - 房源管理正则
+    ///楼盘/园区 名称*  文本，过滤 <>=，,。？? 最多25个字
+    class func validateBuildingName(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    ///楼号/楼名（园区）* 默认带入园区名，填写楼名，必填，最多10个字；
+    class func validateBuildingNumName(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    ///总楼层*  仅支持1-150之间正整数
+    class func validateBuildingFloor(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[1-8]{1,3}"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    
+    ///建筑面积 非必填，只支持0.1-1000正数数字，保留1位小数，单位“万 M²”，
+    class func validateBuildingArea(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[0-9]"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    
+    ///层高  选填，仅支持1-8之间正数，保留1位小数
+    class func validateBuildingFloorHeight(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[1-8]{1}"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    ///净高* 必填，仅支持1-8之间正数，保留1位小数
+    class func validateBuildingClearHeight(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[1-8]{1}"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    ///物业公司* 必填，文本，过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
+    class func validateBuildingPropertyCompany(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    ///物业费*  必填，数字，0-100之间正数，保留1位小数
+    class func validateBuildingPropertyCoast(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[0-9]"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    ///车位数*  仅支持0和正整数，必填，填0时展示 “无”
+    class func validateBuildingParkingNum(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[0-9]"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    ///车位费 非必填，仅支持0-5000正整数，默认值0
+    class func validateBuildingParkingCoast(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[0-9]{0,4}"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    ///电梯* 必填，客梯 货梯分开填，仅支持0-20数字
+    class func validateBuildingPassengerNum(name: String) -> Bool {
+        if name.count == 0 {
+            return false
+        }
+        let nameRegex = "[0-9]{1,2}"
+        let nameTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        return nameTest.evaluate(with: name)
+    }
+    
+    
+    ///验证邮箱
+    class func validateEmail(email: String) -> Bool {
+        if email.count == 0 {
+            return false
+        }
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        let emailTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        return emailTest.evaluate(with: email)
+    }
+    
+    ///验证手机号
+    class func isPhoneNumber(phoneNumber:String) -> Bool {
+        if phoneNumber.count == 0 {
+            return false
+        }
+        let mobile = "^^(1[3-9][0-9])\\d{8}$"
+        let regexMobile = NSPredicate(format: "SELF MATCHES %@",mobile)
+        if regexMobile.evaluate(with: phoneNumber) == true {
+            return true
+        }else
+        {
+            return false
+        }
+    }
+    
+    ///密码正则  6-8位字母和数字组合
+    class func isPasswordRuler(password:String) -> Bool {
+        let passwordRule = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,8}$"
+        let regexPassword = NSPredicate(format: "SELF MATCHES %@",passwordRule)
+        if regexPassword.evaluate(with: password) == true {
+            return true
+        }else
+        {
+            return false
+        }
+    }
+    
+    ///验证是否是数字和字符串
+    class func isPureStrOrNumNumber(text:String) -> Bool{
+        let passwordRule = "^[a-zA-Z0-9]+$"
+        let regexPassword = NSPredicate(format: "SELF MATCHES %@",passwordRule)
+        if regexPassword.evaluate(with: text) == true {
+            return true
+        }else
+        {
+            return false
+        }
+    }
+    
+    
     ///检查推送权限
     func checkPushNotification(checkNotificationStatus isEnable : ((Bool)->())? = nil){
 
@@ -851,55 +1016,7 @@ struct SensorsAnalyticsEvent {
             }
         }
     }
-
-    ///验证邮箱
-    class func validateEmail(email: String) -> Bool {
-        if email.count == 0 {
-            return false
-        }
-        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-        let emailTest:NSPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        return emailTest.evaluate(with: email)
-    }
     
-    ///验证手机号
-    class func isPhoneNumber(phoneNumber:String) -> Bool {
-        if phoneNumber.count == 0 {
-            return false
-        }
-        let mobile = "^^(1[3-9][0-9])\\d{8}$"
-        let regexMobile = NSPredicate(format: "SELF MATCHES %@",mobile)
-        if regexMobile.evaluate(with: phoneNumber) == true {
-            return true
-        }else
-        {
-            return false
-        }
-    }
-    
-    ///密码正则  6-8位字母和数字组合
-    class func isPasswordRuler(password:String) -> Bool {
-        let passwordRule = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,8}$"
-        let regexPassword = NSPredicate(format: "SELF MATCHES %@",passwordRule)
-        if regexPassword.evaluate(with: password) == true {
-            return true
-        }else
-        {
-            return false
-        }
-    }
-    
-    ///验证是否是数字和字符串
-    class func isPureStrOrNumNumber(text:String) -> Bool{
-        let passwordRule = "^[a-zA-Z0-9]+$"
-        let regexPassword = NSPredicate(format: "SELF MATCHES %@",passwordRule)
-        if regexPassword.evaluate(with: text) == true {
-            return true
-        }else
-        {
-            return false
-        }
-    }
     func getStringByRangeIntValue(Str : NSString,location : Int, length : Int) -> Int{
         
         let a = Str.substring(with: NSRange(location: location, length: length))

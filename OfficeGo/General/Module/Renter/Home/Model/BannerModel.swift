@@ -42,7 +42,8 @@ class BannerModel: BaseModel {
     var image : UIImage?
     ///默认是网络图片- 为true表示是本地选择上传的图片
     var isLocal: Bool = false
+    ///图片 视频
+    ///本地视频存储路径
     var imgUrl : String?
-    var videoAsset: PHAsset?
 }
 

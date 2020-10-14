@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class OwnerFYListViewController: BaseTableViewController {
             
-    var dataSourceViewModel: [FangYuanListViewModel?] = []
+    var dataSourceViewModel: [OwnerFYListViewModel?] = []
     
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
@@ -55,12 +55,14 @@ class OwnerFYListViewController: BaseTableViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["pageNo"] = self.pageNo as AnyObject
         params["pageSize"] = self.pageSize as AnyObject
-        SSNetworkTool.SSHome.request_getselectBuildingApp(params: params, success: { [weak self] (response) in
+        params["type"] = 2 as AnyObject
+
+        SSNetworkTool.SSCollect.request_getFavoriteListAPP(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<FangYuanListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
+            if let decoratedArray = JSONDeserializer<OwnerFYListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
                 for model in decoratedArray {
-                    let viewmodel = FangYuanListViewModel.init(model: model ?? FangYuanListModel())
+                    let viewmodel = OwnerFYListViewModel.init(model: model ?? OwnerFYListModel())
                     weakSelf.dataSourceViewModel.append(viewmodel)
                 }
                 weakSelf.endRefreshWithCount(decoratedArray.count)
@@ -148,7 +150,7 @@ extension OwnerFYListViewController {
         cell?.selectionStyle = .none
         if self.dataSource.count > 0 {
             if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as? FangYuanListModel ?? FangYuanListModel()
+                cell?.model = model as? OwnerFYListModel ?? OwnerFYListModel()
                 cell?.moreBtnClickBlock = { [weak self] in
                     self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum.xiaJiaEnum.rawValue, OWnerFYMoreSettingEnum.deleteEnum.rawValue, OWnerFYMoreSettingEnum.sharepEnum.rawValue], clearButtonCallBack: {
                         
@@ -174,19 +176,29 @@ extension OwnerFYListViewController {
         if self.dataSource.count <= 0 {
             return
         }
-        if let model = self.dataSource[indexPath.row] as? FangYuanListModel {
-            
-            if model.btype == 1 {
-                let vc = RenterOfficebuildingDetailVC()
-                vc.buildLocation = indexPath.row
-                vc.buildingModel = model
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model.btype == 2 {
-                let vc = RenterOfficeJointDetailVC()
-                vc.buildLocation = indexPath.row
-                vc.buildingModel = model
-                self.navigationController?.pushViewController(vc, animated: true)
+                    //独立办公室
+        if let model = self.dataSource[indexPath.row] as? OwnerFYListModel {
+            if let Isfailure = model.Isfailure {
+                if Isfailure == 1 || Isfailure == 3 {
+                    if model.btype == 1 {
+                        let vc = RenterOfficebuildingFYDetailVC()
+                        vc.model = model
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }else if model.btype == 2 {
+                        let vc = RenterOfficeJointFYDetailVC()
+                        vc.model = model
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    
+                }else if Isfailure == 0 || Isfailure == 2{
+                    AppUtilities.makeToast(SSCode.ERROR_CODE_7016.msg)
+                }else if Isfailure == 4 {
+                    AppUtilities.makeToast(SSCode.ERROR_CODE_7013.msg)
+                }else if Isfailure == 5 {
+                    AppUtilities.makeToast(SSCode.ERROR_CODE_7014.msg)
+                }
             }
+            
         }
         
     }

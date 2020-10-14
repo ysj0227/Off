@@ -260,36 +260,49 @@ class OwnerFYListCell: BaseTableViewCell {
         }
         
     }
-    var model: FangYuanListModel = FangYuanListModel() {
+    var model: OwnerFYListModel = OwnerFYListModel() {
         didSet {
-            viewModel = FangYuanListViewModel.init(model: model)
+            viewModel = OwnerFYListViewModel.init(model: model)
         }
     }
     
-    var viewModel: FangYuanListViewModel = FangYuanListViewModel(model: FangYuanListModel()) {
+    var viewModel: OwnerFYListViewModel = OwnerFYListViewModel(model: OwnerFYListModel()) {
         didSet {
             setCellWithViewModel(viewModel: viewModel)
         }
     }
     
     ///列表页面
-    func setCellWithViewModel(viewModel: FangYuanListViewModel) {
+    func setCellWithViewModel(viewModel: OwnerFYListViewModel) {
         
                 
         houseTypTags.isHidden = false
         ///1是写字楼，2是共享办公
         if viewModel.btype == 1 {
+            closeBtn.setTitle("   预览   ", for: .normal)
             houseTypTags.text = ""
+            areaLabel.text = viewModel.buildingArea
+            housePriceLabel.text = viewModel.buildingDayPriceString
         }else if viewModel.btype == 2 {
-            houseTypTags.text = "  共享办公  "
-        }
-        houseImageview.setImage(with: viewModel.mainPicImgString ?? "", placeholder: UIImage(named: Default_1x1))
-        houseNameLabel.text = "\(viewModel.buildingName ?? "")" + "\(viewModel.buildingName ?? "")" + "\(viewModel.buildingName ?? "")"
-        
-        areaLabel.text = "400m²"
-        housePriceLabel.text = viewModel.dayPriceString
-        housePriceUnitLabel.text = viewModel.unitString
+                        
+            ///独立办公室
+            if viewModel.officeType == 1 {
+                closeBtn.setTitle("   预览   ", for: .normal)
+                houseTypTags.text = "  独立办公室  "
+                areaLabel.text = viewModel.individualAreaString
+                housePriceLabel.text = viewModel.individualDayPriceString
 
+            }else {
+                closeBtn.setTitle("   关闭   ", for: .normal)
+                houseTypTags.text = "  开放工位  "
+                areaLabel.text = viewModel.openSeatsString
+                housePriceLabel.text = viewModel.individualDayPriceString
+
+            }
+        }
+        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_1x1))
+        houseNameLabel.text = "\(viewModel.buildingName ?? "")"
+        
     }
     
     //聊天预约看房页面

@@ -22,6 +22,34 @@ class OwnerBuildingEditConfigureModel : NSObject {
         type = types
     }
     
+    ///获取到楼名item
+    func getBuildingNameFormType(type: OWnerBuildingTypeEnum) -> NSMutableAttributedString{
+        switch type {
+        ///写字楼名称
+        case .xieziEnum:
+            return FuWenBen(name: "写字楼名称", centerStr: " * ", last: "")
+        ///创意名称
+        case .chuangyiEnum:
+            return FuWenBen(name: "园区名称", centerStr: " * ", last: "")
+        ///产业名称
+        case .chanyeEnum:
+            return FuWenBen(name: "园区名称", centerStr: " * ", last: "")
+        }
+    }
+    ///获取palaceholder
+    func getBuildingPalaceHolderFormType(type: OWnerBuildingTypeEnum) -> String{
+        switch type {
+        ///写字楼名称
+        case .xieziEnum:
+            return "请输入写字楼名称"
+        ///创意名称
+        case .chuangyiEnum:
+            return "请输入园区名称"
+        ///产业名称
+        case .chanyeEnum:
+            return "请输入园区名称"
+        }
+    }
     func getNameFormType(type: OwnerBuildingEditType) -> NSMutableAttributedString{
         switch type {
         ///楼盘类型
@@ -32,7 +60,7 @@ class OwnerBuildingEditConfigureModel : NSObject {
             return FuWenBen(name: "写字楼名称", centerStr: " * ", last: "")
         ///楼号/楼名
         case .OwnerBuildingEditTypeBuildingNum:
-            return FuWenBen(name: "楼号/楼名", centerStr: " * ", last: "")
+            return FuWenBen(name: "楼号", centerStr: " * ", last: "")
         ///所在区域
         case .OwnerBuildingEditTypeDisctict:
             return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
@@ -115,7 +143,7 @@ class OwnerBuildingEditConfigureModel : NSObject {
             return "请输入写字楼名称"
         ///楼号/楼名
         case .OwnerBuildingEditTypeBuildingNum:
-            return "请输入楼号/楼名"
+            return "请输入楼号"
         ///所在区域
         case .OwnerBuildingEditTypeDisctict:
             return "请选择城市、区域与商圈"

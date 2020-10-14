@@ -57,9 +57,9 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
         return cell_height_58
     }
     
-    var userModel: OwnerIdentifyUserModel?
+    var buildingModel: FangYuanBuildingEditDetailModel?
 
-    var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
 
     func setupViews() {
                 
@@ -142,11 +142,23 @@ extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(userModel ?? OwnerIdentifyUserModel())
+        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        ///电梯数 - 客梯
+        if model.type == .OwnerBuildingEditTypePassengerNum {
+            return SSTool.validateBuildingPassengerNum(name: string)
+        }
+        ///电梯数 - 货梯
+        else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
+            return SSTool.validateBuildingPassengerNum(name: string)
+        }
+        return true
     }
 }
 

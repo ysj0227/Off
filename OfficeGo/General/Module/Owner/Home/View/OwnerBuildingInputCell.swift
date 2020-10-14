@@ -11,9 +11,9 @@ import UIKit
 
 class OwnerBuildingInputCell: BaseEditCell {
     
-    var userModel: OwnerIdentifyUserModel?
+    var buildingModel: FangYuanBuildingEditDetailModel?
 
-    var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
     
     override func setExtraView() {
         editLabel.font = FONT_14
@@ -76,7 +76,16 @@ class OwnerBuildingInputCell: BaseEditCell {
 
             ///写字楼名称
             if model.type == .OwnerBuildingEditTypeBuildingName {
-                
+                if buildingModel?.buildingType == .xieziEnum {
+                    titleLabel.attributedText = model.getBuildingNameFormType(type: .xieziEnum)
+                    editLabel.placeholder = model.getBuildingPalaceHolderFormType(type: .xieziEnum)
+                }else if buildingModel?.buildingType == .chuangyiEnum {
+                    titleLabel.attributedText = model.getBuildingNameFormType(type: .chuangyiEnum)
+                    editLabel.placeholder = model.getBuildingPalaceHolderFormType(type: .chuangyiEnum)
+                }else if buildingModel?.buildingType == .chanyeEnum {
+                    titleLabel.attributedText = model.getBuildingNameFormType(type: .chanyeEnum)
+                    editLabel.placeholder = model.getBuildingPalaceHolderFormType(type: .chanyeEnum)
+                }
             }
             ///楼号/楼名
             else if model.type == .OwnerBuildingEditTypeBuildingNum {
@@ -117,7 +126,7 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(userModel ?? OwnerIdentifyUserModel())
+        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -125,6 +134,23 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        ///写字楼名称 ------ 过滤 <>=，,。？? 最多25个字
+        if model.type == .OwnerBuildingEditTypeBuildingName {
+            return SSTool.isPureStrOrNumNumber(text: string)
+        }
+        ///楼号/楼名 ------ 最多10个字
+        else if model.type == .OwnerBuildingEditTypeBuildingNum {
+            return SSTool.isPureStrOrNumNumber(text: string)
+        }
+        ///详细地址 ------
+        else if model.type == .OwnerBuildingEditTypeDetailAddress{
+            return SSTool.isPureStrOrNumNumber(text: string)
+        }
+        ///物业公司 ------ 过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
+        else if model.type == .OwnerBuildingEditTypePropertyCompany{
+            return SSTool.isPureStrOrNumNumber(text: string)
+        }
         return true
     }
 }

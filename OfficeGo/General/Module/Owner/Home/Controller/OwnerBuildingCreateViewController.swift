@@ -341,7 +341,8 @@ extension OwnerBuildingCreateViewController {
     }
     
     
-    func loadEnterCompany(index: Int) {
+    func loadEnterCompany(section: Int, index: Int) {
+        endEdting()
         if index == companyArr.count - 1 {
             if companyArr.count < 4 {
                 companyArr.append("")
@@ -352,7 +353,7 @@ extension OwnerBuildingCreateViewController {
             }
         }
         
-        loadSecion(section: 19)
+        loadSecion(section: section)
     }
     
     func loadEnterCompanyInputComplete(Str: String, index: Int) {
@@ -371,15 +372,15 @@ extension OwnerBuildingCreateViewController {
 }
 
 extension OwnerBuildingCreateViewController {
-    func judgeHasData() {
+    func judgeHasData(section: Int) {
         if areaModelCount?.data.count ?? 0  > 0 {
-            self.showArea(isFrist: true)
+            self.showArea(section: section, isFrist: true)
         }else {
             request_getDistrict()
         }
     }
     
-    func showArea(isFrist: Bool) {
+    func showArea(section: Int, isFrist: Bool) {
         areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { (_ selectModel: CityAreaCategorySelectModel) -> Void in
             
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
@@ -388,7 +389,7 @@ extension OwnerBuildingCreateViewController {
                 self?.buildingModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
                 self?.buildingModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
                 self?.buildingModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
-                self?.loadSecion(section: 2)
+                self?.loadSecion(section: section)
                 
         })
     }
@@ -490,6 +491,7 @@ extension OwnerBuildingCreateViewController {
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
             cell?.selectionStyle = .none
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
             cell?.model = model
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
@@ -505,6 +507,7 @@ extension OwnerBuildingCreateViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
             cell?.selectionStyle = .none
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
             cell?.model = model
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -519,6 +522,7 @@ extension OwnerBuildingCreateViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
             cell?.selectionStyle = .none
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
             cell?.model = model
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -531,6 +535,7 @@ extension OwnerBuildingCreateViewController {
             ///有框框文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingBorderInputCell.reuseIdentifierStr) as? OwnerBuildingBorderInputCell
             cell?.selectionStyle = .none
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
             cell?.model = model
             return cell ?? OwnerBuildingBorderInputCell.init(frame: .zero)
             
@@ -575,7 +580,7 @@ extension OwnerBuildingCreateViewController {
                 cell?.lineView.isHidden = true
             }
             cell?.closeBtnClickClouse = { [weak self] (index) in
-                self?.loadEnterCompany(index: index)
+                self?.loadEnterCompany(section: indexPath.section, index: index)
             }
             cell?.endEditingMessageCell = { [weak self] (str, index) in
                 self?.loadEnterCompanyInputComplete(Str: str, index: index)
@@ -760,7 +765,7 @@ extension OwnerBuildingCreateViewController {
 
             endEdting()
             ///区域商圈选择
-            judgeHasData()
+            judgeHasData(section: indexPath.section)
             
         ///竣工时间
         case .OwnerBuildingEditTypeCompelteTime:

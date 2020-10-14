@@ -10,9 +10,9 @@ import UIKit
 
 class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     
-    var userModel: OwnerIdentifyUserModel?
+    var buildingModel: FangYuanBuildingEditDetailModel?
 
-    var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
 
     override func setExtraView() {
         editLabel.font = FONT_14
@@ -97,11 +97,31 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(userModel ?? OwnerIdentifyUserModel())
+        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        ///建筑面积
+        if model.type == .OwnerBuildingEditTypeArea {
+            return SSTool.validateBuildingArea(name: string)
+        }
+            ///净高
+        else if model.type == .OwnerBuildingEditTypeClearHeight {
+            return SSTool.validateBuildingClearHeight(name: string)
+        }
+            ///层高
+        else if model.type == .OwnerBuildingEditTypeFloorHeight {
+            return SSTool.validateBuildingFloorHeight(name: string)
+        }
+            ///物业费
+        else if model.type == .OwnerBuildingEditTypePropertyCoast {
+            return SSTool.validateBuildingPropertyCoast(name: string)
+        }
+        return true
     }
 }
 

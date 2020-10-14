@@ -10,9 +10,9 @@ import UIKit
 
 class OwnerBuildingNumInputCell: BaseEditCell {
     
-    var userModel: OwnerIdentifyUserModel?
+    var buildingModel: FangYuanBuildingEditDetailModel?
 
-    var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
 
     override func setExtraView() {
         editLabel.font = FONT_14
@@ -85,11 +85,27 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(userModel ?? OwnerIdentifyUserModel())
+        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        ///总楼层
+        if model.type == .OwnerBuildingEditTypeTotalFloor {
+            return SSTool.validateBuildingFloor(name: string)
+        }
+        ///车位数
+        else if model.type == .OwnerBuildingEditTypeParkingNum {
+            return SSTool.validateBuildingParkingNum(name: string)
+        }
+        ///车位费
+        else if model.type == .OwnerBuildingEditTypeParkingCoast {
+            return SSTool.validateBuildingParkingCoast(name: string)
+        }
+        return true
     }
 }
 

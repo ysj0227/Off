@@ -36,4 +36,6 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
+#import "UploadVideoTool.h"
+
 #endif /* My_Bridging_h */
