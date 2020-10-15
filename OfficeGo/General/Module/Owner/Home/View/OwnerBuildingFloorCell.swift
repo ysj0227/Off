@@ -16,8 +16,11 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor) {
         didSet {
-            titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
-            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
+            if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+                self.isHidden = false
+            }else {
+                self.isHidden = true
+            }
         }
     }
     

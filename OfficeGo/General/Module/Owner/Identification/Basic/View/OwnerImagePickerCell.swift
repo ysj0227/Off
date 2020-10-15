@@ -118,3 +118,28 @@ class OwnerImgPickerCollectionViewHeader: UICollectionReusableView {
     }
     
 }
+
+class OwnerImgPickerCollectionViewFooter: UICollectionReusableView {
+    
+    lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.font = FONT_12
+        view.textColor = kAppColor_999999
+        view.text = "可上传9张图片，单张不大于10M，支持jpg、jpeg、png格式"
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.top.bottom.equalToSuperview()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
