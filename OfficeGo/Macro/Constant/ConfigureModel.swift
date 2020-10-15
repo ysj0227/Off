@@ -14,7 +14,187 @@ class ConfigureModel: NSObject {
     var isShowDetailIcon: Bool?
 }
 
+///房东 - 网点编辑
+class OwnerBuildingJointEditConfigureModel : NSObject {
+    var type : OwnerBuildingJointEditType?
+    
+    init(types: OwnerBuildingJointEditType) {
+        type = types
+    }
+    
+    func getNameFormType(type: OwnerBuildingJointEditType) -> NSMutableAttributedString{
+        switch type {
+        ///写字楼名称
+        case .OwnerBuildingJointEditTypeBuildingName:
+            return FuWenBen(name: "网点名称", centerStr: " * ", last: "")
+        ///所在区域
+        case .OwnerBuildingJointEditTypeDisctict:
+            return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
+        ///详细地址
+        case .OwnerBuildingJointEditTypeDetailAddress:
+            return FuWenBen(name: "详细地址", centerStr: " * ", last: "")
+        ///所在楼层
+        case .OwnerBuildingJointEditTypeTotalFloor:
+            return FuWenBen(name: "所在楼层", centerStr: " * ", last: "")
+        ///净高
+        case .OwnerBuildingJointEditTypeClearHeight:
+            return FuWenBen(name: "净高", centerStr: " * ", last: "")
+        ///空调类型
+        case .OwnerBuildingJointEditTypeAirConditionType:
+            return FuWenBen(name: "空调类型", centerStr: " * ", last: "")
+        ///空调费
+        case .OwnerBuildingJointEditTypeAirConditionCoast:
+            return FuWenBen(name: "空调费", centerStr: "   ", last: "")
+        ///会议室数量
+        case .OwnerBuildingJointEditTypeConferenceNumber:
+            return FuWenBen(name: "会议室数量", centerStr: " * ", last: "")
+        ///最多容纳人数
+        case .OwnerBuildingJointEditTypeConferencePeopleNumber:
+            return FuWenBen(name: "最多容纳人数", centerStr: "   ", last: "")
+        ///会议室配套
+        case .OwnerBuildingJointEditTypeRoomMatching:
+            return FuWenBen(name: "会议室配套", centerStr: "   ", last: "")
+        ///车位数
+        case .OwnerBuildingJointEditTypeParkingNum:
+            return FuWenBen(name: "车位数", centerStr: " * ", last: "")
+        ///车位费
+        case .OwnerBuildingJointEditTypeParkingCoast:
+            return FuWenBen(name: "车位费", centerStr: "   ", last: "")
+        ///电梯数 - 客梯
+        case .OwnerBuildingJointEditTypePassengerNum:
+            return FuWenBen(name: "电梯数", centerStr: " * ", last: "")
+        ///电梯数 - 客、货梯
+        case .OwnerBuildingJointEditTypeFloorCargoNum:
+            return FuWenBen(name: "          ", centerStr: "   ", last: "")
+        ///网络
+        case .OwnerBuildingJointEditTypeNetwork:
+            return FuWenBen(name: "网络", centerStr: "   ", last: "")
+        ///入驻企业
+        case .OwnerBuildingJointEditTypeEnterCompany:
+            return FuWenBen(name: "入驻企业", centerStr: "   ", last: "")
+        ///详细介绍
+        case .OwnerBuildingJointEditTypeDetailIntroduction:
+            return FuWenBen(name: "详细介绍", centerStr: "   ", last: "")
+        ///特色
+        case .OwnerBuildingJointEditTypeFeature:
+            return FuWenBen(name: "共享办公网点特色", centerStr: "   ", last: "")
+        ///共享服务
+        case .OwnerBuildingJointEditTypeShareService:
+            return FuWenBen(name: "共享服务", centerStr: "   ", last: "")
+        ///上传楼盘图片
+        case .OwnerBuildingJointEditTypeBuildingImage:
+            return FuWenBen(name: "上传网点图片", centerStr: "   ", last: "")
+        ///上传楼盘视频
+        case .OwnerBuildingJointEditTypeBuildingVideo:
+            return FuWenBen(name: "上传网点视频", centerStr: "   ", last: "")
+        ///上传楼盘vr
+        case .OwnerBuildingJointEditTypeBuildingVR:
+            return FuWenBen(name: "VR全景展示", centerStr: "   ", last: "")
+        }
+    }
+    
+    func getPalaceHolderFormType(type: OwnerBuildingJointEditType) -> String{
+        switch type {
+        ///写字楼名称
+        case .OwnerBuildingJointEditTypeBuildingName:
+            return "请输入名称"
+        ///所在区域
+        case .OwnerBuildingJointEditTypeDisctict:
+            return "请选择城市、区域与商圈"
+        ///详细地址
+        case .OwnerBuildingJointEditTypeDetailAddress:
+            return "请输入详细地址（2～100个字）"
+        ///所在楼层
+        case .OwnerBuildingJointEditTypeTotalFloor:
+            return "层"
+        ///净高
+        case .OwnerBuildingJointEditTypeClearHeight:
+            return "米"
+        ///空调类型
+        case .OwnerBuildingJointEditTypeAirConditionType:
+            return "请选择空调类型"
+        ///空调费
+        case .OwnerBuildingJointEditTypeAirConditionCoast:
+            return "空调费"
+        ///会议室数量
+        case .OwnerBuildingJointEditTypeConferenceNumber:
+            return "个"
+        ///最多容纳人数
+        case .OwnerBuildingJointEditTypeConferencePeopleNumber:
+            return "人"
+        ///会议室配套
+        case .OwnerBuildingJointEditTypeRoomMatching:
+            return ""
+        ///车位数
+        case .OwnerBuildingJointEditTypeParkingNum:
+            return "个"
+        ///车位费
+        case .OwnerBuildingJointEditTypeParkingCoast:
+            return "元/月"
+        ///电梯数 - 客梯
+        case .OwnerBuildingJointEditTypePassengerNum:
+            return "个 (客梯)"
+        ///电梯数 - 客、货梯
+        case .OwnerBuildingJointEditTypeFloorCargoNum:
+            return "个 (货梯)"
+        ///网络
+        case .OwnerBuildingJointEditTypeNetwork:
+            return ""
+        ///入驻企业
+        case .OwnerBuildingJointEditTypeEnterCompany:
+            return "请输入企业"
+        ///详细介绍
+        case .OwnerBuildingJointEditTypeDetailIntroduction:
+            return ""
+        ///特色
+        case .OwnerBuildingJointEditTypeFeature:
+            return ""
+        ///共享服务
+        case .OwnerBuildingJointEditTypeShareService:
+            return ""
+        ///上传楼盘图片
+        case .OwnerBuildingJointEditTypeBuildingImage:
+            return "可上传9张图片，单张不大于10M，支持jpg、jpeg、png格式"
+        ///上传楼盘视频
+        case .OwnerBuildingJointEditTypeBuildingVideo:
+            return "上传视频不大于100M，支持mp4、Mov格式"
+        ///上传楼盘vr
+        case .OwnerBuildingJointEditTypeBuildingVR:
+            return "请输入URL"
+        }
+    }
+    
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
 
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
+}
+
+///房东 - 楼盘编辑
 class OwnerBuildingEditConfigureModel : NSObject {
     var type : OwnerBuildingEditType?
     

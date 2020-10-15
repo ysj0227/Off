@@ -43,11 +43,21 @@ class OwnerShareServiceShowView: UIView {
     }
     
     @objc func clickRemoveFromSuperview() {
+        guard let blockk = cancelBlock else {
+            return
+        }
+        blockk()
         self.removeFromSuperview()
     }
     
     var itemSelectCallBack:((Int) -> Void)?
     
+    ///取消，页面消失
+    var cancelBlock:(() -> Void)?
+    
+    ///选中确定
+    var sureSelectedBlock:((ShareServiceModel) -> Void)?
+
     var selectedIndex: Int = 0 {
         didSet {
             guard let blockk = itemSelectCallBack else {
@@ -56,7 +66,8 @@ class OwnerShareServiceShowView: UIView {
             blockk(selectedIndex)
         }
     }
-    var dataSourceArr: [DictionaryModel] = [] {
+    
+    var serviceDataModel: ShareServiceModel = ShareServiceModel() {
         didSet {
             reloadData()
         }
@@ -85,12 +96,9 @@ class OwnerShareServiceShowView: UIView {
             }
         })
                 
+        serviceDataModel = serviceModel
         
         header.titleLabel.text = serviceModel.title
-
-        if let item = serviceModel.itemArr {
-            self.dataSourceArr = item
-        }
         
         UIApplication.shared.keyWindow?.addSubview(self)
     }
@@ -109,10 +117,18 @@ class OwnerShareServiceShowView: UIView {
         addSubview(featureCollectionView)
         
         header.closeButtonCallBack = { [weak self] in
+            guard let blockk = self?.cancelBlock else {
+                return
+            }
+            blockk()
             self?.removeFromSuperview()
         }
         
         footer.sureButtonCallBack = { [weak self] in
+            guard let blockk = self?.sureSelectedBlock else {
+                return
+            }
+            blockk(self?.serviceDataModel ?? ShareServiceModel())
             self?.removeFromSuperview()
         }
         
@@ -154,13 +170,13 @@ extension OwnerShareServiceShowView: UICollectionViewDataSource, UICollectionVie
             make.leading.equalTo(3 + 16 + 8)
             make.size.equalTo(24)
         }
-        if dataSourceArr[indexPath.row].isSelected == true {
+        if serviceDataModel.itemArr?[indexPath.row].isSelected == true {
             cell?.selectImg.image = UIImage.init(named: "circleSelected")
         }else {
             cell?.selectImg.image = UIImage.init(named: "circleUnSelected")
         }
-        cell?.itemImg.setImage(with: dataSourceArr[indexPath.row].dictImg ?? "", placeholder: UIImage.init(named: "shareservice"))
-        cell?.titleLabel.text = dataSourceArr[indexPath.row].dictCname ?? ""
+        cell?.itemImg.setImage(with: serviceDataModel.itemArr?[indexPath.row].dictImgBlack ?? "", placeholder: UIImage.init(named: "shareservice"))
+        cell?.titleLabel.text = serviceDataModel.itemArr?[indexPath.row].dictCname ?? ""
         return cell ?? RenterFeatureCollectionCell()
     }
     
@@ -170,7 +186,7 @@ extension OwnerShareServiceShowView: UICollectionViewDataSource, UICollectionVie
     }
     //返回多少个cell
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSourceArr.count
+        return serviceDataModel.itemArr?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -182,7 +198,7 @@ extension OwnerShareServiceShowView: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        dataSourceArr[indexPath.item].isSelected = !(dataSourceArr[indexPath.item].isSelected ?? false)
+        serviceDataModel.itemArr?[indexPath.item].isSelected = !(serviceDataModel.itemArr?[indexPath.item].isSelected ?? false)
         featureCollectionView.reloadData()
     }
 }

@@ -11,9 +11,9 @@ import UIKit
 class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
-
+    
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
-
+    
     override func setExtraView() {
         editLabel.font = FONT_14
         titleLabel.textColor = kAppColor_333333
@@ -31,15 +31,15 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         if model.type == .OwnerBuildingEditTypeArea {
             
         }
-        ///净高
+            ///净高
         else if model.type == .OwnerBuildingEditTypeClearHeight {
             
         }
-        ///层高
+            ///层高
         else if model.type == .OwnerBuildingEditTypeFloorHeight {
             
         }
-        ///物业费
+            ///物业费
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
             
         }
@@ -53,25 +53,42 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
-
+            
             ///建筑面积
             if model.type == .OwnerBuildingEditTypeArea {
                 
             }
-            ///净高
+                ///净高
             else if model.type == .OwnerBuildingEditTypeClearHeight {
                 
             }
-            ///层高
+                ///层高
             else if model.type == .OwnerBuildingEditTypeFloorHeight {
                 
             }
-            ///物业费
+                ///物业费
             else if model.type == .OwnerBuildingEditTypePropertyCoast {
                 
             }
         }
     }
+    
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeClearHeight) {
+        didSet {
+            
+            titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeClearHeight)
+            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeClearHeight)
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///净高
+            if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
+                
+            }
+        }
+    }
+    
 }
 
 extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
@@ -81,15 +98,15 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         if model.type == .OwnerBuildingEditTypeArea {
             
         }
-        ///净高
+            ///净高
         else if model.type == .OwnerBuildingEditTypeClearHeight {
             
         }
-        ///层高
+            ///层高
         else if model.type == .OwnerBuildingEditTypeFloorHeight {
             
         }
-        ///物业费
+            ///物业费
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
             
         }

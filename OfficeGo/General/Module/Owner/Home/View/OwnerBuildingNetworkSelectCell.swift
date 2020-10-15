@@ -100,9 +100,9 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
 extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if isDocumentType == true {
-            return buildingModel.tags.count
+            return buildingModel.tagsLocal.count
         }
-        return buildingModel.networks.count
+        return buildingModel.internetLocal.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -110,14 +110,14 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
         
         if isDocumentType == true {
             
-            cell?.model = buildingModel.tags[indexPath.row]
+            cell?.model = buildingModel.tagsLocal[indexPath.row]
             
             cell?.setButtonSelected(isSelected: cell?.model?.isDocumentSelected ?? false)
             
             return cell ?? HouseFeatureCollectionCell()
         }else {
             
-            cell?.model = buildingModel.networks[indexPath.row]
+            cell?.model = buildingModel.internetLocal[indexPath.row]
             
             cell?.setButtonSelected(isSelected: cell?.model?.isOfficeBuildingSelected ?? false)
             
@@ -128,23 +128,23 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isDocumentType == true {
             var num = 0
-            for model in buildingModel.tags {
+            for model in buildingModel.tagsLocal {
                 if model.isDocumentSelected == true {
                     num += 1
                 }
             }
             if num >= 4 {
-                if buildingModel.tags[indexPath.item].isDocumentSelected != true {
+                if buildingModel.tagsLocal[indexPath.item].isDocumentSelected != true {
                     AppUtilities.makeToast("最多可选择4个")
                 }else {
-                    buildingModel.tags[indexPath.item].isDocumentSelected = !(buildingModel.tags[indexPath.item].isDocumentSelected)
+                    buildingModel.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.tagsLocal[indexPath.item].isDocumentSelected)
                 }
             }else {
-                buildingModel.tags[indexPath.item].isDocumentSelected = !(buildingModel.tags[indexPath.item].isDocumentSelected)
+                buildingModel.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.tagsLocal[indexPath.item].isDocumentSelected)
             }
             
         }else {
-            buildingModel.networks[indexPath.item].isOfficeBuildingSelected = !(buildingModel.networks[indexPath.item].isOfficeBuildingSelected)
+            buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected = !(buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected)
         }
         
         self.featureCollectionView.reloadData()

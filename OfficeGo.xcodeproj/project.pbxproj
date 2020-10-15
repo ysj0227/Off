@@ -185,6 +185,7 @@
 		8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */; };
 		8E6D0A3A2521D903005EFDEF /* OwnerBuildingCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */; };
 		8E6D0A3C2521F670005EFDEF /* OwnerBuildingInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A3B2521F670005EFDEF /* OwnerBuildingInputCell.swift */; };
+		8E89676E253842A2005FF38B /* OwnerBuildingFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89676D253842A2005FF38B /* OwnerBuildingFloorCell.swift */; };
 		8EECEF32253153C600D480B2 /* OwnerBuildingImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */; };
 		8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */; };
 		8EECEF362531B08200D480B2 /* OwnerBuildingVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */; };
@@ -195,6 +196,7 @@
 		8EECEF4125368F7A00D480B2 /* UploadVideoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF4025368F7A00D480B2 /* UploadVideoTool.m */; };
 		8EECEF4425368FE900D480B2 /* UIApplication+CurrentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF4225368FE800D480B2 /* UIApplication+CurrentViewController.m */; };
 		8EECEF462536EC5E00D480B2 /* OwnerFYListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF452536EC5E00D480B2 /* OwnerFYListModel.swift */; };
+		8EECEF48253700A200D480B2 /* OwnerBuildingJointCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF47253700A200D480B2 /* OwnerBuildingJointCreateViewController.swift */; };
 		A7971EB22F21F910CD4CFEDE /* Pods_OfficeGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4A347C2B62727595AA17EB /* Pods_OfficeGo.framework */; };
 		D371ED2B2487AF7E0000A9EE /* AppDeleagate+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */; };
 		DE0306DAC522233E2C5CE8D3 /* Pods_OfficeGoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */; };
@@ -491,6 +493,7 @@
 		8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYMoreSettingView.swift; sourceTree = "<group>"; };
 		8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateViewController.swift; sourceTree = "<group>"; };
 		8E6D0A3B2521F670005EFDEF /* OwnerBuildingInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingInputCell.swift; sourceTree = "<group>"; };
+		8E89676D253842A2005FF38B /* OwnerBuildingFloorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFloorCell.swift; sourceTree = "<group>"; };
 		8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingImgCell.swift; sourceTree = "<group>"; };
 		8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateVideoVRViewController.swift; sourceTree = "<group>"; };
 		8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingVideoCell.swift; sourceTree = "<group>"; };
@@ -503,6 +506,7 @@
 		8EECEF4225368FE800D480B2 /* UIApplication+CurrentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+CurrentViewController.m"; sourceTree = "<group>"; };
 		8EECEF4325368FE900D480B2 /* UIApplication+CurrentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+CurrentViewController.h"; sourceTree = "<group>"; };
 		8EECEF452536EC5E00D480B2 /* OwnerFYListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListModel.swift; sourceTree = "<group>"; };
+		8EECEF47253700A200D480B2 /* OwnerBuildingJointCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointCreateViewController.swift; sourceTree = "<group>"; };
 		A4D3C24013D5B3F294FF583B /* Pods-OfficeGoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeGoTests.release.xcconfig"; path = "Target Support Files/Pods-OfficeGoTests/Pods-OfficeGoTests.release.xcconfig"; sourceTree = "<group>"; };
 		CADC2CB1A5EF97133B07817C /* Pods_OfficeGoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OfficeGoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D371ED2A2487AF7E0000A9EE /* AppDeleagate+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDeleagate+Ext.swift"; sourceTree = "<group>"; };
@@ -1348,6 +1352,7 @@
 				8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */,
 				8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */,
 				8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */,
+				8EECEF47253700A200D480B2 /* OwnerBuildingJointCreateViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1370,6 +1375,7 @@
 				8EECEF372531BA4800D480B2 /* OwnerBuildingVRCell.swift */,
 				8EECEF3925340C9200D480B2 /* OwnerBuildingEnterCompanyCell.swift */,
 				8EECEF3D2535931700D480B2 /* OwnerShareServiceShowView.swift */,
+				8E89676D253842A2005FF38B /* OwnerBuildingFloorCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2172,6 +2178,7 @@
 				0420BB4B24A882B00052D165 /* RenterCustomersViewController.swift in Sources */,
 				043D5F6B24E126700067A0B1 /* ChatSystemViewController.swift in Sources */,
 				04CB46D8249CAFE9001BCC8F /* ExtentSelectCell.swift in Sources */,
+				8EECEF48253700A200D480B2 /* OwnerBuildingJointCreateViewController.swift in Sources */,
 				04CB46DB249CAFE9001BCC8F /* HouseFeatureCollectionCell.swift in Sources */,
 				EE4914D624692D62008D5689 /* LLSegmentItemTitleImageView.swift in Sources */,
 				04E2392C249B3ABB009DCCEC /* RenterSearchHistoryCollectionCell.swift in Sources */,
@@ -2313,6 +2320,7 @@
 				046CEF8D24F3D41B00B061B8 /* LBXScanView.swift in Sources */,
 				04EF1E45247777E400871762 /* SSTabBarItem.swift in Sources */,
 				EE02B9E82463B34200B51D34 /* String+SoolyCitySelector.swift in Sources */,
+				8E89676E253842A2005FF38B /* OwnerBuildingFloorCell.swift in Sources */,
 				04E2398B249B3F0D009DCCEC /* OwnerChatListViewController.swift in Sources */,
 				8E14F58F253033AE007F2096 /* FangYuanBuildingEditDetailModel.swift in Sources */,
 				04E23966249B3ABB009DCCEC /* IWantToFindViewController.swift in Sources */,

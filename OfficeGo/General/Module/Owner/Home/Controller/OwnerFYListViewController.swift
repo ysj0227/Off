@@ -185,8 +185,10 @@ extension OwnerFYListViewController {
                         vc.model = model
                         self.navigationController?.pushViewController(vc, animated: true)
                     }else if model.btype == 2 {
-                        let vc = RenterOfficeJointFYDetailVC()
-                        vc.model = model
+//                        let vc = RenterOfficeJointFYDetailVC()
+//                        vc.model = model
+//                        self.navigationController?.pushViewController(vc, animated: true)
+                        let vc = OwnerBuildingJointCreateViewController()
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                     

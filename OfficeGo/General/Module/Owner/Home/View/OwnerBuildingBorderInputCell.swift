@@ -58,16 +58,16 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
     }
     
     var buildingModel: FangYuanBuildingEditDetailModel?
-
+    
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
-
+    
     func setupViews() {
-                
+        
         addSubview(titleLabel)
         addSubview(editLabel)
         addSubview(lineView)
         addSubview(unitLabel)
-
+        
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
             make.top.bottom.equalToSuperview()
@@ -89,7 +89,7 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
-             
+        
         editLabel.delegate = self
         editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
     }
@@ -101,7 +101,7 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
         if model.type == .OwnerBuildingEditTypePassengerNum {
             
         }
-        ///电梯数 - 货梯
+            ///电梯数 - 货梯
         else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
             
         }
@@ -114,27 +114,47 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
             unitLabel.text = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
-
+            
             ///电梯数 - 客梯
             if model.type == .OwnerBuildingEditTypePassengerNum {
                 
             }
-            ///电梯数 - 货梯
+                ///电梯数 - 货梯
             else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
                 
             }
+        }
+    }
+    
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypePassengerNum) {
+        didSet {
+            
+            titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypePassengerNum)
+            unitLabel.text = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypePassengerNum)
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///电梯数 - 客梯
+            if jointModel.type == .OwnerBuildingJointEditTypePassengerNum {
+                
+            }
+                ///电梯数 - 货梯
+            else if jointModel.type == .OwnerBuildingJointEditTypeFloorCargoNum {
+                
+            }
+            
         }
     }
 }
 
 extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-       
+        
         ///电梯数 - 客梯
         if model.type == .OwnerBuildingEditTypePassengerNum {
             
         }
-        ///电梯数 - 货梯
+            ///电梯数 - 货梯
         else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
             
         }
@@ -154,7 +174,7 @@ extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
         if model.type == .OwnerBuildingEditTypePassengerNum {
             return SSTool.validateBuildingPassengerNum(name: string)
         }
-        ///电梯数 - 货梯
+            ///电梯数 - 货梯
         else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
             return SSTool.validateBuildingPassengerNum(name: string)
         }

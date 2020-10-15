@@ -10,8 +10,15 @@ import UIKit
 
 class RenterShareServiceCell: BaseTableViewCell {
     
+    ///详情页面 - 弹框
     lazy var areaView: RenterShareServiceShowView = {
         let view = RenterShareServiceShowView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
+        return view
+    }()
+    
+    ///共享服务选择弹框
+    lazy var shareView: OwnerShareServiceShowView = {
+        let view = OwnerShareServiceShowView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
         return view
     }()
     
@@ -50,6 +57,13 @@ class RenterShareServiceCell: BaseTableViewCell {
             }else {
                 titleLabel.text = ""
             }
+            reloadData()
+        }
+    }
+    
+    var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
+        didSet {
+            titleLabel.text = "共享服务"
             reloadData()
         }
     }
@@ -98,13 +112,27 @@ class RenterShareServiceCell: BaseTableViewCell {
 }
 extension RenterShareServiceCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return buildingViewModel.shareServices?.count ?? 0
+        ///详情页面
+        if let shareServices = buildingViewModel.shareServices {
+            return shareServices.count
+        }else {
+            ///编辑添加页面
+            return buildingModel.shareServices.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RenterShareCollectionCell.reuseIdentifierStr, for: indexPath) as? RenterShareCollectionCell
         
-        cell?.serviceModel = buildingViewModel.shareServices?[indexPath.item]
+        ///详情页面
+        if let serviceModel = buildingViewModel.shareServices?[indexPath.item] {
+            cell?.serviceModel = serviceModel
+        }else {
+            ///编辑添加页面
+            let serviceModel = buildingModel.shareServices[indexPath.item]
+            cell?.serviceEditModel = serviceModel
+        }
+        
         return cell ?? RenterShareCollectionCell()
     }
     
@@ -113,26 +141,23 @@ extension RenterShareServiceCell: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        ///详情页面
         if let serviceModel = buildingViewModel.shareServices?[indexPath.item] {
             areaView.ShowHouseShaixuanView(serviceModel: serviceModel)
+        }else {
+            ///编辑添加页面
+            let serviceModel = buildingModel.shareServices[indexPath.item]
+            shareView.ShowShareView(serviceModel: serviceModel)
+            shareView.sureSelectedBlock = {[weak self] (servicemodel) in
+                self?.buildingModel.shareServices[indexPath.item] = servicemodel
+                self?.reloadData()
+            }
+            shareView.cancelBlock = {[weak self] in
+                self?.reloadData()
+            }
         }
     }
     
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        if kind == UICollectionView.elementKindSectionHeader {
-//            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "RenterBuildingMsgHeader", for: indexPath) as? RenterBuildingMsgHeader
-//            header?.titleLabel.font = FONT_LIGHT_12
-//            header?.titleLabel.textColor = kAppColor_666666
-//            header?.titleLabel.text = buildingViewModel.shareServices?[indexPath.section].title
-//
-//            return header ?? UICollectionReusableView()
-//        }
-//        return UICollectionReusableView()
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: kWidth, height: 50)
-//    }
 }
 
 class RenterShareCollectionCell: BaseCollectionViewCell {
@@ -153,7 +178,7 @@ class RenterShareCollectionCell: BaseCollectionViewCell {
         return view
     }()
     
-    
+    ///详情页面
     var serviceModel: ShareServiceModel? {
         didSet {
             titleLabel.text = serviceModel?.title
@@ -163,6 +188,17 @@ class RenterShareCollectionCell: BaseCollectionViewCell {
         }
     }
         
+    
+    ///网点创建编辑页面
+    var serviceEditModel: ShareServiceModel? {
+        didSet {
+            titleLabel.text = serviceEditModel?.title
+            if let arr = serviceEditModel?.itemArr {
+                itemButton.setUpEditFeatureSubviews(str: arr)
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(titleLabel)
@@ -192,13 +228,6 @@ class RenterShareCollectionCell: BaseCollectionViewCell {
 }
 
 class ShareItemBtnView: UIButton {
-    
-    var serviceList: [DictionaryModel] = [] {
-        didSet {
-            setUpFeatureSubviews(str: serviceList)
-        }
-    }
-
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -231,12 +260,35 @@ class ShareItemBtnView: UIButton {
             if (width + (itemwidth + space)) > self.width {
                 return
             }
+            
             let btn = BaseImageView.init(frame: CGRect(x: width, y: 0, width: itemwidth, height: self.height))
             btn.contentMode = .scaleAspectFit
             btn.clipsToBounds = true
             btn.setImage(with: strs.dictImgBlack ?? "", placeholder: UIImage.init(named: ""))
             width =  width + (itemwidth + space)
             self.addSubview(btn)
+        }
+    }
+    
+    ///创建网点和编辑页面
+    func setUpEditFeatureSubviews(str: [DictionaryModel]) {
+        self.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
+        var width: CGFloat = 0.0
+        for strs in str {
+            if (width + (itemwidth + space)) > self.width {
+                return
+            }
+            
+            if strs.isSelected == true {
+                let btn = BaseImageView.init(frame: CGRect(x: width, y: 0, width: itemwidth, height: self.height))
+                btn.contentMode = .scaleAspectFit
+                btn.clipsToBounds = true
+                btn.setImage(with: strs.dictImgBlack ?? "", placeholder: UIImage.init(named: ""))
+                width =  width + (itemwidth + space)
+                self.addSubview(btn)
+            }
         }
     }
     

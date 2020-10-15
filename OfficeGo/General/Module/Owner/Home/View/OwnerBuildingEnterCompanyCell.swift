@@ -13,7 +13,7 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
     @objc var closeBtnClickClouse: CloseBtnClickClouse?
     
     var endEditingMessageCell:((_ str: String, _ index: Int) -> Void)?
-
+    
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
@@ -53,6 +53,14 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeEnterCompany)
             editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeEnterCompany)
+        }
+    }
+    
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingName) {
+        didSet {
+            
+            titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeEnterCompany)
+            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeEnterCompany)
         }
     }
     

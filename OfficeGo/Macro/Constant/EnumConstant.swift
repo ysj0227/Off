@@ -59,6 +59,17 @@ enum AreaCatogoryItem: String {
 
 ///基础数据接口请求枚举
 enum DictionaryCodeEnum: String {
+    /*
+    租户职位 userPosition
+    基础服务 basicServices
+    企业服务 companyService
+    装修类型 decoratedType
+    网点特色 branchUnique
+    楼盘类型 buildType
+    房源特色 houseUnique
+    举报类型 reportType
+    热门关键词 hotKeywords
+    会议室配套 roomMatchingUnique*/
     case codeEnumuserPosition = "userPosition"
     case codeEnumbasicServices = "basicServices"
     case codeEnumcompanyService = "companyService"
@@ -68,6 +79,7 @@ enum DictionaryCodeEnum: String {
     case codeEnumhouseUnique = "houseUnique"
     case codeEnumreportType = "reportType"
     case codeEnumhotKeywords = "hotKeywords"
+    case roomMatchingUnique = "roomMatchingUnique"
 }
 
 //协议url
@@ -323,6 +335,56 @@ public enum OwnerBuildingEditType {
     case OwnerBuildingEditTypeBuildingVR
 
 }
+
+//房东
+//编辑网点页面
+public enum OwnerBuildingJointEditType {
+    ///网点名称
+    case OwnerBuildingJointEditTypeBuildingName
+    ///所在区域
+    case OwnerBuildingJointEditTypeDisctict
+    ///详细地址
+    case OwnerBuildingJointEditTypeDetailAddress
+    ///所在楼层
+    case OwnerBuildingJointEditTypeTotalFloor
+    ///净高
+    case OwnerBuildingJointEditTypeClearHeight
+    ///空调类型
+    case OwnerBuildingJointEditTypeAirConditionType
+    ///空调费
+    case OwnerBuildingJointEditTypeAirConditionCoast
+    ///会议室数量
+    case OwnerBuildingJointEditTypeConferenceNumber
+    ///最多容纳人数
+    case OwnerBuildingJointEditTypeConferencePeopleNumber
+    ///会议室配套
+    case OwnerBuildingJointEditTypeRoomMatching
+    ///车位数
+    case OwnerBuildingJointEditTypeParkingNum
+    ///车位费
+    case OwnerBuildingJointEditTypeParkingCoast
+    ///电梯数 - 客梯
+    case OwnerBuildingJointEditTypePassengerNum
+    ///电梯数 - 货梯
+    case OwnerBuildingJointEditTypeFloorCargoNum
+    ///网络
+    case OwnerBuildingJointEditTypeNetwork
+    ///入驻企业
+    case OwnerBuildingJointEditTypeEnterCompany
+    ///详细介绍
+    case OwnerBuildingJointEditTypeDetailIntroduction
+    ///特色
+    case OwnerBuildingJointEditTypeFeature
+    ///共享服务
+    case OwnerBuildingJointEditTypeShareService
+    ///上传楼盘图片
+    case OwnerBuildingJointEditTypeBuildingImage
+    ///上传楼盘视频
+    case OwnerBuildingJointEditTypeBuildingVideo
+    ///上传楼盘vr
+    case OwnerBuildingJointEditTypeBuildingVR
+}
+
 
 /*
  空调

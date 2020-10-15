@@ -94,6 +94,13 @@ class OwnerBuildingVRCell: BaseTableViewCell {
             
         }
     }
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingVR) {
+        didSet {
+            
+            titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingVR)
+            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingVR)
+        }
+    }
 }
 
 extension OwnerBuildingVRCell: UITextFieldDelegate {

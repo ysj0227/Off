@@ -12,7 +12,7 @@ import UIKit
 class OwnerBuildingInputCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
-
+    
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
     
     override func setExtraView() {
@@ -54,7 +54,7 @@ class OwnerBuildingInputCell: BaseEditCell {
                 editLabel.text = str
             }
         }
-        ///物业公司
+            ///物业公司
         else if model.type == .OwnerBuildingEditTypePropertyCompany{
             //截取
             if textNum! > ownerMaxAddressDetailNumber {
@@ -73,7 +73,7 @@ class OwnerBuildingInputCell: BaseEditCell {
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
-
+            
             ///写字楼名称
             if model.type == .OwnerBuildingEditTypeBuildingName {
                 if buildingModel?.buildingType == .xieziEnum {
@@ -87,16 +87,37 @@ class OwnerBuildingInputCell: BaseEditCell {
                     editLabel.placeholder = model.getBuildingPalaceHolderFormType(type: .chanyeEnum)
                 }
             }
-            ///楼号/楼名
+                ///楼号/楼名
             else if model.type == .OwnerBuildingEditTypeBuildingNum {
                 
             }
-            ///详细地址
+                ///详细地址
             else if model.type == .OwnerBuildingEditTypeDetailAddress{
                 
             }
-            ///物业公司
+                ///物业公司
             else if model.type == .OwnerBuildingEditTypePropertyCompany{
+                
+            }
+        }
+    }
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingName) {
+        didSet {
+            
+            titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingName)
+            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingName)
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///写字楼名称
+            ///详细地址
+            ///写字楼名称
+            if jointModel.type == .OwnerBuildingJointEditTypeBuildingName {
+                
+            }
+            ///详细地址
+            else if jointModel.type == .OwnerBuildingJointEditTypeDetailAddress{
                 
             }
         }
@@ -110,15 +131,15 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         if model.type == .OwnerBuildingEditTypeBuildingName {
             
         }
-        ///楼号/楼名
+            ///楼号/楼名
         else if model.type == .OwnerBuildingEditTypeBuildingNum {
             
         }
-        ///详细地址
+            ///详细地址
         else if model.type == .OwnerBuildingEditTypeDetailAddress{
             
         }
-        ///物业公司
+            ///物业公司
         else if model.type == .OwnerBuildingEditTypePropertyCompany{
             
         }
@@ -139,15 +160,15 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         if model.type == .OwnerBuildingEditTypeBuildingName {
             return SSTool.isPureStrOrNumNumber(text: string)
         }
-        ///楼号/楼名 ------ 最多10个字
+            ///楼号/楼名 ------ 最多10个字
         else if model.type == .OwnerBuildingEditTypeBuildingNum {
             return SSTool.isPureStrOrNumNumber(text: string)
         }
-        ///详细地址 ------
+            ///详细地址 ------
         else if model.type == .OwnerBuildingEditTypeDetailAddress{
             return SSTool.isPureStrOrNumNumber(text: string)
         }
-        ///物业公司 ------ 过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
+            ///物业公司 ------ 过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
         else if model.type == .OwnerBuildingEditTypePropertyCompany{
             return SSTool.isPureStrOrNumNumber(text: string)
         }

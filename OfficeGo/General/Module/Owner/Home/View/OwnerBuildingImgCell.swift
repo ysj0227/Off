@@ -42,11 +42,10 @@ class OwnerBuildingImgCell: BaseTableViewCell {
             reloadData()
         }
     }
-    var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage) {
-        didSet {
-            
-        }
-    }
+    var model: OwnerBuildingEditConfigureModel?
+    
+    var jointModel: OwnerBuildingJointEditConfigureModel?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -203,8 +202,14 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader", for: indexPath) as? OwnerImgPickerCollectionViewHeader
             header?.backgroundColor = kAppWhiteColor
             header?.descLabel.adjustsFontSizeToFitWidth = true
-            header?.titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage)
-            header?.descLabel.text = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage)
+            if model != nil {
+                header?.titleLabel.attributedText = model?.getNameFormType(type: model?.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage)
+                header?.descLabel.text = model?.getPalaceHolderFormType(type: model?.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage)
+            }else if jointModel != nil {
+                header?.titleLabel.attributedText = jointModel?.getNameFormType(type: jointModel?.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage)
+                header?.descLabel.text = jointModel?.getPalaceHolderFormType(type: jointModel?.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage)
+            }
+
             return header ?? UICollectionReusableView()
         }
         

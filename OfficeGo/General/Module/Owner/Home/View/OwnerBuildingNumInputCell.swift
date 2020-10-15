@@ -11,9 +11,9 @@ import UIKit
 class OwnerBuildingNumInputCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
-
+    
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
-
+    
     override func setExtraView() {
         editLabel.font = FONT_14
         titleLabel.textColor = kAppColor_333333
@@ -31,11 +31,11 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         if model.type == .OwnerBuildingEditTypeTotalFloor {
             
         }
-        ///车位数
+            ///车位数
         else if model.type == .OwnerBuildingEditTypeParkingNum {
             
         }
-        ///车位费
+            ///车位费
         else if model.type == .OwnerBuildingEditTypeParkingCoast {
             
         }
@@ -49,21 +49,47 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
-
+            
             ///总楼层
             if model.type == .OwnerBuildingEditTypeTotalFloor {
                 
             }
-            ///车位数
+                ///车位数
             else if model.type == .OwnerBuildingEditTypeParkingNum {
                 
             }
-            ///车位费
+                ///车位费
             else if model.type == .OwnerBuildingEditTypeParkingCoast {
                 
             }
         }
     }
+    
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor) {
+        didSet {
+            
+            titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
+            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
+            ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
+            ///车位数
+            ///车位费
+            if jointModel.type == .OwnerBuildingJointEditTypeConferenceNumber {
+                
+            } else if jointModel.type == .OwnerBuildingJointEditTypeConferencePeopleNumber {
+                
+            }else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum {
+                
+            }else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast {
+                
+            }
+        }
+    }
+    
 }
 
 extension OwnerBuildingNumInputCell: UITextFieldDelegate {
@@ -73,11 +99,11 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         if model.type == .OwnerBuildingEditTypeTotalFloor {
             
         }
-        ///车位数
+            ///车位数
         else if model.type == .OwnerBuildingEditTypeParkingNum {
             
         }
-        ///车位费
+            ///车位费
         else if model.type == .OwnerBuildingEditTypeParkingCoast {
             
         }
@@ -97,11 +123,11 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         if model.type == .OwnerBuildingEditTypeTotalFloor {
             return SSTool.validateBuildingFloor(name: string)
         }
-        ///车位数
+            ///车位数
         else if model.type == .OwnerBuildingEditTypeParkingNum {
             return SSTool.validateBuildingParkingNum(name: string)
         }
-        ///车位费
+            ///车位费
         else if model.type == .OwnerBuildingEditTypeParkingCoast {
             return SSTool.validateBuildingParkingCoast(name: string)
         }
