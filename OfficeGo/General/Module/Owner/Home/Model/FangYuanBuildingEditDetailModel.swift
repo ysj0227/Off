@@ -99,7 +99,6 @@ class FangYuanBuildingEditDetailModel: BaseModel {
     var vrUrl : [BannerModel]?
     var introduction : FangYuanBuildingIntroductionEditModel?
     
-    
     ///标签
     var tagsLocal = [HouseFeatureModel]()
     

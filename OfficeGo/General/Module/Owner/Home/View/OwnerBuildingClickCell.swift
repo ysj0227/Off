@@ -78,6 +78,7 @@ class OwnerBuildingClickCell: BaseEditCell {
             ///所在区域
             ///空调类型
             ///空调费
+            ///所在楼层
             if jointModel.type == .OwnerBuildingJointEditTypeDisctict{
                 
                 detailIcon.image = UIImage.init(named: "moreDetail")
@@ -100,6 +101,13 @@ class OwnerBuildingClickCell: BaseEditCell {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue
                 }else {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeDefault.rawValue
+                }
+            }else if jointModel.type == .OwnerBuildingJointEditTypeTotalFloor {
+                ///所在楼层 1 2
+                if buildingModel?.floorType == "1" {
+                    editLabel.text = "单层"
+                }else if buildingModel?.floorType == "2" {
+                    editLabel.text = "多层"
                 }
             }
         }

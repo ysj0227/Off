@@ -14,49 +14,12 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
     
-    @objc func valueDidChange() {
-        
-    }
-    
-    
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor) {
         didSet {
             titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
             editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
         }
     }
-    
-    lazy var titleLabel: UILabel = {
-        let view = UILabel()
-        view.textAlignment = .left
-        view.font = FONT_15
-        view.setContentCompressionResistancePriority(.required, for: .horizontal)
-        view.textColor = kAppColor_999999
-        return view
-    }()
-    
-    
-    lazy var editLabel: UITextField = {
-        let view = UITextField()
-        view.textAlignment = .right
-        view.font = FONT_15
-        view.textColor = kAppColor_333333
-        view.clearButtonMode = .whileEditing
-        return view
-    }()
-    
-    
-    lazy var detailIcon: BaseImageView = {
-        let view = BaseImageView.init()
-        view.image = UIImage.init(named: "moreDetail")
-        view.contentMode = .scaleAspectFit
-        return view
-    }()
-    lazy var lineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = kAppColor_line_EEEEEE
-        return view
-    }()
     
     lazy var leftLabel: UILabel = {
         let view = UILabel()
@@ -70,11 +33,11 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     
     lazy var leftEditLabel: UITextField = {
         let view = UITextField()
+        view.tag = 1
         view.textAlignment = .center
         view.font = FONT_15
         view.textColor = kAppColor_333333
-        view.isEnabled = false
-        view.keyboardType = .numberPad
+        view.keyboardType = .numbersAndPunctuation
         view.clipsToBounds = true
         view.layer.borderColor = kAppColor_line_EEEEEE.cgColor
         view.layer.borderWidth = 1
@@ -106,10 +69,10 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     
     lazy var rightEditLabel: UITextField = {
         let view = UITextField()
+        view.tag = 2
         view.textAlignment = .center
         view.font = FONT_15
         view.textColor = kAppColor_333333
-        view.isEnabled = false
         view.keyboardType = .numberPad
         view.clipsToBounds = true
         view.layer.borderColor = kAppColor_line_EEEEEE.cgColor
@@ -129,7 +92,7 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         return view
     }()
     
-    lazy var bottomLineView: UIView = {
+    lazy var lineView: UIView = {
         let view = UIView()
         view.backgroundColor = kAppColor_line_EEEEEE
         return view
@@ -147,7 +110,7 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     class func rowHeight() -> CGFloat {
-        return cell_height_58 * 2
+        return cell_height_58
     }
     
     func setDelegate() {
@@ -158,50 +121,21 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         
         setDelegate()
         
-        addSubview(titleLabel)
-        addSubview(editLabel)
-        addSubview(detailIcon)
-        addSubview(lineView)
         addSubview(leftLabel)
         addSubview(leftEditLabel)
         addSubview(leftUnitLabel)
         addSubview(rightLabel)
         addSubview(rightEditLabel)
         addSubview(rightUnitLabel)
-        addSubview(bottomLineView)
-        
-        titleLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(left_pending_space_17)
-            make.top.equalToSuperview()
-            make.height.equalTo(cell_height_58)
-        }
-        
-        editLabel.snp.makeConstraints { (make) in
-            make.trailing.equalTo(-(left_pending_space_17 + 20))
-            make.leading.equalTo(titleLabel.snp.trailing)
-            make.centerY.equalTo(titleLabel)
-        }
-        
-        detailIcon.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-left_pending_space_17)
-            make.centerY.equalTo(titleLabel)
-            make.width.equalTo(10)
-        }
-        lineView.snp.makeConstraints { (make) in
-            make.leading.equalTo(left_pending_space_17)
-            make.trailing.equalTo(-left_pending_space_17)
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.height.equalTo(1)
-        }
+        addSubview(lineView)
         
         leftLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(titleLabel)
-            make.bottom.equalToSuperview()
-            make.top.equalTo(titleLabel.snp.bottom)
+            make.leading.equalTo(left_pending_space_17)
+            make.top.bottom.equalToSuperview()
         }
         
         leftEditLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 73, height: 36))
+            make.size.equalTo(CGSize(width: 90, height: 36))
             make.leading.equalTo(leftLabel.snp.trailing).offset(5)
             make.centerY.equalTo(leftLabel)
         }
@@ -225,13 +159,21 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
             make.centerY.equalTo(leftLabel)
         }
         
-        bottomLineView.snp.makeConstraints { (make) in
+        lineView.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
             make.trailing.equalTo(-left_pending_space_17)
             make.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
-                
+        
+        setExtraView()
+        
+    }
+    
+    ///子类 独立设置自己要添加的控件和约束
+    func setExtraView() {
+        leftEditLabel.delegate = self
+        rightEditLabel.delegate = self
     }
     
     override func awakeFromNib() {
@@ -248,4 +190,30 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         
     }
     
+}
+extension OwnerBuildingFloorCell: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        guard let blockk = self.endEditingMessageCell else {
+            return
+        }
+        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.tag == 1 {
+            if buildingModel?.floorType == "1" {
+                return SSTool.isPureStrOrNumNumber(text: string)
+            }else if buildingModel?.floorType == "2" {
+                return true
+            }
+        }else {
+            return SSTool.isPureStrOrNumNumber(text: string)
+        }
+        return true
+    }
 }

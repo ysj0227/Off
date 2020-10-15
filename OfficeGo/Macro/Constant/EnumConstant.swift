@@ -412,6 +412,12 @@ public enum OwnerAircontiditonFeeType: String {
     case OwnerAircontiditonFeeTypeNone = "无"
 }
 
+///所在楼层
+public enum OwnerBuildingTotalFloorType: String {
+    case OwnerBuildingTotalFloorTypeDefault = ""
+    case OwnerBuildingTotalFloorTypeOne = "单层"
+    case OwnerBuildingTotalFloorTypeMore = "多层"
+}
 
 
 ///业主 - 更多操作

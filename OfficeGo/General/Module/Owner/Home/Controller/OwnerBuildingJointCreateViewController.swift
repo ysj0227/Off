@@ -539,6 +539,10 @@ extension OwnerBuildingJointCreateViewController {
         ///入住企业
         if typeSourceArray[section].type == .OwnerBuildingJointEditTypeEnterCompany {
             return companyArr.count
+        }
+        ///所在楼层 - 一行点击 一行展示
+        else if typeSourceArray[section].type == .OwnerBuildingJointEditTypeTotalFloor {
+            return 2
         }else {
             return 1
         }
@@ -574,13 +578,23 @@ extension OwnerBuildingJointCreateViewController {
             
         ///所在楼层
         case .OwnerBuildingJointEditTypeTotalFloor:
-            ///文本输入cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFloorCell.reuseIdentifierStr) as? OwnerBuildingFloorCell
-            cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
-            cell?.jointModel = model
-            return cell ?? OwnerBuildingFloorCell.init(frame: .zero)
-                        
+            if indexPath.row == 0 {
+                ///点击cell
+                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
+                cell?.selectionStyle = .none
+                cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+                cell?.jointModel = model
+                return cell ?? OwnerBuildingClickCell.init(frame: .zero)
+            }else {
+
+                ///文本输入cell
+                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFloorCell.reuseIdentifierStr) as? OwnerBuildingFloorCell
+                cell?.selectionStyle = .none
+                cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+                cell?.jointModel = model
+                return cell ?? OwnerBuildingFloorCell.init(frame: .zero)
+                            
+            }
             
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
@@ -745,7 +759,15 @@ extension OwnerBuildingJointCreateViewController {
         ///所在楼层
         case .OwnerBuildingJointEditTypeTotalFloor:
             
-            return OwnerBuildingFloorCell.rowHeight()
+            if indexPath.row == 0 {
+                return BaseEditCell.rowHeight()
+            }else {
+                if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+                    return OwnerBuildingFloorCell.rowHeight()
+                }else {
+                    return 0
+                }
+            }
             
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
@@ -872,9 +894,26 @@ extension OwnerBuildingJointCreateViewController {
             SSLog(typeSourceArray[indexPath.section].type)
             
             
-        ///所在楼层
+        ///所在楼层 - 只有点击头部才行
         case .OwnerBuildingJointEditTypeTotalFloor:
             SSLog(typeSourceArray[indexPath.section].type)
+            if indexPath.row == 0 {
+                
+                endEdting()
+                
+                ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue, OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue], clearButtonCallBack: {
+                    
+                }) {[weak self] (settingEnumIndex) in
+                    //单层1 多层2
+                    if settingEnumIndex == 0 {
+                        self?.buildingModel?.floorType = "1"
+                    }else if settingEnumIndex == 1 {
+                        self?.buildingModel?.floorType = "2"
+                    }
+                    self?.loadSections(indexSet: [indexPath.section])
+                }
+                
+            }
             
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
