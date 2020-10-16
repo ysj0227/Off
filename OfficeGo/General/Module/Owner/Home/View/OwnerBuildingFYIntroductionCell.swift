@@ -86,7 +86,8 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
     
     
     class func rowHeight() -> CGFloat {
-        return 200 + 300
+        return 200 + ((kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 + 10) * 4 + 68
+
     }
            
     func setupViews() {
@@ -106,21 +107,17 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
         intruductionTextview.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom).offset(-5)
             make.leading.trailing.equalToSuperview().inset(13)
-            make.height.equalTo(200 - cell_height_58 - 20)
+            make.height.equalTo(110)
         }
         numOfCharLabel.snp.makeConstraints { (make) in
-            make.trailing.bottom.equalToSuperview().inset(left_pending_space_17)
-        }
-        lineView.snp.makeConstraints { (make) in
-            make.leading.equalTo(left_pending_space_17)
-            make.trailing.equalTo(-left_pending_space_17)
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
+            make.top.equalTo(intruductionTextview.snp.bottom)
+            make.height.equalTo(20)
+            make.trailing.equalToSuperview().inset(left_pending_space_17)
         }
         headerCollectionView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.top.equalTo(numOfCharLabel.snp.bottom)
+            make.bottom.equalToSuperview().offset(-1)
         }
         
         lineView.snp.makeConstraints { (make) in
@@ -276,14 +273,14 @@ extension OwnerBuildingFYIntroductionCell: UICollectionViewDataSource, UICollect
             header?.backgroundColor = kAppWhiteColor
             header?.titleLabel.adjustsFontSizeToFitWidth = true
             
-            header?.titleLabel.attributedText = jointModel?.getNameFormType(type: jointModel?.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage)
+            header?.titleLabel.text = "可上传9张图片，单张不大于10M，支持jpg、jpeg、png格式"
 
             return header ?? UICollectionReusableView()
         }
         
         return UICollectionReusableView()
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: kWidth, height: 68)
     }
 }
