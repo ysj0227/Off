@@ -337,6 +337,45 @@ public enum OwnerBuildingEditType {
 }
 
 //房东
+//编辑办公室页面
+public enum OwnerBuildingOfficeType {
+    ///标题
+    case OwnerBuildingOfficeTypeName
+    ///面积 *
+    case OwnerBuildingOfficeTypeArea
+    ///可置工位 *
+    case OwnerBuildingOfficeTypeSeats
+    ///租金单价 *
+    case OwnerBuildingOfficeTypePrice
+    ///租金总价 *
+    case OwnerBuildingOfficeTypeTotalPrice
+    ///所在楼层 *
+    case OwnerBuildingOfficeTypeTotalFloor
+    ///净高 *
+    case OwnerBuildingOfficeTypeClearHeight
+    ///层高
+    case OwnerBuildingOfficeTypeFloorHeight
+    ///最短租期 *
+    case OwnerBuildingOfficeTypeMinRentalPeriod
+    ///免租期 *
+    case OwnerBuildingOfficeTypeRentFreePeriod
+    ///物业费 *
+    case OwnerBuildingOfficeTypePropertyCoast
+    ///装修程度 *
+    case OwnerBuildingOfficeTypeDocument
+    ///户型格局简介
+    case OwnerBuildingOfficeTypeIntrodution
+    ///办公室特色
+    case OwnerBuildingOfficeTypeFeature
+    ///上传办公室图片 *
+    case OwnerBuildingOfficeTypeBuildingImage
+    ///上传办公室视频
+    case OwnerBuildingOfficeTypeBuildingVideo
+    ///上传办公室vr
+    case OwnerBuildingOfficeTypeBuildingVR
+}
+
+//房东
 //编辑网点页面
 public enum OwnerBuildingJointEditType {
     ///网点名称
@@ -383,6 +422,62 @@ public enum OwnerBuildingJointEditType {
     case OwnerBuildingJointEditTypeBuildingVideo
     ///上传楼盘vr
     case OwnerBuildingJointEditTypeBuildingVR
+}
+
+//房东
+//独立办公室编辑页面
+public enum OwnerBuildingJointOfficeType {
+    ///标题
+    case OwnerBuildingJointOfficeTypeName
+    ///出租方式 *
+    case OwnerBuildingJointOfficeTypeRentType
+    ///工位数 *
+    case OwnerBuildingJointOfficeTypeSeats
+    ///面积
+    case OwnerBuildingJointOfficeTypeArea
+    ///租金
+    case OwnerBuildingJointOfficeTypePrice
+    ///所在楼层 *
+    case OwnerBuildingJointOfficeTypeTotalFloor
+    ///最短租期 *
+    case OwnerBuildingJointOfficeTypeMinRentalPeriod
+    ///免租期 *
+    case OwnerBuildingJointOfficeTypeRentFreePeriod
+    ///空调类型 *
+    case OwnerBuildingJointOfficeTypeAirConditionType
+    ///空调费
+    case OwnerBuildingJointOfficeTypeAirConditionCoast
+    ///车位数
+    case OwnerBuildingJointOfficeTypeParkingNum
+    ///车位费
+    case OwnerBuildingJointOfficeTypeParkingCoast
+    ///净高
+    case OwnerBuildingJointOfficeTypeClearHeight
+    ///户型格局简介
+    case OwnerBuildingJointOfficeTypeIntrodution
+    ///上传办公室图片 *
+    case OwnerBuildingJointOfficeTypeBuildingImage
+    ///上传办公室视频
+    case OwnerBuildingJointOfficeTypeBuildingVideo
+    ///上传办公室vr
+    case OwnerBuildingJointOfficeTypeBuildingVR
+}
+
+//房东
+//开放工位编辑页面
+public enum OwnerBuildingJointOpenStationType {
+    ///工位数 *
+    case OwnerBuildingJointOpenStationTypeSeats
+    ///租金 *
+    case OwnerBuildingJointOpenStationTypePrice
+    ///所在楼层 *
+    case OwnerBuildingJointOpenStationTypeTotalFloor
+    ///最短租期 *
+    case OwnerBuildingJointOpenStationTypeMinRentalPeriod
+    ///免租期 *
+    case OwnerBuildingJointOpenStationTypeRentFreePeriod
+    ///上传图片 *
+    case OwnerBuildingJointOpenStationTypeBuildingImage
 }
 
 

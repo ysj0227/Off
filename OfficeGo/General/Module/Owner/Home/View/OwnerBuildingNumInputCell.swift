@@ -65,6 +65,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         }
     }
     
+    ///网点
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor) {
         didSet {
             
@@ -85,6 +86,23 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             }else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum {
                 
             }else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast {
+                
+            }
+        }
+    }
+    
+    ///办公室
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod) {
+        didSet {
+            
+            titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
+            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///最短租期
+            if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
                 
             }
         }

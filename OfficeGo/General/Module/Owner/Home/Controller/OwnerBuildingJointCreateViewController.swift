@@ -703,7 +703,7 @@ extension OwnerBuildingJointCreateViewController {
         case .OwnerBuildingJointEditTypeFeature:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNetworkSelectCell.reuseIdentifierStr) as? OwnerBuildingNetworkSelectCell
             cell?.selectionStyle = .none
-            cell?.categoryTitleLabel.text = "特色"
+            cell?.categoryTitleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeFeature)
             cell?.isDocumentType = true
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)

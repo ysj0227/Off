@@ -24,6 +24,17 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         }
     }
     
+    ///办公室
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalFloor) {
+        didSet {
+            if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+                self.isHidden = false
+            }else {
+                self.isHidden = true
+            }
+        }
+    }
+    
     lazy var leftLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left

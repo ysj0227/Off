@@ -12,6 +12,7 @@ class OwnerBuildingClickCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
     
+    ///楼盘
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {
         didSet {
             
@@ -112,6 +113,34 @@ class OwnerBuildingClickCell: BaseEditCell {
             }
         }
     }
+    
+    
+    ///办公室
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalFloor) {
+        didSet {
+            
+            titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalFloor)
+            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalFloor)
+            
+            detailIcon.isHidden = false
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = false
+            
+            ///所在楼层
+            ///免租期
+            if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
+                ///所在楼层 1 2
+                if buildingModel?.floorType == "1" {
+                    editLabel.text = "单层"
+                }else if buildingModel?.floorType == "2" {
+                    editLabel.text = "多层"
+                }
+            }else if officeModel.type == .OwnerBuildingOfficeTypeRentFreePeriod {
+                
+            }
+        }
+    }
+    
     
     override func setExtraView() {
         editLabel.font = FONT_14

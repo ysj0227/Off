@@ -187,6 +187,9 @@
 		8E6D0A3C2521F670005EFDEF /* OwnerBuildingInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A3B2521F670005EFDEF /* OwnerBuildingInputCell.swift */; };
 		8E89676E253842A2005FF38B /* OwnerBuildingFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89676D253842A2005FF38B /* OwnerBuildingFloorCell.swift */; };
 		8E896770253870EA005FF38B /* OwnerBuildingFYIntroductionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89676F253870EA005FF38B /* OwnerBuildingFYIntroductionCell.swift */; };
+		8E896772253949D4005FF38B /* OwnerBuildingOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E896771253949D4005FF38B /* OwnerBuildingOfficeViewController.swift */; };
+		8E89677425394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */; };
+		8E89677625394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */; };
 		8EECEF32253153C600D480B2 /* OwnerBuildingImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */; };
 		8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */; };
 		8EECEF362531B08200D480B2 /* OwnerBuildingVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */; };
@@ -496,6 +499,9 @@
 		8E6D0A3B2521F670005EFDEF /* OwnerBuildingInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingInputCell.swift; sourceTree = "<group>"; };
 		8E89676D253842A2005FF38B /* OwnerBuildingFloorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFloorCell.swift; sourceTree = "<group>"; };
 		8E89676F253870EA005FF38B /* OwnerBuildingFYIntroductionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYIntroductionCell.swift; sourceTree = "<group>"; };
+		8E896771253949D4005FF38B /* OwnerBuildingOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingOfficeViewController.swift; sourceTree = "<group>"; };
+		8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointOpenStationViewController.swift; sourceTree = "<group>"; };
+		8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointIndepententOfficeViewController.swift; sourceTree = "<group>"; };
 		8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingImgCell.swift; sourceTree = "<group>"; };
 		8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateVideoVRViewController.swift; sourceTree = "<group>"; };
 		8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingVideoCell.swift; sourceTree = "<group>"; };
@@ -1355,6 +1361,9 @@
 				8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */,
 				8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */,
 				8EECEF47253700A200D480B2 /* OwnerBuildingJointCreateViewController.swift */,
+				8E896771253949D4005FF38B /* OwnerBuildingOfficeViewController.swift */,
+				8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */,
+				8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2147,6 +2156,7 @@
 				04CB4796249CB43F001BCC8F /* RenterUserHeaderView.swift in Sources */,
 				04CB4781249CB1D9001BCC8F /* RenterHouseScheduleDetailViewController.swift in Sources */,
 				04E23921249B3ABB009DCCEC /* RenterOfficebuildingDetailVC.swift in Sources */,
+				8E89677625394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift in Sources */,
 				04E2394A249B3ABB009DCCEC /* RenterCollectPageViewController.swift in Sources */,
 				EEE87B7C24559FE800C03424 /* UICollectionViewLeftAlignedLayout.swift in Sources */,
 				04CB46DD249CAFE9001BCC8F /* HouseFeatureCell.swift in Sources */,
@@ -2174,6 +2184,7 @@
 				042D73D724BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift in Sources */,
 				EEE87B142455856800C03424 /* UIButtonSnapEx.swift in Sources */,
 				EEE87B5724558F9800C03424 /* ThorTouchesEnableCollectionView.swift in Sources */,
+				8E896772253949D4005FF38B /* OwnerBuildingOfficeViewController.swift in Sources */,
 				EEE0D9422465581200E5C77B /* Color.swift in Sources */,
 				EEE87B122455856800C03424 /* UILabelSnapEx.swift in Sources */,
 				EEE0D93F2465581200E5C77B /* AppKey.swift in Sources */,
@@ -2277,6 +2288,7 @@
 				EEE87B5924558F9800C03424 /* BaseLabel.swift in Sources */,
 				EEE87B1D2455856800C03424 /* UIColorEx.swift in Sources */,
 				D371ED2B2487AF7E0000A9EE /* AppDeleagate+Ext.swift in Sources */,
+				8E89677425394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift in Sources */,
 				04CB479A249CC5A3001BCC8F /* RenterAvatarUploadHeaderView.swift in Sources */,
 				04E23920249B3ABB009DCCEC /* RenterOfficeJointDetailVC.swift in Sources */,
 				04CB46FA249CB02C001BCC8F /* ScheduleViewingMessage.swift in Sources */,

@@ -45,6 +45,7 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         }
     }
     
+    ///楼盘模型
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {
         didSet {
             
@@ -73,6 +74,7 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         }
     }
     
+    ///网点
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeClearHeight) {
         didSet {
             
@@ -84,6 +86,39 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             
             ///净高
             if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
+                
+            }
+        }
+    }
+    
+    ///办公室
+    ///数字 - 一位小数点文本输入cell
+    ///建筑面积 - 两位
+    ///净高
+    ///层高
+    ///物业费
+    ///租金单价 - 两位
+    ///租金总价 - 两位
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeArea) {
+        didSet {
+            
+            titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeArea)
+            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeArea)
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            if officeModel.type == .OwnerBuildingOfficeTypeArea {
+                
+            }else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
+                
+            }else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
+                
+            }else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
+                
+            }else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+                
+            }else if officeModel.type == .OwnerBuildingOfficeTypeTotalPrice {
                 
             }
         }

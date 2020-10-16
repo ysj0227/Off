@@ -158,6 +158,27 @@ extension OwnerFYListViewController {
                         SSLog("-----点击的是---\(settingEnumIndex)")
                     }
                 }
+                
+                ///关闭
+                cell?.closeBtnClickBlock = { [weak self] in
+                    ///办公室
+                    let vc = OwnerBuildingOfficeViewController()
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+                
+                ///上架下架
+                cell?.publishBtnClickBlock = { [weak self] in
+                    ///独立办公室
+                    let vc = OwnerBuildingJointIndepententOfficeViewController()
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+                
+                ///编辑
+                cell?.editBtnClickBlock = { [weak self] in
+                    ///开放工位
+                    let vc = OwnerBuildingJointOpenStationViewController()
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }
         return cell ?? OwnerFYListCell.init(frame: .zero)

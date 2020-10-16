@@ -101,6 +101,8 @@ class OwnerBuildingInputCell: BaseEditCell {
             }
         }
     }
+    
+    ///网点
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingName) {
         didSet {
             
@@ -122,6 +124,24 @@ class OwnerBuildingInputCell: BaseEditCell {
             }
         }
     }
+    
+    ///办公室
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeName) {
+        didSet {
+            
+            titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeName)
+            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeName)
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///标题
+            if officeModel.type == .OwnerBuildingOfficeTypeName {
+                
+            }
+        }
+    }
+    
 }
 
 extension OwnerBuildingInputCell: UITextFieldDelegate {

@@ -46,6 +46,8 @@ class OwnerBuildingImgCell: BaseTableViewCell {
     
     var jointModel: OwnerBuildingJointEditConfigureModel?
     
+    var officeModel: OwnerBuildingOfficeConfigureModel?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -208,6 +210,9 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
             }else if jointModel != nil {
                 header?.titleLabel.attributedText = jointModel?.getNameFormType(type: jointModel?.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage)
                 header?.descLabel.text = jointModel?.getPalaceHolderFormType(type: jointModel?.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage)
+            }else if officeModel != nil {
+                header?.titleLabel.attributedText = officeModel?.getNameFormType(type: officeModel?.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingImage)
+                header?.descLabel.text = officeModel?.getPalaceHolderFormType(type: officeModel?.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingImage)
             }
 
             return header ?? UICollectionReusableView()
