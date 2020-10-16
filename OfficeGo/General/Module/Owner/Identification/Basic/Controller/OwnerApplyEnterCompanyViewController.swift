@@ -435,8 +435,8 @@ extension OwnerApplyEnterCompanyViewController {
         didSet {
             avatarImg.setImage(with: iedntifyDetailMsg?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
             if iedntifyDetailMsg?.proprietorRealname?.count ?? 0 > 0 || iedntifyDetailMsg?.proprietorJob?.count ?? 0 > 0 {
-                if managerMsg?.proprietorRealname?.count ?? 0 > ownerMaxUsernameNumber {
-                    let index = iedntifyDetailMsg?.proprietorRealname?.index((iedntifyDetailMsg?.proprietorRealname?.startIndex)!, offsetBy: ownerMaxUsernameNumber)
+                if managerMsg?.proprietorRealname?.count ?? 0 > ownerMaxUsernameNumber_10 {
+                    let index = iedntifyDetailMsg?.proprietorRealname?.index((iedntifyDetailMsg?.proprietorRealname?.startIndex)!, offsetBy: ownerMaxUsernameNumber_10)
                     iedntifyDetailMsg?.proprietorRealname = iedntifyDetailMsg?.proprietorRealname?.substring(to: index!)
                 }
                 nameLabel.text = "\(iedntifyDetailMsg?.authority ?? "")：\(iedntifyDetailMsg?.proprietorRealname ?? "") \(iedntifyDetailMsg?.proprietorJob ?? "")"
@@ -498,8 +498,8 @@ extension OwnerApplyEnterCompanyViewController {
         didSet {
             avatarImg.setImage(with: managerMsg?.avatar ?? "", placeholder: UIImage.init(named: "avatar"))
             if managerMsg?.proprietorRealname?.count ?? 0 > 0 || managerMsg?.proprietorJob?.count ?? 0 > 0 {
-                if managerMsg?.proprietorRealname?.count ?? 0 > ownerMaxUsernameNumber {
-                    let index = managerMsg?.proprietorRealname?.index((managerMsg?.proprietorRealname?.startIndex)!, offsetBy: ownerMaxUsernameNumber)
+                if managerMsg?.proprietorRealname?.count ?? 0 > ownerMaxUsernameNumber_10 {
+                    let index = managerMsg?.proprietorRealname?.index((managerMsg?.proprietorRealname?.startIndex)!, offsetBy: ownerMaxUsernameNumber_10)
                     managerMsg?.proprietorRealname = managerMsg?.proprietorRealname?.substring(to: index!)
                 }
                 nameLabel.text = "\(managerMsg?.authority ?? "")：\(managerMsg?.proprietorRealname ?? "") \(managerMsg?.proprietorJob ?? "")"

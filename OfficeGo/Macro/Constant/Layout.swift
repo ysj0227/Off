@@ -22,35 +22,35 @@ let maxImgSize_20480: CGFloat = 20480.0 * 1000
 let maxImgSize_20: CGFloat = 20.0 * 1000
 
 //房产证最多图片数
-let ownerMaxFCZNumber = 4
+let ownerMaxFCZNumber_4 = 4
 
 //租赁协议最多图片数
-let ownerMaxZLAgentNumber = 5
+let ownerMaxZLAgentNumber_5 = 5
 
 ///创建楼盘上传的楼盘图片
-let ownerBuildingImageNumber = 9
+let ownerBuildingImageNumber_9 = 9
 
 
 //房东 - 认证 -公司名称最大数
-let ownerMaxCompanynameNumber = 20
+let ownerMaxCompanynameNumber_20 = 20
 
 //房东 - 认证 -写字楼名称，20个字
-let ownerMaxBuildingnameNumber = 20
+let ownerMaxBuildingnameNumber_20 = 20
 
 //房东 - 认证 -详细地址，30字
-let ownerMaxAddressDetailNumber = 30
+let ownerMaxAddressDetailNumber_30 = 30
 
 //房东 - 认证 -网点名称，20字
-let ownerMaxBranchnameNumber = 20
+let ownerMaxBranchnameNumber_20 = 20
 
 //房东 - 认证 -营业执照注册号，20数字
-let ownerMaxCompanyYingyezhizhaoNumber = 20
+let ownerMaxCompanyYingyezhizhaoNumber_20 = 20
 
 //房东 - 认证 -姓名，10字
-let ownerMaxUsernameNumber = 10
+let ownerMaxUsernameNumber_10 = 10
 
 //房东 - 认证 -身份证号 18字
-let ownerMaxIDCardNumber = 18
+let ownerMaxIDCardNumber_18 = 18
 
 
 
@@ -84,7 +84,7 @@ let heder_cordious_36: CGFloat = 36
 
 let button_cordious_15: CGFloat = 15
 
-let btnMargin: CGFloat = 15
+let btnMargin_15: CGFloat = 15
 
 let btnWidth: CGFloat = (kWidth - 90) / 3.0
 
@@ -94,17 +94,20 @@ let kNavigationHeight = kStatusBarHeight + 44
 
 let kNavigationHeight_Higher = kStatusBarHeight + 100
 
-let kMessageAlertWidth: CGFloat = 266
+let kMessageAlertWidth_266: CGFloat = 266
 
-let kMessageLayoutAlertHeight: CGFloat = 50
+let kMessageLayoutAlertHeight_50: CGFloat = 50
 
-let kMessageAlertHeight: CGFloat = 120
+let kMessageAlertHeight_120: CGFloat = 120
 
-let kMessageInputAlertHeight: CGFloat = 158
+let kMessageInputAlertHeight_158: CGFloat = 158
 
 let kIsiPhoneX = kStatusBarHeight == 44 ? true : false
 
-let noLimitMaxNum: Double  = 999999999
+let noLimitMaxNum_999999999: Double  = 999999999
+
+let enterCompanyMaxNum_5: Int = 5
+
 
 ///开发debug
 let API_Debug: String = "debug"

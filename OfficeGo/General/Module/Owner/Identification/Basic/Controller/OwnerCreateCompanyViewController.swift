@@ -374,22 +374,22 @@ class OwnerCreateCompanyCell: BaseEditCell {
           
         if model.type == .OwnerCreteCompanyTypeCompanyName{
             //截取
-            if textNum! > ownerMaxCompanynameNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxCompanynameNumber)
+            if textNum! > ownerMaxCompanynameNumber_20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxCompanynameNumber_20)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }
         }else if model.type == .OwnerCreteCompanyTypeCompanyAddress{
             //截取
-            if textNum! > ownerMaxAddressDetailNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber)
+            if textNum! > ownerMaxAddressDetailNumber_30 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }
         }else if model.type == .OwnerCreteCompanyTypeYingyeCode{
             //截取
-            if textNum! > ownerMaxCompanyYingyezhizhaoNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxCompanyYingyezhizhaoNumber)
+            if textNum! > ownerMaxCompanyYingyezhizhaoNumber_20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxCompanyYingyezhizhaoNumber_20)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }

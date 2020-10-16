@@ -223,14 +223,14 @@ extension CitySelectorViewController: UITableViewDataSource, UITableViewDelegate
     // MARK: row高度
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 40 + 2 * btnMargin
+            return 40 + 2 * btnMargin_15
         }
             //        else if indexPath.section == 1 {
-            //            return 40 + 2 * btnMargin
+            //            return 40 + 2 * btnMargin_15
             //        }
         else if indexPath.section == 1 {
             let row = (hotCities.count - 1) / 3
-            return (40 + 2 * btnMargin) + (btnMargin + 40) * CGFloat(row)
+            return (40 + 2 * btnMargin_15) + (btnMargin_15 + 40) * CGFloat(row)
         }else{
             return 42
         }

@@ -276,8 +276,8 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
             let textNum = numDescTF.text?.count
             
             //截取
-            if textNum! > ownerMaxCompanynameNumber {
-                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxCompanynameNumber)
+            if textNum! > ownerMaxCompanynameNumber_20 {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxCompanynameNumber_20)
                 let str = numDescTF.text?.substring(to: index!)
                 numDescTF.text = str
             }
@@ -294,8 +294,8 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
             let textNum = numDescTF.text?.count
             
             //截取
-            if textNum! > ownerMaxBuildingnameNumber {
-                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+            if textNum! > ownerMaxBuildingnameNumber_20 {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
                 let str = numDescTF.text?.substring(to: index!)
                 numDescTF.text = str
             }

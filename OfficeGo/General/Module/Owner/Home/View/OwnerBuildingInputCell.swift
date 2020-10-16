@@ -30,8 +30,8 @@ class OwnerBuildingInputCell: BaseEditCell {
         ///写字楼名称
         if model.type == .OwnerBuildingEditTypeBuildingName {
             //截取
-            if textNum! > ownerMaxBuildingnameNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+            if textNum! > ownerMaxBuildingnameNumber_20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }
@@ -39,8 +39,8 @@ class OwnerBuildingInputCell: BaseEditCell {
             ///楼号/楼名
         else if model.type == .OwnerBuildingEditTypeBuildingNum {
             //截取
-            if textNum! > ownerMaxBuildingnameNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+            if textNum! > ownerMaxBuildingnameNumber_20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }
@@ -48,8 +48,8 @@ class OwnerBuildingInputCell: BaseEditCell {
             ///详细地址
         else if model.type == .OwnerBuildingEditTypeDetailAddress{
             //截取
-            if textNum! > ownerMaxAddressDetailNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber)
+            if textNum! > ownerMaxAddressDetailNumber_30 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }
@@ -57,8 +57,8 @@ class OwnerBuildingInputCell: BaseEditCell {
             ///物业公司
         else if model.type == .OwnerBuildingEditTypePropertyCompany{
             //截取
-            if textNum! > ownerMaxAddressDetailNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber)
+            if textNum! > ownerMaxAddressDetailNumber_30 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }

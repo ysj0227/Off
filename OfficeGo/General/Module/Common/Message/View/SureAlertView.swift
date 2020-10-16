@@ -73,7 +73,7 @@ class SureAlertView: UIView {
     }()
     
     lazy var bottomBtnView: BottomBtnView = {
-        let view = BottomBtnView.init(frame: CGRect(x: (kWidth - kMessageAlertWidth) / 2.0, y: 0, width: kMessageAlertWidth, height: btnHeight_50))
+        let view = BottomBtnView.init(frame: CGRect(x: (kWidth - kMessageAlertWidth_266) / 2.0, y: 0, width: kMessageAlertWidth_266, height: btnHeight_50))
         view.bottomType = BottomBtnViewType.BottomBtnViewTypeChatAlertBottomView
         view.backgroundColor = kAppWhiteColor
         return view
@@ -204,11 +204,11 @@ class SureAlertView: UIView {
     func onlyBtnLayout() {
         bgview.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageAlertHeight))
+            make.size.equalTo(CGSize(width: kMessageAlertWidth_266, height: kMessageAlertHeight_120))
         }
         alertMessageLabel.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(kMessageAlertHeight - btnHeight_50)
+            make.height.equalTo(kMessageAlertHeight_120 - btnHeight_50)
         }
         bottomBtnView.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
@@ -243,7 +243,7 @@ class SureAlertView: UIView {
         bgview.addSubview(inputTFView)
         bgview.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageInputAlertHeight))
+            make.size.equalTo(CGSize(width: kMessageAlertWidth_266, height: kMessageInputAlertHeight_158))
         }
         bottomBtnView.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview()
@@ -286,7 +286,7 @@ class SureAlertView: UIView {
         
         bgview.addSubview(messageLabel)
         
-        let size = alertDescMsg.boundingRect(with: CGSize(width: kMessageAlertWidth - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_12], context: nil)
+        let size = alertDescMsg.boundingRect(with: CGSize(width: kMessageAlertWidth_266 - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_12], context: nil)
         
         var height: CGFloat = 20
         if size.height > 20 {
@@ -295,7 +295,7 @@ class SureAlertView: UIView {
         
         bgview.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageInputAlertHeight - 20 + height))
+            make.size.equalTo(CGSize(width: kMessageAlertWidth_266, height: kMessageInputAlertHeight_158 - 20 + height))
         }
         bottomBtnView.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview()
@@ -336,7 +336,7 @@ class SureAlertView: UIView {
         if alertTitleMsg.isBlankString {
             
         }else {
-            let size = alertTitleMsg.boundingRect(with: CGSize(width: kMessageAlertWidth - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_15], context: nil)
+            let size = alertTitleMsg.boundingRect(with: CGSize(width: kMessageAlertWidth_266 - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_15], context: nil)
             
             titleHeight = size.height + 1
             
@@ -352,14 +352,14 @@ class SureAlertView: UIView {
         if alertDescMsg.isBlankString {
             
         }else {
-            let size = alertDescMsg.boundingRect(with: CGSize(width: kMessageAlertWidth - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_12], context: nil)
+            let size = alertDescMsg.boundingRect(with: CGSize(width: kMessageAlertWidth_266 - 15 * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_12], context: nil)
             
             height = size.height + 20
         }
 
         bgview.snp.remakeConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(CGSize(width: kMessageAlertWidth, height: kMessageLayoutAlertHeight + height + titleHeight))
+            make.size.equalTo(CGSize(width: kMessageAlertWidth_266, height: kMessageLayoutAlertHeight_50 + height + titleHeight))
         }
         bottomBtnView.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview()

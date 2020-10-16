@@ -271,8 +271,8 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
             addressLabel.text = ""
             let textNum = numDescTF.text?.count
             //截取
-            if textNum! > ownerMaxBuildingnameNumber {
-                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+            if textNum! > ownerMaxBuildingnameNumber_20 {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
                 let str = numDescTF.text?.substring(to: index!)
                 numDescTF.text = str
             }
@@ -283,8 +283,8 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
           let textNum = numDescTF.text?.count
             
           //截取
-          if textNum! > ownerMaxUsernameNumber {
-              let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxUsernameNumber)
+          if textNum! > ownerMaxUsernameNumber_10 {
+              let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxUsernameNumber_10)
               let str = numDescTF.text?.substring(to: index!)
               numDescTF.text = str
           }
@@ -293,8 +293,8 @@ class OwnerPersonalIdentifyCell: BaseCollectionViewCell {
           let textNum = numDescTF.text?.count
                         
           //截取
-          if textNum! > ownerMaxIDCardNumber {
-              let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxIDCardNumber)
+          if textNum! > ownerMaxIDCardNumber_18 {
+              let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxIDCardNumber_18)
               let str = numDescTF.text?.substring(to: index!)
               numDescTF.text = str
           }

@@ -47,7 +47,7 @@ class HouseShaixuanModel: HandyJSON {
      工位：    范围 0 - 500
      面积：    范围 0 -2000
      
-     如果选择的是0-不限，真正传值为0-999999noLimitMaxNum
+     如果选择的是0-不限，真正传值为0-999999noLimitMaxNum_999999999
      */
     
     var isShaixuan: Bool?
@@ -115,7 +115,7 @@ class SliderExtentModel: HandyJSON {
     var maximumValue: Double?
     var lowValue: Double?
     var highValue: Double?
-    var noLimitNum: Double = noLimitMaxNum
+    var noLimitNum: Double = noLimitMaxNum_999999999
     required init() {
     }
 }

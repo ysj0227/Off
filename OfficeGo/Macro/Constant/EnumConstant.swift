@@ -321,7 +321,7 @@ public enum OwnerBuildingEditType {
     case OwnerBuildingEditTypeFloorCargoNum
     ///网络
     case OwnerBuildingEditTypeNetwork
-    ///入驻企业
+    ///入驻企业 -最多5个
     case OwnerBuildingEditTypeEnterCompany
     ///详细介绍
     case OwnerBuildingEditTypeDetailIntroduction

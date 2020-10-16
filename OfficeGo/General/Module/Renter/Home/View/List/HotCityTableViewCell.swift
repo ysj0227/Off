@@ -37,7 +37,7 @@ class HotCityTableViewCell: UITableViewCell {
             // 行
             let row = i / 3
             
-            let btn = UIButton(frame: CGRect(x: btnMargin + CGFloat(column) * (btnWidth + btnMargin), y: 15 + CGFloat(row) * (40 + btnMargin), width: btnWidth, height: 40))
+            let btn = UIButton(frame: CGRect(x: btnMargin_15 + CGFloat(column) * (btnWidth + btnMargin_15), y: 15 + CGFloat(row) * (40 + btnMargin_15), width: btnWidth, height: 40))
             btn.setTitle(hotCities[i], for: .normal)
             btn.setTitleColor(kAppBlackColor, for: .normal)
             btn.titleLabel?.font = FONT_15

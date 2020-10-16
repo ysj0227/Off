@@ -434,7 +434,7 @@ extension OwnerBuildingJointCreateViewController {
     func loadEnterCompany(section: Int, index: Int) {
         endEdting()
         if index == companyArr.count - 1 {
-            if companyArr.count < 4 {
+            if companyArr.count < enterCompanyMaxNum_5 {
                 companyArr.append("")
             }
         }else {

@@ -421,15 +421,15 @@ class OwnerCreateBuildingCell: BaseEditCell {
             let textNum = editLabel.text?.count
             if model.type == .OwnerCreteBuildingTypeBranchName{
                 //截取
-                if textNum! > ownerMaxBuildingnameNumber {
-                    let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber)
+                if textNum! > ownerMaxBuildingnameNumber_20 {
+                    let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
                     let str = editLabel.text?.substring(to: index!)
                     editLabel.text = str
                 }
             }else if model.type == .OwnerCreteBuildingTypeBranchAddress{
                 //截取
-                if textNum! > ownerMaxAddressDetailNumber {
-                    let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber)
+                if textNum! > ownerMaxAddressDetailNumber_30 {
+                    let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
                     let str = editLabel.text?.substring(to: index!)
                     editLabel.text = str
                 }

@@ -422,15 +422,15 @@ class OwnerCreateBranchCell: BaseEditCell {
         let textNum = editLabel.text?.count
         if model.type == .OwnerCreteBranchTypeBranchName{
             //截取
-            if textNum! > ownerMaxBranchnameNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBranchnameNumber)
+            if textNum! > ownerMaxBranchnameNumber_20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBranchnameNumber_20)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }
         }else if model.type == .OwnerCreteBranchTypeBranchAddress{
             //截取
-            if textNum! > ownerMaxAddressDetailNumber {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber)
+            if textNum! > ownerMaxAddressDetailNumber_30 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }
