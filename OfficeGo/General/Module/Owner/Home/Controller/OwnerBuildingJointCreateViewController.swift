@@ -338,7 +338,7 @@ extension OwnerBuildingJointCreateViewController {
         //        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
-        titleview?.titleLabel.text = "编辑写字楼"
+        titleview?.titleLabel.text = "添加网点"
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
