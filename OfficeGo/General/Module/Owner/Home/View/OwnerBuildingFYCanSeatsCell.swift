@@ -38,7 +38,7 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
         let view = UILabel()
         view.textAlignment = .center
         view.font = FONT_18
-        view.textColor = kAppColor_999999
+        view.textColor = kAppColor_btnGray_BEBEBE
         view.text = "-"
         return view
     }()
@@ -63,14 +63,14 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
         let view = UILabel()
         view.textAlignment = .center
         view.font = FONT_14
-        view.textColor = kAppColor_333333
+        view.textColor = kAppColor_btnGray_BEBEBE
         view.text = "个"
         return view
     }()
     
     lazy var detailIcon: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage.init(named: "addBlue"), for: .normal)
+        view.setImage(UIImage.init(named: "alertImg"), for: .normal)
         return view
     }()
     
@@ -133,7 +133,7 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
             make.width.equalTo(28)
         }
         detailIcon.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-7)
+            make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
             make.size.equalTo(CGSize(width: 47, height: 40))
         }

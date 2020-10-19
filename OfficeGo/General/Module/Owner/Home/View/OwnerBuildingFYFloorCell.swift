@@ -49,7 +49,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         view.textAlignment = .left
         view.font = FONT_15
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
-        view.textColor = kAppColor_999999
+        view.textColor = kAppColor_btnGray_BEBEBE
         view.text = "第"
         return view
     }()
@@ -74,7 +74,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         view.textAlignment = .left
         view.font = FONT_15
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
-        view.textColor = kAppColor_999999
+        view.textColor = kAppColor_btnGray_BEBEBE
         view.text = "层"
         return view
     }()
@@ -84,7 +84,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         view.textAlignment = .left
         view.font = FONT_14
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
-        view.textColor = kAppColor_999999
+        view.textColor = kAppColor_btnGray_BEBEBE
         view.text = "共30层"
         return view
     }()

@@ -40,12 +40,6 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
     
-    ///网络
-    var networkModelArr = [HouseFeatureModel]()
-    
-    // 房源特色数据
-    var featureModelArr = [HouseFeatureModel]()
-    
     lazy var saveBtn: UIButton = {
         let button = UIButton.init()
         button.clipsToBounds = true
@@ -193,8 +187,61 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         }else {
             buildingModel = FangYuanBuildingEditDetailModel()
         }
-        
+     
+        requestGetDecorate()
     }
+    
+    
+       //MARK: 获取装修类型接口
+    func requestGetDecorate() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumdecoratedType, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.buildingModel?.decoratesLocal.append(model ?? HouseFeatureModel())
+                }
+            }
+            weakSelf.requestGetFeature()
+            
+            }, failure: {[weak self] (error) in
+                self?.requestGetFeature()
+                
+        }) {[weak self] (code, message) in
+            self?.requestGetFeature()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //MARK: 获取特色接口
+    func requestGetFeature() {
+        
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
+                for model in decoratedArray {
+                    weakSelf.buildingModel?.tagsLocal.append(model ?? HouseFeatureModel())
+                }
+            }
+            weakSelf.loadTableview()
+            
+            }, failure: {[weak self] (error) in
+                self?.loadTableview()
+                
+        }) {[weak self] (code, message) in
+            self?.loadTableview()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+   
     
     ///点击问好弹出的弹框
     func showLeaveAlert(index: Int) {
@@ -328,7 +375,7 @@ extension OwnerBuildingOfficeViewController {
         
         refreshData()
         
-    }    
+    }
     
     func loadSecion(section: Int) {
         tableView.reloadSections(NSIndexSet.init(index: section) as IndexSet, with: UITableView.RowAnimation.none)
@@ -494,7 +541,9 @@ extension OwnerBuildingOfficeViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNetworkSelectCell.reuseIdentifierStr) as? OwnerBuildingNetworkSelectCell
             cell?.selectionStyle = .none
             cell?.categoryTitleLabel.text = "装修程度"
-            cell?.isDocumentType = false
+            cell?.isMutTags = false
+            cell?.isMutNetworks = false
+            cell?.isSimpleDocument = true
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
@@ -510,7 +559,9 @@ extension OwnerBuildingOfficeViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNetworkSelectCell.reuseIdentifierStr) as? OwnerBuildingNetworkSelectCell
             cell?.selectionStyle = .none
             cell?.categoryTitleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeFeature)
-            cell?.isDocumentType = true
+            cell?.isMutTags = true
+            cell?.isMutNetworks = false
+            cell?.isSimpleDocument = false
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
@@ -557,7 +608,6 @@ extension OwnerBuildingOfficeViewController {
             }
             
             
-            
             ///文本输入cell
         ///标题
         case .OwnerBuildingOfficeTypeName:
@@ -593,9 +643,14 @@ extension OwnerBuildingOfficeViewController {
             
         ///装修程度
         case .OwnerBuildingOfficeTypeDocument:
-            let count = ((buildingModel?.internetLocal.count ?? 0  + 1) / 3)
+            if let arr = buildingModel?.decoratesLocal {
+                let count = ((arr.count  + 2) / 3)
+                
+                return CGFloat(count * 50 + 59 + 5)
+            }else {
+                return 59 + 5
+            }
             
-            return CGFloat(count * 50 + 59 + 5)
             
         ///户型格局简介
         case .OwnerBuildingOfficeTypeIntrodution:
@@ -604,9 +659,13 @@ extension OwnerBuildingOfficeViewController {
             
         ///特色
         case .OwnerBuildingOfficeTypeFeature:
-            let count = ((buildingModel?.tagsLocal.count ?? 0  + 1) / 3)
-            
-            return CGFloat(count * 50 + 59 + 5)
+            if let arr = buildingModel?.tagsLocal {
+                let count = ((arr.count  + 2) / 3)
+
+                return CGFloat(count * 50 + 59 + 5)
+            }else {
+                return 59 + 5
+            }
             
         ///上传楼盘图片
         case .OwnerBuildingOfficeTypeBuildingImage:

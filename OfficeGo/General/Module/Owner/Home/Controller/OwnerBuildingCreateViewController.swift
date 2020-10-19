@@ -39,12 +39,6 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
     
-    ///网络
-    var networkModelArr = [HouseFeatureModel]()
-    
-    // 房源特色数据
-    var featureModelArr = [HouseFeatureModel]()
-    
     lazy var saveBtn: UIButton = {
         let button = UIButton.init()
         button.clipsToBounds = true
@@ -550,7 +544,7 @@ extension OwnerBuildingCreateViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNetworkSelectCell.reuseIdentifierStr) as? OwnerBuildingNetworkSelectCell
             cell?.selectionStyle = .none
             cell?.categoryTitleLabel.text = "网络"
-            cell?.isDocumentType = false
+            cell?.isMutNetworks = true
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
@@ -561,6 +555,7 @@ extension OwnerBuildingCreateViewController {
             cell?.indexPathRow = indexPath.row
             cell?.model = model
             cell?.editLabel.text = companyArr[indexPath.row]
+            cell?.detailIcon.backgroundColor = kAppWhiteColor
             if indexPath.row == 0 {
                 cell?.titleLabel.isHidden = false
             }else {
@@ -570,7 +565,7 @@ extension OwnerBuildingCreateViewController {
                 cell?.detailIcon.setImage(UIImage.init(named: "addBlue"), for: .normal)
                 cell?.lineView.isHidden = false
             }else {
-                cell?.detailIcon.setImage(UIImage.init(named: "closeBlue"), for: .normal)
+                cell?.detailIcon.setImage(UIImage.init(named: "comDeleteBlue"), for: .normal)
                 cell?.lineView.isHidden = true
             }
             cell?.closeBtnClickClouse = { [weak self] (index) in
@@ -593,7 +588,7 @@ extension OwnerBuildingCreateViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNetworkSelectCell.reuseIdentifierStr) as? OwnerBuildingNetworkSelectCell
             cell?.selectionStyle = .none
             cell?.categoryTitleLabel.text = "特色"
-            cell?.isDocumentType = true
+            cell?.isMutTags = true
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
@@ -705,9 +700,13 @@ extension OwnerBuildingCreateViewController {
         ///特色
         case .OwnerBuildingEditTypeFeature:
             
-            let count = ((buildingModel?.tagsLocal.count ?? 0  + 1) / 3)
-            
-            return CGFloat(count * 50 + 59 + 5)
+           if let arr = buildingModel?.tagsLocal {
+                let count = ((arr.count  + 2) / 3)
+
+                return CGFloat(count * 50 + 59 + 5)
+            }else {
+                return 59 + 5
+            }
             
         ///上传楼盘图片
         case .OwnerBuildingEditTypeBuildingImage:

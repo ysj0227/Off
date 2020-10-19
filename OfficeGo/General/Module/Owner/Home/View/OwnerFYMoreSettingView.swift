@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class OwnerFYMoreSettingView: UIView {
     
     var titleString: String?
@@ -40,10 +38,23 @@ class OwnerFYMoreSettingView: UIView {
         
     fileprivate var datasource: [Any] = [] {
         didSet {
-            self.tableView.snp.remakeConstraints { (make) in
+            tableView.snp.remakeConstraints { (make) in
                 make.bottom.leading.trailing.equalToSuperview()
                 make.height.equalTo(datasource.count * 40 + 53 + 80)
             }
+//            if CGFloat(datasource.count * 40 + 133) > (kHeight / 2.0) {
+//                tableView.isScrollEnabled = true
+//                tableView.snp.remakeConstraints { (make) in
+//                    make.bottom.leading.trailing.equalToSuperview()
+//                    make.height.equalTo(kHeight / 2.0)
+//                }
+//            }else {
+//                tableView.snp.remakeConstraints { (make) in
+//                    make.bottom.leading.trailing.equalToSuperview()
+//                    make.height.equalTo(datasource.count * 40 + 53 + 80)
+//                }
+//            }
+            
             self.tableView.reloadData()
         }
     }
@@ -127,6 +138,7 @@ extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
+        view.backgroundColor = kAppWhiteColor
         let title = UILabel()
         title.font = FONT_16
         title.textColor = kAppColor_333333
@@ -148,6 +160,7 @@ extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView()
+        view.backgroundColor = kAppWhiteColor
         let button = UIButton(frame: CGRect(x: left_pending_space_17, y: 20, width: kWidth - left_pending_space_17 * 2, height: 40))
         button.backgroundColor = kAppBlueColor
         button.setTitle("取消", for: .normal)

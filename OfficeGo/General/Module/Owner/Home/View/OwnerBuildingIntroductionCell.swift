@@ -42,7 +42,7 @@ class OwnerBuildingIntroductionCell: BaseTableViewCell {
         view.textAlignment = .right
         view.font = FONT_10
         view.text = "0/100"
-        view.textColor = kAppColor_666666
+        view.textColor = kAppColor_btnGray_BEBEBE
         return view
     }()
 

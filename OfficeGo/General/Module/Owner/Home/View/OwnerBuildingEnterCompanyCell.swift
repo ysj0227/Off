@@ -98,7 +98,7 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
         }
         
         detailIcon.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-7)
+            make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
             make.size.equalTo(CGSize(width: 47, height: 40))
         }

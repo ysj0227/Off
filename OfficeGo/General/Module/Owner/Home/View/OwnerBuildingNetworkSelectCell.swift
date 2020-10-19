@@ -36,7 +36,15 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
         return view
     }()
     
-    var isDocumentType: Bool?
+    ///标签
+    var isMutTags: Bool?
+    
+    ///网络
+    var isMutNetworks: Bool?
+    
+    ///装修类型
+    var isSimpleDocument: Bool?
+
     
     var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
         didSet {
@@ -99,34 +107,55 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
 
 extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isDocumentType == true {
+        if isMutTags == true {
             return buildingModel.tagsLocal.count
+        }else if isMutNetworks == true {
+            return buildingModel.internetLocal.count
+        }else if isSimpleDocument == true {
+            return buildingModel.decoratesLocal.count
+        }else {
+            return 0
         }
-        return buildingModel.internetLocal.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HouseFeatureCollectionCell.reuseIdentifierStr, for: indexPath) as? HouseFeatureCollectionCell
         
-        if isDocumentType == true {
+        if isMutTags == true {
             
             cell?.model = buildingModel.tagsLocal[indexPath.row]
             
             cell?.setButtonSelected(isSelected: cell?.model?.isDocumentSelected ?? false)
             
             return cell ?? HouseFeatureCollectionCell()
-        }else {
             
+        }else if isMutNetworks == true {
+
             cell?.model = buildingModel.internetLocal[indexPath.row]
             
             cell?.setButtonSelected(isSelected: cell?.model?.isOfficeBuildingSelected ?? false)
             
             return cell ?? HouseFeatureCollectionCell()
+            
+        }else if isSimpleDocument == true {
+
+            cell?.model = buildingModel.decoratesLocal[indexPath.row]
+
+            if buildingModel.decorateModel?.dictValue == buildingModel.decoratesLocal[indexPath.row].dictValue {
+                cell?.setButtonSelected(isSelected: true)
+            }else {
+                cell?.setButtonSelected(isSelected: false)
+            }
+            
+            
+            return cell ?? HouseFeatureCollectionCell()
+        }else {
+            return HouseFeatureCollectionCell()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if isDocumentType == true {
+        if isMutTags == true {
             var num = 0
             for model in buildingModel.tagsLocal {
                 if model.isDocumentSelected == true {
@@ -143,8 +172,11 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
                 buildingModel.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.tagsLocal[indexPath.item].isDocumentSelected)
             }
             
-        }else {
+        }else if isMutNetworks == true {
             buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected = !(buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected)
+        }else if isSimpleDocument == true {
+            ///单选
+            buildingModel.decorateModel = buildingModel.decoratesLocal[indexPath.item]
         }
         
         self.featureCollectionView.reloadData()

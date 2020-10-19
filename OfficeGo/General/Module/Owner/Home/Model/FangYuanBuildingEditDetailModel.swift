@@ -130,6 +130,12 @@ class FangYuanBuildingEditDetailModel: BaseModel {
     
     ///商圈id
     var businessString : String?
+    
+    
+    ///装修类型- 办公室独有
+    var decoratesLocal = [HouseFeatureModel]()
+    
+    var decorateModel: HouseFeatureModel?
 }
 
 

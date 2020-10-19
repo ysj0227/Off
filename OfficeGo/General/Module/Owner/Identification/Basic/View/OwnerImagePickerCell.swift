@@ -92,7 +92,7 @@ class OwnerImgPickerCollectionViewHeader: UICollectionReusableView {
     lazy var descLabel: UILabel = {
         let view = UILabel()
         view.font = FONT_12
-        view.textColor = kAppColor_999999
+        view.textColor = kAppColor_btnGray_BEBEBE
         return view
     }()
     
@@ -124,7 +124,7 @@ class OwnerImgPickerCollectionViewFooter: UICollectionReusableView {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.font = FONT_12
-        view.textColor = kAppColor_999999
+        view.textColor = kAppColor_btnGray_BEBEBE
         view.text = "可上传9张图片，单张不大于10M，支持jpg、jpeg、png格式"
         return view
     }()

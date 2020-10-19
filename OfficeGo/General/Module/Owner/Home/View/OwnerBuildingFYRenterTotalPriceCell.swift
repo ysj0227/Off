@@ -38,7 +38,7 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
     
     lazy var detailIcon: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage.init(named: "addBlue"), for: .normal)
+        view.setImage(UIImage.init(named: "alertImg"), for: .normal)
         return view
     }()
     
@@ -89,7 +89,7 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
         }
         
         detailIcon.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-7)
+            make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
             make.size.equalTo(CGSize(width: 47, height: 40))
         }
