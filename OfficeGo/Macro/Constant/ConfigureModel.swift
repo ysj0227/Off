@@ -725,7 +725,7 @@ class OwnerBuildingEditConfigureModel : NSObject {
             return "请选择时间"
         ///建筑面积
         case .OwnerBuildingEditTypeArea:
-            return "万 M²"
+            return "万 ㎡"
         ///净高
         case .OwnerBuildingEditTypeClearHeight:
             return "米"

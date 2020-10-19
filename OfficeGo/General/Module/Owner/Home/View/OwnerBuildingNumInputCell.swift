@@ -17,6 +17,11 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     override func setExtraView() {
         editLabel.font = FONT_14
         titleLabel.textColor = kAppColor_333333
+        editLabel.snp.remakeConstraints { (make) in
+            make.trailing.equalTo(unitLabel.snp.leading).offset(-5)
+            make.leading.equalTo(titleLabel.snp.trailing)
+            make.top.bottom.equalToSuperview()
+        }
     }
     
     override func setDelegate() {
@@ -45,7 +50,9 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
-            editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
+            //editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
+            unitLabel.text = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
+            
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
@@ -70,7 +77,9 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
-            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
+            //editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
+            unitLabel.text = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
+            
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
@@ -96,7 +105,9 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
-            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
+            //editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
+            unitLabel.text = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
+            
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
@@ -114,8 +125,8 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             
             
             titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
-            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
-            
+            //editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            unitLabel.text = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
@@ -136,6 +147,28 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         }
     }
     
+    ///开放工位
+    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod) {
+        didSet {
+            
+            
+            titleLabel.attributedText = jointOpenStationModel.getNameFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod)
+            //editLabel.placeholder = jointOpenStationModel.getPalaceHolderFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod)
+            unitLabel.text = jointOpenStationModel.getPalaceHolderFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod)
+
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///工位数
+            ///最短租期
+            if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeSeats {
+                
+            }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
+                
+            }
+        }
+    }
 }
 
 extension OwnerBuildingNumInputCell: UITextFieldDelegate {

@@ -324,6 +324,17 @@ class BaseEditCell: BaseTableViewCell {
         view.contentMode = .scaleAspectFit
         return view
     }()
+    
+    ///右边单位
+    lazy var unitLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_14
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.textColor = kAppColor_btnGray_BEBEBE
+        return view
+    }()
+    
     lazy var lineView: UIView = {
         let view = UIView()
         view.backgroundColor = kAppColor_line_EEEEEE
@@ -352,6 +363,7 @@ class BaseEditCell: BaseTableViewCell {
         addSubview(titleLabel)
         addSubview(editLabel)
         addSubview(detailIcon)
+        addSubview(unitLabel)
         addSubview(lineView)
         
         titleLabel.snp.makeConstraints { (make) in
@@ -370,6 +382,12 @@ class BaseEditCell: BaseTableViewCell {
             make.centerY.equalToSuperview()
             make.width.equalTo(10)
         }
+        
+        unitLabel.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview().offset(-left_pending_space_17)
+            make.centerY.equalToSuperview()
+        }
+        
         lineView.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
             make.trailing.equalTo(-left_pending_space_17)
