@@ -17,6 +17,11 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     override func setExtraView() {
         editLabel.font = FONT_14
         titleLabel.textColor = kAppColor_333333
+        editLabel.snp.remakeConstraints { (make) in
+            make.trailing.equalTo(unitLabel.snp.leading).offset(-5)
+            make.leading.equalTo(titleLabel.snp.trailing)
+            make.top.bottom.equalToSuperview()
+        }
     }
     
     override func setDelegate() {
@@ -50,7 +55,9 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
-            editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
+            //editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
+            unitLabel.text = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
+            
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
@@ -79,7 +86,9 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeClearHeight)
-            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeClearHeight)
+            //editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeClearHeight)
+            unitLabel.text = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeClearHeight)
+
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
@@ -103,7 +112,9 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeArea)
-            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeArea)
+            //editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeArea)
+            unitLabel.text = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeArea)
+
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
@@ -130,7 +141,9 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeArea)
-            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeArea)
+            //editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeArea)
+            unitLabel.text = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeArea)
+
             detailIcon.isHidden = true
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
@@ -140,6 +153,26 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
                 
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
+                
+            }
+        }
+    }
+    
+    ///开放工位
+    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod) {
+        didSet {
+            
+            
+            titleLabel.attributedText = jointOpenStationModel.getNameFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypePrice)
+            //editLabel.placeholder = jointOpenStationModel.getPalaceHolderFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypePrice)
+            unitLabel.text = jointOpenStationModel.getPalaceHolderFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypePrice)
+
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///租金
+            if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
                 
             }
         }

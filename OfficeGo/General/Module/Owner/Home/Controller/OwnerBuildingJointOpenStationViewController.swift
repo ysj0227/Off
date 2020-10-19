@@ -11,27 +11,7 @@ import HandyJSON
 import SwiftyJSON
 
 class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
-    
-    ///弹出来的总价框
-    var totalPriceView: UIButton = {
-        let view = UIButton()
-        view.backgroundColor = kAppLightBlueColor
-        view.clipsToBounds = true
-        view.titleLabel?.font = FONT_MEDIUM_12
-        view.setTitleColor(kAppBlueColor, for: .normal)
-        view.layer.cornerRadius = button_cordious_2
-        view.addTarget(self, action: #selector(totalPriceClick), for: .touchUpInside)
-        return view
-    }()
-    
-    var areaModelCount: CityAreaCategorySelectModel?
-    
-    ///地址区域
-    lazy var areaView: CityDistrictAddressSelectView = {
-        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
-        return view
-    }()
-    
+        
     ///选择弹框
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
@@ -45,17 +25,8 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     ///类型数据源
     var typeSourceArray:[OwnerBuildingJointOpenStationConfigureModel] = [OwnerBuildingJointOpenStationConfigureModel]()
     
-    ///入住公司数组
-    var companyArr: [String] = [""]
-    
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
-    
-    ///网络
-    var networkModelArr = [HouseFeatureModel]()
-    
-    // 房源特色数据
-    var featureModelArr = [HouseFeatureModel]()
     
     lazy var saveBtn: UIButton = {
         let button = UIButton.init()
@@ -89,14 +60,6 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         button.addTarget(self, action: #selector(closePcEditClick), for: .touchUpInside)
         return button
     }()
-    
-    @objc func totalPriceClick() {
-        totalPriceView.setTitle("", for: .normal)
-        totalPriceView.snp.remakeConstraints({ (make) in
-            make.size.equalTo(0)
-            make.leading.equalToSuperview().offset(90)
-        })
-    }
     
     @objc func saveClick() {
         let vc = OwnerBuildingCreateVideoVRViewController()
@@ -222,7 +185,7 @@ extension OwnerBuildingJointOpenStationViewController {
         //        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
-        titleview?.titleLabel.text = "添加办公室"
+        titleview?.titleLabel.text = "添加开放工位"
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
@@ -258,10 +221,6 @@ extension OwnerBuildingJointOpenStationViewController {
             make.bottom.equalTo(saveBtn.snp.top)
         }
         
-        self.view.addSubview(totalPriceView)
-        
-        
-        
         requestSet()
     }
     
@@ -275,7 +234,7 @@ extension OwnerBuildingJointOpenStationViewController {
         self.tableView.register(OwnerBuildingClickCell.self, forCellReuseIdentifier: OwnerBuildingClickCell.reuseIdentifierStr)
         
         ///所在楼层
-        self.tableView.register(OwnerBuildingFloorCell.self, forCellReuseIdentifier: OwnerBuildingFloorCell.reuseIdentifierStr)
+        self.tableView.register(OwnerBuildingFYFloorCell.self, forCellReuseIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr)
         
         ///正数字文本输入cell
         ///工位数
@@ -293,28 +252,6 @@ extension OwnerBuildingJointOpenStationViewController {
         
     }
     
-    
-    func loadEnterCompany(section: Int, index: Int) {
-        endEdting()
-        if index == companyArr.count - 1 {
-            if companyArr.count < enterCompanyMaxNum_5 {
-                companyArr.append("")
-            }
-        }else {
-            if index <= companyArr.count - 1 {
-                companyArr.remove(at: index)
-            }
-        }
-        
-        loadSecion(section: section)
-    }
-    
-    func loadEnterCompanyInputComplete(Str: String, index: Int) {
-        if index <= companyArr.count - 1 {
-            companyArr[index] = Str
-        }
-    }
-    
     func loadSecion(section: Int) {
         tableView.reloadSections(NSIndexSet.init(index: section) as IndexSet, with: UITableView.RowAnimation.none)
     }
@@ -325,37 +262,6 @@ extension OwnerBuildingJointOpenStationViewController {
 }
 
 extension OwnerBuildingJointOpenStationViewController {
-    
-    func showArea(section: Int, isFrist: Bool) {
-        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { (_ selectModel: CityAreaCategorySelectModel) -> Void in
-            
-        }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
-            self?.areaModelCount = selectModel
-            self?.buildingModel?.district = selectModel.isFirstSelectedModel?.districtID
-            self?.buildingModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
-            self?.buildingModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
-            self?.buildingModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
-            self?.loadSecion(section: section)
-            
-        })
-    }
-    
-    func getSelectedDistrictBusiness() {
-        areaModelCount?.data.forEach({ (model) in
-            if model.districtID == buildingModel?.district {
-                areaModelCount?.isFirstSelectedModel = model
-                buildingModel?.districtString = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
-                areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
-                    if areaModel.id == buildingModel?.business {
-                        areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
-                        buildingModel?.businessString = areaModel.area
-                        loadTableview()
-                    }
-                })
-                
-            }
-        })
-    }
     
     func loadTableview() {
         tableView.reloadData()
@@ -389,7 +295,7 @@ extension OwnerBuildingJointOpenStationViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
-            //            cell?.jointIndepentOfficeModel = model
+            cell?.jointOpenStationModel = model
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
         ///所在楼层
@@ -399,16 +305,16 @@ extension OwnerBuildingJointOpenStationViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
                 cell?.selectionStyle = .none
                 cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
-                //                cell?.jointIndepentOfficeModel = model
+                cell?.jointOpenStationModel = model
                 return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             }else {
                 
                 ///文本输入cell
-                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFloorCell.reuseIdentifierStr) as? OwnerBuildingFloorCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr) as? OwnerBuildingFYFloorCell
                 cell?.selectionStyle = .none
                 cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
-                //                cell?.jointIndepentOfficeModel = model
-                return cell ?? OwnerBuildingFloorCell.init(frame: .zero)
+                cell?.jointOpenStationModel = model
+                return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
             }
             
@@ -420,7 +326,7 @@ extension OwnerBuildingJointOpenStationViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
-            //            cell?.jointIndepentOfficeMxodel = model
+            cell?.jointOpenStationModel = model
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
             
@@ -432,7 +338,7 @@ extension OwnerBuildingJointOpenStationViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
-            //            cell?.jointIndepentOfficeModel = model
+            cell?.jointOpenStationModel = model
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
             
@@ -440,7 +346,7 @@ extension OwnerBuildingJointOpenStationViewController {
         case .OwnerBuildingJointOpenStationTypeBuildingImage:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingImgCell.reuseIdentifierStr) as? OwnerBuildingImgCell
             cell?.selectionStyle = .none
-            //            cell?.jointIndepentOfficeModel = model
+            cell?.jointOpenStationModel = model
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
             
@@ -467,7 +373,7 @@ extension OwnerBuildingJointOpenStationViewController {
                 return BaseEditCell.rowHeight()
             }else {
                 if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
-                    return OwnerBuildingFloorCell.rowHeight()
+                    return OwnerBuildingFYFloorCell.rowHeight()
                 }else {
                     return 0
                 }
@@ -490,8 +396,8 @@ extension OwnerBuildingJointOpenStationViewController {
                         
         ///上传楼盘图片
         case .OwnerBuildingJointOpenStationTypeBuildingImage:
-            return BaseEditCell.rowHeight()
-            
+            return ((kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 + 10) * 4 + 68
+
         case .none:
             return 0
             

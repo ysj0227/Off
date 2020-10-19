@@ -190,6 +190,34 @@ class OwnerBuildingClickCell: BaseEditCell {
         }
     }
     
+    
+    ///开放工位
+    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod) {
+        didSet {
+            
+            
+            titleLabel.attributedText = jointOpenStationModel.getNameFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod)
+            editLabel.placeholder = jointOpenStationModel.getPalaceHolderFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod)
+            
+            detailIcon.isHidden = false
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = false
+            
+            ///所在楼层
+            ///免租期
+            if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
+                ///所在楼层 1 2
+                if buildingModel?.floorType == "1" {
+                    editLabel.text = "单层"
+                }else if buildingModel?.floorType == "2" {
+                    editLabel.text = "多层"
+                }
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
+                
+            }
+        }
+    }
+    
     override func setExtraView() {
         editLabel.font = FONT_14
         titleLabel.textColor = kAppColor_333333

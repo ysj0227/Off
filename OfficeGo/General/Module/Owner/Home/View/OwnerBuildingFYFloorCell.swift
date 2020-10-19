@@ -1,20 +1,19 @@
 //
-//  OwnerBuildingFloorCell.swift
+//  OwnerBuildingFYFloorCell.swift
 //  OfficeGo
 //
-//  Created by Mac pro on 2020/10/15.
+//  Created by Mac pro on 2020/10/19.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
-import UIKit
-
-class OwnerBuildingFloorCell: BaseTableViewCell {
+class OwnerBuildingFYFloorCell: BaseTableViewCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
     
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
     
-    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor) {
+    ///办公室
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalFloor) {
         didSet {
             if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
                 self.isHidden = false
@@ -24,6 +23,27 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         }
     }
     
+    ///独立办公室
+     var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod) {
+         didSet {
+             if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+                 self.isHidden = false
+             }else {
+                 self.isHidden = true
+             }
+         }
+     }
+    
+    ///开放工位
+    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod) {
+        didSet {
+            if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+                self.isHidden = false
+            }else {
+                self.isHidden = true
+            }
+        }
+    }
     lazy var leftLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
@@ -59,39 +79,13 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         return view
     }()
     
-    lazy var rightLabel: UILabel = {
-        let view = UILabel()
-        view.textAlignment = .left
-        view.font = FONT_15
-        view.setContentCompressionResistancePriority(.required, for: .horizontal)
-        view.textColor = kAppColor_999999
-        view.text = "共"
-        return view
-    }()
-    
-    
-    lazy var rightEditLabel: UITextField = {
-        let view = UITextField()
-        view.tag = 2
-        view.textAlignment = .center
-        view.font = FONT_15
-        view.textColor = kAppColor_333333
-        view.keyboardType = .numberPad
-        view.clipsToBounds = true
-        view.layer.borderColor = kAppColor_line_EEEEEE.cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = button_cordious_2
-        return view
-    }()
-    
-    
     lazy var rightUnitLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = FONT_15
+        view.font = FONT_14
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = kAppColor_999999
-        view.text = "层"
+        view.text = "共30层"
         return view
     }()
     
@@ -127,8 +121,6 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         addSubview(leftLabel)
         addSubview(leftEditLabel)
         addSubview(leftUnitLabel)
-        addSubview(rightLabel)
-        addSubview(rightEditLabel)
         addSubview(rightUnitLabel)
         addSubview(lineView)
         
@@ -146,19 +138,8 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
             make.leading.equalTo(leftEditLabel.snp.trailing).offset(5)
             make.centerY.equalTo(leftLabel)
         }
-        
-        rightLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(leftUnitLabel.snp.trailing).offset(20)
-            make.centerY.equalTo(leftLabel)
-        }
-        
-        rightEditLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: 73, height: 36))
-            make.leading.equalTo(rightLabel.snp.trailing).offset(5)
-            make.centerY.equalTo(leftLabel)
-        }
         rightUnitLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(rightEditLabel.snp.trailing).offset(5)
+            make.trailing.equalTo(-left_pending_space_17)
             make.centerY.equalTo(leftLabel)
         }
         
@@ -176,7 +157,6 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     ///子类 独立设置自己要添加的控件和约束
     func setExtraView() {
         leftEditLabel.delegate = self
-        rightEditLabel.delegate = self
     }
     
     override func awakeFromNib() {
@@ -194,7 +174,7 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     }
     
 }
-extension OwnerBuildingFloorCell: UITextFieldDelegate {
+extension OwnerBuildingFYFloorCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         guard let blockk = self.endEditingMessageCell else {
@@ -214,8 +194,6 @@ extension OwnerBuildingFloorCell: UITextFieldDelegate {
             }else if buildingModel?.floorType == "2" {
                 return true
             }
-        }else {
-            return SSTool.isPureStrOrNumNumber(text: string)
         }
         return true
     }

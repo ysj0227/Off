@@ -23,15 +23,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         view.addTarget(self, action: #selector(totalPriceClick), for: .touchUpInside)
         return view
     }()
-    
-    var areaModelCount: CityAreaCategorySelectModel?
-    
-    ///地址区域
-    lazy var areaView: CityDistrictAddressSelectView = {
-        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
-        return view
-    }()
-    
+
     ///选择弹框
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
@@ -44,10 +36,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     
     ///类型数据源
     var typeSourceArray:[OwnerBuildingOfficeConfigureModel] = [OwnerBuildingOfficeConfigureModel]()
-    
-    ///入住公司数组
-    var companyArr: [String] = [""]
-    
+
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
     
@@ -302,7 +291,7 @@ extension OwnerBuildingOfficeViewController {
         self.tableView.register(OwnerBuildingClickCell.self, forCellReuseIdentifier: OwnerBuildingClickCell.reuseIdentifierStr)
         
         ///所在楼层
-        self.tableView.register(OwnerBuildingFloorCell.self, forCellReuseIdentifier: OwnerBuildingFloorCell.reuseIdentifierStr)
+        self.tableView.register(OwnerBuildingFYFloorCell.self, forCellReuseIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr)
         
         ///文本输入cell
         ///标题
@@ -339,29 +328,7 @@ extension OwnerBuildingOfficeViewController {
         
         refreshData()
         
-    }
-    
-    
-    func loadEnterCompany(section: Int, index: Int) {
-        endEdting()
-        if index == companyArr.count - 1 {
-            if companyArr.count < enterCompanyMaxNum_5 {
-                companyArr.append("")
-            }
-        }else {
-            if index <= companyArr.count - 1 {
-                companyArr.remove(at: index)
-            }
-        }
-        
-        loadSecion(section: section)
-    }
-    
-    func loadEnterCompanyInputComplete(Str: String, index: Int) {
-        if index <= companyArr.count - 1 {
-            companyArr[index] = Str
-        }
-    }
+    }    
     
     func loadSecion(section: Int) {
         tableView.reloadSections(NSIndexSet.init(index: section) as IndexSet, with: UITableView.RowAnimation.none)
@@ -373,37 +340,6 @@ extension OwnerBuildingOfficeViewController {
 }
 
 extension OwnerBuildingOfficeViewController {
-    
-    func showArea(section: Int, isFrist: Bool) {
-        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { (_ selectModel: CityAreaCategorySelectModel) -> Void in
-            
-        }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
-            self?.areaModelCount = selectModel
-            self?.buildingModel?.district = selectModel.isFirstSelectedModel?.districtID
-            self?.buildingModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
-            self?.buildingModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
-            self?.buildingModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
-            self?.loadSecion(section: section)
-            
-        })
-    }
-    
-    func getSelectedDistrictBusiness() {
-        areaModelCount?.data.forEach({ (model) in
-            if model.districtID == buildingModel?.district {
-                areaModelCount?.isFirstSelectedModel = model
-                buildingModel?.districtString = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
-                areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
-                    if areaModel.id == buildingModel?.business {
-                        areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
-                        buildingModel?.businessString = areaModel.area
-                        loadTableview()
-                    }
-                })
-                
-            }
-        })
-    }
     
     func loadTableview() {
         tableView.reloadData()
@@ -452,11 +388,11 @@ extension OwnerBuildingOfficeViewController {
             }else {
                 
                 ///文本输入cell
-                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFloorCell.reuseIdentifierStr) as? OwnerBuildingFloorCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr) as? OwnerBuildingFYFloorCell
                 cell?.selectionStyle = .none
                 cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
                 cell?.officeModel = model
-                return cell ?? OwnerBuildingFloorCell.init(frame: .zero)
+                return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
             }
             
@@ -614,7 +550,7 @@ extension OwnerBuildingOfficeViewController {
                 return BaseEditCell.rowHeight()
             }else {
                 if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
-                    return OwnerBuildingFloorCell.rowHeight()
+                    return OwnerBuildingFYFloorCell.rowHeight()
                 }else {
                     return 0
                 }

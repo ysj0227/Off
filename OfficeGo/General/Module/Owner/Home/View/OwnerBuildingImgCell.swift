@@ -51,6 +51,9 @@ class OwnerBuildingImgCell: BaseTableViewCell {
     ///独立办公室
     var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel?
     
+    ///开放工位
+    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -219,7 +222,11 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
             }else if jointIndepentOfficeModel != nil {
                 header?.titleLabel.attributedText = jointIndepentOfficeModel?.getNameFormType(type: jointIndepentOfficeModel?.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingImage)
                 header?.descLabel.text = jointIndepentOfficeModel?.getPalaceHolderFormType(type: jointIndepentOfficeModel?.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingImage)
+            }else if jointOpenStationModel != nil {
+                header?.titleLabel.attributedText = jointOpenStationModel?.getNameFormType(type: jointOpenStationModel?.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeBuildingImage)
+                header?.descLabel.text = jointOpenStationModel?.getPalaceHolderFormType(type: jointOpenStationModel?.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeBuildingImage)
             }
+            
 
             return header ?? UICollectionReusableView()
         }
