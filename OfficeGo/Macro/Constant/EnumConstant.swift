@@ -488,10 +488,45 @@ public enum OwnerBuildingJointOpenStationType {
  无空调 2
  */
 public enum OwnerAircontiditonType: String {
-    case OwnerAircontiditonTypeDefault = ""            //默认为空
-    case OwnerAircontiditonTypeCenter = "中央空调"      //写字楼名称
-    case OwnerAircontiditonTypeIndividual = "独立空调"  //所在区域
-    case OwnerAircontiditonTypeNone = "无空调"         //网点地址
+    ///默认为空
+    case OwnerAircontiditonTypeDefault = ""
+    ///写字楼名称
+    case OwnerAircontiditonTypeCenter = "中央空调"
+    ///所在区域
+    case OwnerAircontiditonTypeIndividual = "独立空调"
+    ///网点地址
+    case OwnerAircontiditonTypeNone = "无空调"
+}
+/*
+ 免租期
+ */
+public enum OwnerRentFreePeriodType: String {
+    ///面议
+    case OwnerRentFreePeriodTypeDefault = "面议"
+    ///1个月
+    case OwnerRentFreePeriodTypeMonth1 = "1个月"
+    ///2个月
+    case OwnerRentFreePeriodTypeMonth2 = "2个月"
+    ///3个月
+    case OwnerRentFreePeriodTypeMonth3 = "3个月"
+    ///4个月
+    case OwnerRentFreePeriodTypeMonth4 = "4个月"
+    ///5个月
+    case OwnerRentFreePeriodTypeMonth5 = "5个月"
+    ///6个月
+    case OwnerRentFreePeriodTypeMonth6 = "6个月"
+    ///7个月
+    case OwnerRentFreePeriodTypeMonth7 = "7个月"
+    ///8个月
+    case OwnerRentFreePeriodTypeMonth8 = "8个月"
+    ///9个月
+    case OwnerRentFreePeriodTypeMonth9 = "9个月"
+    ///10个月
+    case OwnerRentFreePeriodTypeMonth10 = "10个月"
+    ///11个月
+    case OwnerRentFreePeriodTypeMonth11 = "11个月"
+    ///12个月
+    case OwnerRentFreePeriodTypeMonth12 = "12个月"
 }
 
 /*

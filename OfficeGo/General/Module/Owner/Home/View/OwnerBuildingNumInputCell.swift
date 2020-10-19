@@ -108,6 +108,34 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         }
     }
     
+    ///独立办公室
+    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeSeats) {
+        didSet {
+            
+            
+            titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///工位数
+            ///最短租期
+            ///车位数
+            ///车位费
+            if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeSeats {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingNum {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingCoast{
+                                
+            }
+        }
+    }
+    
 }
 
 extension OwnerBuildingNumInputCell: UITextFieldDelegate {

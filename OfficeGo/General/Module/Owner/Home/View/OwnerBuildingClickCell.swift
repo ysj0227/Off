@@ -66,6 +66,7 @@ class OwnerBuildingClickCell: BaseEditCell {
         }
     }
     
+    ///网点
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeDisctict) {
         didSet {
             
@@ -141,6 +142,53 @@ class OwnerBuildingClickCell: BaseEditCell {
         }
     }
     
+    ///独立办公室
+    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod) {
+        didSet {
+            
+            
+            titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            
+            detailIcon.isHidden = false
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = false
+            
+            ///所在楼层
+            ///免租期
+            ///出租方式
+            ///空调类型
+            if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
+                ///所在楼层 1 2
+                if buildingModel?.floorType == "1" {
+                    editLabel.text = "单层"
+                }else if buildingModel?.floorType == "2" {
+                    editLabel.text = "多层"
+                }
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentType {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeAirConditionType{
+                
+                editLabel.text = buildingModel?.airditionType?.rawValue
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeAirConditionCoast{
+                
+                detailIcon.image = UIImage.init(named: "")
+                
+                if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
+                    editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeCenter.rawValue
+                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
+                    editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeIndividual.rawValue
+                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
+                    editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue
+                }else {
+                    editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeDefault.rawValue
+                }
+            }
+        }
+    }
     
     override func setExtraView() {
         editLabel.font = FONT_14

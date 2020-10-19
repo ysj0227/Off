@@ -118,7 +118,28 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
                 
             }else if officeModel.type == .OwnerBuildingOfficeTypePrice {
                 
-            }else if officeModel.type == .OwnerBuildingOfficeTypeTotalPrice {
+            }
+        }
+    }
+    
+    ///独立办公室
+    ///建筑面积 - 一位
+    ///净高
+    ///租金
+    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeArea) {
+        didSet {
+            
+            titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeArea)
+            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeArea)
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
                 
             }
         }

@@ -190,6 +190,8 @@
 		8E896772253949D4005FF38B /* OwnerBuildingOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E896771253949D4005FF38B /* OwnerBuildingOfficeViewController.swift */; };
 		8E89677425394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */; };
 		8E89677625394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */; };
+		8EDBA52A253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */; };
+		8EDBA52C253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */; };
 		8EECEF32253153C600D480B2 /* OwnerBuildingImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */; };
 		8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */; };
 		8EECEF362531B08200D480B2 /* OwnerBuildingVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */; };
@@ -502,6 +504,8 @@
 		8E896771253949D4005FF38B /* OwnerBuildingOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingOfficeViewController.swift; sourceTree = "<group>"; };
 		8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointOpenStationViewController.swift; sourceTree = "<group>"; };
 		8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointIndepententOfficeViewController.swift; sourceTree = "<group>"; };
+		8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYCanSeatsCell.swift; sourceTree = "<group>"; };
+		8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYRenterTotalPriceCell.swift; sourceTree = "<group>"; };
 		8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingImgCell.swift; sourceTree = "<group>"; };
 		8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateVideoVRViewController.swift; sourceTree = "<group>"; };
 		8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingVideoCell.swift; sourceTree = "<group>"; };
@@ -1388,6 +1392,8 @@
 				8EECEF3D2535931700D480B2 /* OwnerShareServiceShowView.swift */,
 				8E89676D253842A2005FF38B /* OwnerBuildingFloorCell.swift */,
 				8E89676F253870EA005FF38B /* OwnerBuildingFYIntroductionCell.swift */,
+				8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */,
+				8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2165,6 +2171,7 @@
 				046CEF9224F3D41B00B061B8 /* LBXScanNetAnimation.swift in Sources */,
 				EEE0D93D2465581200E5C77B /* Device.swift in Sources */,
 				04E23933249B3ABB009DCCEC /* RenterDetailNameCell.swift in Sources */,
+				8EDBA52A253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift in Sources */,
 				04E23947249B3ABB009DCCEC /* RecentCitiesableViewCell.swift in Sources */,
 				EEE87B1E2455856800C03424 /* CALayerEx.swift in Sources */,
 				04E2391B249B3ABB009DCCEC /* SearchRenterResultListViewController.swift in Sources */,
@@ -2277,6 +2284,7 @@
 				047333252473D77700755192 /* UIView+Extension.swift in Sources */,
 				8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */,
 				04E23924249B3ABB009DCCEC /* RenterFangYuanListViewController.swift in Sources */,
+				8EDBA52C253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift in Sources */,
 				04CBB64E24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift in Sources */,
 				04CB46FD249CB02C001BCC8F /* WechatExchangeMessage.swift in Sources */,
 				EEE87B0D2455856800C03424 /* JHBaseWebViewController.swift in Sources */,

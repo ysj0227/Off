@@ -35,6 +35,17 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         }
     }
     
+    ///独立办公室
+     var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod) {
+         didSet {
+             if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+                 self.isHidden = false
+             }else {
+                 self.isHidden = true
+             }
+         }
+     }
+    
     lazy var leftLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left

@@ -12,6 +12,18 @@ import SwiftyJSON
 
 class OwnerBuildingOfficeViewController: BaseTableViewController {
     
+    ///弹出来的总价框
+    var totalPriceView: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = kAppLightBlueColor
+        view.clipsToBounds = true
+        view.titleLabel?.font = FONT_MEDIUM_12
+        view.setTitleColor(kAppBlueColor, for: .normal)
+        view.layer.cornerRadius = button_cordious_2
+        view.addTarget(self, action: #selector(totalPriceClick), for: .touchUpInside)
+        return view
+    }()
+    
     var areaModelCount: CityAreaCategorySelectModel?
     
     ///地址区域
@@ -77,6 +89,14 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         button.addTarget(self, action: #selector(closePcEditClick), for: .touchUpInside)
         return button
     }()
+    
+    @objc func totalPriceClick() {
+        totalPriceView.setTitle("", for: .normal)
+        totalPriceView.snp.remakeConstraints({ (make) in
+            make.size.equalTo(0)
+            make.leading.equalToSuperview().offset(90)
+        })
+    }
     
     @objc func saveClick() {
         let vc = OwnerBuildingCreateVideoVRViewController()
@@ -185,45 +205,27 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             buildingModel = FangYuanBuildingEditDetailModel()
         }
         
-        let model1 = HouseFeatureModel()
-        model1.dictCname = "电信"
-        buildingModel?.internetLocal.append(model1)
-        
-        let model2 = HouseFeatureModel()
-        model2.dictCname = "联通"
-        buildingModel?.internetLocal.append(model2)
-        
-        let model3 = HouseFeatureModel()
-        model3.dictCname = "移动"
-        buildingModel?.internetLocal.append(model3)
-        
-        requestGetFeature()
-        
     }
     
-    //MARK: 获取特色接口
-    func requestGetFeature() {
-        
-        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
-            guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
-                for model in decoratedArray {
-                    weakSelf.buildingModel?.tagsLocal.append(model ?? HouseFeatureModel())
-                }
-            }
-            weakSelf.loadTableview()
-            
-            }, failure: {[weak self] (error) in
-                self?.loadTableview()
+    ///点击问好弹出的弹框
+    func showLeaveAlert(index: Int) {
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.isHiddenVersionCancel = true
+        alert.bottomBtnView.rightSelectBtn.setTitle("我知道了", for: .normal)
+        if index == 1 {
+            alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "\n 可置工位根据面积生成，可修改 \n", descMsg: "", cancelButtonCallClick: {
                 
-        }) {[weak self] (code, message) in
-            self?.loadTableview()
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
+            }) {
+                
+            }
+        }else {
+            alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "\n 总价根据单价生成，可修改", descMsg: "总价计算规则：单价X面积X天数 \n 总价：0.3万元/月（1元 X 100㎡ X 30天）", cancelButtonCallClick: {
+                
+            }) {
+                
             }
         }
+        
     }
 }
 
@@ -282,6 +284,11 @@ extension OwnerBuildingOfficeViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(saveBtn.snp.top)
         }
+        
+        self.view.addSubview(totalPriceView)
+        
+        
+        
         requestSet()
     }
     
@@ -311,11 +318,14 @@ extension OwnerBuildingOfficeViewController {
         ///层高
         ///物业费
         ///租金单价 - 两位
-        ///租金总价 - 两位
         self.tableView.register(OwnerBuildingDecimalNumInputCell.self, forCellReuseIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr)
         
-        ///可置工位
+        ///租金总价 - 两位
+        self.tableView.register(OwnerBuildingFYRenterTotalPriceCell.self, forCellReuseIdentifier: OwnerBuildingFYRenterTotalPriceCell.reuseIdentifierStr)
         
+        
+        ///可置工位
+        self.tableView.register(OwnerBuildingFYCanSeatsCell.self, forCellReuseIdentifier: OwnerBuildingFYCanSeatsCell.reuseIdentifierStr)
         
         ///装修程度
         ///特色
@@ -482,9 +492,8 @@ extension OwnerBuildingOfficeViewController {
             ///净高
             ///层高
             ///物业费
-            ///租金单价 - 两位
-        ///租金总价 - 两位
-        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast, .OwnerBuildingOfficeTypePrice, .OwnerBuildingOfficeTypeTotalPrice:
+        ///租金单价 - 两位
+        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast, .OwnerBuildingOfficeTypePrice:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
@@ -494,10 +503,55 @@ extension OwnerBuildingOfficeViewController {
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
             
+        ///租金总价 - 两位
+        case .OwnerBuildingOfficeTypeTotalPrice:
+            
+            ///数字文本输入cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYRenterTotalPriceCell.reuseIdentifierStr) as? OwnerBuildingFYRenterTotalPriceCell
+            cell?.selectionStyle = .none
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.officeModel = model
+            cell?.endEditingMessageCell = { [weak self] (buildingModel) in
+                self?.buildingModel = buildingModel
+                self?.totalPriceClick()
+            }
+            cell?.alertBtnClickClouse = { [weak self] in
+                self?.showLeaveAlert(index: 2)
+            }
+            cell?.inputClickClouse = { [weak self] in
+                
+                self?.totalPriceView.setTitle(" 租金总价：30000元/月 ", for: .normal)
+                
+                let rect = self?.tableView.rectForRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section))
+                
+                let cellRect = self?.tableView.convert(rect ?? CGRect.zero, to: self?.view)
+                
+                let y = CGFloat(cellRect?.minY ?? 0 - cell_height_58 / 2.0)
+                SSLog("companyNamerect-\(rect ?? CGRect.zero)------cellRect\(cellRect ?? CGRect.zero)")
+                
+                self?.totalPriceView.snp.remakeConstraints({ (make) in
+                    make.top.equalTo(y)
+                    make.leading.equalToSuperview().offset(90)
+                })
+                
+            }
+            return cell ?? OwnerBuildingFYRenterTotalPriceCell.init(frame: .zero)
+            
+            
         ///可置工位
         case .OwnerBuildingOfficeTypeSeats:
-            
-            return UITableViewCell()
+            ///数字文本输入cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYCanSeatsCell.reuseIdentifierStr) as? OwnerBuildingFYCanSeatsCell
+            cell?.selectionStyle = .none
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.officeModel = model
+            cell?.endEditingMessageCell = { [weak self] (buildingModel) in
+                self?.buildingModel = buildingModel
+            }
+            cell?.alertBtnClickClouse = { [weak self] in
+                self?.showLeaveAlert(index: 1)
+            }
+            return cell ?? OwnerBuildingFYCanSeatsCell.init(frame: .zero)
             
         ///装修程度
         case .OwnerBuildingOfficeTypeDocument:
@@ -586,9 +640,13 @@ extension OwnerBuildingOfficeViewController {
             ///净高
             ///层高
             ///物业费
-            ///租金单价 - 两位
+        ///租金单价 - 两位
+        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast, .OwnerBuildingOfficeTypePrice:
+            
+            return BaseEditCell.rowHeight()
+            
         ///租金总价 - 两位
-        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast, .OwnerBuildingOfficeTypePrice, .OwnerBuildingOfficeTypeTotalPrice:
+        case  .OwnerBuildingOfficeTypeTotalPrice:
             
             return BaseEditCell.rowHeight()
             
@@ -643,8 +701,20 @@ extension OwnerBuildingOfficeViewController {
             
             endEdting()
             
-            ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: ["面议", "1个月" , "9个月"], clearButtonCallBack: {
-                
+            ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerRentFreePeriodType.OwnerRentFreePeriodTypeDefault.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth1.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth2.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth3.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth4.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth5.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth6.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth7.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth8.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth9.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth10.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth11.rawValue,
+                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth12.rawValue], clearButtonCallBack: {
+                                                                            
             }) {[weak self] (settingEnumIndex) in
                 //单层1 多层2
                 self?.loadSections(indexSet: [indexPath.section])

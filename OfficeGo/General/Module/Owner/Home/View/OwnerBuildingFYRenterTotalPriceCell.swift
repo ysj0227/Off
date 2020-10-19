@@ -1,18 +1,21 @@
 //
-//  OwnerBuildingEnterCompanyCell.swift
+//  OwnerBuildingFYRenterTotalPriceCell.swift
 //  OfficeGo
 //
-//  Created by Mac pro on 2020/10/12.
+//  Created by Mac pro on 2020/10/19.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
-import UIKit
+class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
+    
+    var alertBtnClickClouse:(() -> Void)?
+    
+    ///点击输入框
+    var inputClickClouse:(() -> Void)?
 
-class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
+    var buildingModel: FangYuanBuildingEditDetailModel?
     
-    @objc var closeBtnClickClouse: CloseBtnClickClouse?
-    
-    var endEditingMessageCell:((_ str: String, _ index: Int) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
     
     lazy var titleLabel: UILabel = {
         let view = UILabel()
@@ -44,27 +47,15 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
         view.backgroundColor = kAppColor_line_EEEEEE
         return view
     }()
+            
     
-    var userModel: OwnerIdentifyUserModel?
-    
-    var indexPathRow: Int?
-    
-    var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeEnterCompany) {
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalPrice) {
         didSet {
             
-            titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeEnterCompany)
-            editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeEnterCompany)
-        }
-    }
-    
-    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingName) {
-        didSet {
+            titleLabel.attributedText = officeModel.getNameFormType(type: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalPrice)
             
-            titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeEnterCompany)
-            editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeEnterCompany)
         }
     }
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -112,33 +103,35 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
             make.height.equalTo(1)
         }
         
-        detailIcon.addTarget(self, action: #selector(clickCloseBtn(btn:)), for: .touchUpInside)
+        detailIcon.addTarget(self, action: #selector(clickAlertBtn), for: .touchUpInside)
     }
     
-    /// 关闭按钮
-    @objc func clickCloseBtn(btn:UIButton) {
+    /// ?按钮
+    @objc func clickAlertBtn() {
         
-        if self.closeBtnClickClouse != nil {
-            self.closeBtnClickClouse!(indexPathRow ?? 0)
+        guard let blockk = self.alertBtnClickClouse else {
+            return
         }
+        blockk()
+        
     }
-    
 }
-extension OwnerBuildingEnterCompanyCell: UITextFieldDelegate {
+extension OwnerBuildingFYRenterTotalPriceCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        ///入驻企业
-        if model.type == .OwnerBuildingEditTypeEnterCompany {
-            
-        }
         
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(textField.text ?? "", indexPathRow ?? 0)
+        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
     }
     
+    ///开始编辑 - 弹框
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        SSLog("开始编辑 - ------")
         
+        guard let blockk = self.inputClickClouse else {
+            return
+        }
+        blockk()
     }
 }

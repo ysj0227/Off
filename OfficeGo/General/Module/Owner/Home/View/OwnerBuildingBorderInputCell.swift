@@ -21,7 +21,7 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
     
     lazy var editLabel: UITextField = {
         let view = UITextField()
-        view.textAlignment = .left
+        view.textAlignment = .center
         view.font = FONT_15
         view.textColor = kAppColor_333333
         view.clearButtonMode = .whileEditing

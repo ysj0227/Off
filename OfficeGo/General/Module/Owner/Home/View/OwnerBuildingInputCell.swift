@@ -142,6 +142,25 @@ class OwnerBuildingInputCell: BaseEditCell {
         }
     }
     
+        ///独立办公室
+    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod) {
+        didSet {
+            
+            
+            titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            
+            detailIcon.isHidden = true
+            lineView.isHidden = false
+            editLabel.isUserInteractionEnabled = true
+            
+            ///标题
+            if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeName {
+                
+            }
+        }
+    }
+    
 }
 
 extension OwnerBuildingInputCell: UITextFieldDelegate {
