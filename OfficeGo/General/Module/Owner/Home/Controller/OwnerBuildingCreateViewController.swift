@@ -19,7 +19,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
         return view
     }()
-
+    
     ///选择弹框
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
@@ -181,6 +181,17 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         }else {
             buildingModel = FangYuanBuildingEditDetailModel()
         }
+        
+        if buildingModel?.completionTime != nil {
+             buildingModel?.completionDate = Date(timeIntervalSince1970: buildingModel?.completionTime ?? 0)
+         }else {
+             buildingModel?.completionDate = Date(timeIntervalSince1970: 315504000)
+         }
+         if buildingModel?.refurbishedTime != nil {
+             buildingModel?.refurbishedDate = Date(timeIntervalSince1970: buildingModel?.refurbishedTime ?? 0)
+         }else {
+             buildingModel?.refurbishedDate = Date(timeIntervalSince1970: 315504000)
+         }
         
         let model1 = HouseFeatureModel()
         model1.dictCname = "电信"
@@ -371,14 +382,14 @@ extension OwnerBuildingCreateViewController {
     func showArea(section: Int, isFrist: Bool) {
         areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { (_ selectModel: CityAreaCategorySelectModel) -> Void in
             
-            }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
-                self?.areaModelCount = selectModel
-                self?.buildingModel?.district = selectModel.isFirstSelectedModel?.districtID
-                self?.buildingModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
-                self?.buildingModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
-                self?.buildingModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
-                self?.loadSecion(section: section)
-                
+        }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+            self?.areaModelCount = selectModel
+            self?.buildingModel?.district = selectModel.isFirstSelectedModel?.districtID
+            self?.buildingModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
+            self?.buildingModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
+            self?.buildingModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+            self?.loadSecion(section: section)
+            
         })
     }
     //MARK: 获取商圈数据
@@ -433,7 +444,7 @@ extension OwnerBuildingCreateViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    
+        
         ///入住企业
         if typeSourceArray[section].type == .OwnerBuildingEditTypeEnterCompany {
             return companyArr.count
@@ -700,9 +711,9 @@ extension OwnerBuildingCreateViewController {
         ///特色
         case .OwnerBuildingEditTypeFeature:
             
-           if let arr = buildingModel?.tagsLocal {
+            if let arr = buildingModel?.tagsLocal {
                 let count = ((arr.count  + 2) / 3)
-
+                
                 return CGFloat(count * 50 + 59 + 5)
             }else {
                 return 59 + 5
@@ -731,7 +742,7 @@ extension OwnerBuildingCreateViewController {
         }
         switch typeSourceArray[indexPath.section].type {
             ///选择cell
-            ///楼盘类型
+        ///楼盘类型
         case .OwnerBuildingEditTypeBuildingTypew:
             
             endEdting()
@@ -756,7 +767,7 @@ extension OwnerBuildingCreateViewController {
         case .OwnerBuildingEditTypeDisctict:
             
             endEdting()
-
+            
             endEdting()
             ///区域商圈选择
             judgeHasData(section: indexPath.section)
@@ -765,22 +776,32 @@ extension OwnerBuildingCreateViewController {
         case .OwnerBuildingEditTypeCompelteTime:
             
             endEdting()
-
-            SSLog(typeSourceArray[indexPath.section].type)
             
-        ///翻新时间
+            let datePicker = YLDatePicker(currentDate: buildingModel?.completionDate, minLimitDate: Date(timeIntervalSince1970: 315504000), maxLimitDate: Date(), datePickerType: .Y) { [weak self] (date) in
+                self?.buildingModel?.completionDate = date
+                self?.loadSecion(section: indexPath.section)
+            }
+            datePicker.show()
+            
+        ///翻新时间 1980-当前
         case .OwnerBuildingEditTypeRenovationTime:
             
             endEdting()
-
+            
+            let datePicker = YLDatePicker(currentDate: buildingModel?.refurbishedDate, minLimitDate: Date(timeIntervalSince1970: 315504000), maxLimitDate: Date(), datePickerType: .Y) { [weak self] (date) in
+                self?.buildingModel?.refurbishedDate = date
+                self?.loadSecion(section: indexPath.section)
+            }
+            datePicker.show()
+            
             SSLog(typeSourceArray[indexPath.section].type)
             
-        
+            
         ///空调类型
         case .OwnerBuildingEditTypeAirConditionType:
             
             endEdting()
-
+            
             ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue], clearButtonCallBack: {
                 
             }) {[weak self] (settingEnumIndex) in
@@ -797,7 +818,7 @@ extension OwnerBuildingCreateViewController {
                 }
                 self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
             }
-                
+            
             
             ///文本输入cell
             ///写字楼名称

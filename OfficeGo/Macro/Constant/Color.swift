@@ -18,6 +18,8 @@ let kAppDarkBlueColor               = UIColorFromRGB(0x2687D3)
 let kAppLightBlueColor               = UIColorFromRGB(0xDAF3F3)
 let kAppLightLightBlueColor               = UIColorFromRGB(0xECFDFD)
 
+let kAppAlphaWhite0_alpha_7          = UIColor.init(white: 0, alpha: 0.7)
+
 //黑色-灰色
 let kAppBlackColor              = UIColorFromRGB(0x000000)
 let kAppColor_333333            = UIColorFromRGB(0x333333)

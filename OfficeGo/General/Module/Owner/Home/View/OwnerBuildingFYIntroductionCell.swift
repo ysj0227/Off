@@ -86,7 +86,7 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
     
     
     class func rowHeight() -> CGFloat {
-        return 200 + ((kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 + 10) * 4 + 68
+        return 200 + (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 + 68
 
     }
            
@@ -165,7 +165,7 @@ extension OwnerBuildingFYIntroductionCell: UITextViewDelegate {
 extension OwnerBuildingFYIntroductionCell {
     func selectFCZPicker() {
         var imgArr = [BannerModel]()
-        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - uploadPicModelFCZArr.count) {[weak self] (asset,cutImage) in
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: 1) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
@@ -252,10 +252,10 @@ extension OwnerBuildingFYIntroductionCell: UICollectionViewDataSource, UICollect
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == uploadPicModelFCZArr.count {
-            if indexPath.item < ownerBuildingImageNumber_9 {
+            if indexPath.item < 1 {
                 selectFCZPicker()
             }else {
-                AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber_9)张图片")
+                AppUtilities.makeToast("最多可选择\(1)张图片")
             }
         }
     }
@@ -273,7 +273,7 @@ extension OwnerBuildingFYIntroductionCell: UICollectionViewDataSource, UICollect
             header?.backgroundColor = kAppWhiteColor
             header?.titleLabel.adjustsFontSizeToFitWidth = true
             
-            header?.titleLabel.text = "可上传9张图片，单张不大于10M，支持jpg、jpeg、png格式"
+            header?.titleLabel.text = "可上传1张图片，单张不大于10M，支持jpg、jpeg、png格式"
 
             return header ?? UICollectionReusableView()
         }

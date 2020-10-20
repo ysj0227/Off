@@ -62,7 +62,7 @@ class OwnerCompanyESearchResultListViewController: BaseTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.init(white: 0, alpha: 0.3)
+        self.view.backgroundColor = kAppAlphaWhite0_alpha_7
         self.tableView.backgroundColor = kAppClearColor
 
         requestSet()

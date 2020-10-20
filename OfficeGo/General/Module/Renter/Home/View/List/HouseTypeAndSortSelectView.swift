@@ -19,7 +19,7 @@ class HouseTypeAndSortSelectView: UIView {
     
     lazy var blackAlphabgView: UIButton = {
         let button = UIButton.init()
-        button.backgroundColor = UIColor.init(white: 0, alpha: 0.7)
+        button.backgroundColor = kAppAlphaWhite0_alpha_7
         button.addTarget(self, action: #selector(clickRemoveFromSuperview), for: .touchUpInside)
         return button
     }()

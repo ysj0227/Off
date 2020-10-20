@@ -10,7 +10,7 @@ import UIKit
 import HandyJSON
 import SwiftyJSON
 
-class OwnerFYListViewController: BaseTableViewController {
+class OwnerFYListViewController: BaseGroupTableViewController {
             
     var dataSourceViewModel: [OwnerFYListViewModel?] = []
     

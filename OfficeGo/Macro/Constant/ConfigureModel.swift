@@ -316,7 +316,7 @@ class OwnerBuildingOfficeConfigureModel : NSObject {
         switch type {
         ///标题
         case .OwnerBuildingOfficeTypeName:
-            return ""
+            return "例：临地铁200㎡稀缺房源寻租"
         ///面积 *
         case .OwnerBuildingOfficeTypeArea:
             return "㎡"
@@ -490,7 +490,7 @@ class OwnerBuildingJointEditConfigureModel : NSObject {
             return "请输入详细地址（2～100个字）"
         ///所在楼层
         case .OwnerBuildingJointEditTypeTotalFloor:
-            return "层"
+            return ""
         ///净高
         case .OwnerBuildingJointEditTypeClearHeight:
             return "米"

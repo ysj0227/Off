@@ -29,9 +29,9 @@ class FangYuanBuildingEditDetailModel: BaseModel {
     ///纬度
     var latitude : String?
     ///竣工时间
-    var completionTime : Int?
+    var completionTime : Double?
     ///翻新时间
-    var refurbishedTime : Int?
+    var refurbishedTime : Double?
     ///建筑面积
     var constructionArea : String?
     ///总楼层 当为网点多层时候格式为
@@ -135,7 +135,15 @@ class FangYuanBuildingEditDetailModel: BaseModel {
     ///装修类型- 办公室独有
     var decoratesLocal = [HouseFeatureModel]()
     
+    ///选中的装修类型
     var decorateModel: HouseFeatureModel?
+    
+    ///竣工时间
+    var completionDate : Date?
+    
+    ///翻新时间
+    var refurbishedDate : Date?
+
 }
 
 

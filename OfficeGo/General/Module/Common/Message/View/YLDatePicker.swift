@@ -15,6 +15,7 @@ typealias DoneBlock = (Date) -> ()
 
 // 显示时间类型
 public enum YLDatePickerType:String {
+    case Y       // 年
     case YM      // 年月
     case MD      // 月日
     case YMD     // 年月日
@@ -54,7 +55,7 @@ public class YLDatePicker: UIView {
     
     fileprivate var blackAlphabgView: UIButton = {
         let button = UIButton.init()
-        button.backgroundColor = UIColor.init(white: 0, alpha: 0.3)
+        button.backgroundColor = kAppAlphaWhite0_alpha_7
         button.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
         return button
     }()
