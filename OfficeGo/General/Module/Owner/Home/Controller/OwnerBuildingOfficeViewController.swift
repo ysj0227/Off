@@ -12,6 +12,9 @@ import SwiftyJSON
 
 class OwnerBuildingOfficeViewController: BaseTableViewController {
     
+    ///来自编辑还是添加
+    var isFromAdd: Bool?
+    
     ///弹出来的总价框
     var totalPriceView: UIButton = {
         let view = UIButton()
@@ -285,7 +288,11 @@ extension OwnerBuildingOfficeViewController {
         //        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
-        titleview?.titleLabel.text = "添加办公室"
+        if isFromAdd == true {
+            titleview?.titleLabel.text = "添加办公室"
+        }else {
+            titleview?.titleLabel.text = "编辑办公室"
+        }
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }

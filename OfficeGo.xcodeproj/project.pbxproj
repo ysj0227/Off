@@ -193,6 +193,9 @@
 		8EDBA52A253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */; };
 		8EDBA52C253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */; };
 		8EDBA52E253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA52D253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift */; };
+		8EDBA532253FE0E900BD3774 /* OwnerBuildingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA531253FE0E900BD3774 /* OwnerBuildingListCell.swift */; };
+		8EDBA5362540009300BD3774 /* OwnerBuildingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */; };
+		8EDBA53825402E1700BD3774 /* OwnerBuildingListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */; };
 		8EECEF32253153C600D480B2 /* OwnerBuildingImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */; };
 		8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */; };
 		8EECEF362531B08200D480B2 /* OwnerBuildingVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */; };
@@ -508,6 +511,9 @@
 		8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYCanSeatsCell.swift; sourceTree = "<group>"; };
 		8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYRenterTotalPriceCell.swift; sourceTree = "<group>"; };
 		8EDBA52D253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYFloorCell.swift; sourceTree = "<group>"; };
+		8EDBA531253FE0E900BD3774 /* OwnerBuildingListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListCell.swift; sourceTree = "<group>"; };
+		8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListViewController.swift; sourceTree = "<group>"; };
+		8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListModel.swift; sourceTree = "<group>"; };
 		8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingImgCell.swift; sourceTree = "<group>"; };
 		8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateVideoVRViewController.swift; sourceTree = "<group>"; };
 		8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingVideoCell.swift; sourceTree = "<group>"; };
@@ -1370,6 +1376,7 @@
 				8E896771253949D4005FF38B /* OwnerBuildingOfficeViewController.swift */,
 				8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */,
 				8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */,
+				8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1397,6 +1404,7 @@
 				8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */,
 				8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */,
 				8EDBA52D253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift */,
+				8EDBA531253FE0E900BD3774 /* OwnerBuildingListCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1492,6 +1500,7 @@
 			children = (
 				8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */,
 				8EECEF452536EC5E00D480B2 /* OwnerFYListModel.swift */,
+				8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2283,6 +2292,7 @@
 				04E2391E249B3ABB009DCCEC /* RenterOfficebuildingFYDetailVC.swift in Sources */,
 				047333312475322400755192 /* CustomerSearchBarview.swift in Sources */,
 				04CBB65424C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift in Sources */,
+				8EDBA532253FE0E900BD3774 /* OwnerBuildingListCell.swift in Sources */,
 				8EDBA52E253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift in Sources */,
 				046689222472548800A76669 /* ConfigureModel.swift in Sources */,
 				047333252473D77700755192 /* UIView+Extension.swift in Sources */,
@@ -2309,6 +2319,8 @@
 				04CB46F6249CB02C001BCC8F /* ScheduleViewingStatusMessage.swift in Sources */,
 				EE353EC12456DC8E00057545 /* BaseTableViewController.swift in Sources */,
 				04CB4782249CB1D9001BCC8F /* RenterHouseScheduleViewController.swift in Sources */,
+				8EDBA53825402E1700BD3774 /* OwnerBuildingListModel.swift in Sources */,
+				8EDBA5362540009300BD3774 /* OwnerBuildingListViewController.swift in Sources */,
 				EEE0D9402465581200E5C77B /* EnumConstant.swift in Sources */,
 				EEE87B3B24558F6A00C03424 /* UIScrollViewExtension.swift in Sources */,
 				04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */,

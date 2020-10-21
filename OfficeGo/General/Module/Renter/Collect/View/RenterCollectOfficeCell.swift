@@ -6,8 +6,6 @@
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
-import UIKit
-
 class RenterCollectOfficeCell: BaseTableViewCell {
     
     lazy var houseImageview: BaseImageView = {

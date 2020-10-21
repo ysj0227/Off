@@ -113,6 +113,12 @@ extension OwnerFYListViewController {
             let vc = OwnerBuildingCreateViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
         }
+        titleview?.leftButtonCallBack = { [weak self] in
+            let vc = BaseNavigationViewController.init(rootViewController: OwnerBuildingListViewController())
+            vc.navigationBar.isHidden = true
+            vc.modalPresentationStyle = .overFullScreen
+            self?.present(vc, animated: true, completion: nil)
+        }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
 
         requestSet()

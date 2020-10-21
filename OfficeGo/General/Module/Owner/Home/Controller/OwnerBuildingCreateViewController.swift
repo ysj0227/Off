@@ -12,6 +12,9 @@ import SwiftyJSON
 
 class OwnerBuildingCreateViewController: BaseTableViewController {
     
+    ///来自编辑还是添加
+    var isFromAdd: Bool?
+    
     var areaModelCount: CityAreaCategorySelectModel?
     
     ///地址区域
@@ -256,7 +259,11 @@ extension OwnerBuildingCreateViewController {
         //        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
-        titleview?.titleLabel.text = "添加写字楼"
+        if isFromAdd == true {
+            titleview?.titleLabel.text = "添加写字楼"
+        }else {
+            titleview?.titleLabel.text = "编辑写字楼"
+        }
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }

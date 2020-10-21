@@ -67,6 +67,8 @@ let btnHeight_44: CGFloat = 44
 
 let btnHeight_50: CGFloat = 50
 
+let cell_height_53: CGFloat = 53
+
 let cell_height_58: CGFloat = 58
 
 let cell_height_30: CGFloat = 30

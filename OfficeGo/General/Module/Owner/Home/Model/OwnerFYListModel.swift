@@ -112,7 +112,7 @@ class OwnerFYListViewModel: NSObject {
             }
             
             
-            houseTypTags = ""
+            houseTypTags = "empty"
             
             ///下架
             if Isfailure == 0 {

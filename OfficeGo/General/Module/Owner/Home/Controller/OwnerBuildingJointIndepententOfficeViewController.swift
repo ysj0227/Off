@@ -11,6 +11,9 @@ import SwiftyJSON
 
 class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController {
     
+    ///来自编辑还是添加
+    var isFromAdd: Bool?
+    
     ///选择弹框
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
@@ -211,7 +214,11 @@ extension OwnerBuildingJointIndepententOfficeViewController {
         //        titleview?.rightButton.setImage(UIImage.init(named: "scanIcon"), for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
-        titleview?.titleLabel.text = "添加办公室"
+        if isFromAdd == true {
+            titleview?.titleLabel.text = "添加办公室"
+        }else {
+            titleview?.titleLabel.text = "编辑办公室"
+        }
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
