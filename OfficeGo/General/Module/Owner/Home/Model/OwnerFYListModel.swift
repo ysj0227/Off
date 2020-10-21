@@ -69,6 +69,18 @@ class OwnerFYListViewModel: NSObject {
     ///楼层 - 只显示8楼，不显示总层数
     var buildingFloor : String?
     
+    ///房源标签图片
+    var houseTypTags: String?
+    
+    ///失效icon
+    var houseFailureImg : String?
+    
+    ///上架下架按钮标题
+    var closePublishBtnTitle : String?
+    
+    ///上架下架按钮隐藏
+    var closePublishBtnHidden : Bool?
+    
     
     init(model:OwnerFYListModel) {
         super.init()
@@ -98,6 +110,23 @@ class OwnerFYListViewModel: NSObject {
             }else {
                 buildingFloor = "\(model.floor ?? "0")楼"
             }
+            
+            
+            houseTypTags = ""
+            
+            ///下架
+            if Isfailure == 0 {
+                closePublishBtnTitle = "   重新发布   "
+                closePublishBtnHidden = false
+                houseFailureImg = "isFailureIcon"
+            }else {
+                closePublishBtnTitle = ""
+                closePublishBtnHidden = true
+                houseFailureImg = ""
+            }
+            
+
+            
         }else if btype == 2 {
             
             officeType = model.officeType
@@ -109,12 +138,42 @@ class OwnerFYListViewModel: NSObject {
                 individualSeatsString = "\(model.seats ?? 0)" + "人间"
                 individualSeatsStringAttri = FuWenBen(name: "\(model.seats ?? 0)", centerStr: "人间")
                 individualDayPriceString = "¥\(model.dayPrice ?? 0)/位/月"
+                
+                
+                houseTypTags = "individualOfficeTag"
+                
+                ///下架
+                if Isfailure == 0 {
+                    closePublishBtnTitle = "   重新发布   "
+                    closePublishBtnHidden = false
+                    houseFailureImg = "isFailureIcon"
+                }else {
+                    closePublishBtnTitle = ""
+                    closePublishBtnHidden = true
+                    houseFailureImg = ""
+                }
+                           
+
             }else {
                 openSeatsString = "\(model.seats ?? 0)" + "工位"
                 openSeatsStringAttri = FuWenBen(name: "\(model.seats ?? 0)", centerStr: "工位")
                 openSeatsUnitLBString = "开放工位"
                 openMonthPriceString = "¥\(model.dayPrice ?? 0)"
                 openMinimumLeaseString = "\(model.minimumLease ?? "")" + "个月起租"
+                
+                
+                houseTypTags = "openstationTag"
+
+                if Isfailure == 0 {
+                    closePublishBtnTitle = "   重新发布   "
+                    closePublishBtnHidden = false
+                    houseFailureImg = "isFailureIcon"
+                }else {
+                    closePublishBtnTitle = "   关闭   "
+                    closePublishBtnHidden = false
+                    houseFailureImg = ""
+                }
+                
             }
         }
     }

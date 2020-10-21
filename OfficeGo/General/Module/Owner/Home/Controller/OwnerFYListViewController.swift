@@ -103,8 +103,9 @@ extension OwnerFYListViewController {
             make.width.equalTo(65)
             make.top.bottom.equalToSuperview()
         }
-        titleview?.rightButton.setImage(UIImage.init(named: "addBlue"), for: .normal)
-        titleview?.leftButton.isHidden = true
+        titleview?.leftButton.setImage(UIImage.init(named: "moreBuildingIcon"), for: .normal)
+        titleview?.rightButton.setImage(UIImage.init(named: "addWhite"), for: .normal)
+        titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = false
         titleview?.rightButton.layoutButton(.imagePositionRight, margin: 2)
         titleview?.titleLabel.text = "房源列表"
@@ -152,7 +153,7 @@ extension OwnerFYListViewController {
             if let model = self.dataSource[indexPath.row]  {
                 cell?.model = model as? OwnerFYListModel ?? OwnerFYListModel()
                 cell?.moreBtnClickBlock = { [weak self] in
-                    self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum.xiaJiaEnum.rawValue, OWnerFYMoreSettingEnum.deleteEnum.rawValue, OWnerFYMoreSettingEnum.sharepEnum.rawValue], clearButtonCallBack: {
+                    self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum.xiaJiaEnum.rawValue, OWnerFYMoreSettingEnum.deleteEnum.rawValue], clearButtonCallBack: {
                         
                     }) { (settingEnumIndex) in
                         SSLog("-----点击的是---\(settingEnumIndex)")
@@ -167,7 +168,7 @@ extension OwnerFYListViewController {
                 }
                 
                 ///上架下架
-                cell?.publishBtnClickBlock = { [weak self] in
+                cell?.shareBtnClickBlock = { [weak self] in
                     ///独立办公室
                     let vc = OwnerBuildingJointIndepententOfficeViewController()
                     self?.navigationController?.pushViewController(vc, animated: true)

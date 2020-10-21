@@ -27,14 +27,9 @@ class OwnerFYListCell: BaseTableViewCell {
     }()
     
     ///楼盘类型展示label
-    lazy var houseTypTags: UILabel = {
-        let view = UILabel()
-        view.font = FONT_10
-        view.textColor = kAppWhiteColor
-        view.backgroundColor = kAppBlueColor
-        view.clipsToBounds = true
-        view.layer.cornerRadius = button_cordious_2
-        view.isHidden = true
+    lazy var houseTypTags: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
@@ -69,13 +64,21 @@ class OwnerFYListCell: BaseTableViewCell {
         return view
     }()
     
+    ///下架图片
+    lazy var houseFailureview: BaseImageView = {
+        let view = BaseImageView()
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+       
+    
     lazy var lineView: UIView = {
         let view = UIView()
         view.backgroundColor = kAppColor_line_EEEEEE
         return view
     }()
     
-    lazy var closeBtn: UIButton = {
+    lazy var closePublishBtn: UIButton = {
         let view = UIButton.init()
         view.clipsToBounds = true
         view.layer.cornerRadius = button_cordious_12
@@ -88,16 +91,16 @@ class OwnerFYListCell: BaseTableViewCell {
         return view
     }()
     
-    lazy var publishBtn: UIButton = {
+    lazy var sharehBtn: UIButton = {
         let view = UIButton.init()
         view.clipsToBounds = true
         view.layer.cornerRadius = button_cordious_12
         view.layer.borderColor = kAppColor_999999.cgColor
         view.layer.borderWidth = 0.5
-        view.setTitle("   上架   ", for: .normal)
+        view.setTitle("   分享   ", for: .normal)
         view.setTitleColor(kAppColor_333333, for: .normal)
         view.titleLabel?.font = FONT_12
-        view.addTarget(self, action: #selector(publishBtnClick), for: .touchUpInside)
+        view.addTarget(self, action: #selector(shareBtnClick), for: .touchUpInside)
         return view
     }()
     
@@ -121,9 +124,6 @@ class OwnerFYListCell: BaseTableViewCell {
         view.layer.cornerRadius = button_cordious_12
         view.layer.borderColor = kAppColor_999999.cgColor
         view.layer.borderWidth = 0.5
-//        view.setTitle("…", for: .normal)
-//        view.setTitleColor(kAppColor_333333, for: .normal)
-//        view.titleLabel?.font = FONT_MEDIUM_12
         view.setImage(UIImage.init(named: "ownerMore"), for: .normal)
         view.addTarget(self, action: #selector(moreBtnClick), for: .touchUpInside)
         return view
@@ -138,10 +138,10 @@ class OwnerFYListCell: BaseTableViewCell {
         blockk()
     }
     
-    var publishBtnClickBlock: (() -> Void)?
+    var shareBtnClickBlock: (() -> Void)?
     
-    @objc func publishBtnClick() {
-        guard let blockk = publishBtnClickBlock else {
+    @objc func shareBtnClick() {
+        guard let blockk = shareBtnClickBlock else {
             return
         }
         blockk()
@@ -188,12 +188,13 @@ class OwnerFYListCell: BaseTableViewCell {
         addSubview(areaLabel)
         addSubview(housePriceLabel)
         addSubview(housePriceUnitLabel)
+        addSubview(houseFailureview)
         addSubview(lineView)
         addSubview(houseTypTags)
         addSubview(moreBtn)
         addSubview(editBtn)
-        addSubview(publishBtn)
-        addSubview(closeBtn)
+        addSubview(sharehBtn)
+        addSubview(closePublishBtn)
 
         bgView.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview().inset(7)
@@ -207,13 +208,14 @@ class OwnerFYListCell: BaseTableViewCell {
         
         houseTypTags.snp.makeConstraints { (make) in
             make.leading.top.equalTo(houseImageview)
-            make.height.equalTo(17)
+            make.height.equalTo(22)
         }
         
         houseNameLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(houseImageview.snp.trailing).offset(13)
             make.trailing.equalTo(bgView).offset(-left_pending_space_17)
             make.top.equalTo(houseImageview).offset(-2)
+            make.height.greaterThanOrEqualTo(31)
         }
         
         housePriceLabel.snp.makeConstraints { (make) in
@@ -228,7 +230,13 @@ class OwnerFYListCell: BaseTableViewCell {
         
         areaLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalTo(houseNameLabel)
-            make.bottom.equalTo(housePriceLabel.snp.top).offset(-5)
+            make.centerY.equalTo(houseImageview).offset(5)
+        }
+        
+        houseFailureview.snp.makeConstraints { (make) in
+            make.trailing.equalTo(houseNameLabel)
+            make.bottom.equalTo(houseImageview.snp.bottom)
+            make.size.equalTo(56)
         }
         
         lineView.snp.makeConstraints { (make) in
@@ -249,13 +257,13 @@ class OwnerFYListCell: BaseTableViewCell {
             make.top.height.equalTo(moreBtn)
         }
         
-        publishBtn.snp.makeConstraints { (make) in
+        sharehBtn.snp.makeConstraints { (make) in
             make.trailing.equalTo(editBtn.snp.leading).offset(-10)
             make.top.height.equalTo(moreBtn)
         }
         
-        closeBtn.snp.makeConstraints { (make) in
-            make.trailing.equalTo(publishBtn.snp.leading).offset(-10)
+        closePublishBtn.snp.makeConstraints { (make) in
+            make.trailing.equalTo(sharehBtn.snp.leading).offset(-10)
             make.top.height.equalTo(moreBtn)
         }
         
@@ -275,50 +283,41 @@ class OwnerFYListCell: BaseTableViewCell {
     ///列表页面
     func setCellWithViewModel(viewModel: OwnerFYListViewModel) {
         
-                
-        houseTypTags.isHidden = false
+        ///房源标签
+        houseTypTags.image = UIImage.init(named: viewModel.houseTypTags ?? "")
+
+        ///发布下架按钮标题
+        closePublishBtn.setTitle(viewModel.closePublishBtnTitle, for: .normal)
+        
+        ///上架下架按钮隐藏
+        closePublishBtn.isHidden = viewModel.closePublishBtnHidden ?? false
+        
+        ///下架icon
+        houseFailureview.image = UIImage.init(named: viewModel.houseFailureImg ?? "")
+
         ///1是写字楼，2是共享办公
         if viewModel.btype == 1 {
-            closeBtn.setTitle("   预览   ", for: .normal)
-            houseTypTags.text = ""
             areaLabel.text = viewModel.buildingArea
             housePriceLabel.text = viewModel.buildingDayPriceString
+            
         }else if viewModel.btype == 2 {
                         
             ///独立办公室
             if viewModel.officeType == 1 {
-                closeBtn.setTitle("   预览   ", for: .normal)
-                houseTypTags.text = "  独立办公室  "
+
                 areaLabel.text = viewModel.individualAreaString
                 housePriceLabel.text = viewModel.individualDayPriceString
-
+                
             }else {
-                closeBtn.setTitle("   关闭   ", for: .normal)
-                houseTypTags.text = "  开放工位  "
+
                 areaLabel.text = viewModel.openSeatsString
                 housePriceLabel.text = viewModel.individualDayPriceString
-
+                
             }
         }
         houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_1x1))
         houseNameLabel.text = "\(viewModel.buildingName ?? "")"
         
-    }
-    
-    //聊天预约看房页面
-    var messageViewModel: MessageFYViewModel = MessageFYViewModel(model: MessageFYModel()) {
-        didSet {
-            setCellWithMessageViewModel(viewModel: messageViewModel)
-        }
-    }
-    
-    ///预约看房页面
-    func setCellWithMessageViewModel(viewModel: MessageFYViewModel) {
-        houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage.init(named: Default_1x1))
-        houseNameLabel.text = viewModel.buildingName
-        
-        housePriceLabel.text = viewModel.dayPriceNoUnitString
-        housePriceUnitLabel.text = viewModel.unitString
     }
     
 }

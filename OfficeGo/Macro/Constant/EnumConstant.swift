@@ -553,8 +553,7 @@ public enum OwnerBuildingTotalFloorType: String {
 ///业主 - 更多操作
 public enum OWnerFYMoreSettingEnum: String {
     case xiaJiaEnum = "下架"
-    case deleteEnum = "删除"
-    case sharepEnum = "分享"
+    case deleteEnum = "删除房源"
 }
 
 ///业主 - 添加楼盘 楼盘类型
