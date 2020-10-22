@@ -153,6 +153,17 @@ extension RenterChatListViewController {
         self.present(loginNav, animated: true, completion: nil)
 
     }
+//    override func willDisplayConversationTableCell(_ cell: RCConversationBaseCell!, at indexPath: IndexPath!) {
+//        if cell.isKind(of: RCConversationCell.self) {
+//            let converCell = cell as! RCConversationCell
+//            let model = converCell.model
+//            converCell.conversationTitle.text = "\(model?.conversationTitle ?? "") \(model?.extend ?? "")"
+////            let model = OwnerCreatBuildingConfigureModel(types: .OwnerCreteBuildingTypeBranchName)
+////            converCell.conversationTitle.attributedText = model.getNameFormType(type: .OwnerCreteBuildingTypeBranchName)
+//            
+//        }
+//    }
+    
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         var mActionArray = [UITableViewRowAction]()
         let deleteAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "删除") {[weak self] (deleteAction: UITableViewRowAction, indexPath: IndexPath) in
