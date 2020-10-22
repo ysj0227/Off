@@ -30,7 +30,7 @@ class OwnerHomeViewController: BaseViewController {
     
     var userModel: LoginUserModel?
     
-    var fyWebview: JHBaseWebViewController?
+    var fyWebview: OwnerFYListViewController?
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -49,7 +49,7 @@ class OwnerHomeViewController: BaseViewController {
     
     deinit {
         //消失的时候清空缓存
-        fyWebview?.clearCache()
+//        fyWebview?.clearCache()
         fyWebview = nil
     }
     override func viewDidDisappear(_ animated: Bool) {
@@ -71,9 +71,9 @@ class OwnerHomeViewController: BaseViewController {
         let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
         
         if tab?.selectedIndex == 0 {
-            fyWebview?.loadWebview()
+            fyWebview?.refreshData()
         }else {
-            fyWebview?.clearCache()
+//            fyWebview?.clearCache()
         }
     }
     
@@ -147,25 +147,12 @@ class OwnerHomeViewController: BaseViewController {
         
         showPCScanLoginView()
         
-        ///身份类型0个人1企业2联合
-        let identify: Int = userModel?.identityType ?? -1
         
         if self.view.subviews.contains(fyWebview?.view ?? UIView()) {
             
         }else {
-            if identify == 2 {
-                fyWebview = JHBaseWebViewController.init(protocalType: OwnerIdentifyOrFYType.ProtocalTypeFYJointOwnerUrl)
-                
-                self.view.addSubview(fyWebview?.view ?? UIView())
-                
-                self.view.addSubview(loginPCScanBtn)
-                
-            }else {
-                fyWebview = JHBaseWebViewController.init(protocalType: OwnerIdentifyOrFYType.ProtocalTypeFYBuildingOwnerUrl)
-                self.view.addSubview(fyWebview?.view ?? UIView())
-                
-                self.view.addSubview(loginPCScanBtn)
-            }
+            fyWebview = OwnerFYListViewController()
+            fyWebview?.userModel = userModel
             fyWebview?.view.snp.makeConstraints({ (make) in
                 make.top.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview().offset(-kTabBarHeight)
@@ -174,11 +161,9 @@ class OwnerHomeViewController: BaseViewController {
     }
     
     @objc func requestUserMessage() {
-        var params = [String:AnyObject]()
-        params["token"] = UserTool.shared.user_token as AnyObject?
         
-        SSNetworkTool.SSMine.request_getOwnerUserMsg(params: params, success: {[weak self] (response) in
-            
+        SSNetworkTool.SSMine.request_getOwnerUserMsg(success: {[weak self] (response) in
+
             guard let weakSelf = self else {return}
             
             if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
@@ -226,7 +211,7 @@ class OwnerHomeViewController: BaseViewController {
             addWebview()
         }else {
             fyWebview?.view.removeFromSuperview()
-            fyWebview?.clearCache()
+//            fyWebview?.clearCache()
             showIdifyAlertview(identify: identify, auditStatus: auditStatus, remark: userModel?.remark ?? "")
         }
     }

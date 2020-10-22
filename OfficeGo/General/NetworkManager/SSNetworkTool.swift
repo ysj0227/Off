@@ -902,14 +902,20 @@ extension SSNetworkTool {
         }
         
         ///个人资料 - 租户
-        static func request_getRenterUserMsg(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+        static func request_getRenterUserMsg(success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            var params = [String:AnyObject]()
+            params["channel"] = UserTool.shared.user_channel as AnyObject
+            params["token"] = UserTool.shared.user_token as AnyObject?
             let url = String.init(format: SSMineURL.getRenterUserMsg)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
         }
         
         ///个人资料 - 房东
-        static func request_getOwnerUserMsg(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+        static func request_getOwnerUserMsg(success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            var params = [String:AnyObject]()
+            params["channel"] = UserTool.shared.user_channel as AnyObject
+            params["token"] = UserTool.shared.user_token as AnyObject?
             let url = String.init(format: SSMineURL.getOwnerUserMsg)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: false,success:
                 success,failed:failure,error:error)
