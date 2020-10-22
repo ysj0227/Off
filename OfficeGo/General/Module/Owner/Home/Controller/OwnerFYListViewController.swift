@@ -12,6 +12,45 @@ import SwiftyJSON
 
 class OwnerFYListViewController: BaseGroupTableViewController {
             
+    ///判断身份和认证类型
+    var userModel: LoginUserModel?
+    
+    
+    var buildingListVC = OwnerBuildingListViewController()
+
+        ///身份类型0个人1企业2联合
+    //    let identify: Int = userModel?.identityType ?? -1
+
+    ///楼盘模型
+    var buildingListViewModel : OwnerBuildingListViewModel? {
+        didSet {
+            titleview?.rightButton.isHidden = false
+            titleview?.titleLabel.text = buildingListViewModel?.buildingName
+            loadNewData()
+        }
+    }
+    
+    @objc override func loadNewData(){
+        
+        pageNo = 1
+        
+        if self.dataSource.count > 0 {
+            self.dataSource.removeAll()
+        }
+        
+        if self.dataSourceViewModel.count > 0 {
+            self.dataSourceViewModel.removeAll()
+        }
+        
+        requestHouseList()
+    }
+    
+    @objc override func loadNextPage() {
+        pageNo += 1
+        requestHouseList()
+    }
+    
+    
     var dataSourceViewModel: [OwnerFYListViewModel?] = []
     
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
@@ -44,24 +83,26 @@ class OwnerFYListViewController: BaseGroupTableViewController {
     
     
     func requestHouseList() {
-        if pageNo == 1 {
-            if self.dataSourceViewModel.count > 0 {
-                self.dataSourceViewModel.removeAll()
-            }
-        }
         
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["pageNo"] = self.pageNo as AnyObject
         params["pageSize"] = self.pageSize as AnyObject
-        params["type"] = 2 as AnyObject
+        if userModel?.identityType == 2 {
+            //类型,1:楼盘,2:网点,当是1的时候,网点名称可为空
+            params["btype"] = buildingListViewModel?.btype as AnyObject?
+        }else {
+            params["btype"] = buildingListViewModel?.btype as AnyObject?
+        }
+        params["buildingId"] = buildingListViewModel?.idString as AnyObject?
 
-        SSNetworkTool.SSCollect.request_getFavoriteListAPP(params: params, success: { [weak self] (response) in
+        SSNetworkTool.SSFYDetail.request_getBuildingFYList(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<OwnerFYListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
                 for model in decoratedArray {
+                    model?.btype = weakSelf.buildingListViewModel?.btype
                     let viewmodel = OwnerFYListViewModel.init(model: model ?? OwnerFYListModel())
                     weakSelf.dataSourceViewModel.append(viewmodel)
                 }
@@ -106,22 +147,104 @@ extension OwnerFYListViewController {
         titleview?.leftButton.setImage(UIImage.init(named: "moreBuildingIcon"), for: .normal)
         titleview?.rightButton.setImage(UIImage.init(named: "addWhite"), for: .normal)
         titleview?.leftButton.isHidden = false
-        titleview?.rightButton.isHidden = false
+        titleview?.rightButton.isHidden = true
         titleview?.rightButton.layoutButton(.imagePositionRight, margin: 2)
         titleview?.titleLabel.text = "房源列表"
         titleview?.rightBtnClickBlock = { [weak self] in
-            let vc = OwnerBuildingCreateViewController()
-            self?.navigationController?.pushViewController(vc, animated: true)
+            if self?.buildingListViewModel?.btype == 1 {
+                ///办公室
+                let vc = OwnerBuildingOfficeViewController()
+                vc.isFromAdd = true
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }else if self?.buildingListViewModel?.btype == 2 {
+                ///独立办公室
+                let vc = OwnerBuildingJointIndepententOfficeViewController()
+                vc.isFromAdd = true
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+            
         }
         titleview?.leftButtonCallBack = { [weak self] in
-            let vc = BaseNavigationViewController.init(rootViewController: OwnerBuildingListViewController())
-            vc.navigationBar.isHidden = true
-            vc.modalPresentationStyle = .overFullScreen
-            self?.present(vc, animated: true, completion: nil)
+            let nav = BaseNavigationViewController.init(rootViewController: self?.buildingListVC ?? OwnerBuildingListViewController())
+            nav.navigationBar.isHidden = true
+            nav.modalPresentationStyle = .overFullScreen
+            self?.present(nav, animated: true, completion: nil)
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
+        
+        buildingListVC.clickBuildingBlock = { [weak self] (viewmodel) in
+            self?.buildingListViewModel = viewmodel
+        }
+        
+        buildingListVC.clickBuildingScanEditBlock = { [weak self] (viewModel, isScan) in
+            if isScan == true {
+                if viewModel.btype == 1 {
+                    let model = FangYuanListModel()
+                    model.btype = viewModel.btype
+                    model.id = viewModel.idString
+                    let vc = RenterOfficebuildingDetailVC()
+                    vc.buildingModel = model
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }else if viewModel.btype == 2 {
+                    let model = FangYuanListModel()
+                    model.btype = viewModel.btype
+                    model.id = viewModel.idString
+                    let vc = RenterOfficeJointDetailVC()
+                    vc.buildingModel = model
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }else {
 
+                if viewModel.btype == 1 {
+                    let vc = OwnerBuildingCreateViewController()
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }else if viewModel.btype == 2 {
+                    let vc = OwnerBuildingJointCreateViewController()
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+        
+        
         requestSet()
+        
+        requestBuildingList()
+    }
+
+    func requestBuildingList() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["pageNo"] = 1 as AnyObject
+        params["pageSize"] = 1 as AnyObject
+        params["type"] = 2 as AnyObject
+
+        SSNetworkTool.SSHome.request_getselectBuildingApp(params: params, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<OwnerBuildingListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
+                if decoratedArray.count == 1 {
+                    weakSelf.buildingListViewModel = OwnerBuildingListViewModel.init(model: decoratedArray[0] ?? OwnerBuildingListModel())
+                }
+                
+            }
+            
+            }, failure: {[weak self] (error) in
+                guard let weakSelf = self else {return}
+                
+                weakSelf.endRefreshAnimation()
+                
+        }) {[weak self] (code, message) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.endRefreshAnimation()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
     func requestSet() {
@@ -138,12 +261,29 @@ extension OwnerFYListViewController {
             make.bottom.equalToSuperview().offset(-kTabBarHeight)
         }
         self.tableView.register(OwnerFYListCell.self, forCellReuseIdentifier: OwnerFYListCell.reuseIdentifierStr)
-        
-        refreshData()
+                
+    }
+    
+    //MARK: 更多按钮
+    func moreBtnFY(index: Int, viewModel: OwnerFYListViewModel) {
+        ///下架
+        if index == 0 {
+            
+        }else if index == 1 {
+            ///删除
+            
+        }
+    }
+    
+    //MARK: 发布 下架 关闭
+    func publishFY(viewModel: OwnerFYListViewModel) {
         
     }
     
-    
+    //MARK: 删除
+    func deleteFY(viewModel: OwnerFYListViewModel) {
+        
+    }
 }
 
 extension OwnerFYListViewController {
@@ -155,36 +295,39 @@ extension OwnerFYListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: OwnerFYListCell.reuseIdentifierStr) as? OwnerFYListCell
         cell?.selectionStyle = .none
-        if self.dataSource.count > 0 {
-            if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as? OwnerFYListModel ?? OwnerFYListModel()
+        if self.dataSourceViewModel.count > 0 {
+            if let viewModel = self.dataSourceViewModel[indexPath.row]  {
+                cell?.viewModel = viewModel
                 cell?.moreBtnClickBlock = { [weak self] in
                     self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum.xiaJiaEnum.rawValue, OWnerFYMoreSettingEnum.deleteEnum.rawValue], clearButtonCallBack: {
                         
-                    }) { (settingEnumIndex) in
+                    }) {[weak self] (settingEnumIndex) in
                         SSLog("-----点击的是---\(settingEnumIndex)")
+                        self?.moreBtnFY(index: settingEnumIndex, viewModel: viewModel)
                     }
                 }
                 
                 ///关闭
                 cell?.closeBtnClickBlock = { [weak self] in
-                    ///办公室
-                    let vc = OwnerBuildingOfficeViewController()
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                    self?.deleteFY(viewModel: viewModel)
                 }
                 
                 ///上架下架
                 cell?.shareBtnClickBlock = { [weak self] in
-                    ///独立办公室
-                    let vc = OwnerBuildingJointIndepententOfficeViewController()
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                   self?.publishFY(viewModel: viewModel)
                 }
                 
                 ///编辑
                 cell?.editBtnClickBlock = { [weak self] in
-                    ///开放工位
-                    let vc = OwnerBuildingJointOpenStationViewController()
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                    if viewModel.btype == 1 {
+                        ///办公室
+                        let vc = OwnerBuildingOfficeViewController()
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }else {
+                        ///独立办公室
+                        let vc = OwnerBuildingJointIndepententOfficeViewController()
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
             }
         }
@@ -192,7 +335,7 @@ extension OwnerFYListViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        return dataSourceViewModel.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -213,9 +356,6 @@ extension OwnerFYListViewController {
                         vc.model = model
                         self.navigationController?.pushViewController(vc, animated: true)
                     }else if model.btype == 2 {
-//                        let vc = RenterOfficeJointFYDetailVC()
-//                        vc.model = model
-//                        self.navigationController?.pushViewController(vc, animated: true)
                         let vc = OwnerBuildingJointCreateViewController()
                         self.navigationController?.pushViewController(vc, animated: true)
                     }

@@ -11,6 +11,15 @@ import SwiftyJSON
 
 class OwnerBuildingListViewController: BaseTableViewController {
             
+    ///预览 编辑
+    var clickBuildingScanEditBlock:((_ viewmodel: OwnerBuildingListViewModel, _ isScan: Bool) -> Void)?
+
+    ///点击
+    var clickBuildingBlock:((OwnerBuildingListViewModel) -> Void)?
+    
+    ///判断身份和认证类型
+    var userModel: LoginUserModel?
+    
     var dataSourceViewModel: [OwnerBuildingListViewModel?] = []
     
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
@@ -21,12 +30,15 @@ class OwnerBuildingListViewController: BaseTableViewController {
     var titleLabel : UIView = {
         let view = UIView()
         view.backgroundColor = kAppWhiteColor
+        return view
+    }()
+    
+    var textLabel : UILabel = {
         let label = UILabel(frame: CGRect(x: left_pending_space_17, y: 5, width: kWidth - left_pending_space_17 * 2, height: 30))
         label.textColor = kAppColor_999999
         label.font = FONT_14
         label.text = "楼盘"
-        view.addSubview(label)
-        return view
+        return label
     }()
     
     
@@ -58,11 +70,11 @@ class OwnerBuildingListViewController: BaseTableViewController {
     //MARK: 获取首页列表数据
     override func refreshData() {
         
-        requestHouseList()
+        requestBuildingList()
     }
     
     
-    func requestHouseList() {
+    func requestBuildingList() {
         if pageNo == 1 {
             if self.dataSourceViewModel.count > 0 {
                 self.dataSourceViewModel.removeAll()
@@ -136,6 +148,7 @@ extension OwnerBuildingListViewController {
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
         self.view.addSubview(titleLabel)
+        titleLabel.addSubview(textLabel)
         self.view.addSubview(addBottomView)
         addBottomView.addSubview(addButton)
                
@@ -157,7 +170,13 @@ extension OwnerBuildingListViewController {
         
         requestSet()
         
-        addButton.setTitle("添加网点", for: .normal)
+        if userModel?.identityType == 2 {
+            addButton.setTitle("添加网点", for: .normal)
+            textLabel.text = "网点"
+        }else {
+            addButton.setTitle("添加楼盘", for: .normal)
+            textLabel.text = "楼盘"
+        }
 
     }
     
@@ -172,7 +191,15 @@ extension OwnerBuildingListViewController {
         
     }
     
-    
+    func dismissCVCScanEdit(viewModel: OwnerBuildingListViewModel, isScan: Bool) {
+
+        self.navigationController?.dismiss(animated: false, completion: { [weak self] in
+                   
+            guard let block = self?.clickBuildingScanEditBlock else { return }
+            
+            block(viewModel, isScan)
+        })
+    }
 }
 
 extension OwnerBuildingListViewController {
@@ -184,22 +211,47 @@ extension OwnerBuildingListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingListCell.reuseIdentifierStr) as? OwnerBuildingListCell
         cell?.selectionStyle = .none
-        if self.dataSource.count > 0 {
-            if let model = self.dataSource[indexPath.row]  {
-                cell?.model = model as? OwnerBuildingListModel ?? OwnerBuildingListModel()
+        if self.dataSourceViewModel.count > 0 {
+            if let viewModel = self.dataSourceViewModel[indexPath.row]  {
+                cell?.viewModel = viewModel
                 
                 ///预览 - 自己页面dismiss - 跳转到详情页面
                 cell?.scanClickBlock = { [weak self] in
                     
-                    let vc = RenterOfficebuildingDetailVC()
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                    //self?.dismissCVCScanEdit(viewModel: viewModel, isScan: true)
+
+                    
+                    if viewModel.btype == 1 {
+                        let model = FangYuanListModel()
+                        model.btype = viewModel.btype
+                        model.id = viewModel.idString
+                        let vc = RenterOfficebuildingDetailVC()
+                        vc.buildingModel = model
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }else if viewModel.btype == 2 {
+                        let model = FangYuanListModel()
+                        model.btype = viewModel.btype
+                        model.id = viewModel.idString
+                        let vc = RenterOfficeJointDetailVC()
+                        vc.buildingModel = model
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    
                 }
                 
                 ///编辑
                 cell?.editClickBlock = { [weak self] in
                     
-                    let vc = OwnerBuildingCreateViewController()
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                    self?.dismissCVCScanEdit(viewModel: viewModel, isScan: false)
+                    
+                    /*
+                    if viewModel.btype == 1 {
+                        let vc = OwnerBuildingCreateViewController()
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }else if viewModel.btype == 2 {
+                        let vc = OwnerBuildingJointCreateViewController()
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }*/
                 }
             }
         }
@@ -207,7 +259,7 @@ extension OwnerBuildingListViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        return dataSourceViewModel.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -216,22 +268,18 @@ extension OwnerBuildingListViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.dataSource.count <= 0 {
+        if self.dataSourceViewModel.count <= 0 {
             return
         }
         
+        guard let block = clickBuildingBlock else { return }
+        
+        if let viewmodel = dataSourceViewModel[indexPath.row] {
+            block(viewmodel)
+        }
+         
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
-    
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let view = UIView()
-//        view.backgroundColor = kAppWhiteColor
-//        view.addSubview(titleLabel)
-//        return view
-//    }
-//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//
-//        return 35
-//    }
 }
 
 
