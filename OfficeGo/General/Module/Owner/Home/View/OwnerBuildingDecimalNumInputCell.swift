@@ -120,15 +120,15 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = true
             
             if officeModel.type == .OwnerBuildingOfficeTypeArea {
-                
+                editLabel.text = buildingModel?.areaOffice
             }else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
-                
+                editLabel.text = buildingModel?.clearHeight
             }else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
-                
+                editLabel.text = buildingModel?.storeyHeight
             }else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
-                
+                editLabel.text = buildingModel?.propertyCosts
             }else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-                
+                editLabel.text = buildingModel?.dayPrice
             }
         }
     }
@@ -197,6 +197,59 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
             ///物业费
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
+            
+        }
+        
+        ///净高
+        if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
+            
+        }
+        
+        ///面积
+        if officeModel.type == .OwnerBuildingOfficeTypeArea {
+            ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
+            if let areaOffice = buildingModel?.areaOffice {
+                if textField.text != areaOffice {
+                    let min = (Int(textField.text ?? "0") ?? 1) / 10
+                    let max = (Int(textField.text ?? "0") ?? 1) / 5
+                    buildingModel?.minSeatsOffice = "\(min)"
+                    buildingModel?.maxSeatsOffice = "\(max)"
+                }
+            }else {
+                let min = (Int(textField.text ?? "0") ?? 1) / 10
+                let max = (Int(textField.text ?? "0") ?? 1) / 5
+                buildingModel?.minSeatsOffice = "\(min)"
+                buildingModel?.maxSeatsOffice = "\(max)"
+            }
+            buildingModel?.areaOffice = textField.text
+        }
+        ///净高
+        else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
+            buildingModel?.clearHeight = textField.text
+        }
+        ///层高
+        else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
+            buildingModel?.storeyHeight = textField.text
+        }
+        ///物业费
+        else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
+            buildingModel?.propertyCosts = textField.text
+        }
+        ///租金单价 *
+        else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+            buildingModel?.dayPrice = textField.text
+        }
+        
+        if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
+            
+        }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
+            
+        }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
+            
+        }
+        
+        ///租金
+        if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
             
         }
         

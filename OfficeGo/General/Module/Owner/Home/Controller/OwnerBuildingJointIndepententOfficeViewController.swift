@@ -215,9 +215,9 @@ extension OwnerBuildingJointIndepententOfficeViewController {
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
         if isFromAdd == true {
-            titleview?.titleLabel.text = "添加办公室"
+            titleview?.titleLabel.text = "添加独立办公室"
         }else {
-            titleview?.titleLabel.text = "编辑办公室"
+            titleview?.titleLabel.text = "编辑独立办公室"
         }
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)

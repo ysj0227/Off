@@ -22,6 +22,7 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
     ///最小工位数
     lazy var minLabel: UITextField = {
         let view = UITextField()
+        view.tag = 1
         view.textAlignment = .center
         view.font = FONT_15
         view.textColor = kAppColor_333333
@@ -47,6 +48,7 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
     ///最大工位数
     lazy var maxLabel: UITextField = {
         let view = UITextField()
+        view.tag = 2
         view.textAlignment = .center
         view.font = FONT_15
         view.textColor = kAppColor_333333
@@ -180,12 +182,22 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
             
             titleLabel.attributedText = officeModel.getNameFormType(type: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeSeats)
             
+            minLabel.text = buildingModel?.minSeatsOffice
+            
+            maxLabel.text = buildingModel?.maxSeatsOffice
         }
     }
 }
 
 extension OwnerBuildingFYCanSeatsCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        ///最小工位
+        if textField.tag == 1 {
+            buildingModel?.minSeatsOffice = textField.text
+        }else {
+            buildingModel?.maxSeatsOffice = textField.text
+        }
         
         guard let blockk = self.endEditingMessageCell else {
             return

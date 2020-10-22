@@ -205,7 +205,7 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
             return "米"
         ///户型格局简介
         case .OwnerBuildingJointOfficeTypeIntrodution:
-            return "简单描述该办公室的房型格局，清晰的图片或VR能够吸引更多客户的关注"
+            return "简单描述该办公室的房型格局"
         ///上传办公室图片 *
         case .OwnerBuildingJointOfficeTypeBuildingImage:
             return "可上传9张图片，单张不大于10M，支持jpg、jpeg、png格式"
@@ -352,7 +352,8 @@ class OwnerBuildingOfficeConfigureModel : NSObject {
             return ""
         ///户型格局简介
         case .OwnerBuildingOfficeTypeIntrodution:
-            return "简单描述该办公室的房型格局，清晰的图片或VR能够吸引更多客户的关注"
+//            return "简单描述该办公室的房型格局，清晰的图片或VR能够吸引更多客户的关注"
+            return "简单描述该办公室的房型格局"
         ///办公室特色
         case .OwnerBuildingOfficeTypeFeature:
             return ""

@@ -12,7 +12,7 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
     
     ///点击输入框
     var inputClickClouse:(() -> Void)?
-
+    
     var buildingModel: FangYuanBuildingEditDetailModel?
     
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
@@ -26,10 +26,10 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
         return view
     }()
     
-    
     lazy var editLabel: UITextField = {
         let view = UITextField()
         view.textAlignment = .left
+        view.keyboardType = .decimalPad
         view.font = FONT_14
         view.textColor = kAppColor_333333
         return view
@@ -47,12 +47,14 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
         view.backgroundColor = kAppColor_line_EEEEEE
         return view
     }()
-            
+    
     
     var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalPrice) {
         didSet {
             
             titleLabel.attributedText = officeModel.getNameFormType(type: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalPrice)
+            
+            editLabel.text = buildingModel?.totalPrice
             
         }
     }
@@ -69,9 +71,9 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
     }
     
     func setupViews() {
-
+        
         self.backgroundColor = kAppWhiteColor
-  
+        
         addSubview(titleLabel)
         addSubview(editLabel)
         addSubview(detailIcon)
@@ -121,10 +123,21 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
 extension OwnerBuildingFYRenterTotalPriceCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
+        buildingModel?.totalPrice = textField.text
+        
+        buildingModel?.totalPriceTemp = textField.text
+        
         guard let blockk = self.endEditingMessageCell else {
             return
         }
         blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        
+//        if buildingModel?.totalPrice != textField.text {
+//
+//        }
+        
+        
+        
     }
     
     ///开始编辑 - 弹框

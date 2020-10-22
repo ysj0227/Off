@@ -144,6 +144,23 @@ class FangYuanBuildingEditDetailModel: BaseModel {
     ///翻新时间
     var refurbishedDate : Date?
 
+    
+    
+    
+    ///办公室
+    ///面积
+    var areaOffice : String?
+    ///单价
+    var dayPrice : String?
+    ///总价
+    var totalPrice : String?
+    ///总价 - 计算出来的临时总价  用于判断有没有点击过
+    var totalPriceTemp : String?
+    //最小工位数
+    var minSeatsOffice : String?
+    //最大工位数
+    var maxSeatsOffice : String?
+    
 }
 
 

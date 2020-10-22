@@ -26,7 +26,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         view.addTarget(self, action: #selector(totalPriceClick), for: .touchUpInside)
         return view
     }()
-
+    
     ///选择弹框
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
@@ -39,7 +39,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     
     ///类型数据源
     var typeSourceArray:[OwnerBuildingOfficeConfigureModel] = [OwnerBuildingOfficeConfigureModel]()
-
+    
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
     
@@ -77,11 +77,19 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     }()
     
     @objc func totalPriceClick() {
+        
+        buildingModel?.totalPrice = buildingModel?.totalPriceTemp
+        
+        //        endEdting()
+        
         totalPriceView.setTitle("", for: .normal)
+        
         totalPriceView.snp.remakeConstraints({ (make) in
             make.size.equalTo(0)
             make.leading.equalToSuperview().offset(90)
         })
+        
+        loadSecion(section: 4)
     }
     
     @objc func saveClick() {
@@ -190,12 +198,12 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         }else {
             buildingModel = FangYuanBuildingEditDetailModel()
         }
-     
+        
         requestGetDecorate()
     }
     
     
-       //MARK: 获取装修类型接口
+    //MARK: 获取装修类型接口
     func requestGetDecorate() {
         
         SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumdecoratedType, success: { [weak self] (response) in
@@ -244,7 +252,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             }
         }
     }
-   
+    
     
     ///点击问好弹出的弹框
     func showLeaveAlert(index: Int) {
@@ -490,6 +498,10 @@ extension OwnerBuildingOfficeViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
             cell?.officeModel = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
+            }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
             
@@ -503,26 +515,48 @@ extension OwnerBuildingOfficeViewController {
             cell?.officeModel = model
             cell?.endEditingMessageCell = { [weak self] (buildingModel) in
                 self?.buildingModel = buildingModel
-                self?.totalPriceClick()
+                self?.totalPriceView.setTitle("", for: .normal)
+                self?.totalPriceView.snp.remakeConstraints({ (make) in
+                    make.size.equalTo(0)
+                    make.leading.equalToSuperview().offset(90)
+                })
+                self?.loadSecion(section: indexPath.section)
             }
             cell?.alertBtnClickClouse = { [weak self] in
                 self?.showLeaveAlert(index: 2)
             }
             cell?.inputClickClouse = { [weak self] in
                 
-                self?.totalPriceView.setTitle(" 租金总价：30000元/月 ", for: .normal)
+                if let dayPrice = self?.buildingModel?.dayPrice, let areaOffice = self?.buildingModel?.areaOffice {
+                    if dayPrice.isBlankString != true && areaOffice.isBlankString != true {
+                        
+                        ///单价 x 面积 x 30
+                        let price = (Double(dayPrice) ?? 0) * (Double(areaOffice) ?? 0) * 30
+                        self?.buildingModel?.totalPriceTemp = "\(price)"
+                        self?.totalPriceView.setTitle(" 租金总价：\(price)元/月 ", for: .normal)
+                        
+                        let rect = self?.tableView.rectForRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section))
+                        
+                        let cellRect = self?.tableView.convert(rect ?? CGRect.zero, to: self?.view)
+                        
+                        let y = CGFloat(cellRect?.minY ?? 0)
+                        SSLog("companyNamerect-\(rect ?? CGRect.zero)------cellRect\(cellRect ?? CGRect.zero)")
+                        
+                        self?.totalPriceView.snp.remakeConstraints({ (make) in
+                            make.top.equalTo(y - 23)
+                            make.leading.equalToSuperview().offset(90)
+                        })
+                    }
+                }
                 
-                let rect = self?.tableView.rectForRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section))
-                
-                let cellRect = self?.tableView.convert(rect ?? CGRect.zero, to: self?.view)
-                
-                let y = CGFloat(cellRect?.minY ?? 0 - cell_height_58 / 2.0)
-                SSLog("companyNamerect-\(rect ?? CGRect.zero)------cellRect\(cellRect ?? CGRect.zero)")
-                
-                self?.totalPriceView.snp.remakeConstraints({ (make) in
-                    make.top.equalTo(y)
-                    make.leading.equalToSuperview().offset(90)
-                })
+                /*
+                 ///只有没有点击过的时候，点击才弹出值 - 用totalPriceTemp控制
+                 if self?.buildingModel?.totalPrice != nil && self?.buildingModel?.totalPrice?.isBlankString != true {
+                 
+                 }else {
+                 
+                 
+                 }*/
                 
             }
             return cell ?? OwnerBuildingFYRenterTotalPriceCell.init(frame: .zero)
@@ -668,7 +702,7 @@ extension OwnerBuildingOfficeViewController {
         case .OwnerBuildingOfficeTypeFeature:
             if let arr = buildingModel?.tagsLocal {
                 let count = ((arr.count  + 2) / 3)
-
+                
                 return CGFloat(count * 50 + 59 + 5)
             }else {
                 return 59 + 5

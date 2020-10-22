@@ -30,7 +30,7 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
         let view = UITextView()
         view.delegate = self
         view.textAlignment = .left
-        view.placeholder = "简单描述该办公室的方形格局，清晰的拓或者VR能够吸引更多客服的关注"
+        view.placeholder = "简单描述该办公室的房型格局"
         view.holderColor = kAppColor_btnGray_BEBEBE
         view.font = FONT_12
         view.textColor = kAppColor_666666
