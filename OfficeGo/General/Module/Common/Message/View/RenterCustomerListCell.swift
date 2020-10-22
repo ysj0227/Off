@@ -72,6 +72,8 @@ class RenterCustomerListCell: RCConversationBaseCell {
 
     func setupViews() {
         
+        self.backgroundColor = kAppWhiteColor
+        
         addSubview(ivAva)
         addSubview(lblName)
         addSubview(lblDetail)
