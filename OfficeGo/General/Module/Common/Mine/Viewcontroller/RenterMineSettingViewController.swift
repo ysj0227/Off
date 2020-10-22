@@ -318,7 +318,9 @@ class RenterSettingCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+          
         addSubview(titleLabel)
         addSubview(numDescLabel)
         addSubview(detailIcon)

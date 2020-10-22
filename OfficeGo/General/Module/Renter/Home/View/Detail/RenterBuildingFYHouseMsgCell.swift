@@ -46,7 +46,9 @@ class RenterBuildingFYHouseMsgCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        addSubview(featureCollectionView)
+
+        self.backgroundColor = kAppWhiteColor
+          addSubview(featureCollectionView)
         addSubview(lineView)
         featureCollectionView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()

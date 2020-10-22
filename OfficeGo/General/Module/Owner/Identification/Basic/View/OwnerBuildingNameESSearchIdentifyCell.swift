@@ -96,7 +96,9 @@ class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
     var userModel: LoginUserModel?
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(titleLabel)
         addSubview(numDescLabel)
         addSubview(addBtn)

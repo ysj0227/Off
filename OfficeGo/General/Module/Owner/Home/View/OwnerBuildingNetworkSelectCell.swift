@@ -63,7 +63,9 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
     
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(categoryTitleLabel)
         addSubview(featureCollectionView)
         addSubview(lineView)

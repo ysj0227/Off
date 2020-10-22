@@ -112,7 +112,9 @@ class RenterSearchRecommendCollectionCell:  BaseCollectionViewCell {
     }
     
     func setupViews() {
-        self.addSubview(houseNumberLabel)
+
+        self.backgroundColor = kAppWhiteColor
+          self.addSubview(houseNumberLabel)
         self.addSubview(houseJiIcon)
         self.addSubview(houseNameLabel)
         self.addSubview(houselocationIcon)

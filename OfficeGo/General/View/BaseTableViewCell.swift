@@ -16,18 +16,17 @@ class BaseTableViewCell: UITableViewCell {
     
     lazy var bottomLine: UIView = {
         let view = UIView(frame: CGRect(x: left_pending_space_17, y: self.height - 1, width: kWidth - left_pending_space_17 * 2, height: 1))
-        view.backgroundColor = kAppClearColor
         view.isHidden = true
         return view
     }()
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        self.backgroundColor = kAppWhiteColor
         self.addSubview(bottomLine)
         
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

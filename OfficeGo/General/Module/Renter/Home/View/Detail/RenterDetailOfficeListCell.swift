@@ -90,7 +90,9 @@ class RenterDetailOfficeListCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        addSubview(mainImageView)
+
+        self.backgroundColor = kAppWhiteColor
+          addSubview(mainImageView)
         addSubview(leftTopLabel)
         addSubview(leftbottomLabel)
         addSubview(centerTopLabel)

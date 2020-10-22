@@ -51,7 +51,9 @@ class OwnerBuildingVRCell: BaseTableViewCell {
     var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(titleLabel)
         addSubview(editLabel)
         

@@ -62,7 +62,9 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(titleLabel)
         addSubview(editLabel)
         addSubview(lineView)

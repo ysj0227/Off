@@ -517,7 +517,9 @@ class AreaSubwayMutileSelectCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(itemImg)
+
+        self.backgroundColor = kAppWhiteColor
+          self.addSubview(itemImg)
         self.addSubview(titleLabel)
     }
     

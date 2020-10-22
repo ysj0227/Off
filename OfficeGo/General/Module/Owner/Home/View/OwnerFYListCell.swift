@@ -179,7 +179,9 @@ class OwnerFYListCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         self.backgroundColor = kAppColor_bgcolor_F7F7F7
         
         addSubview(bgView)

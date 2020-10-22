@@ -183,7 +183,9 @@ class RenterCollectOfficeCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(houseImageview)
+
+        self.backgroundColor = kAppWhiteColor
+          self.addSubview(houseImageview)
         houseImageview.addSubview(houseTagLabel)
         self.addSubview(houseNameLabel)
         self.addSubview(houseaddressIcon)

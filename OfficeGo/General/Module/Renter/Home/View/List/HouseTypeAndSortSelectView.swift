@@ -249,7 +249,9 @@ class TypeAndSortCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(titleLabel)
+
+        self.backgroundColor = kAppWhiteColor
+          self.addSubview(titleLabel)
         titleLabel.snp.updateConstraints { (make) in
            make.centerX.centerY.equalToSuperview()
        }

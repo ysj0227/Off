@@ -78,7 +78,9 @@ class RenterShareServiceCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        addSubview(titleLabel)
+
+        self.backgroundColor = kAppWhiteColor
+          addSubview(titleLabel)
         addSubview(featureCollectionView)
         addSubview(lineView)
         titleLabel.snp.makeConstraints { (make) in

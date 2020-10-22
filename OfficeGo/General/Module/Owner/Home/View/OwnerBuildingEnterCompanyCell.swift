@@ -78,7 +78,9 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(titleLabel)
         addSubview(editLabel)
         addSubview(detailIcon)

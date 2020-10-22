@@ -127,7 +127,9 @@ class HouseListTableViewCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+          
         addSubview(houseImageview)
         addSubview(houseNameLabel)
         addSubview(houselocationIcon)

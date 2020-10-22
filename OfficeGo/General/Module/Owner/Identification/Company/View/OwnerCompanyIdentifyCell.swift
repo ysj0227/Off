@@ -215,7 +215,9 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(titleLabel)
         addSubview(numDescTF)
         addSubview(detailIcon)

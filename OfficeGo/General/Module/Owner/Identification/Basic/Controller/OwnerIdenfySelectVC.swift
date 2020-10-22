@@ -218,7 +218,9 @@ class OwnerIdentifySelectCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+          
         addSubview(typeImg)
         addSubview(typeLabel)
         

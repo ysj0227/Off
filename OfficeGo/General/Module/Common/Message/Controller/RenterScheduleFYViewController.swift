@@ -291,7 +291,9 @@ class RenterScheduleUserBasicCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(titleLabel)
         addSubview(editLabel)
         addSubview(detailIcon)
@@ -392,7 +394,9 @@ class RenterScheduleYeZhuBasicCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(titleLabel)
         addSubview(yezhuAvatar)
         addSubview(nameLabel)

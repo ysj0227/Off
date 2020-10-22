@@ -75,7 +75,9 @@ class OwnerBuildingListCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         self.backgroundColor = kAppWhiteColor
         
         

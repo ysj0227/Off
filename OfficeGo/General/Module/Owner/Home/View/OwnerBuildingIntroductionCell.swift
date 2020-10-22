@@ -67,7 +67,9 @@ class OwnerBuildingIntroductionCell: BaseTableViewCell {
     }
            
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         self.addSubview(titleLabel)
         self.addSubview(lineView)
         self.addSubview(intruductionTextview)

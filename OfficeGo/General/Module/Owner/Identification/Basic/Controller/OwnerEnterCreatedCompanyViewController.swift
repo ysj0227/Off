@@ -491,7 +491,9 @@ class OwnerEnterCreateCompanyCell : BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         setDelegate()
         
         addSubview(addressIcon)

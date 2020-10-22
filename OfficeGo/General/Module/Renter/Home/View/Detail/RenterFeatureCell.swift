@@ -54,7 +54,9 @@ class RenterFeatureCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(titleLabel)
+
+        self.backgroundColor = kAppWhiteColor
+          self.addSubview(titleLabel)
         self.addSubview(featureView)
         self.addSubview(lineView)
         lineView.snp.makeConstraints { (make) in

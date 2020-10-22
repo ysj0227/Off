@@ -214,7 +214,9 @@ class OwnerCompanyESSearchIdentifyCell : BaseTableViewCell {
     var userModel: LoginUserModel?
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(itemIcon)
         addSubview(titleLabel)
         addSubview(numDescLabel)

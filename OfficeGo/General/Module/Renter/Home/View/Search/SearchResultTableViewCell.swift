@@ -98,7 +98,9 @@ class SearchResultTableViewCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(houseNameLabel)
+
+        self.backgroundColor = kAppWhiteColor
+          self.addSubview(houseNameLabel)
         self.addSubview(houseDictrictIcon)
         self.addSubview(houseDistrictBusinessLabel)
         self.addSubview(houseAddressIcon)

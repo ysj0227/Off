@@ -127,7 +127,9 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
     
     
     func setupViews() {
-        addSubview(titleLabel)
+
+        self.backgroundColor = kAppWhiteColor
+          addSubview(titleLabel)
         addSubview(descLabel)
         addSubview(videoView)
         addSubview(closeBtn)

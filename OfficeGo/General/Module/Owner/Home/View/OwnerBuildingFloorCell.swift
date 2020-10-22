@@ -121,7 +121,9 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         setDelegate()
         
         addSubview(leftLabel)

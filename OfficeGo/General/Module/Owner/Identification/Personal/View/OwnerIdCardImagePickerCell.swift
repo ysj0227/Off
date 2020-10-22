@@ -38,7 +38,9 @@ class OwnerIdCardImagePickerCell: BaseCollectionViewCell {
     }
     
     func setupViews() {
-        addSubview(bgimage)
+
+        self.backgroundColor = kAppWhiteColor
+          addSubview(bgimage)
         addSubview(image)
         image.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()

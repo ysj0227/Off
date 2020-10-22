@@ -65,7 +65,9 @@ class OwnerBuildingImgCell: BaseTableViewCell {
     
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(headerCollectionView)
         addSubview(lineView)
         

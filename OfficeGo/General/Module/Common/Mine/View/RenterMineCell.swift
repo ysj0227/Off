@@ -103,7 +103,9 @@ class RenterMineCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(itemIcon)
         addSubview(titleLabel)
         addSubview(numDescLabel)

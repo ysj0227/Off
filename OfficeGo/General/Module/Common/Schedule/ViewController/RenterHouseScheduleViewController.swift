@@ -485,7 +485,9 @@ class RenterHouseScheduleCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        
+
+        self.backgroundColor = kAppWhiteColor
+  
         addSubview(dateLabel)
         addSubview(dateTimeLabel)
         addSubview(bgView)

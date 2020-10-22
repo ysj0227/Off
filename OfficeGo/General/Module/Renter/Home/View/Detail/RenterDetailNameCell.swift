@@ -51,7 +51,9 @@ class RenterDetailNameCell: BaseTableViewCell {
     }
     
     func setupViews() {
-        self.addSubview(titleLabel)
+
+        self.backgroundColor = kAppWhiteColor
+          self.addSubview(titleLabel)
         self.addSubview(firstItem)
         self.addSubview(secondItem)
         self.addSubview(thirdItem)
@@ -173,8 +175,9 @@ class RenterJointDetailNameCell: BaseTableViewCell {
     }
     
     func setupViews() {
+
         self.backgroundColor = kAppWhiteColor
-        self.addSubview(tagLabel)
+          self.addSubview(tagLabel)
         self.addSubview(firstItem)
         self.addSubview(secondItem)
         self.addSubview(thirdItem)

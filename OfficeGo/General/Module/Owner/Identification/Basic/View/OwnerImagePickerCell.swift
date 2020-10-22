@@ -63,7 +63,9 @@ class OwnerImagePickerCell: BaseCollectionViewCell {
     }
     
     func setupViews() {
-        addSubview(image)
+
+        self.backgroundColor = kAppWhiteColor
+          addSubview(image)
         addSubview(closeBtn)
         image.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview().inset(5)
