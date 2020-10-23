@@ -381,7 +381,7 @@ class BaseEditCell: BaseTableViewCell {
         
         detailIcon.snp.makeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
-            make.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.width.equalTo(10)
         }
         
