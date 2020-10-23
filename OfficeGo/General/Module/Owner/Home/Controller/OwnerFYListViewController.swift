@@ -280,9 +280,40 @@ extension OwnerFYListViewController {
         
     }
     
+    //MARK: 分享 - 只有发布的可以关闭
+    func shareFY(viewModel: OwnerFYListViewModel) {
+        shareClick(viewModel: viewModel)
+        shareVc(viewModel: viewModel)
+    }
+    
     //MARK: 删除
     func deleteFY(viewModel: OwnerFYListViewModel) {
         
+    }
+    
+    ///点击分享按钮调用的方法
+    func shareClick(viewModel: OwnerFYListViewModel) {
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["houseId"] = viewModel.id as AnyObject?
+
+        SSNetworkTool.SSFYDetail.request_clickShareClick(params: params, success: { (response) in
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+          
+        }
+    }
+    
+    func shareVc(viewModel: OwnerFYListViewModel) {
+        let shareVC = ShareViewController.initialization()
+        shareVC.buildingName = buildingListViewModel?.buildingName ?? ""
+        shareVC.descriptionString = viewModel.addressString ?? ""
+        shareVC.thumbImage = viewModel.mainPic
+        shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BuildingFYDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(buildingListViewModel?.idString ?? 0)&houseId=\(viewModel.id ?? 0)"
+        shareVC.modalPresentationStyle = .overFullScreen
+        self.present(shareVC, animated: true, completion: {})
     }
 }
 
@@ -307,14 +338,14 @@ extension OwnerFYListViewController {
                     }
                 }
                 
-                ///关闭
+                ///关闭 - 发布
                 cell?.closeBtnClickBlock = { [weak self] in
-                    self?.deleteFY(viewModel: viewModel)
+                    self?.publishFY(viewModel: viewModel)
                 }
                 
-                ///上架下架
+                ///分享
                 cell?.shareBtnClickBlock = { [weak self] in
-                   self?.publishFY(viewModel: viewModel)
+                   self?.shareFY(viewModel: viewModel)
                 }
                 
                 ///编辑

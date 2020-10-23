@@ -289,6 +289,8 @@ import UIKit
 
     private func configureViews() {
 
+        self.backgroundColor = kAppWhiteColor
+        
         _lowValue = minimumValue
         _highValue = maximumValue
         lowMaximumValue = Double.nan
