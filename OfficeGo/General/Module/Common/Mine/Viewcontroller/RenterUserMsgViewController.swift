@@ -381,13 +381,13 @@ class BaseEditCell: BaseTableViewCell {
         
         detailIcon.snp.makeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
             make.width.equalTo(10)
         }
         
         unitLabel.snp.makeConstraints { (make) in
             make.trailing.equalToSuperview().offset(-left_pending_space_17)
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
         
         lineView.snp.makeConstraints { (make) in

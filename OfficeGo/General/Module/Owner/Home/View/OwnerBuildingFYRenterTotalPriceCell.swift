@@ -35,6 +35,15 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
         return view
     }()
     
+    ///右边单位
+    lazy var unitLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_14
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.textColor = kAppColor_btnGray_BEBEBE
+        return view
+    }()
     
     lazy var detailIcon: UIButton = {
         let view = UIButton()
@@ -53,6 +62,7 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
         didSet {
             
             titleLabel.attributedText = officeModel.getNameFormType(type: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalPrice)
+            unitLabel.text = officeModel.getPalaceHolderFormType(type: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalPrice)
             
             editLabel.text = buildingModel?.totalPrice
             
@@ -77,6 +87,7 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
         addSubview(titleLabel)
         addSubview(editLabel)
         addSubview(detailIcon)
+        addSubview(unitLabel)
         addSubview(lineView)
         
         editLabel.delegate = self
@@ -87,16 +98,22 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
         }
         
         editLabel.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-50)
+            make.trailing.equalToSuperview().offset(-100)
             make.leading.equalTo(titleLabel.snp.trailing)
             make.top.bottom.equalToSuperview()
         }
         
         detailIcon.snp.makeConstraints { (make) in
             make.trailing.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.size.equalTo(CGSize(width: 47, height: 40))
+            make.top.bottom.equalToSuperview()
+            make.width.equalTo(47)
         }
+        
+        unitLabel.snp.makeConstraints { (make) in
+            make.trailing.equalTo(detailIcon.snp.leading)
+            make.top.bottom.equalToSuperview()
+        }
+        
         
         detailIcon.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: left_pending_space_17)
         
