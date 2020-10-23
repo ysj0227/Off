@@ -11,6 +11,16 @@ import CommonCrypto
 import SwiftyJSON
 
 extension String {
+    
+    //使用正则表达式替换
+    func  pregReplace(pattern:  String , with:  String ,
+                     options:  NSRegularExpression . Options  = []) ->  String  {
+        let  regex = try!  NSRegularExpression (pattern: pattern, options: options)
+        return  regex.stringByReplacingMatches( in :  self , options: [],
+                                              range:  NSMakeRange (0,  self.count),
+                                              withTemplate: with)
+    }
+    
     func parseQueryToDictionary() -> [String: String] {
         var dic = [String: String]()
         let querys = self.components(separatedBy: "&")
