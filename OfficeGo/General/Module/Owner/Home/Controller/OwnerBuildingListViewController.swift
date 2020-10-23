@@ -18,7 +18,17 @@ class OwnerBuildingListViewController: BaseTableViewController {
     var clickBuildingBlock:((OwnerBuildingListViewModel) -> Void)?
     
     ///判断身份和认证类型
-    var userModel: LoginUserModel?
+    var userModel: LoginUserModel?  {
+        didSet {
+            if userModel?.identityType == 2 {
+                addButton.setTitle("添加网点", for: .normal)
+                textLabel.text = "网点"
+            }else {
+                addButton.setTitle("添加楼盘", for: .normal)
+                textLabel.text = "楼盘"
+            }
+        }
+    }
     
     var dataSourceViewModel: [OwnerBuildingListViewModel?] = []
     
@@ -56,8 +66,20 @@ class OwnerBuildingListViewController: BaseTableViewController {
         addButton.setTitleColor(kAppColor_999999, for: .normal)
         addButton.titleLabel?.font = FONT_14
         addButton.layoutButton(.imagePositionTop, space: 10)
+        addButton.addTarget(self, action: #selector(addBuilding), for: .touchUpInside)
         return addButton
     }()
+    
+    //MARK: 添加楼盘和网点
+    @objc func addBuilding() {
+        if userModel?.identityType == 2 {
+            let vc = OwnerBuildingJointCreateViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            let vc = OwnerBuildingCreateViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -11,7 +11,7 @@ import HandyJSON
 import SwiftyJSON
 
 class OwnerFYListViewController: BaseGroupTableViewController {
-            
+
     ///判断身份和认证类型
     var userModel: LoginUserModel?
     
@@ -73,6 +73,40 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         super.viewDidLoad()
         
         setUpView()
+        
+        requestUserMessage()
+    }
+    
+    @objc func requestUserMessage() {
+        
+        SSNetworkTool.SSMine.request_getOwnerUserMsg(success: {[weak self] (response) in
+
+            guard let weakSelf = self else {return}
+            
+            if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.userModel = model
+                
+                UserTool.shared.user_name = model.proprietorRealname
+                UserTool.shared.user_nickname = model.proprietorRealname
+                UserTool.shared.user_avatars = model.avatar
+                UserTool.shared.user_company = model.proprietorCompany
+                UserTool.shared.user_job = model.proprietorJob
+                UserTool.shared.user_sex = model.sex
+                UserTool.shared.user_phone = model.phone
+                UserTool.shared.user_wechat = model.wxId
+                
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
 
     //MARK: 获取首页列表数据
@@ -165,6 +199,7 @@ extension OwnerFYListViewController {
             
         }
         titleview?.leftButtonCallBack = { [weak self] in
+            self?.buildingListVC.userModel = self?.userModel
             let nav = BaseNavigationViewController.init(rootViewController: self?.buildingListVC ?? OwnerBuildingListViewController())
             nav.navigationBar.isHidden = true
             nav.modalPresentationStyle = .overFullScreen
