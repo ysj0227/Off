@@ -210,14 +210,14 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
             ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
             if let areaOffice = buildingModel?.areaOffice {
                 if textField.text != areaOffice {
-                    let min = (Int(textField.text ?? "0") ?? 1) / 10
-                    let max = (Int(textField.text ?? "0") ?? 1) / 5
+                    let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
+                    let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
                     buildingModel?.minSeatsOffice = "\(min)"
                     buildingModel?.maxSeatsOffice = "\(max)"
                 }
             }else {
-                let min = (Int(textField.text ?? "0") ?? 1) / 10
-                let max = (Int(textField.text ?? "0") ?? 1) / 5
+                let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
+                let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
                 buildingModel?.minSeatsOffice = "\(min)"
                 buildingModel?.maxSeatsOffice = "\(max)"
             }
