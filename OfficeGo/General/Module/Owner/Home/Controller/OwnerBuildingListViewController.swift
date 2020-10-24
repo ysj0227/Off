@@ -248,6 +248,7 @@ extension OwnerBuildingListViewController {
                         model.btype = viewModel.btype
                         model.id = viewModel.idString
                         let vc = RenterOfficebuildingDetailVC()
+                        vc.isFromOwnerScan = true
                         vc.buildingModel = model
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else if viewModel.btype == 2 {
@@ -255,6 +256,7 @@ extension OwnerBuildingListViewController {
                         model.btype = viewModel.btype
                         model.id = viewModel.idString
                         let vc = RenterOfficeJointDetailVC()
+                        vc.isFromOwnerScan = true
                         vc.buildingModel = model
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }

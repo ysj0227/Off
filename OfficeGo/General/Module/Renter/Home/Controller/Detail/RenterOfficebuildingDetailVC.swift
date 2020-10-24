@@ -13,6 +13,9 @@ import SwiftyJSON
 
 class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelegate {
     
+    ///是否来自于房源管理 预览 -
+    var isFromOwnerScan : Bool?
+    
     ///神策添加字段
     var buildLocation: Int = 0
     
@@ -412,11 +415,23 @@ class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelega
             make.height.equalTo(50)
             make.bottom.equalToSuperview().offset(-bottomMargin())
         }
-        self.tableView.snp.updateConstraints { (make) in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(0)
-            make.bottom.equalToSuperview().offset(-(bottomMargin() + 50))
+        
+        ///如果是来自于业主预览或者是业主身份的时候，不展示收藏和聊天按钮
+        if isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
+            bottomBtnView.isHidden = true
+            self.tableView.snp.remakeConstraints { (make) in
+                make.leading.trailing.equalToSuperview()
+                make.top.equalTo(0)
+                make.bottom.equalToSuperview().offset(-(bottomMargin()))
+            }
+        }else {
+            self.tableView.snp.remakeConstraints { (make) in
+                make.leading.trailing.equalToSuperview()
+                make.top.equalTo(0)
+                make.bottom.equalToSuperview().offset(-(bottomMargin() + 50))
+            }
         }
+        
         //左边收藏按钮 - 判断有没有登录 - 
         bottomBtnView.leftBtnClickBlock = { [weak self] in
             self?.juddgeIsLogin(isCollect: true)

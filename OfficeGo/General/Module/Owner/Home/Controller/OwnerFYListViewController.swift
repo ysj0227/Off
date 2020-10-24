@@ -415,14 +415,30 @@ extension OwnerFYListViewController {
         }
                     //独立办公室
         if let model = self.dataSource[indexPath.row] as? OwnerFYListModel {
+            
+            if model.btype == 1 {
+                let vc = RenterOfficebuildingFYDetailVC()
+                vc.isFromOwnerScan = true
+                vc.model = model
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model.btype == 2 {
+                let vc = RenterOfficeJointFYDetailVC()
+                vc.isFromOwnerScan = true
+                vc.model = model
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            /*
             if let Isfailure = model.Isfailure {
                 if Isfailure == 1 || Isfailure == 3 {
                     if model.btype == 1 {
                         let vc = RenterOfficebuildingFYDetailVC()
+                        vc.isFromOwnerScan = true
                         vc.model = model
                         self.navigationController?.pushViewController(vc, animated: true)
                     }else if model.btype == 2 {
-                        let vc = OwnerBuildingJointCreateViewController()
+                        let vc = RenterOfficeJointFYDetailVC()
+                        vc.isFromOwnerScan = true
+                        vc.model = model
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                     
@@ -433,7 +449,7 @@ extension OwnerFYListViewController {
                 }else if Isfailure == 5 {
                     AppUtilities.makeToast(SSCode.ERROR_CODE_7014.msg)
                 }
-            }
+            }*/
             
         }
         
