@@ -167,9 +167,11 @@ class OwnerBuildingClickCell: BaseEditCell {
                 }
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
                 
-            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentType {
-                
-            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeAirConditionType{
+            }
+//            else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentType {
+//                
+//            }
+            else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeAirConditionType{
                 
                 editLabel.text = buildingModel?.airditionType?.rawValue
                 

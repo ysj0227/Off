@@ -31,23 +31,135 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     }
     
     @objc func valueDidChange() {
+        
         let textNum = editLabel.text?.count
-        ///建筑面积
+        
+        //MARK: 楼盘
+        //MARK: 楼盘      ///建筑面积 只支持0.1-1000正数数字，保留1位小数，单位“万 M²
         if model.type == .OwnerBuildingEditTypeArea {
-            
+            //截取
+            if textNum! > 6 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 6)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
         }
-            ///净高
+        //MARK: 楼盘      ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         else if model.type == .OwnerBuildingEditTypeClearHeight {
-            
+            //截取
+            if textNum! > 3 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
         }
-            ///层高
+        //MARK: 楼盘      ///层高   选填，仅支持1-8之间正数，保留1位小数，单位 米
         else if model.type == .OwnerBuildingEditTypeFloorHeight {
-            
+            //截取
+            if textNum! > 3 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
         }
-            ///物业费
+        //MARK: 楼盘      ///物业费  必填，数字，0-100之间正数，保留1位小数，单位 “元/㎡/月
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
+            //截取
+            if textNum! > 5 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 5)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        
+        
+        
+        //MARK: 网点
+        //MARK: 网点盘      ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
+        if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
+            //截取
+            if textNum! > 3 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        
+        
+        
+        //MARK: 办公室
+        //MARK: 办公室     ///建筑面积 - 必填，只支持10-100000正数数字，保留2位小数，单位 M²
+        if officeModel.type == .OwnerBuildingOfficeTypeArea {
+            //截取
+            if textNum! > 9 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 9)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 办公室     ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
+        else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
+            //截取
+            if textNum! > 3 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 办公室     选填，仅支持1-8之间正数，保留1位小数，单位 米
+        else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
+            //截取
+            if textNum! > 3 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 办公室     ///物业费 必填，可修改，默认获取楼盘物业费;     物业金额根据房源面积计算，计算公式=物业费*房源面积，0-100000，保留1位小数，单位 元/月
+        else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
+            //截取
+            if textNum! > 8 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 8)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 办公室     ///租金 单价 - 输入 元/月，范围：1-1000000之间正整数，单位“元
+        else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+            //截取
+            if textNum! > 7 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        
+               
+        
+        //MARK: 独立办公室
+        //MARK: 独立办公室       ///面积，非必填，支持输入1-10000正数，支持保留1位小数
+        if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
+            //截取
+            if textNum! > 7 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 独立办公室       ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
+            //截取
+            if textNum! > 3 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 独立办公室       ///租金 输入 元/月，范围：1-1000000之间正整数，单位“元
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
+            //截取
+            if textNum! > 7 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        
+        
+        
+        //MARK: 开放工位
+        //MARK: 开放工位        ///租金
+        if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
             
         }
+        
     }
     
     ///楼盘模型
@@ -182,30 +294,37 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
 
 extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        ///建筑面积
+
+        //MARK: 楼盘
+        //MARK: 楼盘      ///建筑面积
         if model.type == .OwnerBuildingEditTypeArea {
-            
+            buildingModel?.areaOffice = textField.text
         }
-            ///净高
+        //MARK: 楼盘      ///净高
         else if model.type == .OwnerBuildingEditTypeClearHeight {
-            
+            buildingModel?.clearHeight = textField.text
         }
-            ///层高
+        //MARK: 楼盘      ///层高
         else if model.type == .OwnerBuildingEditTypeFloorHeight {
-            
+            buildingModel?.storeyHeight = textField.text
         }
-            ///物业费
+        //MARK: 楼盘      ///物业费
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
-            
+            buildingModel?.propertyCosts = textField.text
         }
         
-        ///净高
+        
+        
+        //MARK: 楼盘
+        //MARK: 楼盘      ///净高
         if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
-            
+            buildingModel?.clearHeight = textField.text
         }
         
-        ///面积
+        
+        
+        //MARK: 办公室
+        //MARK: 办公室     ///建筑面积 - 两位
         if officeModel.type == .OwnerBuildingOfficeTypeArea {
             ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
             if let areaOffice = buildingModel?.areaOffice {
@@ -223,34 +342,45 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
             }
             buildingModel?.areaOffice = textField.text
         }
-        ///净高
+        //MARK: 办公室     ///净高
         else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
             buildingModel?.clearHeight = textField.text
         }
-        ///层高
+        //MARK: 办公室     ///层高
         else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
             buildingModel?.storeyHeight = textField.text
         }
-        ///物业费
+        //MARK: 办公室     ///物业费
         else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
             buildingModel?.propertyCosts = textField.text
         }
-        ///租金单价 *
+        //MARK: 办公室     ///租金单价 - 两位
         else if officeModel.type == .OwnerBuildingOfficeTypePrice {
             buildingModel?.dayPrice = textField.text
         }
         
+               
+        
+        //MARK: 独立办公室
+        //MARK: 独立办公室       ///建筑面积 - 一位
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
-            
-        }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
-            
-        }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
-            
+            buildingModel?.areaOffice = textField.text
+        }
+        //MARK: 独立办公室       ///净高
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
+            buildingModel?.clearHeight = textField.text
+        }
+        //MARK: 独立办公室       ///租金
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
+            buildingModel?.dayPrice = textField.text
         }
         
-        ///租金
+        
+        
+        //MARK: 开放工位
+        //MARK: 开放工位        ///租金
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
-            
+            buildingModel?.dayPrice = textField.text
         }
         
         guard let blockk = self.endEditingMessageCell else {
@@ -262,25 +392,25 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
     }
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        ///建筑面积
-        if model.type == .OwnerBuildingEditTypeArea {
-            return SSTool.validateBuildingArea(name: string)
-        }
-            ///净高
-        else if model.type == .OwnerBuildingEditTypeClearHeight {
-            return SSTool.validateBuildingClearHeight(name: string)
-        }
-            ///层高
-        else if model.type == .OwnerBuildingEditTypeFloorHeight {
-            return SSTool.validateBuildingFloorHeight(name: string)
-        }
-            ///物业费
-        else if model.type == .OwnerBuildingEditTypePropertyCoast {
-            return SSTool.validateBuildingPropertyCoast(name: string)
-        }
-        return true
-    }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//
+//        ///建筑面积
+//        if model.type == .OwnerBuildingEditTypeArea {
+//            return SSTool.validateBuildingArea(name: string)
+//        }
+//            ///净高
+//        else if model.type == .OwnerBuildingEditTypeClearHeight {
+//            return SSTool.validateBuildingClearHeight(name: string)
+//        }
+//            ///层高
+//        else if model.type == .OwnerBuildingEditTypeFloorHeight {
+//            return SSTool.validateBuildingFloorHeight(name: string)
+//        }
+//            ///物业费
+//        else if model.type == .OwnerBuildingEditTypePropertyCoast {
+//            return SSTool.validateBuildingPropertyCoast(name: string)
+//        }
+//        return true
+//    }
 }
 

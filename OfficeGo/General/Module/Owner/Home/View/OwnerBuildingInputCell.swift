@@ -27,42 +27,81 @@ class OwnerBuildingInputCell: BaseEditCell {
     
     @objc func valueDidChange() {
         let textNum = editLabel.text?.count
-        ///写字楼名称
+        
+        //MARK: 楼盘
+        //MARK: 楼盘  ///写字楼名称 文本，过滤 <>=，,。？? 最多25个字
         if model.type == .OwnerBuildingEditTypeBuildingName {
             //截取
-            if textNum! > ownerMaxBuildingnameNumber_20 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
-                let str = editLabel.text?.substring(to: index!)
-                editLabel.text = str
+            if textNum! > 25 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 25)
+                editLabel.text = editLabel.text?.substring(to: index!)
             }
         }
-            ///楼号/楼名
+        //MARK: 楼盘  ///楼号/楼名 默认带入园区名，填写楼名，必填，最多10个字；
         else if model.type == .OwnerBuildingEditTypeBuildingNum {
             //截取
-            if textNum! > ownerMaxBuildingnameNumber_20 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
-                let str = editLabel.text?.substring(to: index!)
-                editLabel.text = str
+            if textNum! > 10 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 10)
+                editLabel.text = editLabel.text?.substring(to: index!)
             }
         }
-            ///详细地址
+        //MARK: 楼盘    ///详细地址 2-100
         else if model.type == .OwnerBuildingEditTypeDetailAddress{
             //截取
-            if textNum! > ownerMaxAddressDetailNumber_30 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
-                let str = editLabel.text?.substring(to: index!)
-                editLabel.text = str
+            if textNum! > 100 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 100)
+                editLabel.text = editLabel.text?.substring(to: index!)
             }
         }
-            ///物业公司
+        //MARK: 楼盘   ///物业公司 过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
         else if model.type == .OwnerBuildingEditTypePropertyCompany{
             //截取
-            if textNum! > ownerMaxAddressDetailNumber_30 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
-                let str = editLabel.text?.substring(to: index!)
-                editLabel.text = str
+            if textNum! > 20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 20)
+                editLabel.text = editLabel.text?.substring(to: index!)
             }
         }
+        
+        
+        //MARK: 网点
+        //MARK: 网点  ///网点名称 文本，过滤 <>=，,。？? 最多25个字
+        if jointModel.type == .OwnerBuildingJointEditTypeBuildingName {
+            //截取
+            if textNum! > 25 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 25)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 网点  ///详细地址 2-100
+        else if jointModel.type == .OwnerBuildingJointEditTypeDetailAddress{
+            //截取
+            if textNum! > 100 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 100)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        
+        
+        //MARK: 办公室
+        //MARK: 办公室 ///标题 过滤 <>=，,。？? 和连续超过8位的数字，最多25个字
+        if officeModel.type == .OwnerBuildingOfficeTypeName {
+            //截取
+            if textNum! > 25 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 25)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        
+        //MARK: 独立办公室
+        //MARK: 独立办公室 ///标题 过滤 <>=，,。？? 最多20个字，不填时默认拼接：工位数+网点名
+        if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeName {
+            //截取
+            if textNum! > 20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 20)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+
     }
     
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {
@@ -112,9 +151,7 @@ class OwnerBuildingInputCell: BaseEditCell {
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = true
             
-            ///写字楼名称
-            ///详细地址
-            ///写字楼名称
+            ///网点名称
             if jointModel.type == .OwnerBuildingJointEditTypeBuildingName {
                 
             }
@@ -166,51 +203,114 @@ class OwnerBuildingInputCell: BaseEditCell {
 extension OwnerBuildingInputCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        ///写字楼名称
+        
+        //MARK: 楼盘
+        //MARK: 楼盘  ///写字楼名称 文本，过滤 <>=，,。？? 最多25个字
         if model.type == .OwnerBuildingEditTypeBuildingName {
             
+            buildingModel?.buildingName = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
-            ///楼号/楼名
+        //MARK: 楼盘  ///楼号/楼名 默认带入园区名，填写楼名，必填，最多10个字；
         else if model.type == .OwnerBuildingEditTypeBuildingNum {
             
+            buildingModel?.buildingNum = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
-            ///详细地址
+        //MARK: 楼盘    ///详细地址 2-100
         else if model.type == .OwnerBuildingEditTypeDetailAddress{
             
+            buildingModel?.address = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
-            ///物业公司
+        //MARK: 楼盘   ///物业公司 过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
         else if model.type == .OwnerBuildingEditTypePropertyCompany{
             
+            buildingModel?.property = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         
-        guard let blockk = self.endEditingMessageCell else {
-            return
+        
+        //MARK: 网点
+        //MARK: 网点  ///网点名称 文本，过滤 <>=，,。？? 最多25个字
+        if jointModel.type == .OwnerBuildingJointEditTypeBuildingName {
+            
+            buildingModel?.buildingName = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
-        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        //MARK: 网点  ///详细地址 2-100
+        else if jointModel.type == .OwnerBuildingJointEditTypeDetailAddress{
+            
+            buildingModel?.address = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        }
+        
+        
+        //MARK: 办公室
+        //MARK: 办公室 ///标题 过滤 <>=，,。？? 和连续超过8位的数字，最多25个字
+        if officeModel.type == .OwnerBuildingOfficeTypeName {
+            
+            buildingModel?.buildingName = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        }
+        
+        //MARK: 独立办公室
+        //MARK: 独立办公室 ///标题 过滤 <>=，,。？? 最多20个字，不填时默认拼接：工位数+网点名
+        if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeName {
+            
+            buildingModel?.buildingName = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        }
+
     }
+
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        ///写字楼名称 ------ 过滤 <>=，,。？? 最多25个字
-        if model.type == .OwnerBuildingEditTypeBuildingName {
-            return SSTool.isPureStrOrNumNumber(text: string)
-        }
-            ///楼号/楼名 ------ 最多10个字
-        else if model.type == .OwnerBuildingEditTypeBuildingNum {
-            return SSTool.isPureStrOrNumNumber(text: string)
-        }
-            ///详细地址 ------
-        else if model.type == .OwnerBuildingEditTypeDetailAddress{
-            return SSTool.isPureStrOrNumNumber(text: string)
-        }
-            ///物业公司 ------ 过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
-        else if model.type == .OwnerBuildingEditTypePropertyCompany{
-            return SSTool.isPureStrOrNumNumber(text: string)
-        }
-        return true
-    }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//
+//        ///写字楼名称 ------ 过滤 <>=，,。？? 最多25个字
+//        if model.type == .OwnerBuildingEditTypeBuildingName {
+//            return SSTool.isPureStrOrNumNumber(text: string)
+//        }
+//            ///楼号/楼名 ------ 最多10个字
+//        else if model.type == .OwnerBuildingEditTypeBuildingNum {
+//            return SSTool.isPureStrOrNumNumber(text: string)
+//        }
+//            ///详细地址 ------
+//        else if model.type == .OwnerBuildingEditTypeDetailAddress{
+//            return SSTool.isPureStrOrNumNumber(text: string)
+//        }
+//            ///物业公司 ------ 过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
+//        else if model.type == .OwnerBuildingEditTypePropertyCompany{
+//            return SSTool.isPureStrOrNumNumber(text: string)
+//        }
+//        return true
+//    }
 }

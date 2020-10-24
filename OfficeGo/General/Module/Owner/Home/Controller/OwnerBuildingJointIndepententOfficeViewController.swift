@@ -122,7 +122,7 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
         typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeName))
         
         ///出租方式 *
-        typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeRentType))
+        //typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeRentType))
         
         ///工位数 *
         typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeSeats))
@@ -334,8 +334,9 @@ extension OwnerBuildingJointIndepententOfficeViewController {
         
         switch model.type {
             ///选择cell
-            
-        case .OwnerBuildingJointOfficeTypeRentType, .OwnerBuildingJointOfficeTypeRentFreePeriod, .OwnerBuildingJointOfficeTypeAirConditionType:
+           
+        case .OwnerBuildingJointOfficeTypeRentFreePeriod, .OwnerBuildingJointOfficeTypeAirConditionType:
+        //case .OwnerBuildingJointOfficeTypeRentType, .OwnerBuildingJointOfficeTypeRentFreePeriod, .OwnerBuildingJointOfficeTypeAirConditionType:
             
             ///出租方式
             ///所在楼层
@@ -455,8 +456,9 @@ extension OwnerBuildingJointIndepententOfficeViewController {
         switch typeSourceArray[indexPath.section].type {
             ///选择cell
             
-        case .OwnerBuildingJointOfficeTypeRentType, .OwnerBuildingJointOfficeTypeRentFreePeriod, .OwnerBuildingJointOfficeTypeAirConditionType:
+        //case .OwnerBuildingJointOfficeTypeRentType, .OwnerBuildingJointOfficeTypeRentFreePeriod, .OwnerBuildingJointOfficeTypeAirConditionType:
             
+        case .OwnerBuildingJointOfficeTypeRentFreePeriod, .OwnerBuildingJointOfficeTypeAirConditionType:
             ///出租方式
             ///所在楼层
             ///免租期
@@ -554,10 +556,10 @@ extension OwnerBuildingJointIndepententOfficeViewController {
         switch typeSourceArray[indexPath.section].type {
             ///选择cell
             
-        case .OwnerBuildingJointOfficeTypeRentType:
-            
-            ///出租方式
-            SSLog(typeSourceArray[indexPath.section].type)
+//        case .OwnerBuildingJointOfficeTypeRentType:
+//            
+//            ///出租方式
+//            SSLog(typeSourceArray[indexPath.section].type)
             
             
         ///空调类型

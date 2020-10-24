@@ -99,13 +99,42 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
     
     @objc func valueDidChange() {
         let textNum = editLabel.text?.count
-        ///电梯数 - 客梯
+        
+        //MARK: 楼盘
+        //MARK: 楼盘  ///电梯数 - 客梯 必填，客梯 货梯分开填，仅支持0-20数字；
         if model.type == .OwnerBuildingEditTypePassengerNum {
-            
+            //截取
+            if textNum! > 2 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
         }
-            ///电梯数 - 货梯
+        //MARK: 楼盘  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
         else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
-            
+            //截取
+            if textNum! > 2 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        
+        
+        //MARK: 网点
+        //MARK: 网点  ///电梯数 - 客梯 必填，客梯 货梯分开填，仅支持0-20数字；
+        if jointModel.type == .OwnerBuildingJointEditTypePassengerNum {
+            //截取
+            if textNum! > 2 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 网点  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
+        else if jointModel.type == .OwnerBuildingJointEditTypeFloorCargoNum {
+            //截取
+            if textNum! > 2 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
         }
     }
     
@@ -152,14 +181,27 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
 extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        ///电梯数 - 客梯
+        //MARK: 楼盘
+        //MARK: 楼盘  ///电梯数 - 客梯 必填，客梯 货梯分开填，仅支持0-20数字；
         if model.type == .OwnerBuildingEditTypePassengerNum {
-            
+            buildingModel?.passengerLift = textField.text
         }
-            ///电梯数 - 货梯
+        //MARK: 楼盘  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
         else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
-            
+            buildingModel?.cargoLift = textField.text
         }
+        
+        
+        //MARK: 网点
+        //MARK: 网点  ///电梯数 - 客梯 必填，客梯 货梯分开填，仅支持0-20数字；
+        if jointModel.type == .OwnerBuildingJointEditTypePassengerNum {
+            buildingModel?.passengerLift = textField.text
+        }
+        //MARK: 网点  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
+        else if jointModel.type == .OwnerBuildingJointEditTypeFloorCargoNum {
+            buildingModel?.cargoLift = textField.text
+        }
+        
         
         guard let blockk = self.endEditingMessageCell else {
             return
@@ -169,18 +211,6 @@ extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-    }
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        ///电梯数 - 客梯
-        if model.type == .OwnerBuildingEditTypePassengerNum {
-            return SSTool.validateBuildingPassengerNum(name: string)
-        }
-            ///电梯数 - 货梯
-        else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
-            return SSTool.validateBuildingPassengerNum(name: string)
-        }
-        return true
     }
 }
 

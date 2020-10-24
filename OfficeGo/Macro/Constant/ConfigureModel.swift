@@ -112,8 +112,8 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
         case .OwnerBuildingJointOfficeTypeName:
             return FuWenBen(name: "标题", centerStr: "   ", last: "")
         ///出租方式 *
-        case .OwnerBuildingJointOfficeTypeRentType:
-            return FuWenBen(name: "出租方式", centerStr: " * ", last: "")
+//        case .OwnerBuildingJointOfficeTypeRentType:
+//            return FuWenBen(name: "出租方式", centerStr: " * ", last: "")
         ///工位数 *
         case .OwnerBuildingJointOfficeTypeSeats:
             return FuWenBen(name: "工位数", centerStr: "   ", last: "")
@@ -168,8 +168,8 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
         case .OwnerBuildingJointOfficeTypeName:
             return "请输入标题"
         ///出租方式 *
-        case .OwnerBuildingJointOfficeTypeRentType:
-            return ""
+//        case .OwnerBuildingJointOfficeTypeRentType:
+//            return ""
         ///工位数 *
         case .OwnerBuildingJointOfficeTypeSeats:
             return "个"
@@ -778,6 +778,89 @@ class OwnerBuildingEditConfigureModel : NSObject {
         ///上传楼盘vr
         case .OwnerBuildingEditTypeBuildingVR:
             return "请输入URL"
+        }
+    }
+    
+    func getTextLength(type: OwnerBuildingEditType) -> Int{
+        switch type {
+        ///楼盘类型
+        case .OwnerBuildingEditTypeBuildingTypew:
+            return 0
+        ///写字楼名称
+        case .OwnerBuildingEditTypeBuildingName:
+            return 25
+        ///楼号/楼名
+        case .OwnerBuildingEditTypeBuildingNum:
+            return 10
+        ///所在区域
+        case .OwnerBuildingEditTypeDisctict:
+            return 0
+        ///详细地址
+        case .OwnerBuildingEditTypeDetailAddress:
+            return 100
+        ///总楼层
+        case .OwnerBuildingEditTypeTotalFloor:
+            return 0
+        ///竣工时间
+        case .OwnerBuildingEditTypeCompelteTime:
+            return 0
+        ///翻新时间
+        case .OwnerBuildingEditTypeRenovationTime:
+            return 0
+        ///建筑面积
+        case .OwnerBuildingEditTypeArea:
+            return 6
+        ///净高
+        case .OwnerBuildingEditTypeClearHeight:
+            return 3
+        ///层高
+        case .OwnerBuildingEditTypeFloorHeight:
+            return 3
+        ///物业公司
+        case .OwnerBuildingEditTypePropertyCompany:
+            return 20
+        ///物业费
+        case .OwnerBuildingEditTypePropertyCoast:
+            return 5
+        ///车位数
+        case .OwnerBuildingEditTypeParkingNum:
+            return 9999999
+        ///车位费
+        case .OwnerBuildingEditTypeParkingCoast:
+            return 4
+        ///空调类型
+        case .OwnerBuildingEditTypeAirConditionType:
+            return 0
+        ///空调费
+        case .OwnerBuildingEditTypeAirConditionCoast:
+            return 0
+        ///电梯数 - 客梯
+        case .OwnerBuildingEditTypePassengerNum:
+            return 2
+        ///电梯数 - 客、货梯
+        case .OwnerBuildingEditTypeFloorCargoNum:
+            return 2
+        ///网络
+        case .OwnerBuildingEditTypeNetwork:
+            return 0
+        ///入驻企业
+        case .OwnerBuildingEditTypeEnterCompany:
+            return 0
+        ///详细介绍
+        case .OwnerBuildingEditTypeDetailIntroduction:
+            return 100
+        ///特色
+        case .OwnerBuildingEditTypeFeature:
+            return 0
+        ///上传楼盘图片
+        case .OwnerBuildingEditTypeBuildingImage:
+            return 0
+        ///上传楼盘视频
+        case .OwnerBuildingEditTypeBuildingVideo:
+            return 0
+        ///上传楼盘vr
+        case .OwnerBuildingEditTypeBuildingVR:
+            return 0
         }
     }
     

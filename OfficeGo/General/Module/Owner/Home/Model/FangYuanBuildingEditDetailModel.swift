@@ -55,9 +55,9 @@ class FangYuanBuildingEditDetailModel: BaseModel {
     ///车位租金(元/月)
     var ParkingSpaceRent : String?
     ///客梯
-    var passengerLift : Int?
+    var passengerLift : String?
     ///货梯
-    var cargoLift : Int?
+    var cargoLift : String?
     ///空调
     var airConditioning : String?
     ///封面图

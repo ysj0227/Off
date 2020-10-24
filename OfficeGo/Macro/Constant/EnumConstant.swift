@@ -430,7 +430,7 @@ public enum OwnerBuildingJointOfficeType {
     ///标题
     case OwnerBuildingJointOfficeTypeName
     ///出租方式 *
-    case OwnerBuildingJointOfficeTypeRentType
+    //case OwnerBuildingJointOfficeTypeRentType
     ///工位数 *
     case OwnerBuildingJointOfficeTypeSeats
     ///面积
