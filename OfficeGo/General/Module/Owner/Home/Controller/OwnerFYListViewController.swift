@@ -108,13 +108,6 @@ class OwnerFYListViewController: BaseGroupTableViewController {
             }
         }
     }
-
-    //MARK: 获取首页列表数据
-    override func refreshData() {
-        
-        requestHouseList()
-    }
-    
     
     func requestHouseList() {
         
@@ -259,7 +252,7 @@ extension OwnerFYListViewController {
         SSNetworkTool.SSFYManager.request_getBuildingList(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<OwnerBuildingListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
-                if decoratedArray.count == 1 {
+                if decoratedArray.count >= 1 {
                     weakSelf.buildingListViewModel = OwnerBuildingListViewModel.init(model: decoratedArray[0] ?? OwnerBuildingListModel())
                 }
                 
@@ -456,9 +449,17 @@ extension OwnerFYListViewController {
                         let vc = OwnerBuildingOfficeViewController()
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else {
-                        ///独立办公室
-                        let vc = OwnerBuildingJointIndepententOfficeViewController()
-                        self?.navigationController?.pushViewController(vc, animated: true)
+                        if viewModel.officeType == 1 {
+
+                            ///独立办公室
+                            let vc = OwnerBuildingJointIndepententOfficeViewController()
+                            self?.navigationController?.pushViewController(vc, animated: true)
+                        }else {
+
+                            ///开放工位
+                            let vc = OwnerBuildingJointOpenStationViewController()
+                            self?.navigationController?.pushViewController(vc, animated: true)
+                        }
                     }
                 }
             }
@@ -491,13 +492,16 @@ extension OwnerFYListViewController {
                 vc.model = detail
                 self.navigationController?.pushViewController(vc, animated: true)
             }else if model.btype == 2 {
-                let vc = RenterOfficeJointFYDetailVC()
-                vc.isFromOwnerScan = true
-                let detail = FangYuanBuildingOpenStationModel()
-                detail.btype = model.btype
-                detail.id = model.houseId
-                vc.model = detail
-                self.navigationController?.pushViewController(vc, animated: true)
+                if model.officeType == 1 {
+
+                    let vc = RenterOfficeJointFYDetailVC()
+                    vc.isFromOwnerScan = true
+                    let detail = FangYuanBuildingOpenStationModel()
+                    detail.btype = model.btype
+                    detail.id = model.houseId
+                    vc.model = detail
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
             /*
             if let Isfailure = model.Isfailure {
