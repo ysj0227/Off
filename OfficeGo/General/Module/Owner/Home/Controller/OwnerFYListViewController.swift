@@ -130,8 +130,10 @@ class OwnerFYListViewController: BaseGroupTableViewController {
             params["btype"] = buildingListViewModel?.btype as AnyObject?
         }
         params["buildingId"] = buildingListViewModel?.idString as AnyObject?
+        ///是不是临时的楼盘；0不是，1是
+        params["isTemp"] = buildingListViewModel?.isTemp as AnyObject?
 
-        SSNetworkTool.SSFYDetail.request_getBuildingFYList(params: params, success: { [weak self] (response) in
+        SSNetworkTool.SSFYManager.request_getHouseLists(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<OwnerFYListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
@@ -253,9 +255,8 @@ extension OwnerFYListViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["pageNo"] = 1 as AnyObject
         params["pageSize"] = 1 as AnyObject
-        params["type"] = 2 as AnyObject
 
-        SSNetworkTool.SSHome.request_getselectBuildingApp(params: params, success: { [weak self] (response) in
+        SSNetworkTool.SSFYManager.request_getBuildingList(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<OwnerBuildingListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 if decoratedArray.count == 1 {
@@ -344,7 +345,7 @@ extension OwnerFYListViewController {
     func shareVc(viewModel: OwnerFYListViewModel) {
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingListViewModel?.buildingName ?? ""
-        shareVC.descriptionString = viewModel.addressString ?? ""
+        shareVC.descriptionString = viewModel.houseName ?? ""
         shareVC.thumbImage = viewModel.mainPic
         shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BuildingFYDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(buildingListViewModel?.idString ?? 0)&houseId=\(viewModel.id ?? 0)"
         shareVC.modalPresentationStyle = .overFullScreen
@@ -419,12 +420,18 @@ extension OwnerFYListViewController {
             if model.btype == 1 {
                 let vc = RenterOfficebuildingFYDetailVC()
                 vc.isFromOwnerScan = true
-                vc.model = model
+                let detail = FangYuanBuildingOpenStationModel()
+                detail.btype = model.btype
+                detail.id = model.houseId
+                vc.model = detail
                 self.navigationController?.pushViewController(vc, animated: true)
             }else if model.btype == 2 {
                 let vc = RenterOfficeJointFYDetailVC()
                 vc.isFromOwnerScan = true
-                vc.model = model
+                let detail = FangYuanBuildingOpenStationModel()
+                detail.btype = model.btype
+                detail.id = model.houseId
+                vc.model = detail
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             /*

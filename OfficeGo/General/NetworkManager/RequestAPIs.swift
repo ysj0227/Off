@@ -61,6 +61,24 @@ class SSDelegateURL: NSObject {
     static let h5OwnerStaffListUrl = "owner/staffList.html"
 }
 
+
+//  MARK:   --房源列表
+class SSOwnerFYManagerURL: NSObject {
+    
+    //楼盘列表接口
+    static let getBuildingList = "api/building/getBuildingList"
+    
+    //房源列表接口
+    static let getHouseLists = "api/house/getHouseList"
+    
+    //上下架房源
+    static let getHousePublishOrRelease = "api/house/houseRelease"
+    
+    //删除房源
+    static let getHouseDelete = "api/house/houseDel"
+    
+}
+
 // MARK: --扫码登录pc
 class SSWebLoginURL: NSObject {
     static let getWebLogin = "api/login/bindTokenUser"

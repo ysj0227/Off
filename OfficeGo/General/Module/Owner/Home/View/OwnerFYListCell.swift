@@ -318,7 +318,7 @@ class OwnerFYListCell: BaseTableViewCell {
             }
         }
         houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_1x1))
-        houseNameLabel.text = "\(viewModel.buildingName ?? "")"
+        houseNameLabel.text = "\(viewModel.houseName ?? "")"
         
     }
     

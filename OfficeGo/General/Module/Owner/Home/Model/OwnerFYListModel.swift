@@ -7,29 +7,68 @@
 //
 
 ///房源列表模型
-class OwnerFYListModel: FangYuanBuildingOpenStationModel {
-    
+class OwnerFYListModel: BaseModel {
+    ///是否有添加管理员的权限 true：是，false：否
+    var ispermissions : Bool?
+    ///房源面积
+    var area : Float?
+    var btype : Int?
+    ///单价
+    var dayPrice : Float?
+    ///房源装修类型
+    var dictCname : String?
+    var houseId : Int?
+    ///房源当前状态0未发布，1发布，2下架,3:待完善
+    var houseStatus : Int?
+    var mainPic : String?
+    var monthPrice : Float?
+    ///办公类型1是独立办公室，2是开放工位
+    var officeType : Int?
+    var perfect : String?
+    ///楼盘下房源的时候是预估工位数，网点下面房源时为工位数
+    var seats : String?
+    var title : String?
+    var updateTime : Int?
+    var updateUser : String?
 }
 ///房源列表viewmodel模型
 class OwnerFYListViewModel: NSObject {
-    ///是否有vr，1 有，0 没有
-    var vr: String?
+       ///是否有添加管理员的权限 true：是，false：否
+    var ispermissions : Bool?
+    ///房源面积
+    var area : Float?
+
+    ///单价
+    var dayPrice : Float?
+    ///房源装修类型
+    var dictCname : String?
+    var houseId : Int?
+    ///房源当前状态0未发布，1发布，2下架,3:待完善
+    var houseStatus : Int?
+
+    var monthPrice : Float?
+    
+    var perfect : String?
+    
+    ///楼盘下房源的时候是预估工位数，网点下面房源时为工位数
+    var seats : String?
+
+    var updateTime : Int?
+    
+    var updateUser : String?
+    
+    
+    var houseName : String?
+
     ///1是写字楼，2是共享办公
     var btype: Int?
     ///房源id
     var id : Int?
-    
-    ///0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除
-    var Isfailure : Int?
 
     /// 办公类型1是独立办公室，2是开放工位
     var officeType : Int?
     
     var mainPic : String?
-    
-    var buildingName : String?
-    
-    var addressString : String?
     
     ///开放工位
     ///工位数 - 30工位
@@ -84,17 +123,14 @@ class OwnerFYListViewModel: NSObject {
     
     init(model:OwnerFYListModel) {
         super.init()
-        vr = model.vr
-        Isfailure = model.Isfailure
         btype = model.btype
-        id = model.id
+        houseName = model.title
+        houseId = model.houseId
         mainPic = model.mainPic
-        buildingName = model.buildingName
-        addressString = model.businessDistrict ?? ""
 
         if btype == 1 {
             buildingArea = String(format: "%.0f㎡", model.area ?? 0)
-            let arr = model.simple?.split{$0 == ","}.map(String.init)
+            let arr = model.seats?.split{$0 == ","}.map(String.init)
             if let simpleArr = arr {
                 if simpleArr.count >= 2 {
                     buildinSeats = "最多\(simpleArr[1])个工位"
@@ -104,18 +140,12 @@ class OwnerFYListViewModel: NSObject {
             }
             buildingDayPriceString = "¥\(model.dayPrice ?? 0)/㎡/天"
             buildingMonthPriceString = "¥\(model.monthPrice ?? 0)/月"
-            buildingDecoration = model.decoration ?? ""
-            if model.floor?.isBlankString ?? false == true && model.totalFloor?.isBlankString ?? false == true {
-                buildingFloor = "--"
-            }else {
-                buildingFloor = "\(model.floor ?? "0")楼"
-            }
-            
+            buildingDecoration = model.dictCname ?? ""
             
             houseTypTags = "empty"
             
-            ///下架
-            if Isfailure == 0 {
+            ///房源当前状态0未发布，1发布，2下架,3:待完善
+            if houseStatus == 2 {
                 closePublishBtnTitle = "   重新发布   "
                 closePublishBtnHidden = false
                 houseFailureImg = "isFailureIcon"
@@ -135,15 +165,15 @@ class OwnerFYListViewModel: NSObject {
             if officeType == 1 {
                 individualAreaString = String(format: "%.0f㎡", model.area ?? 0)
                 individualMonthPriceString = "¥\(model.monthPrice ?? 0)"
-                individualSeatsString = "\(model.seats ?? 0)" + "人间"
-                individualSeatsStringAttri = FuWenBen(name: "\(model.seats ?? 0)", centerStr: "人间")
+                individualSeatsString = "\(model.seats ?? "0")" + "人间"
+                individualSeatsStringAttri = FuWenBen(name: "\(model.seats ?? "0")", centerStr: "人间")
                 individualDayPriceString = "¥\(model.dayPrice ?? 0)/位/月"
                 
                 
                 houseTypTags = "individualOfficeTag"
                 
-                ///下架
-                if Isfailure == 0 {
+                ///房源当前状态0未发布，1发布，2下架,3:待完善
+                if houseStatus == 2 {
                     closePublishBtnTitle = "   重新发布   "
                     closePublishBtnHidden = false
                     houseFailureImg = "isFailureIcon"
@@ -155,16 +185,16 @@ class OwnerFYListViewModel: NSObject {
                            
 
             }else {
-                openSeatsString = "\(model.seats ?? 0)" + "工位"
-                openSeatsStringAttri = FuWenBen(name: "\(model.seats ?? 0)", centerStr: "工位")
+                openSeatsString = "\(model.seats ?? "0")" + "工位"
+                openSeatsStringAttri = FuWenBen(name: "\(model.seats ?? "0")", centerStr: "工位")
                 openSeatsUnitLBString = "开放工位"
                 openMonthPriceString = "¥\(model.dayPrice ?? 0)"
-                openMinimumLeaseString = "\(model.minimumLease ?? "")" + "个月起租"
                 
                 
                 houseTypTags = "openstationTag"
 
-                if Isfailure == 0 {
+                ///房源当前状态0未发布，1发布，2下架,3:待完善
+                if houseStatus == 2 {
                     closePublishBtnTitle = "   重新发布   "
                     closePublishBtnHidden = false
                     houseFailureImg = "isFailureIcon"

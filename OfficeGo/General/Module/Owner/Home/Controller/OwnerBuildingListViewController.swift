@@ -108,9 +108,8 @@ class OwnerBuildingListViewController: BaseTableViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["pageNo"] = self.pageNo as AnyObject
         params["pageSize"] = self.pageSize as AnyObject
-        params["type"] = 2 as AnyObject
 
-        SSNetworkTool.SSHome.request_getselectBuildingApp(params: params, success: { [weak self] (response) in
+        SSNetworkTool.SSFYManager.request_getBuildingList(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<OwnerBuildingListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray

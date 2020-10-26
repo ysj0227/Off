@@ -31,6 +31,7 @@ class OwnerBuildingListCell: BaseTableViewCell {
     
     lazy var scanBtn: UIButton = {
         let view = UIButton.init()
+        view.setImage(UIImage.init(named: "scanBlue"), for: .selected)
         view.setImage(UIImage.init(named: "scanBlue"), for: .normal)
         view.addTarget(self, action: #selector(scanClick), for: .touchUpInside)
         return view
@@ -38,7 +39,8 @@ class OwnerBuildingListCell: BaseTableViewCell {
     
     lazy var editBtn: UIButton = {
         let view = UIButton.init()
-        view.setImage(UIImage.init(named: "editBlue"), for: .normal)
+        view.setImage(UIImage.init(named: "editBlue"), for: .selected)
+        view.setImage(UIImage.init(named: "editGray"), for: .normal)
         view.addTarget(self, action: #selector(editClick), for: .touchUpInside)
         return view
     }()
@@ -138,6 +140,9 @@ class OwnerBuildingListCell: BaseTableViewCell {
         
         houseNameLabel.text = "\(viewModel.buildingName ?? "")"
         
+        scanBtn.isSelected = true
+        
+        editBtn.isSelected = viewModel.isEdit ?? true
     }
     
 }

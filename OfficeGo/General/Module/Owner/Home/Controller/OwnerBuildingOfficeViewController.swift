@@ -231,7 +231,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     //MARK: 获取特色接口
     func requestGetFeature() {
         
-        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumbranchUnique, success: { [weak self] (response) in
+        SSNetworkTool.SSBasic.request_getDictionary(code: .codeEnumhouseUnique, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 for model in decoratedArray {

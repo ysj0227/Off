@@ -69,7 +69,8 @@ enum DictionaryCodeEnum: String {
     房源特色 houseUnique
     举报类型 reportType
     热门关键词 hotKeywords
-    会议室配套 roomMatchingUnique*/
+    会议室配套 roomMatchingUnique
+    楼盘特色 buildingUnique*/
     case codeEnumuserPosition = "userPosition"
     case codeEnumbasicServices = "basicServices"
     case codeEnumcompanyService = "companyService"
@@ -80,6 +81,7 @@ enum DictionaryCodeEnum: String {
     case codeEnumreportType = "reportType"
     case codeEnumhotKeywords = "hotKeywords"
     case roomMatchingUnique = "roomMatchingUnique"
+    case codeEnumbuildingUnique = "buildingUnique"
 }
 
 //协议url
