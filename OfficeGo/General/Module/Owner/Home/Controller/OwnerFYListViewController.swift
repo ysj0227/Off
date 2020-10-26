@@ -305,15 +305,67 @@ extension OwnerFYListViewController {
         ///下架
         if index == 0 {
             
-        }else if index == 1 {
-            ///删除
+            var params = [String:AnyObject]()
+             params["token"] = UserTool.shared.user_token as AnyObject?
+             params["houseId"] = viewModel.houseId as AnyObject?
             
+            ///1发布2下架
+            ///房源当前状态0未发布，1发布，2下架,3:待完善
+            if viewModel.houseStatus == 1 {
+                params["isRelease"] = 2 as AnyObject?
+            }else if viewModel.houseStatus == 2 {
+                params["isRelease"] = 1 as AnyObject?
+            }
+            
+             SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
+                self?.tableView.reloadData()
+                 }, failure: { (error) in
+                     
+             }) { (code, message) in
+               
+             }
+        }
+        ///删除
+        else if index == 1 {
+            
+            var params = [String:AnyObject]()
+             params["token"] = UserTool.shared.user_token as AnyObject?
+             params["houseId"] = viewModel.houseId as AnyObject?
+            //params["isTemp"] = viewModel.isTemp as AnyObject?
+
+             SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
+                 self?.tableView.reloadData()
+
+                 }, failure: { (error) in
+                     
+             }) { (code, message) in
+               
+             }
         }
     }
     
     //MARK: 发布 下架 关闭
     func publishFY(viewModel: OwnerFYListViewModel) {
         
+        var params = [String:AnyObject]()
+         params["token"] = UserTool.shared.user_token as AnyObject?
+         params["houseId"] = viewModel.houseId as AnyObject?
+        
+        ///1发布2下架
+        ///房源当前状态0未发布，1发布，2下架,3:待完善
+        if viewModel.houseStatus == 1 {
+            params["isRelease"] = 2 as AnyObject?
+        }else if viewModel.houseStatus == 2 {
+            params["isRelease"] = 1 as AnyObject?
+        }
+        
+         SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
+            self?.tableView.reloadData()
+             }, failure: { (error) in
+                 
+         }) { (code, message) in
+           
+         }
     }
     
     //MARK: 分享 - 只有发布的可以关闭
@@ -325,13 +377,26 @@ extension OwnerFYListViewController {
     //MARK: 删除
     func deleteFY(viewModel: OwnerFYListViewModel) {
         
+        var params = [String:AnyObject]()
+         params["token"] = UserTool.shared.user_token as AnyObject?
+         params["houseId"] = viewModel.houseId as AnyObject?
+        //params["isTemp"] = viewModel.isTemp as AnyObject?
+
+         SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
+             self?.tableView.reloadData()
+
+             }, failure: { (error) in
+                 
+         }) { (code, message) in
+           
+         }
     }
     
     ///点击分享按钮调用的方法
     func shareClick(viewModel: OwnerFYListViewModel) {
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
-        params["houseId"] = viewModel.id as AnyObject?
+        params["houseId"] = viewModel.houseId as AnyObject?
 
         SSNetworkTool.SSFYDetail.request_clickShareClick(params: params, success: { (response) in
             
@@ -347,7 +412,7 @@ extension OwnerFYListViewController {
         shareVC.buildingName = buildingListViewModel?.buildingName ?? ""
         shareVC.descriptionString = viewModel.houseName ?? ""
         shareVC.thumbImage = viewModel.mainPic
-        shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BuildingFYDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(buildingListViewModel?.idString ?? 0)&houseId=\(viewModel.id ?? 0)"
+        shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BuildingFYDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(buildingListViewModel?.idString ?? 0)&houseId=\(viewModel.houseId ?? 0)"
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
     }

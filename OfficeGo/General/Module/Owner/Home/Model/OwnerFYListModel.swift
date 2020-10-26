@@ -42,7 +42,9 @@ class OwnerFYListViewModel: NSObject {
     var dayPrice : Float?
     ///房源装修类型
     var dictCname : String?
+    
     var houseId : Int?
+    
     ///房源当前状态0未发布，1发布，2下架,3:待完善
     var houseStatus : Int?
 
@@ -62,8 +64,6 @@ class OwnerFYListViewModel: NSObject {
 
     ///1是写字楼，2是共享办公
     var btype: Int?
-    ///房源id
-    var id : Int?
 
     /// 办公类型1是独立办公室，2是开放工位
     var officeType : Int?
@@ -127,7 +127,8 @@ class OwnerFYListViewModel: NSObject {
         houseName = model.title
         houseId = model.houseId
         mainPic = model.mainPic
-
+        houseStatus = model.houseStatus
+        
         if btype == 1 {
             buildingArea = String(format: "%.0f㎡", model.area ?? 0)
             let arr = model.seats?.split{$0 == ","}.map(String.init)

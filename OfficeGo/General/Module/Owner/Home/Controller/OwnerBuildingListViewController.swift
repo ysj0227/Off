@@ -81,6 +81,13 @@ class OwnerBuildingListViewController: BaseTableViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        refreshData()
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -207,9 +214,7 @@ extension OwnerBuildingListViewController {
         
        
         self.tableView.register(OwnerBuildingListCell.self, forCellReuseIdentifier: OwnerBuildingListCell.reuseIdentifierStr)
-        
-        refreshData()
-        
+                
     }
     
     func dismissCVCScanEdit(viewModel: OwnerBuildingListViewModel, isScan: Bool) {
@@ -265,16 +270,16 @@ extension OwnerBuildingListViewController {
                 ///编辑
                 cell?.editClickBlock = { [weak self] in
                     
-                    self?.dismissCVCScanEdit(viewModel: viewModel, isScan: false)
+                    //self?.dismissCVCScanEdit(viewModel: viewModel, isScan: false)
                     
-                    /*
+                    
                     if viewModel.btype == 1 {
                         let vc = OwnerBuildingCreateViewController()
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else if viewModel.btype == 2 {
                         let vc = OwnerBuildingJointCreateViewController()
                         self?.navigationController?.pushViewController(vc, animated: true)
-                    }*/
+                    }
                 }
             }
         }

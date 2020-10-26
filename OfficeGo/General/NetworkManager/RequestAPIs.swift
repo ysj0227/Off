@@ -66,10 +66,10 @@ class SSDelegateURL: NSObject {
 class SSOwnerFYManagerURL: NSObject {
     
     //楼盘列表接口
-    static let getBuildingList = "api/building/getBuildingList"
+    static let getBuildingList = "api/building/selectBuildingList"
     
     //房源列表接口
-    static let getHouseLists = "api/house/getHouseList"
+    static let getHouseLists = "api/house/selectHouseList"
     
     //上下架房源
     static let getHousePublishOrRelease = "api/house/houseRelease"
