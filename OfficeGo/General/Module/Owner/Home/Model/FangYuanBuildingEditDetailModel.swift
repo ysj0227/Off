@@ -70,8 +70,8 @@ class FangYuanBuildingEditDetailModel: BaseModel {
     var conferenceNumber : Int?
     ///会议室最大容纳人数
     var conferencePeopleNumber : Int?
-    ///1单层2多层
-    var floorType : String?
+    ///1单层2多层 - 默认单层
+    var floorType : String = "1"
     ///入驻企业
     var settlementLicence : String?
     ///网点的总楼层（网点专属）

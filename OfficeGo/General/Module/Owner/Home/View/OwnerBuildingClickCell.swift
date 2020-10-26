@@ -207,14 +207,14 @@ class OwnerBuildingClickCell: BaseEditCell {
             
             ///所在楼层
             ///免租期
-            if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
+            if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
                 ///所在楼层 1 2
                 if buildingModel?.floorType == "1" {
                     editLabel.text = "单层"
                 }else if buildingModel?.floorType == "2" {
                     editLabel.text = "多层"
                 }
-            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
+            }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
                 
             }
         }

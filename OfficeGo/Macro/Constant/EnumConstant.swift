@@ -474,6 +474,8 @@ public enum OwnerBuildingJointOpenStationType {
     case OwnerBuildingJointOpenStationTypePrice
     ///所在楼层 *
     case OwnerBuildingJointOpenStationTypeTotalFloor
+    ///净高
+    case OwnerBuildingJointOpenStationTypeClearHeight
     ///最短租期 *
     case OwnerBuildingJointOpenStationTypeMinRentalPeriod
     ///免租期 *

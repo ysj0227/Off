@@ -33,6 +33,9 @@ class OwnerBuildingJointOpenStationConfigureModel : NSObject {
         ///所在楼层 *
         case .OwnerBuildingJointOpenStationTypeTotalFloor:
             return FuWenBen(name: "所在楼层", centerStr: " * ", last: "")
+        ///净高
+        case .OwnerBuildingJointOpenStationTypeClearHeight:
+            return FuWenBen(name: "净高", centerStr: "   ", last: "")
         ///最短租期 *
         case .OwnerBuildingJointOpenStationTypeMinRentalPeriod:
             return FuWenBen(name: "最短租期", centerStr: " * ", last: "")
@@ -56,6 +59,9 @@ class OwnerBuildingJointOpenStationConfigureModel : NSObject {
         ///所在楼层 *
         case .OwnerBuildingJointOpenStationTypeTotalFloor:
             return ""
+        ///净高
+        case .OwnerBuildingJointOpenStationTypeClearHeight:
+            return "米"
         ///最短租期 *
         case .OwnerBuildingJointOpenStationTypeMinRentalPeriod:
             return "月"

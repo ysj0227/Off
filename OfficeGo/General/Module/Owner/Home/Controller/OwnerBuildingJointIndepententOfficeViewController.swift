@@ -382,7 +382,9 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             
             ///文本输入cell
         ///标题
-        case .OwnerBuildingJointOfficeTypeName:
+        ///车位数
+        ///车位费
+        case .OwnerBuildingJointOfficeTypeName, .OwnerBuildingJointOfficeTypeParkingNum, .OwnerBuildingJointOfficeTypeParkingCoast:
             
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
@@ -394,12 +396,10 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             
             
         ///正数字文本输入cell
-        case .OwnerBuildingJointOfficeTypeSeats, .OwnerBuildingJointOfficeTypeMinRentalPeriod, .OwnerBuildingJointOfficeTypeParkingNum, .OwnerBuildingJointOfficeTypeParkingCoast:
+        case .OwnerBuildingJointOfficeTypeSeats, .OwnerBuildingJointOfficeTypeMinRentalPeriod:
             
             ///工位数
             ///最短租期
-            ///车位数
-            ///车位费
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()

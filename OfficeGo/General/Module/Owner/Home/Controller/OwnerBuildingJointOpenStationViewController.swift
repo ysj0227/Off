@@ -128,6 +128,9 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         ///所在楼层 *
         typeSourceArray.append(OwnerBuildingJointOpenStationConfigureModel.init(types: .OwnerBuildingJointOpenStationTypeTotalFloor))
         
+        ///净高
+        typeSourceArray.append(OwnerBuildingJointOpenStationConfigureModel.init(types: .OwnerBuildingJointOpenStationTypeClearHeight))
+
         ///最短租期 *
         typeSourceArray.append(OwnerBuildingJointOpenStationConfigureModel.init(types: .OwnerBuildingJointOpenStationTypeMinRentalPeriod))
         
@@ -339,7 +342,8 @@ extension OwnerBuildingJointOpenStationViewController {
             
             ///数字 - 一位小数点文本输入cell
         ///租金
-        case .OwnerBuildingJointOpenStationTypePrice:
+            ///净高
+        case .OwnerBuildingJointOpenStationTypePrice, .OwnerBuildingJointOpenStationTypeClearHeight:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
@@ -396,7 +400,7 @@ extension OwnerBuildingJointOpenStationViewController {
             
             ///数字 - 一位小数点文本输入cell
         ///租金
-        case .OwnerBuildingJointOpenStationTypePrice:
+        case .OwnerBuildingJointOpenStationTypePrice, .OwnerBuildingJointOpenStationTypeClearHeight:
             
             ///数字文本输入cell
             return BaseEditCell.rowHeight()
@@ -476,7 +480,7 @@ extension OwnerBuildingJointOpenStationViewController {
             
             ///数字 - 一位小数点文本输入cell
         ///租金
-        case .OwnerBuildingJointOpenStationTypePrice:
+        case .OwnerBuildingJointOpenStationTypePrice, .OwnerBuildingJointOpenStationTypeClearHeight:
             
             ///数字文本输入cell
             SSLog(typeSourceArray[indexPath.section].type)

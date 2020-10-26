@@ -156,7 +156,11 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         
         //MARK: 开放工位
         //MARK: 开放工位        ///租金
+        //MARK: 开放工位        ///净高
+        
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
+            
+        }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
             
         }
         
@@ -286,7 +290,10 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             ///租金
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
                 
+            }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
+
             }
+
         }
     }
     
@@ -381,6 +388,8 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         //MARK: 开放工位        ///租金
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
             buildingModel?.dayPrice = textField.text
+        }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
+            buildingModel?.clearHeight = textField.text
         }
         
         guard let blockk = self.endEditingMessageCell else {

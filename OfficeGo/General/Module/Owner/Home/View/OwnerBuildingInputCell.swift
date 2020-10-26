@@ -101,6 +101,22 @@ class OwnerBuildingInputCell: BaseEditCell {
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
         }
+        //MARK: 独立办公室   ///车位数  文本，最多20个字，过滤特殊字符
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingNum {
+            //截取
+            if textNum! > 2 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 独立办公室   ///车位费  文本，最多20个字，过滤特殊字符
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingCoast{
+            //截取
+            if textNum! > 2 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
 
     }
     
@@ -192,8 +208,14 @@ class OwnerBuildingInputCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = true
             
             ///标题
+            ///车位数
+            ///车位费
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeName {
                 
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingNum {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingCoast{
+                                
             }
         }
     }
@@ -285,7 +307,25 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
             }
             blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
-
+        //MARK: 独立办公室   ///车位数  文本，最多20个字，过滤特殊字符
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingNum {
+            
+            buildingModel?.parkingSpace = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        }
+        //MARK: 独立办公室   ///车位费  文本，最多20个字，过滤特殊字符
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingCoast{
+            
+            buildingModel?.ParkingSpaceRent = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        }
+        
     }
 
     
