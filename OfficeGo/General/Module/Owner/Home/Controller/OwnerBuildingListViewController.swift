@@ -92,7 +92,6 @@ class OwnerBuildingListViewController: BaseTableViewController {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.isHidden = true
-        
         setUpView()
     }
 
@@ -167,6 +166,7 @@ extension OwnerBuildingListViewController {
             make.width.equalTo(65)
             make.top.bottom.equalToSuperview()
         }
+        titleview?.leftButton.setImage(UIImage.init(named: ""), for: .normal)
         titleview?.leftButton.setTitle("收起", for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
