@@ -41,6 +41,13 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 150 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持1-150之间正整数")
+                }
+            }
+            
         }
         //MARK: 楼盘    ///车位数    仅支持0和正整数
         else if model.type == .OwnerBuildingEditTypeParkingNum {
@@ -57,6 +64,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 4)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 5000 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-5000正整数")
+                }
+            }
         }
         
         
@@ -68,6 +81,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 10 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-10正整数")
+                }
+            }
         }
         //MARK: 网点  ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
         else if jointModel.type == .OwnerBuildingJointEditTypeConferencePeopleNumber {
@@ -75,6 +94,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             if textNum! > 2 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 10 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-10正整数")
+                }
             }
         }
         //MARK: 网点  ///车位数    仅支持0和正整数
@@ -92,6 +117,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 4)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 5000 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-5000正整数")
+                }
+            }
         }
         
         
@@ -103,6 +134,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             if textNum! > 2 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 60 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-60正整数")
+                }
             }
         }
         
@@ -116,6 +153,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 100 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-100正整数")
+                }
+            }
         }
         //MARK: 独立办公室   ///最短租期 最短租期，必填，数字，单位月，支持输入0-60正整数
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
@@ -123,6 +166,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             if textNum! > 2 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 60 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-60正整数")
+                }
             }
         }
         
@@ -136,6 +185,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 200 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-200正整数")
+                }
+            }
         }
         //MARK: 开放工位    ///最短租期 最短租期，数字，必填，单位月，支持输入0-60正整数
         else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
@@ -144,11 +199,17 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 60 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-60正整数")
+                }
+            }
         }
         
     }
     
-    var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {
+    var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
@@ -175,7 +236,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     }
     
     ///网点
-    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor) {
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor)
@@ -203,7 +264,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     }
     
     ///办公室
-    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod) {
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
@@ -222,7 +283,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     }
     
     ///独立办公室
-    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeSeats) {
+    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingImage) {
         didSet {
             
             
@@ -244,7 +305,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     }
     
     ///开放工位
-    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod) {
+    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeBuildingImage) {
         didSet {
             
             
