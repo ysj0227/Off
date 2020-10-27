@@ -294,9 +294,9 @@ extension OwnerFYListViewController {
     }
     
     //MARK: 更多按钮
-    func moreBtnFY(index: Int, viewModel: OwnerFYListViewModel) {
+    func moreBtnFY(index: OWnerFYMoreSettingEnum, viewModel: OwnerFYListViewModel) {
         ///下架
-        if index == 0 {
+        if index == OWnerFYMoreSettingEnum.xiaJiaEnum {
             
             var params = [String:AnyObject]()
              params["token"] = UserTool.shared.user_token as AnyObject?
@@ -319,7 +319,7 @@ extension OwnerFYListViewController {
              }
         }
         ///删除
-        else if index == 1 {
+        else if index == OWnerFYMoreSettingEnum.deleteEnum {
             
             var params = [String:AnyObject]()
              params["token"] = UserTool.shared.user_token as AnyObject?
@@ -424,7 +424,7 @@ extension OwnerFYListViewController {
             if let viewModel = self.dataSourceViewModel[indexPath.row]  {
                 cell?.viewModel = viewModel
                 cell?.moreBtnClickBlock = { [weak self] in
-                    self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum.xiaJiaEnum.rawValue, OWnerFYMoreSettingEnum.deleteEnum.rawValue], clearButtonCallBack: {
+                    self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: viewModel.moreSettingArr, clearButtonCallBack: {
                         
                     }) {[weak self] (settingEnumIndex) in
                         SSLog("-----点击的是---\(settingEnumIndex)")

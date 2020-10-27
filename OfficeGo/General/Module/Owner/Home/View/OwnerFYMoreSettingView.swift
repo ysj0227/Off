@@ -21,11 +21,10 @@ class OwnerFYMoreSettingView: UIView {
     
     
     lazy var tableView: UITableView = {
-        let view = UITableView.init(frame: .zero, style: .grouped)
+        let view = UITableView.init(frame: .zero, style: .plain)
         view.backgroundColor = kAppWhiteColor
         view.separatorStyle = .none
         view.estimatedRowHeight = 40
-        view.isScrollEnabled = false
         return view
     }()
     
@@ -36,24 +35,50 @@ class OwnerFYMoreSettingView: UIView {
     //选择排序block
     fileprivate var sureHouseSortButtonCallBack:((Int) -> Void)?
         
+    //房源列表更多
+    fileprivate var sureOwnerFYMoreCallBack:((OWnerFYMoreSettingEnum) -> Void)?
+        
     fileprivate var datasource: [Any] = [] {
         didSet {
-            tableView.snp.remakeConstraints { (make) in
-                make.bottom.leading.trailing.equalToSuperview()
-                make.height.equalTo(datasource.count * 40 + 53 + 80)
-            }
-//            if CGFloat(datasource.count * 40 + 133) > (kHeight / 2.0) {
-//                tableView.isScrollEnabled = true
-//                tableView.snp.remakeConstraints { (make) in
-//                    make.bottom.leading.trailing.equalToSuperview()
-//                    make.height.equalTo(kHeight / 2.0)
-//                }
-//            }else {
-//                tableView.snp.remakeConstraints { (make) in
-//                    make.bottom.leading.trailing.equalToSuperview()
-//                    make.height.equalTo(datasource.count * 40 + 53 + 80)
-//                }
+//            tableView.snp.remakeConstraints { (make) in
+//                make.bottom.leading.trailing.equalToSuperview()
+//                make.height.equalTo(datasource.count * 40 + 53 + 80)
 //            }
+            if CGFloat(datasource.count * 40 + 133) > (kHeight / 2.0) {
+                tableView.isScrollEnabled = true
+                tableView.snp.remakeConstraints { (make) in
+                    make.bottom.leading.trailing.equalToSuperview()
+                    make.height.equalTo(kHeight / 2.0)
+                }
+            }else {
+                tableView.snp.remakeConstraints { (make) in
+                    make.bottom.leading.trailing.equalToSuperview()
+                    make.height.equalTo(datasource.count * 40 + 53 + 80)
+                }
+            }
+            
+            self.tableView.reloadData()
+        }
+    }
+    
+    fileprivate var moreSettingDatasource: [OWnerFYMoreSettingEnum] = [] {
+        didSet {
+//            tableView.snp.remakeConstraints { (make) in
+//                make.bottom.leading.trailing.equalToSuperview()
+//                make.height.equalTo(datasource.count * 40 + 53 + 80)
+//            }
+                        if CGFloat(moreSettingDatasource.count * 40 + 133) > (kHeight / 2.0) {
+                            tableView.isScrollEnabled = true
+                            tableView.snp.remakeConstraints { (make) in
+                                make.bottom.leading.trailing.equalToSuperview()
+                                make.height.equalTo(kHeight / 2.0)
+                            }
+                        }else {
+                            tableView.snp.remakeConstraints { (make) in
+                                make.bottom.leading.trailing.equalToSuperview()
+                                make.height.equalTo(moreSettingDatasource.count * 40 + 53 + 80)
+                            }
+                        }
             
             self.tableView.reloadData()
         }
@@ -73,17 +98,32 @@ class OwnerFYMoreSettingView: UIView {
     
     
     // MARK: - 弹出view显示 - 排序
-    func ShowOwnerFYMoreSettingView(datasource: [String], clearButtonCallBack: @escaping (() -> Void), sureHouseSortButtonCallBack: @escaping ((Int) -> Void)) -> Void {
+    func ShowOwnerSettingView(datasource: [String], clearButtonCallBack: @escaping (() -> Void), sureHouseSortButtonCallBack: @escaping ((Int) -> Void)) -> Void {
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: OwnerFYMoreSettingView.self) {
                 view.removeFromSuperview()
             }
         })
         
-        self.frame = CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight)
+        self.frame = CGRect(x: 0, y: 0, width: kWidth, height: kHeight)
         self.clearButtonCallBack = clearButtonCallBack
         self.sureHouseSortButtonCallBack = sureHouseSortButtonCallBack
         self.datasource = datasource
+        UIApplication.shared.keyWindow?.addSubview(self)
+    }
+    
+    // MARK: - 弹出view显示 - 房源更多点击独有
+    func ShowOwnerFYMoreSettingView(datasource: [OWnerFYMoreSettingEnum], clearButtonCallBack: @escaping (() -> Void), sureHouseSortButtonCallBack: @escaping ((OWnerFYMoreSettingEnum) -> Void)) -> Void {
+        UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
+            if view.isKind(of: OwnerFYMoreSettingView.self) {
+                view.removeFromSuperview()
+            }
+        })
+        
+        self.frame = CGRect(x: 0, y: 0, width: kWidth, height: kHeight)
+        self.clearButtonCallBack = clearButtonCallBack
+        self.sureOwnerFYMoreCallBack = sureHouseSortButtonCallBack
+        self.moreSettingDatasource = datasource
         UIApplication.shared.keyWindow?.addSubview(self)
     }
         
@@ -115,6 +155,9 @@ class OwnerFYMoreSettingView: UIView {
 
 extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if moreSettingDatasource.count > 0 {
+            return moreSettingDatasource.count
+        }
         return self.datasource.count
     }
     
@@ -126,8 +169,12 @@ extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TypeAndSortCell.reuseIdentifierStr) as? TypeAndSortCell
         cell?.selectionStyle = .blue
         cell?.titleLabel.font = FONT_15
-        if self.datasource.count > 0 {
-            cell?.titleLabel.text = self.datasource[indexPath.row] as? String
+        if moreSettingDatasource.count > 0 {
+            cell?.titleLabel.text = moreSettingDatasource[indexPath.row].rawValue
+        }
+        if datasource.count > 0 {
+            
+            cell?.titleLabel.text = datasource[indexPath.row] as? String
         }
         return cell ?? TypeAndSortCell()
     }

@@ -122,6 +122,10 @@ class OwnerFYListViewModel: NSObject {
     
     ///如果已经发布，可以分享 否则不能分享
     var isPublish : Bool?
+    
+    ///更多按钮里边的选项 - 如果是开放工位，只有删除
+    ///其他，只有上架的时候，才有下架
+    var moreSettingArr : [OWnerFYMoreSettingEnum] = []
         
     init(model:OwnerFYListModel) {
         super.init()
@@ -154,17 +158,18 @@ class OwnerFYListViewModel: NSObject {
             houseTypTags = "empty"
             
             ///房源当前状态0未发布，1发布，2下架,3:待完善
-            if houseStatus == 2 {
-                closePublishBtnTitle = "   重新发布   "
-                closePublishBtnHidden = false
-                houseFailureImg = "isFailureIcon"
-            }else {
+            if houseStatus == 1 {
                 closePublishBtnTitle = ""
                 closePublishBtnHidden = true
                 houseFailureImg = ""
+                moreSettingArr = [OWnerFYMoreSettingEnum.xiaJiaEnum, OWnerFYMoreSettingEnum.deleteEnum]
+            }else {
+                closePublishBtnTitle = "   重新发布   "
+                closePublishBtnHidden = false
+                houseFailureImg = "isFailureIcon"
+                moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
             }
             
-
             
         }else if btype == 2 {
             
@@ -182,14 +187,16 @@ class OwnerFYListViewModel: NSObject {
                 houseTypTags = "individualOfficeTag"
                 
                 ///房源当前状态0未发布，1发布，2下架,3:待完善
-                if houseStatus == 2 {
-                    closePublishBtnTitle = "   重新发布   "
-                    closePublishBtnHidden = false
-                    houseFailureImg = "isFailureIcon"
-                }else {
+                if houseStatus == 1 {
                     closePublishBtnTitle = ""
                     closePublishBtnHidden = true
                     houseFailureImg = ""
+                    moreSettingArr = [OWnerFYMoreSettingEnum.xiaJiaEnum, OWnerFYMoreSettingEnum.deleteEnum]
+                }else {
+                    closePublishBtnTitle = "   重新发布   "
+                    closePublishBtnHidden = false
+                    houseFailureImg = "isFailureIcon"
+                    moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
                 }
                            
 
@@ -203,16 +210,17 @@ class OwnerFYListViewModel: NSObject {
                 houseTypTags = "openstationTag"
 
                 ///房源当前状态0未发布，1发布，2下架,3:待完善
-                if houseStatus == 2 {
-                    closePublishBtnTitle = "   重新发布   "
-                    closePublishBtnHidden = false
-                    houseFailureImg = "isFailureIcon"
-                }else {
+                if houseStatus == 1 {
                     closePublishBtnTitle = "   关闭   "
                     closePublishBtnHidden = false
                     houseFailureImg = ""
+                }else {
+                    closePublishBtnTitle = "   重新发布   "
+                    closePublishBtnHidden = false
+                    houseFailureImg = "isFailureIcon"
                 }
                 
+                moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
             }
         }
                

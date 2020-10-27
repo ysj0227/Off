@@ -737,7 +737,7 @@ extension OwnerBuildingOfficeViewController {
             
             endEdting()
             
-            ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerRentFreePeriodType.OwnerRentFreePeriodTypeDefault.rawValue,
+            ownerFYMoreSettingView.ShowOwnerSettingView(datasource: [OwnerRentFreePeriodType.OwnerRentFreePeriodTypeDefault.rawValue,
                                                                            OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth1.rawValue,
                                                                            OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth2.rawValue,
                                                                            OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth3.rawValue,
@@ -763,7 +763,7 @@ extension OwnerBuildingOfficeViewController {
                 
                 endEdting()
                 
-                ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue, OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue], clearButtonCallBack: {
+                ownerFYMoreSettingView.ShowOwnerSettingView(datasource: [OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue, OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue], clearButtonCallBack: {
                     
                 }) {[weak self] (settingEnumIndex) in
                     //单层1 多层2

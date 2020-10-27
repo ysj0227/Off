@@ -567,7 +567,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             
             endEdting()
             
-            ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue], clearButtonCallBack: {
+            ownerFYMoreSettingView.ShowOwnerSettingView(datasource: [OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue, OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue], clearButtonCallBack: {
                 
             }) {[weak self] (settingEnumIndex) in
                 //中央空调，独立空调，无空调
@@ -590,7 +590,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             
             endEdting()
             
-            ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerRentFreePeriodType.OwnerRentFreePeriodTypeDefault.rawValue,
+            ownerFYMoreSettingView.ShowOwnerSettingView(datasource: [OwnerRentFreePeriodType.OwnerRentFreePeriodTypeDefault.rawValue,
                                                                            OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth1.rawValue,
                                                                            OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth2.rawValue,
                                                                            OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth3.rawValue,
@@ -621,7 +621,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
                 
                 endEdting()
                 
-                ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: [OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue, OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue], clearButtonCallBack: {
+                ownerFYMoreSettingView.ShowOwnerSettingView(datasource: [OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue, OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue], clearButtonCallBack: {
                     
                 }) {[weak self] (settingEnumIndex) in
                     //单层1 多层2
