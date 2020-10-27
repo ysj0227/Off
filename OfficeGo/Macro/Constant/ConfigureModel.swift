@@ -122,7 +122,7 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
 //            return FuWenBen(name: "出租方式", centerStr: " * ", last: "")
         ///工位数 *
         case .OwnerBuildingJointOfficeTypeSeats:
-            return FuWenBen(name: "工位数", centerStr: "   ", last: "")
+            return FuWenBen(name: "工位数", centerStr: " * ", last: "")
         ///面积
         case .OwnerBuildingJointOfficeTypeArea:
             return FuWenBen(name: "面积", centerStr: "   ", last: "")
@@ -143,7 +143,7 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
             return FuWenBen(name: "空调类型", centerStr: " * ", last: "")
         ///空调费
         case .OwnerBuildingJointOfficeTypeAirConditionCoast:
-            return FuWenBen(name: "网点名称", centerStr: "   ", last: "")
+            return FuWenBen(name: "空调费", centerStr: "   ", last: "")
         ///车位数
         case .OwnerBuildingJointOfficeTypeParkingNum:
             return FuWenBen(name: "车位数", centerStr: "   ", last: "")
@@ -202,10 +202,10 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
             return ""
         ///车位数
         case .OwnerBuildingJointOfficeTypeParkingNum:
-            return "个"
+            return "例：地面车位100个，车库车位25个"
         ///车位费
         case .OwnerBuildingJointOfficeTypeParkingCoast:
-            return "元/月"
+            return "请输入车位费 元/月"
         ///净高
         case .OwnerBuildingJointOfficeTypeClearHeight:
             return "米"
