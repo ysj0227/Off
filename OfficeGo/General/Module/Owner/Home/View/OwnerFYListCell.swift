@@ -320,6 +320,7 @@ class OwnerFYListCell: BaseTableViewCell {
         houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_1x1))
         houseNameLabel.text = "\(viewModel.houseName ?? "")"
         
+        sharehBtn.isUserInteractionEnabled = viewModel.isPublish ?? true
     }
     
 }
