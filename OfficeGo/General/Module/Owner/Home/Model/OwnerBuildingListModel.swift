@@ -49,10 +49,16 @@ class OwnerBuildingListViewModel: NSObject {
     var isEdit : Bool?
     ///是不是临时的楼盘；0不是，1是
     var isTemp : Bool?
+    ///-1:不是管理员 暂无权限编辑楼盘(临时楼盘),0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除;6待审核7已驳回 注意：（IsTemp为1时，status状态标记 1:待审核 -转6 ,2:已驳回 -转7 ）
+    var status : Int?
     
     ///标签图片
     var houseTypTags: String?
     
+    var redViewColor: String?
+    
+    ///红色小图标的左边距离
+    var redViewLeading : CGFloat?
     
     init(model:OwnerBuildingListModel) {
         super.init()
@@ -60,20 +66,15 @@ class OwnerBuildingListViewModel: NSObject {
         idString = model.buildingId
         isEdit = model.isEdit
         isTemp = model.isTemp
+        status = model.status
+                
+        /*
+         1: 上架(已发布)
+        待审核： status"= 6 ｜｜  isTemp": = 1
+        资料待完善 status = 2:资料待完善
+        status 7已驳回*/
         
-        if btype == 1 {
-            houseTypTags = "identifyToAdvisedTag"
-            ///12
-            //截取
-            if model.buildingName?.count ?? 0 > 12 {
-                let index = model.buildingName?.index((model.buildingName?.startIndex)!, offsetBy: 12)
-                let str = model.buildingName?.substring(to: index!)
-                buildingName = " \(str ?? "")..."
-            }else {
-                buildingName = " \(model.buildingName ?? "")"
-            }
-
-        }else {
+        if model.status == 1 {
             houseTypTags = "empty"
             ///16字
             //截取
@@ -85,10 +86,49 @@ class OwnerBuildingListViewModel: NSObject {
                 buildingName = model.buildingName
             }
 
+        }else if model.status == 2 {
+            houseTypTags = "identifyToAdvisedTag"
+            ///12
+            //截取
+            if model.buildingName?.count ?? 0 > 12 {
+                let index = model.buildingName?.index((model.buildingName?.startIndex)!, offsetBy: 12)
+                let str = model.buildingName?.substring(to: index!)
+                buildingName = " \(str ?? "")..."
+            }else {
+                buildingName = " \(model.buildingName ?? "")"
+            }
+
+        }else if model.status == 7 {
+            houseTypTags = "identifyRejectTag"
+            ///12
+            //截取
+            if model.buildingName?.count ?? 0 > 12 {
+                let index = model.buildingName?.index((model.buildingName?.startIndex)!, offsetBy: 12)
+                let str = model.buildingName?.substring(to: index!)
+                buildingName = " \(str ?? "")..."
+            }else {
+                buildingName = " \(model.buildingName ?? "")"
+            }
+
+        }else if model.status == 6 || model.isTemp == true {
+            houseTypTags = "identifyIngTag"
+            ///12
+            //截取
+            if model.buildingName?.count ?? 0 > 12 {
+                let index = model.buildingName?.index((model.buildingName?.startIndex)!, offsetBy: 12)
+                let str = model.buildingName?.substring(to: index!)
+                buildingName = " \(str ?? "")..."
+            }else {
+                buildingName = " \(model.buildingName ?? "")"
+            }
+
         }
-//        "identifyRejectTag"
-//        "identifyIngTag"
-//        "identifyToAdvisedTag"
+        
+        ///红色通知
+        redViewColor = "noReadRed"
+        
+        let size = buildingName?.boundingRect(with: CGSize(width: kWidth, height: OwnerBuildingListCell.rowHeight()), font: FONT_14)
+        redViewLeading = size?.width
     }
 }
 

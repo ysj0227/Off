@@ -120,7 +120,9 @@ class OwnerFYListViewModel: NSObject {
     ///上架下架按钮隐藏
     var closePublishBtnHidden : Bool?
     
-    
+    ///如果已经发布，可以分享 否则不能分享
+    var isPublish : Bool?
+        
     init(model:OwnerFYListModel) {
         super.init()
         btype = model.btype
@@ -128,6 +130,12 @@ class OwnerFYListViewModel: NSObject {
         houseId = model.houseId
         mainPic = model.mainPic
         houseStatus = model.houseStatus
+        
+        if model.houseStatus == 1 {
+            isPublish = true
+        }else {
+            isPublish = false
+        }
         
         if btype == 1 {
             buildingArea = String(format: "%.0f㎡", model.area ?? 0)
@@ -207,6 +215,7 @@ class OwnerFYListViewModel: NSObject {
                 
             }
         }
+               
     }
     
     func FuWenBen(name: String, centerStr: String) -> NSMutableAttributedString {

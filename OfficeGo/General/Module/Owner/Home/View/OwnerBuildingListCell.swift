@@ -23,6 +23,12 @@ class OwnerBuildingListCell: BaseTableViewCell {
         view.textColor = kAppColor_333333
         return view
     }()
+    
+    lazy var redView: UIImageView = {
+        let view = UIImageView()
+        return view
+    }()
+    
     lazy var lineView: UIView = {
         let view = UIView()
         view.backgroundColor = kAppColor_line_EEEEEE
@@ -85,6 +91,7 @@ class OwnerBuildingListCell: BaseTableViewCell {
         
         addSubview(houseTypTags)
         addSubview(houseNameLabel)
+        addSubview(redView)
         addSubview(editBtn)
         addSubview(scanBtn)
         addSubview(lineView)
@@ -113,6 +120,12 @@ class OwnerBuildingListCell: BaseTableViewCell {
             make.top.bottom.equalToSuperview()
         }
         
+        redView.snp.makeConstraints { (make) in
+            make.leading.equalTo(houseNameLabel.snp.trailing)
+            make.top.equalTo(12)
+            make.size.equalTo(8)
+        }
+        
         lineView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.bottom.equalToSuperview()
@@ -135,6 +148,13 @@ class OwnerBuildingListCell: BaseTableViewCell {
     ///列表页面
     func setCellWithViewModel(viewModel: OwnerBuildingListViewModel) {
         
+        redView.image = UIImage.init(named: viewModel.redViewColor ?? "")
+        
+        redView.snp.remakeConstraints { (make) in
+            make.leading.equalTo(houseTypTags.snp.trailing).offset(viewModel.redViewLeading ?? 0)
+            make.top.equalTo(12)
+            make.size.equalTo(8)
+        }
         ///房源标签
         houseTypTags.image = UIImage.init(named: viewModel.houseTypTags ?? "")
         
