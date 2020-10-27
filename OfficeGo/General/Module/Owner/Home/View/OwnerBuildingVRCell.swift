@@ -19,6 +19,15 @@ class OwnerBuildingVRCell: BaseTableViewCell {
         return view
     }()
     
+    lazy var bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppWhiteColor
+        view.clipsToBounds = true
+        view.layer.borderColor = kAppColor_line_EEEEEE.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = button_cordious_2
+        return view
+    }()
     
     lazy var editLabel: UITextField = {
         let view = UITextField()
@@ -27,10 +36,6 @@ class OwnerBuildingVRCell: BaseTableViewCell {
         view.textColor = kAppColor_333333
         view.clearButtonMode = .whileEditing
         view.keyboardType = .default
-        view.clipsToBounds = true
-        view.layer.borderColor = kAppColor_line_EEEEEE.cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = button_cordious_2
         return view
     }()
     
@@ -55,6 +60,7 @@ class OwnerBuildingVRCell: BaseTableViewCell {
         self.backgroundColor = kAppWhiteColor
   
         addSubview(titleLabel)
+        addSubview(bottomView)
         addSubview(editLabel)
         
         titleLabel.snp.makeConstraints { (make) in
@@ -63,8 +69,15 @@ class OwnerBuildingVRCell: BaseTableViewCell {
             make.height.equalTo(cell_height_58)
         }
         
-        editLabel.snp.makeConstraints { (make) in
+        bottomView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.height.equalTo(45)
+        }
+        
+        editLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(bottomView).offset(8)
+            make.trailing.equalTo(bottomView)
             make.top.equalTo(titleLabel.snp.bottom)
             make.height.equalTo(45)
         }

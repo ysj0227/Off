@@ -336,16 +336,12 @@ extension OwnerBuildingJointCreateViewController {
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
         if isFromAdd == true {
-            titleview?.titleLabel.text = "添加网点"
+            titleview?.titleLabel.text = "添加共享办公网点"
         }else {
-            titleview?.titleLabel.text = "编辑网点"
+            titleview?.titleLabel.text = "编辑共享办公网点"
         }
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
-        }
-        titleview?.rightBtnClickBlock = { [weak self] in
-            let vc = OwnerBuildingJointCreateViewController()
-            self?.navigationController?.pushViewController(vc, animated: true)
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         

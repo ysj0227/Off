@@ -28,32 +28,41 @@ class OwnerFYMoreSettingView: UIView {
         return view
     }()
     
+    lazy var bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppWhiteColor
+        return view
+    }()
+    
     // MARK: - block
     //清除block
     fileprivate var clearButtonCallBack:(() -> Void)?
     
     //选择排序block
     fileprivate var sureHouseSortButtonCallBack:((Int) -> Void)?
-        
+    
     //房源列表更多
     fileprivate var sureOwnerFYMoreCallBack:((OWnerFYMoreSettingEnum) -> Void)?
-        
+    
     fileprivate var datasource: [Any] = [] {
         didSet {
-//            tableView.snp.remakeConstraints { (make) in
-//                make.bottom.leading.trailing.equalToSuperview()
-//                make.height.equalTo(datasource.count * 40 + 53 + 80)
-//            }
+            //            tableView.snp.remakeConstraints { (make) in
+            //                make.bottom.leading.trailing.equalToSuperview()
+            //                make.height.equalTo(datasource.count * 40 + 53 + 80)
+            //            }
             if CGFloat(datasource.count * 40 + 133) > (kHeight / 2.0) {
                 tableView.isScrollEnabled = true
                 tableView.snp.remakeConstraints { (make) in
-                    make.bottom.leading.trailing.equalToSuperview()
+                    make.bottom.equalToSuperview().offset(-bottomMargin())
+                    make.leading.trailing.equalToSuperview()
                     make.height.equalTo(kHeight / 2.0)
                 }
             }else {
+                let height = CGFloat(datasource.count * 40 + 53 + 80)
                 tableView.snp.remakeConstraints { (make) in
-                    make.bottom.leading.trailing.equalToSuperview()
-                    make.height.equalTo(datasource.count * 40 + 53 + 80)
+                    make.bottom.equalToSuperview().offset(-bottomMargin())
+                    make.leading.trailing.equalToSuperview()
+                    make.height.equalTo(height)
                 }
             }
             
@@ -63,27 +72,30 @@ class OwnerFYMoreSettingView: UIView {
     
     fileprivate var moreSettingDatasource: [OWnerFYMoreSettingEnum] = [] {
         didSet {
-//            tableView.snp.remakeConstraints { (make) in
-//                make.bottom.leading.trailing.equalToSuperview()
-//                make.height.equalTo(datasource.count * 40 + 53 + 80)
-//            }
-                        if CGFloat(moreSettingDatasource.count * 40 + 133) > (kHeight / 2.0) {
-                            tableView.isScrollEnabled = true
-                            tableView.snp.remakeConstraints { (make) in
-                                make.bottom.leading.trailing.equalToSuperview()
-                                make.height.equalTo(kHeight / 2.0)
-                            }
-                        }else {
-                            tableView.snp.remakeConstraints { (make) in
-                                make.bottom.leading.trailing.equalToSuperview()
-                                make.height.equalTo(moreSettingDatasource.count * 40 + 53 + 80)
-                            }
-                        }
+            //            tableView.snp.remakeConstraints { (make) in
+            //                make.bottom.leading.trailing.equalToSuperview()
+            //                make.height.equalTo(datasource.count * 40 + 53 + 80)
+            //            }
+            if CGFloat(moreSettingDatasource.count * 40 + 133) > (kHeight / 2.0) {
+                tableView.isScrollEnabled = true
+                tableView.snp.remakeConstraints { (make) in
+                    make.bottom.equalToSuperview().offset(-bottomMargin())
+                    make.leading.trailing.equalToSuperview()
+                    make.height.equalTo(kHeight / 2.0)
+                }
+            }else {
+                let height = CGFloat(moreSettingDatasource.count * 40 + 53 + 80)
+                tableView.snp.remakeConstraints { (make) in
+                    make.bottom.equalToSuperview().offset(-bottomMargin())
+                    make.leading.trailing.equalToSuperview()
+                    make.height.equalTo(height)
+                }
+            }
             
             self.tableView.reloadData()
         }
     }
-        
+    
     @objc func clickRemoveFromSuperview() {
         guard let blockk = clearButtonCallBack else {
             return
@@ -126,7 +138,7 @@ class OwnerFYMoreSettingView: UIView {
         self.moreSettingDatasource = datasource
         UIApplication.shared.keyWindow?.addSubview(self)
     }
-        
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -137,14 +149,20 @@ class OwnerFYMoreSettingView: UIView {
     }
     
     func setUpSubviews() {
-        self.addSubview(blackAlphabgView)
-        self.addSubview(tableView)
+        addSubview(blackAlphabgView)
+        addSubview(tableView)
+        addSubview(bottomView)
+
         blackAlphabgView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
         tableView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(datasource.count * 40 + 53 + 80)
+        }
+        bottomView.snp.makeConstraints { (make) in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(bottomMargin())
         }
         tableView.dataSource = self
         tableView.delegate = self

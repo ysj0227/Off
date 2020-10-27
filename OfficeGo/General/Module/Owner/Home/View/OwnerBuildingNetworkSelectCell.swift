@@ -44,7 +44,6 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
     
     ///装修类型
     var isSimpleDocument: Bool?
-
     
     var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
         didSet {

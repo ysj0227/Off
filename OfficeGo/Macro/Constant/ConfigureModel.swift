@@ -447,13 +447,13 @@ class OwnerBuildingJointEditConfigureModel : NSObject {
             return FuWenBen(name: "会议室配套", centerStr: "   ", last: "")
         ///车位数
         case .OwnerBuildingJointEditTypeParkingNum:
-            return FuWenBen(name: "车位数", centerStr: " * ", last: "")
+            return FuWenBen(name: "车位数", centerStr: "   ", last: "")
         ///车位费
         case .OwnerBuildingJointEditTypeParkingCoast:
             return FuWenBen(name: "车位费", centerStr: "   ", last: "")
         ///电梯数 - 客梯
         case .OwnerBuildingJointEditTypePassengerNum:
-            return FuWenBen(name: "电梯数", centerStr: " * ", last: "")
+            return FuWenBen(name: "电梯数", centerStr: "   ", last: "")
         ///电梯数 - 客、货梯
         case .OwnerBuildingJointEditTypeFloorCargoNum:
             return FuWenBen(name: "          ", centerStr: "   ", last: "")

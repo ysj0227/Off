@@ -581,7 +581,7 @@ extension OwnerBuildingOfficeViewController {
         case .OwnerBuildingOfficeTypeDocument:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNetworkSelectCell.reuseIdentifierStr) as? OwnerBuildingNetworkSelectCell
             cell?.selectionStyle = .none
-            cell?.categoryTitleLabel.text = "装修程度"
+            cell?.categoryTitleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeDocument)
             cell?.isMutTags = false
             cell?.isMutNetworks = false
             cell?.isSimpleDocument = true

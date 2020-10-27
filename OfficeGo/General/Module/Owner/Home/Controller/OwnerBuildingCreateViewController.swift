@@ -605,7 +605,7 @@ extension OwnerBuildingCreateViewController {
         case .OwnerBuildingEditTypeFeature:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNetworkSelectCell.reuseIdentifierStr) as? OwnerBuildingNetworkSelectCell
             cell?.selectionStyle = .none
-            cell?.categoryTitleLabel.text = "特色"
+            cell?.categoryTitleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeFeature)
             cell?.isMutTags = true
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)

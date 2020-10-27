@@ -65,7 +65,7 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         view.font = FONT_15
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = kAppColor_btnGray_BEBEBE
-        view.text = "共"
+        view.text = "总"
         return view
     }()
     

@@ -76,7 +76,8 @@ class OwnerBuildingClickCell: BaseEditCell {
             detailIcon.isHidden = false
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = false
-            
+            editLabel.textAlignment = .left
+
             ///所在区域
             ///空调类型
             ///空调费
@@ -105,11 +106,12 @@ class OwnerBuildingClickCell: BaseEditCell {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeDefault.rawValue
                 }
             }else if jointModel.type == .OwnerBuildingJointEditTypeTotalFloor {
+                editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if buildingModel?.floorType == "1" {
-                    editLabel.text = "单层"
+                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
                 }else if buildingModel?.floorType == "2" {
-                    editLabel.text = "多层"
+                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }
         }
@@ -126,18 +128,19 @@ class OwnerBuildingClickCell: BaseEditCell {
             detailIcon.isHidden = false
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = false
-            
+            editLabel.textAlignment = .left
+
             ///所在楼层
             ///免租期
             if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
+                editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if buildingModel?.floorType == "1" {
-                    editLabel.text = "单层"
+                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
                 }else if buildingModel?.floorType == "2" {
-                    editLabel.text = "多层"
+                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if officeModel.type == .OwnerBuildingOfficeTypeRentFreePeriod {
-                
             }
         }
     }
@@ -153,17 +156,19 @@ class OwnerBuildingClickCell: BaseEditCell {
             detailIcon.isHidden = false
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = false
-            
+            editLabel.textAlignment = .left
+
             ///所在楼层
             ///免租期
             ///出租方式
             ///空调类型
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
+                editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if buildingModel?.floorType == "1" {
-                    editLabel.text = "单层"
+                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
                 }else if buildingModel?.floorType == "2" {
-                    editLabel.text = "多层"
+                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
                 
@@ -204,15 +209,17 @@ class OwnerBuildingClickCell: BaseEditCell {
             detailIcon.isHidden = false
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = false
-            
+            editLabel.textAlignment = .left
+
             ///所在楼层
             ///免租期
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
+                editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if buildingModel?.floorType == "1" {
-                    editLabel.text = "单层"
+                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
                 }else if buildingModel?.floorType == "2" {
-                    editLabel.text = "多层"
+                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
                 

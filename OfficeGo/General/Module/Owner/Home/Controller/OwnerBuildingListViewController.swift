@@ -74,9 +74,11 @@ class OwnerBuildingListViewController: BaseTableViewController {
     @objc func addBuilding() {
         if userModel?.identityType == 2 {
             let vc = OwnerBuildingJointCreateViewController()
+            vc.isFromAdd = true
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             let vc = OwnerBuildingCreateViewController()
+            vc.isFromAdd = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

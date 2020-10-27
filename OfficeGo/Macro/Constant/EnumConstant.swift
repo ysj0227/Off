@@ -549,8 +549,8 @@ public enum OwnerAircontiditonFeeType: String {
 ///所在楼层
 public enum OwnerBuildingTotalFloorType: String {
     case OwnerBuildingTotalFloorTypeDefault = ""
-    case OwnerBuildingTotalFloorTypeOne = "单层"
-    case OwnerBuildingTotalFloorTypeMore = "多层"
+    case OwnerBuildingTotalFloorTypeOne = "单层      "
+    case OwnerBuildingTotalFloorTypeMore = "多层      "
 }
 
 
