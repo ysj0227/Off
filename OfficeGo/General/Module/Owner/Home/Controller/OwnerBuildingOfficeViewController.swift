@@ -475,7 +475,8 @@ extension OwnerBuildingOfficeViewController {
             
             ///正数字文本输入cell
         ///最短租期
-        case .OwnerBuildingOfficeTypeMinRentalPeriod:
+        ///租金单价 -
+        case .OwnerBuildingOfficeTypeMinRentalPeriod, .OwnerBuildingOfficeTypePrice:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
@@ -490,8 +491,7 @@ extension OwnerBuildingOfficeViewController {
             ///净高
             ///层高
             ///物业费
-        ///租金单价 - 两位
-        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast, .OwnerBuildingOfficeTypePrice:
+        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
@@ -657,7 +657,8 @@ extension OwnerBuildingOfficeViewController {
             
             ///正数字文本输入cell
         ///最短租期
-        case .OwnerBuildingOfficeTypeMinRentalPeriod:
+        ///租金单价 -
+        case .OwnerBuildingOfficeTypeMinRentalPeriod, .OwnerBuildingOfficeTypePrice:
             
             return BaseEditCell.rowHeight()
             
@@ -667,8 +668,7 @@ extension OwnerBuildingOfficeViewController {
             ///净高
             ///层高
             ///物业费
-        ///租金单价 - 两位
-        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast, .OwnerBuildingOfficeTypePrice:
+        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast:
             
             return BaseEditCell.rowHeight()
             
@@ -786,7 +786,8 @@ extension OwnerBuildingOfficeViewController {
             
             ///正数字文本输入cell
         ///最短租期
-        case .OwnerBuildingOfficeTypeMinRentalPeriod:
+        ///租金总价 -
+        case .OwnerBuildingOfficeTypeMinRentalPeriod, .OwnerBuildingOfficeTypeTotalPrice:
             
             SSLog(typeSourceArray[indexPath.section].type)
             
@@ -797,8 +798,7 @@ extension OwnerBuildingOfficeViewController {
             ///层高
             ///物业费
             ///租金单价 - 两位
-        ///租金总价 - 两位
-        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast, .OwnerBuildingOfficeTypePrice, .OwnerBuildingOfficeTypeTotalPrice:
+        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast, .OwnerBuildingOfficeTypePrice:
             
             SSLog(typeSourceArray[indexPath.section].type)
             

@@ -142,6 +142,20 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 }
             }
         }
+            //MARK: 办公室     ///租金 单价 - 输入 元/月，范围：1-1000000之间正整数，单位“元
+        else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+            //截取
+            if textNum! > 7 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 1000000 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持1-1000000之间正整数")
+                }
+            }
+        }
         
         
         
@@ -174,7 +188,20 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 }
             }
         }
-        
+        //MARK: 独立办公室       租金，必填，正整数，范围100-100000，单位 元/月
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
+            //截取
+            if textNum! > 7 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 100000 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持100-100000正整数")
+                }
+            }
+        }
         
         
         //MARK: 开放工位
@@ -276,8 +303,11 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = true
             
             ///最短租期
+            ///租金单价 -
             if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
                 
+            }else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+                editLabel.text = buildingModel?.dayPrice
             }
         }
     }
@@ -296,9 +326,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             
             ///工位数
             ///最短租期
+            ///租金
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeSeats {
                 
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
+                
+            }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
                 
             }
         }
@@ -376,6 +409,11 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
         
         }
+        //MARK: 办公室     ///租金单价 - 
+        else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+            buildingModel?.dayPrice = textField.text
+        }
+        
         
         
         
@@ -387,6 +425,10 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 独立办公室   ///最短租期 最短租期，必填，数字，单位月，支持输入0-60正整数
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
         
+        }
+        //MARK: 独立办公室       ///租金
+        else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
+            buildingModel?.dayPrice = textField.text
         }
         
         

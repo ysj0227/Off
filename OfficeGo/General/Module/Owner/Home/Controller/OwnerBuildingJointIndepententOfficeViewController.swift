@@ -396,10 +396,11 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             
             
         ///正数字文本输入cell
-        case .OwnerBuildingJointOfficeTypeSeats, .OwnerBuildingJointOfficeTypeMinRentalPeriod:
+        case .OwnerBuildingJointOfficeTypeSeats, .OwnerBuildingJointOfficeTypeMinRentalPeriod, .OwnerBuildingJointOfficeTypePrice:
             
             ///工位数
             ///最短租期
+            ///租金
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
@@ -410,8 +411,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             ///数字 - 一位小数点文本输入cell
             ///建筑面积 - 一位
             ///净高
-        ///租金
-        case .OwnerBuildingJointOfficeTypeArea, .OwnerBuildingJointOfficeTypeClearHeight, .OwnerBuildingJointOfficeTypePrice:
+        case .OwnerBuildingJointOfficeTypeArea, .OwnerBuildingJointOfficeTypeClearHeight:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
@@ -501,12 +501,13 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             
             ///正数字文本输入cell
         ///最短租期
-        case .OwnerBuildingJointOfficeTypeSeats, .OwnerBuildingJointOfficeTypeMinRentalPeriod, .OwnerBuildingJointOfficeTypeParkingNum, .OwnerBuildingJointOfficeTypeParkingCoast:
+        case .OwnerBuildingJointOfficeTypeSeats, .OwnerBuildingJointOfficeTypeMinRentalPeriod, .OwnerBuildingJointOfficeTypeParkingNum, .OwnerBuildingJointOfficeTypeParkingCoast, .OwnerBuildingJointOfficeTypePrice:
             
             ///工位数
             ///最短租期
             ///车位数
             ///车位费
+            ///租金
             return BaseEditCell.rowHeight()
             
             
@@ -514,8 +515,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             ///数字 - 一位小数点文本输入cell
             ///建筑面积 - 一位
             ///净高
-        ///租金
-        case .OwnerBuildingJointOfficeTypeArea, .OwnerBuildingJointOfficeTypeClearHeight, .OwnerBuildingJointOfficeTypePrice:
+        case .OwnerBuildingJointOfficeTypeArea, .OwnerBuildingJointOfficeTypeClearHeight:
             
             return BaseEditCell.rowHeight()
             
@@ -648,12 +648,13 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             
             ///正数字文本输入cell
         ///最短租期
-        case .OwnerBuildingJointOfficeTypeSeats, .OwnerBuildingJointOfficeTypeMinRentalPeriod, .OwnerBuildingJointOfficeTypeParkingNum, .OwnerBuildingJointOfficeTypeParkingCoast:
+        case .OwnerBuildingJointOfficeTypeSeats, .OwnerBuildingJointOfficeTypeMinRentalPeriod, .OwnerBuildingJointOfficeTypeParkingNum, .OwnerBuildingJointOfficeTypeParkingCoast, .OwnerBuildingJointOfficeTypePrice:
             
             ///工位数
             ///最短租期
             ///车位数
             ///车位费
+            ///租金
             SSLog(typeSourceArray[indexPath.section].type)
             
             
@@ -661,8 +662,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             ///数字 - 一位小数点文本输入cell
             ///建筑面积 - 一位
             ///净高
-        ///租金
-        case .OwnerBuildingJointOfficeTypeArea, .OwnerBuildingJointOfficeTypeClearHeight, .OwnerBuildingJointOfficeTypePrice:
+        case .OwnerBuildingJointOfficeTypeArea, .OwnerBuildingJointOfficeTypeClearHeight:
             
             SSLog(typeSourceArray[indexPath.section].type)
             

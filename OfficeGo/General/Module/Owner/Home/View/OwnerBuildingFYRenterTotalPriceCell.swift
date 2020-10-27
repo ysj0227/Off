@@ -125,11 +125,31 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
         }
         
         detailIcon.addTarget(self, action: #selector(clickAlertBtn), for: .touchUpInside)
+
+        editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+
+    }
+    
+    
+    @objc func valueDidChange() {
+        let textNum = editLabel.text?.count
+        ///租金总价 - 9位数
+        //截取
+         if textNum! > 9 {
+             let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 9)
+             editLabel.text = editLabel.text?.substring(to: index!)
+         }
+         if let num = Int(editLabel.text ?? "0") {
+             if num > 150000000 {
+                 editLabel.text?.removeLast(1)
+                 AppUtilities.makeToast("仅支持1-150000000正整数")
+             }
+         }
     }
     
     /// ?按钮
     @objc func clickAlertBtn() {
-        
+
         guard let blockk = self.alertBtnClickClouse else {
             return
         }

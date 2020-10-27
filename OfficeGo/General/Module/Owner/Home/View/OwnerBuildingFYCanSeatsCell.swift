@@ -172,8 +172,21 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
     
     
     @objc func valueDidChange(tf: UITextField) {
-        let textNum = minLabel.text?.count
+
+        var min : Int = 0
+        var max : Int = 0
+        if let num = Int(minLabel.text ?? "0") {
+            min = num
+        }
         
+        if let num = Int(maxLabel.text ?? "0") {
+            max = num
+        }
+         
+        if min > max && max > 0 && minLabel.isEditing == true {
+            minLabel.text?.removeLast(1)
+            AppUtilities.makeToast("最小值不能大于最大值")
+        }
     }
     
     

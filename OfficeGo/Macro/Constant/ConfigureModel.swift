@@ -184,7 +184,7 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
             return "㎡"
         ///租金
         case .OwnerBuildingJointOfficeTypePrice:
-            return "元/位/天"
+            return "元/月"
         ///所在楼层 *
         case .OwnerBuildingJointOfficeTypeTotalFloor:
             return ""
