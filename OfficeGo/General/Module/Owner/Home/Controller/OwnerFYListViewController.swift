@@ -123,7 +123,7 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["pageNo"] = self.pageNo as AnyObject
-        params["pageSize"] = self.pageSize as AnyObject
+        params["pageSize"] = 10 as AnyObject
         if userModel?.identityType == 2 {
             //类型,1:楼盘,2:网点,当是1的时候,网点名称可为空
             params["btype"] = buildingListViewModel?.btype as AnyObject?
@@ -284,6 +284,11 @@ extension OwnerFYListViewController {
         }
     }
     
+    
+    func loadSecion(section: Int) {
+        tableView.reloadSections(NSIndexSet.init(index: section) as IndexSet, with: UITableView.RowAnimation.none)
+    }
+    
     func requestSet() {
         
         isShowRefreshHeader = false
@@ -302,71 +307,98 @@ extension OwnerFYListViewController {
     }
     
     //MARK: 更多按钮
-    func moreBtnFY(index: OWnerFYMoreSettingEnum, viewModel: OwnerFYListViewModel) {
+    func moreBtnFY(index: OWnerFYMoreSettingEnum, viewModel: OwnerFYListViewModel, section: Int) {
         ///下架
         if index == OWnerFYMoreSettingEnum.xiaJiaEnum {
             
             var params = [String:AnyObject]()
-             params["token"] = UserTool.shared.user_token as AnyObject?
-             params["houseId"] = viewModel.houseId as AnyObject?
+            params["token"] = UserTool.shared.user_token as AnyObject?
+            params["houseId"] = viewModel.houseId as AnyObject?
+            params["isTemp"] = viewModel.isTemp as AnyObject?
             
             ///1发布2下架
             ///房源当前状态0未发布，1发布，2下架,3:待完善
             if viewModel.houseStatus == 1 {
                 params["isRelease"] = 2 as AnyObject?
-            }else if viewModel.houseStatus == 2 {
+            }else {
                 params["isRelease"] = 1 as AnyObject?
             }
             
-             SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
-                self?.tableView.reloadData()
-                 }, failure: { (error) in
-                     
-             }) { (code, message) in
-               
-             }
+
+            SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
+                if let model = self?.dataSource[section] as? OwnerFYListModel {
+                    if viewModel.houseStatus == 1 {
+                        model.houseStatus = 2
+                    }else {
+                        model.houseStatus = 1
+                    }
+                    let viewmodel = OwnerFYListViewModel.init(model: model)
+                    self?.dataSourceViewModel.remove(at: section)
+                    self?.dataSourceViewModel.insert(viewmodel, at: section)
+                }
+                
+                self?.loadSecion(section: section)
+                }, failure: { (error) in
+                    
+            }) { (code, message) in
+                
+            }
         }
-        ///删除
+            ///删除
         else if index == OWnerFYMoreSettingEnum.deleteEnum {
             
             var params = [String:AnyObject]()
-             params["token"] = UserTool.shared.user_token as AnyObject?
-             params["houseId"] = viewModel.houseId as AnyObject?
-            //params["isTemp"] = viewModel.isTemp as AnyObject?
-
-             SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
-                 self?.tableView.reloadData()
-
-                 }, failure: { (error) in
-                     
-             }) { (code, message) in
-               
-             }
+            params["token"] = UserTool.shared.user_token as AnyObject?
+            params["houseId"] = viewModel.houseId as AnyObject?
+            params["isTemp"] = viewModel.isTemp as AnyObject?
+            
+            SSNetworkTool.SSFYManager.request_getHouseDelete(params: params, success: {[weak self] (response) in
+                
+                self?.dataSourceViewModel.remove(viewModel)
+                self?.tableView.reloadData()
+                
+                }, failure: { (error) in
+                    
+            }) { (code, message) in
+                
+            }
         }
     }
     
     //MARK: 发布 下架 关闭
-    func publishFY(viewModel: OwnerFYListViewModel) {
+    func publishFY(viewModel: OwnerFYListViewModel, section: Int) {
         
         var params = [String:AnyObject]()
-         params["token"] = UserTool.shared.user_token as AnyObject?
-         params["houseId"] = viewModel.houseId as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["houseId"] = viewModel.houseId as AnyObject?
+        params["isTemp"] = viewModel.isTemp as AnyObject?
         
         ///1发布2下架
         ///房源当前状态0未发布，1发布，2下架,3:待完善
         if viewModel.houseStatus == 1 {
             params["isRelease"] = 2 as AnyObject?
-        }else if viewModel.houseStatus == 2 {
+        }else {
             params["isRelease"] = 1 as AnyObject?
         }
         
-         SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
-            self?.tableView.reloadData()
-             }, failure: { (error) in
-                 
-         }) { (code, message) in
-           
-         }
+        SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
+        if let model = self?.dataSource[section] as? OwnerFYListModel {
+            if viewModel.houseStatus == 1 {
+                model.houseStatus = 2
+            }else {
+                model.houseStatus = 1
+            }
+            let viewmodel = OwnerFYListViewModel.init(model: model)
+            self?.dataSourceViewModel.remove(at: section)
+            self?.dataSourceViewModel.insert(viewmodel, at: section)
+        }
+        
+        self?.loadSecion(section: section)
+        }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+        }
     }
     
     //MARK: 分享 - 只有发布的可以关闭
@@ -376,21 +408,23 @@ extension OwnerFYListViewController {
     }
     
     //MARK: 删除
-    func deleteFY(viewModel: OwnerFYListViewModel) {
+    func deleteFY(viewModel: OwnerFYListViewModel, section: Int) {
         
         var params = [String:AnyObject]()
-         params["token"] = UserTool.shared.user_token as AnyObject?
-         params["houseId"] = viewModel.houseId as AnyObject?
-        //params["isTemp"] = viewModel.isTemp as AnyObject?
-
-         SSNetworkTool.SSFYManager.request_getHousePublishOrRelease(params: params, success: {[weak self] (response) in
-             self?.tableView.reloadData()
-
-             }, failure: { (error) in
-                 
-         }) { (code, message) in
-           
-         }
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["houseId"] = viewModel.houseId as AnyObject?
+        params["isTemp"] = viewModel.isTemp as AnyObject?
+        
+        SSNetworkTool.SSFYManager.request_getHouseDelete(params: params, success: {[weak self] (response) in
+            
+            self?.dataSourceViewModel.remove(viewModel)
+            self?.tableView.reloadData()
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+        }
     }
     
     ///点击分享按钮调用的方法
@@ -422,27 +456,27 @@ extension OwnerFYListViewController {
 extension OwnerFYListViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return dataSourceViewModel.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: OwnerFYListCell.reuseIdentifierStr) as? OwnerFYListCell
         cell?.selectionStyle = .none
         if self.dataSourceViewModel.count > 0 {
-            if let viewModel = self.dataSourceViewModel[indexPath.row]  {
+            if let viewModel = self.dataSourceViewModel[indexPath.section]  {
                 cell?.viewModel = viewModel
                 cell?.moreBtnClickBlock = { [weak self] in
                     self?.ownerFYMoreSettingView.ShowOwnerFYMoreSettingView(datasource: viewModel.moreSettingArr, clearButtonCallBack: {
                         
                     }) {[weak self] (settingEnumIndex) in
                         SSLog("-----点击的是---\(settingEnumIndex)")
-                        self?.moreBtnFY(index: settingEnumIndex, viewModel: viewModel)
+                        self?.moreBtnFY(index: settingEnumIndex, viewModel: viewModel, section: indexPath.section)
                     }
                 }
                 
                 ///关闭 - 发布
                 cell?.closeBtnClickBlock = { [weak self] in
-                    self?.publishFY(viewModel: viewModel)
+                    self?.publishFY(viewModel: viewModel, section: indexPath.section)
                 }
                 
                 ///分享
@@ -476,7 +510,7 @@ extension OwnerFYListViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSourceViewModel.count
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -489,7 +523,7 @@ extension OwnerFYListViewController {
             return
         }
                     //独立办公室
-        if let model = self.dataSource[indexPath.row] as? OwnerFYListModel {
+        if let model = self.dataSource[indexPath.section] as? OwnerFYListModel {
             
             if model.btype == 1 {
                 let vc = RenterOfficebuildingFYDetailVC()

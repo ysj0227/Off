@@ -72,10 +72,10 @@ class SSOwnerFYManagerURL: NSObject {
     static let getHouseLists = "api/house/selectHouseList"
     
     //上下架房源
-    static let getHousePublishOrRelease = "api/house/houseRelease"
+    static let getHousePublishOrRelease = "api/house/houseReleaseOrShelves"
     
     //删除房源
-    static let getHouseDelete = "api/house/houseDel"
+    static let getHouseDelete = "api/house/houseDelete"
     
 }
 
