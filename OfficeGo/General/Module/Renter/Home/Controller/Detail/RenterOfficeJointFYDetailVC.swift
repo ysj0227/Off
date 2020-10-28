@@ -75,7 +75,11 @@ class RenterOfficeJointFYDetailVC: BaseGroupTableViewController {
         let shareVC = ShareViewController.initialization()
         shareVC.buildingName = buildingFYDetailViewModel?.houseViewModel?.buildingName ?? ""
         shareVC.descriptionString = buildingFYDetailViewModel?.houseViewModel?.addressString ?? ""
-        shareVC.thumbImage = buildingFYDetailViewModel?.houseViewModel?.smallImg
+        if let img = buildingFYDetailViewModel?.houseViewModel?.smallImg {
+            shareVC.thumbImage = img
+        }else {
+            shareVC.thumbImage = buildingFYDetailViewModel?.houseViewModel?.mainPic
+        }
         shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BJointFYDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(buildingFYDetailViewModel?.houseViewModel?.buildingId ?? 0)&houseId=\(buildingFYDetailModel?.house?.id ?? 0)"
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
@@ -339,8 +343,8 @@ class RenterOfficeJointFYDetailVC: BaseGroupTableViewController {
 
     }
     
-    //MARK: 调用详情接口 -
-    override func refreshData() {
+    //MARK: 获取租户详情
+    func requestRenterDetail() {
         
         ///访问房源详情页
         SensorsAnalyticsFunc.visit_house_data_page(houseId: "\(model.id ?? 0)")
@@ -381,6 +385,61 @@ class RenterOfficeJointFYDetailVC: BaseGroupTableViewController {
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
                 AppUtilities.makeToast(message)
             }
+        }
+    }
+    
+    
+    //MARK: 获取业主预览详情
+    func requestOwnerDetail() {
+            
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["btype"] = model.btype as AnyObject?
+        params["houseId"] = model.id as AnyObject?
+        params["isTemp"] = model.isTemp as AnyObject?
+
+        SSNetworkTool.SSFYDetail.request_getHousebyHouseIdPreviewApp(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = FangYuanBuildingFYDetailModel.deserialize(from: response, designatedPath: "data") {
+                //                model.building?.openStationFlag = false
+                model.btype = self?.model.btype
+                self?.buildingFYDetailModel = model
+                self?.buildingFYDetailViewModel = FangYuanBuildingFYDetailViewModel.init(model: self?.buildingFYDetailModel ?? FangYuanBuildingFYDetailModel())
+                self?.refreshTableview()
+            }
+            weakSelf.endRefreshAnimation()
+            
+            }, failure: {[weak self] (error) in
+                
+                guard let weakSelf = self else {return}
+                
+                weakSelf.endRefreshAnimation()
+                
+        }) {[weak self] (code, message) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.endRefreshAnimation()
+            
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    
+    //MARK: 调用详情接口 -
+    override func refreshData() {
+        
+        ///如果是来自于业主预览或者是业主身份的时候，请求预览接口
+        if isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
+            requestOwnerDetail()
+        }else {
+            requestRenterDetail()
         }
     }
     

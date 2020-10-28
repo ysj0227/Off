@@ -514,7 +514,8 @@ class FangYuanBuildingOpenStationModel: BaseModel {
     var seats : Int?
     var simple : String?
     
-    
+    ///0是正式表1临时表
+    var isTemp : Bool?
 }
 ///房源列表viewmodel模型
 class FangYuanBuildingOpenStationViewModel: NSObject {

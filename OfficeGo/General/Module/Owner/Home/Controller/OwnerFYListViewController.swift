@@ -30,6 +30,14 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         }
     }
     
+    ///点击重新加载
+    override func clickReloadData() {
+        
+        SendNetworkStatus()
+        
+        loadNewData()
+    }
+    
     @objc override func loadNewData(){
         
         pageNo = 1
@@ -405,7 +413,7 @@ extension OwnerFYListViewController {
         shareVC.buildingName = buildingListViewModel?.buildingName ?? ""
         shareVC.descriptionString = viewModel.houseName ?? ""
         shareVC.thumbImage = viewModel.mainPic
-        shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BuildingFYDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(buildingListViewModel?.idString ?? 0)&houseId=\(viewModel.houseId ?? 0)"
+        shareVC.shareUrl = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5BuildingFYDetailShareUrl)?isShare=\(UserTool.shared.user_channel)&buildingId=\(viewModel.buildingId ?? 0)&houseId=\(viewModel.houseId ?? 0)"
         shareVC.modalPresentationStyle = .overFullScreen
         self.present(shareVC, animated: true, completion: {})
     }
@@ -489,6 +497,7 @@ extension OwnerFYListViewController {
                 let detail = FangYuanBuildingOpenStationModel()
                 detail.btype = model.btype
                 detail.id = model.houseId
+                detail.isTemp = model.isTemp
                 vc.model = detail
                 self.navigationController?.pushViewController(vc, animated: true)
             }else if model.btype == 2 {
@@ -499,33 +508,11 @@ extension OwnerFYListViewController {
                     let detail = FangYuanBuildingOpenStationModel()
                     detail.btype = model.btype
                     detail.id = model.houseId
+                    detail.isTemp = model.isTemp
                     vc.model = detail
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
-            /*
-            if let Isfailure = model.Isfailure {
-                if Isfailure == 1 || Isfailure == 3 {
-                    if model.btype == 1 {
-                        let vc = RenterOfficebuildingFYDetailVC()
-                        vc.isFromOwnerScan = true
-                        vc.model = model
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }else if model.btype == 2 {
-                        let vc = RenterOfficeJointFYDetailVC()
-                        vc.isFromOwnerScan = true
-                        vc.model = model
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
-                    
-                }else if Isfailure == 0 || Isfailure == 2{
-                    AppUtilities.makeToast(SSCode.ERROR_CODE_7016.msg)
-                }else if Isfailure == 4 {
-                    AppUtilities.makeToast(SSCode.ERROR_CODE_7013.msg)
-                }else if Isfailure == 5 {
-                    AppUtilities.makeToast(SSCode.ERROR_CODE_7014.msg)
-                }
-            }*/
             
         }
         

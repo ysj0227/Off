@@ -253,6 +253,7 @@ extension OwnerBuildingListViewController {
                         let model = FangYuanListModel()
                         model.btype = viewModel.btype
                         model.id = viewModel.idString
+                        model.isTemp = viewModel.isTemp
                         let vc = RenterOfficebuildingDetailVC()
                         vc.isFromOwnerScan = true
                         vc.buildingModel = model
@@ -261,6 +262,7 @@ extension OwnerBuildingListViewController {
                         let model = FangYuanListModel()
                         model.btype = viewModel.btype
                         model.id = viewModel.idString
+                        model.isTemp = viewModel.isTemp
                         let vc = RenterOfficeJointDetailVC()
                         vc.isFromOwnerScan = true
                         vc.buildingModel = model

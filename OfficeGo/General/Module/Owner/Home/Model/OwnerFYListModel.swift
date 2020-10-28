@@ -30,6 +30,13 @@ class OwnerFYListModel: BaseModel {
     var title : String?
     var updateTime : Int?
     var updateUser : String?
+    
+    ///0是正式表1临时表
+    var isTemp : Bool?
+    
+    var buildingId : Int?
+
+    
 }
 ///房源列表viewmodel模型
 class OwnerFYListViewModel: NSObject {
@@ -126,6 +133,12 @@ class OwnerFYListViewModel: NSObject {
     ///更多按钮里边的选项 - 如果是开放工位，只有删除
     ///其他，只有上架的时候，才有下架
     var moreSettingArr : [OWnerFYMoreSettingEnum] = []
+    
+    ///0是正式表1临时表
+    var isTemp : Bool?
+    
+    var buildingId : Int?
+
         
     init(model:OwnerFYListModel) {
         super.init()
@@ -134,6 +147,9 @@ class OwnerFYListViewModel: NSObject {
         houseId = model.houseId
         mainPic = model.mainPic
         houseStatus = model.houseStatus
+        isTemp = model.isTemp
+        buildingId = model.buildingId
+        
         
         if model.houseStatus == 1 {
             isPublish = true
