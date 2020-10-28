@@ -341,7 +341,10 @@ extension OwnerFYListViewController {
                 }, failure: { (error) in
                     
             }) { (code, message) in
-                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
             }
         }
             ///删除
@@ -360,7 +363,10 @@ extension OwnerFYListViewController {
                 }, failure: { (error) in
                     
             }) { (code, message) in
-                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
             }
         }
     }
@@ -397,7 +403,10 @@ extension OwnerFYListViewController {
         }, failure: { (error) in
                 
         }) { (code, message) in
-            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
         }
     }
     
@@ -423,7 +432,10 @@ extension OwnerFYListViewController {
             }, failure: { (error) in
                 
         }) { (code, message) in
-            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
         }
     }
     

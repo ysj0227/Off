@@ -8,14 +8,15 @@
 
 class OwnerBuildingFYFloorCell: BaseTableViewCell {
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
-    
-    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    var FYModel: FangYuanFYEditDetailModel?
+
+    ///房源
+    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
     
     ///办公室
-    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalFloor) {
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingImage) {
         didSet {
-            if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+            if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
                 self.isHidden = false
             }else {
                 self.isHidden = true
@@ -24,9 +25,9 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
     }
     
     ///独立办公室
-     var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod) {
+     var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingImage) {
          didSet {
-             if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+             if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
                  self.isHidden = false
              }else {
                  self.isHidden = true
@@ -35,9 +36,9 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
      }
     
     ///开放工位
-    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod) {
+    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeBuildingImage) {
         didSet {
-            if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+            if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
                 self.isHidden = false
             }else {
                 self.isHidden = true
@@ -159,6 +160,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
     ///子类 独立设置自己要添加的控件和约束
     func setExtraView() {
         leftEditLabel.delegate = self
+        leftEditLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
     }
     
     override func awakeFromNib() {
@@ -175,28 +177,155 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         
     }
     
+    
+    @objc func valueDidChange() {
+        let textNum = leftEditLabel.text?.count
+        
+        //MARK: 办公室
+        //MARK: 办公室 ///所在楼层
+        if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
+            if FYModel?.floorType == "1" {
+
+                //截取
+                if textNum! > 2 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
+                }
+                if let num = Int(leftEditLabel.text ?? "0") {
+                    if num > 60 {
+                        leftEditLabel.text?.removeLast(1)
+                        AppUtilities.makeToast("仅支持0-60正整数")
+                    }
+                }
+            }else {
+
+                //截取
+                if textNum! > 2 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
+                }
+                if let num = Int(leftEditLabel.text ?? "0") {
+                    if num > 60 {
+                        leftEditLabel.text?.removeLast(1)
+                        AppUtilities.makeToast("仅支持0-60正整数")
+                    }
+                }
+            }
+        }
+        
+        
+        
+        //MARK: 独立办公室
+        //MARK: 独立办公室   ///所在楼层
+        if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
+            if FYModel?.floorType == "1" {
+
+                //截取
+                if textNum! > 2 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
+                }
+                if let num = Int(leftEditLabel.text ?? "0") {
+                    if num > 60 {
+                        leftEditLabel.text?.removeLast(1)
+                        AppUtilities.makeToast("仅支持0-60正整数")
+                    }
+                }
+            }else {
+
+                //截取
+                if textNum! > 2 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
+                }
+                if let num = Int(leftEditLabel.text ?? "0") {
+                    if num > 60 {
+                        leftEditLabel.text?.removeLast(1)
+                        AppUtilities.makeToast("仅支持0-60正整数")
+                    }
+                }
+            }
+        }
+    
+        
+        //MARK: 开放工位
+        //MARK: 开放工位    ///所在楼层
+        if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
+            if FYModel?.floorType == "1" {
+
+                //截取
+                if textNum! > 2 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
+                }
+                if let num = Int(leftEditLabel.text ?? "0") {
+                    if num > 60 {
+                        leftEditLabel.text?.removeLast(1)
+                        AppUtilities.makeToast("仅支持0-60正整数")
+                    }
+                }
+            }else {
+
+                //截取
+                if textNum! > 2 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
+                }
+                if let num = Int(leftEditLabel.text ?? "0") {
+                    if num > 60 {
+                        leftEditLabel.text?.removeLast(1)
+                        AppUtilities.makeToast("仅支持0-60正整数")
+                    }
+                }
+            }
+        }
+        
+    }
+    
 }
 extension OwnerBuildingFYFloorCell: UITextFieldDelegate {
+   
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        guard let blockk = self.endEditingMessageCell else {
-            return
+        //MARK: 办公室
+        //MARK: 办公室 ///所在楼层
+        if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
+            
+            FYModel?.ownerFloor = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
-        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        
+        
+        
+        //MARK: 独立办公室
+        //MARK: 独立办公室   ///所在楼层
+        if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
+            
+            FYModel?.ownerFloor = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
+        }
+    
+        
+        //MARK: 开放工位
+        //MARK: 开放工位    ///所在楼层
+        if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
+            
+            FYModel?.ownerFloor = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
+        }
+        
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.tag == 1 {
-            if buildingModel?.floorType == "1" {
-                return SSTool.isPureStrOrNumNumber(text: string)
-            }else if buildingModel?.floorType == "2" {
-                return true
-            }
-        }
-        return true
     }
 }

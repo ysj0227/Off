@@ -12,6 +12,8 @@ class OwnerBuildingClickCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
     
+    var FYModel: FangYuanFYEditDetailModel?
+    
     ///楼盘
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {
         didSet {

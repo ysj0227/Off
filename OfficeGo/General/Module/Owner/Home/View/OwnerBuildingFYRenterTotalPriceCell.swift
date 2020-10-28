@@ -12,10 +12,11 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
     
     ///点击输入框
     var inputClickClouse:(() -> Void)?
+        
+    var FYModel: FangYuanFYEditDetailModel?
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
-    
-    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    ///房源
+    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
     
     lazy var titleLabel: UILabel = {
         let view = UILabel()
@@ -64,7 +65,7 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
             titleLabel.attributedText = officeModel.getNameFormType(type: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalPrice)
             unitLabel.text = officeModel.getPalaceHolderFormType(type: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalPrice)
             
-            editLabel.text = buildingModel?.totalPrice
+            editLabel.text = FYModel?.totalPrice
             
         }
     }
@@ -160,14 +161,14 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
 extension OwnerBuildingFYRenterTotalPriceCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        buildingModel?.totalPrice = textField.text
+        FYModel?.totalPrice = textField.text
         
-        buildingModel?.totalPriceTemp = textField.text
+        FYModel?.totalPriceTemp = textField.text
         
-        guard let blockk = self.endEditingMessageCell else {
+        guard let blockk = self.endEditingFYMessageCell else {
             return
         }
-        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        blockk(FYModel ?? FangYuanFYEditDetailModel())
         
 //        if buildingModel?.totalPrice != textField.text {
 //

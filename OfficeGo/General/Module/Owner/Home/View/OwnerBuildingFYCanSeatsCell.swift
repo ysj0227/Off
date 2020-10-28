@@ -94,10 +94,11 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
     }
     
     var alertBtnClickClouse:(() -> Void)?
-
-    var buildingModel: FangYuanBuildingEditDetailModel?
     
-    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    var FYModel: FangYuanFYEditDetailModel?
+    
+    ///房源
+    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
     
     func setupViews() {
 
@@ -195,9 +196,9 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
             
             titleLabel.attributedText = officeModel.getNameFormType(type: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeSeats)
             
-            minLabel.text = buildingModel?.minSeatsOffice
+            minLabel.text = FYModel?.minSeatsOffice
             
-            maxLabel.text = buildingModel?.maxSeatsOffice
+            maxLabel.text = FYModel?.maxSeatsOffice
         }
     }
 }
@@ -207,15 +208,15 @@ extension OwnerBuildingFYCanSeatsCell: UITextFieldDelegate {
         
         ///最小工位
         if textField.tag == 1 {
-            buildingModel?.minSeatsOffice = textField.text
+            FYModel?.minSeatsOffice = textField.text
         }else {
-            buildingModel?.maxSeatsOffice = textField.text
+            FYModel?.maxSeatsOffice = textField.text
         }
         
-        guard let blockk = self.endEditingMessageCell else {
+        guard let blockk = self.endEditingFYMessageCell else {
             return
         }
-        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        blockk(FYModel ?? FangYuanFYEditDetailModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

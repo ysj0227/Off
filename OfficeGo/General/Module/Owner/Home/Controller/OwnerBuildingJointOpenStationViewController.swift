@@ -29,7 +29,7 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     var typeSourceArray:[OwnerBuildingJointOpenStationConfigureModel] = [OwnerBuildingJointOpenStationConfigureModel]()
     
     ///
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var FYModel: FangYuanFYEditDetailModel?
     
     lazy var saveBtn: UIButton = {
         let button = UIButton.init()
@@ -141,10 +141,10 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         typeSourceArray.append(OwnerBuildingJointOpenStationConfigureModel.init(types: .OwnerBuildingJointOpenStationTypeBuildingImage))
         
         
-        if buildingModel != nil {
+        if FYModel != nil {
             
         }else {
-            buildingModel = FangYuanBuildingEditDetailModel()
+            FYModel = FangYuanFYEditDetailModel()
         }
         
     }
@@ -304,7 +304,7 @@ extension OwnerBuildingJointOpenStationViewController {
             ///免租期
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
             cell?.jointOpenStationModel = model
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
@@ -314,7 +314,7 @@ extension OwnerBuildingJointOpenStationViewController {
                 ///点击cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
                 cell?.selectionStyle = .none
-                cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+                cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
                 cell?.jointOpenStationModel = model
                 return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             }else {
@@ -322,7 +322,7 @@ extension OwnerBuildingJointOpenStationViewController {
                 ///文本输入cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr) as? OwnerBuildingFYFloorCell
                 cell?.selectionStyle = .none
-                cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+                cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
                 cell?.jointOpenStationModel = model
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
@@ -335,7 +335,7 @@ extension OwnerBuildingJointOpenStationViewController {
             ///最短租期
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
             cell?.jointOpenStationModel = model
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -348,7 +348,7 @@ extension OwnerBuildingJointOpenStationViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
             cell?.jointOpenStationModel = model
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -358,7 +358,7 @@ extension OwnerBuildingJointOpenStationViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingImgCell.reuseIdentifierStr) as? OwnerBuildingImgCell
             cell?.selectionStyle = .none
             cell?.jointOpenStationModel = model
-            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.FYModel = self.FYModel ?? FangYuanFYEditDetailModel()
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
             
         case .none:
@@ -383,7 +383,7 @@ extension OwnerBuildingJointOpenStationViewController {
             if indexPath.row == 0 {
                 return BaseEditCell.rowHeight()
             }else {
-                if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+                if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
                     return OwnerBuildingFYFloorCell.rowHeight()
                 }else {
                     return 0
@@ -461,9 +461,9 @@ extension OwnerBuildingJointOpenStationViewController {
                 }) {[weak self] (settingEnumIndex) in
                     //单层1 多层2
                     if settingEnumIndex == 0 {
-                        self?.buildingModel?.floorType = "1"
+                        self?.FYModel?.floorType = "1"
                     }else if settingEnumIndex == 1 {
-                        self?.buildingModel?.floorType = "2"
+                        self?.FYModel?.floorType = "2"
                     }
                     self?.loadSections(indexSet: [indexPath.section])
                 }

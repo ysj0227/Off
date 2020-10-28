@@ -12,6 +12,7 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
     
+        ///楼盘
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
     
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor) {

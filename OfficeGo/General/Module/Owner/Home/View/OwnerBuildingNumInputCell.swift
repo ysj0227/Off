@@ -12,7 +12,14 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
     
+    var FYModel: FangYuanFYEditDetailModel?
+
+    ///楼盘
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    
+    ///房源
+    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
+    
     
     override func setExtraView() {
         editLabel.font = FONT_14
@@ -307,7 +314,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
                 
             }else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-                editLabel.text = buildingModel?.dayPrice
+                editLabel.text = FYModel?.dayPrice
             }
         }
     }
@@ -376,30 +383,60 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         }
         //MARK: 楼盘    ///车位数    仅支持0和正整数
         else if model.type == .OwnerBuildingEditTypeParkingNum {
-        
+            
+            buildingModel?.parkingSpace = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         //MARK: 楼盘    ///车位费    仅支持0-5000正整数，默认值0，当填0时前台展示“未知”，单位，“元/月”
         else if model.type == .OwnerBuildingEditTypeParkingCoast {
-        
+            
+            buildingModel?.ParkingSpaceRent = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         
         
         //MARK: 网点
         //MARK: 网点  ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
         if jointModel.type == .OwnerBuildingJointEditTypeConferenceNumber {
-        
+            
+            buildingModel?.conferenceNumber = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         //MARK: 网点  ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
         else if jointModel.type == .OwnerBuildingJointEditTypeConferencePeopleNumber {
-        
+            
+            buildingModel?.conferencePeopleNumber = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         //MARK: 网点  ///车位数    仅支持0和正整数
         else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum {
-        
+            
+            buildingModel?.parkingSpace = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         //MARK: 网点  ///车位费    仅支持0-5000正整数，默认值0，当填0时前台展示“未知”，单位，“元/月”
         else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast {
-        
+            
+            buildingModel?.ParkingSpaceRent = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         
         
@@ -407,11 +444,19 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 办公室
         //MARK: 办公室 ///最短租期 必填，1-60正整数，单位 月
         if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
-        
+            FYModel?.minimumLease = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         //MARK: 办公室     ///租金单价 - 
         else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-            buildingModel?.dayPrice = textField.text
+            FYModel?.dayPrice = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         
         
@@ -420,26 +465,47 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 独立办公室
         //MARK: 独立办公室   ///工位数  工位数，支持填写1-100的正整数
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeSeats {
-        
+            FYModel?.minSeatsOffice = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         //MARK: 独立办公室   ///最短租期 最短租期，必填，数字，单位月，支持输入0-60正整数
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
-        
+            FYModel?.minimumLease = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         //MARK: 独立办公室       ///租金
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
-            buildingModel?.dayPrice = textField.text
+            FYModel?.dayPrice = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
+        
         
         
         //MARK: 开放工位
         //MARK: 开放工位    ///工位数  工位数，数字，支持输入1-200正整数，单位 个
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeSeats {
-        
+            FYModel?.minSeatsOffice = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         //MARK: 开放工位    ///最短租期 最短租期，数字，必填，单位月，支持输入0-60正整数
         else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
-        
+            FYModel?.minimumLease = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         
     }

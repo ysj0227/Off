@@ -60,6 +60,12 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
 
     var jointModel: OwnerBuildingJointEditConfigureModel?
 
+    var FYModel: FangYuanFYEditDetailModel = FangYuanFYEditDetailModel() {
+        didSet {
+            intruductionTextview.text = FYModel.introduction?.introductionStr
+        }
+    }
+    
     var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
         didSet {
             intruductionTextview.text = buildingModel.introduction?.introductionStr

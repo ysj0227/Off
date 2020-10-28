@@ -59,6 +59,7 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
     
+        ///楼盘
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
     
     func setupViews() {
@@ -185,10 +186,18 @@ extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
         //MARK: 楼盘  ///电梯数 - 客梯 必填，客梯 货梯分开填，仅支持0-20数字；
         if model.type == .OwnerBuildingEditTypePassengerNum {
             buildingModel?.passengerLift = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         //MARK: 楼盘  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
         else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
             buildingModel?.cargoLift = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         
         
@@ -196,17 +205,19 @@ extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
         //MARK: 网点  ///电梯数 - 客梯 必填，客梯 货梯分开填，仅支持0-20数字；
         if jointModel.type == .OwnerBuildingJointEditTypePassengerNum {
             buildingModel?.passengerLift = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
         //MARK: 网点  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
         else if jointModel.type == .OwnerBuildingJointEditTypeFloorCargoNum {
             buildingModel?.cargoLift = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
-        
-        
-        guard let blockk = self.endEditingMessageCell else {
-            return
-        }
-        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

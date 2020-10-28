@@ -37,6 +37,12 @@ class OwnerBuildingImgCell: BaseTableViewCell {
         return view
     }()
     
+    var FYModel : FangYuanFYEditDetailModel = FangYuanFYEditDetailModel() {
+        didSet {
+            reloadData()
+        }
+    }
+    
     var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
         didSet {
             reloadData()

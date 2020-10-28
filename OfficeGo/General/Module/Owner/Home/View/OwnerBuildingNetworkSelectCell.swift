@@ -45,6 +45,17 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
     ///装修类型
     var isSimpleDocument: Bool?
     
+    //来自于房源
+    var ISFY : Bool?
+    
+    //房源
+    var FYModel: FangYuanFYEditDetailModel = FangYuanFYEditDetailModel() {
+        didSet {
+            reloadData()
+        }
+    }
+    
+    //楼盘
     var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
         didSet {
             reloadData()
@@ -108,76 +119,157 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
 
 extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isMutTags == true {
-            return buildingModel.tagsLocal.count
-        }else if isMutNetworks == true {
-            return buildingModel.internetLocal.count
-        }else if isSimpleDocument == true {
-            return buildingModel.decoratesLocal.count
+        
+        if ISFY == true {
+            if isMutTags == true {
+                return FYModel.tagsLocal.count
+            }else if isMutNetworks == true {
+                return FYModel.internetLocal.count
+            }else if isSimpleDocument == true {
+                return FYModel.decoratesLocal.count
+            }else {
+                return 0
+            }
         }else {
-            return 0
+            if isMutTags == true {
+                return buildingModel.tagsLocal.count
+            }else if isMutNetworks == true {
+                return buildingModel.internetLocal.count
+            }else if isSimpleDocument == true {
+                return buildingModel.decoratesLocal.count
+            }else {
+                return 0
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HouseFeatureCollectionCell.reuseIdentifierStr, for: indexPath) as? HouseFeatureCollectionCell
         
-        if isMutTags == true {
-            
-            cell?.model = buildingModel.tagsLocal[indexPath.row]
-            
-            cell?.setButtonSelected(isSelected: cell?.model?.isDocumentSelected ?? false)
-            
-            return cell ?? HouseFeatureCollectionCell()
-            
-        }else if isMutNetworks == true {
+        if ISFY == true {
 
-            cell?.model = buildingModel.internetLocal[indexPath.row]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HouseFeatureCollectionCell.reuseIdentifierStr, for: indexPath) as? HouseFeatureCollectionCell
             
-            cell?.setButtonSelected(isSelected: cell?.model?.isOfficeBuildingSelected ?? false)
-            
-            return cell ?? HouseFeatureCollectionCell()
-            
-        }else if isSimpleDocument == true {
+            if isMutTags == true {
+                
+                cell?.model = FYModel.tagsLocal[indexPath.row]
+                
+                cell?.setButtonSelected(isSelected: cell?.model?.isDocumentSelected ?? false)
+                
+                return cell ?? HouseFeatureCollectionCell()
+                
+            }else if isMutNetworks == true {
 
-            cell?.model = buildingModel.decoratesLocal[indexPath.row]
+                cell?.model = FYModel.internetLocal[indexPath.row]
+                
+                cell?.setButtonSelected(isSelected: cell?.model?.isOfficeBuildingSelected ?? false)
+                
+                return cell ?? HouseFeatureCollectionCell()
+                
+            }else if isSimpleDocument == true {
 
-            if buildingModel.decorateModel?.dictValue == buildingModel.decoratesLocal[indexPath.row].dictValue {
-                cell?.setButtonSelected(isSelected: true)
+                cell?.model = FYModel.decoratesLocal[indexPath.row]
+
+                if FYModel.decorateModel?.dictValue == FYModel.decoratesLocal[indexPath.row].dictValue {
+                    cell?.setButtonSelected(isSelected: true)
+                }else {
+                    cell?.setButtonSelected(isSelected: false)
+                }
+                
+                
+                return cell ?? HouseFeatureCollectionCell()
             }else {
-                cell?.setButtonSelected(isSelected: false)
+                return HouseFeatureCollectionCell()
             }
-            
-            
-            return cell ?? HouseFeatureCollectionCell()
         }else {
-            return HouseFeatureCollectionCell()
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HouseFeatureCollectionCell.reuseIdentifierStr, for: indexPath) as? HouseFeatureCollectionCell
+            
+            if isMutTags == true {
+                
+                cell?.model = buildingModel.tagsLocal[indexPath.row]
+                
+                cell?.setButtonSelected(isSelected: cell?.model?.isDocumentSelected ?? false)
+                
+                return cell ?? HouseFeatureCollectionCell()
+                
+            }else if isMutNetworks == true {
+
+                cell?.model = buildingModel.internetLocal[indexPath.row]
+                
+                cell?.setButtonSelected(isSelected: cell?.model?.isOfficeBuildingSelected ?? false)
+                
+                return cell ?? HouseFeatureCollectionCell()
+                
+            }else if isSimpleDocument == true {
+
+                cell?.model = buildingModel.decoratesLocal[indexPath.row]
+
+                if buildingModel.decorateModel?.dictValue == buildingModel.decoratesLocal[indexPath.row].dictValue {
+                    cell?.setButtonSelected(isSelected: true)
+                }else {
+                    cell?.setButtonSelected(isSelected: false)
+                }
+                
+                
+                return cell ?? HouseFeatureCollectionCell()
+            }else {
+                return HouseFeatureCollectionCell()
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if isMutTags == true {
-            var num = 0
-            for model in buildingModel.tagsLocal {
-                if model.isDocumentSelected == true {
-                    num += 1
+        
+        if ISFY == true {
+
+            if isMutTags == true {
+                var num = 0
+                for model in FYModel.tagsLocal {
+                    if model.isDocumentSelected == true {
+                        num += 1
+                    }
                 }
+                if num >= 4 {
+                    if FYModel.tagsLocal[indexPath.item].isDocumentSelected != true {
+                        AppUtilities.makeToast("最多可选择4个")
+                    }else {
+                        FYModel.tagsLocal[indexPath.item].isDocumentSelected = !(FYModel.tagsLocal[indexPath.item].isDocumentSelected)
+                    }
+                }else {
+                    FYModel.tagsLocal[indexPath.item].isDocumentSelected = !(FYModel.tagsLocal[indexPath.item].isDocumentSelected)
+                }
+                
+            }else if isMutNetworks == true {
+                FYModel.internetLocal[indexPath.item].isOfficeBuildingSelected = !(FYModel.internetLocal[indexPath.item].isOfficeBuildingSelected)
+            }else if isSimpleDocument == true {
+                ///单选
+                FYModel.decorateModel = FYModel.decoratesLocal[indexPath.item]
             }
-            if num >= 4 {
-                if buildingModel.tagsLocal[indexPath.item].isDocumentSelected != true {
-                    AppUtilities.makeToast("最多可选择4个")
+        }else {
+
+            if isMutTags == true {
+                var num = 0
+                for model in buildingModel.tagsLocal {
+                    if model.isDocumentSelected == true {
+                        num += 1
+                    }
+                }
+                if num >= 4 {
+                    if buildingModel.tagsLocal[indexPath.item].isDocumentSelected != true {
+                        AppUtilities.makeToast("最多可选择4个")
+                    }else {
+                        buildingModel.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.tagsLocal[indexPath.item].isDocumentSelected)
+                    }
                 }else {
                     buildingModel.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.tagsLocal[indexPath.item].isDocumentSelected)
                 }
-            }else {
-                buildingModel.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.tagsLocal[indexPath.item].isDocumentSelected)
+                
+            }else if isMutNetworks == true {
+                buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected = !(buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected)
+            }else if isSimpleDocument == true {
+                ///单选
+                buildingModel.decorateModel = buildingModel.decoratesLocal[indexPath.item]
             }
-            
-        }else if isMutNetworks == true {
-            buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected = !(buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected)
-        }else if isSimpleDocument == true {
-            ///单选
-            buildingModel.decorateModel = buildingModel.decoratesLocal[indexPath.item]
         }
         
         self.featureCollectionView.reloadData()

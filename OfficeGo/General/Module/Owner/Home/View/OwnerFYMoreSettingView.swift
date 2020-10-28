@@ -236,11 +236,22 @@ extension OwnerFYMoreSettingView: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let blockk = sureHouseSortButtonCallBack else {
-            return
+        if moreSettingDatasource.count > 0 {
+
+            guard let blockk = sureOwnerFYMoreCallBack else {
+                return
+            }
+            blockk(moreSettingDatasource[indexPath.row])
+            selfRemove()
+        }else {
+
+            guard let blockk = sureHouseSortButtonCallBack else {
+                return
+            }
+            blockk(indexPath.row)
+            selfRemove()
         }
-        blockk(indexPath.row)
-        selfRemove()
+        
         
     }
 }

@@ -13,7 +13,13 @@ class OwnerBuildingInputCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditDetailModel?
     
+    var FYModel: FangYuanFYEditDetailModel?
+
+        ///楼盘
     var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    
+    ///房源
+    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
     
     override func setExtraView() {
         editLabel.font = FONT_14
@@ -328,40 +334,41 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         //MARK: 办公室 ///标题 过滤 <>=，,。？? 和连续超过8位的数字，最多25个字
         if officeModel.type == .OwnerBuildingOfficeTypeName {
             
-            buildingModel?.buildingName = textField.text
-            guard let blockk = self.endEditingMessageCell else {
+            FYModel?.buildingName = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
+        
         
         //MARK: 独立办公室
         //MARK: 独立办公室 ///标题 过滤 <>=，,。？? 最多20个字，不填时默认拼接：工位数+网点名
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeName {
             
-            buildingModel?.buildingName = textField.text
-            guard let blockk = self.endEditingMessageCell else {
+            FYModel?.buildingName = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         //MARK: 独立办公室   ///车位数  文本，最多20个字，过滤特殊字符
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingNum {
             
-            buildingModel?.parkingSpace = textField.text
-            guard let blockk = self.endEditingMessageCell else {
+            FYModel?.parkingSpace = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         //MARK: 独立办公室   ///车位费  文本，最多20个字，过滤特殊字符
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingCoast{
             
-            buildingModel?.ParkingSpaceRent = textField.text
-            guard let blockk = self.endEditingMessageCell else {
+            FYModel?.ParkingSpaceRent = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
         }
         
     }
