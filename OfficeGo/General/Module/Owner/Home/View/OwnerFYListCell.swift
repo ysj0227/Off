@@ -141,6 +141,10 @@ class OwnerFYListCell: BaseTableViewCell {
     var shareBtnClickBlock: (() -> Void)?
     
     @objc func shareBtnClick() {
+        if viewModel.isPublish != true {
+            AppUtilities.makeToast("房源已下架，请先上架后再分享")
+            return
+        }
         guard let blockk = shareBtnClickBlock else {
             return
         }
@@ -320,7 +324,7 @@ class OwnerFYListCell: BaseTableViewCell {
         houseImageview.setImage(with: viewModel.mainPic ?? "", placeholder: UIImage(named: Default_1x1))
         houseNameLabel.text = "\(viewModel.houseName ?? "")"
         
-        sharehBtn.isUserInteractionEnabled = viewModel.isPublish ?? true
+//        sharehBtn.isUserInteractionEnabled = viewModel.isPublish ?? true
     }
     
 }
