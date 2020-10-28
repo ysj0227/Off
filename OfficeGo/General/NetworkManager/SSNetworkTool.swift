@@ -817,6 +817,20 @@ extension SSNetworkTool {
     //  MARK:   详情
     class SSFYDetail: NSObject {
         
+        //业主 楼盘网点预览
+        static func request_getBuildingbyBuildingIdPreviewApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSFYDetailURL.getBuildingbyBuildingIdPreviewApp)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        //业主 楼盘-网点房源预览
+        static func request_getHousebyHouseIdPreviewApp(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
+            let url = String.init(format: SSFYDetailURL.getHousebyHouseIdPreviewApp)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
         //楼盘网点详情
         static func request_getBuildingDetailbyBuildingId(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSFYDetailURL.getBuildingDetailbyBuildingId)

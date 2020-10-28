@@ -42,6 +42,9 @@ class FangYuanListModel: BaseModel {
     var updateTime : Int?
     var userId : String?             //用户id 发布者
     
+    
+    ///0是正式表1临时表
+    var isTemp : Bool?
 }
 
 //地址模型

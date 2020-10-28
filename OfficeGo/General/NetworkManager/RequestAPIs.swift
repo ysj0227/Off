@@ -201,6 +201,14 @@ class SSCollectURL: NSObject {
 //  MARK:   --详情
 class SSFYDetailURL: NSObject {
     
+    //业主 - 楼盘网点预览
+    static let getBuildingbyBuildingIdPreviewApp = "getBuildingbyBuildingIdPreviewApp"
+    
+    //业主 楼盘-网点房源预览
+    static let getHousebyHouseIdPreviewApp = "api/house/getHousebyHouseIdPreviewApp"
+    
+    
+    
     //楼盘网点详情
     static let getBuildingDetailbyBuildingId = "api/building/selectBuildingbyBuildingIdApp"
     
