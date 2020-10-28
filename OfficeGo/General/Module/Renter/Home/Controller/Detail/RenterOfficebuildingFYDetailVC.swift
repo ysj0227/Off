@@ -156,10 +156,31 @@ class RenterOfficebuildingFYDetailVC: BaseGroupTableViewController {
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
         }
+        
+        ///如果是来自于业主预览或者是业主身份的时候，不展示收藏和聊天按钮
+        if isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
+              ///房源当前状态0未发布，1发布，2下架,3:待完善
+            if model.houseStatus != 1 {
+                titleview?.shareButton.isHidden = true
+            }
+            
+        }
         titleview?.rightBtnsssClickBlock = { [weak self] (index) in
             if index == 99 {
-                self?.shareClick()
-                self?.shareVc()
+                
+                ///如果是来自于业主预览或者是业主身份的时候，不展示收藏和聊天按钮
+                if self?.isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
+                      ///房源当前状态0未发布，1发布，2下架,3:待完善
+                    if self?.model.houseStatus != 1 {
+                        AppUtilities.makeToast("房源已下架，请先上架后再分享")
+                    }else {
+                        self?.shareClick()
+                        self?.shareVc()
+                    }
+                }else {
+                    self?.shareClick()
+                    self?.shareVc()
+                }
             }
         }
         

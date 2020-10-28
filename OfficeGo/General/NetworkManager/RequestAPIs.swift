@@ -65,6 +65,12 @@ class SSDelegateURL: NSObject {
 //  MARK:   --房源列表
 class SSOwnerFYManagerURL: NSObject {
     
+    //楼盘网点编辑接口
+    static let getEditBuilding = "api/building/editBuilding"
+    
+    //房源编辑接口
+    static let getEditHouse = "api/house/editHouse"
+        
     //楼盘列表接口
     static let getBuildingList = "api/building/selectBuildingList"
     
@@ -202,11 +208,13 @@ class SSCollectURL: NSObject {
 class SSFYDetailURL: NSObject {
     
     //业主 - 楼盘网点预览
-    static let getBuildingbyBuildingIdPreviewApp = "getBuildingbyBuildingIdPreviewApp"
+    static let getBuildingbyBuildingIdPreviewApp = "api/building/getBuildingbyBuildingIdPreviewApp"
     
     //业主 楼盘-网点房源预览
     static let getHousebyHouseIdPreviewApp = "api/house/getHousebyHouseIdPreviewApp"
     
+    //业主 楼盘-网点房源列表
+    static let getOwnerBuildingFYList = "api/building/selectHouseApp"
     
     
     //楼盘网点详情

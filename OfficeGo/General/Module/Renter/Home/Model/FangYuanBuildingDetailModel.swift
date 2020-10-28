@@ -119,6 +119,10 @@ class FangYuanBuildingDetailViewModel: NSObject {
 }
 
 class FangYuanBuildingBuildingModel: BaseModel {
+    
+    ///-1:不是管理员 暂无权限编辑楼盘(临时楼盘),0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除;6待审核7已驳回 注意：（IsTemp为1时，status状态标记 1:待审核 -转6 ,2:已驳回 -转7 ）
+    var status : Int?
+    
     ///1是写字楼，2是共享办公
     var btype: Int?
     ///地址
@@ -186,6 +190,10 @@ class FangYuanBuildingBuildingModel: BaseModel {
 
 //楼盘基本信息 - 楼盘名字 地址 公交
 class FangYuanBuildingBuildingViewModel: NSObject {
+    
+    ///-1:不是管理员 暂无权限编辑楼盘(临时楼盘),0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除;6待审核7已驳回 注意：（IsTemp为1时，status状态标记 1:待审核 -转6 ,2:已驳回 -转7 ）
+    var status : Int?
+    
     ///1是写字楼，2是共享办公
     var btype: Int?
     
@@ -253,6 +261,8 @@ class FangYuanBuildingBuildingViewModel: NSObject {
     init(model:FangYuanBuildingBuildingModel) {
         
         super.init()
+        
+        status = model.status
         
         btype = model.btype
         
@@ -516,6 +526,9 @@ class FangYuanBuildingOpenStationModel: BaseModel {
     
     ///0是正式表1临时表
     var isTemp : Bool?
+    
+    ///房源当前状态0未发布，1发布，2下架,3:待完善
+    var houseStatus : Int?
 }
 ///房源列表viewmodel模型
 class FangYuanBuildingOpenStationViewModel: NSObject {
@@ -576,9 +589,17 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
     ///楼层 - 只显示8楼，不显示总层数
     var buildingFloor : String?
     
+    ///0是正式表1临时表
+    var isTemp : Bool?
+    
+    ///房源当前状态0未发布，1发布，2下架,3:待完善
+    var houseStatus : Int?
     
     init(model:FangYuanBuildingOpenStationModel) {
         super.init()
+        
+        houseStatus = model.houseStatus
+        
         vr = model.vr
         Isfailure = model.Isfailure
         btype = model.btype
@@ -586,7 +607,8 @@ class FangYuanBuildingOpenStationViewModel: NSObject {
         mainPic = model.mainPic
         buildingName = model.buildingName
         addressString = model.businessDistrict ?? ""
-
+        isTemp = model.isTemp
+        
         if btype == 1 {
             buildingArea = String(format: "%.0f㎡", model.area ?? 0)
             let arr = model.simple?.split{$0 == ","}.map(String.init)

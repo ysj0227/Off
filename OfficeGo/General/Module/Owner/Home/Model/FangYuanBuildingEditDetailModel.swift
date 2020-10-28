@@ -10,6 +10,11 @@ import UIKit
 
 //MARK: 楼盘和共享办公详情
 class FangYuanBuildingEditDetailModel: BaseModel {
+    
+    ///0是正式表1临时表
+    var isTemp : Bool?
+    
+    var buildingId: String?
     ///写字楼，创意园，产业园 写字楼1,创意园3,产业园6
     var buildingType: OWnerBuildingTypeEnum?
     ///楼盘名称

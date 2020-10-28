@@ -254,6 +254,7 @@ extension OwnerBuildingListViewController {
                         model.btype = viewModel.btype
                         model.id = viewModel.idString
                         model.isTemp = viewModel.isTemp
+                        model.status = viewModel.status
                         let vc = RenterOfficebuildingDetailVC()
                         vc.isFromOwnerScan = true
                         vc.buildingModel = model
@@ -263,6 +264,7 @@ extension OwnerBuildingListViewController {
                         model.btype = viewModel.btype
                         model.id = viewModel.idString
                         model.isTemp = viewModel.isTemp
+                        model.status = viewModel.status
                         let vc = RenterOfficeJointDetailVC()
                         vc.isFromOwnerScan = true
                         vc.buildingModel = model

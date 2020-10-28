@@ -215,32 +215,32 @@ extension OwnerFYListViewController {
         }
         
         buildingListVC.clickBuildingScanEditBlock = { [weak self] (viewModel, isScan) in
-            if isScan == true {
-                if viewModel.btype == 1 {
-                    let model = FangYuanListModel()
-                    model.btype = viewModel.btype
-                    model.id = viewModel.idString
-                    let vc = RenterOfficebuildingDetailVC()
-                    vc.buildingModel = model
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }else if viewModel.btype == 2 {
-                    let model = FangYuanListModel()
-                    model.btype = viewModel.btype
-                    model.id = viewModel.idString
-                    let vc = RenterOfficeJointDetailVC()
-                    vc.buildingModel = model
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }
-            }else {
-
-                if viewModel.btype == 1 {
-                    let vc = OwnerBuildingCreateViewController()
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }else if viewModel.btype == 2 {
-                    let vc = OwnerBuildingJointCreateViewController()
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }
-            }
+//            if isScan == true {
+//                if viewModel.btype == 1 {
+//                    let model = FangYuanListModel()
+//                    model.btype = viewModel.btype
+//                    model.id = viewModel.idString
+//                    let vc = RenterOfficebuildingDetailVC()
+//                    vc.buildingModel = model
+//                    self?.navigationController?.pushViewController(vc, animated: true)
+//                }else if viewModel.btype == 2 {
+//                    let model = FangYuanListModel()
+//                    model.btype = viewModel.btype
+//                    model.id = viewModel.idString
+//                    let vc = RenterOfficeJointDetailVC()
+//                    vc.buildingModel = model
+//                    self?.navigationController?.pushViewController(vc, animated: true)
+//                }
+//            }else {
+//
+//                if viewModel.btype == 1 {
+//                    let vc = OwnerBuildingCreateViewController()
+//                    self?.navigationController?.pushViewController(vc, animated: true)
+//                }else if viewModel.btype == 2 {
+//                    let vc = OwnerBuildingJointCreateViewController()
+//                    self?.navigationController?.pushViewController(vc, animated: true)
+//                }
+//            }
         }
         
         
@@ -544,6 +544,7 @@ extension OwnerFYListViewController {
                 detail.btype = model.btype
                 detail.id = model.houseId
                 detail.isTemp = model.isTemp
+                detail.houseStatus = model.houseStatus
                 vc.model = detail
                 self.navigationController?.pushViewController(vc, animated: true)
             }else if model.btype == 2 {
@@ -555,6 +556,7 @@ extension OwnerFYListViewController {
                     detail.btype = model.btype
                     detail.id = model.houseId
                     detail.isTemp = model.isTemp
+                    detail.houseStatus = model.houseStatus
                     vc.model = detail
                     self.navigationController?.pushViewController(vc, animated: true)
                 }

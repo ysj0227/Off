@@ -234,61 +234,125 @@ class RenterOfficeJointDetailVC: BaseGroupTableViewController, WMPlayerDelegate 
     /// 刷新数据
     @objc func refreshDataList() {
         
-        var params = [String:AnyObject]()
-        
-        if let parr = shaiXuanParams {
-            params = parr
-        }
-        params["pageNo"] = self.pageNo as AnyObject
-        params["pageSize"] = self.pageSize as AnyObject
-        params["btype"] = buildingModel.btype as AnyObject?
-        params["buildingId"] = buildingModel.id as AnyObject?
-        
-        ///只有点击清楚按钮之后 - 用自己选择的面积
-        if isClearCondition == true {
-            params["seats"] = clickItemString as AnyObject?
-        }
-        
-        SSNetworkTool.SSFYDetail.request_getBuildingFYList(params: params, success: { [weak self] (response) in
-            guard let weakSelf = self else {return}
-            if let decoratedArray = JSONDeserializer<FangYuanBuildingOpenStationModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
-                weakSelf.dataSource = weakSelf.dataSource + decoratedArray
-                weakSelf.endRefreshWithCount(decoratedArray.count)
-                
-                //显示带过来的筛选条件
-                if weakSelf.isClearCondition != true {
-                    
-                    SSTool.invokeInMainThread {
-                        weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")人 \n \(weakSelf.dataSource.count)套"
-                    }
-                    
-                    ///神策楼盘详情页筛选房源
-                    SensorsAnalyticsFunc.building_data_page_screen(buildingId: "\(weakSelf.buildingModel.id ?? 0)", houseCnt: weakSelf.dataSource.count)
-                    
-                }else {
-                    ///点击楼盘详情页房源筛选按钮
-                    if weakSelf.clickItemString == "" {
-                        SensorsAnalyticsFunc.click_building_data_page_screen_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", area: "", simple: "全部")
-                    }else {
-                        SensorsAnalyticsFunc.click_building_data_page_screen_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", area: "", simple: weakSelf.clickItemString)
-                    }
-                }
+        ///如果是来自于业主预览或者是业主身份的时候，请求业主房源列表
+        if isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
+            
+
+            var params = [String:AnyObject]()
+            
+            if let parr = shaiXuanParams {
+                params = parr
+            }
+            params["pageNo"] = self.pageNo as AnyObject
+            params["pageSize"] = self.pageSize as AnyObject
+            params["btype"] = buildingModel.btype as AnyObject?
+            params["buildingId"] = buildingModel.id as AnyObject?
+            
+            ///只有点击清楚按钮之后 - 用自己选择的面积
+            if isClearCondition == true {
+                params["seats"] = clickItemString as AnyObject?
             }
             
-            }, failure: {[weak self] (error) in
+            SSNetworkTool.SSFYDetail.request_getOwnerBuildingFYList(params: params, success: { [weak self] (response) in
+                guard let weakSelf = self else {return}
+                if let decoratedArray = JSONDeserializer<FangYuanBuildingOpenStationModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
+                    weakSelf.dataSource = weakSelf.dataSource + decoratedArray
+                    weakSelf.endRefreshWithCount(decoratedArray.count)
+                    
+                    //显示带过来的筛选条件
+                    if weakSelf.isClearCondition != true {
+                        
+                        SSTool.invokeInMainThread {
+                            weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")人 \n \(weakSelf.dataSource.count)套"
+                        }
+                        
+                        ///神策楼盘详情页筛选房源
+                        SensorsAnalyticsFunc.building_data_page_screen(buildingId: "\(weakSelf.buildingModel.id ?? 0)", houseCnt: weakSelf.dataSource.count)
+                        
+                    }else {
+                        ///点击楼盘详情页房源筛选按钮
+                        if weakSelf.clickItemString == "" {
+                            SensorsAnalyticsFunc.click_building_data_page_screen_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", area: "", simple: "全部")
+                        }else {
+                            SensorsAnalyticsFunc.click_building_data_page_screen_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", area: "", simple: weakSelf.clickItemString)
+                        }
+                    }
+                }
+                
+                }, failure: {[weak self] (error) in
+                    guard let weakSelf = self else {return}
+                    
+                    weakSelf.endRefreshAnimation()
+                    
+            }) {[weak self] (code, message) in
+                
                 guard let weakSelf = self else {return}
                 
                 weakSelf.endRefreshAnimation()
                 
-        }) {[weak self] (code, message) in
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
+            }
+        }else {
+
+            var params = [String:AnyObject]()
             
-            guard let weakSelf = self else {return}
+            if let parr = shaiXuanParams {
+                params = parr
+            }
+            params["pageNo"] = self.pageNo as AnyObject
+            params["pageSize"] = self.pageSize as AnyObject
+            params["btype"] = buildingModel.btype as AnyObject?
+            params["buildingId"] = buildingModel.id as AnyObject?
             
-            weakSelf.endRefreshAnimation()
+            ///只有点击清楚按钮之后 - 用自己选择的面积
+            if isClearCondition == true {
+                params["seats"] = clickItemString as AnyObject?
+            }
             
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
+            SSNetworkTool.SSFYDetail.request_getBuildingFYList(params: params, success: { [weak self] (response) in
+                guard let weakSelf = self else {return}
+                if let decoratedArray = JSONDeserializer<FangYuanBuildingOpenStationModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
+                    weakSelf.dataSource = weakSelf.dataSource + decoratedArray
+                    weakSelf.endRefreshWithCount(decoratedArray.count)
+                    
+                    //显示带过来的筛选条件
+                    if weakSelf.isClearCondition != true {
+                        
+                        SSTool.invokeInMainThread {
+                            weakSelf.shaixuanConditionView.titleView.text = "\(weakSelf.shaixuanAreaSeatsString ?? "全部")人 \n \(weakSelf.dataSource.count)套"
+                        }
+                        
+                        ///神策楼盘详情页筛选房源
+                        SensorsAnalyticsFunc.building_data_page_screen(buildingId: "\(weakSelf.buildingModel.id ?? 0)", houseCnt: weakSelf.dataSource.count)
+                        
+                    }else {
+                        ///点击楼盘详情页房源筛选按钮
+                        if weakSelf.clickItemString == "" {
+                            SensorsAnalyticsFunc.click_building_data_page_screen_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", area: "", simple: "全部")
+                        }else {
+                            SensorsAnalyticsFunc.click_building_data_page_screen_button(buildingId: "\(weakSelf.buildingModel.id ?? 0)", area: "", simple: weakSelf.clickItemString)
+                        }
+                    }
+                }
+                
+                }, failure: {[weak self] (error) in
+                    guard let weakSelf = self else {return}
+                    
+                    weakSelf.endRefreshAnimation()
+                    
+            }) {[weak self] (code, message) in
+                
+                guard let weakSelf = self else {return}
+                
+                weakSelf.endRefreshAnimation()
+                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
             }
         }
     }
@@ -380,10 +444,31 @@ class RenterOfficeJointDetailVC: BaseGroupTableViewController, WMPlayerDelegate 
         titleview?.leftButtonCallBack = { [weak self] in
             self?.leftBtnClick()
         }
+        
+        ///如果是来自于业主预览或者是业主身份的时候，不展示收藏和聊天按钮
+        if isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
+              ///房源当前状态0未发布，1发布，2下架,3:待完善
+            if buildingModel.status != 1 {
+                titleview?.shareButton.isHidden = true
+            }
+            
+        }
         titleview?.rightBtnsssClickBlock = { [weak self] (index) in
             if index == 99 {
-                self?.shareClick()
-                self?.shareVc()
+                
+                ///如果是来自于业主预览或者是业主身份的时候，不展示收藏和聊天按钮
+                if self?.isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
+                      ///-1:不是管理员 暂无权限编辑楼盘(临时楼盘),0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除;6待审核7已驳回 注意：（IsTemp为1时，status状态标记 1:待审核 -转6 ,2:已驳回 -转7 ）
+                    if self?.buildingModel.status != 1 {
+                        AppUtilities.makeToast("楼盘已下架，请先上架后再分享")
+                    }else {
+                        self?.shareClick()
+                        self?.shareVc()
+                    }
+                }else {
+                    self?.shareClick()
+                    self?.shareVc()
+                }
             }
         }
         
@@ -689,7 +774,8 @@ class RenterOfficeJointDetailVC: BaseGroupTableViewController, WMPlayerDelegate 
                 model.building?.btype = self?.buildingDetailModel?.btype
                 self?.buildingDetailModel = model
                 self?.buildingDetailViewModel = FangYuanBuildingDetailViewModel.init(model: self?.buildingDetailModel ?? FangYuanBuildingDetailModel())
-                
+                //只有获取详情成功 - 请求房源列表数据
+                self?.loadNewData()
                 //刷新view
                 self?.refreshTableview()
                 
@@ -1121,6 +1207,7 @@ extension RenterOfficeJointDetailVC {
             if let model = self.dataSource[indexPath.row] as? FangYuanBuildingOpenStationModel {
                 model.btype = 2
                 let vc = RenterOfficeJointFYDetailVC()
+                vc.isFromOwnerScan = isFromOwnerScan
                 vc.model = model
                 self.navigationController?.pushViewController(vc, animated: true)
             }

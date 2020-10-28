@@ -211,6 +211,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         requestGetFeature()
         
         request_getDistrict()
+        
+        request_getEditBuilding()
     }
     
     //MARK: 获取特色接口
@@ -222,6 +224,35 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                 for model in decoratedArray {
                     weakSelf.buildingModel?.tagsLocal.append(model ?? HouseFeatureModel())
                 }
+            }
+            weakSelf.loadTableview()
+            
+            }, failure: {[weak self] (error) in
+                self?.loadTableview()
+                
+        }) {[weak self] (code, message) in
+            self?.loadTableview()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    //MARK: 获取详情 request_getEditBuilding
+    func request_getEditBuilding() {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["buildingId"] = buildingModel?.buildingId as AnyObject?
+        params["isTemp"] = buildingModel?.isTemp as AnyObject?
+        
+        SSNetworkTool.SSFYManager.request_getEditBuilding(params: params, success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let model = FangYuanBuildingEditDetailModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.buildingModel = model
+                
             }
             weakSelf.loadTableview()
             

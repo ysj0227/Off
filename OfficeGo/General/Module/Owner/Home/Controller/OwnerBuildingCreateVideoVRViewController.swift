@@ -19,10 +19,10 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     var videoModel: BannerModel = BannerModel()
     
     var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
-
+    
     ///
     var buildingModel: FangYuanBuildingEditDetailModel?
-
+    
     lazy var fczImagePickTool: UploadVideoTool = {
         let picker = UploadVideoTool()
         return picker
@@ -231,7 +231,7 @@ extension OwnerBuildingCreateVideoVRViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let model:OwnerBuildingEditConfigureModel = typeSourceArray[indexPath.row]
         
-        if model.type == .OwnerBuildingEditTypeBuildingVideo {
+        /*if model.type == .OwnerBuildingEditTypeBuildingVideo {
             ///点击cell
             let videoCell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVideoCell.reuseIdentifierStr) as? OwnerBuildingVideoCell
             videoCell?.selectionStyle = .none
@@ -246,7 +246,8 @@ extension OwnerBuildingCreateVideoVRViewController {
             }
             
             return videoCell ?? OwnerBuildingVideoCell.init(frame: .zero)
-        }else if model.type == .OwnerBuildingEditTypeBuildingVR {
+        }else */
+            if model.type == .OwnerBuildingEditTypeBuildingVR {
             ///点击cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
             cell?.selectionStyle = .none
@@ -264,10 +265,11 @@ extension OwnerBuildingCreateVideoVRViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if typeSourceArray[indexPath.row].type == .OwnerBuildingEditTypeBuildingVideo {
+        /*if typeSourceArray[indexPath.row].type == .OwnerBuildingEditTypeBuildingVideo {
             return OwnerBuildingVideoCell.rowHeight()
 
-        }else if typeSourceArray[indexPath.row].type == .OwnerBuildingEditTypeBuildingVR {
+        }else*/
+        if typeSourceArray[indexPath.row].type == .OwnerBuildingEditTypeBuildingVR {
             return OwnerBuildingVRCell.rowHeight()
         }else {
             return 0

@@ -118,6 +118,8 @@ class FangYuanBuildingFYDetailHouseModel: BaseModel {
 
     var address : String?
 
+    //房源名字
+    var title : String?
 }
 class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     ///1是写字楼，2是共享办公
@@ -163,6 +165,9 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
     //用户id 发布者
     var userId : String?
     
+    //房源名字
+    var houseTitle : String?
+    
     init(model:FangYuanBuildingFYDetailHouseModel) {
         
         super.init()
@@ -181,6 +186,13 @@ class FangYuanBuildingFYDetailHouseViewModel: NSObject {
             buildingName = model.buildingName
         }else {
             buildingName = model.branchesName
+        }
+        
+        ///如果房源名称为空，就显示楼盘名字
+        if model.title != nil && model.title?.isBlankString == false {
+            houseTitle = model.title
+        }else {
+            houseTitle = buildingName
         }
         
         areaString = String(format: "%.0fm²", model.area ?? 0)

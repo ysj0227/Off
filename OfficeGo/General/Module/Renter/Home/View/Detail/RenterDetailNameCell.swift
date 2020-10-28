@@ -115,7 +115,8 @@ class RenterDetailNameCell: BaseTableViewCell {
         }
     }
     func setCellWithFYViewModel(viewModel: FangYuanBuildingFYDetailHouseViewModel) {
-        titleLabel.text = viewModel.buildingName
+//        titleLabel.text = viewModel.buildingName
+        titleLabel.text = viewModel.houseTitle
         firstItem.titleLabel.text = viewModel.areaString
         firstItem.descripLabel.text = viewModel.seatsString
         secondItem.titleLabel.text = viewModel.dayPriceString

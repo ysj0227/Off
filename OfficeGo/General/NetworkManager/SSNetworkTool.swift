@@ -480,6 +480,20 @@ extension SSNetworkTool {
     //  MARK:   --房源管理
     class SSFYManager: NSObject {
         
+        //楼盘网点编辑接口
+        static func request_getEditBuilding(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.getEditBuilding)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        //房源编辑接口
+        static func request_getEditHouse(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.getEditHouse)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
         ///楼盘列表接口
         static func request_getBuildingList(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getBuildingList)
@@ -827,6 +841,14 @@ extension SSNetworkTool {
         //业主 楼盘-网点房源预览
         static func request_getHousebyHouseIdPreviewApp(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
             let url = String.init(format: SSFYDetailURL.getHousebyHouseIdPreviewApp)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        
+        //业主 楼盘-网点房源列表
+        static func request_getOwnerBuildingFYList(params: Dic,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure) {
+            let url = String.init(format: SSFYDetailURL.getOwnerBuildingFYList)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
