@@ -595,7 +595,7 @@ extension OwnerBuildingJointCreateViewController {
             
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
-            ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
+            ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
             ///车位数
         ///车位费
         case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingNum,
@@ -768,7 +768,7 @@ extension OwnerBuildingJointCreateViewController {
             
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
-            ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
+            ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
             ///车位数
         ///车位费
         case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingNum,
@@ -918,7 +918,7 @@ extension OwnerBuildingJointCreateViewController {
             
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
-            ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
+            ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
             ///车位数
         ///车位费
         case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingNum,

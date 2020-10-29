@@ -95,7 +95,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 }
             }
         }
-        //MARK: 网点  ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
+        //MARK: 网点  ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
         else if jointModel.type == .OwnerBuildingJointEditTypeConferencePeopleNumber {
             //截取
             if textNum! > 2 {
@@ -103,9 +103,9 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
             if let num = Int(editLabel.text ?? "0") {
-                if num > 10 {
+                if num > 50 {
                     editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持0-10正整数")
+                    AppUtilities.makeToast("仅支持0-50正整数")
                 }
             }
         }
@@ -282,7 +282,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = true
             
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
-            ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
+            ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
             ///车位数
             ///车位费
             if jointModel.type == .OwnerBuildingJointEditTypeConferenceNumber {
@@ -411,7 +411,7 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
             }
             blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
         }
-        //MARK: 网点  ///最多容纳人数，数字，选填，0-10的正整数，单位 人；
+        //MARK: 网点  ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
         else if jointModel.type == .OwnerBuildingJointEditTypeConferencePeopleNumber {
             
             buildingModel?.conferencePeopleNumber = textField.text
