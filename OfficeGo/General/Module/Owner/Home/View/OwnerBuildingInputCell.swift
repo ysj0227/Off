@@ -11,12 +11,12 @@ import UIKit
 
 class OwnerBuildingInputCell: BaseEditCell {
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
     
     var FYModel: FangYuanFYEditDetailModel?
 
         ///楼盘
-    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
     ///房源
     var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
@@ -175,28 +175,32 @@ class OwnerBuildingInputCell: BaseEditCell {
             
             ///写字楼名称
             if model.type == .OwnerBuildingEditTypeBuildingName {
-                if buildingModel?.buildingType == .xieziEnum {
+                
+                if buildingModel?.buildingMsg?.buildingTypeEnum == .xieziEnum {
                     titleLabel.attributedText = model.getBuildingNameFormType(type: .xieziEnum)
                     editLabel.placeholder = model.getBuildingPalaceHolderFormType(type: .xieziEnum)
-                }else if buildingModel?.buildingType == .chuangyiEnum {
+                }else if buildingModel?.buildingMsg?.buildingTypeEnum == .chuangyiEnum {
                     titleLabel.attributedText = model.getBuildingNameFormType(type: .chuangyiEnum)
                     editLabel.placeholder = model.getBuildingPalaceHolderFormType(type: .chuangyiEnum)
-                }else if buildingModel?.buildingType == .chanyeEnum {
+                }else if buildingModel?.buildingMsg?.buildingTypeEnum == .chanyeEnum {
                     titleLabel.attributedText = model.getBuildingNameFormType(type: .chanyeEnum)
                     editLabel.placeholder = model.getBuildingPalaceHolderFormType(type: .chanyeEnum)
                 }
+                
+                editLabel.text = buildingModel?.buildingMsg?.buildingName
+
             }
                 ///楼号/楼名
             else if model.type == .OwnerBuildingEditTypeBuildingNum {
-                
+                editLabel.text = buildingModel?.buildingMsg?.buildingNum
             }
                 ///详细地址
             else if model.type == .OwnerBuildingEditTypeDetailAddress{
-                
+                editLabel.text = buildingModel?.buildingMsg?.address
             }
                 ///物业公司
             else if model.type == .OwnerBuildingEditTypePropertyCompany{
-                
+                editLabel.text = buildingModel?.buildingMsg?.property
             }
         }
     }
@@ -213,11 +217,11 @@ class OwnerBuildingInputCell: BaseEditCell {
             
             ///网点名称
             if jointModel.type == .OwnerBuildingJointEditTypeBuildingName {
-                
+                editLabel.text = buildingModel?.buildingMsg?.branchesName
             }
             ///详细地址
             else if jointModel.type == .OwnerBuildingJointEditTypeDetailAddress{
-                
+                editLabel.text = buildingModel?.buildingMsg?.address
             }
         }
     }
@@ -274,38 +278,38 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         //MARK: 楼盘  ///写字楼名称 文本，过滤 <>=，,。？? 最多25个字
         if model.type == .OwnerBuildingEditTypeBuildingName {
             
-            buildingModel?.buildingName = textField.text
+            buildingModel?.buildingMsg?.buildingName = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 楼盘  ///楼号/楼名 默认带入园区名，填写楼名，必填，最多10个字；
         else if model.type == .OwnerBuildingEditTypeBuildingNum {
             
-            buildingModel?.buildingNum = textField.text
+            buildingModel?.buildingMsg?.buildingNum = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 楼盘    ///详细地址 2-100
         else if model.type == .OwnerBuildingEditTypeDetailAddress{
             
-            buildingModel?.address = textField.text
+            buildingModel?.buildingMsg?.address = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 楼盘   ///物业公司 过滤 <>=，,。[]【】{}《》？?|、等符号，最多20个字
         else if model.type == .OwnerBuildingEditTypePropertyCompany{
             
-            buildingModel?.property = textField.text
+            buildingModel?.buildingMsg?.property = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         
         
@@ -313,11 +317,11 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         //MARK: 网点  ///网点名称 文本，过滤 <>=，,。？? 最多25个字
         if jointModel.type == .OwnerBuildingJointEditTypeBuildingName {
             
-            buildingModel?.buildingName = textField.text
+            buildingModel?.buildingMsg?.buildingName = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 网点  ///详细地址 2-100
         else if jointModel.type == .OwnerBuildingJointEditTypeDetailAddress{
@@ -326,7 +330,7 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         
         

@@ -10,7 +10,7 @@ import UIKit
 
 class OwnerBuildingClickCell: BaseEditCell {
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
     
     var FYModel: FangYuanFYEditDetailModel?
     
@@ -29,37 +29,29 @@ class OwnerBuildingClickCell: BaseEditCell {
                 
                 detailIcon.image = UIImage.init(named: "moreDetail")
                 
-                editLabel.text = buildingModel?.buildingType?.rawValue
+                editLabel.text = buildingModel?.buildingMsg?.buildingTypeEnum?.rawValue
                 
             }else if model.type == .OwnerBuildingEditTypeDisctict{
                 
                 detailIcon.image = UIImage.init(named: "moreDetail")
                 
-                editLabel.text = "\(buildingModel?.districtString ?? "")\(buildingModel?.businessString ?? "")"
-                
-            }else if model.type == .OwnerBuildingEditTypeCompelteTime{
-                
-                detailIcon.image = UIImage.init(named: "dateSelectBule")
-                
-            }else if model.type == .OwnerBuildingEditTypeRenovationTime{
-                
-                detailIcon.image = UIImage.init(named: "dateSelectBule")
+                editLabel.text = "\(buildingModel?.buildingMsg?.districtString ?? "")\(buildingModel?.buildingMsg?.businessString ?? "")"
                 
             }else if model.type == .OwnerBuildingEditTypeAirConditionType{
                 
                 detailIcon.image = UIImage.init(named: "moreDetail")
                 
-                editLabel.text = buildingModel?.airditionType?.rawValue
+                editLabel.text = buildingModel?.buildingMsg?.airditionType?.rawValue
                 
             }else if model.type == .OwnerBuildingEditTypeAirConditionCoast{
                 
                 detailIcon.image = UIImage.init(named: "")
                 
-                if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
+                if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeCenter.rawValue
-                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
+                }else if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeIndividual.rawValue
-                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
+                }else if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue
                 }else {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeDefault.rawValue
@@ -88,21 +80,21 @@ class OwnerBuildingClickCell: BaseEditCell {
                 
                 detailIcon.image = UIImage.init(named: "moreDetail")
                 
-                editLabel.text = "\(buildingModel?.districtString ?? "")\(buildingModel?.businessString ?? "")"
+                editLabel.text = "\(buildingModel?.buildingMsg?.districtString ?? "")\(buildingModel?.buildingMsg?.businessString ?? "")"
                 
             }else if jointModel.type == .OwnerBuildingJointEditTypeAirConditionType{
                                 
-                editLabel.text = buildingModel?.airditionType?.rawValue
+                editLabel.text = buildingModel?.buildingMsg?.airditionType?.rawValue
                 
             }else if jointModel.type == .OwnerBuildingJointEditTypeAirConditionCoast{
                 
                 detailIcon.image = UIImage.init(named: "")
                 
-                if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
+                if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeCenter.rawValue
-                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
+                }else if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeIndividual.rawValue
-                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
+                }else if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue
                 }else {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeDefault.rawValue
@@ -110,9 +102,9 @@ class OwnerBuildingClickCell: BaseEditCell {
             }else if jointModel.type == .OwnerBuildingJointEditTypeTotalFloor {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
-                if buildingModel?.floorType == "1" {
+                if buildingModel?.buildingMsg?.floorType == "1" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
-                }else if buildingModel?.floorType == "2" {
+                }else if buildingModel?.buildingMsg?.floorType == "2" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }
@@ -137,9 +129,9 @@ class OwnerBuildingClickCell: BaseEditCell {
             if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
-                if buildingModel?.floorType == "1" {
+                if FYModel?.floorType == "1" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
-                }else if buildingModel?.floorType == "2" {
+                }else if FYModel?.floorType == "2" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if officeModel.type == .OwnerBuildingOfficeTypeRentFreePeriod {
@@ -167,9 +159,9 @@ class OwnerBuildingClickCell: BaseEditCell {
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
-                if buildingModel?.floorType == "1" {
+                if FYModel?.floorType == "1" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
-                }else if buildingModel?.floorType == "2" {
+                }else if FYModel?.floorType == "2" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
@@ -180,17 +172,17 @@ class OwnerBuildingClickCell: BaseEditCell {
 //            }
             else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeAirConditionType{
                 
-                editLabel.text = buildingModel?.airditionType?.rawValue
+                editLabel.text = FYModel?.airditionType?.rawValue
                 
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeAirConditionCoast{
                 
                 detailIcon.image = UIImage.init(named: "")
                 
-                if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
+                if FYModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeCenter.rawValue
-                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
+                }else if FYModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeIndividual.rawValue
-                }else if buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
+                }else if FYModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue
                 }else {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeDefault.rawValue
@@ -218,9 +210,9 @@ class OwnerBuildingClickCell: BaseEditCell {
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
-                if buildingModel?.floorType == "1" {
+                if FYModel?.floorType == "1" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
-                }else if buildingModel?.floorType == "2" {
+                }else if FYModel?.floorType == "2" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
@@ -238,7 +230,7 @@ class OwnerBuildingClickCell: BaseEditCell {
 ///日期选择cell
 class OwnerBuildingDateClickCell: BaseEditCell {
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
 
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeCompelteTime) {
         didSet {
@@ -251,9 +243,17 @@ class OwnerBuildingDateClickCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = false
             
             if model.type == .OwnerBuildingEditTypeCompelteTime{
+                
                 detailIcon.image = UIImage.init(named: "dateSelectBule")
+                
+                editLabel.text = buildingModel?.buildingMsg?.completionTime
+
             }else if model.type == .OwnerBuildingEditTypeRenovationTime{
+                
                 detailIcon.image = UIImage.init(named: "dateSelectBule")
+                
+                editLabel.text = buildingModel?.buildingMsg?.refurbishedTime
+
             }else {
                 detailIcon.image = UIImage.init(named: "")
             }
@@ -276,7 +276,7 @@ class OwnerBuildingDateClickCell: BaseEditCell {
 ///会议室配套cell
 class OwnerBuildingRoomMatchingClickCell: BaseEditCell {
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
 
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeRoomMatching) {
         didSet {
@@ -289,7 +289,7 @@ class OwnerBuildingRoomMatchingClickCell: BaseEditCell {
             editLabel.isEnabled = false
             editLabel.isUserInteractionEnabled = true
             
-            setUpEditFeatureSubviews(str: buildingModel?.roomMatchingsLocal?.itemArr ?? [])
+            setUpEditFeatureSubviews(str: buildingModel?.buildingMsg?.roomMatchingsLocal?.itemArr ?? [])
         }
     }
     

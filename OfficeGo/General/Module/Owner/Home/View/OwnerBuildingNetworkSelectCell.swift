@@ -56,7 +56,7 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
     }
     
     //楼盘
-    var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
+    var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
         didSet {
             reloadData()
         }
@@ -132,11 +132,11 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
             }
         }else {
             if isMutTags == true {
-                return buildingModel.tagsLocal.count
+                return buildingModel.buildingMsg?.tagsLocal.count ?? 0
             }else if isMutNetworks == true {
-                return buildingModel.internetLocal.count
+                return buildingModel.buildingMsg?.internetLocal.count ?? 0
             }else if isSimpleDocument == true {
-                return buildingModel.decoratesLocal.count
+                return buildingModel.buildingMsg?.decoratesLocal.count ?? 0
             }else {
                 return 0
             }
@@ -186,7 +186,7 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
             
             if isMutTags == true {
                 
-                cell?.model = buildingModel.tagsLocal[indexPath.row]
+                cell?.model = buildingModel.buildingMsg?.tagsLocal[indexPath.row]
                 
                 cell?.setButtonSelected(isSelected: cell?.model?.isDocumentSelected ?? false)
                 
@@ -194,7 +194,7 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
                 
             }else if isMutNetworks == true {
 
-                cell?.model = buildingModel.internetLocal[indexPath.row]
+                cell?.model = buildingModel.buildingMsg?.internetLocal[indexPath.row]
                 
                 cell?.setButtonSelected(isSelected: cell?.model?.isOfficeBuildingSelected ?? false)
                 
@@ -202,9 +202,9 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
                 
             }else if isSimpleDocument == true {
 
-                cell?.model = buildingModel.decoratesLocal[indexPath.row]
+                cell?.model = buildingModel.buildingMsg?.decoratesLocal[indexPath.row]
 
-                if buildingModel.decorateModel?.dictValue == buildingModel.decoratesLocal[indexPath.row].dictValue {
+                if buildingModel.buildingMsg?.decorateModel?.dictValue == buildingModel.buildingMsg?.decoratesLocal[indexPath.row].dictValue {
                     cell?.setButtonSelected(isSelected: true)
                 }else {
                     cell?.setButtonSelected(isSelected: false)
@@ -248,27 +248,30 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
         }else {
 
             if isMutTags == true {
-                var num = 0
-                for model in buildingModel.tagsLocal {
-                    if model.isDocumentSelected == true {
-                        num += 1
+                if let tags = buildingModel.buildingMsg?.tagsLocal {
+
+                    var num = 0
+                    for model in tags {
+                        if model.isDocumentSelected == true {
+                            num += 1
+                        }
                     }
-                }
-                if num >= 4 {
-                    if buildingModel.tagsLocal[indexPath.item].isDocumentSelected != true {
-                        AppUtilities.makeToast("最多可选择4个")
+                    if num >= 4 {
+                        if buildingModel.buildingMsg?.tagsLocal[indexPath.item].isDocumentSelected != true {
+                            AppUtilities.makeToast("最多可选择4个")
+                        }else {
+                            buildingModel.buildingMsg?.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.buildingMsg?.tagsLocal[indexPath.item].isDocumentSelected ?? false)
+                        }
                     }else {
-                        buildingModel.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.tagsLocal[indexPath.item].isDocumentSelected)
+                        tags[indexPath.item].isDocumentSelected = !(tags[indexPath.item].isDocumentSelected)
                     }
-                }else {
-                    buildingModel.tagsLocal[indexPath.item].isDocumentSelected = !(buildingModel.tagsLocal[indexPath.item].isDocumentSelected)
                 }
                 
             }else if isMutNetworks == true {
-                buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected = !(buildingModel.internetLocal[indexPath.item].isOfficeBuildingSelected)
+                buildingModel.buildingMsg?.internetLocal[indexPath.item].isOfficeBuildingSelected = !(buildingModel.buildingMsg?.internetLocal[indexPath.item].isOfficeBuildingSelected ?? false)
             }else if isSimpleDocument == true {
                 ///单选
-                buildingModel.decorateModel = buildingModel.decoratesLocal[indexPath.item]
+                buildingModel.buildingMsg?.decorateModel = buildingModel.buildingMsg?.decoratesLocal[indexPath.item]
             }
         }
         

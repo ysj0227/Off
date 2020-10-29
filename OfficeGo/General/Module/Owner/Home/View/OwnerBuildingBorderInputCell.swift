@@ -57,10 +57,10 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
         return cell_height_58
     }
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
     
         ///楼盘
-    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
     func setupViews() {
 
@@ -149,11 +149,11 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
             
             ///电梯数 - 客梯
             if model.type == .OwnerBuildingEditTypePassengerNum {
-                
+                editLabel.text = buildingModel?.buildingMsg?.passengerLift
             }
                 ///电梯数 - 货梯
             else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
-                
+                editLabel.text = buildingModel?.buildingMsg?.cargoLift
             }
         }
     }
@@ -168,11 +168,11 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
             
             ///电梯数 - 客梯
             if jointModel.type == .OwnerBuildingJointEditTypePassengerNum {
-                
+                editLabel.text = buildingModel?.buildingMsg?.passengerLift
             }
                 ///电梯数 - 货梯
             else if jointModel.type == .OwnerBuildingJointEditTypeFloorCargoNum {
-                
+                editLabel.text = buildingModel?.buildingMsg?.cargoLift
             }
             
         }
@@ -185,38 +185,38 @@ extension OwnerBuildingBorderInputCell: UITextFieldDelegate {
         //MARK: 楼盘
         //MARK: 楼盘  ///电梯数 - 客梯 必填，客梯 货梯分开填，仅支持0-20数字；
         if model.type == .OwnerBuildingEditTypePassengerNum {
-            buildingModel?.passengerLift = textField.text
+            buildingModel?.buildingMsg?.passengerLift = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 楼盘  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
         else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
-            buildingModel?.cargoLift = textField.text
+            buildingModel?.buildingMsg?.cargoLift = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         
         
         //MARK: 网点
         //MARK: 网点  ///电梯数 - 客梯 必填，客梯 货梯分开填，仅支持0-20数字；
         if jointModel.type == .OwnerBuildingJointEditTypePassengerNum {
-            buildingModel?.passengerLift = textField.text
+            buildingModel?.buildingMsg?.passengerLift = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 网点  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
         else if jointModel.type == .OwnerBuildingJointEditTypeFloorCargoNum {
-            buildingModel?.cargoLift = textField.text
+            buildingModel?.buildingMsg?.cargoLift = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
     }
     

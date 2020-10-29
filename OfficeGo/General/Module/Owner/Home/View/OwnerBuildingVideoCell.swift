@@ -86,18 +86,18 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
             make.top.leading.bottom.trailing.equalToSuperview()
         }
     }
-    var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
+    var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
         didSet {
-            if buildingModel.videoUrl?.count ?? 0 > 0 {
+            if buildingModel.buildingMsg?.videoUrl?.count ?? 0 > 0 {
                 closeBtn.isHidden = false
-                if buildingModel.videoUrl?[0].isLocal == true {
-                    let videoUrl = buildingModel.videoUrl?[0].imgUrl
+                if buildingModel.buildingMsg?.videoUrl?[0].isLocal == true {
+                    let videoUrl = buildingModel.buildingMsg?.videoUrl?[0].imgUrl
                     let player = WMPlayerModel()
 //                    player.videoURL = URL.init(string: videoUrl ?? "")
                     player.playerItem = AVPlayerItem.init(url: URL.init(string: videoUrl ?? "")!)
                     playerModel = player
                 }else {
-                    if buildingModel.videoUrl?[0].imgUrl?.count ?? 0 > 0 {
+                    if buildingModel.buildingMsg?.videoUrl?[0].imgUrl?.count ?? 0 > 0 {
                         let videoUrl = "https://img.officego.com/test/1596620185492.mp4"
                         let player = WMPlayerModel()
                         player.videoURL = URL.init(string: videoUrl ?? "")

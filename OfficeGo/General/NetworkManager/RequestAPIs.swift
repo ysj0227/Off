@@ -65,6 +65,9 @@ class SSDelegateURL: NSObject {
 //  MARK:   --房源列表
 class SSOwnerFYManagerURL: NSObject {
     
+    //楼盘网点回显接口
+    static let getBuildingMsg = "api/building/getBuildingMsgByBuildingId"
+    
     //楼盘网点编辑接口
     static let getEditBuilding = "api/building/editBuilding"
     

@@ -21,7 +21,7 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
     
     ///
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
     
     lazy var fczImagePickTool: UploadVideoTool = {
         let picker = UploadVideoTool()
@@ -124,8 +124,8 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
         if buildingModel != nil {
             
         }else {
-            buildingModel = FangYuanBuildingEditDetailModel()
-            buildingModel?.videoUrl = []
+            buildingModel = FangYuanBuildingEditModel()
+            buildingModel?.buildingMsg?.videoUrl = []
         }
     }
 }
@@ -215,8 +215,8 @@ extension OwnerBuildingCreateVideoVRViewController {
         fczImagePickTool.chooseMultimediaWihtType(.forVideo, chooseVideoDone: {[weak self] (videoPath) in
             self?.videoModel.isLocal = true
             self?.videoModel.imgUrl = videoPath
-            self?.buildingModel?.videoUrl?.removeAll()
-            self?.buildingModel?.videoUrl?.append(self?.videoModel ?? BannerModel())
+            self?.buildingModel?.buildingMsg?.videoUrl?.removeAll()
+            self?.buildingModel?.buildingMsg?.videoUrl?.append(self?.videoModel ?? BannerModel())
             self?.tableView.reloadData()
         }, chooseImageDone: nil)
        }
@@ -236,7 +236,7 @@ extension OwnerBuildingCreateVideoVRViewController {
             let videoCell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVideoCell.reuseIdentifierStr) as? OwnerBuildingVideoCell
             videoCell?.selectionStyle = .none
             videoCell?.model = model
-            videoCell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
+            videoCell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             videoCell?.closeBtnClickClouse = { [weak self] (index) in
                 self?.buildingModel?.videoUrl?.removeAll()
                 self?.tableView.reloadData()
@@ -252,7 +252,7 @@ extension OwnerBuildingCreateVideoVRViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
             cell?.selectionStyle = .none
             cell?.model = model
-            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             return cell ?? OwnerBuildingVRCell.init(frame: .zero)
         }else {
             return UITableViewCell()

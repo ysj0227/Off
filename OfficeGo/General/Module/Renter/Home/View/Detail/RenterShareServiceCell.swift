@@ -61,7 +61,7 @@ class RenterShareServiceCell: BaseTableViewCell {
         }
     }
     
-    var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
+    var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
         didSet {
             titleLabel.text = "共享服务"
             reloadData()
@@ -119,7 +119,7 @@ extension RenterShareServiceCell: UICollectionViewDataSource, UICollectionViewDe
             return shareServices.count
         }else {
             ///编辑添加页面
-            return buildingModel.shareServices.count
+            return buildingModel.buildingMsg?.shareServices.count ?? 0
         }
     }
     
@@ -131,7 +131,7 @@ extension RenterShareServiceCell: UICollectionViewDataSource, UICollectionViewDe
             cell?.serviceModel = serviceModel
         }else {
             ///编辑添加页面
-            let serviceModel = buildingModel.shareServices[indexPath.item]
+            let serviceModel = buildingModel.buildingMsg?.shareServices[indexPath.item]
             cell?.serviceEditModel = serviceModel
         }
         
@@ -148,10 +148,10 @@ extension RenterShareServiceCell: UICollectionViewDataSource, UICollectionViewDe
             areaView.ShowHouseShaixuanView(serviceModel: serviceModel)
         }else {
             ///编辑添加页面
-            let serviceModel = buildingModel.shareServices[indexPath.item]
+            let serviceModel = buildingModel.buildingMsg?.shareServices[indexPath.item] ?? ShareServiceModel()
             shareView.ShowShareView(serviceModel: serviceModel)
             shareView.sureSelectedBlock = {[weak self] (servicemodel) in
-                self?.buildingModel.shareServices[indexPath.item] = servicemodel
+                self?.buildingModel.buildingMsg?.shareServices[indexPath.item] = servicemodel
                 self?.reloadData()
             }
             shareView.cancelBlock = {[weak self] in

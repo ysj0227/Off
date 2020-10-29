@@ -494,11 +494,11 @@ public enum OwnerBuildingJointOpenStationType {
 public enum OwnerAircontiditonType: String {
     ///默认为空
     case OwnerAircontiditonTypeDefault = ""
-    ///写字楼名称
+    ///中央空调
     case OwnerAircontiditonTypeCenter = "中央空调"
-    ///所在区域
+    ///独立空调
     case OwnerAircontiditonTypeIndividual = "独立空调"
-    ///网点地址
+    ///无空调
     case OwnerAircontiditonTypeNone = "无空调"
 }
 /*

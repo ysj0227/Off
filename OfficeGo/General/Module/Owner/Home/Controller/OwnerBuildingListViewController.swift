@@ -280,10 +280,18 @@ extension OwnerBuildingListViewController {
                     
                     
                     if viewModel.btype == 1 {
+                        let buildingModel = FangYuanBuildingEditModel()
+                        buildingModel.isTemp = viewModel.isTemp
+                        buildingModel.buildingId = viewModel.idString
                         let vc = OwnerBuildingCreateViewController()
+                        vc.buildingModel = buildingModel
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else if viewModel.btype == 2 {
+                        let buildingModel = FangYuanBuildingEditModel()
+                        buildingModel.isTemp = viewModel.isTemp
+                        buildingModel.buildingId = viewModel.idString
                         let vc = OwnerBuildingJointCreateViewController()
+                        vc.buildingModel = buildingModel
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }
                 }

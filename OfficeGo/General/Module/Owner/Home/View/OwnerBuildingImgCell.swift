@@ -43,7 +43,7 @@ class OwnerBuildingImgCell: BaseTableViewCell {
         }
     }
     
-    var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
+    var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
         didSet {
             reloadData()
         }

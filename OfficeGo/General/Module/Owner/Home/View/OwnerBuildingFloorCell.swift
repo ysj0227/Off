@@ -10,14 +10,19 @@ import UIKit
 
 class OwnerBuildingFloorCell: BaseTableViewCell {
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
     
         ///楼盘
-    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeTotalFloor) {
         didSet {
-            if buildingModel?.floorType == "1" || buildingModel?.floorType == "2" {
+            
+            leftEditLabel.text = buildingModel?.buildingMsg?.totalFloor
+            
+            rightEditLabel.text = buildingModel?.buildingMsg?.branchesTotalFloor
+            
+            if buildingModel?.buildingMsg?.floorType == "1" || buildingModel?.buildingMsg?.floorType == "2" {
                 self.isHidden = false
             }else {
                 self.isHidden = true
@@ -203,7 +208,7 @@ extension OwnerBuildingFloorCell: UITextFieldDelegate {
         guard let blockk = self.endEditingMessageCell else {
             return
         }
-        blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+        blockk(buildingModel ?? FangYuanBuildingEditModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -212,9 +217,9 @@ extension OwnerBuildingFloorCell: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField.tag == 1 {
-            if buildingModel?.floorType == "1" {
+            if buildingModel?.buildingMsg?.floorType == "1" {
                 return SSTool.isPureStrOrNumNumber(text: string)
-            }else if buildingModel?.floorType == "2" {
+            }else if buildingModel?.buildingMsg?.floorType == "2" {
                 return true
             }
         }else {

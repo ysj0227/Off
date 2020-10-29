@@ -40,7 +40,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     var companyArr: [String] = [""]
     
     ///
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
     
     lazy var saveBtn: UIButton = {
         let button = UIButton.init()
@@ -179,40 +179,20 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         ///上传楼盘图片
         typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingImage))
         
-        if buildingModel != nil {
+        ///来自添加
+        if isFromAdd == true {
             
+            buildingModel = FangYuanBuildingEditModel()
+                    
+            request_getDistrict()
+
         }else {
-            buildingModel = FangYuanBuildingEditDetailModel()
+            
+            request_getEditBuilding()
+            
         }
         
-        if buildingModel?.completionTime != nil {
-             buildingModel?.completionDate = Date(timeIntervalSince1970: buildingModel?.completionTime ?? 0)
-         }else {
-             buildingModel?.completionDate = Date(timeIntervalSince1970: 315504000)
-         }
-         if buildingModel?.refurbishedTime != nil {
-             buildingModel?.refurbishedDate = Date(timeIntervalSince1970: buildingModel?.refurbishedTime ?? 0)
-         }else {
-             buildingModel?.refurbishedDate = Date(timeIntervalSince1970: 315504000)
-         }
         
-        let model1 = HouseFeatureModel()
-        model1.dictCname = "电信"
-        buildingModel?.internetLocal.append(model1)
-        
-        let model2 = HouseFeatureModel()
-        model2.dictCname = "联通"
-        buildingModel?.internetLocal.append(model2)
-        
-        let model3 = HouseFeatureModel()
-        model3.dictCname = "移动"
-        buildingModel?.internetLocal.append(model3)
-        
-        requestGetFeature()
-        
-        request_getDistrict()
-        
-        request_getEditBuilding()
     }
     
     //MARK: 获取特色接口
@@ -222,17 +202,80 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 for model in decoratedArray {
-                    weakSelf.buildingModel?.tagsLocal.append(model ?? HouseFeatureModel())
+                    weakSelf.buildingModel?.buildingMsg?.tagsLocal.append(model ?? HouseFeatureModel())
                 }
             }
+            
+            let model1 = HouseFeatureModel()
+            model1.dictCname = "电信"
+            self?.buildingModel?.buildingMsg?.internetLocal.append(model1)
+            
+            let model2 = HouseFeatureModel()
+            model2.dictCname = "联通"
+            self?.buildingModel?.buildingMsg?.internetLocal.append(model2)
+            
+            let model3 = HouseFeatureModel()
+            model3.dictCname = "移动"
+            self?.buildingModel?.buildingMsg?.internetLocal.append(model3)
+
             weakSelf.loadTableview()
             
             }, failure: {[weak self] (error) in
+                                
+                let model1 = HouseFeatureModel()
+                model1.dictCname = "电信"
+                self?.buildingModel?.buildingMsg?.internetLocal.append(model1)
+                
+                let model2 = HouseFeatureModel()
+                model2.dictCname = "联通"
+                self?.buildingModel?.buildingMsg?.internetLocal.append(model2)
+                
+                let model3 = HouseFeatureModel()
+                model3.dictCname = "移动"
+                self?.buildingModel?.buildingMsg?.internetLocal.append(model3)
+                
                 self?.loadTableview()
                 
         }) {[weak self] (code, message) in
+            
+            let model1 = HouseFeatureModel()
+            model1.dictCname = "电信"
+            self?.buildingModel?.buildingMsg?.internetLocal.append(model1)
+            
+            let model2 = HouseFeatureModel()
+            model2.dictCname = "联通"
+            self?.buildingModel?.buildingMsg?.internetLocal.append(model2)
+            
+            let model3 = HouseFeatureModel()
+            model3.dictCname = "移动"
+            self?.buildingModel?.buildingMsg?.internetLocal.append(model3)
+            
             self?.loadTableview()
             
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    
+    //MARK: 获取商圈数据
+    func request_getDistrict() {
+        //查询类型，1：全部，0：系统已有楼盘的商圈
+        var params = [String:AnyObject]()
+        params["type"] = 1 as AnyObject?
+        SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
+            if let model = CityAreaCategorySelectModel.deserialize(from: response) {
+                model.name = "上海市"
+                self?.areaModelCount = model
+                self?.getSelectedDistrictBusiness()
+            }
+            self?.requestGetFeature()
+            }, failure: {[weak self] (error) in
+                self?.requestGetFeature()
+        }) {[weak self]  (code, message) in
+            self?.requestGetFeature()
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
@@ -245,22 +288,49 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
-        params["buildingId"] = buildingModel?.buildingId as AnyObject?
-        params["isTemp"] = buildingModel?.isTemp as AnyObject?
+        params["buildingId"] = buildingModel?.buildingId as AnyObject? //7661
+        params["isTemp"] = buildingModel?.isTemp as AnyObject? //0
         
-        SSNetworkTool.SSFYManager.request_getEditBuilding(params: params, success: {[weak self] (response) in
+        SSNetworkTool.SSFYManager.request_getBuildingMsg(params: params, success: {[weak self] (response) in
             guard let weakSelf = self else {return}
-            if let model = FangYuanBuildingEditDetailModel.deserialize(from: response, designatedPath: "data") {
+            if let model = FangYuanBuildingEditModel.deserialize(from: response, designatedPath: "data") {
+                ///写字楼，创意园，产业园 写字楼1,创意园3,产业园6
+                if model.buildingMsg?.buildingType == 1 {
+                    model.buildingMsg?.buildingTypeEnum = .xieziEnum
+                }else if model.buildingMsg?.buildingType == 3 {
+                    model.buildingMsg?.buildingTypeEnum = .chuangyiEnum
+                }else if model.buildingMsg?.buildingType == 6 {
+                    model.buildingMsg?.buildingTypeEnum = .chanyeEnum
+                }
+                
+                /*
+                空调
+                中央空调 0
+                独立空调 1
+                无空调 2
+                */
+                if model.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeDefault.rawValue {
+                    model.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeDefault
+                }else if model.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue {
+                    model.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeCenter
+                }else if model.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue {
+                    model.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeIndividual
+                }else if model.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue {
+                    model.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeNone
+                }
+                
                 weakSelf.buildingModel = model
                 
+                
+                ///楼盘类型1写字楼 2商务园 3创意园 4共享空间 5公寓  6产业园
             }
-            weakSelf.loadTableview()
+            weakSelf.request_getDistrict()
             
             }, failure: {[weak self] (error) in
-                self?.loadTableview()
+                self?.request_getDistrict()
                 
         }) {[weak self] (code, message) in
-            self?.loadTableview()
+            self?.request_getDistrict()
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
@@ -422,46 +492,24 @@ extension OwnerBuildingCreateViewController {
             
         }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
             self?.areaModelCount = selectModel
-            self?.buildingModel?.district = selectModel.isFirstSelectedModel?.districtID
-            self?.buildingModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
-            self?.buildingModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
-            self?.buildingModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+            self?.buildingModel?.buildingMsg?.districtId = selectModel.isFirstSelectedModel?.districtID
+            self?.buildingModel?.buildingMsg?.businessDistrict = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
+            self?.buildingModel?.buildingMsg?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
+            self?.buildingModel?.buildingMsg?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
             self?.loadSecion(section: section)
             
         })
     }
-    //MARK: 获取商圈数据
-    func request_getDistrict() {
-        //查询类型，1：全部，0：系统已有楼盘的商圈
-        var params = [String:AnyObject]()
-        params["type"] = 1 as AnyObject?
-        SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
-            if let model = CityAreaCategorySelectModel.deserialize(from: response) {
-                model.name = "上海市"
-                self?.areaModelCount = model
-                self?.getSelectedDistrictBusiness()
-            }
-            
-            }, failure: { (error) in
-                
-        }) {  (code, message) in
-            
-            //只有5000 提示给用户
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
-    }
     
     func getSelectedDistrictBusiness() {
         areaModelCount?.data.forEach({ (model) in
-            if model.districtID == buildingModel?.district {
+            if model.districtID == buildingModel?.buildingMsg?.districtId {
                 areaModelCount?.isFirstSelectedModel = model
-                buildingModel?.districtString = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
+                buildingModel?.buildingMsg?.districtString = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
                 areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
-                    if areaModel.id == buildingModel?.business {
+                    if areaModel.id == buildingModel?.buildingMsg?.businessDistrict {
                         areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
-                        buildingModel?.businessString = areaModel.area
+                        buildingModel?.buildingMsg?.businessString = areaModel.area
                         loadTableview()
                     }
                 })
@@ -503,7 +551,7 @@ extension OwnerBuildingCreateViewController {
             ///点击cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
@@ -514,6 +562,7 @@ extension OwnerBuildingCreateViewController {
             ///点击cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDateClickCell.reuseIdentifierStr) as? OwnerBuildingDateClickCell
             cell?.selectionStyle = .none
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
             return cell ?? OwnerBuildingDateClickCell.init(frame: .zero)
             
@@ -528,7 +577,7 @@ extension OwnerBuildingCreateViewController {
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
@@ -544,7 +593,7 @@ extension OwnerBuildingCreateViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -559,7 +608,7 @@ extension OwnerBuildingCreateViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -572,7 +621,7 @@ extension OwnerBuildingCreateViewController {
             ///有框框文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingBorderInputCell.reuseIdentifierStr) as? OwnerBuildingBorderInputCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
             return cell ?? OwnerBuildingBorderInputCell.init(frame: .zero)
             
@@ -584,7 +633,7 @@ extension OwnerBuildingCreateViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
             cell?.detailIcon.isHidden = true
-            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
@@ -594,7 +643,7 @@ extension OwnerBuildingCreateViewController {
             cell?.selectionStyle = .none
             cell?.categoryTitleLabel.text = "网络"
             cell?.isMutNetworks = true
-            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
         ///入驻企业
@@ -629,7 +678,7 @@ extension OwnerBuildingCreateViewController {
         case .OwnerBuildingEditTypeDetailIntroduction:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingIntroductionCell.reuseIdentifierStr) as? OwnerBuildingIntroductionCell
             cell?.selectionStyle = .none
-            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             return cell ?? OwnerBuildingIntroductionCell.init(frame: .zero)
             
         ///特色
@@ -638,7 +687,7 @@ extension OwnerBuildingCreateViewController {
             cell?.selectionStyle = .none
             cell?.categoryTitleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeFeature)
             cell?.isMutTags = true
-            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
         ///上传楼盘图片
@@ -646,7 +695,7 @@ extension OwnerBuildingCreateViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingImgCell.reuseIdentifierStr) as? OwnerBuildingImgCell
             cell?.selectionStyle = .none
             cell?.model = model
-            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditDetailModel()
+            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
             
         ///上传楼盘视频
@@ -688,7 +737,7 @@ extension OwnerBuildingCreateViewController {
         ///楼号/楼名
         case .OwnerBuildingEditTypeBuildingNum:
             ///楼盘类型 - 当为创意园，产业园 多显示一个楼号
-            if buildingModel?.buildingType == nil || buildingModel?.buildingType == OWnerBuildingTypeEnum.xieziEnum {
+            if buildingModel?.buildingMsg?.buildingTypeEnum == nil || buildingModel?.buildingMsg?.buildingTypeEnum == OWnerBuildingTypeEnum.xieziEnum {
                 return 0
             }else {
                 return BaseEditCell.rowHeight()
@@ -725,7 +774,7 @@ extension OwnerBuildingCreateViewController {
             
         ///空调费 - 没有右边的箭头
         case .OwnerBuildingEditTypeAirConditionCoast:
-            if buildingModel?.airditionType == nil || buildingModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault {
+            if buildingModel?.buildingMsg?.airditionType == nil || buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault {
                 return 0
             }else {
                 return BaseEditCell.rowHeight()
@@ -734,7 +783,7 @@ extension OwnerBuildingCreateViewController {
         ///网络
         case .OwnerBuildingEditTypeNetwork:
             
-            let count = ((buildingModel?.internetLocal.count ?? 0  + 1) / 3)
+            let count = ((buildingModel?.buildingMsg?.internetLocal.count ?? 0  + 1) / 3)
             
             return CGFloat(count * 50 + 59 + 5)
             
@@ -749,7 +798,7 @@ extension OwnerBuildingCreateViewController {
         ///特色
         case .OwnerBuildingEditTypeFeature:
             
-            if let arr = buildingModel?.tagsLocal {
+            if let arr = buildingModel?.buildingMsg?.tagsLocal {
                 let count = ((arr.count  + 2) / 3)
                 
                 return CGFloat(count * 50 + 59 + 5)
@@ -790,13 +839,13 @@ extension OwnerBuildingCreateViewController {
             }) {[weak self] (settingEnumIndex) in
                 if settingEnumIndex == 0 {
                     SSLog("-----点击的是---写字楼")
-                    self?.buildingModel?.buildingType = .xieziEnum
+                    self?.buildingModel?.buildingMsg?.buildingTypeEnum = .xieziEnum
                 }else if settingEnumIndex == 1 {
                     SSLog("-----点击的是---创意园")
-                    self?.buildingModel?.buildingType = .chuangyiEnum
+                    self?.buildingModel?.buildingMsg?.buildingTypeEnum = .chuangyiEnum
                 }else if settingEnumIndex == 2 {
                     SSLog("-----点击的是---产业园")
-                    self?.buildingModel?.buildingType = .chanyeEnum
+                    self?.buildingModel?.buildingMsg?.buildingTypeEnum = .chanyeEnum
                 }
                 self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
             }
@@ -815,8 +864,8 @@ extension OwnerBuildingCreateViewController {
             
             endEdting()
             
-            let datePicker = YLDatePicker(currentDate: buildingModel?.completionDate, minLimitDate: Date(timeIntervalSince1970: 315504000), maxLimitDate: Date(), datePickerType: .Y) { [weak self] (date) in
-                self?.buildingModel?.completionDate = date
+            let datePicker = YLDatePicker(currentDate: Date.getyyyyDateFomString(fromString: buildingModel?.buildingMsg?.completionTime ?? ""), minLimitDate: Date(timeIntervalSince1970: 315504000), maxLimitDate: Date(), datePickerType: .Y) { [weak self] (date) in
+                self?.buildingModel?.buildingMsg?.completionTime = Date.getyyyyStringFromDate(FromDate: date)
                 self?.loadSecion(section: indexPath.section)
             }
             datePicker.show()
@@ -825,9 +874,9 @@ extension OwnerBuildingCreateViewController {
         case .OwnerBuildingEditTypeRenovationTime:
             
             endEdting()
-            
-            let datePicker = YLDatePicker(currentDate: buildingModel?.refurbishedDate, minLimitDate: Date(timeIntervalSince1970: 315504000), maxLimitDate: Date(), datePickerType: .Y) { [weak self] (date) in
-                self?.buildingModel?.refurbishedDate = date
+            let datePicker = YLDatePicker(currentDate: Date.getyyyyDateFomString(fromString: buildingModel?.buildingMsg?.refurbishedTime ?? ""), minLimitDate: Date(timeIntervalSince1970: 315504000), maxLimitDate: Date(), datePickerType: .Y) { [weak self] (date) in
+
+                self?.buildingModel?.buildingMsg?.refurbishedTime = Date.getyyyyStringFromDate(FromDate: date)
                 self?.loadSecion(section: indexPath.section)
             }
             datePicker.show()
@@ -846,13 +895,13 @@ extension OwnerBuildingCreateViewController {
                 //中央空调，独立空调，无空调
                 if settingEnumIndex == 0 {
                     SSLog("-----点击的是---中央空调")
-                    self?.buildingModel?.airditionType = .OwnerAircontiditonTypeCenter
+                    self?.buildingModel?.buildingMsg?.airditionType = .OwnerAircontiditonTypeCenter
                 }else if settingEnumIndex == 1 {
                     SSLog("-----点击的是---独立空调")
-                    self?.buildingModel?.airditionType = .OwnerAircontiditonTypeIndividual
+                    self?.buildingModel?.buildingMsg?.airditionType = .OwnerAircontiditonTypeIndividual
                 }else if settingEnumIndex == 2 {
                     SSLog("-----点击的是---无空调")
-                    self?.buildingModel?.airditionType = .OwnerAircontiditonTypeNone
+                    self?.buildingModel?.buildingMsg?.airditionType = .OwnerAircontiditonTypeNone
                 }
                 self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
             }

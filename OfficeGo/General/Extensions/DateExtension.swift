@@ -10,6 +10,21 @@ import Foundation
 
 extension Date {
     
+    
+    static func getyyyyDateFomString(fromString: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        return formatter.date(from: fromString)
+    }
+    
+    static func getyyyyStringFromDate(FromDate:Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        let date = formatter.string(from: FromDate)
+        return date
+    }
+    
+    
     static func date(fromString: String) -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

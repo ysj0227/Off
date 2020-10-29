@@ -46,9 +46,9 @@ class OwnerBuildingIntroductionCell: BaseTableViewCell {
         return view
     }()
 
-    var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
+    var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
         didSet {
-            intruductionTextview.text = buildingModel.introduction?.introductionStr
+            intruductionTextview.text = buildingModel.buildingMsg?.buildingIntroduction
         }
     }
     
@@ -118,7 +118,7 @@ extension OwnerBuildingIntroductionCell: UITextViewDelegate {
             let str = textContent?.substring(to: index!)
             textView.text = str
             numOfCharLabel.text = "100/100"
-            buildingModel.introduction?.introductionStr = textView.text
+            buildingModel.buildingMsg?.buildingIntroduction = textView.text
         }
         numOfCharLabel.text = String(format: "%ld/100",textView.text.count)
     }

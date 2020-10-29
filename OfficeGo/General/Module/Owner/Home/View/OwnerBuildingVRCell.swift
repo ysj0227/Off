@@ -95,7 +95,7 @@ class OwnerBuildingVRCell: BaseTableViewCell {
         }
     }
     
-    var buildingModel: FangYuanBuildingEditDetailModel = FangYuanBuildingEditDetailModel() {
+    var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
         didSet {
             editLabel.text = "https://img.officego.com/test/1596620185492.mp4"
         }

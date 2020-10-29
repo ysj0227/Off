@@ -10,12 +10,12 @@ import UIKit
 
 class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     
-    var buildingModel: FangYuanBuildingEditDetailModel?
+    var buildingModel: FangYuanBuildingEditModel?
     
     var FYModel: FangYuanFYEditDetailModel?
 
         ///楼盘
-    var endEditingMessageCell:((FangYuanBuildingEditDetailModel) -> Void)?
+    var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
     ///房源
     var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
@@ -309,19 +309,19 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             
             ///建筑面积
             if model.type == .OwnerBuildingEditTypeArea {
-                
+                editLabel.text = buildingModel?.buildingMsg?.constructionArea
             }
                 ///净高
             else if model.type == .OwnerBuildingEditTypeClearHeight {
-                
+                editLabel.text = buildingModel?.buildingMsg?.clearHeight
             }
                 ///层高
             else if model.type == .OwnerBuildingEditTypeFloorHeight {
-                
+                editLabel.text = buildingModel?.buildingMsg?.storeyHeight
             }
                 ///物业费
             else if model.type == .OwnerBuildingEditTypePropertyCoast {
-                
+                editLabel.text = buildingModel?.buildingMsg?.propertyCosts
             }
         }
     }
@@ -340,7 +340,7 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             
             ///净高
             if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
-                
+                editLabel.text = buildingModel?.buildingMsg?.clearHeight
             }
         }
     }
@@ -364,13 +364,13 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = true
             
             if officeModel.type == .OwnerBuildingOfficeTypeArea {
-                editLabel.text = buildingModel?.areaOffice
+                editLabel.text = buildingModel?.buildingMsg?.constructionArea
             }else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
-                editLabel.text = buildingModel?.clearHeight
+                editLabel.text = buildingModel?.buildingMsg?.clearHeight
             }else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
-                editLabel.text = buildingModel?.storeyHeight
+                editLabel.text = buildingModel?.buildingMsg?.storeyHeight
             }else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
-                editLabel.text = buildingModel?.propertyCosts
+                editLabel.text = buildingModel?.buildingMsg?.propertyCosts
             }
         }
     }
@@ -428,47 +428,47 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         //MARK: 楼盘
         //MARK: 楼盘      ///建筑面积
         if model.type == .OwnerBuildingEditTypeArea {
-            buildingModel?.areaOffice = textField.text
+            buildingModel?.buildingMsg?.constructionArea = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 楼盘      ///净高
         else if model.type == .OwnerBuildingEditTypeClearHeight {
-            buildingModel?.clearHeight = textField.text
+            buildingModel?.buildingMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 楼盘      ///层高
         else if model.type == .OwnerBuildingEditTypeFloorHeight {
-            buildingModel?.storeyHeight = textField.text
+            buildingModel?.buildingMsg?.storeyHeight = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         //MARK: 楼盘      ///物业费
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
-            buildingModel?.propertyCosts = textField.text
+            buildingModel?.buildingMsg?.propertyCosts = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         
         
         
-        //MARK: 楼盘
-        //MARK: 楼盘      ///净高
+        //MARK: 网点
+        //MARK: 网点      ///净高
         if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
-            buildingModel?.clearHeight = textField.text
+            buildingModel?.buildingMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
-            blockk(buildingModel ?? FangYuanBuildingEditDetailModel())
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
         
         
@@ -477,20 +477,20 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         //MARK: 办公室     ///建筑面积 - 两位
         if officeModel.type == .OwnerBuildingOfficeTypeArea {
             ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
-            if let areaOffice = buildingModel?.areaOffice {
+            if let areaOffice = FYModel?.areaOffice {
                 if textField.text != areaOffice {
                     let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
                     let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
-                    buildingModel?.minSeatsOffice = "\(min)"
-                    buildingModel?.maxSeatsOffice = "\(max)"
+                    FYModel?.minSeatsOffice = "\(min)"
+                    FYModel?.maxSeatsOffice = "\(max)"
                 }
             }else {
                 let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
                 let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
-                buildingModel?.minSeatsOffice = "\(min)"
-                buildingModel?.maxSeatsOffice = "\(max)"
+                FYModel?.minSeatsOffice = "\(min)"
+                FYModel?.maxSeatsOffice = "\(max)"
             }
-            buildingModel?.areaOffice = textField.text
+            FYModel?.areaOffice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
