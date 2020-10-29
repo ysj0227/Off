@@ -243,7 +243,8 @@ class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelega
             params["pageSize"] = self.pageSize as AnyObject
             params["btype"] = buildingModel.btype as AnyObject?
             params["buildingId"] = buildingModel.id as AnyObject?
-            
+            params["isTemp"] = buildingModel.isTemp as AnyObject?
+
             ///只有点击清楚按钮之后 - 用自己选择的面积
             if isClearCondition == true {
                 params["area"] = clickItemString as AnyObject?
