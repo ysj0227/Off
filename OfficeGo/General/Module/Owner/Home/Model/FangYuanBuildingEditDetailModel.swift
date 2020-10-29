@@ -18,6 +18,10 @@ class FangYuanBuildingEditModel: BaseModel {
     var video : [BannerModel]?
     var vr : [BannerModel]?
     
+    var uploadPicModelFCZArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
+    
+    var deletePicModelFCZArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
+
     ///0是正式表1临时表
     var isTemp : Bool?
     

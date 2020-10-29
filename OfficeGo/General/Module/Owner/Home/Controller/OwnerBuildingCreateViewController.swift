@@ -205,58 +205,125 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                     weakSelf.buildingModel?.buildingMsg?.tagsLocal.append(model ?? HouseFeatureModel())
                 }
             }
-            
-            let model1 = HouseFeatureModel()
-            model1.dictCname = "电信"
-            self?.buildingModel?.buildingMsg?.internetLocal.append(model1)
-            
-            let model2 = HouseFeatureModel()
-            model2.dictCname = "联通"
-            self?.buildingModel?.buildingMsg?.internetLocal.append(model2)
-            
-            let model3 = HouseFeatureModel()
-            model3.dictCname = "移动"
-            self?.buildingModel?.buildingMsg?.internetLocal.append(model3)
-
-            weakSelf.loadTableview()
+            weakSelf.dealData()
             
             }, failure: {[weak self] (error) in
-                                
-                let model1 = HouseFeatureModel()
-                model1.dictCname = "电信"
-                self?.buildingModel?.buildingMsg?.internetLocal.append(model1)
                 
-                let model2 = HouseFeatureModel()
-                model2.dictCname = "联通"
-                self?.buildingModel?.buildingMsg?.internetLocal.append(model2)
-                
-                let model3 = HouseFeatureModel()
-                model3.dictCname = "移动"
-                self?.buildingModel?.buildingMsg?.internetLocal.append(model3)
-                
-                self?.loadTableview()
+                self?.dealData()
                 
         }) {[weak self] (code, message) in
             
-            let model1 = HouseFeatureModel()
-            model1.dictCname = "电信"
-            self?.buildingModel?.buildingMsg?.internetLocal.append(model1)
-            
-            let model2 = HouseFeatureModel()
-            model2.dictCname = "联通"
-            self?.buildingModel?.buildingMsg?.internetLocal.append(model2)
-            
-            let model3 = HouseFeatureModel()
-            model3.dictCname = "移动"
-            self?.buildingModel?.buildingMsg?.internetLocal.append(model3)
-            
-            self?.loadTableview()
+            self?.dealData()
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
             }
         }
+    }
+    
+    
+    func dealData() {
+
+        ///添加网络数据
+        let model1 = HouseFeatureModel()
+        model1.dictCname = "电信"
+        buildingModel?.buildingMsg?.internetLocal.append(model1)
+        
+        let model2 = HouseFeatureModel()
+        model2.dictCname = "联通"
+        buildingModel?.buildingMsg?.internetLocal.append(model2)
+        
+        let model3 = HouseFeatureModel()
+        model3.dictCname = "移动"
+        buildingModel?.buildingMsg?.internetLocal.append(model3)
+        
+        
+        ///写字楼，创意园，产业园 写字楼1,创意园3,产业园6
+        if buildingModel?.buildingMsg?.buildingType == 1 {
+            buildingModel?.buildingMsg?.buildingTypeEnum = .xieziEnum
+        }else if buildingModel?.buildingMsg?.buildingType == 3 {
+            buildingModel?.buildingMsg?.buildingTypeEnum = .chuangyiEnum
+        }else if buildingModel?.buildingMsg?.buildingType == 6 {
+            buildingModel?.buildingMsg?.buildingTypeEnum = .chanyeEnum
+        }
+        
+        /*
+        空调
+        中央空调 0
+        独立空调 1
+        无空调 2
+        */
+        if buildingModel?.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeDefault.rawValue {
+            buildingModel?.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeDefault
+        }else if buildingModel?.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue {
+            buildingModel?.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeCenter
+        }else if buildingModel?.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue {
+            buildingModel?.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeIndividual
+        }else if buildingModel?.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue {
+            buildingModel?.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeNone
+        }
+        
+        
+        ///网络展示回显 - 名称匹配
+        let requestNetworkArr = buildingModel?.buildingMsg?.internet?.split{$0 == ","}.map(String.init)
+        if let networkArr = requestNetworkArr, let internetLocal = buildingModel?.buildingMsg?.internetLocal {
+            if networkArr.count > 0 && internetLocal.count > 0 {
+                for network in networkArr {
+                    
+                    for dic in internetLocal {
+                        if network == dic.dictCname {
+                            dic.isOfficeBuildingSelected = true
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        ///特色展示回显 - id匹配
+        let requestFeatureArr = buildingModel?.buildingMsg?.tags?.split{$0 == ","}.map(String.init)
+        if let networkArr = requestFeatureArr, let internetLocal = buildingModel?.buildingMsg?.tagsLocal {
+            if networkArr.count > 0 && internetLocal.count > 0 {
+                for network in networkArr {
+                    
+                    for dic in internetLocal {
+                        if network == "\(dic.dictValue ?? 0)" {
+                            dic.isDocumentSelected = true
+                        }
+                    }
+                }
+            }
+        }
+        
+        ///入住企业展示回显
+        let requestSettlementLicenceArr = buildingModel?.buildingMsg?.settlementLicence?.split{$0 == ","}.map(String.init)
+        if let networkArr = requestSettlementLicenceArr {
+            for company in networkArr {
+                companyArr.insert(company, at: companyArr.count - 1)
+            }
+        }
+        if companyArr.count >= enterCompanyMaxNum_5 {
+            companyArr.remove(at: companyArr.count - 1)
+        }
+        
+        ///添加banner数据
+        if let arr = buildingModel?.banner {
+            
+            for fczBannerModel in arr {
+                fczBannerModel.isLocal = false
+                buildingModel?.uploadPicModelFCZArr.append(fczBannerModel)
+            }
+        }
+        
+        
+        let mainPicModel = BannerModel()
+        mainPicModel.imgUrl = buildingModel?.buildingMsg?.mainPic
+        mainPicModel.isLocal = false
+        buildingModel?.uploadPicModelFCZArr.insert(mainPicModel, at: 0)
+        
+        ///刷新列表
+        loadTableview()
     }
     
     
@@ -294,35 +361,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         SSNetworkTool.SSFYManager.request_getBuildingMsg(params: params, success: {[weak self] (response) in
             guard let weakSelf = self else {return}
             if let model = FangYuanBuildingEditModel.deserialize(from: response, designatedPath: "data") {
-                ///写字楼，创意园，产业园 写字楼1,创意园3,产业园6
-                if model.buildingMsg?.buildingType == 1 {
-                    model.buildingMsg?.buildingTypeEnum = .xieziEnum
-                }else if model.buildingMsg?.buildingType == 3 {
-                    model.buildingMsg?.buildingTypeEnum = .chuangyiEnum
-                }else if model.buildingMsg?.buildingType == 6 {
-                    model.buildingMsg?.buildingTypeEnum = .chanyeEnum
-                }
-                
-                /*
-                空调
-                中央空调 0
-                独立空调 1
-                无空调 2
-                */
-                if model.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeDefault.rawValue {
-                    model.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeDefault
-                }else if model.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue {
-                    model.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeCenter
-                }else if model.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue {
-                    model.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeIndividual
-                }else if model.buildingMsg?.airConditioning == OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue {
-                    model.buildingMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeNone
-                }
-                
                 weakSelf.buildingModel = model
                 
-                
-                ///楼盘类型1写字楼 2商务园 3创意园 4共享空间 5公寓  6产业园
             }
             weakSelf.request_getDistrict()
             
@@ -453,6 +493,8 @@ extension OwnerBuildingCreateViewController {
         if index == companyArr.count - 1 {
             if companyArr.count < enterCompanyMaxNum_5 {
                 companyArr.append("")
+            }else {
+                AppUtilities.makeToast("最多能添\(enterCompanyMaxNum_5)个入住企业")
             }
         }else {
             if index <= companyArr.count - 1 {
@@ -643,6 +685,7 @@ extension OwnerBuildingCreateViewController {
             cell?.selectionStyle = .none
             cell?.categoryTitleLabel.text = "网络"
             cell?.isMutNetworks = true
+            cell?.isMutTags = false
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
@@ -686,6 +729,7 @@ extension OwnerBuildingCreateViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNetworkSelectCell.reuseIdentifierStr) as? OwnerBuildingNetworkSelectCell
             cell?.selectionStyle = .none
             cell?.categoryTitleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeFeature)
+            cell?.isMutNetworks = false
             cell?.isMutTags = true
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
