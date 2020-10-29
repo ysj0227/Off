@@ -217,7 +217,7 @@ class SSFYDetailURL: NSObject {
     static let getHousebyHouseIdPreviewApp = "api/house/getHousebyHouseIdPreviewApp"
     
     //业主 楼盘-网点房源列表
-    static let getOwnerBuildingFYList = "api/building/selectHouseApp"
+    static let getOwnerBuildingFYList = "api/building/selectHousePreviewApp"
     
     
     //楼盘网点详情
