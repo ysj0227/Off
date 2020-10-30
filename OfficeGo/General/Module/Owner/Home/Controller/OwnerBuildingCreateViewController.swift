@@ -9,8 +9,17 @@
 import UIKit
 import HandyJSON
 import SwiftyJSON
+import CLImagePickerTool
 
 class OwnerBuildingCreateViewController: BaseTableViewController {
+    
+    lazy var fczImagePickTool: CLImagePickerTool = {
+        let picker = CLImagePickerTool()
+        picker.cameraOut = true
+        picker.isHiddenVideo = true
+        return picker
+    }()
+    
     
     ///来自编辑还是添加
     var isFromAdd: Bool?
@@ -530,6 +539,27 @@ extension OwnerBuildingCreateViewController {
     func loadSections(indexSet: IndexSet) {
         tableView.reloadSections(NSIndexSet.init(indexSet: indexSet) as IndexSet, with: UITableView.RowAnimation.none)
     }
+    
+    func selectFCZPicker(max: Int, indexpath: Int) {
+        var imgArr = [BannerModel]()
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: max) {[weak self] (asset,cutImage) in
+            // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: { (image,assetItem) in
+                let img = image.resizeMax1500Image()
+                
+                let fczBannerModel = BannerModel()
+                fczBannerModel.isLocal = true
+                fczBannerModel.image = img
+                imgArr.append(fczBannerModel)
+                }, failedClouse: { () in
+                    
+            })
+            //房产证
+            self?.buildingModel?.buildingLocalImgArr.append(contentsOf: imgArr)
+            self?.loadSecion(section: indexpath)
+        }
+    }
+    
 }
 
 extension OwnerBuildingCreateViewController {
@@ -754,6 +784,9 @@ extension OwnerBuildingCreateViewController {
             cell?.selectionStyle = .none
             cell?.model = model
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+            cell?.imgSelectClickBlock = { [weak self] (maximg) in
+                self?.selectFCZPicker(max: maximg, indexpath: indexPath.section)
+            }
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
             
         ///上传楼盘视频
