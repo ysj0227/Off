@@ -159,12 +159,18 @@ class RenterOfficebuildingFYDetailVC: BaseGroupTableViewController {
         
         ///如果是来自于业主预览或者是业主身份的时候，不展示收藏和聊天按钮
         if isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
-              ///房源当前状态0未发布，1发布，2下架,3:待完善
-            if model.houseStatus != 1 {
+            ///0 正式 1临时
+            if model.isTemp == true {
                 titleview?.shareButton.isHidden = true
+            }else {
+                  ///房源当前状态0未发布，1发布，2下架,3:待完善
+                if model.houseStatus != 1 {
+                    titleview?.shareButton.isHidden = true
+                }
             }
             
         }
+        
         titleview?.rightBtnsssClickBlock = { [weak self] (index) in
             if index == 99 {
                 

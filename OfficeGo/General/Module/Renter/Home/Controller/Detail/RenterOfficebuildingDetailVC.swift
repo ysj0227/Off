@@ -449,9 +449,14 @@ class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelega
         
         ///如果是来自于业主预览或者是业主身份的时候，不展示收藏和聊天按钮
         if isFromOwnerScan == true && UserTool.shared.user_id_type == 1 {
-              ///房源当前状态0未发布，1发布，2下架,3:待完善
-            if buildingModel.status != 1 {
+            ///0 正式 1临时
+            if buildingModel.isTemp == true {
                 titleview?.shareButton.isHidden = true
+            }else {
+                  ///-1:不是管理员 暂无权限编辑楼盘(临时楼盘),0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除;6待审核7已驳回 注意：（IsTemp为1时，status状态标记 1:待审核 -转6 ,2:已驳回 -转7 ）
+                if buildingModel.status != 1 {
+                    titleview?.shareButton.isHidden = true
+                }
             }
             
         }
