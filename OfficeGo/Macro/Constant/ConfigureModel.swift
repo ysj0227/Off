@@ -15,7 +15,7 @@ class ConfigureModel: NSObject {
 }
 
 ///房东 - 开放工位编辑
-class OwnerBuildingJointOpenStationConfigureModel : NSObject {
+class OwnerBuildingJointOpenStationConfigureModel : ConfigureModel {
     var type : OwnerBuildingJointOpenStationType?
     
     init(types: OwnerBuildingJointOpenStationType) {
@@ -105,7 +105,7 @@ class OwnerBuildingJointOpenStationConfigureModel : NSObject {
 }
 
 ///房东 - 独立办公室编辑
-class OwnerBuildingJointOfficeConfigureModel : NSObject {
+class OwnerBuildingJointOfficeConfigureModel : ConfigureModel {
     var type : OwnerBuildingJointOfficeType?
     
     init(types: OwnerBuildingJointOfficeType) {
@@ -164,7 +164,7 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
             return FuWenBen(name: "上传办公室视频", centerStr: "   ", last: "")
         ///上传办公室vr
         case .OwnerBuildingJointOfficeTypeBuildingVR:
-            return FuWenBen(name: "VR", centerStr: "   ", last: "")
+            return FuWenBen(name: "VR全景展示", centerStr: "   ", last: "")
         }
     }
     
@@ -255,7 +255,7 @@ class OwnerBuildingJointOfficeConfigureModel : NSObject {
 }
 
 ///房东 - 办公室编辑
-class OwnerBuildingOfficeConfigureModel : NSObject {
+class OwnerBuildingOfficeConfigureModel : ConfigureModel {
     var type : OwnerBuildingOfficeType?
     
     init(types: OwnerBuildingOfficeType) {
@@ -314,7 +314,7 @@ class OwnerBuildingOfficeConfigureModel : NSObject {
             return FuWenBen(name: "上传办公室视频", centerStr: "   ", last: "")
         ///上传办公室vr
         case .OwnerBuildingOfficeTypeBuildingVR:
-            return FuWenBen(name: "VR", centerStr: "   ", last: "")
+            return FuWenBen(name: "VR全景展示", centerStr: "   ", last: "")
         }
     }
     
@@ -406,7 +406,7 @@ class OwnerBuildingOfficeConfigureModel : NSObject {
 }
 
 ///房东 - 网点编辑
-class OwnerBuildingJointEditConfigureModel : NSObject {
+class OwnerBuildingJointEditConfigureModel : ConfigureModel {
     var type : OwnerBuildingJointEditType?
     
     init(types: OwnerBuildingJointEditType) {
@@ -586,7 +586,7 @@ class OwnerBuildingJointEditConfigureModel : NSObject {
 }
 
 ///房东 - 楼盘编辑
-class OwnerBuildingEditConfigureModel : NSObject {
+class OwnerBuildingEditConfigureModel : ConfigureModel {
     var type : OwnerBuildingEditType?
     
     init(types: OwnerBuildingEditType) {

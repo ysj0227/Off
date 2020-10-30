@@ -77,7 +77,9 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     
     @objc func saveClick() {
         let vc = OwnerBuildingCreateVideoVRViewController()
+        vc.isBuilding = true
         vc.isClose = isClose
+        vc.buildingModel = buildingModel
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -312,15 +314,25 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
             
             for fczBannerModel in arr {
                 fczBannerModel.isLocal = false
-                buildingModel?.uploadPicModelFCZArr.append(fczBannerModel)
+                buildingModel?.buildingLocalImgArr.append(fczBannerModel)
+            }
+        }
+        let mainPicModel = BannerModel()
+        mainPicModel.imgUrl = buildingModel?.buildingMsg?.mainPic
+        mainPicModel.isLocal = false
+        buildingModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
+        
+        
+        ///添加vr数据
+        if let arr = buildingModel?.vr {
+            
+            for fczBannerModel in arr {
+                fczBannerModel.isLocal = false
+                buildingModel?.buildingLocalVRArr.append(fczBannerModel)
             }
         }
         
         
-        let mainPicModel = BannerModel()
-        mainPicModel.imgUrl = buildingModel?.buildingMsg?.mainPic
-        mainPicModel.isLocal = false
-        buildingModel?.uploadPicModelFCZArr.insert(mainPicModel, at: 0)
         
         ///刷新列表
         loadTableview()
@@ -416,9 +428,9 @@ extension OwnerBuildingCreateViewController {
         
         
         self.view.addSubview(pcEditBtn)
-        self.view.addSubview(closePcEditBtn)
         self.view.addSubview(saveBtn)
-        
+        self.view.addSubview(closePcEditBtn)
+
         pcEditBtn.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.bottom.equalToSuperview().offset(-(bottomMargin() + 20))
@@ -705,9 +717,11 @@ extension OwnerBuildingCreateViewController {
             if indexPath.row == companyArr.count - 1 {
                 cell?.detailIcon.setImage(UIImage.init(named: "addBlue"), for: .normal)
                 cell?.lineView.isHidden = false
+                cell?.shortLineView.isHidden = true
             }else {
                 cell?.detailIcon.setImage(UIImage.init(named: "comDeleteBlue"), for: .normal)
                 cell?.lineView.isHidden = true
+                cell?.shortLineView.isHidden = false
             }
             cell?.closeBtnClickClouse = { [weak self] (index) in
                 self?.loadEnterCompany(section: indexPath.section, index: index)

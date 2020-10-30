@@ -18,10 +18,22 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     
     var videoModel: BannerModel = BannerModel()
     
-    var typeSourceArray:[OwnerBuildingEditConfigureModel] = [OwnerBuildingEditConfigureModel]()
+    var isBuilding: Bool?
     
-    ///
+    var isBuildingJoint: Bool?
+    
+    var isBuildingFY: Bool?
+    
+    var isBuildingJointOffice: Bool?
+    
+    var typeSourceArray:[ConfigureModel] = [ConfigureModel]()
+    
+    ///楼盘模型
     var buildingModel: FangYuanBuildingEditModel?
+    
+    ///房源模型
+    var FYModel: FangYuanFYEditDetailModel?
+    
     
     lazy var fczImagePickTool: UploadVideoTool = {
         let picker = UploadVideoTool()
@@ -90,9 +102,9 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
         style.photoframeAngleW = 18
         style.photoframeAngleH = 18
         style.isNeedShowRetangle = false
-
+        
         style.anmiationStyle = LBXScanViewAnimationStyle.LineMove
-
+        
         style.colorAngle = UIColor(red: 0.0/255, green: 200.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         
         style.animationImage = UIImage(named: "CodeScan.bundle/qrcode_Scan_weixin_Line")
@@ -116,17 +128,24 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     
     func setUpData() {
         
-        ///上传楼盘视频
-        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingVideo))
-        ///添加vr
-        typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingVR))
-                
-        if buildingModel != nil {
-            
-        }else {
-            buildingModel = FangYuanBuildingEditModel()
-            buildingModel?.buildingMsg?.videoUrl = []
+        if isBuilding == true {
+            ///上传楼盘视频
+            //typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingVideo))
+            ///添加vr
+            typeSourceArray.append(OwnerBuildingEditConfigureModel.init(types: .OwnerBuildingEditTypeBuildingVR))
         }
+        if isBuildingJoint == true {
+            ///添加vr
+            typeSourceArray.append(OwnerBuildingJointEditConfigureModel.init(types: .OwnerBuildingJointEditTypeBuildingVR))
+        }
+        if isBuildingFY == true {
+            typeSourceArray.append(OwnerBuildingOfficeConfigureModel.init(types: .OwnerBuildingOfficeTypeBuildingVR))
+        }
+        
+        if isBuildingJointOffice == true {
+            typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeBuildingVR))
+        }
+        
     }
 }
 
@@ -149,7 +168,8 @@ extension OwnerBuildingCreateVideoVRViewController {
         titleview?.leftButton.setImage(UIImage.init(named: "backWhite"), for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
-        titleview?.titleLabel.text = "上传视频"
+//        titleview?.titleLabel.text = "上传视频"
+        titleview?.titleLabel.text = "上传VR"
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
@@ -164,7 +184,7 @@ extension OwnerBuildingCreateVideoVRViewController {
             make.bottom.equalToSuperview().offset(-(bottomMargin() + 20))
             make.height.equalTo(40)
         }
-
+        
         saveBtn.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.bottom.equalTo(pcEditBtn.snp.top).offset(-20)
@@ -198,14 +218,14 @@ extension OwnerBuildingCreateVideoVRViewController {
     func requestSet() {
         
         isShowRefreshHeader = true
-                
-//        self.tableView.backgroundColor = kAppColor_bgcolor_F7F7F7
+        
+        //        self.tableView.backgroundColor = kAppColor_bgcolor_F7F7F7
         
         ///视频选择
         self.tableView.register(OwnerBuildingVideoCell.self, forCellReuseIdentifier: OwnerBuildingVideoCell.reuseIdentifierStr)
         
         self.tableView.register(OwnerBuildingVRCell.self, forCellReuseIdentifier: OwnerBuildingVRCell.reuseIdentifierStr)
-
+        
         
         refreshData()
         
@@ -218,8 +238,8 @@ extension OwnerBuildingCreateVideoVRViewController {
             self?.buildingModel?.buildingMsg?.videoUrl?.removeAll()
             self?.buildingModel?.buildingMsg?.videoUrl?.append(self?.videoModel ?? BannerModel())
             self?.tableView.reloadData()
-        }, chooseImageDone: nil)
-       }
+            }, chooseImageDone: nil)
+    }
 }
 
 extension OwnerBuildingCreateVideoVRViewController {
@@ -229,31 +249,90 @@ extension OwnerBuildingCreateVideoVRViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model:OwnerBuildingEditConfigureModel = typeSourceArray[indexPath.row]
         
-        /*if model.type == .OwnerBuildingEditTypeBuildingVideo {
-            ///点击cell
-            let videoCell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVideoCell.reuseIdentifierStr) as? OwnerBuildingVideoCell
-            videoCell?.selectionStyle = .none
-            videoCell?.model = model
-            videoCell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
-            videoCell?.closeBtnClickClouse = { [weak self] (index) in
-                self?.buildingModel?.videoUrl?.removeAll()
-                self?.tableView.reloadData()
-            }
-            videoCell?.selectVideoClickClouse = { [weak self] (index) in
-                self?.selectFCZPicker()
-            }
+        
+        if isBuilding == true {
             
-            return videoCell ?? OwnerBuildingVideoCell.init(frame: .zero)
-        }else */
-            if model.type == .OwnerBuildingEditTypeBuildingVR {
-            ///点击cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
-            cell?.selectionStyle = .none
-            cell?.model = model
-            cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
-            return cell ?? OwnerBuildingVRCell.init(frame: .zero)
+            let model:OwnerBuildingEditConfigureModel = typeSourceArray[indexPath.row] as! OwnerBuildingEditConfigureModel
+            
+            if model.type == .OwnerBuildingEditTypeBuildingVideo {
+                return UITableViewCell()
+                /*
+                 ///点击cell
+                 let videoCell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVideoCell.reuseIdentifierStr) as? OwnerBuildingVideoCell
+                 videoCell?.selectionStyle = .none
+                 videoCell?.model = model
+                 videoCell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+                 videoCell?.closeBtnClickClouse = { [weak self] (index) in
+                 //self?.buildingModel?.videoUrl?.removeAll()
+                 self?.tableView.reloadData()
+                 }
+                 videoCell?.selectVideoClickClouse = { [weak self] (index) in
+                 self?.selectFCZPicker()
+                 }
+                 
+                 return videoCell ?? OwnerBuildingVideoCell.init(frame: .zero)*/
+            }else if model.type == .OwnerBuildingEditTypeBuildingVR {
+                ///点击cell
+                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
+                cell?.selectionStyle = .none
+                cell?.model = model
+                cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+                return cell ?? OwnerBuildingVRCell.init(frame: .zero)
+            }else {
+                return UITableViewCell()
+            }
+        }else if isBuildingJoint == true {
+            
+            let model:OwnerBuildingJointEditConfigureModel = typeSourceArray[indexPath.row] as! OwnerBuildingJointEditConfigureModel
+            
+            if model.type == .OwnerBuildingJointEditTypeBuildingVideo {
+                return UITableViewCell()
+                
+            }else if model.type == .OwnerBuildingJointEditTypeBuildingVR {
+                ///点击cell
+                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
+                cell?.selectionStyle = .none
+                cell?.jointModel = model
+                cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+                return cell ?? OwnerBuildingVRCell.init(frame: .zero)
+            }else {
+                return UITableViewCell()
+            }
+        }else if isBuildingFY == true {
+            
+            let model:OwnerBuildingOfficeConfigureModel = typeSourceArray[indexPath.row] as! OwnerBuildingOfficeConfigureModel
+            
+            if model.type == .OwnerBuildingOfficeTypeBuildingVideo {
+                return UITableViewCell()
+                
+            }else if model.type == .OwnerBuildingOfficeTypeBuildingVR {
+                ///点击cell
+                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
+                cell?.selectionStyle = .none
+                cell?.officeModel = model
+                cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+                return cell ?? OwnerBuildingVRCell.init(frame: .zero)
+            }else {
+                return UITableViewCell()
+            }
+        }else if isBuildingJointOffice == true {
+            
+            let model:OwnerBuildingJointOfficeConfigureModel = typeSourceArray[indexPath.row] as! OwnerBuildingJointOfficeConfigureModel
+            
+            if model.type == .OwnerBuildingJointOfficeTypeBuildingVideo {
+                return UITableViewCell()
+                
+            }else if model.type == .OwnerBuildingJointOfficeTypeBuildingVR {
+                ///点击cell
+                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
+                cell?.selectionStyle = .none
+                cell?.jointIndepentOfficeModel = model
+                cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+                return cell ?? OwnerBuildingVRCell.init(frame: .zero)
+            }else {
+                return UITableViewCell()
+            }
         }else {
             return UITableViewCell()
         }
@@ -265,12 +344,59 @@ extension OwnerBuildingCreateVideoVRViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        /*if typeSourceArray[indexPath.row].type == .OwnerBuildingEditTypeBuildingVideo {
-            return OwnerBuildingVideoCell.rowHeight()
-
-        }else*/
-        if typeSourceArray[indexPath.row].type == .OwnerBuildingEditTypeBuildingVR {
-            return OwnerBuildingVRCell.rowHeight()
+        
+        if isBuilding == true {
+            
+            let model:OwnerBuildingEditConfigureModel = typeSourceArray[indexPath.row] as! OwnerBuildingEditConfigureModel
+            
+            if model.type == .OwnerBuildingEditTypeBuildingVideo {
+                return OwnerBuildingVideoCell.rowHeight()
+                
+            }else if model.type == .OwnerBuildingEditTypeBuildingVR {
+                return OwnerBuildingVRCell.rowHeight()
+                
+            }else {
+                return 0
+            }
+        }else if isBuildingJoint == true {
+            
+            let model:OwnerBuildingJointEditConfigureModel = typeSourceArray[indexPath.row] as! OwnerBuildingJointEditConfigureModel
+            
+            if model.type == .OwnerBuildingJointEditTypeBuildingVideo {
+                return OwnerBuildingVideoCell.rowHeight()
+                
+            }else if model.type == .OwnerBuildingJointEditTypeBuildingVR {
+                return OwnerBuildingVRCell.rowHeight()
+                
+            }else {
+                return 0
+            }
+        }else if isBuildingFY == true {
+            
+            let model:OwnerBuildingOfficeConfigureModel = typeSourceArray[indexPath.row] as! OwnerBuildingOfficeConfigureModel
+            
+            if model.type == .OwnerBuildingOfficeTypeBuildingVideo {
+                return OwnerBuildingVideoCell.rowHeight()
+                
+            }else if model.type == .OwnerBuildingOfficeTypeBuildingVR {
+                return OwnerBuildingVRCell.rowHeight()
+                
+            }else {
+                return 0
+            }
+        }else if isBuildingJointOffice == true {
+            
+            let model:OwnerBuildingJointOfficeConfigureModel = typeSourceArray[indexPath.row] as! OwnerBuildingJointOfficeConfigureModel
+            
+            if model.type == .OwnerBuildingJointOfficeTypeBuildingVideo {
+                return OwnerBuildingVideoCell.rowHeight()
+                
+            }else if model.type == .OwnerBuildingJointOfficeTypeBuildingVR {
+                return OwnerBuildingVRCell.rowHeight()
+                
+            }else {
+                return 0
+            }
         }else {
             return 0
         }

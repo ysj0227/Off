@@ -109,7 +109,7 @@ class OwnerBuildingImgCell: BaseTableViewCell {
 extension OwnerBuildingImgCell {
     func selectFCZPicker() {
         var imgArr = [BannerModel]()
-        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - buildingModel.uploadPicModelFCZArr.count) {[weak self] (asset,cutImage) in
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - buildingModel.buildingLocalImgArr.count) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
@@ -122,7 +122,7 @@ extension OwnerBuildingImgCell {
                     
             })
             //房产证
-            self?.buildingModel.uploadPicModelFCZArr.append(contentsOf: imgArr)
+            self?.buildingModel.buildingLocalImgArr.append(contentsOf: imgArr)
             self?.loadCollectionData()
         }
     }
@@ -134,12 +134,12 @@ extension OwnerBuildingImgCell {
     ///删除房产证图片接口
     func request_deleteFCZImgApp(index: Int) {
         
-        if buildingModel.uploadPicModelFCZArr[index].isLocal == true {
-            buildingModel.uploadPicModelFCZArr.remove(at: index)
+        if buildingModel.buildingLocalImgArr[index].isLocal == true {
+            buildingModel.buildingLocalImgArr.remove(at: index)
             loadCollectionData()
         }else {
-            buildingModel.deletePicModelFCZArr.append(buildingModel.uploadPicModelFCZArr[index])
-            buildingModel.uploadPicModelFCZArr.remove(at: index)
+            buildingModel.buildingDeleteRemoteArr.append(buildingModel.buildingLocalImgArr[index])
+            buildingModel.buildingLocalImgArr.remove(at: index)
             loadCollectionData()
         }
     }
@@ -147,17 +147,17 @@ extension OwnerBuildingImgCell {
 
 extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return buildingModel.uploadPicModelFCZArr.count + 1
+        return buildingModel.buildingLocalImgArr.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
         cell?.indexPath = indexPath
-        if indexPath.item <= buildingModel.uploadPicModelFCZArr.count - 1  {
-            if buildingModel.uploadPicModelFCZArr[indexPath.item].isLocal == false {
-                cell?.image.setImage(with: buildingModel.uploadPicModelFCZArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
+        if indexPath.item <= buildingModel.buildingLocalImgArr.count - 1  {
+            if buildingModel.buildingLocalImgArr[indexPath.item].isLocal == false {
+                cell?.image.setImage(with: buildingModel.buildingLocalImgArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
             }else {
-                cell?.image.image = buildingModel.uploadPicModelFCZArr[indexPath.item].image
+                cell?.image.image = buildingModel.buildingLocalImgArr[indexPath.item].image
             }
             cell?.closeBtnClickClouse = { [weak self] (index) in
                 self?.request_deleteFCZImgApp(index: index)
@@ -166,7 +166,7 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
             cell?.image.image = UIImage.init(named: "addImgBg")
         }
         
-        if indexPath.item == buildingModel.uploadPicModelFCZArr.count {
+        if indexPath.item == buildingModel.buildingLocalImgArr.count {
             cell?.closeBtn.isHidden = true
         }else {
             cell?.closeBtn.isHidden = false
@@ -175,7 +175,7 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == buildingModel.uploadPicModelFCZArr.count {
+        if indexPath.item == buildingModel.buildingLocalImgArr.count {
             if indexPath.item < ownerBuildingImageNumber_9 {
                 selectFCZPicker()
             }else {

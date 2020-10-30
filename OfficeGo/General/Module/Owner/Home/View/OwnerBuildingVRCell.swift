@@ -50,10 +50,17 @@ class OwnerBuildingVRCell: BaseTableViewCell {
     class func rowHeight() -> CGFloat {
         return cell_height_58 * 2
     }
+        
+    var buildingModel: FangYuanBuildingEditModel?
     
-    var userModel: OwnerIdentifyUserModel?
+    var FYModel: FangYuanFYEditDetailModel?
+
+    ///楼盘
+    var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
-    var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
+    ///房源
+    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
+    
     
     func setupViews() {
 
@@ -94,37 +101,122 @@ class OwnerBuildingVRCell: BaseTableViewCell {
             
         }
     }
-    
-    var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
-        didSet {
-            editLabel.text = "https://img.officego.com/test/1596620185492.mp4"
-        }
-    }
-    
-    var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingVR) {
+        
+    var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingVR)
             editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingVR)
             
+            if let vrr = buildingModel?.buildingLocalVRArr {
+                if vrr.count > 0 {
+                    editLabel.text = vrr[0].imgUrl
+                }
+            }
         }
     }
-    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingVR) {
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingVR)
             editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingVR)
+            
+            if let vrr = buildingModel?.buildingLocalVRArr {
+                if vrr.count > 0 {
+                    editLabel.text = vrr[0].imgUrl
+                }
+            }
+        }
+    }
+    
+    ///办公室
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingImage) {
+        didSet {
+            
+            titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
+            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
+            
+            
+            if let vrr = buildingModel?.buildingLocalVRArr {
+                if vrr.count > 0 {
+                    editLabel.text = vrr[0].imgUrl
+                }
+            }
+        }
+    }
+    
+    ///独立办公室
+    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingImage) {
+        didSet {
+            
+            
+            titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+           
+            
+        }
+    }
+    
+    ///开放工位
+    var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeBuildingImage) {
+        didSet {
+            
+            
+            titleLabel.attributedText = jointOpenStationModel.getNameFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod)
+            editLabel.placeholder = jointOpenStationModel.getPalaceHolderFormType(type: jointOpenStationModel.type ?? OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeRentFreePeriod)
+            
+            
         }
     }
 }
 
 extension OwnerBuildingVRCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        guard let blockk = self.endEditingMessageCell else {
-            return
+
+        //MARK: 楼盘
+        if model.type == .OwnerBuildingEditTypeBuildingVR {
+
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
-        blockk(userModel ?? OwnerIdentifyUserModel())
+        
+        
+        
+        //MARK: 网点
+        if jointModel.type == .OwnerBuildingJointEditTypeBuildingVR {
+            
+            buildingModel?.buildingMsg?.conferenceNumber = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
+        }
+           
+        
+        
+        //MARK: 办公室
+        if officeModel.type == .OwnerBuildingOfficeTypeBuildingVR {
+            FYModel?.minimumLease = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
+        }
+        
+        
+        
+        //MARK: 独立办公室
+        if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeBuildingVR {
+            FYModel?.minSeatsOffice = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanFYEditDetailModel())
+        }
+        
+        
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

@@ -84,6 +84,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
     
     @objc func saveClick() {
         let vc = OwnerBuildingCreateVideoVRViewController()
+        vc.isBuildingJoint = true
         vc.isClose = isClose
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -501,7 +502,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
             
             for fczBannerModel in arr {
                 fczBannerModel.isLocal = false
-                buildingModel?.uploadPicModelFCZArr.append(fczBannerModel)
+                buildingModel?.buildingLocalImgArr.append(fczBannerModel)
             }
         }
         
@@ -509,7 +510,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         let mainPicModel = BannerModel()
         mainPicModel.imgUrl = buildingModel?.buildingMsg?.mainPic
         mainPicModel.isLocal = false
-        buildingModel?.uploadPicModelFCZArr.insert(mainPicModel, at: 0)
+        buildingModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
         
         ///刷新列表
         loadTableview()
@@ -548,8 +549,8 @@ extension OwnerBuildingJointCreateViewController {
         
         
         self.view.addSubview(pcEditBtn)
-        self.view.addSubview(closePcEditBtn)
         self.view.addSubview(saveBtn)
+        self.view.addSubview(closePcEditBtn)
         
         pcEditBtn.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)

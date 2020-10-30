@@ -38,7 +38,8 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         button.backgroundColor = kAppBlueColor
         button.titleLabel?.font = FONT_MEDIUM_16
         button.setTitleColor(kAppWhiteColor, for: .normal)
-        button.setTitle("下一步", for: .normal)
+//        button.setTitle("下一步", for: .normal)
+        button.setTitle("保存并发布", for: .normal)
         button.addTarget(self, action: #selector(saveClick), for: .touchUpInside)
         return button
     }()
@@ -64,10 +65,9 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         return button
     }()
     
+    ///直接调用保存接口 - 然后再调用发布接口
     @objc func saveClick() {
-        let vc = OwnerBuildingCreateVideoVRViewController()
-        vc.isClose = isClose
-        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     @objc func pcEditClick() {
@@ -207,8 +207,8 @@ extension OwnerBuildingJointOpenStationViewController {
         
         
         self.view.addSubview(pcEditBtn)
-        self.view.addSubview(closePcEditBtn)
         self.view.addSubview(saveBtn)
+        self.view.addSubview(closePcEditBtn)
         
         pcEditBtn.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)

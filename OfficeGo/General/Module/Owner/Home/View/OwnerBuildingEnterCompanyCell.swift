@@ -39,6 +39,12 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
         return view
     }()
     
+    lazy var shortLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_bgcolor_F7F7F7
+        return view
+    }()
+    
     lazy var lineView: UIView = {
         let view = UIView()
         view.backgroundColor = kAppColor_line_EEEEEE
@@ -85,7 +91,7 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
         addSubview(editLabel)
         addSubview(detailIcon)
         addSubview(lineView)
-        
+        addSubview(shortLineView)
         editLabel.delegate = self
         
         titleLabel.snp.makeConstraints { (make) in
@@ -109,6 +115,13 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
         
         lineView.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
+            make.trailing.equalTo(-left_pending_space_17)
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
+        shortLineView.snp.makeConstraints { (make) in
+            make.leading.equalTo(editLabel)
             make.trailing.equalTo(-left_pending_space_17)
             make.bottom.equalToSuperview()
             make.height.equalTo(1)

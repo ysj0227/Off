@@ -94,6 +94,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     
     @objc func saveClick() {
         let vc = OwnerBuildingCreateVideoVRViewController()
+        vc.isBuildingFY = true
         vc.isClose = isClose
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -312,8 +313,8 @@ extension OwnerBuildingOfficeViewController {
         
         
         self.view.addSubview(pcEditBtn)
-        self.view.addSubview(closePcEditBtn)
         self.view.addSubview(saveBtn)
+        self.view.addSubview(closePcEditBtn)
         
         pcEditBtn.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
