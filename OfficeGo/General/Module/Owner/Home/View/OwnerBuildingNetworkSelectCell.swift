@@ -49,7 +49,7 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
     var ISFY : Bool?
     
     //房源
-    var FYModel: FangYuanFYEditDetailModel = FangYuanFYEditDetailModel() {
+    var FYModel: FangYuanHouseEditModel = FangYuanHouseEditModel() {
         didSet {
             reloadData()
         }
@@ -122,11 +122,9 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
         
         if ISFY == true {
             if isMutTags == true {
-                return FYModel.tagsLocal.count
-            }else if isMutNetworks == true {
-                return FYModel.internetLocal.count
+                return FYModel.houseMsg?.tagsLocal.count ?? 0
             }else if isSimpleDocument == true {
-                return FYModel.decoratesLocal.count
+                return FYModel.houseMsg?.decoratesLocal.count ?? 0
             }else {
                 return 0
             }
@@ -151,25 +149,17 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
             
             if isMutTags == true {
                 
-                cell?.model = FYModel.tagsLocal[indexPath.row]
+                cell?.model = FYModel.houseMsg?.tagsLocal[indexPath.row]
                 
                 cell?.setButtonSelected(isSelected: cell?.model?.isDocumentSelected ?? false)
                 
                 return cell ?? HouseFeatureCollectionCell()
                 
-            }else if isMutNetworks == true {
-
-                cell?.model = FYModel.internetLocal[indexPath.row]
-                
-                cell?.setButtonSelected(isSelected: cell?.model?.isOfficeBuildingSelected ?? false)
-                
-                return cell ?? HouseFeatureCollectionCell()
-                
             }else if isSimpleDocument == true {
 
-                cell?.model = FYModel.decoratesLocal[indexPath.row]
+                cell?.model = FYModel.houseMsg?.decoratesLocal[indexPath.row]
 
-                if FYModel.decorateModel?.dictValue == FYModel.decoratesLocal[indexPath.row].dictValue {
+                if FYModel.houseMsg?.decoration == FYModel.houseMsg?.decoratesLocal[indexPath.row].dictValue {
                     cell?.setButtonSelected(isSelected: true)
                 }else {
                     cell?.setButtonSelected(isSelected: false)
@@ -204,7 +194,7 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
 
                 cell?.model = buildingModel.buildingMsg?.decoratesLocal[indexPath.row]
 
-                if buildingModel.buildingMsg?.decorateModel?.dictValue == buildingModel.buildingMsg?.decoratesLocal[indexPath.row].dictValue {
+                if buildingModel.buildingMsg?.decoration?.dictValue == buildingModel.buildingMsg?.decoratesLocal[indexPath.row].dictValue {
                     cell?.setButtonSelected(isSelected: true)
                 }else {
                     cell?.setButtonSelected(isSelected: false)
@@ -223,27 +213,28 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
         if ISFY == true {
 
             if isMutTags == true {
-                var num = 0
-                for model in FYModel.tagsLocal {
-                    if model.isDocumentSelected == true {
-                        num += 1
+                if let tags = FYModel.houseMsg?.tagsLocal {
+
+                    var num = 0
+                    for model in tags {
+                        if model.isDocumentSelected == true {
+                            num += 1
+                        }
                     }
-                }
-                if num >= 4 {
-                    if FYModel.tagsLocal[indexPath.item].isDocumentSelected != true {
-                        AppUtilities.makeToast("最多可选择4个")
+                    if num >= 4 {
+                        if FYModel.houseMsg?.tagsLocal[indexPath.item].isDocumentSelected != true {
+                            AppUtilities.makeToast("最多可选择4个")
+                        }else {
+                            FYModel.houseMsg?.tagsLocal[indexPath.item].isDocumentSelected = !(FYModel.houseMsg?.tagsLocal[indexPath.item].isDocumentSelected ?? false)
+                        }
                     }else {
-                        FYModel.tagsLocal[indexPath.item].isDocumentSelected = !(FYModel.tagsLocal[indexPath.item].isDocumentSelected)
+                        tags[indexPath.item].isDocumentSelected = !(tags[indexPath.item].isDocumentSelected)
                     }
-                }else {
-                    FYModel.tagsLocal[indexPath.item].isDocumentSelected = !(FYModel.tagsLocal[indexPath.item].isDocumentSelected)
                 }
                 
-            }else if isMutNetworks == true {
-                FYModel.internetLocal[indexPath.item].isOfficeBuildingSelected = !(FYModel.internetLocal[indexPath.item].isOfficeBuildingSelected)
             }else if isSimpleDocument == true {
                 ///单选
-                FYModel.decorateModel = FYModel.decoratesLocal[indexPath.item]
+                FYModel.houseMsg?.decoration = FYModel.houseMsg?.decoratesLocal[indexPath.item].dictValue
             }
         }else {
 
@@ -271,7 +262,7 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
                 buildingModel.buildingMsg?.internetLocal[indexPath.item].isOfficeBuildingSelected = !(buildingModel.buildingMsg?.internetLocal[indexPath.item].isOfficeBuildingSelected ?? false)
             }else if isSimpleDocument == true {
                 ///单选
-                buildingModel.buildingMsg?.decorateModel = buildingModel.buildingMsg?.decoratesLocal[indexPath.item]
+                buildingModel.buildingMsg?.decoration = buildingModel.buildingMsg?.decoratesLocal[indexPath.item]
             }
         }
         

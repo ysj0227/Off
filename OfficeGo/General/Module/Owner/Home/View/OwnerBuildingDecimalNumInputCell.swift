@@ -12,13 +12,13 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditModel?
     
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
 
         ///楼盘
     var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
     ///房源
-    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
+    var endEditingFYMessageCell:((FangYuanHouseEditModel) -> Void)?
     
     override func setExtraView() {
         editLabel.font = FONT_14
@@ -364,13 +364,13 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = true
             
             if officeModel.type == .OwnerBuildingOfficeTypeArea {
-                editLabel.text = buildingModel?.buildingMsg?.constructionArea
+                editLabel.text = FYModel?.houseMsg?.area
             }else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
-                editLabel.text = buildingModel?.buildingMsg?.clearHeight
+                editLabel.text = FYModel?.houseMsg?.clearHeight
             }else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
-                editLabel.text = buildingModel?.buildingMsg?.storeyHeight
+                editLabel.text = FYModel?.houseMsg?.storeyHeight
             }else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
-                editLabel.text = buildingModel?.buildingMsg?.propertyCosts
+                editLabel.text = FYModel?.houseMsg?.propertyHouseCosts
             }
         }
     }
@@ -390,9 +390,9 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             editLabel.isUserInteractionEnabled = true
             
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
-                
+                editLabel.text = FYModel?.houseMsg?.area
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
-                
+                editLabel.text = FYModel?.houseMsg?.clearHeight
             }
         }
     }
@@ -412,9 +412,9 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             
             ///租金
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
-                
+                editLabel.text = FYModel?.houseMsg?.dayPrice
             }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
-
+                editLabel.text = FYModel?.houseMsg?.clearHeight
             }
 
         }
@@ -477,84 +477,84 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         //MARK: 办公室     ///建筑面积 - 两位
         if officeModel.type == .OwnerBuildingOfficeTypeArea {
             ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
-            if let areaOffice = FYModel?.areaOffice {
+            if let areaOffice = FYModel?.houseMsg?.area {
                 if textField.text != areaOffice {
                     let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
                     let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
-                    FYModel?.minSeatsOffice = "\(min)"
-                    FYModel?.maxSeatsOffice = "\(max)"
+                    FYModel?.houseMsg?.minSeatsOffice = "\(min)"
+                    FYModel?.houseMsg?.maxSeatsOffice = "\(max)"
                 }
             }else {
                 let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
                 let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
-                FYModel?.minSeatsOffice = "\(min)"
-                FYModel?.maxSeatsOffice = "\(max)"
+                FYModel?.houseMsg?.minSeatsOffice = "\(min)"
+                FYModel?.houseMsg?.maxSeatsOffice = "\(max)"
             }
-            FYModel?.areaOffice = textField.text
+            FYModel?.houseMsg?.area = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 办公室     ///净高
         else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
-            FYModel?.clearHeight = textField.text
+            FYModel?.houseMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 办公室     ///层高
         else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
-            FYModel?.storeyHeight = textField.text
+            FYModel?.houseMsg?.storeyHeight = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 办公室     ///物业费
         else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
-            FYModel?.propertyCosts = textField.text
+            FYModel?.houseMsg?.propertyHouseCosts = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
                
         
         //MARK: 独立办公室
         //MARK: 独立办公室       ///建筑面积 - 一位
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
-            FYModel?.areaOffice = textField.text
+            FYModel?.houseMsg?.area = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 独立办公室       ///净高
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
-            FYModel?.clearHeight = textField.text
+            FYModel?.houseMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
         
         //MARK: 开放工位
         //MARK: 开放工位        ///租金
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
-            FYModel?.dayPrice = textField.text
+            FYModel?.houseMsg?.dayPrice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
-            FYModel?.clearHeight = textField.text
+            FYModel?.houseMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
     }
     

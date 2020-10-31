@@ -494,6 +494,13 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
+        ///房源回显接口
+        static func request_getHouseMsgByHouseId(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.getHouseMsgByHouseId)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
         //房源编辑接口
         static func request_getEditHouse(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getEditHouse)

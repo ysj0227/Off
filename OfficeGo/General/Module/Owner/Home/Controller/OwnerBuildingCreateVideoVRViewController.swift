@@ -32,7 +32,7 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     var buildingModel: FangYuanBuildingEditModel?
     
     ///房源模型
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
     
     
     lazy var fczImagePickTool: UploadVideoTool = {

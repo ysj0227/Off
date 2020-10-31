@@ -8,15 +8,18 @@
 
 class OwnerBuildingFYFloorCell: BaseTableViewCell {
     
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
 
     ///房源
-    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
+    var endEditingFYMessageCell:((FangYuanHouseEditModel) -> Void)?
     
     ///办公室
     var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingImage) {
         didSet {
-            if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
+            
+            leftEditLabel.text = FYModel?.houseMsg?.floor
+
+            if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
                 self.isHidden = false
             }else {
                 self.isHidden = true
@@ -27,7 +30,10 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
     ///独立办公室
      var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingImage) {
          didSet {
-             if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
+            
+            leftEditLabel.text = FYModel?.houseMsg?.floor
+            
+             if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
                  self.isHidden = false
              }else {
                  self.isHidden = true
@@ -38,7 +44,10 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
     ///开放工位
     var jointOpenStationModel: OwnerBuildingJointOpenStationConfigureModel = OwnerBuildingJointOpenStationConfigureModel(types: OwnerBuildingJointOpenStationType.OwnerBuildingJointOpenStationTypeBuildingImage) {
         didSet {
-            if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
+            
+            leftEditLabel.text = FYModel?.houseMsg?.floor
+
+            if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
                 self.isHidden = false
             }else {
                 self.isHidden = true
@@ -184,7 +193,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         //MARK: 办公室
         //MARK: 办公室 ///所在楼层
         if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
-            if FYModel?.floorType == "1" {
+            if FYModel?.houseMsg?.floorType == "1" {
 
                 //截取
                 if textNum! > 2 {
@@ -218,7 +227,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         //MARK: 独立办公室
         //MARK: 独立办公室   ///所在楼层
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
-            if FYModel?.floorType == "1" {
+            if FYModel?.houseMsg?.floorType == "1" {
 
                 //截取
                 if textNum! > 2 {
@@ -251,7 +260,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         //MARK: 开放工位
         //MARK: 开放工位    ///所在楼层
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
-            if FYModel?.floorType == "1" {
+            if FYModel?.houseMsg?.floorType == "1" {
 
                 //截取
                 if textNum! > 2 {
@@ -291,11 +300,11 @@ extension OwnerBuildingFYFloorCell: UITextFieldDelegate {
         //MARK: 办公室 ///所在楼层
         if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
             
-            FYModel?.ownerFloor = textField.text
+            FYModel?.houseMsg?.floor = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
         
@@ -304,11 +313,11 @@ extension OwnerBuildingFYFloorCell: UITextFieldDelegate {
         //MARK: 独立办公室   ///所在楼层
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
             
-            FYModel?.ownerFloor = textField.text
+            FYModel?.houseMsg?.floor = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
     
         
@@ -316,11 +325,11 @@ extension OwnerBuildingFYFloorCell: UITextFieldDelegate {
         //MARK: 开放工位    ///所在楼层
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
             
-            FYModel?.ownerFloor = textField.text
+            FYModel?.houseMsg?.floor = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
     }

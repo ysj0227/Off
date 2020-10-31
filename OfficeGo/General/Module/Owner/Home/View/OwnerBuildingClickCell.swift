@@ -12,7 +12,7 @@ class OwnerBuildingClickCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditModel?
     
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
     
     ///楼盘
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {
@@ -129,12 +129,13 @@ class OwnerBuildingClickCell: BaseEditCell {
             if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
-                if FYModel?.floorType == "1" {
+                if FYModel?.houseMsg?.floorType == "1" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
-                }else if FYModel?.floorType == "2" {
+                }else if FYModel?.houseMsg?.floorType == "2" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if officeModel.type == .OwnerBuildingOfficeTypeRentFreePeriod {
+                editLabel.text = FYModel?.houseMsg?.rentFreePeriod
             }
         }
     }
@@ -159,30 +160,30 @@ class OwnerBuildingClickCell: BaseEditCell {
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
-                if FYModel?.floorType == "1" {
+                if FYModel?.houseMsg?.floorType == "1" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
-                }else if FYModel?.floorType == "2" {
+                }else if FYModel?.houseMsg?.floorType == "2" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
-                
+                editLabel.text = FYModel?.houseMsg?.rentFreePeriod
             }
 //            else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentType {
 //                
 //            }
             else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeAirConditionType{
                 
-                editLabel.text = FYModel?.airditionType?.rawValue
+                editLabel.text = FYModel?.houseMsg?.airditionType?.rawValue
                 
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeAirConditionCoast{
                 
                 detailIcon.image = UIImage.init(named: "")
                 
-                if FYModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
+                if FYModel?.houseMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeCenter.rawValue
-                }else if FYModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
+                }else if FYModel?.houseMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeIndividual.rawValue
-                }else if FYModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
+                }else if FYModel?.houseMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue
                 }else {
                     editLabel.text = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeDefault.rawValue
@@ -210,13 +211,13 @@ class OwnerBuildingClickCell: BaseEditCell {
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
-                if FYModel?.floorType == "1" {
+                if FYModel?.houseMsg?.floorType == "1" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
-                }else if FYModel?.floorType == "2" {
+                }else if FYModel?.houseMsg?.floorType == "2" {
                     editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
-                
+                editLabel.text = FYModel?.houseMsg?.rentFreePeriod
             }
         }
     }

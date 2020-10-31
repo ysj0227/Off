@@ -905,8 +905,8 @@ extension OwnerBuildingJointCreateViewController {
         case .OwnerBuildingJointEditTypeBuildingImage:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingImgCell.reuseIdentifierStr) as? OwnerBuildingImgCell
             cell?.selectionStyle = .none
-            cell?.jointModel = model
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+            cell?.jointModel = model
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
             
         ///上传楼盘视频

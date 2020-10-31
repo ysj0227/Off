@@ -28,7 +28,7 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
     var typeSourceArray:[OwnerBuildingJointOfficeConfigureModel] = [OwnerBuildingJointOfficeConfigureModel]()
     
     ///
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
     
     lazy var saveBtn: UIButton = {
         let button = UIButton.init()
@@ -165,12 +165,104 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
         typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeBuildingImage))
         
         
-        if FYModel != nil {
+        
+        
+        ///来自添加
+        if isFromAdd == true {
+            
+            FYModel = FangYuanHouseEditModel()
+                    
+            loadTableview()
             
         }else {
-            FYModel = FangYuanFYEditDetailModel()
+            
+            request_getEditBuilding()
+            
         }
         
+    }
+    
+    
+    //MARK: 获取详情 request_getHouseMsgByHouseId
+    func request_getEditBuilding() {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["houseId"] = FYModel?.id as AnyObject?
+        params["isTemp"] = FYModel?.isTemp as AnyObject?
+
+        SSNetworkTool.SSFYManager.request_getHouseMsgByHouseId(params: params, success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let model = FangYuanHouseEditModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.FYModel = model
+                
+            }
+            weakSelf.dealData()
+            
+            }, failure: {[weak self] (error) in
+                self?.dealData()
+                
+        }) {[weak self] (code, message) in
+            self?.dealData()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    
+    func dealData() {
+        
+        /*
+        空调
+        中央空调 0
+        独立空调 1
+        无空调 2
+        */
+        if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault.rawValue {
+            FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeDefault
+        }else if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue {
+            FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeCenter
+        }else if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue {
+            FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeIndividual
+        }else if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue {
+            FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeNone
+        }
+        
+        ///添加banner数据
+        if let arr = FYModel?.banner {
+            
+            for fczBannerModel in arr {
+                fczBannerModel.isLocal = false
+                fczBannerModel.isMain = false
+                FYModel?.buildingLocalImgArr.append(fczBannerModel)
+            }
+        }
+        ///添加封面图
+        if let url = FYModel?.houseMsg?.mainPic {
+
+            let mainPicModel = BannerModel()
+            mainPicModel.imgUrl = url
+            mainPicModel.isLocal = false
+            mainPicModel.isMain = true
+            FYModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
+        }
+        
+        
+        ///添加vr数据
+        if let arr = FYModel?.vr {
+            
+            for fczBannerModel in arr {
+                fczBannerModel.isLocal = false
+                FYModel?.buildingLocalVRArr.append(fczBannerModel)
+            }
+        }
+        
+        
+        ///刷新列表
+        loadTableview()
     }
     
     ///点击问好弹出的弹框
@@ -345,7 +437,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             ///空调类型
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
@@ -356,7 +448,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
             cell?.detailIcon.isHidden = true
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
@@ -366,7 +458,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
                 ///点击cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
                 cell?.selectionStyle = .none
-                cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.jointIndepentOfficeModel = model
                 return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             }else {
@@ -374,7 +466,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
                 ///文本输入cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr) as? OwnerBuildingFYFloorCell
                 cell?.selectionStyle = .none
-                cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.jointIndepentOfficeModel = model
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
@@ -390,7 +482,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
@@ -404,7 +496,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             ///租金
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -417,7 +509,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -426,7 +518,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
         case .OwnerBuildingJointOfficeTypeIntrodution:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYIntroductionCell.reuseIdentifierStr) as? OwnerBuildingFYIntroductionCell
             cell?.selectionStyle = .none
-            cell?.FYModel = self.FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = self.FYModel ?? FangYuanHouseEditModel()
             return cell ?? OwnerBuildingFYIntroductionCell.init(frame: .zero)
             
             
@@ -434,8 +526,8 @@ extension OwnerBuildingJointIndepententOfficeViewController {
         case .OwnerBuildingJointOfficeTypeBuildingImage:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingImgCell.reuseIdentifierStr) as? OwnerBuildingImgCell
             cell?.selectionStyle = .none
+            cell?.FYModel = self.FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
-            cell?.FYModel = self.FYModel ?? FangYuanFYEditDetailModel()
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
             
         ///上传楼盘视频
@@ -469,7 +561,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             
         ///空调费 - 没有右边的箭头
         case .OwnerBuildingJointOfficeTypeAirConditionCoast:
-            if FYModel?.airditionType == nil || FYModel?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault {
+            if FYModel?.houseMsg?.airditionType == nil || FYModel?.houseMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault {
                 return 0
             }else {
                 return BaseEditCell.rowHeight()
@@ -482,7 +574,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             if indexPath.row == 0 {
                 return BaseEditCell.rowHeight()
             }else {
-                if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
+                if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
                     return OwnerBuildingFYFloorCell.rowHeight()
                 }else {
                     return 0
@@ -574,13 +666,13 @@ extension OwnerBuildingJointIndepententOfficeViewController {
                 //中央空调，独立空调，无空调
                 if settingEnumIndex == 0 {
                     SSLog("-----点击的是---中央空调")
-                    self?.FYModel?.airditionType = .OwnerAircontiditonTypeCenter
+                    self?.FYModel?.houseMsg?.airditionType = .OwnerAircontiditonTypeCenter
                 }else if settingEnumIndex == 1 {
                     SSLog("-----点击的是---独立空调")
-                    self?.FYModel?.airditionType = .OwnerAircontiditonTypeIndividual
+                    self?.FYModel?.houseMsg?.airditionType = .OwnerAircontiditonTypeIndividual
                 }else if settingEnumIndex == 2 {
                     SSLog("-----点击的是---无空调")
-                    self?.FYModel?.airditionType = .OwnerAircontiditonTypeNone
+                    self?.FYModel?.houseMsg?.airditionType = .OwnerAircontiditonTypeNone
                 }
                 self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
             }
@@ -627,9 +719,9 @@ extension OwnerBuildingJointIndepententOfficeViewController {
                 }) {[weak self] (settingEnumIndex) in
                     //单层1 多层2
                     if settingEnumIndex == 0 {
-                        self?.FYModel?.floorType = "1"
+                        self?.FYModel?.houseMsg?.floorType = "1"
                     }else if settingEnumIndex == 1 {
-                        self?.FYModel?.floorType = "2"
+                        self?.FYModel?.houseMsg?.floorType = "2"
                     }
                     self?.loadSections(indexSet: [indexPath.section])
                 }

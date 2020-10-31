@@ -11,10 +11,10 @@ import HandyJSON
 import SwiftyJSON
 
 class OwnerFYListViewController: BaseGroupTableViewController {
-
+    
+    
     ///判断身份和认证类型
     var userModel: LoginUserModel?
-    
     
     var buildingListVC = OwnerBuildingListViewController()
 
@@ -501,17 +501,29 @@ extension OwnerFYListViewController {
                     if viewModel.btype == 1 {
                         ///办公室
                         let vc = OwnerBuildingOfficeViewController()
+                        let buildingModel = FangYuanHouseEditModel()
+                        buildingModel.isTemp = viewModel.isTemp
+                        buildingModel.id = viewModel.houseId
+                        vc.FYModel = buildingModel
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else {
                         if viewModel.officeType == 1 {
 
                             ///独立办公室
                             let vc = OwnerBuildingJointIndepententOfficeViewController()
+                            let buildingModel = FangYuanHouseEditModel()
+                            buildingModel.isTemp = viewModel.isTemp
+                            buildingModel.id = viewModel.houseId
+                            vc.FYModel = buildingModel
                             self?.navigationController?.pushViewController(vc, animated: true)
                         }else {
 
                             ///开放工位
                             let vc = OwnerBuildingJointOpenStationViewController()
+                            let buildingModel = FangYuanHouseEditModel()
+                            buildingModel.isTemp = viewModel.isTemp
+                            buildingModel.id = viewModel.houseId
+                            vc.FYModel = buildingModel
                             self?.navigationController?.pushViewController(vc, animated: true)
                         }
                     }

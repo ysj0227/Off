@@ -53,13 +53,13 @@ class OwnerBuildingVRCell: BaseTableViewCell {
         
     var buildingModel: FangYuanBuildingEditModel?
     
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
 
     ///楼盘
     var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
     ///房源
-    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
+    var endEditingFYMessageCell:((FangYuanHouseEditModel) -> Void)?
     
     
     func setupViews() {
@@ -198,22 +198,22 @@ extension OwnerBuildingVRCell: UITextFieldDelegate {
         
         //MARK: 办公室
         if officeModel.type == .OwnerBuildingOfficeTypeBuildingVR {
-            FYModel?.minimumLease = textField.text
+            FYModel?.houseMsg?.minimumLease = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
         
         
         //MARK: 独立办公室
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeBuildingVR {
-            FYModel?.minSeatsOffice = textField.text
+            FYModel?.houseMsg?.minSeatsOffice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
         

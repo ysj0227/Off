@@ -37,7 +37,7 @@ class OwnerBuildingImgCell: BaseTableViewCell {
         return view
     }()
     
-    var FYModel : FangYuanFYEditDetailModel = FangYuanFYEditDetailModel() {
+    var FYModel : FangYuanHouseEditModel = FangYuanHouseEditModel() {
         didSet {
             reloadData()
         }
@@ -110,28 +110,57 @@ class OwnerBuildingImgCell: BaseTableViewCell {
 
 extension OwnerBuildingImgCell {
     func selectFCZPicker() {
-        var imgArr = [BannerModel]()
-        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - buildingModel.buildingLocalImgArr.count) {[weak self] (asset,cutImage) in
-            // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
-            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
-                let img = image.resizeMax1500Image()
+        
+        if model != nil || jointModel != nil {
 
-                let fczBannerModel = BannerModel()
-                fczBannerModel.isLocal = true
-                fczBannerModel.image = img
-                
-                if self?.buildingModel.buildingLocalImgArr.count ?? 0 <= 0 {
-                    fczBannerModel.isMain = true
-                }else {
-                    fczBannerModel.isMain = false
-                }
-                imgArr.append(fczBannerModel)
-                }, failedClouse: { () in
+            var imgArr = [BannerModel]()
+            fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - buildingModel.buildingLocalImgArr.count) {[weak self] (asset,cutImage) in
+                // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+                CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                    let img = image.resizeMax1500Image()
+
+                    let fczBannerModel = BannerModel()
+                    fczBannerModel.isLocal = true
+                    fczBannerModel.image = img
                     
-            })
-            //房产证
-            self?.buildingModel.buildingLocalImgArr.append(contentsOf: imgArr)
-            self?.loadCollectionData()
+                    if self?.buildingModel.buildingLocalImgArr.count ?? 0 <= 0 {
+                        fczBannerModel.isMain = true
+                    }else {
+                        fczBannerModel.isMain = false
+                    }
+                    imgArr.append(fczBannerModel)
+                    }, failedClouse: { () in
+                        
+                })
+                //房产证
+                self?.buildingModel.buildingLocalImgArr.append(contentsOf: imgArr)
+                self?.loadCollectionData()
+            }
+        }else {
+
+            var imgArr = [BannerModel]()
+            fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - FYModel.buildingLocalImgArr.count) {[weak self] (asset,cutImage) in
+                // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+                CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                    let img = image.resizeMax1500Image()
+
+                    let fczBannerModel = BannerModel()
+                    fczBannerModel.isLocal = true
+                    fczBannerModel.image = img
+                    
+                    if self?.FYModel.buildingLocalImgArr.count ?? 0 <= 0 {
+                        fczBannerModel.isMain = true
+                    }else {
+                        fczBannerModel.isMain = false
+                    }
+                    imgArr.append(fczBannerModel)
+                    }, failedClouse: { () in
+                        
+                })
+                //房产证
+                self?.FYModel.buildingLocalImgArr.append(contentsOf: imgArr)
+                self?.loadCollectionData()
+            }
         }
     }
 
@@ -142,93 +171,188 @@ extension OwnerBuildingImgCell {
     ///删除房产证图片接口
     func request_deleteFCZImgApp(index: Int) {
         
-        if buildingModel.buildingLocalImgArr[index].isLocal == true {
-            buildingModel.buildingLocalImgArr.remove(at: index)
-            
-            ///删除之后，如果图片还有。则默认第一个为封面图
-            if buildingModel.buildingLocalImgArr.count > 0 {
-                buildingModel.buildingLocalImgArr[0].isMain = true
-            }
+        if model != nil || jointModel != nil {
+            if buildingModel.buildingLocalImgArr[index].isLocal == true {
+                buildingModel.buildingLocalImgArr.remove(at: index)
+                
+                ///删除之后，如果图片还有。则默认第一个为封面图
+                if buildingModel.buildingLocalImgArr.count > 0 {
+                    buildingModel.buildingLocalImgArr[0].isMain = true
+                }
 
-            loadCollectionData()
-        }else {
-            buildingModel.buildingDeleteRemoteArr.append(buildingModel.buildingLocalImgArr[index])
-            buildingModel.buildingLocalImgArr.remove(at: index)
-            
-            ///删除之后，如果图片还有。则默认第一个为封面图
-            if buildingModel.buildingLocalImgArr.count > 0 {
-                buildingModel.buildingLocalImgArr[0].isMain = true
+                loadCollectionData()
+            }else {
+                buildingModel.buildingDeleteRemoteArr.append(buildingModel.buildingLocalImgArr[index])
+                buildingModel.buildingLocalImgArr.remove(at: index)
+                
+                ///删除之后，如果图片还有。则默认第一个为封面图
+                if buildingModel.buildingLocalImgArr.count > 0 {
+                    buildingModel.buildingLocalImgArr[0].isMain = true
+                }
+                
+                loadCollectionData()
             }
-            
-            loadCollectionData()
+        }else {
+            if FYModel.buildingLocalImgArr[index].isLocal == true {
+                FYModel.buildingLocalImgArr.remove(at: index)
+                
+                ///删除之后，如果图片还有。则默认第一个为封面图
+                if FYModel.buildingLocalImgArr.count > 0 {
+                    FYModel.buildingLocalImgArr[0].isMain = true
+                }
+
+                loadCollectionData()
+            }else {
+                FYModel.buildingDeleteRemoteArr.append(FYModel.buildingLocalImgArr[index])
+                FYModel.buildingLocalImgArr.remove(at: index)
+                
+                ///删除之后，如果图片还有。则默认第一个为封面图
+                if FYModel.buildingLocalImgArr.count > 0 {
+                    FYModel.buildingLocalImgArr[0].isMain = true
+                }
+                
+                loadCollectionData()
+            }
         }
+
     }
     
     ///设置封面图
     func setMainPic(index: Int) {
            
-        buildingModel.buildingLocalImgArr[0].isMain = false
-        
-        buildingModel.buildingLocalImgArr[index].isMain = true
-        
-        ///把设置的封面图插入到放在第一位
-        buildingModel.buildingLocalImgArr.insert(buildingModel.buildingLocalImgArr[index], at: 0)
-        
-        ///移除之前的数据的index + 1的图片
-        buildingModel.buildingLocalImgArr.remove(at: index + 1)
-        loadCollectionData()
+        if model != nil || jointModel != nil {
+
+            buildingModel.buildingLocalImgArr[0].isMain = false
+            
+            buildingModel.buildingLocalImgArr[index].isMain = true
+            
+            ///把设置的封面图插入到放在第一位
+            buildingModel.buildingLocalImgArr.insert(buildingModel.buildingLocalImgArr[index], at: 0)
+            
+            ///移除之前的数据的index + 1的图片
+            buildingModel.buildingLocalImgArr.remove(at: index + 1)
+            loadCollectionData()
+        }else {
+
+            FYModel.buildingLocalImgArr[0].isMain = false
+            
+            FYModel.buildingLocalImgArr[index].isMain = true
+            
+            ///把设置的封面图插入到放在第一位
+            FYModel.buildingLocalImgArr.insert(FYModel.buildingLocalImgArr[index], at: 0)
+            
+            ///移除之前的数据的index + 1的图片
+            FYModel.buildingLocalImgArr.remove(at: index + 1)
+            loadCollectionData()
+        }
     }
 }
 
 extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return buildingModel.buildingLocalImgArr.count + 1
+        
+        if model != nil || jointModel != nil {
+            return buildingModel.buildingLocalImgArr.count + 1
+        }else {
+            return FYModel.buildingLocalImgArr.count + 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerFYManagerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerFYManagerImagePickerCell
         cell?.indexPath = indexPath
-        if indexPath.item <= buildingModel.buildingLocalImgArr.count - 1  {
-            if buildingModel.buildingLocalImgArr[indexPath.item].isLocal == false {
-                cell?.image.setImage(with: buildingModel.buildingLocalImgArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
-            }else {
-                cell?.image.image = buildingModel.buildingLocalImgArr[indexPath.item].image
-            }
-            if buildingModel.buildingLocalImgArr[indexPath.item].isMain == true {
-                cell?.mainTags.isHidden = true
-            }else {
-                cell?.mainTags.isHidden = false
-            }
-            cell?.closeBtnClickClouse = { [weak self] (index) in
-                self?.request_deleteFCZImgApp(index: index)
-            }
-            
-            cell?.setMainPicClouse = { [weak self] (index) in
-                self?.setMainPic(index: index)
-            }
-            
-        }else {
-            cell?.image.image = UIImage.init(named: "addImgBg")
-            cell?.mainTags.isHidden = true
-        }
         
-        if indexPath.item == buildingModel.buildingLocalImgArr.count {
-            cell?.closeBtn.isHidden = true
+        if model != nil || jointModel != nil {
+
+            if indexPath.item <= buildingModel.buildingLocalImgArr.count - 1  {
+                if buildingModel.buildingLocalImgArr[indexPath.item].isLocal == false {
+                    cell?.image.setImage(with: buildingModel.buildingLocalImgArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
+                }else {
+                    cell?.image.image = buildingModel.buildingLocalImgArr[indexPath.item].image
+                }
+                if buildingModel.buildingLocalImgArr[indexPath.item].isMain == true {
+                    cell?.mainTags.isHidden = true
+                }else {
+                    cell?.mainTags.isHidden = false
+                }
+                cell?.closeBtnClickClouse = { [weak self] (index) in
+                    self?.request_deleteFCZImgApp(index: index)
+                }
+                
+                cell?.setMainPicClouse = { [weak self] (index) in
+                    self?.setMainPic(index: index)
+                }
+                
+            }else {
+                cell?.image.image = UIImage.init(named: "addImgBg")
+                cell?.mainTags.isHidden = true
+            }
+            
+            if indexPath.item == buildingModel.buildingLocalImgArr.count {
+                cell?.closeBtn.isHidden = true
+            }else {
+                cell?.closeBtn.isHidden = false
+            }
         }else {
-            cell?.closeBtn.isHidden = false
+
+            if indexPath.item <= FYModel.buildingLocalImgArr.count - 1  {
+                if FYModel.buildingLocalImgArr[indexPath.item].isLocal == false {
+                    cell?.image.setImage(with: FYModel.buildingLocalImgArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
+                }else {
+                    cell?.image.image = FYModel.buildingLocalImgArr[indexPath.item].image
+                }
+                if FYModel.buildingLocalImgArr[indexPath.item].isMain == true {
+                    cell?.mainTags.isHidden = true
+                }else {
+                    cell?.mainTags.isHidden = false
+                }
+                cell?.closeBtnClickClouse = { [weak self] (index) in
+                    self?.request_deleteFCZImgApp(index: index)
+                }
+                
+                cell?.setMainPicClouse = { [weak self] (index) in
+                    self?.setMainPic(index: index)
+                }
+                
+            }else {
+                cell?.image.image = UIImage.init(named: "addImgBg")
+                cell?.mainTags.isHidden = true
+            }
+            
+            if indexPath.item == FYModel.buildingLocalImgArr.count {
+                cell?.closeBtn.isHidden = true
+            }else {
+                cell?.closeBtn.isHidden = false
+            }
         }
         return cell ?? OwnerFYManagerImagePickerCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == buildingModel.buildingLocalImgArr.count {
-            if indexPath.item < ownerBuildingImageNumber_9 {
-//                if self.imgSelectClickBlock != nil {
-//                    self.imgSelectClickBlock!(ownerBuildingImageNumber_9 - buildingModel.buildingLocalImgArr.count)
-//                }
-                selectFCZPicker()
-            }else {
-                AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber_9)张图片")
+        
+        if model != nil || jointModel != nil {
+            
+            if indexPath.item == buildingModel.buildingLocalImgArr.count {
+                if indexPath.item < ownerBuildingImageNumber_9 {
+                    //                if self.imgSelectClickBlock != nil {
+                    //                    self.imgSelectClickBlock!(ownerBuildingImageNumber_9 - buildingModel.buildingLocalImgArr.count)
+                    //                }
+                    selectFCZPicker()
+                }else {
+                    AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber_9)张图片")
+                }
+            }
+        }else {
+            
+            if indexPath.item == FYModel.buildingLocalImgArr.count {
+                if indexPath.item < ownerBuildingImageNumber_9 {
+                    //                if self.imgSelectClickBlock != nil {
+                    //                    self.imgSelectClickBlock!(ownerBuildingImageNumber_9 - FYModel.buildingLocalImgArr.count)
+                    //                }
+                    selectFCZPicker()
+                }else {
+                    AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber_9)张图片")
+                }
             }
         }
     }

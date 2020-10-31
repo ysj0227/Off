@@ -41,7 +41,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     var typeSourceArray:[OwnerBuildingOfficeConfigureModel] = [OwnerBuildingOfficeConfigureModel]()
     
     ///
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
     
     lazy var saveBtn: UIButton = {
         let button = UIButton.init()
@@ -78,7 +78,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     
     @objc func totalPriceClick() {
         
-        FYModel?.totalPrice = FYModel?.totalPriceTemp
+        FYModel?.houseMsg?.monthPrice = FYModel?.houseMsg?.monthPriceTemp
         
         //        endEdting()
         
@@ -194,13 +194,18 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         typeSourceArray.append(OwnerBuildingOfficeConfigureModel.init(types: .OwnerBuildingOfficeTypeBuildingImage))
         
         
-        if FYModel != nil {
+        ///来自添加
+        if isFromAdd == true {
             
+            FYModel = FangYuanHouseEditModel()
+                    
+            requestGetDecorate()
+
         }else {
-            FYModel = FangYuanFYEditDetailModel()
+            
+            request_getEditBuilding()
+            
         }
-        
-        requestGetDecorate()
     }
     
     
@@ -211,7 +216,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 for model in decoratedArray {
-                    weakSelf.FYModel?.decoratesLocal.append(model ?? HouseFeatureModel())
+                    weakSelf.FYModel?.houseMsg?.decoratesLocal.append(model ?? HouseFeatureModel())
                 }
             }
             weakSelf.requestGetFeature()
@@ -236,22 +241,141 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             guard let weakSelf = self else {return}
             if let decoratedArray = JSONDeserializer<HouseFeatureModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
                 for model in decoratedArray {
-                    weakSelf.FYModel?.tagsLocal.append(model ?? HouseFeatureModel())
+                    weakSelf.FYModel?.houseMsg?.tagsLocal.append(model ?? HouseFeatureModel())
                 }
             }
-            weakSelf.loadTableview()
+            weakSelf.dealData()
             
             }, failure: {[weak self] (error) in
-                self?.loadTableview()
+                self?.dealData()
                 
         }) {[weak self] (code, message) in
-            self?.loadTableview()
+            self?.dealData()
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
             }
         }
+    }
+    
+    //MARK: 获取详情 request_getHouseMsgByHouseId
+    func request_getEditBuilding() {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["houseId"] = FYModel?.id as AnyObject?
+        params["isTemp"] = FYModel?.isTemp as AnyObject?
+
+        SSNetworkTool.SSFYManager.request_getHouseMsgByHouseId(params: params, success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let model = FangYuanHouseEditModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.FYModel = model
+                
+            }
+            weakSelf.requestGetDecorate()
+            
+            }, failure: {[weak self] (error) in
+                self?.requestGetDecorate()
+                
+        }) {[weak self] (code, message) in
+            self?.requestGetDecorate()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    
+    func dealData() {
+        
+        /*
+        空调
+        中央空调 0
+        独立空调 1
+        无空调 2
+        */
+        if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeDefault.rawValue {
+            FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeDefault
+        }else if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter.rawValue {
+            FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeCenter
+        }else if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual.rawValue {
+            FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeIndividual
+        }else if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue {
+            FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeNone
+        }
+        
+        
+        ///网络展示回显 - 名称匹配
+        let idd = FYModel?.houseMsg?.decoration
+        if let internetLocal = FYModel?.houseMsg?.decoratesLocal {
+           for dic in internetLocal {
+                if idd == dic.dictValue {
+                    dic.isOfficeBuildingSelected = true
+                }
+            }
+        }
+        
+        
+        ///特色展示回显 - id匹配
+        let requestFeatureArr = FYModel?.houseMsg?.tags?.split{$0 == ","}.map(String.init)
+        if let networkArr = requestFeatureArr, let internetLocal = FYModel?.houseMsg?.tagsLocal {
+            if networkArr.count > 0 && internetLocal.count > 0 {
+                for network in networkArr {
+                    
+                    for dic in internetLocal {
+                        if network == "\(dic.dictValue ?? 0)" {
+                            dic.isDocumentSelected = true
+                        }
+                    }
+                }
+            }
+        }
+    
+        ///添加banner数据
+        if let arr = FYModel?.banner {
+            
+            for fczBannerModel in arr {
+                fczBannerModel.isLocal = false
+                fczBannerModel.isMain = false
+                FYModel?.buildingLocalImgArr.append(fczBannerModel)
+            }
+        }
+        ///添加封面图
+        if let url = FYModel?.houseMsg?.mainPic {
+
+            let mainPicModel = BannerModel()
+            mainPicModel.imgUrl = url
+            mainPicModel.isLocal = false
+            mainPicModel.isMain = true
+            FYModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
+        }
+        
+        
+        ///添加vr数据
+        if let arr = FYModel?.vr {
+            
+            for fczBannerModel in arr {
+                fczBannerModel.isLocal = false
+                FYModel?.buildingLocalVRArr.append(fczBannerModel)
+            }
+        }
+        
+        if let simple = FYModel?.houseMsg?.simple {
+            if simple.isBlankString != true {
+                let simpleArr = FYModel?.houseMsg?.simple?.split{$0 == ","}.map(String.init)
+                if simpleArr?.count == 2 {
+                    FYModel?.houseMsg?.minSeatsOffice = simpleArr?[0]
+                    FYModel?.houseMsg?.maxSeatsOffice = simpleArr?[1]
+                }
+            }
+        }
+        
+        
+        ///刷新列表
+        loadTableview()
     }
     
     
@@ -435,7 +559,7 @@ extension OwnerBuildingOfficeViewController {
             ///免租期
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
             return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             
@@ -445,7 +569,7 @@ extension OwnerBuildingOfficeViewController {
                 ///点击cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
                 cell?.selectionStyle = .none
-                cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.officeModel = model
                 return cell ?? OwnerBuildingClickCell.init(frame: .zero)
             }else {
@@ -453,7 +577,7 @@ extension OwnerBuildingOfficeViewController {
                 ///文本输入cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr) as? OwnerBuildingFYFloorCell
                 cell?.selectionStyle = .none
-                cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.officeModel = model
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
@@ -468,7 +592,7 @@ extension OwnerBuildingOfficeViewController {
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
@@ -482,7 +606,7 @@ extension OwnerBuildingOfficeViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -497,7 +621,7 @@ extension OwnerBuildingOfficeViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (model) in
                 self?.FYModel = model
@@ -512,7 +636,7 @@ extension OwnerBuildingOfficeViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYRenterTotalPriceCell.reuseIdentifierStr) as? OwnerBuildingFYRenterTotalPriceCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (FYModel) in
                 self?.FYModel = FYModel
@@ -528,12 +652,12 @@ extension OwnerBuildingOfficeViewController {
             }
             cell?.inputClickClouse = { [weak self] in
                 
-                if let dayPrice = self?.FYModel?.dayPrice, let areaOffice = self?.FYModel?.areaOffice {
+                if let dayPrice = self?.FYModel?.houseMsg?.dayPrice, let areaOffice = self?.FYModel?.houseMsg?.area {
                     if dayPrice.isBlankString != true && areaOffice.isBlankString != true {
                         
                         ///单价 x 面积 x 30
                         let price = (Double(dayPrice) ?? 0) * (Double(areaOffice) ?? 0) * 30
-                        self?.FYModel?.totalPriceTemp = "\(price)"
+                        self?.FYModel?.houseMsg?.monthPriceTemp = "\(price)"
                         self?.totalPriceView.setTitle(" 租金总价：\(price)元/月 ", for: .normal)
                         
                         let rect = self?.tableView.rectForRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section))
@@ -568,7 +692,7 @@ extension OwnerBuildingOfficeViewController {
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYCanSeatsCell.reuseIdentifierStr) as? OwnerBuildingFYCanSeatsCell
             cell?.selectionStyle = .none
-            cell?.FYModel = FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (FYModel) in
                 self?.FYModel = FYModel
@@ -587,14 +711,14 @@ extension OwnerBuildingOfficeViewController {
             cell?.isMutTags = false
             cell?.isMutNetworks = false
             cell?.isSimpleDocument = true
-            cell?.FYModel = self.FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = self.FYModel ?? FangYuanHouseEditModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
         ///户型格局简介
         case .OwnerBuildingOfficeTypeIntrodution:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYIntroductionCell.reuseIdentifierStr) as? OwnerBuildingFYIntroductionCell
             cell?.selectionStyle = .none
-            cell?.FYModel = self.FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = self.FYModel ?? FangYuanHouseEditModel()
             return cell ?? OwnerBuildingFYIntroductionCell.init(frame: .zero)
             
         ///特色
@@ -606,15 +730,15 @@ extension OwnerBuildingOfficeViewController {
             cell?.isMutTags = true
             cell?.isMutNetworks = false
             cell?.isSimpleDocument = false
-            cell?.FYModel = self.FYModel ?? FangYuanFYEditDetailModel()
+            cell?.FYModel = self.FYModel ?? FangYuanHouseEditModel()
             return cell ?? OwnerBuildingNetworkSelectCell.init(frame: .zero)
             
         ///上传楼盘图片
         case .OwnerBuildingOfficeTypeBuildingImage:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingImgCell.reuseIdentifierStr) as? OwnerBuildingImgCell
             cell?.selectionStyle = .none
+            cell?.FYModel = self.FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
-            cell?.FYModel = self.FYModel ?? FangYuanFYEditDetailModel()
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
             
         ///上传楼盘视频
@@ -644,7 +768,7 @@ extension OwnerBuildingOfficeViewController {
             if indexPath.row == 0 {
                 return BaseEditCell.rowHeight()
             }else {
-                if FYModel?.floorType == "1" || FYModel?.floorType == "2" {
+                if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
                     return OwnerBuildingFYFloorCell.rowHeight()
                 }else {
                     return 0
@@ -687,7 +811,7 @@ extension OwnerBuildingOfficeViewController {
             
         ///装修程度
         case .OwnerBuildingOfficeTypeDocument:
-            if let arr = FYModel?.decoratesLocal {
+            if let arr = FYModel?.houseMsg?.decoratesLocal {
                 let count = ((arr.count  + 2) / 3)
                 
                 return CGFloat(count * 50 + 59 + 5)
@@ -703,7 +827,7 @@ extension OwnerBuildingOfficeViewController {
             
         ///特色
         case .OwnerBuildingOfficeTypeFeature:
-            if let arr = FYModel?.tagsLocal {
+            if let arr = FYModel?.houseMsg?.tagsLocal {
                 let count = ((arr.count  + 2) / 3)
                 
                 return CGFloat(count * 50 + 59 + 5)
@@ -771,9 +895,9 @@ extension OwnerBuildingOfficeViewController {
                 }) {[weak self] (settingEnumIndex) in
                     //单层1 多层2
                     if settingEnumIndex == 0 {
-                        self?.FYModel?.floorType = "1"
+                        self?.FYModel?.houseMsg?.floorType = "1"
                     }else if settingEnumIndex == 1 {
-                        self?.FYModel?.floorType = "2"
+                        self?.FYModel?.houseMsg?.floorType = "2"
                     }
                     self?.loadSections(indexSet: [indexPath.section])
                 }

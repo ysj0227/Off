@@ -13,13 +13,13 @@ class OwnerBuildingInputCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditModel?
     
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
 
         ///楼盘
     var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
     ///房源
-    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
+    var endEditingFYMessageCell:((FangYuanHouseEditModel) -> Void)?
     
     override func setExtraView() {
         editLabel.font = FONT_14
@@ -238,7 +238,7 @@ class OwnerBuildingInputCell: BaseEditCell {
             
             ///标题
             if officeModel.type == .OwnerBuildingOfficeTypeName {
-                
+                editLabel.text = FYModel?.houseMsg?.title
             }
         }
     }
@@ -246,7 +246,6 @@ class OwnerBuildingInputCell: BaseEditCell {
         ///独立办公室
     var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod) {
         didSet {
-            
             
             titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
             editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
@@ -259,11 +258,11 @@ class OwnerBuildingInputCell: BaseEditCell {
             ///车位数
             ///车位费
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeName {
-                
+                editLabel.text = FYModel?.houseMsg?.title
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingNum {
-                
+                editLabel.text = FYModel?.houseMsg?.parkingSpace
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingCoast{
-                                
+                editLabel.text = FYModel?.houseMsg?.parkingSpaceRent
             }
         }
     }
@@ -338,11 +337,11 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         //MARK: 办公室 ///标题 过滤 <>=，,。？? 和连续超过8位的数字，最多25个字
         if officeModel.type == .OwnerBuildingOfficeTypeName {
             
-            FYModel?.buildingName = textField.text
+            FYModel?.houseMsg?.title = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
         
@@ -350,29 +349,29 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         //MARK: 独立办公室 ///标题 过滤 <>=，,。？? 最多20个字，不填时默认拼接：工位数+网点名
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeName {
             
-            FYModel?.buildingName = textField.text
+            FYModel?.houseMsg?.title = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 独立办公室   ///车位数  文本，最多20个字，过滤特殊字符
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingNum {
             
-            FYModel?.parkingSpace = textField.text
+            FYModel?.houseMsg?.parkingSpace = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 独立办公室   ///车位费  文本，最多20个字，过滤特殊字符
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingCoast{
             
-            FYModel?.ParkingSpaceRent = textField.text
+            FYModel?.houseMsg?.parkingSpaceRent = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
     }

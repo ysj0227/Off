@@ -71,6 +71,9 @@ class SSOwnerFYManagerURL: NSObject {
     //楼盘网点编辑接口
     static let getEditBuilding = "api/building/editBuilding"
     
+    //房源回显接口
+    static let getHouseMsgByHouseId = "api/house/getHouseMsgByHouseId"
+    
     //房源编辑接口
     static let getEditHouse = "api/house/editHouse"
         

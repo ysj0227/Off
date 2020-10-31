@@ -60,9 +60,9 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
 
     var jointModel: OwnerBuildingJointEditConfigureModel?
 
-    var FYModel: FangYuanFYEditDetailModel = FangYuanFYEditDetailModel() {
+    var FYModel: FangYuanHouseEditModel = FangYuanHouseEditModel() {
         didSet {
-            intruductionTextview.text = FYModel.introduction?.introductionStr
+            intruductionTextview.text = FYModel.houseMsg?.unitPatternRemark
         }
     }
     

@@ -12,13 +12,13 @@ class OwnerBuildingNumInputCell: BaseEditCell {
     
     var buildingModel: FangYuanBuildingEditModel?
     
-    var FYModel: FangYuanFYEditDetailModel?
+    var FYModel: FangYuanHouseEditModel?
 
     ///楼盘
     var endEditingMessageCell:((FangYuanBuildingEditModel) -> Void)?
     
     ///房源
-    var endEditingFYMessageCell:((FangYuanFYEditDetailModel) -> Void)?
+    var endEditingFYMessageCell:((FangYuanHouseEditModel) -> Void)?
     
     
     override func setExtraView() {
@@ -312,9 +312,9 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             ///最短租期
             ///租金单价 -
             if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
-                
+                editLabel.text = FYModel?.houseMsg?.minimumLease
             }else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-                editLabel.text = FYModel?.dayPrice
+                editLabel.text = FYModel?.houseMsg?.dayPrice
             }
         }
     }
@@ -335,11 +335,11 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             ///最短租期
             ///租金
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeSeats {
-                
+                editLabel.text = FYModel?.houseMsg?.seats
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
-                
+                editLabel.text = FYModel?.houseMsg?.minimumLease
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
-                
+                editLabel.text = FYModel?.houseMsg?.dayPrice
             }
         }
     }
@@ -360,9 +360,9 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             ///工位数
             ///最短租期
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeSeats {
-                
+                editLabel.text = FYModel?.houseMsg?.seats
             }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
-                
+                editLabel.text = FYModel?.houseMsg?.minimumLease
             }
         }
     }
@@ -444,19 +444,19 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 办公室
         //MARK: 办公室 ///最短租期 必填，1-60正整数，单位 月
         if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
-            FYModel?.minimumLease = textField.text
+            FYModel?.houseMsg?.minimumLease = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 办公室     ///租金单价 - 
         else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-            FYModel?.dayPrice = textField.text
+            FYModel?.houseMsg?.dayPrice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
         
@@ -465,27 +465,27 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 独立办公室
         //MARK: 独立办公室   ///工位数  工位数，支持填写1-100的正整数
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeSeats {
-            FYModel?.minSeatsOffice = textField.text
+            FYModel?.houseMsg?.seats = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 独立办公室   ///最短租期 最短租期，必填，数字，单位月，支持输入0-60正整数
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
-            FYModel?.minimumLease = textField.text
+            FYModel?.houseMsg?.minimumLease = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 独立办公室       ///租金
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
-            FYModel?.dayPrice = textField.text
+            FYModel?.houseMsg?.dayPrice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
         
@@ -493,19 +493,19 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 开放工位
         //MARK: 开放工位    ///工位数  工位数，数字，支持输入1-200正整数，单位 个
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeSeats {
-            FYModel?.minSeatsOffice = textField.text
+            FYModel?.houseMsg?.minSeatsOffice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 开放工位    ///最短租期 最短租期，数字，必填，单位月，支持输入0-60正整数
         else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
-            FYModel?.minimumLease = textField.text
+            FYModel?.houseMsg?.minimumLease = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
-            blockk(FYModel ?? FangYuanFYEditDetailModel())
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         
     }
