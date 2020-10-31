@@ -11,6 +11,113 @@ import UIKit
 typealias CloseBtnClickClouse = (Int)->()
 typealias VisitPhotoBtnClickClouse = (Int)->()
 
+
+class OwnerFYManagerImagePickerCell: BaseCollectionViewCell {
+    
+    
+    var indexPath: IndexPath? {
+        didSet {
+            closeBtn.tag = indexPath?.row ?? 0
+            mainTags.tag = indexPath?.row ?? 0
+        }
+    }
+    
+    ///删除
+    @objc var closeBtnClickClouse: CloseBtnClickClouse?
+    
+    ///设置为封面图
+    @objc var setMainPicClouse: CloseBtnClickClouse?
+    
+    @objc var visitPhotoBtnClickClouse: VisitPhotoBtnClickClouse?
+    
+    /// 关闭按钮
+    @objc func clickCloseBtn(btn:UIButton) {
+        
+        if self.closeBtnClickClouse != nil {
+            self.closeBtnClickClouse!(btn.tag)
+        }
+    }
+    
+    /// 封面图按钮
+    @objc func clickSetMainBtn(btn:UIButton) {
+        
+        if self.setMainPicClouse != nil {
+            self.setMainPicClouse!(btn.tag)
+        }
+    }
+    
+    /// 选择相册
+//    @objc func clickChooseImage(index:Int) {
+//        if self.visitPhotoBtnClickClouse != nil {
+//            self.visitPhotoBtnClickClouse!(index)
+//        }
+//    }
+    let image: BaseImageView = {
+        let view = BaseImageView()
+        view.backgroundColor = kAppClearColor
+        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFill
+        view.image = UIImage.init(named: "addImgBg")
+        return view
+    }()
+    
+    let closeBtn: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
+        return view
+    }()
+    
+    let mainTags: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = kAppBlueAlphaColor
+        view.setTitle("设置为封面图", for: .normal)
+        view.setTitleColor(kAppWhiteColor, for: .normal)
+        view.titleLabel?.font = FONT_MEDIUM_11
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+
+        self.backgroundColor = kAppWhiteColor
+          
+        addSubview(image)
+        addSubview(closeBtn)
+        addSubview(mainTags)
+        image.snp.makeConstraints { (make) in
+            make.top.leading.bottom.trailing.equalToSuperview().inset(5)
+        }
+        closeBtn.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.size.equalTo(20)
+        }
+        
+        mainTags.snp.makeConstraints { (make) in
+            make.leading.trailing.bottom.equalTo(image)
+            make.height.equalTo(25)
+        }
+//        image.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(clickChooseImage(index:))))
+
+        closeBtn.addTarget(self, action: #selector(clickCloseBtn(btn:)), for: .touchUpInside)
+        
+        mainTags.addTarget(self, action: #selector(clickSetMainBtn(btn:)), for: .touchUpInside)
+
+        
+    }
+    
+}
+
+
 class OwnerImagePickerCell: BaseCollectionViewCell {
     
     

@@ -323,13 +323,19 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
             
             for fczBannerModel in arr {
                 fczBannerModel.isLocal = false
+                fczBannerModel.isMain = false
                 buildingModel?.buildingLocalImgArr.append(fczBannerModel)
             }
         }
-        let mainPicModel = BannerModel()
-        mainPicModel.imgUrl = buildingModel?.buildingMsg?.mainPic
-        mainPicModel.isLocal = false
-        buildingModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
+        ///添加封面图
+        if let url = buildingModel?.buildingMsg?.mainPic {
+
+            let mainPicModel = BannerModel()
+            mainPicModel.imgUrl = url
+            mainPicModel.isLocal = false
+            mainPicModel.isMain = true
+            buildingModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
+        }
         
         
         ///添加vr数据
@@ -541,23 +547,24 @@ extension OwnerBuildingCreateViewController {
     }
     
     func selectFCZPicker(max: Int, indexpath: Int) {
-        var imgArr = [BannerModel]()
-        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: max) {[weak self] (asset,cutImage) in
-            // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
-            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: { (image,assetItem) in
-                let img = image.resizeMax1500Image()
-                
-                let fczBannerModel = BannerModel()
-                fczBannerModel.isLocal = true
-                fczBannerModel.image = img
-                imgArr.append(fczBannerModel)
-                }, failedClouse: { () in
-                    
-            })
-            //房产证
-            self?.buildingModel?.buildingLocalImgArr.append(contentsOf: imgArr)
-            self?.loadSecion(section: indexpath)
-        }
+//        
+//        var imgArr = [BannerModel]()
+//        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: max) {[weak self] (asset,cutImage) in
+//            // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+//            CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: { (image,assetItem) in
+//                let img = image.resizeMax1500Image()
+//                
+//                let fczBannerModel = BannerModel()
+//                fczBannerModel.isLocal = true
+//                fczBannerModel.image = img
+//                imgArr.append(fczBannerModel)
+//                }, failedClouse: { () in
+//                    
+//            })
+//            //房产证
+//            self?.buildingModel?.buildingLocalImgArr.append(contentsOf: imgArr)
+//            self?.loadSecion(section: indexpath)
+//        }
     }
     
 }

@@ -11,6 +11,10 @@ import UIKit
 
 // MARK: - UIColor
 
+//透明蓝色
+let kAppBlueAlphaColor               = UIColorFromRGBA(0x46C3C2, 0.8)
+
+
 //主色调蓝色
 let kAppBlueColor               = UIColorFromRGB(0x46C3C2)
 let kAppDarkBlueColor               = UIColorFromRGB(0x2687D3)

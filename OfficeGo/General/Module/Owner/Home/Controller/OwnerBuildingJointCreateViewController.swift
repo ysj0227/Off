@@ -496,21 +496,24 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
             }
         }
         
-        
         ///添加banner数据
         if let arr = buildingModel?.banner {
             
             for fczBannerModel in arr {
                 fczBannerModel.isLocal = false
+                fczBannerModel.isMain = false
                 buildingModel?.buildingLocalImgArr.append(fczBannerModel)
             }
         }
-        
-        
-        let mainPicModel = BannerModel()
-        mainPicModel.imgUrl = buildingModel?.buildingMsg?.mainPic
-        mainPicModel.isLocal = false
-        buildingModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
+        ///添加封面图
+        if let url = buildingModel?.buildingMsg?.mainPic {
+
+            let mainPicModel = BannerModel()
+            mainPicModel.imgUrl = url
+            mainPicModel.isLocal = false
+            mainPicModel.isMain = true
+            buildingModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
+        }
         
         ///刷新列表
         loadTableview()

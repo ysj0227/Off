@@ -92,7 +92,7 @@ class OwnerBuildingImgCell: BaseTableViewCell {
         
         headerCollectionView.delegate = self
         headerCollectionView.dataSource = self
-        headerCollectionView.register(OwnerImagePickerCell.self, forCellWithReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr)
+        headerCollectionView.register(OwnerFYManagerImagePickerCell.self, forCellWithReuseIdentifier: OwnerFYManagerImagePickerCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
     }
     
@@ -119,9 +119,15 @@ extension OwnerBuildingImgCell {
                 let fczBannerModel = BannerModel()
                 fczBannerModel.isLocal = true
                 fczBannerModel.image = img
+                
+                if self?.buildingModel.buildingLocalImgArr.count ?? 0 <= 0 {
+                    fczBannerModel.isMain = true
+                }else {
+                    fczBannerModel.isMain = false
+                }
                 imgArr.append(fczBannerModel)
                 }, failedClouse: { () in
-
+                    
             })
             //房产证
             self?.buildingModel.buildingLocalImgArr.append(contentsOf: imgArr)
@@ -138,12 +144,39 @@ extension OwnerBuildingImgCell {
         
         if buildingModel.buildingLocalImgArr[index].isLocal == true {
             buildingModel.buildingLocalImgArr.remove(at: index)
+            
+            ///删除之后，如果图片还有。则默认第一个为封面图
+            if buildingModel.buildingLocalImgArr.count > 0 {
+                buildingModel.buildingLocalImgArr[0].isMain = true
+            }
+
             loadCollectionData()
         }else {
             buildingModel.buildingDeleteRemoteArr.append(buildingModel.buildingLocalImgArr[index])
             buildingModel.buildingLocalImgArr.remove(at: index)
+            
+            ///删除之后，如果图片还有。则默认第一个为封面图
+            if buildingModel.buildingLocalImgArr.count > 0 {
+                buildingModel.buildingLocalImgArr[0].isMain = true
+            }
+            
             loadCollectionData()
         }
+    }
+    
+    ///设置封面图
+    func setMainPic(index: Int) {
+           
+        buildingModel.buildingLocalImgArr[0].isMain = false
+        
+        buildingModel.buildingLocalImgArr[index].isMain = true
+        
+        ///把设置的封面图插入到放在第一位
+        buildingModel.buildingLocalImgArr.insert(buildingModel.buildingLocalImgArr[index], at: 0)
+        
+        ///移除之前的数据的index + 1的图片
+        buildingModel.buildingLocalImgArr.remove(at: index + 1)
+        loadCollectionData()
     }
 }
 
@@ -153,7 +186,7 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerFYManagerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerFYManagerImagePickerCell
         cell?.indexPath = indexPath
         if indexPath.item <= buildingModel.buildingLocalImgArr.count - 1  {
             if buildingModel.buildingLocalImgArr[indexPath.item].isLocal == false {
@@ -161,11 +194,22 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
             }else {
                 cell?.image.image = buildingModel.buildingLocalImgArr[indexPath.item].image
             }
+            if buildingModel.buildingLocalImgArr[indexPath.item].isMain == true {
+                cell?.mainTags.isHidden = true
+            }else {
+                cell?.mainTags.isHidden = false
+            }
             cell?.closeBtnClickClouse = { [weak self] (index) in
                 self?.request_deleteFCZImgApp(index: index)
             }
+            
+            cell?.setMainPicClouse = { [weak self] (index) in
+                self?.setMainPic(index: index)
+            }
+            
         }else {
             cell?.image.image = UIImage.init(named: "addImgBg")
+            cell?.mainTags.isHidden = true
         }
         
         if indexPath.item == buildingModel.buildingLocalImgArr.count {
@@ -173,7 +217,7 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
         }else {
             cell?.closeBtn.isHidden = false
         }
-        return cell ?? OwnerImagePickerCell()
+        return cell ?? OwnerFYManagerImagePickerCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -45,5 +45,8 @@ class BannerModel: BaseModel {
     ///图片 视频
     ///本地视频存储路径
     var imgUrl : String?
+    
+    ///是不是封面图 - 房源管理独有
+    var isMain : Bool = false
 }
 
