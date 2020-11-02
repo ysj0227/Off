@@ -301,6 +301,7 @@ extension RenterChatViewController {
                 weakSelf.setViewShow()
                 
                 weakSelf.sengSayHelloMessage()
+                
             }else {
                 weakSelf.requestUserInfo()
             }

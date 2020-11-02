@@ -118,8 +118,8 @@ extension OwnerBuildingIntroductionCell: UITextViewDelegate {
             let str = textContent?.substring(to: index!)
             textView.text = str
             numOfCharLabel.text = "100/100"
-            buildingModel.buildingMsg?.buildingIntroduction = textView.text
         }
+        buildingModel.buildingMsg?.buildingIntroduction = textView.text
         numOfCharLabel.text = String(format: "%ld/100",textView.text.count)
     }
 }

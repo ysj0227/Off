@@ -150,7 +150,7 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
             
         }else {
             
-            request_getEditBuilding()
+            request_getHouseMsgByHouseId()
             
         }
         
@@ -158,7 +158,7 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     
     
     //MARK: 获取详情 request_getHouseMsgByHouseId
-    func request_getEditBuilding() {
+    func request_getHouseMsgByHouseId() {
         
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?

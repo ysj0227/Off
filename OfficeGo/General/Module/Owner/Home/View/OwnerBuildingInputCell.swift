@@ -325,7 +325,7 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         //MARK: 网点  ///详细地址 2-100
         else if jointModel.type == .OwnerBuildingJointEditTypeDetailAddress{
             
-            buildingModel?.address = textField.text
+            buildingModel?.buildingMsg?.address = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }

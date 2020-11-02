@@ -284,6 +284,7 @@ extension OwnerBuildingListViewController {
                         buildingModel.isTemp = viewModel.isTemp
                         buildingModel.buildingId = viewModel.idString
                         let vc = OwnerBuildingCreateViewController()
+                        vc.isTemp = viewModel.isTemp
                         vc.buildingModel = buildingModel
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else if viewModel.btype == 2 {
@@ -291,6 +292,7 @@ extension OwnerBuildingListViewController {
                         buildingModel.isTemp = viewModel.isTemp
                         buildingModel.buildingId = viewModel.idString
                         let vc = OwnerBuildingJointCreateViewController()
+                        vc.isTemp = viewModel.isTemp
                         vc.buildingModel = buildingModel
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }

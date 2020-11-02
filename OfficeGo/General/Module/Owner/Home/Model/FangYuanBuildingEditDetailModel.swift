@@ -11,10 +11,7 @@ import UIKit
 class FangYuanBuildingEditModel: BaseModel {
     var address : String?
     var banner : [BannerModel]?
-    var basicServices : [DictionaryModel]?
     var buildingMsg : FangYuanBuildingMsgEditModel?
-    var companyService : [DictionaryModel]?
-    var roomMatching : [DictionaryModel]?
     var video : [BannerModel]?
     var vr : [BannerModel]?
     
@@ -165,7 +162,7 @@ class FangYuanBuildingMsgEditModel: BaseModel {
     ///会议室配套,多个用英文逗号隔开,会议室配套详情，看字典
     var roomMatching : String?
     ///企业活动
-    var enterpriseActivities : String?
+    //var enterpriseActivities : String?
     ///配套设施
     var supportFacilities : String?
     ///入驻企业

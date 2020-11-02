@@ -183,6 +183,7 @@
 		8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486925217C2800F43373 /* OwnerFYListCell.swift */; };
 		8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */; };
 		8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */; };
+		8E58C3CE254FE120003200FD /* OwnerBuildingCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */; };
 		8E6D0A3A2521D903005EFDEF /* OwnerBuildingCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */; };
 		8E6D0A3C2521F670005EFDEF /* OwnerBuildingInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D0A3B2521F670005EFDEF /* OwnerBuildingInputCell.swift */; };
 		8E89676E253842A2005FF38B /* OwnerBuildingFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89676D253842A2005FF38B /* OwnerBuildingFloorCell.swift */; };
@@ -2371,6 +2372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E58C3CE254FE120003200FD /* OwnerBuildingCreateViewController.swift in Sources */,
 				EEE87ADE2455854F00C03424 /* OfficeGoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -107,9 +107,6 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
         return view
     }()
     
-    
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -204,6 +201,11 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
 }
 extension OwnerBuildingFloorCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag == 1 {
+            buildingModel?.buildingMsg?.totalFloor = textField.text
+        }else {
+            buildingModel?.buildingMsg?.branchesTotalFloor = textField.text
+        }
         
         guard let blockk = self.endEditingMessageCell else {
             return
@@ -213,18 +215,5 @@ extension OwnerBuildingFloorCell: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.tag == 1 {
-            if buildingModel?.buildingMsg?.floorType == "1" {
-                return SSTool.isPureStrOrNumNumber(text: string)
-            }else if buildingModel?.buildingMsg?.floorType == "2" {
-                return true
-            }
-        }else {
-            return SSTool.isPureStrOrNumNumber(text: string)
-        }
-        return true
     }
 }

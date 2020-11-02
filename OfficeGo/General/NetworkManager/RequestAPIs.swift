@@ -65,17 +65,24 @@ class SSDelegateURL: NSObject {
 //  MARK:   --房源列表
 class SSOwnerFYManagerURL: NSObject {
     
+    
+    //上传阿里云图片
+    static let uploadResourcesUrl = "api/building/uploadResourcesUrl"
+    
+    //删除阿里云图片
+    static let deleteResourcesUrl = "api/building/deleteResourcesUrl"
+    
     //楼盘网点回显接口
     static let getBuildingMsg = "api/building/getBuildingMsgByBuildingId"
     
     //楼盘网点编辑接口
-    static let getEditBuilding = "api/building/editBuilding"
+    static let getUpdateBuilding = "api/building/updateBuilding"
     
     //房源回显接口
     static let getHouseMsgByHouseId = "api/house/getHouseMsgByHouseId"
     
     //房源编辑接口
-    static let getEditHouse = "api/house/editHouse"
+    static let getUpdateHouse = "api/house/updateHouse"
         
     //楼盘列表接口
     static let getBuildingList = "api/building/selectBuildingList"

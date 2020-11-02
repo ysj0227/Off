@@ -46,6 +46,8 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
     ///入住公司数组
     var companyArr: [String] = [""]
     
+    var isTemp: Bool?
+
     ///
     var buildingModel: FangYuanBuildingEditModel?
     
@@ -83,11 +85,18 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
     }()
     
     @objc func saveClick() {
+        request_getUpdateBuilding()
+    }
+    
+    
+    func clickToPublish() {
         let vc = OwnerBuildingCreateVideoVRViewController()
         vc.isBuildingJoint = true
         vc.isClose = isClose
+        vc.buildingModel = buildingModel
         self.navigationController?.pushViewController(vc, animated: true)
     }
+
     
     @objc func pcEditClick() {
         clickToQCode()
@@ -176,7 +185,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         typeSourceArray.append(OwnerBuildingJointEditConfigureModel.init(types: .OwnerBuildingJointEditTypeFeature))
         ///共享
         typeSourceArray.append(OwnerBuildingJointEditConfigureModel.init(types: .OwnerBuildingJointEditTypeShareService))
-        ///上传楼盘图片
+        ///上传网点图片
         typeSourceArray.append(OwnerBuildingJointEditConfigureModel.init(types: .OwnerBuildingJointEditTypeBuildingImage))
         
         ///来自添加
@@ -184,6 +193,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
             
             buildingModel = FangYuanBuildingEditModel()
                     
+            buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()                    
             request_getDistrict()
 
         }else {
@@ -223,10 +233,254 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         }
     }
 
+    ///提交接口
+    func request_getUpdateBuilding() {
+
+        var params = [String:AnyObject]()
+
+        params["token"] = UserTool.shared.user_token as AnyObject?
+
+        params["isTemp"] = isTemp as AnyObject?
+
+        //MARK: 楼id
+        if buildingModel?.buildingMsg?.id == nil {
+            AppUtilities.makeToast("请选择或创建网点")
+            //return
+        }else {
+            params["buildingId"] = buildingModel?.buildingMsg?.id as AnyObject?
+        }
+
+        //MARK: 网点名称
+        if buildingModel?.buildingMsg?.buildingName == nil || buildingModel?.buildingMsg?.buildingName?.isBlankString == true{
+            AppUtilities.makeToast("请输入网点名称")
+            return
+        }else {
+            params["branchesName"] = buildingModel?.buildingMsg?.branchesName as AnyObject?
+        }
+
+        //MARK: 所在区域
+        if areaModelCount?.isFirstSelectedModel?.districtID == nil || areaModelCount?.isFirstSelectedModel?.districtID?.isBlankString == true{
+            AppUtilities.makeToast("请选择所在区域")
+            return
+        }else {
+            params["districtId"] = buildingModel?.buildingMsg?.districtId as AnyObject?
+            params["businessDistrict"] = buildingModel?.buildingMsg?.businessDistrict as AnyObject?
+        }
+        
+        //MARK: 详细地址
+        if buildingModel?.buildingMsg?.address == nil || buildingModel?.buildingMsg?.address?.isBlankString == true{
+            AppUtilities.makeToast("请输入详细地址")
+            return
+        }else {
+            params["address"] = buildingModel?.buildingMsg?.address as AnyObject?
+        }
+        
+         //MARK: 所在楼层 - 第几层- 总楼层
+        if buildingModel?.buildingMsg?.totalFloor == nil || buildingModel?.buildingMsg?.totalFloor?.isBlankString == true{
+            AppUtilities.makeToast("请输入所在楼层")
+            return
+        }else {
+            params["totalFloor"] = buildingModel?.buildingMsg?.totalFloor as AnyObject?
+        }
+        if buildingModel?.buildingMsg?.branchesTotalFloor == nil || buildingModel?.buildingMsg?.branchesTotalFloor?.isBlankString == true{
+            AppUtilities.makeToast("请输入总楼层")
+            return
+        }else {
+            params["branchesTotalFloor"] = buildingModel?.buildingMsg?.branchesTotalFloor as AnyObject?
+        }
+        
+        
+        //MARK: 净高
+        if buildingModel?.buildingMsg?.clearHeight == nil || buildingModel?.buildingMsg?.clearHeight?.isBlankString == true{
+            AppUtilities.makeToast("请输入净高")
+            return
+        }else {
+            params["clearHeight"] = buildingModel?.buildingMsg?.clearHeight as AnyObject?
+        }
+    
+        
+        //MARK: 空调类型
+        if buildingModel?.buildingMsg?.airditionType == nil || buildingModel?.buildingMsg?.airditionType == .OwnerAircontiditonTypeDefault {
+            AppUtilities.makeToast("请输入空调类型")
+            return
+        }else {
+            params["airConditioning"] = buildingModel?.buildingMsg?.airditionType?.rawValue as AnyObject?
+            if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeCenter {
+                params["airConditioningFee"] = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeCenter.rawValue as AnyObject
+            }else if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeIndividual{
+                params["airConditioningFee"] = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeIndividual.rawValue as AnyObject
+            }else if buildingModel?.buildingMsg?.airditionType == OwnerAircontiditonType.OwnerAircontiditonTypeNone {
+                params["airConditioningFee"] = OwnerAircontiditonFeeType.OwnerAircontiditonFeeTypeNone.rawValue as AnyObject
+            }
+        }
+        
+        //MARK: 会议室数量
+        if buildingModel?.buildingMsg?.conferenceNumber == nil || buildingModel?.buildingMsg?.conferenceNumber?.isBlankString == true{
+            AppUtilities.makeToast("请输入会议室数量")
+            return
+        }else {
+            params["conferenceNumber"] = buildingModel?.buildingMsg?.conferenceNumber as AnyObject?
+        }
+        
+        
+        //MARK: 最多容纳人数 - 非
+        if buildingModel?.buildingMsg?.conferencePeopleNumber == nil || buildingModel?.buildingMsg?.conferencePeopleNumber?.isBlankString == true{
+            //AppUtilities.makeToast("请输入最多容纳人数")
+            //return
+        }else {
+            params["conferencePeopleNumber"] = buildingModel?.buildingMsg?.conferencePeopleNumber as AnyObject?
+        }
+        
+        //MARK: 会议室配套 - 非
+        if let roomMatchingsLocal = buildingModel?.buildingMsg?.roomMatchingsLocal {
+            var deleteArr: [String] = []
+            if let itemArr = roomMatchingsLocal.itemArr {
+                for model in itemArr {
+                    if model.isSelected == true {
+                        deleteArr.append("\(model.dictValue ?? 0)")
+                    }
+                }
+                params["roomMatching"] = deleteArr.joined(separator: ",") as AnyObject?
+            }
+        }
+        
+        //MARK: 车位数 - 非
+        if buildingModel?.buildingMsg?.parkingSpace == nil || buildingModel?.buildingMsg?.parkingSpace?.isBlankString == true{
+            //AppUtilities.makeToast("请输入车位数")
+            //return
+        }else {
+            params["parkingSpace"] = buildingModel?.buildingMsg?.parkingSpace as AnyObject?
+        }
+        
+        //MARK: 车位费 - 非
+        if buildingModel?.buildingMsg?.parkingSpaceRent == nil || buildingModel?.buildingMsg?.parkingSpaceRent?.isBlankString == true{
+            //AppUtilities.makeToast("请输入车位费")
+            //return
+        }else {
+            params["buildingName"] = buildingModel?.buildingMsg?.parkingSpaceRent as AnyObject?
+        }
+        
+        
+        //MARK: 电梯数 - 客梯 - 非
+        if buildingModel?.buildingMsg?.passengerLift == nil || buildingModel?.buildingMsg?.passengerLift?.isBlankString == true{
+            //AppUtilities.makeToast("请输入客梯数")
+            //return
+        }else {
+            params["passengerLift"] = buildingModel?.buildingMsg?.passengerLift as AnyObject?
+        }
+        
+        //MARK: 电梯数 - 货梯 - 非
+        if buildingModel?.buildingMsg?.cargoLift == nil || buildingModel?.buildingMsg?.cargoLift?.isBlankString == true{
+            //AppUtilities.makeToast("请输入货梯数")
+            //return
+        }else {
+            params["cargoLift"] = buildingModel?.buildingMsg?.cargoLift as AnyObject?
+        }
+
+        //MARK: 网络 - 非
+        if let internetLocal = buildingModel?.buildingMsg?.internetLocal {
+            var deleteArr: [String] = []
+            for model in internetLocal {
+                if model.isOfficeBuildingSelected == true {
+                    deleteArr.append(model.dictCname ?? "")
+                }
+            }
+            params["internet"] = deleteArr.joined(separator: ",") as AnyObject?
+        }
+        
+        //MARK: 入驻企业 - 非
+        params["settlementLicence"] = companyArr.joined(separator: ",") as AnyObject?
+
+        
+        //MARK: 详细介绍 - 非
+        params["buildingIntroduction"] = buildingModel?.buildingMsg?.buildingIntroduction as AnyObject?
+
+        
+        //MARK: 共享办公网点特色 - 非
+        if let tagsLocal = buildingModel?.buildingMsg?.tagsLocal {
+            var deleteArr: [String] = []
+            for model in tagsLocal {
+                if model.isDocumentSelected == true {
+                    deleteArr.append("\(model.dictValue ?? 0)")
+                }
+            }
+            params["tags"] = deleteArr.joined(separator: ",") as AnyObject?
+        }
+        
+        
+        //MARK: 基础服务 - 非
+        //MARK: 企业服务 - 非
+
+        if let basicServicesLocal = buildingModel?.buildingMsg?.shareServices {
+            let basic = basicServicesLocal[0]
+            var deleteArr: [String] = []
+            if let itemArr = basic.itemArr {
+                for model in itemArr {
+                    if model.isSelected == true {
+                        deleteArr.append("\(model.dictValue ?? 0)")
+                    }
+                }
+                params["basicServices"] = deleteArr.joined(separator: ",") as AnyObject?
+            }
+            
+            let corporate = basicServicesLocal[1]
+            var deleteArr1: [String] = []
+            if let itemArr = corporate.itemArr {
+                for model in itemArr {
+                    if model.isSelected == true {
+                        deleteArr1.append("\(model.dictValue ?? 0)")
+                    }
+                }
+                params["corporateServices"] = deleteArr1.joined(separator: ",") as AnyObject?
+            }
+        }
+        
+        
+        //MARK: 网点图片
+        if let buildingDeleteRemoteArr = buildingModel?.buildingDeleteRemoteArr {
+            var deleteArr: [String] = []
+            for model in buildingDeleteRemoteArr {
+                deleteArr.append(model.imgUrl ?? "")
+            }
+            params["delImgUrl"] = deleteArr.joined(separator: ",") as AnyObject?
+        }
+        
+        if let buildingLocalImgArr = buildingModel?.buildingLocalImgArr {
+            if buildingLocalImgArr.count <= 0 {
+                AppUtilities.makeToast("请上传网点图片")
+                return
+            }else {
+                var deleteArr: [String] = []
+                for model in buildingLocalImgArr {
+                    deleteArr.append(model.imgUrl ?? "")
+                }
+                params["addImgUrl"] = deleteArr.joined(separator: ",") as AnyObject?
+            }
+        }else {
+            AppUtilities.makeToast("请上传网点图片")
+            return
+        }
+        
+        SSNetworkTool.SSFYManager.request_getUpdateBuilding(params: params, success: {[weak self] (response) in
+            
+            self?.clickToPublish()
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+
+    }
     
     //MARK: 获取商圈数据
     func request_getDistrict() {
-        //查询类型，1：全部，0：系统已有楼盘的商圈
+        //查询类型，1：全部，0：系统已有网点的商圈
         var params = [String:AnyObject]()
         params["type"] = 1 as AnyObject?
         SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
@@ -901,7 +1155,7 @@ extension OwnerBuildingJointCreateViewController {
             
             return cell ?? RenterShareServiceCell()
             
-        ///上传楼盘图片
+        ///上传网点图片
         case .OwnerBuildingJointEditTypeBuildingImage:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingImgCell.reuseIdentifierStr) as? OwnerBuildingImgCell
             cell?.selectionStyle = .none
@@ -909,11 +1163,11 @@ extension OwnerBuildingJointCreateViewController {
             cell?.jointModel = model
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
             
-        ///上传楼盘视频
+        ///上传网点视频
         case .OwnerBuildingJointEditTypeBuildingVideo:
             return UITableViewCell.init(frame: .zero)
             
-        ///上传楼盘vr
+        ///上传网点vr
         case .OwnerBuildingJointEditTypeBuildingVR:
             return UITableViewCell.init(frame: .zero)
             
@@ -1023,15 +1277,15 @@ extension OwnerBuildingJointCreateViewController {
             //            return 50 + 2 * (20 + 18 + 18 + 26) + 20
             return 50 + 2 * 82 + 20
             
-        ///上传楼盘图片
+        ///上传网点图片
         case .OwnerBuildingJointEditTypeBuildingImage:
             return ((kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 + 10) * 4 + 68
             
-        ///上传楼盘视频
+        ///上传网点视频
         case .OwnerBuildingJointEditTypeBuildingVideo:
             return BaseEditCell.rowHeight()
             
-        ///上传楼盘vr
+        ///上传网点vr
         case .OwnerBuildingJointEditTypeBuildingVR:
             return BaseEditCell.rowHeight()
             
@@ -1168,15 +1422,15 @@ extension OwnerBuildingJointCreateViewController {
         case .OwnerBuildingJointEditTypeShareService:
             SSLog(typeSourceArray[indexPath.section].type)
             
-        ///上传楼盘图片
+        ///上传网点图片
         case .OwnerBuildingJointEditTypeBuildingImage:
             SSLog(typeSourceArray[indexPath.section].type)
             
-        ///上传楼盘视频
+        ///上传网点视频
         case .OwnerBuildingJointEditTypeBuildingVideo:
             SSLog(typeSourceArray[indexPath.section].type)
             
-        ///上传楼盘vr
+        ///上传网点vr
         case .OwnerBuildingJointEditTypeBuildingVR:
             SSLog(typeSourceArray[indexPath.section].type)
             
