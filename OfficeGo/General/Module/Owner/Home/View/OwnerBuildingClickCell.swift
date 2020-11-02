@@ -119,7 +119,7 @@ class OwnerBuildingClickCell: BaseEditCell {
             titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalFloor)
             editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeTotalFloor)
             
-            detailIcon.isHidden = false
+            //detailIcon.isHidden = false
             lineView.isHidden = false
             editLabel.isUserInteractionEnabled = false
             editLabel.textAlignment = .left
@@ -127,12 +127,13 @@ class OwnerBuildingClickCell: BaseEditCell {
             ///所在楼层
             ///免租期
             if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
+                detailIcon.isHidden = true
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if FYModel?.houseMsg?.floorType == "1" {
-                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
+                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
                 }else if FYModel?.houseMsg?.floorType == "2" {
-                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
+                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if officeModel.type == .OwnerBuildingOfficeTypeRentFreePeriod {
                 editLabel.text = FYModel?.houseMsg?.rentFreePeriod
@@ -158,12 +159,13 @@ class OwnerBuildingClickCell: BaseEditCell {
             ///出租方式
             ///空调类型
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
+                //detailIcon.isHidden = true
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if FYModel?.houseMsg?.floorType == "1" {
-                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
+                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
                 }else if FYModel?.houseMsg?.floorType == "2" {
-                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
+                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
                 editLabel.text = FYModel?.houseMsg?.rentFreePeriod
@@ -209,12 +211,13 @@ class OwnerBuildingClickCell: BaseEditCell {
             ///所在楼层
             ///免租期
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
+                //detailIcon.isHidden = true
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if FYModel?.houseMsg?.floorType == "1" {
-                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
+                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
                 }else if FYModel?.houseMsg?.floorType == "2" {
-                    editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
+                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
                 }
             }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
                 editLabel.text = FYModel?.houseMsg?.rentFreePeriod

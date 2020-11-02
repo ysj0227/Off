@@ -207,7 +207,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
                     }
                 }
             }else {
-
+                
                 //截取
                 if textNum! > 2 {
                     let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)

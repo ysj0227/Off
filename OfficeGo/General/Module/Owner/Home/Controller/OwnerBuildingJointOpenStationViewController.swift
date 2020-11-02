@@ -517,7 +517,7 @@ extension OwnerBuildingJointOpenStationViewController {
         case .OwnerBuildingJointOpenStationTypeTotalFloor:
             
             if indexPath.row == 0 {
-                
+                /*
                 endEdting()
                 
                 ownerFYMoreSettingView.ShowOwnerSettingView(datasource: [OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue, OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue], clearButtonCallBack: {
@@ -530,7 +530,7 @@ extension OwnerBuildingJointOpenStationViewController {
                         self?.FYModel?.houseMsg?.floorType = "2"
                     }
                     self?.loadSections(indexSet: [indexPath.section])
-                }
+                }*/
                 
             }
             

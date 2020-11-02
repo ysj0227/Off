@@ -888,6 +888,7 @@ extension OwnerBuildingOfficeViewController {
             
             if indexPath.row == 0 {
                 
+                /*
                 endEdting()
                 
                 ownerFYMoreSettingView.ShowOwnerSettingView(datasource: [OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue, OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue], clearButtonCallBack: {
@@ -900,7 +901,7 @@ extension OwnerBuildingOfficeViewController {
                         self?.FYModel?.houseMsg?.floorType = "2"
                     }
                     self?.loadSections(indexSet: [indexPath.section])
-                }
+                }*/
                 
             }
             
