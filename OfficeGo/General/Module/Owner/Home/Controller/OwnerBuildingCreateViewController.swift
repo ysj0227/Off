@@ -634,7 +634,9 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
             }else {
                 var deleteArr: [String] = []
                 for model in buildingLocalImgArr {
-                    deleteArr.append(model.imgUrl ?? "")
+                    if model.isMain != true {
+                        deleteArr.append(model.imgUrl ?? "")
+                    }
                 }
                 params["addImgUrl"] = deleteArr.joined(separator: ",") as AnyObject?
             }
