@@ -358,7 +358,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
             //AppUtilities.makeToast("请输入车位费")
             //return
         }else {
-            params["buildingName"] = buildingModel?.buildingMsg?.parkingSpaceRent as AnyObject?
+            params["parkingSpaceRent"] = buildingModel?.buildingMsg?.parkingSpaceRent as AnyObject?
         }
         
         
@@ -1015,8 +1015,10 @@ extension OwnerBuildingJointCreateViewController {
             
             ///文本输入cell
             ///写字楼名称
-        ///详细地址
-        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress:
+            ///详细地址
+            ///车位数
+        ///车位费
+        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum, .OwnerBuildingJointEditTypeParkingCoast:
             
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
@@ -1048,10 +1050,7 @@ extension OwnerBuildingJointCreateViewController {
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
             ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
-            ///车位数
-        ///车位费
-        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingNum,
-             .OwnerBuildingJointEditTypeParkingCoast:
+        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
@@ -1202,8 +1201,10 @@ extension OwnerBuildingJointCreateViewController {
             
             ///文本输入cell
             ///写字楼名称
-        ///详细地址
-        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress:
+            ///详细地址
+            ///车位数
+        ///车位费
+        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum, .OwnerBuildingJointEditTypeParkingCoast:
             
             return BaseEditCell.rowHeight()
             
@@ -1223,10 +1224,7 @@ extension OwnerBuildingJointCreateViewController {
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
             ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
-            ///车位数
-        ///车位费
-        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingNum,
-             .OwnerBuildingJointEditTypeParkingCoast:
+        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber:
             
             return BaseEditCell.rowHeight()
             
@@ -1344,8 +1342,10 @@ extension OwnerBuildingJointCreateViewController {
             
             ///文本输入cell
             ///写字楼名称
-        ///详细地址
-        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress:
+            ///详细地址
+            ///车位数
+        ///车位费
+        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum, .OwnerBuildingJointEditTypeParkingCoast:
             SSLog(typeSourceArray[indexPath.section].type)
             
             
@@ -1373,10 +1373,7 @@ extension OwnerBuildingJointCreateViewController {
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
             ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
-            ///车位数
-        ///车位费
-        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingNum,
-             .OwnerBuildingJointEditTypeParkingCoast:
+        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber:
             
             SSLog(typeSourceArray[indexPath.section].type)
             

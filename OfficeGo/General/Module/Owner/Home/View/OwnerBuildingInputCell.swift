@@ -108,6 +108,30 @@ class OwnerBuildingInputCell: BaseEditCell {
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
         }
+        //MARK: 网点  ///车位数  文本，最多20个字，过滤特殊字符
+        else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum {
+            if let string = editLabel.text {
+                print("网点   ///车位数 string.filter-----")
+                editLabel.text = string.pregReplace(pattern: "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“'。，、？]", with: "")
+            }
+            //截取
+            if textNum! > 20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 20)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
+        //MARK: 网点  ///车位数  文本，最多20个字，过滤特殊字符
+        else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast {
+            if let string = editLabel.text {
+                print("网点   ///车位数 string.filter-----")
+                editLabel.text = string.pregReplace(pattern: "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“'。，、？]", with: "")
+            }
+            //截取
+            if textNum! > 20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 20)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
         
         
         //MARK: 办公室
@@ -187,6 +211,7 @@ class OwnerBuildingInputCell: BaseEditCell {
                     editLabel.placeholder = model.getBuildingPalaceHolderFormType(type: .chanyeEnum)
                 }
                 
+                editLabel.isUserInteractionEnabled = false
                 editLabel.text = buildingModel?.buildingMsg?.buildingName
 
             }
@@ -217,12 +242,21 @@ class OwnerBuildingInputCell: BaseEditCell {
             
             ///网点名称
             if jointModel.type == .OwnerBuildingJointEditTypeBuildingName {
+                editLabel.isUserInteractionEnabled = false
                 editLabel.text = buildingModel?.buildingMsg?.branchesName
             }
             ///详细地址
             else if jointModel.type == .OwnerBuildingJointEditTypeDetailAddress{
                 editLabel.text = buildingModel?.buildingMsg?.address
             }
+            ///车位数
+             else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum{
+                editLabel.text = buildingModel?.buildingMsg?.parkingSpace
+             }
+             ///车位费
+             else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast{
+                editLabel.text = buildingModel?.buildingMsg?.parkingSpaceRent
+             }
         }
     }
     
@@ -260,8 +294,10 @@ class OwnerBuildingInputCell: BaseEditCell {
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeName {
                 editLabel.text = FYModel?.houseMsg?.title
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingNum {
+                editLabel.isUserInteractionEnabled = false
                 editLabel.text = FYModel?.houseMsg?.parkingSpace
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeParkingCoast{
+                editLabel.isUserInteractionEnabled = false
                 editLabel.text = FYModel?.houseMsg?.parkingSpaceRent
             }
         }
@@ -331,7 +367,24 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
             }
             blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
-        
+        //MARK: 网点  ///车位数  文本，最多20个字，过滤特殊字符
+        else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum{
+            
+            buildingModel?.buildingMsg?.parkingSpace = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
+        }
+        //MARK: 网点  ///车位数  文本，最多20个字，过滤特殊字符
+        else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast{
+            
+            buildingModel?.buildingMsg?.parkingSpaceRent = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
+        }
         
         //MARK: 办公室
         //MARK: 办公室 ///标题 过滤 <>=，,。？? 和连续超过8位的数字，最多25个字

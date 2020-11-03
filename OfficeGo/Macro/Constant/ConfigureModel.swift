@@ -202,10 +202,12 @@ class OwnerBuildingJointOfficeConfigureModel : ConfigureModel {
             return ""
         ///车位数
         case .OwnerBuildingJointOfficeTypeParkingNum:
-            return "例：地面车位100个，车库车位25个"
+            //return "例：地面车位100个，车库车位25个"
+            return ""
         ///车位费
         case .OwnerBuildingJointOfficeTypeParkingCoast:
-            return "请输入车位费 元/月"
+            //return "请输入车位费 元/月"
+            return ""
         ///净高
         case .OwnerBuildingJointOfficeTypeClearHeight:
             return "米"
@@ -518,10 +520,12 @@ class OwnerBuildingJointEditConfigureModel : ConfigureModel {
             return ""
         ///车位数
         case .OwnerBuildingJointEditTypeParkingNum:
-            return "个"
+//            return "个"
+            return "例：地面车位100个，车库车位25个"
         ///车位费
         case .OwnerBuildingJointEditTypeParkingCoast:
-            return "元/月"
+//            return "元/月"
+            return "请输入车位费 元/月"
         ///电梯数 - 客梯
         case .OwnerBuildingJointEditTypePassengerNum:
             return "个 (客梯)"

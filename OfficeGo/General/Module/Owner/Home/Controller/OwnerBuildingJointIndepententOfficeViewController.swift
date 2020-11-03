@@ -282,12 +282,12 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
         }
         
         
-        //MARK: 租金
-        if FYModel?.houseMsg?.dayPrice == nil || FYModel?.houseMsg?.dayPrice?.isBlankString == true{
+        //MARK: 租金 独立monthPrice 开放 dayPrice
+        if FYModel?.houseMsg?.monthPrice == nil || FYModel?.houseMsg?.monthPrice?.isBlankString == true{
             AppUtilities.makeToast("请输入租金")
             return
         }else {
-            params["dayPrice"] = FYModel?.houseMsg?.dayPrice as AnyObject?
+            params["monthPrice"] = FYModel?.houseMsg?.monthPrice as AnyObject?
         }
         
         

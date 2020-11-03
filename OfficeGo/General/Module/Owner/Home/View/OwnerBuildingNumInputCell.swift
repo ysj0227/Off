@@ -339,7 +339,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
                 editLabel.text = FYModel?.houseMsg?.minimumLease
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
-                editLabel.text = FYModel?.houseMsg?.dayPrice
+                editLabel.text = FYModel?.houseMsg?.monthPrice
             }
         }
     }
@@ -481,7 +481,7 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         }
         //MARK: 独立办公室       ///租金
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
-            FYModel?.houseMsg?.dayPrice = textField.text
+            FYModel?.houseMsg?.monthPrice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }

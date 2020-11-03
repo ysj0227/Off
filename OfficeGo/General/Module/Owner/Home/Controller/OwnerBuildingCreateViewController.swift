@@ -564,7 +564,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
             //AppUtilities.makeToast("请输入车位费")
             //return
         }else {
-            params["buildingName"] = buildingModel?.buildingMsg?.parkingSpaceRent as AnyObject?
+            params["parkingSpaceRent"] = buildingModel?.buildingMsg?.parkingSpaceRent as AnyObject?
         }
         
         //MARK: 空调类型
