@@ -125,7 +125,8 @@ class OwnerBuildingListViewModel: NSObject {
         }
         
         ///红色通知
-        redViewColor = "noReadRed"
+        //redViewColor = "noReadRed"
+        redViewColor = ""
         
         let size = buildingName?.boundingRect(with: CGSize(width: kWidth, height: OwnerBuildingListCell.rowHeight()), font: FONT_14)
         redViewLeading = size?.width
