@@ -75,7 +75,7 @@ class RenterDetailFYListCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-          addSubview(mainImageView)
+        addSubview(mainImageView)
         addSubview(leftTopLabel)
         addSubview(leftbottomLabel)
         addSubview(rightUnitLabel)

@@ -10,6 +10,9 @@ import UIKit
 
 class RenterScheduleDetailView: UIView {
     
+    ///拨打手机号
+    @IBOutlet weak var phoneButton: UIButton!
+    
     @IBOutlet weak var houseNameLabel: UILabel!
     @IBOutlet weak var userAvatarImg: BaseImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -38,6 +41,14 @@ class RenterScheduleDetailView: UIView {
 
     var buildingViewModel: ScheduleListDetailBuildingViewModel? {
         didSet {
+            
+            ///行程审核状态 0预约待接受 1预约成功 2预约失败 3已看房
+            if buildingViewModel?.auditStatus == 1 || buildingViewModel?.auditStatus == 3 {
+                phoneButton.isHidden = false
+            }else {
+                phoneButton.isHidden = true
+            }
+            
             houseNameLabel.text = buildingViewModel?.schedulebuildingName
             userAvatarImg.setImage(with: buildingViewModel?.avatarString ?? "", placeholder: UIImage.init(named: "avatar"))
             userNameLabel.text = buildingViewModel?.contactNameString

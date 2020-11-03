@@ -49,7 +49,7 @@
                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxI-9c-JIK">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxI-9c-JIK">
                     <rect key="frame" x="279" y="116" width="17" height="26"/>
                     <state key="normal" image="phoneBlue"/>
                     <connections>
@@ -150,6 +150,7 @@
             <connections>
                 <outlet property="addreddHeightConstant" destination="dpF-cp-LOg" id="UMC-X3-5As"/>
                 <outlet property="houseNameLabel" destination="WB2-xP-jSS" id="bNi-tq-jhf"/>
+                <outlet property="phoneButton" destination="dxI-9c-JIK" id="zFO-U5-R0G"/>
                 <outlet property="scheduleAddressLabel" destination="Afh-c3-YvS" id="AU8-w9-uxt"/>
                 <outlet property="scheduleTimeLabel" destination="Kbi-PM-cLo" id="i9d-JQ-LqS"/>
                 <outlet property="scheduleTrafficLabel" destination="Ee8-Rb-mmp" id="IDI-G8-cJZ"/>
