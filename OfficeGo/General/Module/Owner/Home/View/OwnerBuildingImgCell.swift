@@ -8,6 +8,9 @@
 
 import UIKit
 import CLImagePickerTool
+import HandyJSON
+import SwiftyJSON
+
 
 class OwnerBuildingImgCell: BaseTableViewCell {
         
@@ -114,6 +117,7 @@ extension OwnerBuildingImgCell {
         if model != nil || jointModel != nil {
 
             var imgArr = [BannerModel]()
+            var imggggArr = [UIImage]()
             fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - buildingModel.buildingLocalImgArr.count) {[weak self] (asset,cutImage) in
                 // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
                 CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
@@ -129,9 +133,11 @@ extension OwnerBuildingImgCell {
                         fczBannerModel.isMain = false
                     }
                     imgArr.append(fczBannerModel)
+                    imggggArr.append(img ?? UIImage())
                     }, failedClouse: { () in
                         
                 })
+                self?.uploadBuildingImg(imgArr: imggggArr, existImgCount: self?.buildingModel.buildingLocalImgArr.count ?? 0)
                 //房产证
                 self?.buildingModel.buildingLocalImgArr.append(contentsOf: imgArr)
                 self?.loadCollectionData()
@@ -139,6 +145,7 @@ extension OwnerBuildingImgCell {
         }else {
 
             var imgArr = [BannerModel]()
+            var imggggArr = [UIImage]()
             fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - FYModel.buildingLocalImgArr.count) {[weak self] (asset,cutImage) in
                 // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
                 CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
@@ -154,9 +161,11 @@ extension OwnerBuildingImgCell {
                         fczBannerModel.isMain = false
                     }
                     imgArr.append(fczBannerModel)
+                    imggggArr.append(img ?? UIImage())
                     }, failedClouse: { () in
                         
                 })
+                self?.uploadImg(imgArr: imggggArr, existImgCount: self?.FYModel.buildingLocalImgArr.count ?? 0)
                 //房产证
                 self?.FYModel.buildingLocalImgArr.append(contentsOf: imgArr)
                 self?.loadCollectionData()
@@ -164,6 +173,86 @@ extension OwnerBuildingImgCell {
         }
     }
 
+    
+    func uploadBuildingImg(imgArr: [UIImage], existImgCount: Int) {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        ///0图片1视频
+        params["filedirType"] = 0 as AnyObject?
+
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: imgArr, success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count == imgArr.count {
+                    var count = 0
+                    for model in decoratedArray {
+                        if count < decoratedArray.count {
+
+                            weakSelf.buildingModel.buildingLocalImgArr[existImgCount + count].imgUrl = model?.url
+                            count += 1
+                        }
+                    }
+                }
+                
+            }
+            
+            }, failure: {[weak self] (error) in
+
+                
+        }) {[weak self] (code, message) in
+
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    
+    func uploadImg(imgArr: [UIImage], existImgCount: Int) {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        ///0图片1视频
+        params["filedirType"] = 0 as AnyObject?
+
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: imgArr, success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count == imgArr.count {
+                    var count = 0
+                    for model in decoratedArray {
+                        if count < decoratedArray.count {
+
+                            weakSelf.FYModel.buildingLocalImgArr[existImgCount + count].imgUrl = model?.url
+                            count += 1
+                        }
+                    }
+                }
+                
+            }
+            
+            }, failure: {[weak self] (error) in
+
+                
+        }) {[weak self] (code, message) in
+
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
     func loadCollectionData() {
         headerCollectionView.reloadData()
     }
@@ -173,13 +262,13 @@ extension OwnerBuildingImgCell {
         
         if model != nil || jointModel != nil {
             if buildingModel.buildingLocalImgArr[index].isLocal == true {
+                buildingModel.buildingDeleteRemoteArr.append(buildingModel.buildingLocalImgArr[index])
                 buildingModel.buildingLocalImgArr.remove(at: index)
-                
+
                 ///删除之后，如果图片还有。则默认第一个为封面图
                 if buildingModel.buildingLocalImgArr.count > 0 {
                     buildingModel.buildingLocalImgArr[0].isMain = true
                 }
-
                 loadCollectionData()
             }else {
                 buildingModel.buildingDeleteRemoteArr.append(buildingModel.buildingLocalImgArr[index])
@@ -194,13 +283,12 @@ extension OwnerBuildingImgCell {
             }
         }else {
             if FYModel.buildingLocalImgArr[index].isLocal == true {
+                FYModel.buildingDeleteRemoteArr.append(FYModel.buildingLocalImgArr[index])
                 FYModel.buildingLocalImgArr.remove(at: index)
-                
                 ///删除之后，如果图片还有。则默认第一个为封面图
                 if FYModel.buildingLocalImgArr.count > 0 {
                     FYModel.buildingLocalImgArr[0].isMain = true
                 }
-
                 loadCollectionData()
             }else {
                 FYModel.buildingDeleteRemoteArr.append(FYModel.buildingLocalImgArr[index])
