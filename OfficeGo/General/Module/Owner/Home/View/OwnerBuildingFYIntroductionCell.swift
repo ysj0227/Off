@@ -8,6 +8,8 @@
 //
 
 import CLImagePickerTool
+import HandyJSON
+import SwiftyJSON
 
 class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
 
@@ -59,10 +61,17 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
     }()
 
     var jointModel: OwnerBuildingJointEditConfigureModel?
-
+    
     var FYModel: FangYuanHouseEditModel = FangYuanHouseEditModel() {
         didSet {
+            
             intruductionTextview.text = FYModel.houseMsg?.unitPatternRemark
+
+            if FYModel.houseMsg?.unitPatternRemark != nil && FYModel.houseMsg?.unitPatternRemark?.isBlankString != true {
+                intruductionTextview.placeholder = ""
+            }else {
+                intruductionTextview.placeholder = "简单描述该办公室的房型格局"
+            }
         }
     }
     
@@ -71,9 +80,7 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
             intruductionTextview.text = buildingModel.buildingMsg?.buildingIntroduction
         }
     }
-    
-    @objc var uploadPicModelFCZArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
-    
+        
     lazy var fczImagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
         picker.cameraOut = true
@@ -164,8 +171,8 @@ extension OwnerBuildingFYIntroductionCell: UITextViewDelegate {
             let str = textContent?.substring(to: index!)
             textView.text = str
             numOfCharLabel.text = "100/100"
-            buildingModel.buildingMsg?.buildingIntroduction = textView.text
         }
+        FYModel.houseMsg?.unitPatternRemark = textView.text
         numOfCharLabel.text = String(format: "%ld/100",textView.text.count)
     }
 }
@@ -178,16 +185,47 @@ extension OwnerBuildingFYIntroductionCell {
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
                 
-                let fczBannerModel = BannerModel()
-                fczBannerModel.isLocal = true
-                fczBannerModel.image = img
-                imgArr.append(fczBannerModel)
+                self?.FYModel.houseMsg?.unitPatternImgArr.image = img
+                self?.uploadImg(img: img ?? UIImage())
                 }, failedClouse: { () in
                     
             })
             //房产证
-            self?.uploadPicModelFCZArr.append(contentsOf: imgArr)
             self?.loadCollectionData()
+        }
+    }
+    
+    
+    func uploadImg(img: UIImage) {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        ///0图片1视频
+        params["filedirType"] = 0 as AnyObject?
+
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: [img], success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count >= 1 {
+                    weakSelf.FYModel.houseMsg?.unitPatternImgArr.imgUrl = decoratedArray[0]?.url
+                    weakSelf.FYModel.houseMsg?.unitPatternImg = decoratedArray[0]?.url
+                }
+                
+            }
+            
+            }, failure: {[weak self] (error) in
+
+                
+        }) {[weak self] (code, message) in
+
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
         }
     }
     
@@ -197,75 +235,43 @@ extension OwnerBuildingFYIntroductionCell {
     
     ///删除房产证图片接口
     func request_deleteFCZImgApp(index: Int) {
+        FYModel.buildingDeleteRemoteArr.append(FYModel.houseMsg?.unitPatternImgArr ?? BannerModel())
+        FYModel.houseMsg?.unitPatternImgArr.image = nil
+        FYModel.houseMsg?.unitPatternImgArr.imgUrl = nil
+        FYModel.houseMsg?.unitPatternImg = nil
         
-        if uploadPicModelFCZArr[index].isLocal == true {
-            uploadPicModelFCZArr.remove(at: index)
-            loadCollectionData()
-            return
-        }
-        
-        var params = [String:AnyObject]()
-        
-        params["id"] = uploadPicModelFCZArr[index].id as AnyObject?
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        SSNetworkTool.SSOwnerIdentify.request_getDeleteImgApp(params: params, success: {[weak self] (response) in
-            
-            guard let weakSelf = self else {return}
-            
-            weakSelf.uploadPicModelFCZArr.remove(at: index)
-            weakSelf.loadCollectionData()
-            
-            }, failure: { (error) in
-                
-        }) { (code, message) in
-            
-            //只有5000 提示给用户 - 失效原因
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
+        loadCollectionData()
     }
 }
 
 extension OwnerBuildingFYIntroductionCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return uploadPicModelFCZArr.count + 1
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
         cell?.indexPath = indexPath
-        if indexPath.item <= uploadPicModelFCZArr.count - 1  {
-            if uploadPicModelFCZArr[indexPath.item].isLocal == false {
-                cell?.image.setImage(with: uploadPicModelFCZArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
-            }else {
-                cell?.image.image = uploadPicModelFCZArr[indexPath.item].image
-            }
-            cell?.closeBtnClickClouse = { [weak self] (index) in
-                self?.request_deleteFCZImgApp(index: index)
-            }
-        }else {
-            cell?.image.image = UIImage.init(named: "addImgBg")
-        }
-        
-        if indexPath.item == uploadPicModelFCZArr.count {
-            cell?.closeBtn.isHidden = true
-        }else {
+        if let imgurl = FYModel.houseMsg?.unitPatternImgArr.imgUrl {
             cell?.closeBtn.isHidden = false
+            cell?.image.setImage(with: imgurl, placeholder: UIImage(named: Default_1x1))
+        }else {
+            if let image = FYModel.houseMsg?.unitPatternImgArr.image {
+                cell?.closeBtn.isHidden = false
+                cell?.image.image = image
+            }else {
+                cell?.closeBtn.isHidden = true
+                cell?.image.image = UIImage.init(named: "addImgBg")
+            }
+        }
+        cell?.closeBtnClickClouse = { [weak self] (index) in
+            self?.request_deleteFCZImgApp(index: index)
         }
         return cell ?? OwnerImagePickerCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == uploadPicModelFCZArr.count {
-            if indexPath.item < 1 {
-                selectFCZPicker()
-            }else {
-                AppUtilities.makeToast("最多可选择\(1)张图片")
-            }
-        }
+        selectFCZPicker()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

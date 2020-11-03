@@ -48,5 +48,9 @@ class BannerModel: BaseModel {
     
     ///是不是封面图 - 房源管理独有
     var isMain : Bool = false
+    
+    
+    ///房源管理上传图片获取url
+    var url : String?
 }
 

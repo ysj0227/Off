@@ -456,7 +456,6 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             params["tags"] = deleteArr.joined(separator: ",") as AnyObject?
         }
         
-        
         //MARK: 办公室图片
         if let buildingDeleteRemoteArr = FYModel?.buildingDeleteRemoteArr {
             var deleteArr: [String] = []
@@ -545,6 +544,13 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
                         }
                     }
                 }
+            }
+        }
+        
+        
+        if let img = FYModel?.houseMsg?.unitPatternImg {
+            if img.isBlankString != true {
+                FYModel?.houseMsg?.unitPatternImgArr.imgUrl = img
             }
         }
     

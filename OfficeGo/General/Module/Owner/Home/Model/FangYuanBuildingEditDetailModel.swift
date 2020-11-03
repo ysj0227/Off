@@ -404,6 +404,9 @@ class FangYuanHouseMsgEditModel: BaseModel {
     var unitPatternRemark : String?
     
     
+    ///房源 - 户型介绍图片数组
+    //var unitPatternImgArr = [BannerModel]()
+    var unitPatternImgArr = BannerModel()
     
     
     

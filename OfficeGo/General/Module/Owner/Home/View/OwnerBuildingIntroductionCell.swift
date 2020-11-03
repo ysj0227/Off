@@ -49,6 +49,11 @@ class OwnerBuildingIntroductionCell: BaseTableViewCell {
     var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
         didSet {
             intruductionTextview.text = buildingModel.buildingMsg?.buildingIntroduction
+            if buildingModel.buildingMsg?.buildingIntroduction != nil && buildingModel.buildingMsg?.buildingIntroduction?.isBlankString != true {
+                intruductionTextview.placeholder = ""
+            }else {
+                intruductionTextview.placeholder = "请输入详细介绍"
+            }
         }
     }
     

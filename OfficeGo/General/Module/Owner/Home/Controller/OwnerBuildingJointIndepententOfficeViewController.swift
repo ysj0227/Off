@@ -360,10 +360,12 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
         
         //MARK: 户型介绍 - 非
         params["unitPatternRemark"] = FYModel?.houseMsg?.unitPatternRemark as AnyObject?
-
         
         //MARK: 户型介绍 - 图片 - 非
         params["unitPatternImg"] = FYModel?.houseMsg?.unitPatternImg as AnyObject?
+//        if FYModel?.houseMsg?.unitPatternImg != nil && FYModel?.houseMsg?.unitPatternImg?.isBlankString != true {
+//            params["unitPatternImg"] = FYModel?.houseMsg?.unitPatternImg as AnyObject?
+//        }
         
         
         //MARK: 办公室图片
@@ -428,6 +430,13 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
             FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeIndividual
         }else if FYModel?.houseMsg?.conditioningType == OwnerAircontiditonType.OwnerAircontiditonTypeNone.rawValue {
             FYModel?.houseMsg?.airditionType = OwnerAircontiditonType.OwnerAircontiditonTypeNone
+        }
+        
+        
+        if let img = FYModel?.houseMsg?.unitPatternImg {
+            if img.isBlankString != true {
+                FYModel?.houseMsg?.unitPatternImgArr.imgUrl = img
+            }
         }
         
         ///添加banner数据
