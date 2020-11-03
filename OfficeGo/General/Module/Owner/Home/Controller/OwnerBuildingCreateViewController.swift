@@ -1275,10 +1275,9 @@ extension OwnerBuildingCreateViewController {
             SSLog(typeSourceArray[indexPath.section].type)
             
             ///有框框文本输入cell
-            ///车位费
             ///电梯数 - 客梯
         ///电梯数 - 客、货梯
-        case .OwnerBuildingEditTypeParkingCoast, .OwnerBuildingEditTypePassengerNum, .OwnerBuildingEditTypeFloorCargoNum:
+        case .OwnerBuildingEditTypePassengerNum, .OwnerBuildingEditTypeFloorCargoNum:
             SSLog(typeSourceArray[indexPath.section].type)
             
             

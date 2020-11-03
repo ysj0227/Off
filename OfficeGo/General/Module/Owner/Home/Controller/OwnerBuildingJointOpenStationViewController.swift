@@ -28,6 +28,20 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     ///类型数据源
     var typeSourceArray:[OwnerBuildingJointOpenStationConfigureModel] = [OwnerBuildingJointOpenStationConfigureModel]()
     
+    var rentFreePeriodArr = [OwnerRentFreePeriodType.OwnerRentFreePeriodTypeDefault.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth1.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth2.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth3.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth4.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth5.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth6.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth7.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth8.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth9.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth10.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth11.rawValue,
+                             OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth12.rawValue]
+    
     ///
     var FYModel: FangYuanHouseEditModel?
     
@@ -620,22 +634,11 @@ extension OwnerBuildingJointOpenStationViewController {
             SSLog(typeSourceArray[indexPath.section].type)
             
             endEdting()
-            
-            ownerFYMoreSettingView.ShowOwnerSettingView(datasource: [OwnerRentFreePeriodType.OwnerRentFreePeriodTypeDefault.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth1.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth2.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth3.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth4.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth5.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth6.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth7.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth8.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth9.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth10.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth11.rawValue,
-                                                                           OwnerRentFreePeriodType.OwnerRentFreePeriodTypeMonth12.rawValue], clearButtonCallBack: {
+           
+            ownerFYMoreSettingView.ShowOwnerSettingView(datasource: rentFreePeriodArr, clearButtonCallBack: {
                                                                             
             }) {[weak self] (settingEnumIndex) in
+                self?.FYModel?.houseMsg?.rentFreePeriod = self?.rentFreePeriodArr[settingEnumIndex]
                 //单层1 多层2
                 self?.loadSections(indexSet: [indexPath.section])
             }
