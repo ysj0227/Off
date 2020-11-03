@@ -227,7 +227,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             }
         }
         //MARK: 开放工位    ///最短租期 最短租期，数字，必填，单位月，支持输入0-60正整数
-        else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
+        else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeMinRentalPeriod {
             //截取
             if textNum! > 2 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
@@ -361,7 +361,7 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             ///最短租期
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeSeats {
                 editLabel.text = FYModel?.houseMsg?.seats
-            }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
+            }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeMinRentalPeriod {
                 editLabel.text = FYModel?.houseMsg?.minimumLease
             }
         }
@@ -493,14 +493,14 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 开放工位
         //MARK: 开放工位    ///工位数  工位数，数字，支持输入1-200正整数，单位 个
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeSeats {
-            FYModel?.houseMsg?.minSeatsOffice = textField.text
+            FYModel?.houseMsg?.seats = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
             blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 开放工位    ///最短租期 最短租期，数字，必填，单位月，支持输入0-60正整数
-        else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
+        else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeMinRentalPeriod {
             FYModel?.houseMsg?.minimumLease = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return

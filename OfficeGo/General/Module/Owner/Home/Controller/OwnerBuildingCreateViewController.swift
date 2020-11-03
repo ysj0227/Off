@@ -223,15 +223,23 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                 for model in decoratedArray {
                     weakSelf.buildingModel?.buildingMsg?.tagsLocal.append(model ?? HouseFeatureModel())
                 }
+            }else {
+                weakSelf.buildingModel = FangYuanBuildingEditModel()
+                
+                weakSelf.buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()
             }
+            
             weakSelf.dealData()
             
             }, failure: {[weak self] (error) in
-                
+                self?.buildingModel = FangYuanBuildingEditModel()
+                self?.buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()
                 self?.dealData()
                 
         }) {[weak self] (code, message) in
             
+            self?.buildingModel = FangYuanBuildingEditModel()
+            self?.buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()
             self?.dealData()
             
             //只有5000 提示给用户
@@ -636,6 +644,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                 for model in buildingLocalImgArr {
                     if model.isMain != true {
                         deleteArr.append(model.imgUrl ?? "")
+                    }else {
+                        params["mainPic"] = model.imgUrl as AnyObject?
                     }
                 }
                 params["addImgUrl"] = deleteArr.joined(separator: ",") as AnyObject?

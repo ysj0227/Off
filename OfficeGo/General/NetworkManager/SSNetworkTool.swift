@@ -480,6 +480,21 @@ extension SSNetworkTool {
     //  MARK:   --房源管理
     class SSFYManager: NSObject {
         
+        //上传阿里云图片
+        static func request_uploadResourcesUrl(params: Eic, imagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.uploadResourcesUrl)
+            SSNetworkTool.uploadMutileImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fileName: "files", imagesArray: imagesArray, params: params, isShowHud: true, success:
+                success,failed:failure,error:error)
+        }
+        
+        //删除阿里云图片
+        static func request_deleteResourcesUrl(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.deleteResourcesUrl)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            success,failed:failure,error:error)
+        }
+          
+        
         ///楼盘网点回显接口
         static func request_getBuildingMsg(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getBuildingMsg)

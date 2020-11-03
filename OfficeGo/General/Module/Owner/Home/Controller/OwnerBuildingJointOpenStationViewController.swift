@@ -31,6 +31,11 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     ///
     var FYModel: FangYuanHouseEditModel?
     
+    var isTemp: Bool?
+    
+    var houseID: Int?
+
+
     lazy var saveBtn: UIButton = {
         let button = UIButton.init()
         button.clipsToBounds = true
@@ -65,10 +70,15 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         return button
     }()
     
-    ///直接调用保存接口 - 然后再调用发布接口
+    
     @objc func saveClick() {
+        request_getUpdateHouse()
+    }
+    
+    func clickToPublish() {
         
     }
+    
     
     @objc func pcEditClick() {
         clickToQCode()
@@ -146,6 +156,8 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
             
             FYModel = FangYuanHouseEditModel()
             
+            FYModel?.houseMsg = FangYuanHouseMsgEditModel()
+            
             loadTableview()
             
         }else {
@@ -162,21 +174,28 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
-        params["houseId"] = FYModel?.id as AnyObject?
-        params["isTemp"] = FYModel?.isTemp as AnyObject?
+        params["houseId"] = houseID as AnyObject?
+        params["isTemp"] = isTemp as AnyObject?
         
         SSNetworkTool.SSFYManager.request_getHouseMsgByHouseId(params: params, success: {[weak self] (response) in
             guard let weakSelf = self else {return}
             if let model = FangYuanHouseEditModel.deserialize(from: response, designatedPath: "data") {
                 weakSelf.FYModel = model
                 
+            }else {
+                weakSelf.FYModel = FangYuanHouseEditModel()
+                weakSelf.FYModel?.houseMsg = FangYuanHouseMsgEditModel()
             }
             weakSelf.dealData()
             
             }, failure: {[weak self] (error) in
+                self?.FYModel = FangYuanHouseEditModel()
+                self?.FYModel?.houseMsg = FangYuanHouseMsgEditModel()
                 self?.dealData()
                 
         }) {[weak self] (code, message) in
+            self?.FYModel = FangYuanHouseEditModel()
+            self?.FYModel?.houseMsg = FangYuanHouseMsgEditModel()
             self?.dealData()
             
             //只有5000 提示给用户
@@ -186,6 +205,114 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         }
     }
     
+    
+    ///提交接口
+    func request_getUpdateHouse() {
+
+        var params = [String:AnyObject]()
+
+        params["token"] = UserTool.shared.user_token as AnyObject?
+
+        params["isTemp"] = isTemp as AnyObject?
+        
+        //MARK: 房源id
+        params["id"] = houseID as AnyObject?
+
+        //MARK: 工位数
+        if FYModel?.houseMsg?.seats == nil || FYModel?.houseMsg?.seats?.isBlankString == true{
+            AppUtilities.makeToast("请输入工位数")
+            return
+        }else {
+            params["seats"] = FYModel?.houseMsg?.seats as AnyObject?
+        }
+
+        //MARK: 租金
+        if FYModel?.houseMsg?.dayPrice == nil || FYModel?.houseMsg?.dayPrice?.isBlankString == true{
+            AppUtilities.makeToast("请输入租金")
+            return
+        }else {
+            params["dayPrice"] = FYModel?.houseMsg?.dayPrice as AnyObject?
+        }
+        
+         //MARK: 所在楼层 - 第几层- 总楼层
+        if FYModel?.houseMsg?.floor == nil || FYModel?.houseMsg?.floor?.isBlankString == true{
+            AppUtilities.makeToast("请输入所在楼层")
+            return
+        }else {
+            params["floor"] = FYModel?.houseMsg?.floor as AnyObject?
+        }
+        
+        
+        //MARK: 净高 - 非
+        if FYModel?.houseMsg?.clearHeight == nil || FYModel?.houseMsg?.clearHeight?.isBlankString == true{
+            //AppUtilities.makeToast("请输入净高")
+            //return
+        }else {
+            params["clearHeight"] = FYModel?.houseMsg?.clearHeight as AnyObject?
+        }
+        
+        //MARK: 最短租期
+        if FYModel?.houseMsg?.minimumLease == nil || FYModel?.houseMsg?.minimumLease?.isBlankString == true{
+            AppUtilities.makeToast("请输入最短租期")
+            return
+        }else {
+            params["minimumLease"] = FYModel?.houseMsg?.minimumLease as AnyObject?
+        }
+        
+        
+        //MARK: 免租期
+        if FYModel?.houseMsg?.rentFreePeriod == nil || FYModel?.houseMsg?.rentFreePeriod?.isBlankString == true{
+            AppUtilities.makeToast("请选择免租期")
+            return
+        }else {
+            params["rentFreePeriod"] = FYModel?.houseMsg?.rentFreePeriod as AnyObject?
+        }
+        
+        //MARK: 上传图片
+        if let buildingDeleteRemoteArr = FYModel?.buildingDeleteRemoteArr {
+            var deleteArr: [String] = []
+            for model in buildingDeleteRemoteArr {
+                deleteArr.append(model.imgUrl ?? "")
+            }
+            params["delImgUrl"] = deleteArr.joined(separator: ",") as AnyObject?
+        }
+        
+        if let buildingLocalImgArr = FYModel?.buildingLocalImgArr {
+            if buildingLocalImgArr.count <= 0 {
+                AppUtilities.makeToast("请上传图片")
+                return
+            }else {
+                var deleteArr: [String] = []
+                for model in buildingLocalImgArr {
+                    if model.isMain != true {
+                        deleteArr.append(model.imgUrl ?? "")
+                    }else {
+                        params["mainPic"] = model.imgUrl as AnyObject?
+                    }
+                }
+                params["addImgUrl"] = deleteArr.joined(separator: ",") as AnyObject?
+            }
+        }else {
+            AppUtilities.makeToast("请上传图片")
+            return
+        }
+        
+        SSNetworkTool.SSFYManager.request_getEditHouse(params: params, success: {[weak self] (response) in
+            
+            self?.clickToPublish()
+            
+            }, failure: { (error) in
+                
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+
+    }
     
     func dealData() {
         

@@ -194,7 +194,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         //MARK: 办公室 ///所在楼层
         if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
             if FYModel?.houseMsg?.floorType == "1" {
-
+                
                 //截取
                 if textNum! > 2 {
                     let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
@@ -208,17 +208,6 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
                 }
             }else {
                 
-                //截取
-                if textNum! > 2 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
-                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
-                }
-                if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 60 {
-                        leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持0-60正整数")
-                    }
-                }
             }
         }
         

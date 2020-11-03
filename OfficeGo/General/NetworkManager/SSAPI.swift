@@ -33,10 +33,10 @@ import Foundation
         
     ///开发环境
     ///接口
-//    static var SSApiHosts = ["Dev": "http://192.168.31.17/",
+    static var SSApiHosts = ["Dev": "http://192.168.31.17/",
 //                             "Test": "http://admin.officego.com.cn/",
 //                             "Release": "https://api.officego.com/"]
-    static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
+//    static var SSApiHosts = ["Dev": "http://debug.officego.com.cn/",
                              "Test": "http://admin.officego.com.cn/",
                              "Release": "https://api.officego.com/"]
     ///h5

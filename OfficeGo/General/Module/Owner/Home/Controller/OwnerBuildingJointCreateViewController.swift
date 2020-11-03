@@ -193,7 +193,8 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
             
             buildingModel = FangYuanBuildingEditModel()
                     
-            buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()                    
+            buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()
+            
             request_getDistrict()
 
         }else {
@@ -454,6 +455,8 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
                 for model in buildingLocalImgArr {
                     if model.isMain != true {
                         deleteArr.append(model.imgUrl ?? "")
+                    }else {
+                        params["mainPic"] = model.imgUrl as AnyObject?
                     }
                 }
                 params["addImgUrl"] = deleteArr.joined(separator: ",") as AnyObject?
@@ -600,16 +603,23 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
                 model.title = "会议室配套"
                 model.itemArr = arr
                 weakSelf.buildingModel?.buildingMsg?.roomMatchingsLocal = model
+            }else {
+                weakSelf.buildingModel = FangYuanBuildingEditModel()
+                        
+                weakSelf.buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()
             }
             
             weakSelf.dealData()
 
             }, failure: {[weak self] (error) in
-                
+                self?.buildingModel = FangYuanBuildingEditModel()
+                self?.buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()
                 self?.dealData()
                 
         }) {[weak self] (code, message) in
-            
+
+            self?.buildingModel = FangYuanBuildingEditModel()
+            self?.buildingModel?.buildingMsg = FangYuanBuildingMsgEditModel()
             self?.dealData()
             
             //只有5000 提示给用户

@@ -504,6 +504,8 @@ extension OwnerFYListViewController {
                         let buildingModel = FangYuanHouseEditModel()
                         buildingModel.isTemp = viewModel.isTemp
                         buildingModel.id = viewModel.houseId
+                        vc.houseID = viewModel.houseId
+                        vc.isTemp = viewModel.isTemp
                         vc.FYModel = buildingModel
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else {
@@ -514,6 +516,8 @@ extension OwnerFYListViewController {
                             let buildingModel = FangYuanHouseEditModel()
                             buildingModel.isTemp = viewModel.isTemp
                             buildingModel.id = viewModel.houseId
+                            vc.houseID = viewModel.houseId
+                            vc.isTemp = viewModel.isTemp
                             vc.FYModel = buildingModel
                             self?.navigationController?.pushViewController(vc, animated: true)
                         }else {
@@ -523,6 +527,8 @@ extension OwnerFYListViewController {
                             let buildingModel = FangYuanHouseEditModel()
                             buildingModel.isTemp = viewModel.isTemp
                             buildingModel.id = viewModel.houseId
+                            vc.houseID = viewModel.houseId
+                            vc.isTemp = viewModel.isTemp
                             vc.FYModel = buildingModel
                             self?.navigationController?.pushViewController(vc, animated: true)
                         }
