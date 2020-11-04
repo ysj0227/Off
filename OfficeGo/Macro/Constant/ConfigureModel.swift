@@ -28,7 +28,7 @@ class OwnerBuildingJointCreatAddConfigureModel: NSObject {
     func getNameFormType(type: OwnerBuildingCreteAddType) -> NSMutableAttributedString{
         switch type {
         case .OwnerBuildingCreteAddTypeBuildingName:
-            return FuWenBen(name: "写字楼名称", centerStr: " * ", last: "")
+            return FuWenBen(name: "楼盘名称", centerStr: " * ", last: "")
         case .OwnerBuildingCreteAddTypeBuildingDistrictArea:
             return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
         case .OwnerBuildingCreteAddTypeBuildingAddress:

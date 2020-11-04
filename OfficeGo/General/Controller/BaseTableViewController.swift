@@ -135,6 +135,7 @@ class BaseTableViewController: BaseViewController {
         endRefreshWithCount(0)
     }
     
+    
     func endEdting() {
         self.tableView.endEditing(true)
     }
@@ -222,6 +223,7 @@ class BaseTableViewController: BaseViewController {
         refreshData()
     }
 }
+
 extension BaseTableViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1

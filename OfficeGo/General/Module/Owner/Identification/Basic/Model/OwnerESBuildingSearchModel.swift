@@ -31,11 +31,19 @@ class OwnerESBuildingSearchViewModel: NSObject {
     ///地址
     var addressString : NSMutableAttributedString?
     
+    var business : String?
+
+    var district : String?
+    
     init(model:OwnerESBuildingSearchModel) {
         
         buildType = model.buildType
         
         bid = model.bid
+        
+        business = model.business
+        
+        district = model.district
         
         if let address = model.address {
             if let str = address.removingPercentEncoding, let data = str.data(using: String.Encoding.unicode) {

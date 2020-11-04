@@ -416,8 +416,8 @@ class OwnerCreateView: UIView {
     var isManagerBuilding: Bool? = false {
         didSet {
 
-            descLabel.text = "写字楼不存在，去创建写字楼"
-            creatBtn.setTitle("创建写字楼", for: .normal)
+            descLabel.text = "楼盘不存在，去创建楼盘"
+            creatBtn.setTitle("创建楼盘", for: .normal)
         }
     }
     

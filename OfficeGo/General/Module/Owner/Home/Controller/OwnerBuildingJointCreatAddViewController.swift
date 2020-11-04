@@ -16,6 +16,13 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
     ///网点
     var isBranchs: Bool?
     
+    var areaModelCount: CityAreaCategorySelectModel?
+    
+    lazy var areaView: CityDistrictAddressSelectView = {
+        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: kNavigationHeight + cell_height_58 * 2, width: kWidth, height: kHeight - kNavigationHeight - cell_height_58 * 2 - bottomMargin()))
+        return view
+    }()
+    
     ///时候有楼盘
     var isHasBuilding: Bool?
     
@@ -128,6 +135,70 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
         addNotify()
         setUpData()
     }
+    
+    
+    //MARK: 获取商圈数据
+    func request_getDistrict() {
+        //查询类型，1：全部，0：系统已有楼盘的商圈
+        var params = [String:AnyObject]()
+        params["type"] = 1 as AnyObject?
+        SSNetworkTool.SSBasic.request_getDistrictList(params: params, success: { [weak self] (response) in
+            if let model = CityAreaCategorySelectModel.deserialize(from: response) {
+                model.name = "上海市"
+                self?.areaModelCount = model
+            }
+            
+            }, failure: {  (error) in
+                
+        }) {  (code, message) in
+            
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    func getSelectedDistrictBusiness() {
+        areaModelCount?.data.forEach({ (model) in
+            if model.districtID == userModel?.district {
+                areaModelCount?.isFirstSelectedModel = model
+                userModel?.districtString = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
+                areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
+                    if areaModel.id == userModel?.business {
+                        areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
+                        userModel?.businessString = areaModel.area
+                        loadCollectionData()
+                    }
+                })
+                
+            }
+        })
+    }
+    
+    func judgeHasData() {
+        if areaModelCount?.data.count ?? 0  > 0 {
+            self.showArea(isFrist: true)
+        }else {
+            request_getDistrict()
+        }
+    }
+    
+    func showArea(isFrist: Bool) {
+        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+
+            }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+                self?.areaModelCount = selectModel
+                self?.userModel?.district = selectModel.isFirstSelectedModel?.districtID
+                self?.userModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
+                self?.userModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
+                self?.userModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+                self?.loadCollectionData()
+                
+        })
+    }
+    
     
     func addNotify() {
 
@@ -342,9 +413,9 @@ extension OwnerBuildingJointCreatAddViewController {
         //写字楼
         buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
         if isBuilding == true {
-            titleview?.titleLabel.text = "添加写字楼"
+            titleview?.titleLabel.text = "添加楼盘"
             buildingNameSearchResultVC?.isManagerBuilding = true
-        }else {
+        }else if isBranchs == true {
             titleview?.titleLabel.text = "添加共享办公网点"
             buildingNameSearchResultVC?.isManagerBranch = true
         }
@@ -356,14 +427,17 @@ extension OwnerBuildingJointCreatAddViewController {
             // 搜索完成 关闭resultVC
             
             self?.isHasBuilding = true
-
+            
             //判断楼盘是关联的还是自己创建的
             self?.userModel?.isCreateBuilding = "2"
-            
+            self?.areaModelCount?.isFirstSelectedModel = nil
             self?.userModel?.buildingId = model.bid
             self?.userModel?.buildingName = model.buildingAttributedName?.string
             self?.userModel?.buildingAddress = model.addressString?.string
-            
+            self?.userModel?.districtString = model.district
+            self?.userModel?.businessString = model.business
+            self?.areaModelCount?.isFirstSelectedModel = nil
+
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionData()
         }
@@ -381,6 +455,10 @@ extension OwnerBuildingJointCreatAddViewController {
             self?.userModel?.district = nil
             self?.userModel?.business = nil
             self?.userModel?.mainPic = nil
+            self?.userModel?.districtString = nil
+            self?.userModel?.businessString = nil
+            self?.areaModelCount?.isFirstSelectedModel = nil
+
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionData()
         }
@@ -482,7 +560,10 @@ extension OwnerBuildingJointCreatAddViewController {
         }
     }
     
-    
+    func endEdting() {
+         headerCollectionView.endEditing(true)
+     }
+     
     
 }
 
@@ -491,6 +572,7 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerCompanyIdentifyCell
+            cell?.isBranchs = isBranchs
             cell?.userModel = self.userModel
             cell?.FYBuildingCreatAddmodel = typeSourceArray[indexPath.section][indexPath.item]
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
@@ -597,7 +679,11 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            
+            if indexPath.row == 1 {
+                endEdting()
+                ///区域商圈选择
+                judgeHasData()
+            }
         }
         else if indexPath.section == 1 {
             selectFCZPicker()
@@ -617,11 +703,11 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
                 header?.backgroundColor = kAppColor_line_EEEEEE
                 header?.titleLabel.text = ""
                 header?.descLabel.text = ""
-            }else if indexPath.section == 2{
+            }else if indexPath.section == 2 {
                 header?.backgroundColor = kAppWhiteColor
                 header?.titleLabel.text = "上传房产证"
                 header?.descLabel.text = "请确保所上传的房产信息与公司信息一致"
-            }else if indexPath.section == 1{
+            }else if indexPath.section == 1 {
                 header?.backgroundColor = kAppWhiteColor
                 header?.titleLabel.text = "上传封面图"
                 header?.descLabel.text = ""

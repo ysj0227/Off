@@ -694,9 +694,9 @@ extension OwnerBuildingCreateViewController {
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
         if isFromAdd == true {
-            titleview?.titleLabel.text = "添加写字楼"
+            titleview?.titleLabel.text = "添加楼盘"
         }else {
-            titleview?.titleLabel.text = "编辑写字楼"
+            titleview?.titleLabel.text = "编辑楼盘"
         }
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.popViewController(animated: true)

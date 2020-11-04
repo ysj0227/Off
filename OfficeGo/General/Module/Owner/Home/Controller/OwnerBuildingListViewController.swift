@@ -80,7 +80,7 @@ class OwnerBuildingListViewController: BaseTableViewController {
         }else {
             ///楼盘
             let vc = OwnerBuildingJointCreatAddViewController()
-            vc.isBuilding = false
+            vc.isBuilding = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

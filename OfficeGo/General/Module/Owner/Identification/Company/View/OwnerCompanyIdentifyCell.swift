@@ -113,7 +113,9 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     
     //模拟认证模型
     var userModel: OwnerIdentifyUserModel?
-    
+
+    ///网点
+    var isBranchs: Bool?
     
     ///房源管理 -
     var FYBuildingCreatAddmodel: OwnerBuildingJointCreatAddConfigureModel = OwnerBuildingJointCreatAddConfigureModel(types: OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeUploadMainPhoto) {
@@ -126,6 +128,9 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
             closeBtn.isHidden = true
             
             if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName{
+                if isBranchs == true {
+                    titleLabel.attributedText = FuWenBen(name: "网点名称", centerStr: " * ", last: "")
+                }
                 numDescTF.isUserInteractionEnabled = true
                 lineView.isHidden = false
                 numDescTF.text = userModel?.buildingName
@@ -146,6 +151,34 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
         }
     }
     
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
     
     var model: OwnerCompanyIedntifyConfigureModel = OwnerCompanyIedntifyConfigureModel(types: .OwnerCompanyIedntifyTypeIdentigy) {
         didSet {

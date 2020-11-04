@@ -8,6 +8,25 @@
 
 class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
     
+    
+    ///房源管理 - 写字楼展示
+    var isManagerBuilding: Bool? = false {
+        didSet {
+            if isManagerBuilding == true {
+                addBtn.setTitle("关联楼盘", for: .normal)
+            }
+        }
+    }
+    
+    ///房源管理 - 网点无数据展示
+    var isManagerBranch: Bool? = false {
+        didSet {
+            if isManagerBranch == true {
+                addBtn.setTitle("关联网点", for: .normal)
+            }
+        }
+    }
+    
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left

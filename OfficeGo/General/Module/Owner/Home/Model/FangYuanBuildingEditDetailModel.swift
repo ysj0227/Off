@@ -366,7 +366,7 @@ class FangYuanHouseMsgEditModel: BaseModel {
     
     
     ///免租期 6个月
-    var rentFreePeriod : String?
+    var rentFreePeriod : String = "面议"
     
     
 

@@ -275,7 +275,7 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         
         
         //MARK: 免租期
-        if FYModel?.houseMsg?.rentFreePeriod == nil || FYModel?.houseMsg?.rentFreePeriod?.isBlankString == true{
+        if FYModel?.houseMsg?.rentFreePeriod == nil || FYModel?.houseMsg?.rentFreePeriod.isBlankString == true{
             AppUtilities.makeToast("请选择免租期")
             return
         }else {
@@ -638,7 +638,7 @@ extension OwnerBuildingJointOpenStationViewController {
             ownerFYMoreSettingView.ShowOwnerSettingView(datasource: rentFreePeriodArr, clearButtonCallBack: {
                                                                             
             }) {[weak self] (settingEnumIndex) in
-                self?.FYModel?.houseMsg?.rentFreePeriod = self?.rentFreePeriodArr[settingEnumIndex]
+                self?.FYModel?.houseMsg?.rentFreePeriod = self?.rentFreePeriodArr[settingEnumIndex] as! String
                 //单层1 多层2
                 self?.loadSections(indexSet: [indexPath.section])
             }

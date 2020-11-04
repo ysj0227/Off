@@ -63,6 +63,7 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
     }
     
     func showLeaveAlert() {
+        
         endEdting()
         let alert = SureAlertView(frame: self.view.frame)
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确认离开吗？", descMsg: "信息尚未提交。点击离开，已编辑信息不保存", cancelButtonCallClick: {
@@ -397,12 +398,19 @@ extension OwnerCreateBuildingViewController {
         return OwnerCreateBuildingCell.rowHeight()
     }
     
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if typeSourceArray[indexPath.row].type == .OwnerCreteBuildingTypeBranchDistrictArea{
-            endEdting()
-            ///区域商圈选择
-            judgeHasData()
+            if userModel?.buildingId != nil {
+
+            }else {
+
+                endEdting()
+                ///区域商圈选择
+                judgeHasData()
+            }
         }
     }
 }
@@ -483,9 +491,18 @@ class OwnerCreateBuildingCell: BaseEditCell {
                 detailIcon.isHidden = false
                 editLabel.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
             }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
-                editLabel.isUserInteractionEnabled = true
-                lineView.isHidden = false
-                editLabel.text = userModel?.buildingAddress
+                
+                if userModel?.buildingId != nil {
+
+                    editLabel.isUserInteractionEnabled = false
+                    lineView.isHidden = false
+                    editLabel.text = userModel?.buildingAddress
+                }else {
+
+                    editLabel.isUserInteractionEnabled = true
+                    lineView.isHidden = false
+                    editLabel.text = userModel?.buildingAddress
+                }
             }else {
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true

@@ -148,6 +148,8 @@ extension OwnerBuildingNameESearchResultListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNameESSearchIdentifyCell.reuseIdentifierStr) as? OwnerBuildingNameESSearchIdentifyCell
         cell?.selectionStyle = .none
+        cell?.isManagerBuilding = isManagerBuilding
+        cell?.isManagerBranch = isManagerBranch
         if self.dataSource.count > 0 {
             if let model = self.dataSource[indexPath.row]  {
                 cell?.buildingModel = model as? OwnerESBuildingSearchModel
