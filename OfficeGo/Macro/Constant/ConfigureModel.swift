@@ -529,7 +529,7 @@ class OwnerBuildingJointEditConfigureModel : ConfigureModel {
             return FuWenBen(name: "电梯数", centerStr: "   ", last: "")
         ///电梯数 - 客、货梯
         case .OwnerBuildingJointEditTypeFloorCargoNum:
-            return FuWenBen(name: "          ", centerStr: "   ", last: "")
+            return FuWenClearBen(name: "电梯数", centerStr: "   ", last: "")
         ///网络
         case .OwnerBuildingJointEditTypeNetwork:
             return FuWenBen(name: "网络", centerStr: "   ", last: "")
@@ -628,6 +628,35 @@ class OwnerBuildingJointEditConfigureModel : ConfigureModel {
         case .OwnerBuildingJointEditTypeBuildingVR:
             return "请输入URL"
         }
+    }
+    
+    //centerStr *
+    func FuWenClearBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppClearColor , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_10])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
     }
     
     //centerStr *
@@ -754,7 +783,7 @@ class OwnerBuildingEditConfigureModel : ConfigureModel {
             return FuWenBen(name: "电梯数", centerStr: " * ", last: "")
         ///电梯数 - 客、货梯
         case .OwnerBuildingEditTypeFloorCargoNum:
-            return FuWenBen(name: "          ", centerStr: "   ", last: "")
+            return FuWenClearBen(name: "电梯数", centerStr: " * ", last: "")
         ///网络
         case .OwnerBuildingEditTypeNetwork:
             return FuWenBen(name: "网络", centerStr: "   ", last: "")
@@ -943,6 +972,35 @@ class OwnerBuildingEditConfigureModel : ConfigureModel {
         case .OwnerBuildingEditTypeBuildingVR:
             return 0
         }
+    }
+    
+    //centerStr *
+    func FuWenClearBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppClearColor , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_10])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
     }
     
     //centerStr *
