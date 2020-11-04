@@ -11,6 +11,13 @@ import SwiftyJSON
 
 class OwnerBuildingNameESearchResultListViewController: BaseTableViewController {
     
+    
+    ///房源管理 - 写字楼展示
+    var isManagerBuilding: Bool? = false
+    
+    ///房源管理 - 网点无数据展示
+    var isManagerBranch: Bool? = false
+    
     let topView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: cell_height_58))
         view.backgroundColor = kAppWhiteColor
@@ -172,7 +179,13 @@ extension OwnerBuildingNameESearchResultListViewController {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = OwnerCreateView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.width, height: cell_height_58))
-        view.isBuilding = true
+        if isManagerBuilding == true {
+            view.isManagerBuilding = true
+        }else if isManagerBranch == true {
+            view.isManagerBranch = true
+        }else {
+            view.isBuilding = true
+        }
         view.creatButtonCallClick = { [weak self] in
             guard let blockk = self?.creatButtonCallClick else {
                 return

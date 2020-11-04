@@ -180,6 +180,7 @@
 		8E14F58F253033AE007F2096 /* FangYuanBuildingEditDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */; };
 		8E14F59525304EF7007F2096 /* OwnerBuildingIntroductionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */; };
 		8E14F59725305725007F2096 /* OwnerBuildingNetworkSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */; };
+		8E3E22692552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */; };
 		8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486925217C2800F43373 /* OwnerFYListCell.swift */; };
 		8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */; };
 		8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */; };
@@ -499,6 +500,7 @@
 		8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FangYuanBuildingEditDetailModel.swift; sourceTree = "<group>"; };
 		8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingIntroductionCell.swift; sourceTree = "<group>"; };
 		8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNetworkSelectCell.swift; sourceTree = "<group>"; };
+		8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointCreatAddViewController.swift; sourceTree = "<group>"; };
 		8E50486925217C2800F43373 /* OwnerFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListCell.swift; sourceTree = "<group>"; };
 		8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListViewController.swift; sourceTree = "<group>"; };
 		8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYMoreSettingView.swift; sourceTree = "<group>"; };
@@ -1378,6 +1380,7 @@
 				8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */,
 				8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */,
 				8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */,
+				8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2187,6 +2190,7 @@
 				8EDBA52A253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift in Sources */,
 				04E23947249B3ABB009DCCEC /* RecentCitiesableViewCell.swift in Sources */,
 				EEE87B1E2455856800C03424 /* CALayerEx.swift in Sources */,
+				8E3E22692552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift in Sources */,
 				04E2391B249B3ABB009DCCEC /* SearchRenterResultListViewController.swift in Sources */,
 				EEE87B0E2455856800C03424 /* JHViewController.swift in Sources */,
 				04E23935249B3ABB009DCCEC /* RenterFeatureCell.swift in Sources */,

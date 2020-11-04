@@ -410,6 +410,27 @@ class OwnerCreateView: UIView {
         
     }
     
+    
+    
+    ///房源管理 - 写字楼展示
+    var isManagerBuilding: Bool? = false {
+        didSet {
+
+            descLabel.text = "写字楼不存在，去创建写字楼"
+            creatBtn.setTitle("创建写字楼", for: .normal)
+        }
+    }
+    
+    ///房源管理 - 网点无数据展示
+    var isManagerBranch: Bool? = false {
+        didSet {
+
+            descLabel.text = "网点不存在，去创建网点"
+            creatBtn.setTitle("创建网点", for: .normal)
+        }
+    }
+    
+    
     ///创建回调
     var creatButtonCallClick:(() -> Void)?
     

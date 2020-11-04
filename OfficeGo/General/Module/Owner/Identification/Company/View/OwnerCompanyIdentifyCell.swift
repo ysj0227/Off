@@ -114,6 +114,39 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     //模拟认证模型
     var userModel: OwnerIdentifyUserModel?
     
+    
+    ///房源管理 -
+    var FYBuildingCreatAddmodel: OwnerBuildingJointCreatAddConfigureModel = OwnerBuildingJointCreatAddConfigureModel(types: OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeUploadMainPhoto) {
+        didSet {
+            
+            titleLabel.attributedText = FYBuildingCreatAddmodel.getNameFormType(type: FYBuildingCreatAddmodel.type ?? OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeBuildingName)
+            
+            detailIcon.isHidden = true
+            editBtn.isHidden = true
+            closeBtn.isHidden = true
+            
+            if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName{
+                numDescTF.isUserInteractionEnabled = true
+                lineView.isHidden = false
+                numDescTF.text = userModel?.buildingName
+            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingDistrictArea{
+                numDescTF.isUserInteractionEnabled = false
+                lineView.isHidden = false
+                detailIcon.isHidden = false
+                numDescTF.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
+            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
+                numDescTF.isUserInteractionEnabled = true
+                lineView.isHidden = false
+                numDescTF.text = userModel?.buildingAddress
+            }else {
+                numDescTF.isUserInteractionEnabled = false
+                lineView.isHidden = true
+                numDescTF.text = ""
+            }
+        }
+    }
+    
+    
     var model: OwnerCompanyIedntifyConfigureModel = OwnerCompanyIedntifyConfigureModel(types: .OwnerCompanyIedntifyTypeIdentigy) {
         didSet {
             titleLabel.text = model.getNameFormType(type: model.type ?? .OwnerCompanyIedntifyTypeIdentigy)
@@ -269,6 +302,25 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
         
     }
     @objc func valueDidChange() {
+        
+            //只有写字楼地址要在编辑结束的时候传过去
+        if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName {
+            guard let blockk = self.buildingNameClickClouse else {
+                return
+            }
+            addressLabel.text = ""
+            
+            let textNum = numDescTF.text?.count
+            
+            //截取
+            if textNum! > ownerMaxBuildingnameNumber_20 {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
+                let str = numDescTF.text?.substring(to: index!)
+                numDescTF.text = str
+            }
+            
+            blockk(numDescTF.text ?? "")
+        }
         
         //只有写字楼地址要在编辑结束的时候传过去
         if model.type == .OwnerCompanyIedntifyTypeCompanyname {

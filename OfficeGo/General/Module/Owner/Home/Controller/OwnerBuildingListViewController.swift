@@ -73,12 +73,14 @@ class OwnerBuildingListViewController: BaseTableViewController {
     //MARK: 添加楼盘和网点
     @objc func addBuilding() {
         if userModel?.identityType == 2 {
-            let vc = OwnerBuildingJointCreateViewController()
-            vc.isFromAdd = true
+            ///网点
+            let vc = OwnerBuildingJointCreatAddViewController()
+            vc.isBranchs = true
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
-            let vc = OwnerBuildingCreateViewController()
-            vc.isFromAdd = true
+            ///楼盘
+            let vc = OwnerBuildingJointCreatAddViewController()
+            vc.isBuilding = false
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

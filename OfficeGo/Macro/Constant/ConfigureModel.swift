@@ -14,6 +14,77 @@ class ConfigureModel: NSObject {
     var isShowDetailIcon: Bool?
 }
 
+
+//房东
+//房源管理写字楼创建
+class OwnerBuildingJointCreatAddConfigureModel: NSObject {
+    
+    var type: OwnerBuildingCreteAddType?
+    
+    init(types: OwnerBuildingCreteAddType) {
+        type = types
+    }
+    
+    func getNameFormType(type: OwnerBuildingCreteAddType) -> NSMutableAttributedString{
+        switch type {
+        case .OwnerBuildingCreteAddTypeBuildingName:
+            return FuWenBen(name: "写字楼名称", centerStr: " * ", last: "")
+        case .OwnerBuildingCreteAddTypeBuildingDistrictArea:
+            return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
+        case .OwnerBuildingCreteAddTypeBuildingAddress:
+            return FuWenBen(name: "详细地址", centerStr: " * ", last: "")
+        case .OwnerBuildingCreteAddTypeUploadMainPhoto:
+            return FuWenBen(name: "上传封面图", centerStr: " * ", last: "")
+        case .OwnerBuildingCreteAddTypeUploadFCZPhoto:
+            return FuWenBen(name: "上传房产证", centerStr: " * ", last: "")
+        }
+    }
+    
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
+    
+    func getPalaceHolderFormType(type: OwnerBuildingCreteAddType) -> String{
+        switch type {
+        case .OwnerBuildingCreteAddTypeBuildingName:
+            return "请输入写字楼名称"
+        case .OwnerBuildingCreteAddTypeBuildingDistrictArea:
+            return "请选择城市、区域与商圈"
+        case .OwnerBuildingCreteAddTypeBuildingAddress:
+            return "请输入详细地址（2～100个字）"
+        case .OwnerBuildingCreteAddTypeUploadMainPhoto:
+            return ""
+        case .OwnerBuildingCreteAddTypeUploadFCZPhoto:
+            return "可上传5张图片，单张不大于10M，支持jpg、jpeg、png格式"
+        }
+    }
+}
+
 ///房东 - 开放工位编辑
 class OwnerBuildingJointOpenStationConfigureModel : ConfigureModel {
     var type : OwnerBuildingJointOpenStationType?

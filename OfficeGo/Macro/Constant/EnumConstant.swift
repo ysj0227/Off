@@ -280,6 +280,18 @@ public enum OwnerCreteBuildingType {
 }
 
 
+
+///房源管理
+//房东
+//创建写字楼网点页面
+public enum OwnerBuildingCreteAddType {
+    case OwnerBuildingCreteAddTypeBuildingName             //写字楼名称
+    case OwnerBuildingCreteAddTypeBuildingDistrictArea     //所在区域
+    case OwnerBuildingCreteAddTypeBuildingAddress          //地址
+    case OwnerBuildingCreteAddTypeUploadMainPhoto          //封面图
+    case OwnerBuildingCreteAddTypeUploadFCZPhoto           //房产证图
+}
+
 //房东
 //编辑写字楼页面
 public enum OwnerBuildingEditType {

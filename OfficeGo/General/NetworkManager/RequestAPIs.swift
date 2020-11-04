@@ -174,7 +174,7 @@ class SSChatURL: NSObject {
     //记录第一次发送
     static let addChatApp = "api/chat/addChatApp"
     
-    //获取用户信息
+    //获取融云用户信息
     static let getUserChatInfoApp = "api/user/getUser"
     
     //交换手机微信号判断

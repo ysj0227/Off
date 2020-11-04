@@ -416,25 +416,25 @@ class OwnerCreateBuildingCell: BaseEditCell {
     override func setDelegate() {
         editLabel.delegate = self
         editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
-        }
-        @objc func valueDidChange() {
-            let textNum = editLabel.text?.count
-            if model.type == .OwnerCreteBuildingTypeBranchName{
-                //截取
-                if textNum! > ownerMaxBuildingnameNumber_20 {
-                    let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
-                    let str = editLabel.text?.substring(to: index!)
-                    editLabel.text = str
-                }
-            }else if model.type == .OwnerCreteBuildingTypeBranchAddress{
-                //截取
-                if textNum! > ownerMaxAddressDetailNumber_30 {
-                    let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
-                    let str = editLabel.text?.substring(to: index!)
-                    editLabel.text = str
-                }
+    }
+    @objc func valueDidChange() {
+        let textNum = editLabel.text?.count
+        if model.type == .OwnerCreteBuildingTypeBranchName{
+            //截取
+            if textNum! > ownerMaxBuildingnameNumber_20 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
+                let str = editLabel.text?.substring(to: index!)
+                editLabel.text = str
+            }
+        }else if model.type == .OwnerCreteBuildingTypeBranchAddress{
+            //截取
+            if textNum! > ownerMaxAddressDetailNumber_30 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
+                let str = editLabel.text?.substring(to: index!)
+                editLabel.text = str
             }
         }
+    }
     
     var model: OwnerCreatBuildingConfigureModel = OwnerCreatBuildingConfigureModel(types: OwnerCreteBuildingType.OwnerCreteBuildingTypeBranchName) {
         didSet {
@@ -457,6 +457,36 @@ class OwnerCreateBuildingCell: BaseEditCell {
                 lineView.isHidden = false
                 editLabel.text = userModel?.buildingAddress
             }else if model.type == .OwnerCreteBuildingTypeUploadYingyePhoto{
+                editLabel.isUserInteractionEnabled = false
+                lineView.isHidden = true
+                editLabel.text = ""
+            }
+        }
+    }
+    
+    ///房源管理 -
+    var FYBuildingCreatAddmodel: OwnerBuildingJointCreatAddConfigureModel = OwnerBuildingJointCreatAddConfigureModel(types: OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeBuildingName) {
+        didSet {
+            
+            
+            titleLabel.attributedText = FYBuildingCreatAddmodel.getNameFormType(type: FYBuildingCreatAddmodel.type ?? OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeBuildingName)
+            
+            detailIcon.isHidden = true
+            
+            if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName{
+                editLabel.isUserInteractionEnabled = true
+                lineView.isHidden = false
+                editLabel.text = userModel?.buildingName
+            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingDistrictArea{
+                editLabel.isUserInteractionEnabled = false
+                lineView.isHidden = false
+                detailIcon.isHidden = false
+                editLabel.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
+            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
+                editLabel.isUserInteractionEnabled = true
+                lineView.isHidden = false
+                editLabel.text = userModel?.buildingAddress
+            }else {
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true
                 editLabel.text = ""
