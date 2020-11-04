@@ -37,7 +37,7 @@ class OwnerFYListCell: BaseTableViewCell {
         let view = UILabel()
         view.textAlignment = .left
         view.font = FONT_14
-        view.numberOfLines = 2
+        view.numberOfLines = 1
         view.textColor = kAppColor_333333
         return view
     }()

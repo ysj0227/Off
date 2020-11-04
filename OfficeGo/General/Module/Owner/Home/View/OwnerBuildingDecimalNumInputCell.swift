@@ -474,7 +474,7 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         
         
         //MARK: 办公室
-        //MARK: 办公室     ///建筑面积 - 两位
+        //MARK: 办公室     ///建筑面积 - 必填，只支持10-100000正数数字，保留2位小数，单位 M²
         if officeModel.type == .OwnerBuildingOfficeTypeArea {
             ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
             if let areaOffice = FYModel?.houseMsg?.area {
@@ -495,6 +495,35 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
                 return
             }
             blockk(FYModel ?? FangYuanHouseEditModel())
+            
+            /*
+            if let num = Float(editLabel.text ?? "0") {
+                if num > 100000 || num < 10 {
+                    editLabel.text = nil
+                    AppUtilities.makeToast("仅支持10-100000之间正数，保留2位小数")
+                }else {
+
+                    ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
+                    if let areaOffice = FYModel?.houseMsg?.area {
+                        if textField.text != areaOffice {
+                            let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
+                            let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
+                            FYModel?.houseMsg?.minSeatsOffice = "\(min)"
+                            FYModel?.houseMsg?.maxSeatsOffice = "\(max)"
+                        }
+                    }else {
+                        let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
+                        let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
+                        FYModel?.houseMsg?.minSeatsOffice = "\(min)"
+                        FYModel?.houseMsg?.maxSeatsOffice = "\(max)"
+                    }
+                }
+            }
+            FYModel?.houseMsg?.area = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanHouseEditModel())*/
         }
         //MARK: 办公室     ///净高
         else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
