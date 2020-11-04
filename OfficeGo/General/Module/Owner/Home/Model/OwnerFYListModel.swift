@@ -217,10 +217,10 @@ class OwnerFYListViewModel: NSObject {
                            
 
             }else {
-                openSeatsString = "\(model.seats ?? "0")" + "工位"
+                openSeatsString = "共\(model.seats ?? "0")" + "工位"
                 openSeatsStringAttri = FuWenBen(name: "\(model.seats ?? "0")", centerStr: "工位")
                 openSeatsUnitLBString = "开放工位"
-                openMonthPriceString = "¥\(model.dayPrice ?? 0)"
+                openMonthPriceString = "¥\(model.dayPrice ?? 0)/位/月"
                 
                 
                 houseTypTags = "openstationTag"

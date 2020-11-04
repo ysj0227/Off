@@ -317,7 +317,7 @@ class OwnerFYListCell: BaseTableViewCell {
             }else {
 
                 areaLabel.text = viewModel.openSeatsString
-                housePriceLabel.text = viewModel.individualDayPriceString
+                housePriceLabel.text = viewModel.openMonthPriceString
                 
             }
         }
