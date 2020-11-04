@@ -167,7 +167,7 @@ class OwnerFYListViewModel: NSObject {
             }else {
                 buildinSeats = "最多0个工位"
             }
-            buildingDayPriceString = "¥\(model.dayPrice ?? 0)/㎡/天"
+            buildingDayPriceString = "¥\(model.dayPrice ?? 0)/㎡/天起"
             buildingMonthPriceString = "¥\(model.monthPrice ?? 0)/月"
             buildingDecoration = model.dictCname ?? ""
             
