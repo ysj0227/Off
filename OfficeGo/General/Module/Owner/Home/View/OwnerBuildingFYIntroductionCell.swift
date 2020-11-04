@@ -64,9 +64,16 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
     
     var FYModel: FangYuanHouseEditModel = FangYuanHouseEditModel() {
         didSet {
-            
             intruductionTextview.text = FYModel.houseMsg?.unitPatternRemark
-
+            
+            let textContent = FYModel.houseMsg?.unitPatternRemark
+            let textNum = textContent?.count ?? 0
+            if textNum >= 100 {
+                numOfCharLabel.text = "100/100"
+            }else {
+                numOfCharLabel.text = String(format: "%ld/100", FYModel.houseMsg?.unitPatternRemark?.count ?? 0)
+            }
+            
             if FYModel.houseMsg?.unitPatternRemark != nil && FYModel.houseMsg?.unitPatternRemark?.isBlankString != true {
                 intruductionTextview.placeholder = ""
             }else {
@@ -125,7 +132,7 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
             make.height.equalTo(110)
         }
         numOfCharLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(intruductionTextview.snp.bottom)
+            make.top.equalTo(intruductionTextview.snp.bottom).offset(-5)
             make.height.equalTo(20)
             make.trailing.equalToSuperview().inset(left_pending_space_17)
         }

@@ -48,7 +48,17 @@ class OwnerBuildingIntroductionCell: BaseTableViewCell {
 
     var buildingModel: FangYuanBuildingEditModel = FangYuanBuildingEditModel() {
         didSet {
+            
             intruductionTextview.text = buildingModel.buildingMsg?.buildingIntroduction
+
+            let textContent = buildingModel.buildingMsg?.buildingIntroduction
+            let textNum = textContent?.count ?? 0
+            if textNum >= 100 {
+                numOfCharLabel.text = "100/100"
+            }else {
+                numOfCharLabel.text = String(format: "%ld/100", buildingModel.buildingMsg?.buildingIntroduction?.count ?? 0)
+            }
+
             if buildingModel.buildingMsg?.buildingIntroduction != nil && buildingModel.buildingMsg?.buildingIntroduction?.isBlankString != true {
                 intruductionTextview.placeholder = ""
             }else {
