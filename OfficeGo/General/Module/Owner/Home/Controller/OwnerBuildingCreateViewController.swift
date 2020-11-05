@@ -1034,6 +1034,8 @@ extension OwnerBuildingCreateViewController {
         case .OwnerBuildingEditTypeBuildingImage:
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingImgCell.reuseIdentifierStr) as? OwnerBuildingImgCell
             cell?.selectionStyle = .none
+            cell?.buildingCreatVC = self
+            cell?.buildingJointCreatVC = nil
             cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
             return cell ?? OwnerBuildingImgCell.init(frame: .zero)
