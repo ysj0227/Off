@@ -44,7 +44,7 @@ class OwnerBuildingListModel: BaseModel {
 class OwnerBuildingListViewModel: NSObject {
     ///1是写字楼，2是共享办公
     var btype: Int?
-    var idString: Int?                  //房源id
+    var buildingId: Int?                  //id
     var buildingName: String?           //楼盘名称
     var isEdit : Bool?
     ///是不是临时的楼盘；0不是，1是
@@ -63,7 +63,7 @@ class OwnerBuildingListViewModel: NSObject {
     init(model:OwnerBuildingListModel) {
         super.init()
         btype = model.btype
-        idString = model.buildingId
+        buildingId = model.buildingId
         isEdit = model.isEdit
         isTemp = model.isTemp
         status = model.status

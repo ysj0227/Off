@@ -130,7 +130,7 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         }else {
             params["btype"] = buildingListViewModel?.btype as AnyObject?
         }
-        params["buildingId"] = buildingListViewModel?.idString as AnyObject?
+        params["buildingId"] = buildingListViewModel?.buildingId as AnyObject?
         ///是不是临时的楼盘；0不是，1是
         params["isTemp"] = buildingListViewModel?.isTemp as AnyObject?
 
@@ -191,11 +191,15 @@ extension OwnerFYListViewController {
             if self?.buildingListViewModel?.btype == 1 {
                 ///办公室
                 let vc = OwnerBuildingOfficeViewController()
+                vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
+                vc.BuildingID = self?.buildingListViewModel?.buildingId
                 vc.isFromAdd = true
                 self?.navigationController?.pushViewController(vc, animated: true)
             }else if self?.buildingListViewModel?.btype == 2 {
                 ///独立办公室
                 let vc = OwnerBuildingJointIndepententOfficeViewController()
+                vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
+                vc.BuildingID = self?.buildingListViewModel?.buildingId
                 vc.isFromAdd = true
                 self?.navigationController?.pushViewController(vc, animated: true)
             }
@@ -505,7 +509,7 @@ extension OwnerFYListViewController {
                         buildingModel.isTemp = viewModel.isTemp
                         buildingModel.id = viewModel.houseId
                         vc.houseID = viewModel.houseId
-                        vc.isTemp = viewModel.isTemp
+                        vc.houseIsTemp = viewModel.isTemp
                         vc.FYModel = buildingModel
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else {
@@ -517,7 +521,7 @@ extension OwnerFYListViewController {
                             buildingModel.isTemp = viewModel.isTemp
                             buildingModel.id = viewModel.houseId
                             vc.houseID = viewModel.houseId
-                            vc.isTemp = viewModel.isTemp
+                            vc.houseIsTemp = viewModel.isTemp
                             vc.FYModel = buildingModel
                             self?.navigationController?.pushViewController(vc, animated: true)
                         }else {
@@ -528,7 +532,7 @@ extension OwnerFYListViewController {
                             buildingModel.isTemp = viewModel.isTemp
                             buildingModel.id = viewModel.houseId
                             vc.houseID = viewModel.houseId
-                            vc.isTemp = viewModel.isTemp
+                            vc.houseIsTemp = viewModel.isTemp
                             vc.FYModel = buildingModel
                             self?.navigationController?.pushViewController(vc, animated: true)
                         }

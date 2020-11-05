@@ -254,7 +254,7 @@ extension OwnerBuildingListViewController {
                     if viewModel.btype == 1 {
                         let model = FangYuanListModel()
                         model.btype = viewModel.btype
-                        model.id = viewModel.idString
+                        model.id = viewModel.buildingId
                         model.isTemp = viewModel.isTemp
                         model.status = viewModel.status
                         let vc = RenterOfficebuildingDetailVC()
@@ -264,7 +264,7 @@ extension OwnerBuildingListViewController {
                     }else if viewModel.btype == 2 {
                         let model = FangYuanListModel()
                         model.btype = viewModel.btype
-                        model.id = viewModel.idString
+                        model.id = viewModel.buildingId
                         model.isTemp = viewModel.isTemp
                         model.status = viewModel.status
                         let vc = RenterOfficeJointDetailVC()
@@ -284,7 +284,7 @@ extension OwnerBuildingListViewController {
                     if viewModel.btype == 1 {
                         let buildingModel = FangYuanBuildingEditModel()
                         buildingModel.isTemp = viewModel.isTemp
-                        buildingModel.buildingId = viewModel.idString
+                        buildingModel.buildingId = viewModel.buildingId
                         let vc = OwnerBuildingCreateViewController()
                         vc.isTemp = viewModel.isTemp
                         vc.buildingModel = buildingModel
@@ -292,7 +292,7 @@ extension OwnerBuildingListViewController {
                     }else if viewModel.btype == 2 {
                         let buildingModel = FangYuanBuildingEditModel()
                         buildingModel.isTemp = viewModel.isTemp
-                        buildingModel.buildingId = viewModel.idString
+                        buildingModel.buildingId = viewModel.buildingId
                         let vc = OwnerBuildingJointCreateViewController()
                         vc.isTemp = viewModel.isTemp
                         vc.buildingModel = buildingModel

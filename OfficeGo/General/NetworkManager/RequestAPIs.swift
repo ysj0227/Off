@@ -83,6 +83,10 @@ class SSOwnerFYManagerURL: NSObject {
     
     //房源编辑接口
     static let getUpdateHouse = "api/house/updateHouse"
+    
+    //房源添加接口
+    static let getinsertHouse = "api/house/insertHouse"
+    
         
     //楼盘列表接口
     static let getBuildingList = "api/building/selectBuildingList"

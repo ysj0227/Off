@@ -74,8 +74,7 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     }()
     
     @objc func saveClick() {
-        let vc = OwnerBuildingCreateVideoVRViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func pcEditClick() {

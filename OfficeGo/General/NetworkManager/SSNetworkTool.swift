@@ -523,6 +523,14 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
+        //房源添加接口
+        static func request_getinsertHouse(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.getinsertHouse)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        
         ///楼盘列表接口
         static func request_getBuildingList(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getBuildingList)
