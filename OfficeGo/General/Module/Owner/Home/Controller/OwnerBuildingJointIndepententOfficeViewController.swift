@@ -333,6 +333,7 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
             }
         }
         
+        /*
         //MARK: 车位数 - 非
         if FYModel?.houseMsg?.parkingSpace == nil || FYModel?.houseMsg?.parkingSpace?.isBlankString == true{
             //AppUtilities.makeToast("请输入车位数")
@@ -347,7 +348,7 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
             //return
         }else {
             params["parkingSpaceRent"] = FYModel?.houseMsg?.parkingSpaceRent as AnyObject?
-        }
+        }*/
         
         
         //MARK: 净高 - 非
