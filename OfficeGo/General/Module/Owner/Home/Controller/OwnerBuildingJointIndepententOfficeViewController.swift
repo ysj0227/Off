@@ -171,12 +171,13 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
         
         ///空调费
         typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeAirConditionCoast))
-        
+        /*
         ///车位数
         typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeParkingNum))
         
         ///车位费
         typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeParkingCoast))
+        */
         
         ///净高
         typeSourceArray.append(OwnerBuildingJointOfficeConfigureModel.init(types: .OwnerBuildingJointOfficeTypeClearHeight))
