@@ -108,11 +108,7 @@ class OwnerBuildingVRCell: BaseTableViewCell {
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingVR)
             editLabel.placeholder = model.getPalaceHolderFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingVR)
             
-            if let vrr = buildingModel?.buildingLocalVRArr {
-                if vrr.count > 0 {
-                    editLabel.text = vrr[0].imgUrl
-                }
-            }
+            editLabel.text = buildingModel?.vrUrl
         }
     }
     var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage) {
@@ -121,11 +117,7 @@ class OwnerBuildingVRCell: BaseTableViewCell {
             titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingVR)
             editLabel.placeholder = jointModel.getPalaceHolderFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingVR)
             
-            if let vrr = buildingModel?.buildingLocalVRArr {
-                if vrr.count > 0 {
-                    editLabel.text = vrr[0].imgUrl
-                }
-            }
+            editLabel.text = buildingModel?.vrUrl
         }
     }
     
@@ -136,12 +128,7 @@ class OwnerBuildingVRCell: BaseTableViewCell {
             titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
             editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
             
-            
-            if let vrr = buildingModel?.buildingLocalVRArr {
-                if vrr.count > 0 {
-                    editLabel.text = vrr[0].imgUrl
-                }
-            }
+            editLabel.text = FYModel?.vrUrl
         }
     }
     
@@ -153,7 +140,8 @@ class OwnerBuildingVRCell: BaseTableViewCell {
             titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
             editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
            
-            
+            editLabel.text = FYModel?.vrUrl
+    
         }
     }
     
@@ -175,7 +163,7 @@ extension OwnerBuildingVRCell: UITextFieldDelegate {
 
         //MARK: 楼盘
         if model.type == .OwnerBuildingEditTypeBuildingVR {
-
+            buildingModel?.vrUrl = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
@@ -186,8 +174,7 @@ extension OwnerBuildingVRCell: UITextFieldDelegate {
         
         //MARK: 网点
         if jointModel.type == .OwnerBuildingJointEditTypeBuildingVR {
-            
-            buildingModel?.buildingMsg?.conferenceNumber = textField.text
+            buildingModel?.vrUrl = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
@@ -198,7 +185,7 @@ extension OwnerBuildingVRCell: UITextFieldDelegate {
         
         //MARK: 办公室
         if officeModel.type == .OwnerBuildingOfficeTypeBuildingVR {
-            FYModel?.houseMsg?.minimumLease = textField.text
+            FYModel?.vrUrl = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
@@ -209,7 +196,7 @@ extension OwnerBuildingVRCell: UITextFieldDelegate {
         
         //MARK: 独立办公室
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeBuildingVR {
-            FYModel?.houseMsg?.minSeatsOffice = textField.text
+            FYModel?.vrUrl = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }

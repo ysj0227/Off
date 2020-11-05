@@ -93,6 +93,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         let vc = OwnerBuildingCreateVideoVRViewController()
         vc.isBuildingJoint = true
         vc.isClose = isClose
+        buildingModel?.isTemp = isTemp
         vc.buildingModel = buildingModel
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -779,6 +780,15 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
             mainPicModel.isLocal = false
             mainPicModel.isMain = true
             buildingModel?.buildingLocalImgArr.insert(mainPicModel, at: 0)
+        }
+        
+        ///添加vr数据
+        if let arr = buildingModel?.vr {
+            
+            for fczBannerModel in arr {
+                buildingModel?.vrUrl = fczBannerModel.imgUrl
+                break
+            }
         }
         
         ///刷新列表

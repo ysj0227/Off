@@ -74,7 +74,97 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     }()
     
     @objc func saveClick() {
-        self.navigationController?.popToRootViewController(animated: true)
+        vrSavePublish()
+    }
+    
+    ///提交接口
+    func vrSavePublish() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        if isBuilding == true {
+            params["buildingId"] = buildingModel?.buildingMsg?.id as AnyObject?
+            params["vr"] = buildingModel?.vrUrl as AnyObject?
+            params["isTemp"] = buildingModel?.isTemp as AnyObject?
+
+            SSNetworkTool.SSFYManager.request_addBuildingVr(params: params, success: {[weak self] (response) in
+                
+                self?.navigationController?.popToRootViewController(animated: true)
+                
+                }, failure: { (error) in
+                    
+                    
+            }) { (code, message) in
+                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
+            }
+        }
+        if isBuildingJoint == true {
+            params["buildingId"] = buildingModel?.buildingMsg?.id as AnyObject?
+            params["vr"] = buildingModel?.vrUrl as AnyObject?
+            params["isTemp"] = buildingModel?.isTemp as AnyObject?
+
+            SSNetworkTool.SSFYManager.request_addBuildingVr(params: params, success: {[weak self] (response) in
+                
+                self?.navigationController?.popToRootViewController(animated: true)
+                
+                }, failure: { (error) in
+                    
+                    
+            }) { (code, message) in
+                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
+            }
+        }
+        if isBuildingFY == true {
+            params["houseId"] = FYModel?.houseMsg?.id as AnyObject?
+            params["vr"] = FYModel?.vrUrl as AnyObject?
+            
+            SSNetworkTool.SSFYManager.request_addHouseVr(params: params, success: {[weak self] (response) in
+                
+                self?.navigationController?.popToRootViewController(animated: true)
+                
+                }, failure: { (error) in
+                    
+                    
+            }) { (code, message) in
+                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
+            }
+        }
+        if isBuildingJointOffice == true {
+            params["houseId"] = FYModel?.houseMsg?.id as AnyObject?
+            params["vr"] = FYModel?.vrUrl as AnyObject?
+            
+            SSNetworkTool.SSFYManager.request_addHouseVr(params: params, success: {[weak self] (response) in
+                
+                self?.navigationController?.popToRootViewController(animated: true)
+                
+                }, failure: { (error) in
+                    
+                    
+            }) { (code, message) in
+                
+                //只有5000 提示给用户
+                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                    AppUtilities.makeToast(message)
+                }
+            }
+        }
+
+        
     }
     
     @objc func pcEditClick() {
@@ -275,8 +365,8 @@ extension OwnerBuildingCreateVideoVRViewController {
                 ///点击cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
                 cell?.selectionStyle = .none
-                cell?.model = model
                 cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+                cell?.model = model
                 return cell ?? OwnerBuildingVRCell.init(frame: .zero)
             }else {
                 return UITableViewCell()
@@ -292,8 +382,8 @@ extension OwnerBuildingCreateVideoVRViewController {
                 ///点击cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
                 cell?.selectionStyle = .none
-                cell?.jointModel = model
                 cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
+                cell?.jointModel = model
                 return cell ?? OwnerBuildingVRCell.init(frame: .zero)
             }else {
                 return UITableViewCell()
@@ -309,8 +399,8 @@ extension OwnerBuildingCreateVideoVRViewController {
                 ///点击cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
                 cell?.selectionStyle = .none
+                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.officeModel = model
-                cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
                 return cell ?? OwnerBuildingVRCell.init(frame: .zero)
             }else {
                 return UITableViewCell()
@@ -326,8 +416,8 @@ extension OwnerBuildingCreateVideoVRViewController {
                 ///点击cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingVRCell.reuseIdentifierStr) as? OwnerBuildingVRCell
                 cell?.selectionStyle = .none
+                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.jointIndepentOfficeModel = model
-                cell?.buildingModel = self.buildingModel ?? FangYuanBuildingEditModel()
                 return cell ?? OwnerBuildingVRCell.init(frame: .zero)
             }else {
                 return UITableViewCell()

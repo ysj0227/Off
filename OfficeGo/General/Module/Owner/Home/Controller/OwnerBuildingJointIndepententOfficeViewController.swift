@@ -657,8 +657,8 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
         if let arr = FYModel?.vr {
             
             for fczBannerModel in arr {
-                fczBannerModel.isLocal = false
-                FYModel?.buildingLocalVRArr.append(fczBannerModel)
+                FYModel?.vrUrl = fczBannerModel.imgUrl
+                break
             }
         }
         

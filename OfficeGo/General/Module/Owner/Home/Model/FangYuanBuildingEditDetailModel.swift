@@ -32,6 +32,9 @@ class FangYuanBuildingEditModel: BaseModel {
     
     var buildingId : Int?
     
+    var vrUrl: String?
+
+    
 }
 
 class FangYuanBuildingMsgEditModel: BaseModel {
@@ -292,6 +295,8 @@ class FangYuanHouseEditModel: BaseModel {
     
     ///房源id
     var id : Int?
+    
+    var vrUrl: String?
     
 }
 ///MARK: 房源详情

@@ -480,6 +480,20 @@ extension SSNetworkTool {
     //  MARK:   --房源管理
     class SSFYManager: NSObject {
         
+        //vr楼盘发布
+        static func request_addBuildingVr(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.addBuildingVr)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
+        //vr房源发布
+        static func request_addHouseVr(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.addHouseVr)
+            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
         //上传阿里云图片
         static func request_uploadResourcesUrl(params: Eic, imagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.uploadResourcesUrl)

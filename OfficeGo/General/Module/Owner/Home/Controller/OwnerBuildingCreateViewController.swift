@@ -94,6 +94,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         let vc = OwnerBuildingCreateVideoVRViewController()
         vc.isBuilding = true
         vc.isClose = isClose
+        buildingModel?.isTemp = isTemp
         vc.buildingModel = buildingModel
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -358,8 +359,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         if let arr = buildingModel?.vr {
             
             for fczBannerModel in arr {
-                fczBannerModel.isLocal = false
-                buildingModel?.buildingLocalVRArr.append(fczBannerModel)
+                buildingModel?.vrUrl = fczBannerModel.imgUrl
+                break
             }
         }
         
