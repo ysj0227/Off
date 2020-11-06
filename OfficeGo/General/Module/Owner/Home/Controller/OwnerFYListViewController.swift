@@ -188,20 +188,28 @@ extension OwnerFYListViewController {
         titleview?.rightButton.layoutButton(.imagePositionRight, margin: 2)
         titleview?.titleLabel.text = "房源列表"
         titleview?.rightBtnClickBlock = { [weak self] in
-            if self?.buildingListViewModel?.btype == 1 {
-                ///办公室
-                let vc = OwnerBuildingOfficeViewController()
-                vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
-                vc.BuildingID = self?.buildingListViewModel?.buildingId
-                vc.isFromAdd = true
-                self?.navigationController?.pushViewController(vc, animated: true)
-            }else if self?.buildingListViewModel?.btype == 2 {
-                ///独立办公室
-                let vc = OwnerBuildingJointIndepententOfficeViewController()
-                vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
-                vc.BuildingID = self?.buildingListViewModel?.buildingId
-                vc.isFromAdd = true
-                self?.navigationController?.pushViewController(vc, animated: true)
+            
+            if  self?.buildingListViewModel?.isTemp == false && self?.buildingListViewModel?.status == 1 {
+
+                
+                if self?.buildingListViewModel?.btype == 1 {
+                    ///办公室
+                    let vc = OwnerBuildingOfficeViewController()
+                    vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
+                    vc.BuildingID = self?.buildingListViewModel?.buildingId
+                    vc.isFromAdd = true
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }else if self?.buildingListViewModel?.btype == 2 {
+                    ///独立办公室
+                    let vc = OwnerBuildingJointIndepententOfficeViewController()
+                    vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
+                    vc.BuildingID = self?.buildingListViewModel?.buildingId
+                    vc.isFromAdd = true
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }else {
+                
+                AppUtilities.makeToast("审核中，不能添加房源")
             }
             
         }
@@ -355,6 +363,13 @@ extension OwnerFYListViewController {
         }
             ///删除
         else if index == OWnerFYMoreSettingEnum.deleteEnum {
+            
+            if viewModel.btype == 2 {
+                if viewModel.officeType != 1 {
+                    AppUtilities.makeToast("开放工位不可删除")
+                    return
+                }
+            }
             
             let alert = SureAlertView(frame: self.view.frame)
             alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确定删除房源吗？", descMsg: "", cancelButtonCallClick: {
