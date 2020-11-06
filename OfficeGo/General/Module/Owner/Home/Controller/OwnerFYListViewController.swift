@@ -333,8 +333,10 @@ extension OwnerFYListViewController {
                 if let model = self?.dataSource[section] as? OwnerFYListModel {
                     if viewModel.houseStatus == 1 {
                         model.houseStatus = 2
+                        AppUtilities.makeToast("房源已下架")
                     }else {
                         model.houseStatus = 1
+                        AppUtilities.makeToast("房源已发布")
                     }
                     let viewmodel = OwnerFYListViewModel.init(model: model)
                     self?.dataSourceViewModel.remove(at: section)
@@ -354,24 +356,13 @@ extension OwnerFYListViewController {
             ///删除
         else if index == OWnerFYMoreSettingEnum.deleteEnum {
             
-            var params = [String:AnyObject]()
-            params["token"] = UserTool.shared.user_token as AnyObject?
-            params["houseId"] = viewModel.houseId as AnyObject?
-            params["isTemp"] = viewModel.isTemp as AnyObject?
-            
-            SSNetworkTool.SSFYManager.request_getHouseDelete(params: params, success: {[weak self] (response) in
-                
-                self?.dataSourceViewModel.remove(viewModel)
-                self?.tableView.reloadData()
-                
-                }, failure: { (error) in
-                    
-            }) { (code, message) in
-                //只有5000 提示给用户
-                if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
-                    AppUtilities.makeToast(message)
-                }
+            let alert = SureAlertView(frame: self.view.frame)
+            alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "确定删除房源吗？", descMsg: "", cancelButtonCallClick: {
+
+            }) { [weak self] in
+                self?.deleteFY(viewModel: viewModel, section: section)
             }
+
         }
     }
     
@@ -395,8 +386,10 @@ extension OwnerFYListViewController {
         if let model = self?.dataSource[section] as? OwnerFYListModel {
             if viewModel.houseStatus == 1 {
                 model.houseStatus = 2
+                AppUtilities.makeToast("房源已下架")
             }else {
                 model.houseStatus = 1
+                AppUtilities.makeToast("房源已发布")
             }
             let viewmodel = OwnerFYListViewModel.init(model: model)
             self?.dataSourceViewModel.remove(at: section)
@@ -419,6 +412,7 @@ extension OwnerFYListViewController {
         shareClick(viewModel: viewModel)
         shareVc(viewModel: viewModel)
     }
+    
     
     //MARK: 删除
     func deleteFY(viewModel: OwnerFYListViewModel, section: Int) {
@@ -581,6 +575,8 @@ extension OwnerFYListViewController {
                     detail.houseStatus = model.houseStatus
                     vc.model = detail
                     self.navigationController?.pushViewController(vc, animated: true)
+                }else {
+                    AppUtilities.makeToast("开放工位不支持预览")
                 }
             }
             
