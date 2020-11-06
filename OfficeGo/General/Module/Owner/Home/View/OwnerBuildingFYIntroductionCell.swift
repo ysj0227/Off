@@ -207,8 +207,9 @@ extension OwnerBuildingFYIntroductionCell {
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-        ///0图片1视频
-        params["filedirType"] = 0 as AnyObject?
+        
+        ///1楼图片2视频3房源图片
+        params["filedirType"] = UploadImgOrVideoEnum.fyImage.rawValue as AnyObject?
 
         
         SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: [img], success: {[weak self] (response) in

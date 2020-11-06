@@ -256,7 +256,7 @@ extension OwnerBuildingJointCreatAddViewController {
             }
         }
         
-        params["buildingAddress"] = userModel?.buildingAddress as AnyObject?
+        params["address"] = userModel?.buildingAddress as AnyObject?
         
         params["mainPic"] = mainPicBannermodel.imgUrl as AnyObject?
         
@@ -480,8 +480,8 @@ extension OwnerBuildingJointCreatAddViewController {
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-        ///0图片1视频
-        params["filedirType"] = 0 as AnyObject?
+        ///1楼图片2视频3房源图片
+        params["filedirType"] = UploadImgOrVideoEnum.buildingImage.rawValue as AnyObject?
 
         
         SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: [img], success: {[weak self] (response) in
@@ -514,8 +514,9 @@ extension OwnerBuildingJointCreatAddViewController {
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-        ///0图片1视频
-        params["filedirType"] = 0 as AnyObject?
+        
+        ///1楼图片2视频3房源图片
+        params["filedirType"] = UploadImgOrVideoEnum.buildingImage.rawValue as AnyObject?
         
         SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: imgArr, success: {[weak self] (response) in
             guard let weakSelf = self else {return}

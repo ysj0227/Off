@@ -8,6 +8,15 @@
 
 import UIKit
 
+///上传接口的类型
+///1楼图片2视频3房源图片
+enum UploadImgOrVideoEnum: Int {
+    case buildingImage = 1
+    case video = 2
+    case fyImage = 3
+}
+
+
 ///楼盘房源详情- vr 视频 图片展示
 enum BuildingDetailHeaderTypeEnum: Int {
 //    case vr = "VR"
