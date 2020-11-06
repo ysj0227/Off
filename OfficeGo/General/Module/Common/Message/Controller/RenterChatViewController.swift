@@ -127,24 +127,29 @@ class RenterChatViewController: RCConversationViewController {
             
             guard let weakSelf = self else {return}
             
-            if let nickname = weakSelf.messageFYModel?.chatted?.nickname, let job = weakSelf.messageFYModel?.chatted?.job {
+            if let nickname = weakSelf.messageFYModel?.chatted?.nickname, let job = weakSelf.messageFYModel?.chatted?.job, let buildingName = weakSelf.messageFYViewModel?.buildingName {
                 //定义富文本即有格式的字符串
                 let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
                 
                 if nickname.count > 0 {
-                    let nameAtt = NSAttributedString.init(string: nickname, attributes: [NSAttributedString.Key.foregroundColor : kAppWhiteColor, NSAttributedString.Key.font : FONT_MEDIUM_17])
+                    let nameAtt = NSAttributedString.init(string: nickname, attributes: [NSAttributedString.Key.foregroundColor : kAppWhiteColor, NSAttributedString.Key.font : FONT_MEDIUM_16])
                     attributedStrM.append(nameAtt)
                     
                 }
                 
                 if job.count > 0 {
-                    
-                    attributedStrM.append(NSAttributedString.init(string: "\n"))
-                    
-                    let xingxing = NSAttributedString.init(string: job, attributes: [NSAttributedString.Key.foregroundColor: kAppWhiteColor , NSAttributedString.Key.font : FONT_13])
+                                        
+                    let xingxing = NSAttributedString.init(string: " | \(job)", attributes: [NSAttributedString.Key.foregroundColor: kAppWhiteColor , NSAttributedString.Key.font : FONT_13])
                     
                     attributedStrM.append(xingxing)
                     
+                }
+                
+                if buildingName.count > 0 {
+                                        
+                    let xingxing = NSAttributedString.init(string: "\n \(buildingName)", attributes: [NSAttributedString.Key.foregroundColor: kAppWhiteColor , NSAttributedString.Key.font : FONT_13])
+                    
+                    attributedStrM.append(xingxing)
                 }
                 
                 weakSelf.titleview?.titleLabel.attributedText = attributedStrM
