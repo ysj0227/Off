@@ -608,15 +608,13 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
         }else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
             cell?.indexPath = indexPath
+            cell?.closeBtn.isHidden = true
             if let imgurl = mainPicBannermodel.imgUrl {
-                cell?.closeBtn.isHidden = false
                 cell?.image.setImage(with: imgurl, placeholder: UIImage(named: Default_1x1))
             }else {
                 if let image = mainPicBannermodel.image {
-                    cell?.closeBtn.isHidden = false
                     cell?.image.image = image
                 }else {
-                    cell?.closeBtn.isHidden = true
                     cell?.image.image = UIImage.init(named: "addImgBg")
                 }
             }

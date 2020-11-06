@@ -644,7 +644,7 @@ class OwnerBuildingJointEditConfigureModel : ConfigureModel {
         
         if centerStr.count > 0 {
             //*
-            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppClearColor , NSAttributedString.Key.font : FONT_18])
             
             attributedStrM.append(xingxing)
             
@@ -988,7 +988,7 @@ class OwnerBuildingEditConfigureModel : ConfigureModel {
         
         if centerStr.count > 0 {
             //*
-            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppClearColor , NSAttributedString.Key.font : FONT_18])
             
             attributedStrM.append(xingxing)
             
