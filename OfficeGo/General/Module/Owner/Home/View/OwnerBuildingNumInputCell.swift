@@ -149,20 +149,6 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                 }
             }
         }
-            //MARK: 办公室     ///租金 单价 - 输入 元/月，范围：1-1000000之间正整数，单位“元
-        else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-            //截取
-            if textNum! > 7 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Int(editLabel.text ?? "0") {
-                if num > 1000000 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-1000000之间正整数")
-                }
-            }
-        }
         
         
         
@@ -313,8 +299,6 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             ///租金单价 -
             if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
                 editLabel.text = FYModel?.houseMsg?.minimumLease
-            }else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-                editLabel.text = FYModel?.houseMsg?.dayPrice
             }
         }
     }
@@ -445,14 +429,6 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 办公室 ///最短租期 必填，1-60正整数，单位 月
         if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
             FYModel?.houseMsg?.minimumLease = textField.text
-            guard let blockk = self.endEditingFYMessageCell else {
-                return
-            }
-            blockk(FYModel ?? FangYuanHouseEditModel())
-        }
-        //MARK: 办公室     ///租金单价 - 
-        else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-            FYModel?.houseMsg?.dayPrice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }

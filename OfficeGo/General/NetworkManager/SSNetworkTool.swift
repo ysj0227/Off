@@ -483,21 +483,21 @@ extension SSNetworkTool {
         //楼盘添加接口
         static func request_getinsertBuilding(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getinsertBuilding)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //vr楼盘发布
         static func request_addBuildingVr(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.addBuildingVr)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //vr房源发布
         static func request_addHouseVr(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.addHouseVr)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
@@ -511,7 +511,7 @@ extension SSNetworkTool {
         //删除阿里云图片
         static func request_deleteResourcesUrl(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.deleteResourcesUrl)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
             success,failed:failure,error:error)
         }
           
@@ -526,28 +526,28 @@ extension SSNetworkTool {
         ///楼盘网点编辑接口
         static func request_getUpdateBuilding(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getUpdateBuilding)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         ///房源回显接口
         static func request_getHouseMsgByHouseId(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getHouseMsgByHouseId)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //房源编辑接口
         static func request_getEditHouse(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getUpdateHouse)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
         //房源添加接口
         static func request_getinsertHouse(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getinsertHouse)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
@@ -569,7 +569,7 @@ extension SSNetworkTool {
         ///上下架房源
         static func request_getHousePublishOrRelease(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getHousePublishOrRelease)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         
@@ -577,7 +577,7 @@ extension SSNetworkTool {
         ///删除房源
         static func request_getHouseDelete(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getHouseDelete)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+            SSNetworkTool.request(type: .post, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
         

@@ -1211,6 +1211,7 @@ extension OwnerBuildingCreateViewController {
                 self?.buildingModel?.buildingMsg?.completionTime = Date.getyyyyStringFromDate(FromDate: date)
                 self?.loadSecion(section: indexPath.section)
             }
+            datePicker.backLabel.text = "竣工时间"
             datePicker.show()
             
         ///翻新时间 1980-当前
@@ -1222,6 +1223,7 @@ extension OwnerBuildingCreateViewController {
                 self?.buildingModel?.buildingMsg?.refurbishedTime = Date.getyyyyStringFromDate(FromDate: date)
                 self?.loadSecion(section: indexPath.section)
             }
+            datePicker.backLabel.text = "翻新时间"
             datePicker.show()
             
             SSLog(typeSourceArray[indexPath.section].type)

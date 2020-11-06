@@ -60,7 +60,7 @@ public class YLDatePicker: UIView {
         return button
     }()
     
-    fileprivate var backLabel: UILabel = {
+    var backLabel: UILabel = {
         let label = UILabel()
         label.text = "看房时间"
         label.font = FONT_15

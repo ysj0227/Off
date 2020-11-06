@@ -77,7 +77,7 @@ class OwnerBuildingInputCell: BaseEditCell {
             
             if let string = editLabel.text {
                 print("物业公司 string.filter-----")
-                editLabel.text = string.pregReplace(pattern: "[<>=，,。[]【】{}《》？?|、]", with: "")
+                editLabel.text = string.pregReplace(pattern: "[<>=，,。\\[\\]【】{}《》？?|、]", with: "")
             }
             //截取
             if textNum! > 20 {

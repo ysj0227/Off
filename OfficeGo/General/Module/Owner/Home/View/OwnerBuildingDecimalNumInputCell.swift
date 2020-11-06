@@ -182,6 +182,20 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
                 }
             }
         }
+        //MARK: 办公室     ///租金 单价 - 0.1-50之间正数，保留2位小数点，单位“元”；
+        else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+            //截取
+            if textNum! > 5 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 5)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 50 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0.1-50之间正数，保留2位小数点")
+                }
+            }
+        }
         //MARK: 办公室     ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
             //截取
@@ -284,13 +298,43 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         
         
         //MARK: 开放工位
-        //MARK: 开放工位        ///租金
-        //MARK: 开放工位        ///净高
+        //MARK: 开放工位        ///租金   支持输入100-1w之间的正数，保留1位小数
+        //MARK: 开放工位        ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
-            
+            //截取
+            if textNum! > 7 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Float(editLabel.text ?? "0") {
+                if num > 10000 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持输入100-1w之间的正数，保留1位小数")
+                }
+            }else {
+                if editLabel.text?.count ?? 0 > 0 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持输入100-1w之间的正数，保留1位小数")
+                }
+            }
         }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
-            
+            //截取
+            if textNum! > 3 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Float(editLabel.text ?? "0") {
+                if num > 8 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
+                }
+            }else {
+                if editLabel.text?.count ?? 0 > 0 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
+                }
+            }
         }
         
     }
@@ -348,6 +392,7 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     ///办公室
     ///数字 - 一位小数点文本输入cell
     ///建筑面积 - 两位
+    ///租金
     ///净高
     ///层高
     ///物业费
@@ -365,6 +410,8 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
             
             if officeModel.type == .OwnerBuildingOfficeTypeArea {
                 editLabel.text = FYModel?.houseMsg?.area
+            }else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+                editLabel.text = FYModel?.houseMsg?.dayPrice
             }else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
                 editLabel.text = FYModel?.houseMsg?.clearHeight
             }else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
@@ -524,6 +571,14 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
                 return
             }
             blockk(FYModel ?? FangYuanHouseEditModel())*/
+        }
+        //MARK: 办公室     ///租金 单价 - 0.1-50之间正数，保留2位小数点，单位“元”；
+        else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+            FYModel?.houseMsg?.dayPrice = textField.text
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
         //MARK: 办公室     ///净高
         else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {

@@ -18,7 +18,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         didSet {
             
             leftEditLabel.text = FYModel?.houseMsg?.floor
-
+            rightUnitLabel.text = "总\(FYModel?.totalFloor ?? "0")层"
             if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
                 self.isHidden = false
             }else {
@@ -32,7 +32,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
          didSet {
             
             leftEditLabel.text = FYModel?.houseMsg?.floor
-            
+            rightUnitLabel.text = "总\(FYModel?.totalFloor ?? "0")层"
              if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
                  self.isHidden = false
              }else {
@@ -95,7 +95,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         view.font = FONT_14
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = kAppColor_btnGray_BEBEBE
-        view.text = "总30层"
+        view.text = "总0层"
         return view
     }()
     
@@ -194,16 +194,16 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         //MARK: 办公室 ///所在楼层
         if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
             if FYModel?.houseMsg?.floorType == "1" {
-                
+
                 //截取
-                if textNum! > 2 {
+                if textNum! > 3 {
                     let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
                     leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
                 }
                 if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 60 {
+                    if num > 150 {
                         leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持0-60正整数")
+                        AppUtilities.makeToast("仅支持-5-150整数")
                     }
                 }
             }else {
@@ -219,27 +219,27 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
             if FYModel?.houseMsg?.floorType == "1" {
 
                 //截取
-                if textNum! > 2 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                if textNum! > 3 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 3)
                     leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
                 }
                 if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 60 {
+                    if num > 150 {
                         leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持0-60正整数")
+                        AppUtilities.makeToast("仅支持-5-150整数")
                     }
                 }
             }else {
 
                 //截取
-                if textNum! > 2 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                if textNum! > 3 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 3)
                     leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
                 }
                 if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 60 {
+                    if num > 150 {
                         leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持0-60正整数")
+                        AppUtilities.makeToast("仅支持-5-150整数")
                     }
                 }
             }
@@ -252,27 +252,27 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
             if FYModel?.houseMsg?.floorType == "1" {
 
                 //截取
-                if textNum! > 2 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                if textNum! > 3 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 3)
                     leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
                 }
                 if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 60 {
+                    if num > 150 {
                         leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持0-60正整数")
+                        AppUtilities.makeToast("仅支持-5-150整数")
                     }
                 }
             }else {
 
                 //截取
-                if textNum! > 2 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                if textNum! > 3 {
+                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 3)
                     leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
                 }
                 if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 60 {
+                    if num > 150 {
                         leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持0-60正整数")
+                        AppUtilities.makeToast("仅支持-5-150整数")
                     }
                 }
             }

@@ -109,6 +109,12 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 20 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-20正整数")
+                }
+            }
         }
         //MARK: 楼盘  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
         else if model.type == .OwnerBuildingEditTypeFloorCargoNum {
@@ -116,6 +122,12 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
             if textNum! > 2 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 20 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-20正整数")
+                }
             }
         }
         
@@ -128,6 +140,12 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 20 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-20正整数")
+                }
+            }
         }
         //MARK: 网点  ///电梯数 - 货梯 必填，客梯 货梯分开填，仅支持0-20数字；
         else if jointModel.type == .OwnerBuildingJointEditTypeFloorCargoNum {
@@ -135,6 +153,12 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
             if textNum! > 2 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
+            }
+            if let num = Int(editLabel.text ?? "0") {
+                if num > 20 {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-20正整数")
+                }
             }
         }
     }
