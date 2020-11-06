@@ -7,6 +7,8 @@
 //
 
 import CLImagePickerTool
+import HandyJSON
+import SwiftyJSON
 
 class OwnerBuildingJointCreatAddViewController: BaseViewController {
     
@@ -23,26 +25,21 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
         return view
     }()
     
+        //封面图
+    lazy var mainPicBannermodel: BannerModel = {
+        let model = BannerModel()
+        model.isLocal = true
+        model.image = UIImage.init(named: "addImgBg")
+        return model
+    }()
+    
     ///时候有楼盘
     var isHasBuilding: Bool?
-    
-    ///临时添加的几个字段
-    ///管理楼id
-    var buildingIdTemp : String?
-    
-    var licenceIdTemp : String?
-    
-    ///申请id
-    var userLicenceIdTemp : String?
-    
-    ///楼id 认证的时候传的字段 - 自己创建的楼的id - 关联
-    ///楼名称传过 就会有这个id
-    var buildingTempIdTemp : String?
     
     var userModel: OwnerIdentifyUserModel?
     
     //写字楼名称搜索结果vc
-    var buildingNameSearchResultVC: OwnerBuildingNameESearchResultListViewController?
+    var buildingNameSearchResultVC: OwnerBuildingJointESSearchViewController?
         
     var buildingName: String? {
         didSet {
@@ -186,7 +183,7 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
     }
     
     func showArea(isFrist: Bool) {
-        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
+        areaView.ShowCityDistrictAddressSelectView(isfirst: isFrist, model: self.areaModelCount ?? CityAreaCategorySelectModel(), clearButtonCallBack: { (_ selectModel: CityAreaCategorySelectModel) -> Void in
 
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
                 self?.areaModelCount = selectModel
@@ -203,82 +200,6 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
     func addNotify() {
 
         
-    }
-    
-    func requestCreateCompanySuccess() {
-        
-        var params = [String:AnyObject]()
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        
-        //身份类型0个人认证1企业认证2网点认证
-        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
-        
-        
-        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
-            
-            guard let weakSelf = self else {return}
-            
-            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
-                                     
-                weakSelf.userModel?.auditStatus = model.auditStatus
-                weakSelf.userModel?.authority = model.authority
-                
-                weakSelf.userModel?.isCreateCompany = model.isCreateCompany
-                weakSelf.userModel?.userLicenceId = model.userLicenceId
-                weakSelf.userModel?.licenceId = model.licenceId
-                weakSelf.userModel?.company = model.company
-                weakSelf.userModel?.address = model.address
-                weakSelf.userModel?.creditNo = model.creditNo
-                weakSelf.userModel?.businessLicense = model.businessLicense
-                
-                weakSelf.loadCollectionData()
-            }
-            
-            }, failure: { (error) in
-                
-                
-        }) { (code, message) in
-            
-        }
-    }
-    
-    
-    func requestCreateBuildingSuccess() {
-        
-        var params = [String:AnyObject]()
-        
-        params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        
-        //身份类型0个人认证1企业认证2网点认证
-        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
-        
-        
-        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
-            
-            guard let weakSelf = self else {return}
-            
-            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
-                                   
-                weakSelf.userModel?.buildingId = model.buildingId
-                weakSelf.userModel?.buildingName = model.buildingName
-                weakSelf.userModel?.buildingAddress = model.buildingAddress
-                weakSelf.userModel?.district = model.district
-                weakSelf.userModel?.business = model.business
-                weakSelf.userModel?.mainPic = model.mainPic
-                
-                weakSelf.buildingNameSearchResultVC?.view.isHidden = true
-                weakSelf.loadCollectionData()
-            }
-            
-            }, failure: { (error) in
-                
-                
-        }) { (code, message) in
-            
-        }
     }
     
     ///左上角按钮
@@ -298,27 +219,6 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
 extension OwnerBuildingJointCreatAddViewController {
     
     func detailDataShow() {
-        
-        if userModel?.buildingName?.count ?? 0 > 0 {
-            isHasBuilding = true
-        }else {
-            isHasBuilding = false
-        }
-        
-        ///移除之前的房产证数据
-        for fczBannerModel in uploadPicModelFCZArr {
-            if fczBannerModel.isLocal == false {
-                uploadPicModelFCZArr.remove(fczBannerModel)
-            }
-        }
-        ///添加新的房产证数据
-        if let premisesPermit = userModel?.premisesPermit {
-            
-            for fczBannerModel in premisesPermit {
-                fczBannerModel.isLocal = false
-                uploadPicModelFCZArr.append(fczBannerModel)
-            }
-        }
         
         loadCollectionData()
     }
@@ -340,19 +240,13 @@ extension OwnerBuildingJointCreatAddViewController {
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-        //关联 - 楼盘，名字和地址都要给
-        params["buildingId"] = userModel?.buildingId as AnyObject?
-        
-        params["buildingAddress"] = userModel?.buildingAddress as AnyObject?
-        
-        params["buildingName"] = userModel?.buildingName as AnyObject?
-        
-        
-        ///关联楼id  接口给
-        if userModel?.buildingTempId != "0" || userModel?.buildingTempId?.isBlankString != true {
-            params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
+        if isBranchs == true {
+            params["btype"] = 2 as AnyObject?
+        }else {
+            params["btype"] = 1 as AnyObject?
         }
-        
+        params["buildingName"] = userModel?.buildingName as AnyObject?
+
         
         //房产证
         var fczArr: [UIImage] = []
@@ -361,8 +255,51 @@ extension OwnerBuildingJointCreatAddViewController {
                 fczArr.append(model.image ?? UIImage())
             }
         }
-    
+        
+        params["buildingAddress"] = userModel?.buildingAddress as AnyObject?
+        
+        params["mainPic"] = mainPicBannermodel.imgUrl as AnyObject?
+        
+        
+        if userModel?.buildingId != nil {
+            
+            //关联 - 楼盘，名字和地址都要给
+            params["buildingId"] = userModel?.buildingId as AnyObject?
+            
+        }else {
+            
+            params["districtId"] = userModel?.district as AnyObject?
+
+            params["businessDistrict"] = userModel?.business as AnyObject?
+        }
+        
+        var deleteArr: [String] = []
+        for model in uploadPicModelFCZArr {
+            deleteArr.append(model.imgUrl ?? "")
+        }
+        params["buildingCardTemp"] = deleteArr.joined(separator: ",") as AnyObject?
+
         setCommitEnables(isUserinterface: false)
+        
+        SSNetworkTool.SSFYManager.request_getinsertBuilding(params: params, success: {[weak self] (response) in
+
+            guard let weakSelf = self else {return}
+            
+            weakSelf.leftBtnClick()
+            
+            }, failure: {[weak self] (error) in
+                
+                self?.setCommitEnables(isUserinterface: true)
+
+        }) {[weak self] (code, message) in
+            
+            self?.setCommitEnables(isUserinterface: true)
+
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
 
     }
     
@@ -411,7 +348,7 @@ extension OwnerBuildingJointCreatAddViewController {
         headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
         
         //写字楼
-        buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
+        buildingNameSearchResultVC = OwnerBuildingJointESSearchViewController.init()
         if isBuilding == true {
             titleview?.titleLabel.text = "添加楼盘"
             buildingNameSearchResultVC?.isManagerBuilding = true
@@ -436,6 +373,9 @@ extension OwnerBuildingJointCreatAddViewController {
             self?.userModel?.buildingAddress = model.addressString?.string
             self?.userModel?.districtString = model.district
             self?.userModel?.businessString = model.business
+            self?.userModel?.mainPic = model.mainPic
+            self?.mainPicBannermodel.imgUrl = model.mainPic
+
             self?.areaModelCount?.isFirstSelectedModel = nil
 
             self?.buildingNameSearchResultVC?.view.isHidden = true
@@ -457,6 +397,9 @@ extension OwnerBuildingJointCreatAddViewController {
             self?.userModel?.mainPic = nil
             self?.userModel?.districtString = nil
             self?.userModel?.businessString = nil
+            self?.userModel?.mainPic = nil
+            self?.mainPicBannermodel.imgUrl = nil
+            
             self?.areaModelCount?.isFirstSelectedModel = nil
 
             self?.buildingNameSearchResultVC?.view.isHidden = true
@@ -494,6 +437,8 @@ extension OwnerBuildingJointCreatAddViewController {
 extension OwnerBuildingJointCreatAddViewController {
     func selectFCZPicker() {
         var imgArr = [BannerModel]()
+        var imggggArr = [UIImage]()
+
         fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerMaxFCZNumber_4 - uploadPicModelFCZArr.count, superVC: self) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
@@ -503,9 +448,11 @@ extension OwnerBuildingJointCreatAddViewController {
                 fczBannerModel.isLocal = true
                 fczBannerModel.image = img
                 imgArr.append(fczBannerModel)
+                imggggArr.append(img ?? UIImage())
                 }, failedClouse: { () in
                     
             })
+            self?.uploadBuildingImg(imgArr: imggggArr, existImgCount: self?.uploadPicModelFCZArr.count ?? 0)
             //房产证
             self?.uploadPicModelFCZArr.append(contentsOf: imgArr)
             self?.loadCollectionData()
@@ -519,13 +466,87 @@ extension OwnerBuildingJointCreatAddViewController {
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
                 
-                self?.uplaodMainPageimg = img
+                self?.mainPicBannermodel.image = img
                 }, failedClouse: { () in
                     
             })
             self?.loadCollectionData()
         }
     }
+    
+    
+    func uploadImg(img: UIImage) {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        ///0图片1视频
+        params["filedirType"] = 0 as AnyObject?
+
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: [img], success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count >= 1 {
+                    weakSelf.mainPicBannermodel.imgUrl = decoratedArray[0]?.url
+                }
+                
+            }
+            
+            }, failure: {[weak self] (error) in
+
+                
+        }) {[weak self] (code, message) in
+
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
+    
+    
+    func uploadBuildingImg(imgArr: [UIImage], existImgCount: Int) {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        ///0图片1视频
+        params["filedirType"] = 0 as AnyObject?
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: imgArr, success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count == imgArr.count {
+                    var count = 0
+                    for model in decoratedArray {
+                        if count < decoratedArray.count {
+
+                            weakSelf.uploadPicModelFCZArr[existImgCount + count].imgUrl = model?.url
+                            count += 1
+                        }
+                    }
+                }
+                
+            }
+            
+            }, failure: {[weak self] (error) in
+
+                
+        }) {[weak self] (code, message) in
+
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
     
     ///删除房产证图片接口
     func request_deleteFCZImgApp(index: Int) {
@@ -586,6 +607,18 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
         }else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
             cell?.indexPath = indexPath
+            if let imgurl = mainPicBannermodel.imgUrl {
+                cell?.closeBtn.isHidden = false
+                cell?.image.setImage(with: imgurl, placeholder: UIImage(named: Default_1x1))
+            }else {
+                if let image = mainPicBannermodel.image {
+                    cell?.closeBtn.isHidden = false
+                    cell?.image.image = image
+                }else {
+                    cell?.closeBtn.isHidden = true
+                    cell?.image.image = UIImage.init(named: "addImgBg")
+                }
+            }
             
             return cell ?? OwnerImagePickerCell()
         }else {
@@ -686,13 +719,11 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
             }
         }
         else if indexPath.section == 1 {
-            selectFCZPicker()
+            selectMainPagePicker()
         }else if indexPath.section == 2 {
-//            if indexPath.item == uploadPicModelFCZArr.count {
-//                selectFCZPicker()
-//            }
-            selectFCZPicker()
-
+            if indexPath.item == uploadPicModelFCZArr.count {
+                selectFCZPicker()
+            }
         }
     }
     

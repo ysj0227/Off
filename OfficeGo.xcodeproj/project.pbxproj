@@ -198,6 +198,7 @@
 		8EDBA532253FE0E900BD3774 /* OwnerBuildingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA531253FE0E900BD3774 /* OwnerBuildingListCell.swift */; };
 		8EDBA5362540009300BD3774 /* OwnerBuildingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */; };
 		8EDBA53825402E1700BD3774 /* OwnerBuildingListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */; };
+		8EE62CFB2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE62CFA2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift */; };
 		8EECEF32253153C600D480B2 /* OwnerBuildingImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */; };
 		8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */; };
 		8EECEF362531B08200D480B2 /* OwnerBuildingVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */; };
@@ -517,6 +518,7 @@
 		8EDBA531253FE0E900BD3774 /* OwnerBuildingListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListCell.swift; sourceTree = "<group>"; };
 		8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListViewController.swift; sourceTree = "<group>"; };
 		8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListModel.swift; sourceTree = "<group>"; };
+		8EE62CFA2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointESSearchViewController.swift; sourceTree = "<group>"; };
 		8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingImgCell.swift; sourceTree = "<group>"; };
 		8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateVideoVRViewController.swift; sourceTree = "<group>"; };
 		8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingVideoCell.swift; sourceTree = "<group>"; };
@@ -1381,6 +1383,7 @@
 				8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */,
 				8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */,
 				8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */,
+				8EE62CFA2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2348,6 +2351,7 @@
 				EEE87B262455856800C03424 /* JHToolsDefine.swift in Sources */,
 				04CB4790249CB250001BCC8F /* RenterUserMsgViewController.swift in Sources */,
 				EEE87B5324558F9800C03424 /* ThorPlayerMediaControlInfoView.swift in Sources */,
+				8EE62CFB2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift in Sources */,
 				EE4914DF24692D62008D5689 /* LLCtlPageView.swift in Sources */,
 				04CBB65224C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift in Sources */,
 				EEE87B6024558F9800C03424 /* Toast.swift in Sources */,

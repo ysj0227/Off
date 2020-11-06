@@ -65,6 +65,10 @@ class SSDelegateURL: NSObject {
 //  MARK:   --房源列表
 class SSOwnerFYManagerURL: NSObject {
     
+    
+    //楼盘添加接口
+    static let getinsertBuilding = "api/building/insertBuilding"
+    
     //vr楼盘发布
     static let addBuildingVr = "api/building/addBuildingVr"
     

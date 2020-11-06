@@ -362,7 +362,7 @@ extension OwnerFYListViewController {
             }) { [weak self] in
                 self?.deleteFY(viewModel: viewModel, section: section)
             }
-
+            
         }
     }
     

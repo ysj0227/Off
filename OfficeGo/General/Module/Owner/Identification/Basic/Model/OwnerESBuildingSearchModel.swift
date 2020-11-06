@@ -22,6 +22,8 @@ class OwnerESBuildingSearchModel: BaseModel {
     var buildingAddress : String?
 }
 class OwnerESBuildingSearchViewModel: NSObject {
+    var mainPic : String?
+
     ///1是写字楼，2是共享办公
     var buildType: Int?
     ///楼盘id
@@ -36,6 +38,8 @@ class OwnerESBuildingSearchViewModel: NSObject {
     var district : String?
     
     init(model:OwnerESBuildingSearchModel) {
+        
+        mainPic = model.mainPic
         
         buildType = model.buildType
         
