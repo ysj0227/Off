@@ -118,6 +118,11 @@ class OwnerBuildingJointESSearchViewController: BaseTableViewController {
             }
         }else if isManagerBranch == true {
 
+            dataSource = []
+            descLabel.isHidden = false
+            tableView.reloadData()
+            
+            /*
             SSNetworkTool.SSOwnerIdentify.request_getESBranch(params: params, success: { [weak self] (response) in
                 guard let weakSelf = self else {return}
                 if let decoratedArray = JSONDeserializer<OwnerESBuildingSearchModel>.deserializeModelArrayFrom(json: JSON(response).rawString() ?? "", designatedPath: "data") {
@@ -147,6 +152,7 @@ class OwnerBuildingJointESSearchViewController: BaseTableViewController {
                     AppUtilities.makeToast(message)
                 }
             }
+            */
         }
         
         
