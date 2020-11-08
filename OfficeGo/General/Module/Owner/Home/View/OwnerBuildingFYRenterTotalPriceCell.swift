@@ -161,20 +161,17 @@ class OwnerBuildingFYRenterTotalPriceCell: BaseTableViewCell {
 extension OwnerBuildingFYRenterTotalPriceCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        FYModel?.houseMsg?.monthPrice = textField.text
-        
-        FYModel?.houseMsg?.monthPriceTemp = textField.text
-        
-        guard let blockk = self.endEditingFYMessageCell else {
-            return
+        if FYModel?.houseMsg?.monthTotalClick == false {
+
+            FYModel?.houseMsg?.monthPrice = textField.text
+            
+            FYModel?.houseMsg?.monthPriceTemp = textField.text
+            
+            guard let blockk = self.endEditingFYMessageCell else {
+                return
+            }
+            blockk(FYModel ?? FangYuanHouseEditModel())
         }
-        blockk(FYModel ?? FangYuanHouseEditModel())
-        
-//        if buildingModel?.totalPrice != textField.text {
-//
-//        }
-        
-        
         
     }
     
@@ -182,6 +179,7 @@ extension OwnerBuildingFYRenterTotalPriceCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         SSLog("开始编辑 - ------")
         
+        FYModel?.houseMsg?.monthTotalClick = false
         guard let blockk = self.inputClickClouse else {
             return
         }

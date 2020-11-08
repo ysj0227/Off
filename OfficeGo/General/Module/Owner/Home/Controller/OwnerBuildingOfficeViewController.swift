@@ -102,10 +102,10 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     }()
     
     @objc func totalPriceClick() {
+
+        FYModel?.houseMsg?.monthTotalClick = true
         
         FYModel?.houseMsg?.monthPrice = FYModel?.houseMsg?.monthPriceTemp
-        
-        //        endEdting()
         
         totalPriceView.setTitle("", for: .normal)
         
@@ -115,6 +115,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         })
         
         loadSecion(section: 4)
+//        endEdting()
     }
     
     @objc func saveClick() {
@@ -394,7 +395,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             AppUtilities.makeToast("请输入租金总价")
             return
         }else {
-            params["monthPrice"] = FYModel?.houseMsg?.area as AnyObject?
+            params["monthPrice"] = FYModel?.houseMsg?.monthPrice as AnyObject?
         }
         
          //MARK: 所在楼层 - 第几层- 总楼层
@@ -581,7 +582,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             AppUtilities.makeToast("请输入租金总价")
             return
         }else {
-            params["monthPrice"] = FYModel?.houseMsg?.area as AnyObject?
+            params["monthPrice"] = FYModel?.houseMsg?.monthPrice as AnyObject?
         }
         
          //MARK: 所在楼层 - 第几层- 总楼层

@@ -350,6 +350,9 @@ class FangYuanHouseMsgEditModel: BaseModel {
     ///总价 - 计算出来的临时总价  用于判断有没有点击过
     var monthPriceTemp : String?
     
+    //用来标记点击的是输入框还是点击的按钮 - 默认点击输入框
+    var monthTotalClick : Bool = false
+    
     ///面积平方数
     var area : String?
     
