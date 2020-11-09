@@ -1060,9 +1060,7 @@ extension OwnerAddBuildingOrJointCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         
-        if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName{
-            userModel?.buildingName = textField.text
-        }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
+        if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
             userModel?.buildingAddress = textField.text
         }
     }
