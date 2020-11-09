@@ -8,6 +8,10 @@
 
 //  MARK:   --网页
 class SSDelegateURL: NSObject {
+        
+    //vr录制地址
+    static let h5VRCreateUrl =  "owner/vr.html"
+    
     
     //楼盘分享地址 buildingId
     static let h5BuildingDetailShareUrl =  "lessee/housesDetail.html"

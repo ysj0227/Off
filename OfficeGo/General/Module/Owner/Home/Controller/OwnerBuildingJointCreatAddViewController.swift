@@ -110,7 +110,7 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
         btn.backgroundColor = kAppBlueColor
         btn.clipsToBounds = true
         btn.layer.cornerRadius = button_cordious_2
-        btn.setTitle("确认创建", for: .normal)
+        btn.setTitle("确认添加", for: .normal)
         btn.setTitleColor(kAppWhiteColor, for: .normal)
         btn.titleLabel?.font = FONT_15
         btn.addTarget(self, action: #selector(logotClick), for: .touchUpInside)

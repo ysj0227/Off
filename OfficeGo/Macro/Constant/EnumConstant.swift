@@ -107,6 +107,8 @@ public enum ProtocalType {
     case ProtocalTypeHelpAndFeedbackUrl
     ///常见问题
     case ProtocalTypeQuestionUrl
+    ///vr录制
+    case VRCreat
 }
 
 //认证- 房源url

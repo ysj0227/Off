@@ -84,6 +84,10 @@ class BaseWebViewController: BaseViewController, UINavigationControllerDelegate 
             ///常见问题
             case .ProtocalTypeQuestionUrl:
                 urlString = SSAPI.SSH5Host + SSDelegateURL.h5QuestionUrl + "?time=\(timeStamp)"
+            ///vr录制
+            case .VRCreat:
+                urlString = "\(SSAPI.SSH5Host)\(SSDelegateURL.h5VRCreateUrl)?token=\(UserTool.shared.user_token ?? "")&channel=\(UserTool.shared.user_channel)&identity=\(UserTool.shared.user_id_type ?? 9)&time=\(timeStamp)"
+
             }
         }
     }
