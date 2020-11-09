@@ -20,6 +20,9 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     
     var BuildingID: Int?
     
+    ///网点总层数
+    var totalFloor: String?
+    
     ///弹出来的总价框
     var totalPriceView: UIButton = {
         let view = UIButton()
@@ -138,6 +141,9 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     }
     
     func clickToPublish() {
+        
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerFYReload, object: nil)
+
         let vc = OwnerBuildingCreateVideoVRViewController()
         vc.isBuildingFY = true
         vc.isClose = isClose
@@ -246,7 +252,9 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             FYModel = FangYuanHouseEditModel()
                     
             FYModel?.houseMsg = FangYuanHouseMsgEditModel()
-
+            
+            FYModel?.totalFloor = totalFloor
+            
             requestGetDecorate()
 
         }else {

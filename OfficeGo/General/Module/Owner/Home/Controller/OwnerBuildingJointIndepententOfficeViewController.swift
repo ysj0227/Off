@@ -19,6 +19,9 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
     
     var BuildingID: Int?
     
+    ///网点总层数
+    var totalFloor: String?
+    
     ///选择弹框
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
@@ -97,6 +100,9 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
     }
     
     func clickToPublish() {
+        
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerFYReload, object: nil)
+
         let vc = OwnerBuildingCreateVideoVRViewController()
         vc.isBuildingJointOffice = true
         vc.isClose = isClose
@@ -209,6 +215,8 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
                     
             FYModel?.houseMsg = FangYuanHouseMsgEditModel()
             
+            FYModel?.totalFloor = totalFloor
+
             loadTableview()
             
         }else {

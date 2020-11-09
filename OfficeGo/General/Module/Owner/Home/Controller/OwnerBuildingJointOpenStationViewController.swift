@@ -19,7 +19,9 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     var buildingIsTemp: Bool?
     
     var BuildingID: Int?
-
+    
+    ///网点总层数
+    var totalFloor: String?
     
     ///选择弹框
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
@@ -102,7 +104,8 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     }
     
     func clickToPublish() {
-        
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerFYReload, object: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     
@@ -184,6 +187,8 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
             
             FYModel?.houseMsg = FangYuanHouseMsgEditModel()
             
+            FYModel?.totalFloor = totalFloor
+
             loadTableview()
             
         }else {

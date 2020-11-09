@@ -131,6 +131,8 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
             
             SSNetworkTool.SSFYManager.request_addHouseVr(params: params, success: {[weak self] (response) in
                 
+                NotificationCenter.default.post(name: NSNotification.Name.OwnerFYReload, object: nil)
+
                 self?.navigationController?.popToRootViewController(animated: true)
                 
                 }, failure: { (error) in
@@ -150,6 +152,8 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
             
             SSNetworkTool.SSFYManager.request_addHouseVr(params: params, success: {[weak self] (response) in
                 
+                NotificationCenter.default.post(name: NSNotification.Name.OwnerFYReload, object: nil)
+ 
                 self?.navigationController?.popToRootViewController(animated: true)
                 
                 }, failure: { (error) in

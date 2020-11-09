@@ -40,6 +40,11 @@ class OwnerBuildingListModel: BaseModel {
     var updateUser : String?
     var yCount : String?
 
+    ///网点总层数
+    var totalFloor: String?
+    
+    ///是否可以添加房源
+    var isAddHouse: Bool?
 }
 class OwnerBuildingListViewModel: NSObject {
     ///1是写字楼，2是共享办公
@@ -60,8 +65,20 @@ class OwnerBuildingListViewModel: NSObject {
     ///红色小图标的左边距离
     var redViewLeading : CGFloat?
     
+    
+    ///网点总层数
+    var totalFloor: String?
+    
+    ///是否可以添加房源
+    var isAddHouse: Bool?
+
+    
     init(model:OwnerBuildingListModel) {
         super.init()
+        
+        totalFloor = model.totalFloor
+        isAddHouse = model.isAddHouse
+        
         btype = model.btype
         buildingId = model.buildingId
         isEdit = model.isEdit

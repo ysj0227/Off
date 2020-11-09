@@ -11,6 +11,10 @@ import Foundation
 extension Notification.Name {
     
     
+    /// 房源管理 - 房源信息添加或者修改成功之后
+    public static let OwnerFYReload = Notification.Name("OwnerFYReload")
+
+    
     /// 记录租户端 - 第一次获取到定位请求数据
     public static let GetFirstLocation = Notification.Name("GetFirstLocation")
     
