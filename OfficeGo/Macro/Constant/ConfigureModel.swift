@@ -72,7 +72,7 @@ class OwnerBuildingJointCreatAddConfigureModel: NSObject {
     func getPalaceHolderFormType(type: OwnerBuildingCreteAddType) -> String{
         switch type {
         case .OwnerBuildingCreteAddTypeBuildingName:
-            return "请输入写字楼名称"
+            return "请输入楼盘名称"
         case .OwnerBuildingCreteAddTypeBuildingDistrictArea:
             return "请选择城市、区域与商圈"
         case .OwnerBuildingCreteAddTypeBuildingAddress:
@@ -80,7 +80,7 @@ class OwnerBuildingJointCreatAddConfigureModel: NSObject {
         case .OwnerBuildingCreteAddTypeUploadMainPhoto:
             return ""
         case .OwnerBuildingCreteAddTypeUploadFCZPhoto:
-            return "可上传5张图片，单张不大于10M，支持jpg、jpeg、png格式"
+            return ""
         }
     }
 }

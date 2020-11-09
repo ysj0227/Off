@@ -227,7 +227,28 @@ extension OwnerBuildingJointCreatAddViewController {
     func requestCompanyIdentify() {
         
         if userModel?.buildingName == nil || userModel?.buildingName?.isBlankString == true{
-            AppUtilities.makeToast("请选择或创建写字楼")
+            if isBranchs == true {
+                AppUtilities.makeToast("请输入网点名称")
+            }else {
+                AppUtilities.makeToast("请输入楼盘名称")
+            }
+            return
+        }
+        
+        if userModel?.buildingId == nil {
+            if userModel?.district == nil || userModel?.business?.isBlankString == true{
+                AppUtilities.makeToast("请选择所在区域")
+                return
+            }
+        }
+        
+        if userModel?.buildingAddress == nil || userModel?.buildingAddress?.isBlankString == true {
+            AppUtilities.makeToast("请输入详细地址")
+            return
+        }
+        
+        if mainPicBannermodel.isLocal == true {
+            AppUtilities.makeToast("请上传封面图")
             return
         }
         
@@ -235,11 +256,30 @@ extension OwnerBuildingJointCreatAddViewController {
             AppUtilities.makeToast("请上传房产证")
             return
         }
-
+        
+        
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         
+        if userModel?.buildingId != nil {
+            
+            //关联 - 楼盘，名字和地址都要给
+            params["buildingId"] = userModel?.buildingId as AnyObject?
+            
+        }else {
+            
+            if userModel?.district == nil || userModel?.business?.isBlankString == true{
+                AppUtilities.makeToast("请选择所在区域")
+                return
+            }
+            
+            params["districtId"] = userModel?.district as AnyObject?
+            
+            params["businessDistrict"] = userModel?.business as AnyObject?
+        }
+        
+
         if isBranchs == true {
             params["btype"] = 2 as AnyObject?
         }else {
@@ -260,18 +300,6 @@ extension OwnerBuildingJointCreatAddViewController {
         
         params["mainPic"] = mainPicBannermodel.imgUrl as AnyObject?
         
-        
-        if userModel?.buildingId != nil {
-            
-            //关联 - 楼盘，名字和地址都要给
-            params["buildingId"] = userModel?.buildingId as AnyObject?
-            
-        }else {
-            
-            params["districtId"] = userModel?.district as AnyObject?
-
-            params["businessDistrict"] = userModel?.business as AnyObject?
-        }
         
         var deleteArr: [String] = []
         for model in uploadPicModelFCZArr {
@@ -343,7 +371,7 @@ extension OwnerBuildingJointCreatAddViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-        headerCollectionView.register(OwnerCompanyIdentifyCell.self, forCellWithReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr)
+        headerCollectionView.register(OwnerAddBuildingOrJointCell.self, forCellWithReuseIdentifier: OwnerAddBuildingOrJointCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerImagePickerCell.self, forCellWithReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
         
@@ -366,7 +394,6 @@ extension OwnerBuildingJointCreatAddViewController {
             self?.isHasBuilding = true
             
             //判断楼盘是关联的还是自己创建的
-            self?.userModel?.isCreateBuilding = "2"
             self?.areaModelCount?.isFirstSelectedModel = nil
             self?.userModel?.buildingId = model.bid
             self?.userModel?.buildingName = model.buildingAttributedName?.string
@@ -467,6 +494,9 @@ extension OwnerBuildingJointCreatAddViewController {
                 let img = image.resizeMax1500Image()
                 
                 self?.mainPicBannermodel.image = img
+                self?.mainPicBannermodel.isLocal = false
+                self?.uploadImg(img: img ?? UIImage())
+
                 }, failedClouse: { () in
                     
             })
@@ -489,15 +519,16 @@ extension OwnerBuildingJointCreatAddViewController {
             if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
                 
                 if decoratedArray.count >= 1 {
+                    weakSelf.mainPicBannermodel.isLocal = false
                     weakSelf.mainPicBannermodel.imgUrl = decoratedArray[0]?.url
                 }
                 
             }
             
-            }, failure: {[weak self] (error) in
+            }, failure: { (error) in
 
                 
-        }) {[weak self] (code, message) in
+        }) { (code, message) in
 
             
             //只有5000 提示给用户
@@ -587,13 +618,42 @@ extension OwnerBuildingJointCreatAddViewController {
      }
      
     
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
+
 }
 
 extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerCompanyIdentifyCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerAddBuildingOrJointCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerAddBuildingOrJointCell
             cell?.isBranchs = isBranchs
             cell?.userModel = self.userModel
             cell?.FYBuildingCreatAddmodel = typeSourceArray[indexPath.section][indexPath.item]
@@ -604,7 +664,7 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
                 self?.buildingName = buildingName
             }
             
-            return cell ?? OwnerCompanyIdentifyCell()
+            return cell ?? OwnerAddBuildingOrJointCell()
         }else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
             cell?.indexPath = indexPath
@@ -735,11 +795,11 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
                 header?.descLabel.text = ""
             }else if indexPath.section == 2 {
                 header?.backgroundColor = kAppWhiteColor
-                header?.titleLabel.text = "上传房产证"
-                header?.descLabel.text = "请确保所上传的房产信息与公司信息一致"
+                header?.titleLabel.attributedText = FuWenBen(name: "上传房产证", centerStr: " * ", last: "")
+                header?.descLabel.text = "可上传9张图片，单张不大于10M，支持jpg、jpeg、png格式"
             }else if indexPath.section == 1 {
                 header?.backgroundColor = kAppWhiteColor
-                header?.titleLabel.text = "上传封面图"
+                header?.titleLabel.attributedText = FuWenBen(name: "上传封面图", centerStr: " * ", last: "")
                 header?.descLabel.text = ""
             }
             
@@ -791,3 +851,219 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
 }
 
 
+class OwnerAddBuildingOrJointCell: BaseCollectionViewCell {
+    
+    lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.font = FONT_14
+        view.textColor = kAppColor_999999
+        return view
+    }()
+    lazy var numDescTF: UITextField = {
+        let view = UITextField()
+        view.textAlignment = .left
+        view.font = FONT_14
+        view.delegate = self
+        view.textColor = kAppColor_333333
+//        view.clearButtonMode = .whileEditing
+        return view
+    }()
+    lazy var addressLabel: UILabel = {
+        let view = UILabel()
+        view.isHidden = true
+        view.textAlignment = .left
+        view.font = FONT_11
+        view.textColor = kAppColor_666666
+        return view
+    }()
+    lazy var detailIcon: BaseImageView = {
+        let view = BaseImageView.init()
+        view.contentMode = .scaleAspectFit
+        view.image = UIImage.init(named: "moreDetail")
+        return view
+    }()
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    class func rowHeight() -> CGFloat {
+        return cell_height_58
+    }
+    //公司名字
+    @objc var companyNameClickClouse: IdentifyEditingClickClouse?
+    
+    //大楼名称
+    @objc var buildingNameClickClouse: IdentifyEditingClickClouse?
+    
+    //写字楼地址
+    var buildingAddresEndEditingMessageCell:((String) -> Void)?
+    
+    //写字楼名称址
+    var buildingNameEndEditingMessageCell:((String) -> Void)?
+    
+    //模拟认证模型
+    var userModel: OwnerIdentifyUserModel?
+
+    ///网点
+    var isBranchs: Bool?
+    
+    ///房源管理 -
+    var FYBuildingCreatAddmodel: OwnerBuildingJointCreatAddConfigureModel = OwnerBuildingJointCreatAddConfigureModel(types: OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeUploadMainPhoto) {
+        didSet {
+            
+            titleLabel.attributedText = FYBuildingCreatAddmodel.getNameFormType(type: FYBuildingCreatAddmodel.type ?? OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeBuildingName)
+            numDescTF.placeholder = FYBuildingCreatAddmodel.getPalaceHolderFormType(type: FYBuildingCreatAddmodel.type ?? OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeBuildingName)
+            detailIcon.isHidden = true
+            
+            if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName{
+                if isBranchs == true {
+                    titleLabel.attributedText = FuWenBen(name: "网点名称", centerStr: " * ", last: "")
+                    numDescTF.placeholder = "请输入网点名称"
+                }
+                numDescTF.isUserInteractionEnabled = true
+                lineView.isHidden = false
+                numDescTF.text = userModel?.buildingName
+            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingDistrictArea{
+                numDescTF.isUserInteractionEnabled = false
+                lineView.isHidden = false
+                detailIcon.isHidden = false
+                numDescTF.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
+            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
+                numDescTF.isUserInteractionEnabled = true
+                lineView.isHidden = false
+                numDescTF.text = userModel?.buildingAddress
+            }else {
+                numDescTF.isUserInteractionEnabled = false
+                lineView.isHidden = true
+                numDescTF.text = ""
+            }
+        }
+    }
+    
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
+        
+    func setupViews() {
+
+        self.backgroundColor = kAppWhiteColor
+  
+        addSubview(titleLabel)
+        addSubview(numDescTF)
+        addSubview(detailIcon)
+        addSubview(lineView)
+        addSubview(addressLabel)
+        
+        titleLabel.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+        }
+        
+        detailIcon.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(10)
+        }
+        
+        numDescTF.snp.makeConstraints { (make) in
+            make.trailing.equalTo(detailIcon.snp.leading).offset(-9)
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(titleLabel.snp.trailing)
+        }
+        addressLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(numDescTF.snp.bottom)
+            make.leading.equalTo(numDescTF)
+        }
+        lineView.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
+        numDescTF.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+        
+    }
+    @objc func valueDidChange() {
+        
+            //只有写字楼地址要在编辑结束的时候传过去
+        if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName {
+            guard let blockk = self.buildingNameClickClouse else {
+                return
+            }
+            addressLabel.text = ""
+            
+            let textNum = numDescTF.text?.count
+            
+            //截取
+            if textNum! > ownerMaxBuildingnameNumber_20 {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
+                let str = numDescTF.text?.substring(to: index!)
+                numDescTF.text = str
+            }
+            
+            blockk(numDescTF.text ?? "")
+        }
+        
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+}
+
+extension OwnerAddBuildingOrJointCell: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        
+        if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName{
+            userModel?.buildingName = textField.text
+        }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
+            userModel?.buildingAddress = textField.text
+        }
+    }
+}
