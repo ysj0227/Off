@@ -74,6 +74,9 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     }()
     
     @objc func saveClick() {
+        
+        tableView.endEditing(true)
+        
         vrSavePublish()
     }
     

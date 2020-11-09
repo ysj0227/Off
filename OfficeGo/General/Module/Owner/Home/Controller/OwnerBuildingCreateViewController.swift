@@ -87,6 +87,9 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     }()
     
     @objc func saveClick() {
+        
+        tableView.endEditing(true)
+        
         request_getUpdateBuilding()
     }
     
@@ -446,20 +449,41 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
             return
         }else {
             ///写字楼 - 只传名字
+            ///写字楼，创意园，产业园 写字楼1,创意园3,产业园6
             if buildingModel?.buildingMsg?.buildingTypeEnum == .xieziEnum {
                 if buildingModel?.buildingMsg?.buildingName == nil || buildingModel?.buildingMsg?.buildingName?.isBlankString == true{
                     AppUtilities.makeToast("请输入写字楼名称")
                     return
                 }else {
+                    params["buildingType"] = 1 as AnyObject?
                     params["buildingName"] = buildingModel?.buildingMsg?.buildingName as AnyObject?
                 }
             }
             ///园区 - 楼名 - 楼号
-            else {
+            else if buildingModel?.buildingMsg?.buildingTypeEnum == .chuangyiEnum {
+
                 if buildingModel?.buildingMsg?.buildingName == nil || buildingModel?.buildingMsg?.buildingName?.isBlankString == true{
                     AppUtilities.makeToast("请输入园区名称")
                     return
                 }else {
+                    params["buildingType"] = 3 as AnyObject?
+                    params["buildingName"] = buildingModel?.buildingMsg?.buildingName as AnyObject?
+                }
+                if buildingModel?.buildingMsg?.buildingNum == nil || buildingModel?.buildingMsg?.buildingNum?.isBlankString == true{
+                    AppUtilities.makeToast("请输入楼号")
+                    return
+                }else {
+                    params["buildingNum"] = buildingModel?.buildingMsg?.buildingNum as AnyObject?
+                }
+            }
+            ///园区 - 产业园
+            else if buildingModel?.buildingMsg?.buildingTypeEnum == .chanyeEnum {
+
+                if buildingModel?.buildingMsg?.buildingName == nil || buildingModel?.buildingMsg?.buildingName?.isBlankString == true{
+                    AppUtilities.makeToast("请输入园区名称")
+                    return
+                }else {
+                    params["buildingType"] = 6 as AnyObject?
                     params["buildingName"] = buildingModel?.buildingMsg?.buildingName as AnyObject?
                 }
                 if buildingModel?.buildingMsg?.buildingNum == nil || buildingModel?.buildingMsg?.buildingNum?.isBlankString == true{

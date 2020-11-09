@@ -163,6 +163,8 @@ class OwnerBuildingListCell: BaseTableViewCell {
         scanBtn.isSelected = true
         
         editBtn.isSelected = viewModel.isEdit ?? true
+        
+//        editBtn.isUserInteractionEnabled = viewModel.isEdit ?? true
     }
     
 }

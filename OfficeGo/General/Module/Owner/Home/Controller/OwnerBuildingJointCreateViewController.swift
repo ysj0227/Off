@@ -85,6 +85,9 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
     }()
     
     @objc func saveClick() {
+        
+        tableView.endEditing(true)
+
         request_getUpdateBuilding()
     }
     
@@ -253,7 +256,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         }
 
         //MARK: 网点名称
-        if buildingModel?.buildingMsg?.buildingName == nil || buildingModel?.buildingMsg?.buildingName?.isBlankString == true{
+        if buildingModel?.buildingMsg?.branchesName == nil || buildingModel?.buildingMsg?.branchesName?.isBlankString == true{
             AppUtilities.makeToast("请输入网点名称")
             return
         }else {

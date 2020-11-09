@@ -92,6 +92,8 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
     
     @objc func saveClick() {
         
+        tableView.endEditing(true)
+
         if isFromAdd == true {
             request_getInsertHouse()
         }else {

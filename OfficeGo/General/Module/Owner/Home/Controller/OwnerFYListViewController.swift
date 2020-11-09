@@ -31,14 +31,14 @@ class OwnerVRView: UIView {
         let view = UILabel()
         view.text = "现在预约，即可享受优惠！"
         view.textColor = kAppBlueColor
-        view.font = FONT_15
+        view.font = FONT_14
         return view
     }()
             
     lazy var button : UIButton = {
         let view = UIButton()
         view.setTitle("预约VR录制", for: .normal)
-        view.titleLabel?.font = FONT_MEDIUM_15
+        view.titleLabel?.font = FONT_MEDIUM_14
         view.clipsToBounds = true
         view.layer.cornerRadius = button_cordious_8
         view.backgroundColor = kAppBlueColor
@@ -74,7 +74,7 @@ class OwnerVRView: UIView {
         }
         img.snp.makeConstraints { (make) in
             make.top.leading.bottom.equalTo(bgview)
-            make.size.equalTo(40)
+            make.size.equalTo(38)
         }
         titleLabel.snp.makeConstraints { (make) in
             make.top.bottom.equalTo(bgview)

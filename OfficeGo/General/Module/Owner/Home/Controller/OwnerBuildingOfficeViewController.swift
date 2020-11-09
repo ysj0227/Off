@@ -123,6 +123,8 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     
     @objc func saveClick() {
         
+        tableView.endEditing(true)
+
         if isFromAdd == true {
             /*
              ({

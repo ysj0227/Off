@@ -170,8 +170,14 @@ extension OwnerBuildingListViewController {
             make.width.equalTo(65)
             make.top.bottom.equalToSuperview()
         }
+        titleview?.leftButton.snp.remakeConstraints { (make) in
+            make.leading.equalToSuperview()
+            make.height.equalTo(44)
+            make.width.equalTo(65)
+            make.bottom.equalToSuperview()
+        }
         titleview?.leftButton.setImage(UIImage.init(named: ""), for: .normal)
-        titleview?.leftButton.setTitle("收起", for: .normal)
+        titleview?.leftButton.setTitle("  收起", for: .normal)
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
@@ -279,9 +285,12 @@ extension OwnerBuildingListViewController {
                 cell?.editClickBlock = { [weak self] in
                     
                     //self?.dismissCVCScanEdit(viewModel: viewModel, isScan: false)
-                    
-                    
+                
                     if viewModel.btype == 1 {
+                        if viewModel.isEdit != true {
+                            //AppUtilities.makeToast("暂不可编辑")
+                            return
+                        }
                         let buildingModel = FangYuanBuildingEditModel()
                         buildingModel.isTemp = viewModel.isTemp
                         buildingModel.buildingId = viewModel.buildingId
@@ -290,6 +299,10 @@ extension OwnerBuildingListViewController {
                         vc.buildingModel = buildingModel
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }else if viewModel.btype == 2 {
+                        if viewModel.isEdit != true {
+                            //AppUtilities.makeToast("暂不可编辑")
+                            return
+                        }
                         let buildingModel = FangYuanBuildingEditModel()
                         buildingModel.isTemp = viewModel.isTemp
                         buildingModel.buildingId = viewModel.buildingId
