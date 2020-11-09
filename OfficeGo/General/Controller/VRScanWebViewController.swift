@@ -39,10 +39,16 @@ class VRScanWebViewController: BaseViewController, UINavigationControllerDelegat
     }()
     
     func loadWebview() {
-        if let url = URL(string: urlString ?? "") {
-            LoadingHudView.showHud()
-            let request = URLRequest(url: url)
-            self.webView?.load(request)
+        if (urlString?.hasPrefix("http") ?? true) {
+            if let url = URL(string: urlString ?? "") {
+                if UIApplication.shared.canOpenURL(url) {
+                    LoadingHudView.showHud()
+                    let request = URLRequest(url: url)
+                    webView?.load(request)
+                }
+            }
+        }else {
+            AppUtilities.makeToast("此链接无效")
         }
     }
     
@@ -147,10 +153,16 @@ class VRScanWebViewController: BaseViewController, UINavigationControllerDelegat
         
         SendNetworkStatus()
         
-        if let url = URL(string: urlString ?? "\(SSAPI.SSH5Host)\(SSDelegateURL.h5AboutUsUrl)") {
-            let request = URLRequest(url: url)
-            webView?.load(request)
-            LoadingHudView.showHud()
+        if (urlString?.hasPrefix("http") ?? true) {
+            if let url = URL(string: urlString ?? "") {
+                if UIApplication.shared.canOpenURL(url) {
+                    LoadingHudView.showHud()
+                    let request = URLRequest(url: url)
+                    webView?.load(request)
+                }
+            }
+        }else {
+            AppUtilities.makeToast("此链接无效")
         }
     }
     
