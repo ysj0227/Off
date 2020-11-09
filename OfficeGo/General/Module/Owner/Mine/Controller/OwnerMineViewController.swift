@@ -12,6 +12,11 @@ import SwiftyJSON
 
 class OwnerMineViewController: BaseTableViewController {
     
+    lazy var loginPCScanView: OwnerScanLoginInPCView = {
+        let view = OwnerScanLoginInPCView(frame: self.view.frame)
+        return view
+    }()
+    
     var userModel: LoginUserModel?
     
     var typeSourceArray:[OwnerMineConfigureModel] = {
@@ -144,6 +149,47 @@ extension OwnerMineViewController {
         }
     }
     
+    ///跳转二维码页面页面
+    func clickToQCode() {
+        //设置扫码区域参数
+        var style = LBXScanViewStyle()
+        style.centerUpOffset = 44
+        style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle.Inner
+        style.photoframeLineW = 2
+        style.photoframeAngleW = 18
+        style.photoframeAngleH = 18
+        style.isNeedShowRetangle = false
+
+        style.anmiationStyle = LBXScanViewAnimationStyle.LineMove
+
+        style.colorAngle = UIColor(red: 0.0/255, green: 200.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        
+        style.animationImage = UIImage(named: "CodeScan.bundle/qrcode_Scan_weixin_Line")
+        
+        
+        let vc = LBXScanViewController()
+        vc.scanStyle = style
+        vc.isOpenInterestRect = true
+        let nav = BaseNavigationViewController.init(rootViewController: vc)
+        nav.modalPresentationStyle = .overFullScreen
+        //TODO: 这块弹出要设置
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    //弹出pc登录框
+    @objc func clickShowPCLogin() {
+                
+        loginPCScanView.ShowAlertView(cancelButtonCallClick: { [weak self] in
+            
+
+        }, sureButtonCallClick: { [weak self] in
+            //跳转到扫一扫页面
+                        
+            self?.clickToQCode()
+        })
+    }
+    
+    
     ///设置按钮点击方法 - 判断有没有登录
     func settingBtnClick() {
         if isLogin() == true {
@@ -180,6 +226,10 @@ extension OwnerMineViewController {
         
         headerView.headerBtnClickBlock = { [weak self] in
             self?.headerViewClick()
+        }
+        
+        headerView.saoyisaoBtnClickBlock = { [weak self] in
+            self?.clickShowPCLogin()
         }
         
         headerView.setBtnClickBlock = { [weak self] in

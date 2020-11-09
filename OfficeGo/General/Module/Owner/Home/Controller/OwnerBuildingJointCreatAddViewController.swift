@@ -240,6 +240,11 @@ extension OwnerBuildingJointCreatAddViewController {
                 AppUtilities.makeToast("请选择所在区域")
                 return
             }
+
+            if mainPicBannermodel.isLocal == true {
+                AppUtilities.makeToast("请上传封面图")
+                return
+            }
         }
         
         if userModel?.buildingAddress == nil || userModel?.buildingAddress?.isBlankString == true {
@@ -247,10 +252,6 @@ extension OwnerBuildingJointCreatAddViewController {
             return
         }
         
-        if mainPicBannermodel.isLocal == true {
-            AppUtilities.makeToast("请上传封面图")
-            return
-        }
         
         if uploadPicModelFCZArr.count <= 0 {
             AppUtilities.makeToast("请上传房产证")

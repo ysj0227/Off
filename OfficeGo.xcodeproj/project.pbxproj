@@ -501,7 +501,7 @@
 		8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FangYuanBuildingEditDetailModel.swift; sourceTree = "<group>"; };
 		8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingIntroductionCell.swift; sourceTree = "<group>"; };
 		8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNetworkSelectCell.swift; sourceTree = "<group>"; };
-		8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointCreatAddViewController.swift; sourceTree = "<group>"; };
+		8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointCreatAddViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		8E50486925217C2800F43373 /* OwnerFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListCell.swift; sourceTree = "<group>"; };
 		8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListViewController.swift; sourceTree = "<group>"; };
 		8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYMoreSettingView.swift; sourceTree = "<group>"; };

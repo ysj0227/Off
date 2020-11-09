@@ -812,7 +812,7 @@ class OwnerBuildingEditConfigureModel : ConfigureModel {
         switch type {
         ///楼盘类型
         case .OwnerBuildingEditTypeBuildingTypew:
-            return "请输入楼盘类型"
+            return "请选择楼盘类型"
         ///写字楼名称
         case .OwnerBuildingEditTypeBuildingName:
             return "请输入写字楼名称"

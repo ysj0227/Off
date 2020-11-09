@@ -116,8 +116,8 @@ class OwnerBuildingListViewController: BaseTableViewController {
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
-        params["pageNo"] = self.pageNo as AnyObject
-        params["pageSize"] = self.pageSize as AnyObject
+        //params["pageNo"] = self.pageNo as AnyObject
+        //params["pageSize"] = self.pageSize as AnyObject
 
         SSNetworkTool.SSFYManager.request_getBuildingList(params: params, success: { [weak self] (response) in
             guard let weakSelf = self else {return}
@@ -127,7 +127,7 @@ class OwnerBuildingListViewController: BaseTableViewController {
                     let viewmodel = OwnerBuildingListViewModel.init(model: model ?? OwnerBuildingListModel())
                     weakSelf.dataSourceViewModel.append(viewmodel)
                 }
-                weakSelf.endRefreshWithCount(decoratedArray.count)
+                weakSelf.endRefreshWithCount(0)
             }
             
             }, failure: {[weak self] (error) in

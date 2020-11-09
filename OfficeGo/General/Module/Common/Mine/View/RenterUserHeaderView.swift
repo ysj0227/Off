@@ -20,10 +20,18 @@ class RenterUserHeaderView: UIView {
     lazy var settingBtn: UIButton = {
         let view = UIButton.init()
         view.setImage(UIImage.init(named: "setting"), for: .normal)
-        view.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: -20, right: -20)
+        view.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: -10, right: -10)
         view.addTarget(self, action: #selector(sureSelectClick), for: .touchUpInside)
         return view
     }()
+    
+    lazy var saoyisaoBtn: UIButton = {
+         let view = UIButton.init()
+         view.setImage(UIImage.init(named: "QScan"), for: .normal)
+         view.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: -10, right: -10)
+         view.addTarget(self, action: #selector(saoyisaoSelectClick), for: .touchUpInside)
+         return view
+     }()
     
     lazy var headerImg: BaseImageView = {
         let view = BaseImageView.init()
@@ -76,6 +84,9 @@ class RenterUserHeaderView: UIView {
     var setBtnClickBlock: (() -> Void)?
     
     var identifyBtnClickBlock: (() -> Void)?
+
+    ///扫一扫
+    var saoyisaoBtnClickBlock: (() -> Void)?
 
     
     var isNoLoginShowView: Bool = false {
@@ -183,6 +194,13 @@ class RenterUserHeaderView: UIView {
         blockk()
     }
     
+    @objc func saoyisaoSelectClick() {
+        guard let blockk = saoyisaoBtnClickBlock else {
+            return
+        }
+        blockk()
+    }
+    
     @objc func sureSelectClick() {
         guard let blockk = setBtnClickBlock else {
             return
@@ -206,15 +224,20 @@ class RenterUserHeaderView: UIView {
         
         addSubview(headerViewBtn)
         addSubview(settingBtn)
+        addSubview(saoyisaoBtn)
         headerViewBtn.addSubview(headerImg)
         headerViewBtn.addSubview(nameLabel)
         headerViewBtn.addSubview(introductionLabel)
         headerViewBtn.addSubview(loginbutton)
         headerViewBtn.addSubview(aduitStatusView)
         settingBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(kStatusBarHeight - 15)
+            make.top.equalTo(kStatusBarHeight - 5)
             make.trailing.equalTo(-left_pending_space_17)
-            make.size.equalTo(60)
+            make.size.equalTo(40)
+        }
+        saoyisaoBtn.snp.makeConstraints { (make) in
+            make.top.size.equalTo(settingBtn)
+            make.trailing.equalTo(settingBtn.snp.leading)
         }
         headerViewBtn.snp.makeConstraints { (make) in
             make.top.equalTo(settingBtn.snp.centerY).offset(30)
