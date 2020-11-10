@@ -38,118 +38,28 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
     
     @objc func valueDidChange() {
         
-        let textNum = editLabel.text?.count
+        //let textNum = editLabel.text?.count
         
         //MARK: 楼盘
         //MARK: 楼盘      ///建筑面积 只支持0.1-1000正数数字，保留1位小数，单位“万 M²
         if model.type == .OwnerBuildingEditTypeArea {
-            //截取
-            if textNum! > 6 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 6)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 1000 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持0.1-1000正整数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持0.1-1000正整数，保留1位小数")
-                }
-            }
-//            if let str = viewModel?.tagsString {
-//                 let arr = str.split{$0 == ","}.map(String.init)
-//                 houseFeatureView.featureStringDetail = arr
-//             }
-//            ///如果有小数点 - 且后面的大于一，删掉
-//            if editLabel.text?.count ?? 0 > 0 {
-//                if editLabel.text?.contains(".") ?? false {
-//                    let arr = editLabel.text?.split{$0 == "."}.map(String.init)
-//                    if arr?.count ?? 0 > 1 {
-//                        var last = arr?[(arr?.count ?? 0) - 1]
-//                        if last?.count ?? 0 > 1 {
-//                            let lastindex = editLabel.text?.index((last?.startIndex)!, offsetBy: 1)
-//                            last = last?.substring(to: lastindex!)
-//                        }
-//                    }
-//                }
-//                editLabel.text?.removeLast(1)
-//                AppUtilities.makeToast("仅支持0.1-1000正整数，保留1位小数")
-//            }
+            getTextFromTF(tf: editLabel, maxLength: 6, maxNum: 1000, decimalNum: 1, toast: "仅支持0.1-1000正整数，保留1位小数")
+            
         }
         //MARK: 楼盘      ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         else if model.type == .OwnerBuildingEditTypeClearHeight {
-            //截取
-            if textNum! > 3 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 8 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+
         }
         //MARK: 楼盘      ///层高   选填，仅支持1-8之间正数，保留1位小数，单位 米
         else if model.type == .OwnerBuildingEditTypeFloorHeight {
-            //截取
-            if textNum! > 3 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 8 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+
         }
         //MARK: 楼盘      ///物业费  必填，数字，0-100之间正数，保留1位小数，单位 “元/㎡/月
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
-//            if let num = Float(editLabel.text ?? "0") {
-//                if num < Float(10^(textNum!-3)) {
-//                    editLabel.text?.removeLast(1)
-//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
-//                }else {
-//                    editLabel.text?.removeLast(1)
-//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
-//                }
-//            }else {
-//                if editLabel.text?.count ?? 0 > 0 {
-//                    editLabel.text?.removeLast(1)
-//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
-//                }
-//            }
-            
-//            //截取
-//            if textNum! > 5 {
-//                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 5)
-//                editLabel.text = editLabel.text?.substring(to: index!)
-//            }
-//            if let num = Float(editLabel.text ?? "0") {
-//                if num > 100 {
-//                    editLabel.text?.removeLast(1)
-//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
-//                }
-//            }else {
-//                if editLabel.text?.count ?? 0 > 0 {
-//                    editLabel.text?.removeLast(1)
-//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
-//                }
-//            }
+            getTextFromTF(tf: editLabel, maxLength: 5, maxNum: 100, decimalNum: 1, toast: "仅支持0-100之间正数，保留1位小数")
+
         }
         
         
@@ -157,22 +67,8 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 网点
         //MARK: 网点盘      ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
-            //截取
-            if textNum! > 3 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 8 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+
         }
         
         
@@ -180,93 +76,29 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 办公室
         //MARK: 办公室     ///建筑面积 - 必填，只支持10-100000正数数字，保留2位小数，单位 M²
         if officeModel.type == .OwnerBuildingOfficeTypeArea {
-            //截取
-            if textNum! > 9 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 9)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 100000 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持10-100000之间正数，保留2位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持10-100000之间正数，保留2位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 9, maxNum: 100000, decimalNum: 2, toast: "仅支持10-100000之间正数，保留2位小数")
+
         }
         //MARK: 办公室     ///租金 单价 - 0.1-50之间正数，保留2位小数点，单位“元”；
         else if officeModel.type == .OwnerBuildingOfficeTypePrice {
-            //截取
-            if textNum! > 5 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 5)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Int(editLabel.text ?? "0") {
-                if num > 50 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持0.1-50之间正数，保留2位小数点")
-                }
-            }
+            
+            getTextFromTF(tf: editLabel, maxLength: 5, maxNum: 50, decimalNum: 2, toast: "仅支持0.1-50之间正数，保留2位小数点")
+            
         }
         //MARK: 办公室     ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
-            //截取
-            if textNum! > 3 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 8 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+
         }
         //MARK: 办公室     选填，仅支持1-8之间正数，保留1位小数，单位 米
         else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
-            //截取
-            if textNum! > 3 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 8 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+
         }
         //MARK: 办公室     ///物业费 必填，可修改，默认获取楼盘物业费;     物业金额根据房源面积计算，计算公式=物业费*房源面积，0-100000，保留1位小数，单位 元/月
         else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
-            //截取
-            if textNum! > 8 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 8)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 100000 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持0-100000之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持0-100000之间正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 8, maxNum: 100000, decimalNum: 1, toast: "仅支持0-100000之间正数，保留1位小数")
+
         }
         
                
@@ -274,41 +106,13 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 独立办公室
         //MARK: 独立办公室       ///面积，非必填，支持输入1-10000正数，支持保留1位小数
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
-            //截取
-            if textNum! > 7 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 10000 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-10000之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-10000之间正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 7, maxNum: 10000, decimalNum: 1, toast: "仅支持1-10000之间正数，保留1位小数")
+
         }
         //MARK: 独立办公室       ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
-            //截取
-            if textNum! > 3 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 8 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }
+            
+            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
         }
         
         
@@ -317,41 +121,41 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 开放工位        ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
-            //截取
-            if textNum! > 7 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 10000 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持输入100-1w之间的正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持输入100-1w之间的正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 7, maxNum: 10000, decimalNum: 1, toast: "仅支持输入100-1w之间的正数，保留1位小数")
         }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
-            //截取
-            if textNum! > 3 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 8 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持1-8之间正数，保留1位小数")
-                }
-            }
+            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
         }
         
+    }
+    
+    func getTextFromTF(tf: UITextField, maxLength: Int, maxNum: Float, decimalNum: Int, toast: String) {
+        
+        let textNum = tf.text?.count
+
+        //截取
+        if textNum! > maxLength {
+            let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: maxLength)
+            editLabel.text = editLabel.text?.substring(to: index!)
+        }
+        if let num = Float(editLabel.text ?? "0") {
+            if num > maxNum {
+                editLabel.text?.removeLast(1)
+                AppUtilities.makeToast(toast)
+            }
+            let arr = editLabel.text?.split{$0 == "."}.map(String.init)
+            if arr?.count == 2 {
+                if arr?[1].count ?? 0 > decimalNum {
+                    editLabel.text?.removeLast(1)
+                    AppUtilities.makeToast(toast)
+                }
+            }
+        }else {
+            if textNum ?? 0 > 0 {
+                
+                editLabel.text?.removeLast(1)
+                AppUtilities.makeToast(toast)
+            }
+        }
     }
     
     ///楼盘模型
