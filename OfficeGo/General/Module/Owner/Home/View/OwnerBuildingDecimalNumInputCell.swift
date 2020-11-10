@@ -119,22 +119,37 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         }
         //MARK: 楼盘      ///物业费  必填，数字，0-100之间正数，保留1位小数，单位 “元/㎡/月
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
-            //截取
-            if textNum! > 5 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 5)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 100 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
-                }
-            }else {
-                if editLabel.text?.count ?? 0 > 0 {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
-                }
-            }
+//            if let num = Float(editLabel.text ?? "0") {
+//                if num < Float(10^(textNum!-3)) {
+//                    editLabel.text?.removeLast(1)
+//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
+//                }else {
+//                    editLabel.text?.removeLast(1)
+//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
+//                }
+//            }else {
+//                if editLabel.text?.count ?? 0 > 0 {
+//                    editLabel.text?.removeLast(1)
+//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
+//                }
+//            }
+            
+//            //截取
+//            if textNum! > 5 {
+//                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 5)
+//                editLabel.text = editLabel.text?.substring(to: index!)
+//            }
+//            if let num = Float(editLabel.text ?? "0") {
+//                if num > 100 {
+//                    editLabel.text?.removeLast(1)
+//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
+//                }
+//            }else {
+//                if editLabel.text?.count ?? 0 > 0 {
+//                    editLabel.text?.removeLast(1)
+//                    AppUtilities.makeToast("仅支持0-100之间正数，保留1位小数")
+//                }
+//            }
         }
         
         
@@ -526,16 +541,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
             ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
             if let areaOffice = FYModel?.houseMsg?.area {
                 if textField.text != areaOffice {
-                    let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
-                    let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
-                    FYModel?.houseMsg?.minSeatsOffice = "\(min)"
-                    FYModel?.houseMsg?.maxSeatsOffice = "\(max)"
+                    let min = (Float(textField.text ?? "0") ?? 1) / minSeatsFM_5
+                    let max = (Float(textField.text ?? "0") ?? 1) / maxSeatsFM_3
+                    FYModel?.houseMsg?.minSeatsOffice = String(format: "%.0f", min)
+                    FYModel?.houseMsg?.maxSeatsOffice = String(format: "%.0f", max)
                 }
             }else {
-                let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
-                let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
-                FYModel?.houseMsg?.minSeatsOffice = "\(min)"
-                FYModel?.houseMsg?.maxSeatsOffice = "\(max)"
+                let min = (Float(textField.text ?? "0") ?? 1) / minSeatsFM_5
+                let max = (Float(textField.text ?? "0") ?? 1) / maxSeatsFM_3
+                FYModel?.houseMsg?.minSeatsOffice = String(format: "%.0f", min)
+                FYModel?.houseMsg?.maxSeatsOffice = String(format: "%.0f", max)
             }
             FYModel?.houseMsg?.area = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
@@ -543,34 +558,6 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
             }
             blockk(FYModel ?? FangYuanHouseEditModel())
             
-            /*
-            if let num = Float(editLabel.text ?? "0") {
-                if num > 100000 || num < 10 {
-                    editLabel.text = nil
-                    AppUtilities.makeToast("仅支持10-100000之间正数，保留2位小数")
-                }else {
-
-                    ///如果面积存在，并且和输入的内容一致，是不需要计算工位数的
-                    if let areaOffice = FYModel?.houseMsg?.area {
-                        if textField.text != areaOffice {
-                            let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
-                            let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
-                            FYModel?.houseMsg?.minSeatsOffice = "\(min)"
-                            FYModel?.houseMsg?.maxSeatsOffice = "\(max)"
-                        }
-                    }else {
-                        let min = (Int(textField.text ?? "0") ?? 1) / minSeatsFM_5
-                        let max = (Int(textField.text ?? "0") ?? 1) / maxSeatsFM_5
-                        FYModel?.houseMsg?.minSeatsOffice = "\(min)"
-                        FYModel?.houseMsg?.maxSeatsOffice = "\(max)"
-                    }
-                }
-            }
-            FYModel?.houseMsg?.area = textField.text
-            guard let blockk = self.endEditingFYMessageCell else {
-                return
-            }
-            blockk(FYModel ?? FangYuanHouseEditModel())*/
         }
         //MARK: 办公室     ///租金 单价 - 0.1-50之间正数，保留2位小数点，单位“元”；
         else if officeModel.type == .OwnerBuildingOfficeTypePrice {
