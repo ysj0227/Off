@@ -283,6 +283,7 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         if FYModel?.houseMsg?.clearHeight == nil || FYModel?.houseMsg?.clearHeight?.isBlankString == true{
             //AppUtilities.makeToast("请输入净高")
             //return
+            params["clearHeight"] = "" as AnyObject?
         }else {
             params["clearHeight"] = FYModel?.houseMsg?.clearHeight as AnyObject?
         }
@@ -398,6 +399,7 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
         if FYModel?.houseMsg?.clearHeight == nil || FYModel?.houseMsg?.clearHeight?.isBlankString == true{
             //AppUtilities.makeToast("请输入净高")
             //return
+            params["clearHeight"] = "" as AnyObject?
         }else {
             params["clearHeight"] = FYModel?.houseMsg?.clearHeight as AnyObject?
         }

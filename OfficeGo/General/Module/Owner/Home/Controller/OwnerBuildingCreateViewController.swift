@@ -536,6 +536,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         if buildingModel?.buildingMsg?.refurbishedTime == nil || buildingModel?.buildingMsg?.refurbishedTime?.isBlankString == true{
             //AppUtilities.makeToast("请输入翻新时间")
             //return
+            params["refurbishedTime"] = "" as AnyObject?
         }else {
             params["refurbishedTime"] = buildingModel?.buildingMsg?.refurbishedTime as AnyObject?
         }
@@ -544,6 +545,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         if buildingModel?.buildingMsg?.constructionArea == nil || buildingModel?.buildingMsg?.constructionArea?.isBlankString == true{
             //AppUtilities.makeToast("请输入建筑面积")
             //return
+            params["constructionArea"] = "" as AnyObject?
         }else {
             params["constructionArea"] = buildingModel?.buildingMsg?.constructionArea as AnyObject?
         }
@@ -560,6 +562,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         if buildingModel?.buildingMsg?.storeyHeight == nil || buildingModel?.buildingMsg?.storeyHeight?.isBlankString == true{
             //AppUtilities.makeToast("请输入层高")
             //return
+            params["storeyHeight"] = "" as AnyObject?
         }else {
             params["storeyHeight"] = buildingModel?.buildingMsg?.storeyHeight as AnyObject?
         }
@@ -592,6 +595,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
         if buildingModel?.buildingMsg?.parkingSpaceRent == nil || buildingModel?.buildingMsg?.parkingSpaceRent?.isBlankString == true{
             //AppUtilities.makeToast("请输入车位费")
             //return
+            params["parkingSpaceRent"] = "" as AnyObject?
         }else {
             params["parkingSpaceRent"] = buildingModel?.buildingMsg?.parkingSpaceRent as AnyObject?
         }
@@ -636,6 +640,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                 }
             }
             params["internet"] = deleteArr.joined(separator: ",") as AnyObject?
+        }else {
+            params["internet"] = "" as AnyObject?
         }
         
         //MARK: 入驻企业 - 非
@@ -653,6 +659,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                 }
             }
             params["tags"] = deleteArr.joined(separator: ",") as AnyObject?
+        }else {
+            params["tags"] = "" as AnyObject?
         }
         
         //MARK: 楼盘图片

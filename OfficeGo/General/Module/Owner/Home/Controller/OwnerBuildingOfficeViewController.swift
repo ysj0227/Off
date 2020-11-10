@@ -371,6 +371,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         if FYModel?.houseMsg?.title == nil || FYModel?.houseMsg?.title?.isBlankString == true{
             //AppUtilities.makeToast("请输入标题")
             //return
+            params["title"] = "" as AnyObject?
         }else {
             params["title"] = FYModel?.houseMsg?.title as AnyObject?
         }
@@ -431,6 +432,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         if FYModel?.houseMsg?.storeyHeight == nil || FYModel?.houseMsg?.storeyHeight?.isBlankString == true{
             //AppUtilities.makeToast("请输入层高")
             //return
+            params["storeyHeight"] = "" as AnyObject?
         }else {
             params["storeyHeight"] = FYModel?.houseMsg?.storeyHeight as AnyObject?
         }
@@ -488,6 +490,8 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
                 }
             }
             params["tags"] = deleteArr.joined(separator: ",") as AnyObject?
+        }else {
+            params["tags"] = "" as AnyObject?
         }
         
         //MARK: 办公室图片
@@ -558,6 +562,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         if FYModel?.houseMsg?.title == nil || FYModel?.houseMsg?.title?.isBlankString == true{
             //AppUtilities.makeToast("请输入标题")
             //return
+            params["title"] = "" as AnyObject?
         }else {
             params["title"] = FYModel?.houseMsg?.title as AnyObject?
         }
@@ -618,6 +623,8 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         if FYModel?.houseMsg?.storeyHeight == nil || FYModel?.houseMsg?.storeyHeight?.isBlankString == true{
             //AppUtilities.makeToast("请输入层高")
             //return
+            params["storeyHeight"] = "" as AnyObject?
+
         }else {
             params["storeyHeight"] = FYModel?.houseMsg?.storeyHeight as AnyObject?
         }
@@ -675,6 +682,8 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
                 }
             }
             params["tags"] = deleteArr.joined(separator: ",") as AnyObject?
+        }else {
+            params["tags"] = "" as AnyObject?
         }
         
         //MARK: 办公室图片

@@ -336,6 +336,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         if buildingModel?.buildingMsg?.conferencePeopleNumber == nil || buildingModel?.buildingMsg?.conferencePeopleNumber?.isBlankString == true{
             //AppUtilities.makeToast("请输入最多容纳人数")
             //return
+            params["conferencePeopleNumber"] = "" as AnyObject?
         }else {
             params["conferencePeopleNumber"] = buildingModel?.buildingMsg?.conferencePeopleNumber as AnyObject?
         }
@@ -351,12 +352,15 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
                 }
                 params["roomMatching"] = deleteArr.joined(separator: ",") as AnyObject?
             }
+        }else {
+            params["roomMatching"] = "" as AnyObject?
         }
         
         //MARK: 车位数 - 非
         if buildingModel?.buildingMsg?.parkingSpace == nil || buildingModel?.buildingMsg?.parkingSpace?.isBlankString == true{
             //AppUtilities.makeToast("请输入车位数")
             //return
+            params["parkingSpace"] = "" as AnyObject?
         }else {
             params["parkingSpace"] = buildingModel?.buildingMsg?.parkingSpace as AnyObject?
         }
@@ -365,6 +369,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         if buildingModel?.buildingMsg?.parkingSpaceRent == nil || buildingModel?.buildingMsg?.parkingSpaceRent?.isBlankString == true{
             //AppUtilities.makeToast("请输入车位费")
             //return
+            params["parkingSpaceRent"] = "" as AnyObject?
         }else {
             params["parkingSpaceRent"] = buildingModel?.buildingMsg?.parkingSpaceRent as AnyObject?
         }
@@ -374,6 +379,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         if buildingModel?.buildingMsg?.passengerLift == nil || buildingModel?.buildingMsg?.passengerLift?.isBlankString == true{
             //AppUtilities.makeToast("请输入客梯数")
             //return
+            params["passengerLift"] = "" as AnyObject?
         }else {
             params["passengerLift"] = buildingModel?.buildingMsg?.passengerLift as AnyObject?
         }
@@ -382,6 +388,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         if buildingModel?.buildingMsg?.cargoLift == nil || buildingModel?.buildingMsg?.cargoLift?.isBlankString == true{
             //AppUtilities.makeToast("请输入货梯数")
             //return
+            params["cargoLift"] = "" as AnyObject?
         }else {
             params["cargoLift"] = buildingModel?.buildingMsg?.cargoLift as AnyObject?
         }
@@ -395,6 +402,8 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
                 }
             }
             params["internet"] = deleteArr.joined(separator: ",") as AnyObject?
+        }else {
+            params["internet"] = "" as AnyObject?
         }
         
         //MARK: 入驻企业 - 非
@@ -414,6 +423,8 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
                 }
             }
             params["tags"] = deleteArr.joined(separator: ",") as AnyObject?
+        }else {
+            params["tags"] = "" as AnyObject?
         }
         
         
@@ -430,6 +441,8 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
                     }
                 }
                 params["basicServices"] = deleteArr.joined(separator: ",") as AnyObject?
+            }else {
+                params["basicServices"] = "" as AnyObject?
             }
             
             let corporate = basicServicesLocal[1]
@@ -441,7 +454,12 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
                     }
                 }
                 params["corporateServices"] = deleteArr1.joined(separator: ",") as AnyObject?
+            }else {
+                params["corporateServices"] = "" as AnyObject?
             }
+        }else {
+            params["basicServices"] = "" as AnyObject?
+            params["corporateServices"] = "" as AnyObject?
         }
         
         
