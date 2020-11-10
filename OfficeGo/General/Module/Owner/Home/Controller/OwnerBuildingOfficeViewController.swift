@@ -1086,7 +1086,7 @@ extension OwnerBuildingOfficeViewController {
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (model) in
                 self?.FYModel = model
-                self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
+                self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -1157,7 +1157,7 @@ extension OwnerBuildingOfficeViewController {
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (FYModel) in
                 self?.FYModel = FYModel
-                self?.loadSecion(section: indexPath.section)
+                // self?.loadSecion(section: indexPath.section)
             }
             cell?.alertBtnClickClouse = { [weak self] in
                 self?.showLeaveAlert(index: 1)
