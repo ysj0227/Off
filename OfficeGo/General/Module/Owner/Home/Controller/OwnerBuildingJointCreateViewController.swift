@@ -740,7 +740,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         
 
         ///corporateServices  企业服务,多个用英文逗号隔开 - id匹配
-        let corporateServicesArr = buildingModel?.buildingMsg?.basicServices?.split{$0 == ","}.map(String.init)
+        let corporateServicesArr = buildingModel?.buildingMsg?.corporateServices?.split{$0 == ","}.map(String.init)
         if let networkArr = corporateServicesArr, let internetLocal = buildingModel?.buildingMsg?.corporateServicesLocal {
             if networkArr.count > 0 && internetLocal.count > 0 {
                 for network in networkArr {
@@ -756,7 +756,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         
         
         ///roomMatching 会议室配套,多个用英文逗号隔开,会议室配套详情，看字典 - id匹配
-        let roomMatchingArr = buildingModel?.buildingMsg?.basicServices?.split{$0 == ","}.map(String.init)
+        let roomMatchingArr = buildingModel?.buildingMsg?.roomMatching?.split{$0 == ","}.map(String.init)
         if let networkArr = roomMatchingArr, let internetLocal = buildingModel?.buildingMsg?.roomMatchingsLocal?.itemArr {
             if networkArr.count > 0 && internetLocal.count > 0 {
                 for network in networkArr {
