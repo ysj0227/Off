@@ -69,6 +69,8 @@ class SSDelegateURL: NSObject {
 //  MARK:   --房源列表
 class SSOwnerFYManagerURL: NSObject {
     
+    //楼盘驳回回显
+    static let getBuildingTempById = "api/building/getBuildingTempById"
     
     //楼盘添加接口
     static let getinsertBuilding = "api/building/insertBuilding"

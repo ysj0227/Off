@@ -50,6 +50,19 @@ class OwnerBuildingListCell: BaseTableViewCell {
         view.addTarget(self, action: #selector(editClick), for: .touchUpInside)
         return view
     }()
+    
+    lazy var identifyBtn: UIButton = {
+        let view = UIButton.init()
+        view.isHidden = true
+        view.setTitle("重新认证", for: .normal)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = button_cordious_8
+        view.backgroundColor = kAppBlueColor
+        view.titleLabel?.font = FONT_14
+        view.addTarget(self, action: #selector(identifyClick), for: .touchUpInside)
+        return view
+    }()
+    
     var scanClickBlock: (() -> Void)?
     
     @objc func scanClick() {
@@ -67,6 +80,16 @@ class OwnerBuildingListCell: BaseTableViewCell {
         }
         blockk()
     }
+    
+    var identifyClickBlock: (() -> Void)?
+    
+    @objc func identifyClick() {
+        guard let blockk = identifyClickBlock else {
+            return
+        }
+        blockk()
+    }
+    
     
     class func rowHeight() -> CGFloat {
         return cell_height_53
@@ -94,6 +117,7 @@ class OwnerBuildingListCell: BaseTableViewCell {
         addSubview(redView)
         addSubview(editBtn)
         addSubview(scanBtn)
+        addSubview(identifyBtn)
         addSubview(lineView)
         
         
@@ -112,6 +136,11 @@ class OwnerBuildingListCell: BaseTableViewCell {
         scanBtn.snp.makeConstraints { (make) in
             make.trailing.equalTo(editBtn.snp.leading)
             make.centerY.size.equalTo(editBtn)
+        }
+        identifyBtn.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview().offset(-13)
+            make.centerY.equalToSuperview()
+            make.size.equalTo(CGSize(width: 80, height: 30))
         }
         
         houseNameLabel.snp.makeConstraints { (make) in
@@ -164,6 +193,12 @@ class OwnerBuildingListCell: BaseTableViewCell {
         
         editBtn.isSelected = viewModel.isEdit ?? true
         
+        scanBtn.isHidden = !viewModel.isHiddenIdentifyBtn
+        
+        editBtn.isHidden = !viewModel.isHiddenIdentifyBtn
+
+        identifyBtn.isHidden = viewModel.isHiddenIdentifyBtn
+
 //        editBtn.isUserInteractionEnabled = viewModel.isEdit ?? true
     }
     

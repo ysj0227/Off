@@ -95,6 +95,17 @@ class VersionModel: BaseModel {
 
 class OwnerIdentifyUserModel: BaseModel {
     
+    ///房产证
+    var buildingCardTemp: [BannerModel]?
+    
+    ///大区id
+    var districtId : String?
+    
+    ///商圈id
+    var businessDistrict : String?
+    
+    
+    
     //企业地址
     var address : String?
     

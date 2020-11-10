@@ -1,8 +1,8 @@
 //
-//  OwnerBuildingJointCreatAddViewController.swift
+//  OwnerBuildingJointNewIdentifyCreatAddViewController.swift
 //  OfficeGo
 //
-//  Created by Mac pro on 2020/11/4.
+//  Created by Mac pro on 2020/11/10.
 //  Copyright © 2020 Senwei. All rights reserved.
 //
 
@@ -10,10 +10,22 @@ import CLImagePickerTool
 import HandyJSON
 import SwiftyJSON
 
-class OwnerBuildingJointCreatAddViewController: BaseViewController {
+class OwnerBuildingJointNewIdentifyCreatAddViewController: BaseViewController {
+    
+    ///驳回原因
+    lazy var rejectReasonLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.textColor = kAppRedColor
+//        view.backgroundColor = kAppRedColor
+        view.font = FONT_14
+        return view
+    }()
     
     ///楼盘
     var isBuilding: Bool?
+    
+    var buildingId: Int?
     
     ///网点
     var isBranchs: Bool?
@@ -110,7 +122,7 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
         btn.backgroundColor = kAppBlueColor
         btn.clipsToBounds = true
         btn.layer.cornerRadius = button_cordious_2
-        btn.setTitle("确认添加", for: .normal)
+        btn.setTitle("确认提交", for: .normal)
         btn.setTitleColor(kAppWhiteColor, for: .normal)
         btn.titleLabel?.font = FONT_15
         btn.addTarget(self, action: #selector(logotClick), for: .touchUpInside)
@@ -130,7 +142,7 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
         super.viewDidLoad()
         setUpView()
         addNotify()
-        setUpData()
+        requestCompanyIdentifyDetail()
     }
     
     
@@ -143,6 +155,7 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
             if let model = CityAreaCategorySelectModel.deserialize(from: response) {
                 model.name = "上海市"
                 self?.areaModelCount = model
+                self?.getSelectedDistrictBusiness()
             }
             
             }, failure: {  (error) in
@@ -216,11 +229,78 @@ class OwnerBuildingJointCreatAddViewController: BaseViewController {
     
 }
 
-extension OwnerBuildingJointCreatAddViewController {
+extension OwnerBuildingJointNewIdentifyCreatAddViewController {
     
     func detailDataShow() {
         
+        setUpData()
+                        
+        userModel?.district = userModel?.districtId
+        
+        userModel?.business = userModel?.businessDistrict
+        
+        if userModel?.mainPic != nil && userModel?.mainPic?.isBlankString != true {
+            mainPicBannermodel.isLocal = false
+            mainPicBannermodel.imgUrl = userModel?.mainPic
+        }else {
+            mainPicBannermodel.isLocal = true
+        }
+        
+        ///添加新的房产证数据
+        if let premisesPermit = userModel?.buildingCardTemp {
+            
+            for fczBannerModel in premisesPermit {
+                fczBannerModel.isLocal = false
+                uploadPicModelFCZArr.append(fczBannerModel)
+            }
+        }
+        
+        
+        
         loadCollectionData()
+    }
+    
+    
+        ///获取信息
+    func requestCompanyIdentifyDetail() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        
+        params["buildingId"] = buildingId as AnyObject?
+        
+        
+        SSNetworkTool.SSFYManager.request_getBuildingTempById(params: params, success: {[weak self] (response) in
+            
+            guard let weakSelf = self else {return}
+            
+            if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
+                weakSelf.userModel = model
+                weakSelf.request_getDistrict()
+                weakSelf.detailDataShow()
+                
+            }else {
+                weakSelf.loadCollectionData()
+            }
+            
+            }, failure: {[weak self] (error) in
+                
+                guard let weakSelf = self else {return}
+                
+                weakSelf.loadCollectionData()
+                
+        }) {[weak self] (code, message) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.loadCollectionData()
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
     ///提交认证
@@ -263,22 +343,14 @@ extension OwnerBuildingJointCreatAddViewController {
         
         params["token"] = UserTool.shared.user_token as AnyObject?
         
-        if userModel?.buildingId != nil {
-            
-            //关联 - 楼盘，名字和地址都要给
-            params["buildId"] = userModel?.buildingId as AnyObject?
-            
-        }else {
-            
-            if userModel?.district == nil || userModel?.business?.isBlankString == true{
-                AppUtilities.makeToast("请选择所在区域")
-                return
-            }
-            
-            params["districtId"] = userModel?.district as AnyObject?
-            
-            params["businessDistrict"] = userModel?.business as AnyObject?
-        }
+        params["buildingId"] = buildingId as AnyObject?
+        
+        //只有关联给 关联 - 楼盘，名字和地址都要给
+        params["buildId"] = userModel?.buildingId as AnyObject?
+
+        params["districtId"] = userModel?.district as AnyObject?
+        
+        params["businessDistrict"] = userModel?.business as AnyObject?
         
 
         if isBranchs == true {
@@ -338,15 +410,21 @@ extension OwnerBuildingJointCreatAddViewController {
         
 }
 
-extension OwnerBuildingJointCreatAddViewController {
+extension OwnerBuildingJointNewIdentifyCreatAddViewController {
     
     @objc func logotClick() {
         self.headerCollectionView.endEditing(true)
         requestCompanyIdentify()
     }
     func setUpData() {
-        userModel = OwnerIdentifyUserModel()
-        userModel?.leaseType = ""
+        rejectReasonLabel.text = "⚠️ 驳回原因：\(userModel?.remark ?? "")"
+        let attritube = NSMutableAttributedString(string: rejectReasonLabel.text ?? "")
+        let range = NSRange(location: 0, length: attritube.length)
+        attritube.addAttributes([NSAttributedString.Key.font: FONT_14], range: range)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 7
+        attritube.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: range)
+        rejectReasonLabel.attributedText = attritube
     }
     func setUpView() {
         
@@ -357,9 +435,15 @@ extension OwnerBuildingJointCreatAddViewController {
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
+        self.view.addSubview(rejectReasonLabel)
+        rejectReasonLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(kNavigationHeight + 7)
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+        }
+        
         self.view.addSubview(headerCollectionView)
         headerCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(kNavigationHeight)
+            make.top.equalTo(rejectReasonLabel.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().offset(-(bottomMargin() + btnHeight_44))
         }
@@ -379,10 +463,10 @@ extension OwnerBuildingJointCreatAddViewController {
         //写字楼
         buildingNameSearchResultVC = OwnerBuildingJointESSearchViewController.init()
         if isBuilding == true {
-            titleview?.titleLabel.text = "添加楼盘"
+            titleview?.titleLabel.text = "重新认证"
             buildingNameSearchResultVC?.isManagerBuilding = true
         }else if isBranchs == true {
-            titleview?.titleLabel.text = "添加共享办公网点"
+            titleview?.titleLabel.text = "重新认证"
             buildingNameSearchResultVC?.isManagerBranch = true
         }
         buildingNameSearchResultVC?.view.isHidden = true
@@ -412,23 +496,23 @@ extension OwnerBuildingJointCreatAddViewController {
         
         // 创建按钮 - 隐藏 - 创建楼盘
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
-            self?.userModel?.buildingName = self?.buildingName
+//            self?.userModel?.buildingName = self?.buildingName
             if self?.buildingName?.isBlankString != true {
                 self?.isHasBuilding = true
             }else {
                 self?.isHasBuilding = false
             }
             self?.userModel?.buildingId = nil
-            self?.userModel?.address = nil
-            self?.userModel?.district = nil
-            self?.userModel?.business = nil
-            self?.userModel?.mainPic = nil
-            self?.userModel?.districtString = nil
-            self?.userModel?.businessString = nil
-            self?.userModel?.mainPic = nil
-            self?.mainPicBannermodel.imgUrl = nil
-            
-            self?.areaModelCount?.isFirstSelectedModel = nil
+//            self?.userModel?.address = nil
+//            self?.userModel?.district = nil
+//            self?.userModel?.business = nil
+//            self?.userModel?.mainPic = nil
+//            self?.userModel?.districtString = nil
+//            self?.userModel?.businessString = nil
+//            self?.userModel?.mainPic = nil
+//            self?.mainPicBannermodel.imgUrl = nil
+//
+//            self?.areaModelCount?.isFirstSelectedModel = nil
 
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionData()
@@ -462,7 +546,7 @@ extension OwnerBuildingJointCreatAddViewController {
     }
 }
 
-extension OwnerBuildingJointCreatAddViewController {
+extension OwnerBuildingJointNewIdentifyCreatAddViewController {
     func selectFCZPicker() {
         var imgArr = [BannerModel]()
         var imggggArr = [UIImage]()
@@ -650,7 +734,7 @@ extension OwnerBuildingJointCreatAddViewController {
 
 }
 
-extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension OwnerBuildingJointNewIdentifyCreatAddViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
@@ -685,8 +769,8 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
             cell?.indexPath = indexPath
             if indexPath.item <= uploadPicModelFCZArr.count - 1  {
-                if uploadPicModelFCZArr[indexPath.item].isLocal == false {
-                    cell?.image.setImage(with: uploadPicModelFCZArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
+                if let imgurl = uploadPicModelFCZArr[indexPath.item].imgUrl {
+                    cell?.image.setImage(with: imgurl, placeholder: UIImage(named: Default_1x1))
                 }else {
                     cell?.image.image = uploadPicModelFCZArr[indexPath.item].image
                 }
@@ -709,45 +793,20 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        ///有楼盘
-        if isHasBuilding == true {
-            ///关联的 - 不展示封面图
-            if userModel?.buildingId != nil {
-                return 3
-            }else {
-                return 3
-            }
-        }else {
-            return 1
-        }
+        return 3
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     
-        ///有楼盘
-        if isHasBuilding == true {
-            if section == 0 {
-                return 3
-            }else if section == 1 {
-                ///关联的 - 不展示封面图
-                if userModel?.buildingId != nil {
-                    return 0
-                }else {
-                    return 1
-                }
-            }else if section == 2 {
-                return uploadPicModelFCZArr.count + 1
-            }
+        if section == 0 {
+            return 3
+        }else if section == 1 {
+            return 1
+        }else if section == 2 {
+            return uploadPicModelFCZArr.count + 1
         }else {
-            if section == 0 {
-                return 1
-            }else if section == 1 {
-                return 0
-            }else if section == 2 {
-                return 0
-            }
+            return 0
         }
-        return 0
     }
     
     
@@ -815,15 +874,7 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
             return CGSize(width: 0, height: 0)
             
         }else if section == 1 {
-            if isHasBuilding == true {
-                if userModel?.buildingId != nil {
-                    return CGSize(width: kWidth, height: 0)
-                }else {
-                    return CGSize(width: kWidth, height: 40)
-                }
-            }else {
-                return CGSize(width: kWidth, height: 68)
-            }
+            return CGSize(width: kWidth, height: 40)
 
         }else if section == 2 {
             return CGSize(width: kWidth, height: 68)
@@ -847,222 +898,6 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
             return 0
         }else {
             return 5
-        }
-    }
-}
-
-
-class OwnerAddBuildingOrJointCell: BaseCollectionViewCell {
-    
-    lazy var titleLabel: UILabel = {
-        let view = UILabel()
-        view.textAlignment = .left
-        view.setContentCompressionResistancePriority(.required, for: .horizontal)
-        view.font = FONT_14
-        view.textColor = kAppColor_999999
-        return view
-    }()
-    lazy var numDescTF: UITextField = {
-        let view = UITextField()
-        view.textAlignment = .left
-        view.font = FONT_14
-        view.delegate = self
-        view.textColor = kAppColor_333333
-//        view.clearButtonMode = .whileEditing
-        return view
-    }()
-    lazy var addressLabel: UILabel = {
-        let view = UILabel()
-        view.isHidden = true
-        view.textAlignment = .left
-        view.font = FONT_11
-        view.textColor = kAppColor_666666
-        return view
-    }()
-    lazy var detailIcon: BaseImageView = {
-        let view = BaseImageView.init()
-        view.contentMode = .scaleAspectFit
-        view.image = UIImage.init(named: "moreDetail")
-        return view
-    }()
-    lazy var lineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = kAppColor_line_EEEEEE
-        return view
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setupViews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    class func rowHeight() -> CGFloat {
-        return cell_height_58
-    }
-    //公司名字
-    @objc var companyNameClickClouse: IdentifyEditingClickClouse?
-    
-    //大楼名称
-    @objc var buildingNameClickClouse: IdentifyEditingClickClouse?
-    
-    //写字楼地址
-    var buildingAddresEndEditingMessageCell:((String) -> Void)?
-    
-    //写字楼名称址
-    var buildingNameEndEditingMessageCell:((String) -> Void)?
-    
-    //模拟认证模型
-    var userModel: OwnerIdentifyUserModel?
-
-    ///网点
-    var isBranchs: Bool?
-    
-    ///房源管理 -
-    var FYBuildingCreatAddmodel: OwnerBuildingJointCreatAddConfigureModel = OwnerBuildingJointCreatAddConfigureModel(types: OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeUploadMainPhoto) {
-        didSet {
-            
-            titleLabel.attributedText = FYBuildingCreatAddmodel.getNameFormType(type: FYBuildingCreatAddmodel.type ?? OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeBuildingName)
-            numDescTF.placeholder = FYBuildingCreatAddmodel.getPalaceHolderFormType(type: FYBuildingCreatAddmodel.type ?? OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeBuildingName)
-            detailIcon.isHidden = true
-            
-            if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName{
-                if isBranchs == true {
-                    titleLabel.attributedText = FuWenBen(name: "网点名称", centerStr: " * ", last: "")
-                    numDescTF.placeholder = "请输入网点名称"
-                }
-                numDescTF.isUserInteractionEnabled = true
-                lineView.isHidden = false
-                numDescTF.text = userModel?.buildingName
-            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingDistrictArea{
-                numDescTF.isUserInteractionEnabled = false
-                lineView.isHidden = false
-                detailIcon.isHidden = false
-                numDescTF.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
-            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
-                numDescTF.isUserInteractionEnabled = true
-                lineView.isHidden = false
-                numDescTF.text = userModel?.address
-            }else {
-                numDescTF.isUserInteractionEnabled = false
-                lineView.isHidden = true
-                numDescTF.text = ""
-            }
-        }
-    }
-    
-    //centerStr *
-    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
-        
-        //定义富文本即有格式的字符串
-        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
-        
-        if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
-            attributedStrM.append(nameAtt)
-            
-        }
-        
-        if centerStr.count > 0 {
-            //*
-            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
-            
-            attributedStrM.append(xingxing)
-            
-        }
-        
-        if last.count > 0 {
-            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
-            attributedStrM.append(lastAtt)
-            
-        }
-        
-        return attributedStrM
-    }
-        
-    func setupViews() {
-
-        self.backgroundColor = kAppWhiteColor
-  
-        addSubview(titleLabel)
-        addSubview(numDescTF)
-        addSubview(detailIcon)
-        addSubview(lineView)
-        addSubview(addressLabel)
-        
-        titleLabel.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview()
-            make.top.bottom.equalToSuperview()
-        }
-        
-        detailIcon.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.width.equalTo(10)
-        }
-        
-        numDescTF.snp.makeConstraints { (make) in
-            make.trailing.equalTo(detailIcon.snp.leading).offset(-9)
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(titleLabel.snp.trailing)
-        }
-        addressLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(numDescTF.snp.bottom)
-            make.leading.equalTo(numDescTF)
-        }
-        lineView.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
-        }
-        
-        numDescTF.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
-        
-    }
-    @objc func valueDidChange() {
-        
-            //只有写字楼地址要在编辑结束的时候传过去
-        if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName {
-            guard let blockk = self.buildingNameClickClouse else {
-                return
-            }
-            addressLabel.text = ""
-            
-            let textNum = numDescTF.text?.count
-            
-            //截取
-            if textNum! > ownerMaxBuildingnameNumber_20 {
-                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
-                let str = numDescTF.text?.substring(to: index!)
-                numDescTF.text = str
-            }
-            
-            blockk(numDescTF.text ?? "")
-        }
-        
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
-}
-
-extension OwnerAddBuildingOrJointCell: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        
-        if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
-            userModel?.address = textField.text
         }
     }
 }

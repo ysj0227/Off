@@ -480,6 +480,13 @@ extension SSNetworkTool {
     //  MARK:   --房源管理
     class SSFYManager: NSObject {
         
+        //楼盘驳回回显
+        static func request_getBuildingTempById(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerFYManagerURL.getBuildingTempById)
+            SSNetworkTool.request(type: .get, urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
+        }
+        
         //楼盘添加接口
         static func request_getinsertBuilding(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerFYManagerURL.getinsertBuilding)
