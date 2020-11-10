@@ -118,12 +118,12 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         })
         
         loadSecion(section: 4)
-//        endEdting()
+        endEdting()
     }
     
     @objc func saveClick() {
         
-        tableView.endEditing(true)
+        endEdting()
 
         if isFromAdd == true {
             /*
@@ -144,6 +144,8 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
     
     func clickToPublish() {
         
+        endEdting()
+
         NotificationCenter.default.post(name: NSNotification.Name.OwnerFYReload, object: nil)
 
         let vc = OwnerBuildingCreateVideoVRViewController()
@@ -1018,6 +1020,10 @@ extension OwnerBuildingOfficeViewController {
                 cell?.selectionStyle = .none
                 cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.officeModel = model
+                cell?.endEditingFYMessageCell = { [weak self] (model) in
+                    self?.FYModel = model
+                    self?.loadSecion(section: indexPath.section)
+                }
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
             }
@@ -1033,6 +1039,10 @@ extension OwnerBuildingOfficeViewController {
             cell?.selectionStyle = .none
             cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
+            cell?.endEditingFYMessageCell = { [weak self] (model) in
+                self?.FYModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
             
@@ -1046,6 +1056,10 @@ extension OwnerBuildingOfficeViewController {
             cell?.selectionStyle = .none
             cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.officeModel = model
+            cell?.endEditingFYMessageCell = { [weak self] (model) in
+                self?.FYModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
             
@@ -1135,6 +1149,7 @@ extension OwnerBuildingOfficeViewController {
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (FYModel) in
                 self?.FYModel = FYModel
+                self?.loadSecion(section: indexPath.section)
             }
             cell?.alertBtnClickClouse = { [weak self] in
                 self?.showLeaveAlert(index: 1)
@@ -1295,6 +1310,9 @@ extension OwnerBuildingOfficeViewController {
         if self.typeSourceArray.count <= 0 {
             return
         }
+        
+        endEdting()
+
         switch typeSourceArray[indexPath.section].type {
         ///免租期
         case .OwnerBuildingOfficeTypeRentFreePeriod:

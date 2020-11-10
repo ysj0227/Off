@@ -88,8 +88,8 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     
     @objc func saveClick() {
         
-        tableView.endEditing(true)
-        
+        endEdting()
+
         request_getUpdateBuilding()
     }
     
@@ -103,6 +103,9 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
     }
     
     @objc func pcEditClick() {
+        
+        endEdting()
+
         clickToQCode()
     }
     
@@ -517,6 +520,7 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
             AppUtilities.makeToast("请输入总楼层")
             return
         }else {
+            params["floorType"] = buildingModel?.buildingMsg?.floorType as AnyObject?
             params["totalFloor"] = buildingModel?.buildingMsg?.totalFloor as AnyObject?
         }
         
@@ -940,6 +944,10 @@ extension OwnerBuildingCreateViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
             
@@ -956,6 +964,10 @@ extension OwnerBuildingCreateViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
             
@@ -971,6 +983,10 @@ extension OwnerBuildingCreateViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
             
@@ -984,6 +1000,10 @@ extension OwnerBuildingCreateViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.model = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingBorderInputCell.init(frame: .zero)
             
             
@@ -1219,9 +1239,7 @@ extension OwnerBuildingCreateViewController {
             
         ///所在区域
         case .OwnerBuildingEditTypeDisctict:
-            
-            endEdting()
-            
+                        
             endEdting()
             ///区域商圈选择
             judgeHasData(section: indexPath.section)

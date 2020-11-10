@@ -75,8 +75,8 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     
     @objc func saveClick() {
         
-        tableView.endEditing(true)
-        
+        endEdting()
+
         vrSavePublish()
     }
     
@@ -175,6 +175,9 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     }
     
     @objc func pcEditClick() {
+        
+        endEdting()
+
         clickToQCode()
     }
     
@@ -502,6 +505,8 @@ extension OwnerBuildingCreateVideoVRViewController {
         if self.typeSourceArray.count <= 0 {
             return
         }
+        endEdting()
+
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

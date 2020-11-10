@@ -96,7 +96,7 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     
     @objc func saveClick() {
         
-        tableView.endEditing(true)
+        endEdting()
 
         if isFromAdd == true {
             request_getInsertHouse()
@@ -112,6 +112,9 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
     
     
     @objc func pcEditClick() {
+        
+        endEdting()
+
         clickToQCode()
     }
     
@@ -663,6 +666,10 @@ extension OwnerBuildingJointOpenStationViewController {
                 cell?.selectionStyle = .none
                 cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.jointOpenStationModel = model
+                cell?.endEditingFYMessageCell = { [weak self] (model) in
+                    self?.FYModel = model
+                    self?.loadSecion(section: indexPath.section)
+                }
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
             }
@@ -676,6 +683,10 @@ extension OwnerBuildingJointOpenStationViewController {
             cell?.selectionStyle = .none
             cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointOpenStationModel = model
+            cell?.endEditingFYMessageCell = { [weak self] (model) in
+                self?.FYModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
             
@@ -689,6 +700,10 @@ extension OwnerBuildingJointOpenStationViewController {
             cell?.selectionStyle = .none
             cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointOpenStationModel = model
+            cell?.endEditingFYMessageCell = { [weak self] (model) in
+                self?.FYModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
             
@@ -759,6 +774,8 @@ extension OwnerBuildingJointOpenStationViewController {
             return
         }
         
+        endEdting()
+
         switch typeSourceArray[indexPath.section].type {
             
             ///选择cell

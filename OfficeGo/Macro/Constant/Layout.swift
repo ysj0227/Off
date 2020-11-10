@@ -13,10 +13,10 @@ let kHeight:CGFloat = UIScreen.main.bounds.size.height
 let kWidth:CGFloat = UIScreen.main.bounds.size.width
 
 ///计算最小工位的时候除以的分母 面积/minSeatsFM_5
-let minSeatsFM_5 : Int = 5
+let minSeatsFM_5 : Float = 5
 
 ///计算最大工位的时候除以的分母 面积/maxSeatsFM_5
-let maxSeatsFM_5 : Int = 3
+let maxSeatsFM_3 : Float = 3
 
 //图片压缩的时候，最大的尺寸
 let maxImgWidthOrHeight_1500: CGFloat = 1000.0

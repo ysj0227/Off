@@ -137,6 +137,15 @@ class OwnerBuildingInputCell: BaseEditCell {
         //MARK: 办公室
         //MARK: 办公室 ///标题 过滤 <>=，,。？? 和连续超过8位的数字，最多25个字
         if officeModel.type == .OwnerBuildingOfficeTypeName {
+//            if let string = editLabel.text {
+//                print("办公室 ///标题  string.filter-----")
+//                editLabel.text = string.pregReplace(pattern: "[<>=，,。？?]", with: "")
+//            }
+//            //截取
+//            if textNum! > 25 {
+//                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 25)
+//                editLabel.text = editLabel.text?.substring(to: index!)
+//            }
             if let string = editLabel.text {
                 print("办公室 ///标题  string.filter-----")
                 editLabel.text = string.pregReplace(pattern: "[<>=，,。？?]", with: "")
@@ -188,7 +197,7 @@ class OwnerBuildingInputCell: BaseEditCell {
 
     }
     
-    var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {
+    var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew)
@@ -231,7 +240,7 @@ class OwnerBuildingInputCell: BaseEditCell {
     }
     
     ///网点
-    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingName) {
+    var jointModel: OwnerBuildingJointEditConfigureModel = OwnerBuildingJointEditConfigureModel(types: OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = jointModel.getNameFormType(type: jointModel.type ?? OwnerBuildingJointEditType.OwnerBuildingJointEditTypeBuildingName)
@@ -261,7 +270,7 @@ class OwnerBuildingInputCell: BaseEditCell {
     }
     
     ///办公室
-    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeName) {
+    var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeName)
@@ -278,7 +287,7 @@ class OwnerBuildingInputCell: BaseEditCell {
     }
     
         ///独立办公室
-    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod) {
+    var jointIndepentOfficeModel: OwnerBuildingJointOfficeConfigureModel = OwnerBuildingJointOfficeConfigureModel(types: OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingImage) {
         didSet {
             
             titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)

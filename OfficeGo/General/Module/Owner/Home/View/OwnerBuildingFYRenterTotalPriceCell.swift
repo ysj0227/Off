@@ -162,7 +162,7 @@ extension OwnerBuildingFYRenterTotalPriceCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if FYModel?.houseMsg?.monthTotalClick == false {
-
+            
             FYModel?.houseMsg?.monthPrice = textField.text
             
             FYModel?.houseMsg?.monthPriceTemp = textField.text
@@ -172,7 +172,7 @@ extension OwnerBuildingFYRenterTotalPriceCell: UITextFieldDelegate {
             }
             blockk(FYModel ?? FangYuanHouseEditModel())
         }
-        
+        FYModel?.houseMsg?.monthTotalClick = false
     }
     
     ///开始编辑 - 弹框

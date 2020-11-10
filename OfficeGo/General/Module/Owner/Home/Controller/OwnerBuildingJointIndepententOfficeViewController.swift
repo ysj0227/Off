@@ -92,7 +92,7 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
     
     @objc func saveClick() {
         
-        tableView.endEditing(true)
+        endEdting()
 
         if isFromAdd == true {
             request_getInsertHouse()
@@ -113,6 +113,9 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
     }
     
     @objc func pcEditClick() {
+        
+        endEdting()
+
         clickToQCode()
     }
     
@@ -880,6 +883,10 @@ extension OwnerBuildingJointIndepententOfficeViewController {
                 cell?.selectionStyle = .none
                 cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
                 cell?.jointIndepentOfficeModel = model
+                cell?.endEditingFYMessageCell = { [weak self] (model) in
+                    self?.FYModel = model
+                    self?.loadSecion(section: indexPath.section)
+                }
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
             }
@@ -896,6 +903,10 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             cell?.selectionStyle = .none
             cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
+            cell?.endEditingFYMessageCell = { [weak self] (model) in
+                self?.FYModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
             
@@ -910,6 +921,10 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             cell?.selectionStyle = .none
             cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
+            cell?.endEditingFYMessageCell = { [weak self] (model) in
+                self?.FYModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
             
@@ -923,6 +938,10 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             cell?.selectionStyle = .none
             cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
             cell?.jointIndepentOfficeModel = model
+            cell?.endEditingFYMessageCell = { [weak self] (model) in
+                self?.FYModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
             
@@ -1058,6 +1077,8 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             return
         }
         
+        endEdting()
+
         switch typeSourceArray[indexPath.section].type {
             ///选择cell
             

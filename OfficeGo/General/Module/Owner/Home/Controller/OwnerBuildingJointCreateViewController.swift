@@ -86,7 +86,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
     
     @objc func saveClick() {
         
-        tableView.endEditing(true)
+        endEdting()
 
         request_getUpdateBuilding()
     }
@@ -103,6 +103,9 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
 
     
     @objc func pcEditClick() {
+        
+        endEdting()
+
         clickToQCode()
     }
     
@@ -285,6 +288,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
             AppUtilities.makeToast("请输入所在楼层")
             return
         }else {
+            params["floorType"] = buildingModel?.buildingMsg?.floorType as AnyObject?
             params["totalFloor"] = buildingModel?.buildingMsg?.totalFloor as AnyObject?
         }
         if buildingModel?.buildingMsg?.branchesTotalFloor == nil || buildingModel?.buildingMsg?.branchesTotalFloor?.isBlankString == true{
@@ -1038,6 +1042,10 @@ extension OwnerBuildingJointCreateViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.jointModel = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
         ///所在楼层
@@ -1056,6 +1064,10 @@ extension OwnerBuildingJointCreateViewController {
                 cell?.selectionStyle = .none
                 cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
                 cell?.jointModel = model
+                cell?.endEditingMessageCell = { [weak self] (model) in
+                    self?.buildingModel = model
+                    self?.loadSecion(section: indexPath.section)
+                }
                 return cell ?? OwnerBuildingFloorCell.init(frame: .zero)
                             
             }
@@ -1070,6 +1082,10 @@ extension OwnerBuildingJointCreateViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.jointModel = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
             
@@ -1082,6 +1098,10 @@ extension OwnerBuildingJointCreateViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.jointModel = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
             
@@ -1095,6 +1115,10 @@ extension OwnerBuildingJointCreateViewController {
             cell?.selectionStyle = .none
             cell?.buildingModel = buildingModel ?? FangYuanBuildingEditModel()
             cell?.jointModel = model
+            cell?.endEditingMessageCell = { [weak self] (model) in
+                self?.buildingModel = model
+                self?.loadSecion(section: indexPath.section)
+            }
             return cell ?? OwnerBuildingBorderInputCell.init(frame: .zero)
             
             
@@ -1323,6 +1347,9 @@ extension OwnerBuildingJointCreateViewController {
         if self.typeSourceArray.count <= 0 {
             return
         }
+        
+        endEdting()
+
         switch typeSourceArray[indexPath.section].type {
             
         ///所在区域
