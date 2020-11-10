@@ -169,7 +169,7 @@ class OwnerFYListCell: BaseTableViewCell {
     }
     
     class func rowHeight() -> CGFloat {
-        return 200
+        return 200 - 14
     }
     
     
@@ -201,9 +201,10 @@ class OwnerFYListCell: BaseTableViewCell {
         addSubview(editBtn)
         addSubview(sharehBtn)
         addSubview(closePublishBtn)
-
+        
         bgView.snp.makeConstraints { (make) in
-            make.top.bottom.equalToSuperview().inset(7)
+            make.top.equalToSuperview().inset(7)
+            make.top.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
         }
         
@@ -213,7 +214,7 @@ class OwnerFYListCell: BaseTableViewCell {
         }
         
         houseTypTags.snp.makeConstraints { (make) in
-            make.leading.top.equalTo(houseImageview)
+            make.leading.top.equalTo(houseImageview).offset(0.5)
             make.height.equalTo(22)
         }
         
