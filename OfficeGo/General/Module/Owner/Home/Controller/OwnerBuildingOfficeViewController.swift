@@ -465,7 +465,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         
         //MARK: 装修类型
         if let decoration = FYModel?.houseMsg?.decoration {
-            params["decoration"] = FYModel?.houseMsg?.decoration as AnyObject?
+            params["decoration"] = decoration as AnyObject?
         }else {
             AppUtilities.makeToast("请选择装修类型")
             return
@@ -624,7 +624,6 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
             //AppUtilities.makeToast("请输入层高")
             //return
             params["storeyHeight"] = "" as AnyObject?
-
         }else {
             params["storeyHeight"] = FYModel?.houseMsg?.storeyHeight as AnyObject?
         }
@@ -657,7 +656,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         
         //MARK: 装修类型
         if let decoration = FYModel?.houseMsg?.decoration {
-            params["decoration"] = FYModel?.houseMsg?.decoration as AnyObject?
+            params["decoration"] = decoration as AnyObject?
         }else {
             AppUtilities.makeToast("请选择装修类型")
             return

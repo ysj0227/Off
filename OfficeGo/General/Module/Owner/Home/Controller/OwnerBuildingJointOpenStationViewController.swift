@@ -262,6 +262,16 @@ class OwnerBuildingJointOpenStationViewController: BaseTableViewController {
             params["seats"] = FYModel?.houseMsg?.seats as AnyObject?
         }
         
+        //MARK: 面积
+        if FYModel?.houseMsg?.area == nil || FYModel?.houseMsg?.area?.isBlankString == true{
+            //AppUtilities.makeToast("请输入面积")
+            //return
+            params["area"] = "" as AnyObject?
+        }else {
+            params["area"] = FYModel?.houseMsg?.area as AnyObject?
+        }
+        
+        
         //MARK: 租金
         if FYModel?.houseMsg?.dayPrice == nil || FYModel?.houseMsg?.dayPrice?.isBlankString == true{
             AppUtilities.makeToast("请输入租金")

@@ -304,12 +304,11 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
         
         //MARK: 面积
         if FYModel?.houseMsg?.area == nil || FYModel?.houseMsg?.area?.isBlankString == true{
-            //AppUtilities.makeToast("请输入面积")
-            //return
+            AppUtilities.makeToast("请输入面积")
+            return
         }else {
             params["area"] = FYModel?.houseMsg?.area as AnyObject?
         }
-        
         
         //MARK: 租金 独立monthPrice 开放 dayPrice
         if FYModel?.houseMsg?.monthPrice == nil || FYModel?.houseMsg?.monthPrice?.isBlankString == true{
@@ -484,8 +483,8 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
         
         //MARK: 面积
         if FYModel?.houseMsg?.area == nil || FYModel?.houseMsg?.area?.isBlankString == true{
-            //AppUtilities.makeToast("请输入面积")
-            //return
+            AppUtilities.makeToast("请输入面积")
+            return
         }else {
             params["area"] = FYModel?.houseMsg?.area as AnyObject?
         }

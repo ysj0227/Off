@@ -1084,7 +1084,7 @@ extension OwnerBuildingJointCreateViewController {
                 cell?.jointModel = model
                 cell?.endEditingMessageCell = { [weak self] (model) in
                     self?.buildingModel = model
-                    self?.loadSecion(section: indexPath.section)
+//                    self?.loadSecion(section: indexPath.section)
                 }
                 return cell ?? OwnerBuildingFloorCell.init(frame: .zero)
                             
