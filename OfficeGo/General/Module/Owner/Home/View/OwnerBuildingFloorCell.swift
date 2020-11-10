@@ -201,12 +201,14 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
 }
 extension OwnerBuildingFloorCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag == 1 {
+        if textField == leftEditLabel {
             buildingModel?.buildingMsg?.totalFloor = textField.text
+            
         }else {
             buildingModel?.buildingMsg?.branchesTotalFloor = textField.text
+            
         }
-        
+
         guard let blockk = self.endEditingMessageCell else {
             return
         }

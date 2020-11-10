@@ -179,10 +179,15 @@ class OwnerFYListViewModel: NSObject {
                 closePublishBtnHidden = true
                 houseFailureImg = ""
                 moreSettingArr = [OWnerFYMoreSettingEnum.xiaJiaEnum, OWnerFYMoreSettingEnum.deleteEnum]
-            }else {
+            }else if houseStatus == 2 {
                 closePublishBtnTitle = "   重新发布   "
                 closePublishBtnHidden = false
                 houseFailureImg = "isFailureIcon"
+                moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
+            }else {
+                closePublishBtnTitle = "   发布   "
+                closePublishBtnHidden = false
+                houseFailureImg = ""
                 moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
             }
             
@@ -208,10 +213,15 @@ class OwnerFYListViewModel: NSObject {
                     closePublishBtnHidden = true
                     houseFailureImg = ""
                     moreSettingArr = [OWnerFYMoreSettingEnum.xiaJiaEnum, OWnerFYMoreSettingEnum.deleteEnum]
-                }else {
+                }else if houseStatus == 2 {
                     closePublishBtnTitle = "   重新发布   "
                     closePublishBtnHidden = false
                     houseFailureImg = "isFailureIcon"
+                    moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
+                }else {
+                    closePublishBtnTitle = "   发布   "
+                    closePublishBtnHidden = false
+                    houseFailureImg = ""
                     moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
                 }
                            
@@ -231,9 +241,15 @@ class OwnerFYListViewModel: NSObject {
                     closePublishBtnHidden = false
                     houseFailureImg = ""
                 }else {
-                    closePublishBtnTitle = "   重新发布   "
-                    closePublishBtnHidden = false
-                    houseFailureImg = "isFailureIcon"
+                    if houseStatus == 0 || houseStatus == 3{
+                        closePublishBtnTitle = "   发布   "
+                        closePublishBtnHidden = false
+                        houseFailureImg = ""
+                    }else if houseStatus == 2 {
+                        closePublishBtnTitle = "   重新发布   "
+                        closePublishBtnHidden = false
+                        houseFailureImg = "isFailureIcon"
+                    }
                 }
                 
                 moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
