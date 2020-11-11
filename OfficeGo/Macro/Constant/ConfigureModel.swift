@@ -196,7 +196,7 @@ class OwnerBuildingJointOfficeConfigureModel : ConfigureModel {
             return FuWenBen(name: "工位数", centerStr: " * ", last: "")
         ///面积
         case .OwnerBuildingJointOfficeTypeArea:
-            return FuWenBen(name: "面积", centerStr: "   ", last: "")
+            return FuWenBen(name: "面积", centerStr: " * ", last: "")
         ///租金 *
         case .OwnerBuildingJointOfficeTypePrice:
             return FuWenBen(name: "租金", centerStr: " * ", last: "")
