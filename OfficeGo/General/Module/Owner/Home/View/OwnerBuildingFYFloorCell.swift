@@ -46,7 +46,7 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         didSet {
             
             leftEditLabel.text = FYModel?.houseMsg?.floor
-
+            rightUnitLabel.text = "总\(FYModel?.totalFloor ?? "0")层"
             if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
                 self.isHidden = false
             }else {
