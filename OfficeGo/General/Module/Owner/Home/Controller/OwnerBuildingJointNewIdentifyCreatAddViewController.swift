@@ -22,6 +22,12 @@ class OwnerBuildingJointNewIdentifyCreatAddViewController: BaseViewController {
         return view
     }()
     
+    lazy var rejectBg : UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppLightBlueColor
+        return view
+    }()
+    
     ///楼盘
     var isBuilding: Bool?
     
@@ -239,6 +245,10 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController {
         
         userModel?.business = userModel?.businessDistrict
         
+        if userModel?.buildId != nil && userModel?.buildId?.isBlankString != true {
+            userModel?.buildingId = userModel?.buildId
+        }
+        
         if userModel?.mainPic != nil && userModel?.mainPic?.isBlankString != true {
             mainPicBannermodel.isLocal = false
             mainPicBannermodel.imgUrl = userModel?.mainPic
@@ -441,9 +451,17 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController {
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
         }
         
+        self.view.addSubview(rejectBg)
+        self.view.bringSubviewToFront(rejectReasonLabel)
+        rejectBg.snp.makeConstraints { (make) in
+            make.top.equalTo(kNavigationHeight)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(rejectReasonLabel).offset(7)
+        }
+        
         self.view.addSubview(headerCollectionView)
         headerCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(rejectReasonLabel.snp.bottom)
+            make.top.equalTo(rejectBg.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().offset(-(bottomMargin() + btnHeight_44))
         }
@@ -503,16 +521,16 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController {
                 self?.isHasBuilding = false
             }
             self?.userModel?.buildingId = nil
-//            self?.userModel?.address = nil
-//            self?.userModel?.district = nil
-//            self?.userModel?.business = nil
-//            self?.userModel?.mainPic = nil
-//            self?.userModel?.districtString = nil
-//            self?.userModel?.businessString = nil
-//            self?.userModel?.mainPic = nil
-//            self?.mainPicBannermodel.imgUrl = nil
-//
-//            self?.areaModelCount?.isFirstSelectedModel = nil
+            self?.userModel?.address = nil
+            self?.userModel?.district = nil
+            self?.userModel?.business = nil
+            self?.userModel?.mainPic = nil
+            self?.userModel?.districtString = nil
+            self?.userModel?.businessString = nil
+            self?.userModel?.mainPic = nil
+            self?.mainPicBannermodel.imgUrl = nil
+
+            self?.areaModelCount?.isFirstSelectedModel = nil
 
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionData()
@@ -801,7 +819,12 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController: UICollectionViewD
         if section == 0 {
             return 3
         }else if section == 1 {
-            return 1
+            ///关联的 - 不展示封面图
+            if userModel?.buildingId != nil {
+                return 0
+            }else {
+                return 1
+            }
         }else if section == 2 {
             return uploadPicModelFCZArr.count + 1
         }else {
@@ -874,7 +897,11 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController: UICollectionViewD
             return CGSize(width: 0, height: 0)
             
         }else if section == 1 {
-            return CGSize(width: kWidth, height: 40)
+            if userModel?.buildingId == nil {
+                return CGSize(width: kWidth, height: 40)
+            }else {
+                return CGSize(width: 0, height: 0)
+            }
 
         }else if section == 2 {
             return CGSize(width: kWidth, height: 68)

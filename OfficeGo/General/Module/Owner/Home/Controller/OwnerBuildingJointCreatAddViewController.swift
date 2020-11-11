@@ -936,7 +936,9 @@ class OwnerAddBuildingOrJointCell: BaseCollectionViewCell {
                 }
                 numDescTF.isUserInteractionEnabled = true
                 lineView.isHidden = false
-                numDescTF.text = userModel?.buildingName
+                if let buildingName = userModel?.buildingName {
+                    numDescTF.text = buildingName
+                }
             }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingDistrictArea{
                 numDescTF.isUserInteractionEnabled = false
                 lineView.isHidden = false
