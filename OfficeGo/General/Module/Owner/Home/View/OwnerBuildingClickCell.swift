@@ -131,9 +131,9 @@ class OwnerBuildingClickCell: BaseEditCell {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if FYModel?.houseMsg?.floorType == "1" {
-                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
+                    editLabel.text = ""
                 }else if FYModel?.houseMsg?.floorType == "2" {
-                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
+                    editLabel.text = ""
                 }
             }else if officeModel.type == .OwnerBuildingOfficeTypeRentFreePeriod {
                 editLabel.text = FYModel?.houseMsg?.rentFreePeriod
@@ -163,9 +163,9 @@ class OwnerBuildingClickCell: BaseEditCell {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if FYModel?.houseMsg?.floorType == "1" {
-                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
+                    editLabel.text = ""
                 }else if FYModel?.houseMsg?.floorType == "2" {
-                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
+                    editLabel.text = ""
                 }
             }else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeRentFreePeriod {
                 editLabel.text = FYModel?.houseMsg?.rentFreePeriod
@@ -215,9 +215,9 @@ class OwnerBuildingClickCell: BaseEditCell {
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if FYModel?.houseMsg?.floorType == "1" {
-                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeOne.rawValue
+                    editLabel.text = ""
                 }else if FYModel?.houseMsg?.floorType == "2" {
-                    //editLabel.text = OwnerBuildingTotalFloorType.OwnerBuildingTotalFloorTypeMore.rawValue
+                    editLabel.text = ""
                 }
             }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeRentFreePeriod {
                 editLabel.text = FYModel?.houseMsg?.rentFreePeriod
