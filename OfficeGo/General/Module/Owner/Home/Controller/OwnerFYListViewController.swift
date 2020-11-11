@@ -578,8 +578,19 @@ extension OwnerFYListViewController {
     
     //MARK: 分享 - 只有发布的可以关闭
     func shareFY(viewModel: OwnerFYListViewModel) {
-        shareClick(viewModel: viewModel)
-        shareVc(viewModel: viewModel)
+        if viewModel.btype == 2 {
+            if viewModel.officeType == 2 {
+                AppUtilities.makeToast("开放工位不支持分享")
+            }else {
+                
+                shareClick(viewModel: viewModel)
+                shareVc(viewModel: viewModel)
+            }
+        }else {
+            
+            shareClick(viewModel: viewModel)
+            shareVc(viewModel: viewModel)
+        }
     }
     
     
