@@ -118,17 +118,11 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     class func rowHeight() -> CGFloat {
         return cell_height_58
     }
-    
-    func setDelegate() {
-        
-    }
-    
+
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-  
-        setDelegate()
-        
+          
         addSubview(leftLabel)
         addSubview(leftEditLabel)
         addSubview(leftUnitLabel)
@@ -181,9 +175,38 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
     ///子类 独立设置自己要添加的控件和约束
     func setExtraView() {
         leftEditLabel.delegate = self
+        leftEditLabel.addTarget(self, action: #selector(valueDidChange(tf:))    , for: .editingChanged)
         rightEditLabel.delegate = self
+        rightEditLabel.addTarget(self, action: #selector(valueDidChange(tf:)), for: .editingChanged)
     }
     
+    
+    @objc func valueDidChange(tf: UITextField) {
+        
+        if tf.tag == 1 {
+            let textNum = leftEditLabel.text?.count
+            //截取
+            if textNum! > 32 {
+                let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
+            }
+        }else {
+            let textNum = rightUnitLabel.text?.count
+            //截取
+            if textNum! > 3 {
+                let index = rightUnitLabel.text?.index((rightUnitLabel.text?.startIndex)!, offsetBy: 2)
+                rightUnitLabel.text = rightUnitLabel.text?.substring(to: index!)
+            }
+            if let num = Int(rightUnitLabel.text ?? "0") {
+                if num > 150 {
+                    rightUnitLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持-5-150整数")
+                }
+            }
+        }
+        
+        
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -209,10 +232,6 @@ extension OwnerBuildingFloorCell: UITextFieldDelegate {
             
         }
 
-        guard let blockk = self.endEditingMessageCell else {
-            return
-        }
-        blockk(buildingModel ?? FangYuanBuildingEditModel())
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

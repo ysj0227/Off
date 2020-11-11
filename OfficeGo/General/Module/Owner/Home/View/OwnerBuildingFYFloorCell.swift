@@ -193,21 +193,11 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         //MARK: 办公室
         //MARK: 办公室 ///所在楼层
         if officeModel.type == .OwnerBuildingOfficeTypeTotalFloor {
-            if FYModel?.houseMsg?.floorType == "1" {
-
-                //截取
-                if textNum! > 3 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
-                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
-                }
-                if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 150 {
-                        leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持-5-150整数")
-                    }
-                }
-            }else {
-                
+            
+            //截取
+            if textNum! > 32 {
+                let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
             }
         }
         
@@ -216,32 +206,10 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         //MARK: 独立办公室
         //MARK: 独立办公室   ///所在楼层
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
-            if FYModel?.houseMsg?.floorType == "1" {
-
-                //截取
-                if textNum! > 3 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 3)
-                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
-                }
-                if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 150 {
-                        leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持-5-150整数")
-                    }
-                }
-            }else {
-
-                //截取
-                if textNum! > 3 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 3)
-                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
-                }
-                if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 150 {
-                        leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持-5-150整数")
-                    }
-                }
+            //截取
+            if textNum! > 32 {
+                let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
             }
         }
     
@@ -249,32 +217,10 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         //MARK: 开放工位
         //MARK: 开放工位    ///所在楼层
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
-            if FYModel?.houseMsg?.floorType == "1" {
-
-                //截取
-                if textNum! > 3 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 3)
-                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
-                }
-                if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 150 {
-                        leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持-5-150整数")
-                    }
-                }
-            }else {
-
-                //截取
-                if textNum! > 3 {
-                    let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 3)
-                    leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
-                }
-                if let num = Int(leftEditLabel.text ?? "0") {
-                    if num > 150 {
-                        leftEditLabel.text?.removeLast(1)
-                        AppUtilities.makeToast("仅支持-5-150整数")
-                    }
-                }
+            //截取
+            if textNum! > 32 {
+                let index = leftEditLabel.text?.index((leftEditLabel.text?.startIndex)!, offsetBy: 2)
+                leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
             }
         }
         
