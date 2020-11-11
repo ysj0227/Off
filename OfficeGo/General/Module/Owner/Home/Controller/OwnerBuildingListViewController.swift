@@ -348,13 +348,20 @@ extension OwnerBuildingListViewController {
             return
         }
         
-        guard let block = clickBuildingBlock else { return }
-        
-        if let viewmodel = dataSourceViewModel[indexPath.row] {
-            block(viewmodel)
+        if let viewModel = self.dataSourceViewModel[indexPath.row]  {
+            if viewModel.isHiddenIdentifyBtn == true {
+                guard let block = clickBuildingBlock else { return }
+                
+                if let viewmodel = dataSourceViewModel[indexPath.row] {
+                    block(viewmodel)
+                }
+                 
+                self.navigationController?.dismiss(animated: true, completion: nil)
+            }
+
         }
-         
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        
+       
     }
 }
 
