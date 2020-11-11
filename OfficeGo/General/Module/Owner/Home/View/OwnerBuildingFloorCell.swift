@@ -191,16 +191,16 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
                 leftEditLabel.text = leftEditLabel.text?.substring(to: index!)
             }
         }else {
-            let textNum = rightUnitLabel.text?.count
+            let textNum = rightEditLabel.text?.count
             //截取
             if textNum! > 3 {
-                let index = rightUnitLabel.text?.index((rightUnitLabel.text?.startIndex)!, offsetBy: 2)
-                rightUnitLabel.text = rightUnitLabel.text?.substring(to: index!)
+                let index = rightEditLabel.text?.index((rightEditLabel.text?.startIndex)!, offsetBy: 2)
+                rightEditLabel.text = rightEditLabel.text?.substring(to: index!)
             }
-            if let num = Int(rightUnitLabel.text ?? "0") {
+            if let num = Int(rightEditLabel.text ?? "0") {
                 if num > 150 {
-                    rightUnitLabel.text?.removeLast(1)
-                    AppUtilities.makeToast("仅支持-5-150整数")
+                    rightEditLabel.text?.removeLast(1)
+                    AppUtilities.makeToast("仅支持0-150整数")
                 }
             }
         }

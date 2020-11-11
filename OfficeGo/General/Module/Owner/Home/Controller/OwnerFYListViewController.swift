@@ -189,6 +189,8 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         
         setUpView()
         
+        addNotify()
+        
         requestUserMessage()
     }
     
