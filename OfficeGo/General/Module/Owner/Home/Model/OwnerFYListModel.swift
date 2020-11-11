@@ -241,15 +241,18 @@ class OwnerFYListViewModel: NSObject {
                     closePublishBtnHidden = false
                     houseFailureImg = ""
                 }else {
-                    if houseStatus == 0 || houseStatus == 3{
-                        closePublishBtnTitle = "   发布   "
-                        closePublishBtnHidden = false
-                        houseFailureImg = ""
-                    }else if houseStatus == 2 {
-                        closePublishBtnTitle = "   重新发布   "
-                        closePublishBtnHidden = false
-                        houseFailureImg = "isFailureIcon"
-                    }
+                    closePublishBtnTitle = "   重新发布   "
+                    closePublishBtnHidden = false
+                    houseFailureImg = "isFailureIcon"
+//                    if houseStatus == 0 || houseStatus == 3{
+//                        closePublishBtnTitle = "   发布   "
+//                        closePublishBtnHidden = false
+//                        houseFailureImg = ""
+//                    }else if houseStatus == 2 {
+//                        closePublishBtnTitle = "   重新发布   "
+//                        closePublishBtnHidden = false
+//                        houseFailureImg = "isFailureIcon"
+//                    }
                 }
                 
                 moreSettingArr = [OWnerFYMoreSettingEnum.deleteEnum]
