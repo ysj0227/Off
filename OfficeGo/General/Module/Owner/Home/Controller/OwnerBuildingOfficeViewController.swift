@@ -78,7 +78,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         button.backgroundColor = kAppBlueColor
         button.titleLabel?.font = FONT_MEDIUM_16
         button.setTitleColor(kAppWhiteColor, for: .normal)
-        button.setTitle("下一步", for: .normal)
+        button.setTitle("保存，下一步", for: .normal)
         button.addTarget(self, action: #selector(saveClick), for: .touchUpInside)
         return button
     }()
@@ -149,6 +149,7 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
         NotificationCenter.default.post(name: NSNotification.Name.OwnerFYReload, object: nil)
 
         let vc = OwnerBuildingCreateVideoVRViewController()
+        vc.isFromFYAdd = isFromAdd
         vc.isBuildingFY = true
         vc.isClose = isClose
         vc.FYModel = FYModel

@@ -58,7 +58,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
         button.backgroundColor = kAppBlueColor
         button.titleLabel?.font = FONT_MEDIUM_16
         button.setTitleColor(kAppWhiteColor, for: .normal)
-        button.setTitle("下一步", for: .normal)
+        button.setTitle("保存，下一步", for: .normal)
         button.addTarget(self, action: #selector(saveClick), for: .touchUpInside)
         return button
     }()
@@ -94,6 +94,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
     
     func clickToPublish() {
         let vc = OwnerBuildingCreateVideoVRViewController()
+        vc.isFromFYAdd = isFromAdd
         vc.isBuildingJoint = true
         vc.isClose = isClose
         buildingModel?.isTemp = isTemp

@@ -13,6 +13,9 @@ import Photos
 
 class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
     
+    ///是否来自于房源添加页面 - 返回到列表
+    var isFromFYAdd: Bool?
+    
     //记录是否已经点了关闭pc按钮
     var isClose: Bool?
     
@@ -72,6 +75,15 @@ class OwnerBuildingCreateVideoVRViewController: BaseTableViewController {
         button.addTarget(self, action: #selector(closePcEditClick), for: .touchUpInside)
         return button
     }()
+    
+    override func leftBtnClick() {
+        ///如果来自于房源添加 - 返回直接返回到列表
+        if isFromFYAdd == true {
+            self.navigationController?.popToRootViewController(animated: true)
+        }else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
     
     @objc func saveClick() {
         
@@ -270,7 +282,7 @@ extension OwnerBuildingCreateVideoVRViewController {
 //        titleview?.titleLabel.text = "上传视频"
         titleview?.titleLabel.text = "上传VR"
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
+            self?.leftBtnClick()
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
