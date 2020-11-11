@@ -104,6 +104,9 @@ class OwnerIdentifyUserModel: BaseModel {
     ///商圈id
     var businessDistrict : String?
     
+    ///楼盘网点驳回 - 管理id
+    var buildId : String?
+    
     
     
     //企业地址
