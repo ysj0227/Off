@@ -85,6 +85,18 @@ class OwnerBuildingInputCell: BaseEditCell {
                 editLabel.text = editLabel.text?.substring(to: index!)
             }
         }
+        //MARK: 楼盘  ///车位数  文本，最多32个字，过滤特殊字符
+        else if model.type == .OwnerBuildingEditTypeParkingNum {
+            if let string = editLabel.text {
+                print("楼盘    ///车位数  string.filter-----")
+                editLabel.text = string.pregReplace(pattern: "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“'。，、？]", with: "")
+            }
+            //截取
+            if textNum! > 32 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 32)
+                editLabel.text = editLabel.text?.substring(to: index!)
+            }
+        }
         
         
         //MARK: 网点
@@ -110,18 +122,6 @@ class OwnerBuildingInputCell: BaseEditCell {
         }
         //MARK: 网点  ///车位数  文本，最多32个字，过滤特殊字符
         else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum {
-            if let string = editLabel.text {
-                print("网点   ///车位数 string.filter-----")
-                editLabel.text = string.pregReplace(pattern: "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“'。，、？]", with: "")
-            }
-            //截取
-            if textNum! > 32 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 32)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-        }
-        //MARK: 网点  ///车位数  文本，最多32个字，过滤特殊字符
-        else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast {
             if let string = editLabel.text {
                 print("网点   ///车位数 string.filter-----")
                 editLabel.text = string.pregReplace(pattern: "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“'。，、？]", with: "")
@@ -229,6 +229,11 @@ class OwnerBuildingInputCell: BaseEditCell {
             else if model.type == .OwnerBuildingEditTypePropertyCompany{
                 editLabel.text = buildingModel?.buildingMsg?.property
             }
+            ///车位数
+            else if model.type == .OwnerBuildingEditTypeParkingNum {
+                editLabel.text = buildingModel?.buildingMsg?.parkingSpace
+            }
+            
         }
     }
     
@@ -254,10 +259,6 @@ class OwnerBuildingInputCell: BaseEditCell {
             ///车位数
              else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum{
                 editLabel.text = buildingModel?.buildingMsg?.parkingSpace
-             }
-             ///车位费
-             else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast{
-                editLabel.text = buildingModel?.buildingMsg?.parkingSpaceRent
              }
         }
     }
@@ -348,7 +349,15 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
             }
             blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
-        
+        //MARK: 楼盘    ///车位数    仅支持0和正整数
+        else if model.type == .OwnerBuildingEditTypeParkingNum {
+            
+            buildingModel?.buildingMsg?.parkingSpace = textField.text
+            guard let blockk = self.endEditingMessageCell else {
+                return
+            }
+            blockk(buildingModel ?? FangYuanBuildingEditModel())
+        }
         
         //MARK: 网点
         //MARK: 网点  ///网点名称 文本，过滤 <>=，,。？? 最多25个字
@@ -373,15 +382,6 @@ extension OwnerBuildingInputCell: UITextFieldDelegate {
         else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum{
             
             buildingModel?.buildingMsg?.parkingSpace = textField.text
-            guard let blockk = self.endEditingMessageCell else {
-                return
-            }
-            blockk(buildingModel ?? FangYuanBuildingEditModel())
-        }
-        //MARK: 网点  ///车位数  文本，最多20个字，过滤特殊字符
-        else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast{
-            
-            buildingModel?.buildingMsg?.parkingSpaceRent = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }

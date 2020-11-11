@@ -945,7 +945,8 @@ extension OwnerBuildingCreateViewController {
             ///楼号/楼名
             ///详细地址
         ///物业公司
-        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeBuildingNum, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
+        ///车位数
+        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeBuildingNum, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany, .OwnerBuildingEditTypeParkingNum:
             
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
@@ -962,10 +963,8 @@ extension OwnerBuildingCreateViewController {
             
             ///正数字文本输入cell
             ///总楼层
-            ///车位数
         ///车位费
-        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeParkingNum,
-             .OwnerBuildingEditTypeParkingCoast:
+        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeParkingCoast:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
@@ -1124,7 +1123,8 @@ extension OwnerBuildingCreateViewController {
             ///写字楼名称
             ///详细地址
         ///物业公司
-        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
+        ///车位数
+        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany, .OwnerBuildingEditTypeParkingNum:
             
             return BaseEditCell.rowHeight()
             
@@ -1141,9 +1141,8 @@ extension OwnerBuildingCreateViewController {
             
             ///正数字文本输入cell
             ///总楼层
-            ///车位数
         ///车位费
-        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeParkingNum,
+        case .OwnerBuildingEditTypeTotalFloor,
              .OwnerBuildingEditTypeParkingCoast:
             
             return BaseEditCell.rowHeight()
@@ -1307,15 +1306,15 @@ extension OwnerBuildingCreateViewController {
             ///楼号/楼名
             ///详细地址
         ///物业公司
-        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeBuildingNum, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany:
+        ///车位数
+        case .OwnerBuildingEditTypeBuildingName, .OwnerBuildingEditTypeBuildingNum, .OwnerBuildingEditTypeDetailAddress, .OwnerBuildingEditTypePropertyCompany, .OwnerBuildingEditTypeParkingNum:
             SSLog(typeSourceArray[indexPath.section].type)
             
             
             ///正数字文本输入cell
             ///总楼层
-            ///车位数
         ///车位费
-        case .OwnerBuildingEditTypeTotalFloor, .OwnerBuildingEditTypeParkingNum,
+        case .OwnerBuildingEditTypeTotalFloor,
              .OwnerBuildingEditTypeParkingCoast:
             
             SSLog(typeSourceArray[indexPath.section].type)

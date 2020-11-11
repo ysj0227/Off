@@ -56,14 +56,6 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             }
             
         }
-        //MARK: 楼盘    ///车位数    仅支持0和正整数
-        else if model.type == .OwnerBuildingEditTypeParkingNum {
-            //截取
-            if textNum! > 9 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 9)
-                editLabel.text = editLabel.text?.substring(to: index!)
-            }
-        }
         //MARK: 楼盘    ///车位费    仅支持0-5000正整数，默认值0，当填0时前台展示“未知”，单位，“元/月”
         else if model.type == .OwnerBuildingEditTypeParkingCoast {
             //截取
@@ -107,14 +99,6 @@ class OwnerBuildingNumInputCell: BaseEditCell {
                     editLabel.text?.removeLast(1)
                     AppUtilities.makeToast("仅支持0-50正整数")
                 }
-            }
-        }
-        //MARK: 网点  ///车位数    仅支持0和正整数
-        else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum {
-            //截取
-            if textNum! > 9 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 9)
-                editLabel.text = editLabel.text?.substring(to: index!)
             }
         }
         //MARK: 网点  ///车位费    仅支持0-5000正整数，默认值0，当填0时前台展示“未知”，单位，“元/月”
@@ -244,10 +228,6 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             if model.type == .OwnerBuildingEditTypeTotalFloor {
                 editLabel.text = buildingModel?.buildingMsg?.totalFloor
             }
-                ///车位数
-            else if model.type == .OwnerBuildingEditTypeParkingNum {
-                editLabel.text = buildingModel?.buildingMsg?.parkingSpace
-            }
                 ///车位费
             else if model.type == .OwnerBuildingEditTypeParkingCoast {
                 editLabel.text = buildingModel?.buildingMsg?.parkingSpaceRent
@@ -269,14 +249,11 @@ class OwnerBuildingNumInputCell: BaseEditCell {
             
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
             ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
-            ///车位数
             ///车位费
             if jointModel.type == .OwnerBuildingJointEditTypeConferenceNumber {
                 editLabel.text = buildingModel?.buildingMsg?.conferenceNumber
             } else if jointModel.type == .OwnerBuildingJointEditTypeConferencePeopleNumber {
                 editLabel.text = buildingModel?.buildingMsg?.conferencePeopleNumber
-            }else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum {
-                editLabel.text = buildingModel?.buildingMsg?.parkingSpace
             }else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast {
                 editLabel.text = buildingModel?.buildingMsg?.parkingSpaceRent
             }
@@ -365,15 +342,6 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
             }
             blockk(buildingModel ?? FangYuanBuildingEditModel())
         }
-        //MARK: 楼盘    ///车位数    仅支持0和正整数
-        else if model.type == .OwnerBuildingEditTypeParkingNum {
-            
-            buildingModel?.buildingMsg?.parkingSpace = textField.text
-            guard let blockk = self.endEditingMessageCell else {
-                return
-            }
-            blockk(buildingModel ?? FangYuanBuildingEditModel())
-        }
         //MARK: 楼盘    ///车位费    仅支持0-5000正整数，默认值0，当填0时前台展示“未知”，单位，“元/月”
         else if model.type == .OwnerBuildingEditTypeParkingCoast {
             
@@ -399,15 +367,6 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         else if jointModel.type == .OwnerBuildingJointEditTypeConferencePeopleNumber {
             
             buildingModel?.buildingMsg?.conferencePeopleNumber = textField.text
-            guard let blockk = self.endEditingMessageCell else {
-                return
-            }
-            blockk(buildingModel ?? FangYuanBuildingEditModel())
-        }
-        //MARK: 网点  ///车位数    仅支持0和正整数
-        else if jointModel.type == .OwnerBuildingJointEditTypeParkingNum {
-            
-            buildingModel?.buildingMsg?.parkingSpace = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
             }
@@ -489,21 +448,5 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
     }
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//
-//        ///总楼层
-//        if model.type == .OwnerBuildingEditTypeTotalFloor {
-//            return SSTool.validateBuildingFloor(name: string)
-//        }
-//            ///车位数
-//        else if model.type == .OwnerBuildingEditTypeParkingNum {
-//            return SSTool.validateBuildingParkingNum(name: string)
-//        }
-//            ///车位费
-//        else if model.type == .OwnerBuildingEditTypeParkingCoast {
-//            return SSTool.validateBuildingParkingCoast(name: string)
-//        }
-//        return true
-//    }
 }
 

@@ -1052,8 +1052,7 @@ extension OwnerBuildingJointCreateViewController {
             ///写字楼名称
             ///详细地址
             ///车位数
-        ///车位费
-        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum, .OwnerBuildingJointEditTypeParkingCoast:
+        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum:
             
             ///文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingInputCell.reuseIdentifierStr) as? OwnerBuildingInputCell
@@ -1093,7 +1092,8 @@ extension OwnerBuildingJointCreateViewController {
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
             ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
-        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber:
+        ///车位费
+        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingCoast:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingNumInputCell.reuseIdentifierStr) as? OwnerBuildingNumInputCell
@@ -1260,8 +1260,7 @@ extension OwnerBuildingJointCreateViewController {
             ///写字楼名称
             ///详细地址
             ///车位数
-        ///车位费
-        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum, .OwnerBuildingJointEditTypeParkingCoast:
+        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum:
             
             return BaseEditCell.rowHeight()
             
@@ -1281,7 +1280,8 @@ extension OwnerBuildingJointCreateViewController {
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
             ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
-        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber:
+        ///车位费
+        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingCoast:
             
             return BaseEditCell.rowHeight()
             
@@ -1404,8 +1404,7 @@ extension OwnerBuildingJointCreateViewController {
             ///写字楼名称
             ///详细地址
             ///车位数
-        ///车位费
-        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum, .OwnerBuildingJointEditTypeParkingCoast:
+        case .OwnerBuildingJointEditTypeBuildingName, .OwnerBuildingJointEditTypeDetailAddress, .OwnerBuildingJointEditTypeParkingNum:
             SSLog(typeSourceArray[indexPath.section].type)
             
             
@@ -1433,7 +1432,8 @@ extension OwnerBuildingJointCreateViewController {
             ///正数字文本输入cell
             ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
             ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
-        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber:
+        ///车位费
+        case .OwnerBuildingJointEditTypeConferenceNumber, .OwnerBuildingJointEditTypeConferencePeopleNumber, .OwnerBuildingJointEditTypeParkingCoast:
             
             SSLog(typeSourceArray[indexPath.section].type)
             

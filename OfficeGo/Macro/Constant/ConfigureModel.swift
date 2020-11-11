@@ -596,7 +596,7 @@ class OwnerBuildingJointEditConfigureModel : ConfigureModel {
         ///车位费
         case .OwnerBuildingJointEditTypeParkingCoast:
 //            return "元/月"
-            return "请输入车位费 元/月"
+            return "元/月"
         ///电梯数 - 客梯
         case .OwnerBuildingJointEditTypePassengerNum:
             return "个 (客梯)"
@@ -851,7 +851,7 @@ class OwnerBuildingEditConfigureModel : ConfigureModel {
             return "元/㎡/月"
         ///车位数
         case .OwnerBuildingEditTypeParkingNum:
-            return "个"
+            return "例：地面车位100个，车库车位25个"
         ///车位费
         case .OwnerBuildingEditTypeParkingCoast:
             return "元/月"
