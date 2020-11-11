@@ -855,9 +855,15 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController: UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 1 {
-                endEdting()
-                ///区域商圈选择
-                judgeHasData()
+                
+                ///如果是关联的，不能点击选择
+                if userModel?.buildingId != nil {
+
+                }else {
+                    endEdting()
+                    ///区域商圈选择
+                    judgeHasData()
+                }
             }
         }
         else if indexPath.section == 1 {

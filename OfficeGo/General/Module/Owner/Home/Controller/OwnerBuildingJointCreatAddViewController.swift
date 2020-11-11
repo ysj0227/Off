@@ -773,9 +773,15 @@ extension OwnerBuildingJointCreatAddViewController: UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 1 {
-                endEdting()
-                ///区域商圈选择
-                judgeHasData()
+                
+                ///如果是关联的，不能点击选择
+                if userModel?.buildingId != nil {
+                    
+                }else {
+                    endEdting()
+                    ///区域商圈选择
+                    judgeHasData()
+                }
             }
         }
         else if indexPath.section == 1 {
@@ -945,7 +951,12 @@ class OwnerAddBuildingOrJointCell: BaseCollectionViewCell {
                 detailIcon.isHidden = false
                 numDescTF.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
             }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
-                numDescTF.isUserInteractionEnabled = true
+                ///如果是关联的，不能编辑
+                if userModel?.buildingId != nil {
+                    numDescTF.isUserInteractionEnabled = false
+                }else {
+                    numDescTF.isUserInteractionEnabled = true
+                }
                 lineView.isHidden = false
                 numDescTF.text = userModel?.address
             }else {
