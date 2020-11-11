@@ -293,7 +293,7 @@ class OwnerBuildingJointOfficeConfigureModel : ConfigureModel {
             return "上传视频不大于100M，支持mp4、Mov格式"
         ///上传办公室vr
         case .OwnerBuildingJointOfficeTypeBuildingVR:
-            return ""
+            return "请输入正确的VR"
         }
     }
     
@@ -444,7 +444,7 @@ class OwnerBuildingOfficeConfigureModel : ConfigureModel {
             return "上传视频不大于100M，支持mp4、Mov格式"
         ///上传办公室vr
         case .OwnerBuildingOfficeTypeBuildingVR:
-            return "请输入URL"
+            return "请输入正确的VR链接"
         }
     }
     
@@ -626,7 +626,7 @@ class OwnerBuildingJointEditConfigureModel : ConfigureModel {
             return "上传视频不大于100M，支持mp4、Mov格式"
         ///上传楼盘vr
         case .OwnerBuildingJointEditTypeBuildingVR:
-            return "请输入URL"
+            return "请输入正确的VR链接"
         }
     }
     
@@ -887,7 +887,7 @@ class OwnerBuildingEditConfigureModel : ConfigureModel {
             return "上传视频不大于100M，支持mp4、Mov格式"
         ///上传楼盘vr
         case .OwnerBuildingEditTypeBuildingVR:
-            return "请输入URL"
+            return "请输入正确的VR链接"
         }
     }
     

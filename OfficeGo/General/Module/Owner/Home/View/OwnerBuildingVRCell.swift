@@ -90,17 +90,9 @@ class OwnerBuildingVRCell: BaseTableViewCell {
         }
         
         editLabel.delegate = self
-        editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+
     }
-    
-    
-    @objc func valueDidChange() {
-        let textNum = editLabel.text?.count
-        ///vr
-        if model.type == .OwnerBuildingEditTypeBuildingVR {
-            
-        }
-    }
+
         
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingImage) {
         didSet {
@@ -125,8 +117,8 @@ class OwnerBuildingVRCell: BaseTableViewCell {
     var officeModel: OwnerBuildingOfficeConfigureModel = OwnerBuildingOfficeConfigureModel(types: OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingImage) {
         didSet {
             
-            titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
-            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeMinRentalPeriod)
+            titleLabel.attributedText = officeModel.getNameFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingVR)
+            editLabel.placeholder = officeModel.getPalaceHolderFormType(type: officeModel.type ?? OwnerBuildingOfficeType.OwnerBuildingOfficeTypeBuildingVR)
             
             editLabel.text = FYModel?.vrUrl
         }
@@ -137,8 +129,8 @@ class OwnerBuildingVRCell: BaseTableViewCell {
         didSet {
             
             
-            titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
-            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeRentFreePeriod)
+            titleLabel.attributedText = jointIndepentOfficeModel.getNameFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingVR)
+            editLabel.placeholder = jointIndepentOfficeModel.getPalaceHolderFormType(type: jointIndepentOfficeModel.type ?? OwnerBuildingJointOfficeType.OwnerBuildingJointOfficeTypeBuildingVR)
            
             editLabel.text = FYModel?.vrUrl
     
@@ -161,6 +153,11 @@ class OwnerBuildingVRCell: BaseTableViewCell {
 extension OwnerBuildingVRCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
 
+        if textField.text?.hasPrefix("http") != true {
+            AppUtilities.makeToast("输入的链接不符合规则，请重新输入")
+            textField.text = nil
+        }
+        
         //MARK: 楼盘
         if model.type == .OwnerBuildingEditTypeBuildingVR {
             buildingModel?.vrUrl = textField.text
