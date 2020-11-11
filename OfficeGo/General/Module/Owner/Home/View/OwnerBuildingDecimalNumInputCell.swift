@@ -43,22 +43,22 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 楼盘
         //MARK: 楼盘      ///建筑面积 只支持0.1-1000正数数字，保留1位小数，单位“万 M²
         if model.type == .OwnerBuildingEditTypeArea {
-            getTextFromTF(tf: editLabel, maxLength: 6, maxNum: 1000, decimalNum: 1, toast: "仅支持0.1-1000正整数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 6, maxNum: 1000, decimalNum: 1, toast: "仅支持0.1-1000正整数，保留1位小数")
             
         }
         //MARK: 楼盘      ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         else if model.type == .OwnerBuildingEditTypeClearHeight {
-            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
 
         }
         //MARK: 楼盘      ///层高   选填，仅支持1-8之间正数，保留1位小数，单位 米
         else if model.type == .OwnerBuildingEditTypeFloorHeight {
-            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
 
         }
         //MARK: 楼盘      ///物业费  必填，数字，0-100之间正数，保留1位小数，单位 “元/㎡/月
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
-            getTextFromTF(tf: editLabel, maxLength: 5, maxNum: 100, decimalNum: 1, toast: "仅支持0-100之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 5, maxNum: 100, decimalNum: 1, toast: "仅支持0-100之间正数，保留1位小数")
 
         }
         
@@ -67,7 +67,7 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 网点
         //MARK: 网点盘      ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
-            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
 
         }
         
@@ -76,28 +76,28 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 办公室
         //MARK: 办公室     ///建筑面积 - 必填，只支持10-100000正数数字，保留2位小数，单位 M²
         if officeModel.type == .OwnerBuildingOfficeTypeArea {
-            getTextFromTF(tf: editLabel, maxLength: 9, maxNum: 100000, decimalNum: 2, toast: "仅支持10-100000之间正数，保留2位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 9, maxNum: 100000, decimalNum: 2, toast: "仅支持10-100000之间正数，保留2位小数")
 
         }
         //MARK: 办公室     ///租金 单价 - 0.1-50之间正数，保留2位小数点，单位“元”；
         else if officeModel.type == .OwnerBuildingOfficeTypePrice {
             
-            getTextFromTF(tf: editLabel, maxLength: 5, maxNum: 50, decimalNum: 2, toast: "仅支持0.1-50之间正数，保留2位小数点")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 5, maxNum: 50, decimalNum: 2, toast: "仅支持0.1-50之间正数，保留2位小数点")
             
         }
         //MARK: 办公室     ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
-            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
 
         }
         //MARK: 办公室     选填，仅支持1-8之间正数，保留1位小数，单位 米
         else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
-            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
 
         }
         //MARK: 办公室     ///物业费 必填，可修改，默认获取楼盘物业费;     物业金额根据房源面积计算，计算公式=物业费*房源面积，0-100000，保留1位小数，单位 元/月
         else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
-            getTextFromTF(tf: editLabel, maxLength: 8, maxNum: 100000, decimalNum: 1, toast: "仅支持0-100000之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 8, maxNum: 100000, decimalNum: 1, toast: "仅支持0-100000之间正数，保留1位小数")
 
         }
         
@@ -106,13 +106,13 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 独立办公室
         //MARK: 独立办公室       ///面积，非必填，支持输入1-10000正数，支持保留1位小数
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
-            getTextFromTF(tf: editLabel, maxLength: 7, maxNum: 10000, decimalNum: 1, toast: "仅支持1-10000之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 7, maxNum: 10000, decimalNum: 1, toast: "仅支持1-10000之间正数，保留1位小数")
 
         }
         //MARK: 独立办公室       ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
             
-            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
         }
         
         
@@ -121,42 +121,42 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
         //MARK: 开放工位        ///净高   必填，仅支持1-8之间正数，保留1位小数，单位 米；
         
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
-            getTextFromTF(tf: editLabel, maxLength: 7, maxNum: 10000, decimalNum: 1, toast: "仅支持输入100-1w之间的正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 7, maxNum: 10000, decimalNum: 1, toast: "仅支持输入100-1w之间的正数，保留1位小数")
         }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
-            getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
+            editLabel.text = SSTool.getTextFromTF(tf: editLabel, maxLength: 3, maxNum: 8, decimalNum: 1, toast: "仅支持1-8之间正数，保留1位小数")
         }
         
     }
     
-    func getTextFromTF(tf: UITextField, maxLength: Int, maxNum: Float, decimalNum: Int, toast: String) {
-        
-        let textNum = tf.text?.count
-
-        //截取
-        if textNum! > maxLength {
-            let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: maxLength)
-            editLabel.text = editLabel.text?.substring(to: index!)
-        }
-        if let num = Float(editLabel.text ?? "0") {
-            if num > maxNum {
-                editLabel.text?.removeLast(1)
-                AppUtilities.makeToast(toast)
-            }
-            let arr = editLabel.text?.split{$0 == "."}.map(String.init)
-            if arr?.count == 2 {
-                if arr?[1].count ?? 0 > decimalNum {
-                    editLabel.text?.removeLast(1)
-                    AppUtilities.makeToast(toast)
-                }
-            }
-        }else {
-            if textNum ?? 0 > 0 {
-                
-                editLabel.text?.removeLast(1)
-                AppUtilities.makeToast(toast)
-            }
-        }
-    }
+//    func getTextFromTF(tf: UITextField, maxLength: Int, maxNum: Float, decimalNum: Int, toast: String) {
+//        
+//        let textNum = tf.text?.count
+//
+//        //截取
+//        if textNum! > maxLength {
+//            let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: maxLength)
+//            editLabel.text = editLabel.text?.substring(to: index!)
+//        }
+//        if let num = Float(editLabel.text ?? "0") {
+//            if num > maxNum {
+//                editLabel.text?.removeLast(1)
+//                AppUtilities.makeToast(toast)
+//            }
+//            let arr = editLabel.text?.split{$0 == "."}.map(String.init)
+//            if arr?.count == 2 {
+//                if arr?[1].count ?? 0 > decimalNum {
+//                    editLabel.text?.removeLast(1)
+//                    AppUtilities.makeToast(toast)
+//                }
+//            }
+//        }else {
+//            if textNum ?? 0 > 0 {
+//                
+//                editLabel.text?.removeLast(1)
+//                AppUtilities.makeToast(toast)
+//            }
+//        }
+//    }
     
     ///楼盘模型
     var model: OwnerBuildingEditConfigureModel = OwnerBuildingEditConfigureModel(types: OwnerBuildingEditType.OwnerBuildingEditTypeBuildingTypew) {

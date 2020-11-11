@@ -797,6 +797,37 @@ struct SensorsAnalyticsEvent {
 @objcMembers class SSTool: NSObject {
     
     
+    class func getTextFromTF(tf: UITextField, maxLength: Int, maxNum: Float, decimalNum: Int, toast: String) -> String{
+        
+        let textNum = tf.text?.count
+
+        //截取
+        if textNum! > maxLength {
+            let index = tf.text?.index((tf.text?.startIndex)!, offsetBy: maxLength)
+            tf.text = tf.text?.substring(to: index!)
+        }
+        if let num = Float(tf.text ?? "0") {
+            if num > maxNum {
+                tf.text?.removeLast(1)
+                AppUtilities.makeToast(toast)
+            }
+            let arr = tf.text?.split{$0 == "."}.map(String.init)
+            if arr?.count == 2 {
+                if arr?[1].count ?? 0 > decimalNum {
+                    tf.text?.removeLast(1)
+                    AppUtilities.makeToast(toast)
+                }
+            }
+        }else {
+            if textNum ?? 0 > 0 {
+                
+                tf.text?.removeLast(1)
+                AppUtilities.makeToast(toast)
+            }
+        }
+        return tf.text ?? ""
+    }
+    
     //MARK: 业主 - 房源管理正则
     ///楼盘/园区 名称*  文本，过滤 <>=，,。？? 最多25个字
     class func validateBuildingName(name: String) -> Bool {
