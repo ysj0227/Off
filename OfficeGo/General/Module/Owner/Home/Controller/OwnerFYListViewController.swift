@@ -130,8 +130,15 @@ class OwnerFYListViewController: BaseGroupTableViewController {
     override func clickReloadData() {
         
         SendNetworkStatus()
+
+        if buildingListViewModel == nil {
+            
+            requestBuildingList()
+        }else {
+                        
+            loadNewData()
+        }
         
-        loadNewData()
     }
     
     @objc override func loadNewData(){
