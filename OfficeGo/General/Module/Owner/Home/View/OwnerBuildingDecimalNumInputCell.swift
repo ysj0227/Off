@@ -291,9 +291,23 @@ class OwnerBuildingDecimalNumInputCell: BaseEditCell {
 extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
 
+        let textNum = textField.text?.count
+
         //MARK: 楼盘
         //MARK: 楼盘      ///建筑面积
         if model.type == .OwnerBuildingEditTypeArea {
+            
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
+
             buildingModel?.buildingMsg?.constructionArea = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
@@ -302,6 +316,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
         //MARK: 楼盘      ///净高
         else if model.type == .OwnerBuildingEditTypeClearHeight {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             buildingModel?.buildingMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
@@ -310,6 +334,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
         //MARK: 楼盘      ///层高
         else if model.type == .OwnerBuildingEditTypeFloorHeight {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             buildingModel?.buildingMsg?.storeyHeight = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
@@ -318,6 +352,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
         //MARK: 楼盘      ///物业费
         else if model.type == .OwnerBuildingEditTypePropertyCoast {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             buildingModel?.buildingMsg?.propertyCosts = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
@@ -330,6 +374,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         //MARK: 网点
         //MARK: 网点      ///净高
         if jointModel.type == .OwnerBuildingJointEditTypeClearHeight {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             buildingModel?.buildingMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
@@ -365,6 +419,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
         //MARK: 办公室     ///租金 单价 - 0.1-50之间正数，保留2位小数点，单位“元”；
         else if officeModel.type == .OwnerBuildingOfficeTypePrice {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             FYModel?.houseMsg?.dayPrice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
@@ -373,6 +437,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
         //MARK: 办公室     ///净高
         else if officeModel.type == .OwnerBuildingOfficeTypeClearHeight {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             FYModel?.houseMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
@@ -381,6 +455,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
         //MARK: 办公室     ///层高
         else if officeModel.type == .OwnerBuildingOfficeTypeFloorHeight {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             FYModel?.houseMsg?.storeyHeight = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
@@ -389,6 +473,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
         //MARK: 办公室     ///物业费
         else if officeModel.type == .OwnerBuildingOfficeTypePropertyCoast {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             FYModel?.houseMsg?.propertyHouseCosts = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
@@ -400,6 +494,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         //MARK: 独立办公室
         //MARK: 独立办公室       ///建筑面积 - 一位
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeArea {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             FYModel?.houseMsg?.area = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
@@ -408,6 +512,16 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         }
         //MARK: 独立办公室       ///净高
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeClearHeight {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             FYModel?.houseMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
@@ -419,12 +533,32 @@ extension OwnerBuildingDecimalNumInputCell: UITextFieldDelegate {
         //MARK: 开放工位
         //MARK: 开放工位        ///租金
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypePrice {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             FYModel?.houseMsg?.dayPrice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
             blockk(FYModel ?? FangYuanHouseEditModel())
         }else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeClearHeight {
+            //有小数点
+            if textField.text?.contains(".") ?? false {
+                
+            }else {
+                if textNum! > 2 {
+                    if textField.text?.hasPrefix("0") == true {
+                        textField.text?.removeFirst()
+                    }
+                }
+            }
             FYModel?.houseMsg?.clearHeight = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return

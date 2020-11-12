@@ -44,6 +44,14 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         //MARK: 楼盘  总楼层  仅支持1-150之间正整数，单位“层”，提示文字：请填写总楼层数
         if model.type == .OwnerBuildingEditTypeTotalFloor {
             //截取
+            
+            ///第一位不能输入0
+            if textNum! == 1 {
+                if editLabel.text?.hasPrefix("0") == true {
+                    editLabel.text?.removeFirst()
+                }
+            }
+            
             if textNum! > 3 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
                 editLabel.text = editLabel.text?.substring(to: index!)
@@ -122,6 +130,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         //MARK: 办公室 ///最短租期 必填，1-60正整数，单位 月
         if officeModel.type == .OwnerBuildingOfficeTypeMinRentalPeriod {
             //截取
+            ///第一位不能输入0
+            if textNum! == 1 {
+                if editLabel.text?.hasPrefix("0") == true {
+                    editLabel.text?.removeFirst()
+                }
+            }
             if textNum! > 2 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 2)
                 editLabel.text = editLabel.text?.substring(to: index!)
@@ -139,6 +153,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         //MARK: 独立办公室
         //MARK: 独立办公室   ///工位数  工位数，支持填写1-100的正整数
         if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeSeats {
+            ///第一位不能输入0
+            if textNum! == 1 {
+                if editLabel.text?.hasPrefix("0") == true {
+                    editLabel.text?.removeFirst()
+                }
+            }
             //截取
             if textNum! > 3 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
@@ -167,6 +187,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         }
         //MARK: 独立办公室       租金，必填，正整数，范围100-100000，单位 元/月
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
+            ///第一位不能输入0
+            if textNum! == 1 {
+                if editLabel.text?.hasPrefix("0") == true {
+                    editLabel.text?.removeFirst()
+                }
+            }
             //截取
             if textNum! > 7 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 7)
@@ -184,6 +210,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
         //MARK: 开放工位
         //MARK: 开放工位    ///工位数  工位数，数字，支持输入1-200正整数，单位 个
         if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeSeats {
+            ///第一位不能输入0
+            if textNum! == 1 {
+                if editLabel.text?.hasPrefix("0") == true {
+                    editLabel.text?.removeFirst()
+                }
+            }
             //截取
             if textNum! > 3 {
                 let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: 3)
@@ -332,10 +364,12 @@ class OwnerBuildingNumInputCell: BaseEditCell {
 extension OwnerBuildingNumInputCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
 
+        let textNum = textField.text?.count
+
         //MARK: 楼盘
         //MARK: 楼盘  总楼层  仅支持1-150之间正整数，单位“层”，提示文字：请填写总楼层数
         if model.type == .OwnerBuildingEditTypeTotalFloor {
-            
+        
             buildingModel?.buildingMsg?.totalFloor = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
@@ -344,6 +378,13 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         }
         //MARK: 楼盘    ///车位费    仅支持0-5000正整数，默认值0，当填0时前台展示“未知”，单位，“元/月”
         else if model.type == .OwnerBuildingEditTypeParkingCoast {
+            
+            ///第一位不能输入0
+            if textNum! > 1 {
+                if textField.text?.hasPrefix("0") == true {
+                    textField.text?.removeFirst()
+                }
+            }
             
             buildingModel?.buildingMsg?.parkingSpaceRent = textField.text
             guard let blockk = self.endEditingMessageCell else {
@@ -357,6 +398,13 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 网点  ///会议室数量，数字，必填，支持输入0-10的正整数，单位 个；
         if jointModel.type == .OwnerBuildingJointEditTypeConferenceNumber {
             
+            ///第一位不能输入0
+            if textNum! > 1 {
+                if textField.text?.hasPrefix("0") == true {
+                    textField.text?.removeFirst()
+                }
+            }
+            
             buildingModel?.buildingMsg?.conferenceNumber = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
@@ -366,6 +414,13 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         //MARK: 网点  ///最多容纳人数，数字，选填，0-50的正整数，单位 人；
         else if jointModel.type == .OwnerBuildingJointEditTypeConferencePeopleNumber {
             
+            ///第一位不能输入0
+            if textNum! > 1 {
+                if textField.text?.hasPrefix("0") == true {
+                    textField.text?.removeFirst()
+                }
+            }
+            
             buildingModel?.buildingMsg?.conferencePeopleNumber = textField.text
             guard let blockk = self.endEditingMessageCell else {
                 return
@@ -374,6 +429,13 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         }
         //MARK: 网点  ///车位费    仅支持0-5000正整数，默认值0，当填0时前台展示“未知”，单位，“元/月”
         else if jointModel.type == .OwnerBuildingJointEditTypeParkingCoast {
+            
+            ///第一位不能输入0
+            if textNum! > 1 {
+                if textField.text?.hasPrefix("0") == true {
+                    textField.text?.removeFirst()
+                }
+            }
             
             buildingModel?.buildingMsg?.parkingSpaceRent = textField.text
             guard let blockk = self.endEditingMessageCell else {
@@ -408,14 +470,23 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         }
         //MARK: 独立办公室   ///最短租期 最短租期，必填，数字，单位月，支持输入0-60正整数
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeMinRentalPeriod {
+            
+            ///第一位不能输入0
+            if textNum! > 1 {
+                if textField.text?.hasPrefix("0") == true {
+                    textField.text?.removeFirst()
+                }
+            }
+            
             FYModel?.houseMsg?.minimumLease = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
             }
             blockk(FYModel ?? FangYuanHouseEditModel())
         }
-        //MARK: 独立办公室       ///租金
+        //MARK: 独立办公室       租金，必填，正整数，范围100-100000，单位 元/月
         else if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypePrice {
+            
             FYModel?.houseMsg?.monthPrice = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
@@ -436,6 +507,13 @@ extension OwnerBuildingNumInputCell: UITextFieldDelegate {
         }
         //MARK: 开放工位    ///最短租期 最短租期，数字，必填，单位月，支持输入0-60正整数
         else if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeMinRentalPeriod {
+            
+            ///第一位不能输入0
+            if textNum! > 1 {
+                if textField.text?.hasPrefix("0") == true {
+                    textField.text?.removeFirst()
+                }
+            }
             FYModel?.houseMsg?.minimumLease = textField.text
             guard let blockk = self.endEditingFYMessageCell else {
                 return
