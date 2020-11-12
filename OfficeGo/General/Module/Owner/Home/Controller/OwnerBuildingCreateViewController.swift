@@ -467,16 +467,14 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                 if buildingModel?.buildingMsg?.buildingName == nil || buildingModel?.buildingMsg?.buildingName?.isBlankString == true{
                     AppUtilities.makeToast("请输入园区名称")
                     return
-                }else {
-                    params["buildingType"] = 3 as AnyObject?
-                    params["buildingName"] = buildingModel?.buildingMsg?.buildingName as AnyObject?
                 }
                 if buildingModel?.buildingMsg?.buildingNum == nil || buildingModel?.buildingMsg?.buildingNum?.isBlankString == true{
                     AppUtilities.makeToast("请输入楼号")
                     return
-                }else {
-                    params["buildingNum"] = buildingModel?.buildingMsg?.buildingNum as AnyObject?
                 }
+                params["buildingType"] = 3 as AnyObject?
+                params["buildingName"] = buildingModel?.buildingMsg?.buildingName as AnyObject?
+                params["buildingNum"] = buildingModel?.buildingMsg?.buildingNum as AnyObject?
             }
             ///园区 - 产业园
             else if buildingModel?.buildingMsg?.buildingTypeEnum == .chanyeEnum {
@@ -484,16 +482,14 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
                 if buildingModel?.buildingMsg?.buildingName == nil || buildingModel?.buildingMsg?.buildingName?.isBlankString == true{
                     AppUtilities.makeToast("请输入园区名称")
                     return
-                }else {
-                    params["buildingType"] = 6 as AnyObject?
-                    params["buildingName"] = buildingModel?.buildingMsg?.buildingName as AnyObject?
                 }
                 if buildingModel?.buildingMsg?.buildingNum == nil || buildingModel?.buildingMsg?.buildingNum?.isBlankString == true{
                     AppUtilities.makeToast("请输入楼号")
                     return
-                }else {
-                    params["buildingNum"] = buildingModel?.buildingMsg?.buildingNum as AnyObject?
                 }
+                params["buildingType"] = 6 as AnyObject?
+                params["buildingName"] = buildingModel?.buildingMsg?.buildingName as AnyObject?
+                params["buildingNum"] = buildingModel?.buildingMsg?.buildingNum as AnyObject?
             }
         }
 
