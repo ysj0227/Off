@@ -19,7 +19,7 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
     
     ///地址区域
     lazy var areaView: CityDistrictAddressSelectView = {
-        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
+        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHeight))
         return view
     }()
     

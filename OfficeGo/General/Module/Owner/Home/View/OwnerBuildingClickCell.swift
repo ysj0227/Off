@@ -159,7 +159,7 @@ class OwnerBuildingClickCell: BaseEditCell {
             ///出租方式
             ///空调类型
             if jointIndepentOfficeModel.type == .OwnerBuildingJointOfficeTypeTotalFloor {
-                //detailIcon.isHidden = true
+                detailIcon.isHidden = true
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if FYModel?.houseMsg?.floorType == "1" {
@@ -211,7 +211,7 @@ class OwnerBuildingClickCell: BaseEditCell {
             ///所在楼层
             ///免租期
             if jointOpenStationModel.type == .OwnerBuildingJointOpenStationTypeTotalFloor {
-                //detailIcon.isHidden = true
+                detailIcon.isHidden = true
                 editLabel.textAlignment = .right
                 ///所在楼层 1 2
                 if FYModel?.houseMsg?.floorType == "1" {

@@ -39,7 +39,7 @@ class OwnerBuildingJointNewIdentifyCreatAddViewController: BaseViewController {
     var areaModelCount: CityAreaCategorySelectModel?
     
     lazy var areaView: CityDistrictAddressSelectView = {
-        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
+        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: kHeight))
         return view
     }()
     
@@ -185,7 +185,7 @@ class OwnerBuildingJointNewIdentifyCreatAddViewController: BaseViewController {
                     if areaModel.id == userModel?.business {
                         areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
                         userModel?.businessString = areaModel.area
-                        loadCollectionData()
+                        headerCollectionView.reloadSections(NSIndexSet.init(index: 0) as IndexSet)
                     }
                 })
                 
@@ -245,7 +245,7 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController {
         
         userModel?.business = userModel?.businessDistrict
         
-        if userModel?.buildId != nil && userModel?.buildId?.isBlankString != true {
+        if userModel?.buildId != "0" && userModel?.buildId != nil && userModel?.buildId?.isBlankString != true {
             userModel?.buildingId = userModel?.buildId
         }
         
@@ -268,6 +268,9 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController {
         
         
         loadCollectionData()
+        
+        request_getDistrict()
+
     }
     
     
@@ -288,7 +291,6 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController {
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
                 weakSelf.userModel = model
-                weakSelf.request_getDistrict()
                 weakSelf.detailDataShow()
                 
             }else {
@@ -427,7 +429,15 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController {
         requestCompanyIdentify()
     }
     func setUpData() {
-        rejectReasonLabel.text = "⚠️ 驳回原因：\(userModel?.remark ?? "")"
+        if let remark = userModel?.remark {
+            if remark.count > 0 {
+                rejectReasonLabel.text = "⚠️ 驳回原因：\(remark)"
+            }else {
+                rejectReasonLabel.text = "⚠️ 驳回原因：无"
+            }
+        }else {
+            rejectReasonLabel.text = "⚠️ 驳回原因：无"
+        }
         let attritube = NSMutableAttributedString(string: rejectReasonLabel.text ?? "")
         let range = NSRange(location: 0, length: attritube.length)
         attritube.addAttributes([NSAttributedString.Key.font: FONT_14], range: range)
@@ -441,7 +451,7 @@ extension OwnerBuildingJointNewIdentifyCreatAddViewController {
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.showLeaveAlert()
+            self?.leftBtnClick()
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         

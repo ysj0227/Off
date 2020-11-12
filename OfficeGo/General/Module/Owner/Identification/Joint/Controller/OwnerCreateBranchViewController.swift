@@ -48,7 +48,7 @@ class OwnerCreateBranchViewController: BaseTableViewController {
     
     
     lazy var areaView: CityDistrictAddressSelectView = {
-        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0.0, y: kNavigationHeight + cell_height_58 * 2, width: kWidth, height: kHeight - kNavigationHeight - cell_height_58 * 2 - bottomMargin()))
+        let view = CityDistrictAddressSelectView.init(frame: CGRect(x: 0, y: kNavigationHeight + cell_height_58 * 2, width: kWidth, height: kHeight - kNavigationHeight - cell_height_58 * 2 - bottomMargin()))
         return view
     }()
     
