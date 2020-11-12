@@ -26,7 +26,12 @@ class RenterUserHeaderView: UIView {
     }()
     
     lazy var saoyisaoBtn: UIButton = {
-         let view = UIButton.init()
+        let view = UIButton.init()
+        if UserTool.shared.user_id_type == 0 {
+            view.isHidden = true
+        }else {
+            view.isHidden = false
+        }
          view.setImage(UIImage.init(named: "QScan"), for: .normal)
          view.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: -10, right: -10)
          view.addTarget(self, action: #selector(saoyisaoSelectClick), for: .touchUpInside)
