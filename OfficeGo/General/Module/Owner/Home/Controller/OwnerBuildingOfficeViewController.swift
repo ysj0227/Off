@@ -1005,7 +1005,7 @@ extension OwnerBuildingOfficeViewController {
         
         ///所在楼层
         if typeSourceArray[section].type == .OwnerBuildingOfficeTypeTotalFloor {
-            return 2
+            return 1
         }else {
             return 1
         }
@@ -1027,14 +1027,14 @@ extension OwnerBuildingOfficeViewController {
             
         ///所在楼层
         case .OwnerBuildingOfficeTypeTotalFloor:
-            if indexPath.row == 0 {
-                ///点击cell
-                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
-                cell?.selectionStyle = .none
-                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
-                cell?.officeModel = model
-                return cell ?? OwnerBuildingClickCell.init(frame: .zero)
-            }else {
+//            if indexPath.row == 0 {
+//                ///点击cell
+//                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
+//                cell?.selectionStyle = .none
+//                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
+//                cell?.officeModel = model
+//                return cell ?? OwnerBuildingClickCell.init(frame: .zero)
+//            }else {
                 
                 ///文本输入cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr) as? OwnerBuildingFYFloorCell
@@ -1047,7 +1047,7 @@ extension OwnerBuildingOfficeViewController {
                 }
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
-            }
+//            }
             
             
             
@@ -1257,15 +1257,16 @@ extension OwnerBuildingOfficeViewController {
             
         ///所在楼层
         case .OwnerBuildingOfficeTypeTotalFloor:
-            if indexPath.row == 0 {
-                return BaseEditCell.rowHeight()
-            }else {
-                if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
-                    return OwnerBuildingFYFloorCell.rowHeight()
-                }else {
-                    return 0
-                }
-            }
+            return OwnerBuildingFYFloorCell.rowHeight()
+//            if indexPath.row == 0 {
+//                return BaseEditCell.rowHeight()
+//            }else {
+//                if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
+//                    return OwnerBuildingFYFloorCell.rowHeight()
+//                }else {
+//                    return 0
+//                }
+//            }
             
             
             ///文本输入cell

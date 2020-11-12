@@ -54,6 +54,47 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
             }
         }
     }
+    
+    
+    lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.textColor = kAppColor_999999
+        view.attributedText = FuWenBen(name: "所在楼层", centerStr: " * ", last: "")
+        return view
+    }()
+    
+    
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_10])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
+    
     lazy var leftLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
@@ -130,21 +171,26 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
   
         setDelegate()
         
+        addSubview(titleLabel)
         addSubview(leftLabel)
         addSubview(leftEditLabel)
         addSubview(leftUnitLabel)
         addSubview(rightUnitLabel)
         addSubview(lineView)
         
-        leftLabel.snp.makeConstraints { (make) in
+        titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
             make.top.bottom.equalToSuperview()
         }
         
         leftEditLabel.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 90, height: 36))
-            make.leading.equalTo(leftLabel.snp.trailing).offset(5)
-            make.centerY.equalTo(leftLabel)
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview().offset(5)
+        }
+        leftLabel.snp.makeConstraints { (make) in
+            make.trailing.equalTo(leftEditLabel.snp.leading).offset(-5)
+            make.top.bottom.equalToSuperview()
         }
         leftUnitLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(leftEditLabel.snp.trailing).offset(5)

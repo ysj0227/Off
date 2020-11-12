@@ -654,7 +654,7 @@ extension OwnerBuildingJointOpenStationViewController {
         
         ///所在楼层
         if typeSourceArray[section].type == .OwnerBuildingJointOpenStationTypeTotalFloor {
-            return 2
+            return 1
         }else {
             return 1
         }
@@ -676,14 +676,14 @@ extension OwnerBuildingJointOpenStationViewController {
             
         ///所在楼层
         case .OwnerBuildingJointOpenStationTypeTotalFloor:
-            if indexPath.row == 0 {
-                ///点击cell
-                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
-                cell?.selectionStyle = .none
-                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
-                cell?.jointOpenStationModel = model
-                return cell ?? OwnerBuildingClickCell.init(frame: .zero)
-            }else {
+//            if indexPath.row == 0 {
+//                ///点击cell
+//                let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingClickCell.reuseIdentifierStr) as? OwnerBuildingClickCell
+//                cell?.selectionStyle = .none
+//                cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
+//                cell?.jointOpenStationModel = model
+//                return cell ?? OwnerBuildingClickCell.init(frame: .zero)
+//            }else {
                 
                 ///文本输入cell
                 let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingFYFloorCell.reuseIdentifierStr) as? OwnerBuildingFYFloorCell
@@ -696,7 +696,7 @@ extension OwnerBuildingJointOpenStationViewController {
                 }
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
-            }
+//            }
             
         ///正数字文本输入cell
         case .OwnerBuildingJointOpenStationTypeSeats, .OwnerBuildingJointOpenStationTypeMinRentalPeriod:
@@ -757,16 +757,17 @@ extension OwnerBuildingJointOpenStationViewController {
             
         ///所在楼层
         case .OwnerBuildingJointOpenStationTypeTotalFloor:
-            
-            if indexPath.row == 0 {
-                return BaseEditCell.rowHeight()
-            }else {
-                if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
-                    return OwnerBuildingFYFloorCell.rowHeight()
-                }else {
-                    return 0
-                }
-            }
+            return OwnerBuildingFYFloorCell.rowHeight()
+
+//            if indexPath.row == 0 {
+//                return BaseEditCell.rowHeight()
+//            }else {
+//                if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
+//                    return OwnerBuildingFYFloorCell.rowHeight()
+//                }else {
+//                    return 0
+//                }
+//            }
             
         ///正数字文本输入cell
         case .OwnerBuildingJointOpenStationTypeSeats, .OwnerBuildingJointOpenStationTypeMinRentalPeriod:
