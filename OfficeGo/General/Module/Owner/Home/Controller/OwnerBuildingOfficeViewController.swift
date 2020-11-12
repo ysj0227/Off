@@ -1031,7 +1031,7 @@ extension OwnerBuildingOfficeViewController {
                 cell?.officeModel = model
                 cell?.endEditingFYMessageCell = { [weak self] (model) in
                     self?.FYModel = model
-                    self?.loadSecion(section: indexPath.section)
+                    //self?.loadSecion(section: indexPath.section)
                 }
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
@@ -1050,7 +1050,7 @@ extension OwnerBuildingOfficeViewController {
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (model) in
                 self?.FYModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
@@ -1067,7 +1067,7 @@ extension OwnerBuildingOfficeViewController {
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (model) in
                 self?.FYModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -1087,7 +1087,7 @@ extension OwnerBuildingOfficeViewController {
             cell?.officeModel = model
             cell?.endEditingFYMessageCell = { [weak self] (model) in
                 self?.FYModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -1333,7 +1333,7 @@ extension OwnerBuildingOfficeViewController {
             ownerFYMoreSettingView.ShowOwnerSettingView(datasource: rentFreePeriodArr, clearButtonCallBack: {
                                                                             
             }) {[weak self] (settingEnumIndex) in
-                self?.FYModel?.houseMsg?.rentFreePeriod = self?.rentFreePeriodArr[settingEnumIndex] as! String
+                self?.FYModel?.houseMsg?.rentFreePeriod = self?.rentFreePeriodArr[settingEnumIndex] ?? ""
                 //单层1 多层2
                 self?.loadSections(indexSet: [indexPath.section])
             }
@@ -1437,4 +1437,16 @@ extension OwnerBuildingOfficeViewController {
 }
 
 
+extension OwnerBuildingOfficeViewController {
+    //MARK: 滑动- 设置标题颜色
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        totalPriceView.setTitle("", for: .normal)
+        
+        totalPriceView.snp.remakeConstraints({ (make) in
+            make.size.equalTo(0)
+            make.leading.equalToSuperview().offset(90)
+        })
+    }
+}
 

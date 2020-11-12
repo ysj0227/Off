@@ -412,7 +412,6 @@ class OwnerBuildingCreateViewController: BaseTableViewController {
             guard let weakSelf = self else {return}
             if let model = FangYuanBuildingEditModel.deserialize(from: response, designatedPath: "data") {
                 weakSelf.buildingModel = model
-                
             }
             weakSelf.request_getDistrict()
             
@@ -955,7 +954,7 @@ extension OwnerBuildingCreateViewController {
             cell?.model = model
             cell?.endEditingMessageCell = { [weak self] (model) in
                 self?.buildingModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
@@ -973,7 +972,7 @@ extension OwnerBuildingCreateViewController {
             cell?.model = model
             cell?.endEditingMessageCell = { [weak self] (model) in
                 self?.buildingModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -992,7 +991,7 @@ extension OwnerBuildingCreateViewController {
             cell?.model = model
             cell?.endEditingMessageCell = { [weak self] (model) in
                 self?.buildingModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -1009,7 +1008,7 @@ extension OwnerBuildingCreateViewController {
             cell?.model = model
             cell?.endEditingMessageCell = { [weak self] (model) in
                 self?.buildingModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingBorderInputCell.init(frame: .zero)
             

@@ -680,7 +680,7 @@ extension OwnerBuildingJointOpenStationViewController {
                 cell?.jointOpenStationModel = model
                 cell?.endEditingFYMessageCell = { [weak self] (model) in
                     self?.FYModel = model
-                    self?.loadSecion(section: indexPath.section)
+                    //self?.loadSecion(section: indexPath.section)
                 }
                 return cell ?? OwnerBuildingFYFloorCell.init(frame: .zero)
                 
@@ -697,7 +697,7 @@ extension OwnerBuildingJointOpenStationViewController {
             cell?.jointOpenStationModel = model
             cell?.endEditingFYMessageCell = { [weak self] (model) in
                 self?.FYModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -714,7 +714,7 @@ extension OwnerBuildingJointOpenStationViewController {
             cell?.jointOpenStationModel = model
             cell?.endEditingFYMessageCell = { [weak self] (model) in
                 self?.FYModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -801,7 +801,7 @@ extension OwnerBuildingJointOpenStationViewController {
             ownerFYMoreSettingView.ShowOwnerSettingView(datasource: rentFreePeriodArr, clearButtonCallBack: {
                                                                             
             }) {[weak self] (settingEnumIndex) in
-                self?.FYModel?.houseMsg?.rentFreePeriod = self?.rentFreePeriodArr[settingEnumIndex] as! String
+                self?.FYModel?.houseMsg?.rentFreePeriod = self?.rentFreePeriodArr[settingEnumIndex] ?? ""
                 //单层1 多层2
                 self?.loadSections(indexSet: [indexPath.section])
             }

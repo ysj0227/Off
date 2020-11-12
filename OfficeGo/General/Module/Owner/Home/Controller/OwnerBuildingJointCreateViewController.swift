@@ -1062,7 +1062,7 @@ extension OwnerBuildingJointCreateViewController {
             cell?.jointModel = model
             cell?.endEditingMessageCell = { [weak self] (model) in
                 self?.buildingModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingInputCell.init(frame: .zero)
             
@@ -1103,7 +1103,7 @@ extension OwnerBuildingJointCreateViewController {
             cell?.jointModel = model
             cell?.endEditingMessageCell = { [weak self] (model) in
                 self?.buildingModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingNumInputCell.init(frame: .zero)
             
@@ -1119,7 +1119,7 @@ extension OwnerBuildingJointCreateViewController {
             cell?.jointModel = model
             cell?.endEditingMessageCell = { [weak self] (model) in
                 self?.buildingModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
@@ -1136,7 +1136,7 @@ extension OwnerBuildingJointCreateViewController {
             cell?.jointModel = model
             cell?.endEditingMessageCell = { [weak self] (model) in
                 self?.buildingModel = model
-                self?.loadSecion(section: indexPath.section)
+                //self?.loadSecion(section: indexPath.section)
             }
             return cell ?? OwnerBuildingBorderInputCell.init(frame: .zero)
             
