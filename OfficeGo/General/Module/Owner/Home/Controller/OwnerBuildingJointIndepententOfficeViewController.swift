@@ -708,6 +708,18 @@ class OwnerBuildingJointIndepententOfficeViewController: BaseTableViewController
 
 extension OwnerBuildingJointIndepententOfficeViewController {
     
+    ///左上角按钮
+    func showLeaveAlert() {
+        tableView.endEditing(true)
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.bottomBtnView.rightSelectBtn.setTitle("离开", for: .normal)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "是否退出当前编辑页面？", descMsg: "", cancelButtonCallClick: {
+            
+        }) { [weak self] in
+            self?.leftBtnClick()
+        }
+    }
+    
     func setUpView() {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
@@ -732,7 +744,7 @@ extension OwnerBuildingJointIndepententOfficeViewController {
             titleview?.titleLabel.text = "编辑独立办公室"
         }
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
+            self?.showLeaveAlert()
         }
         titleview?.rightBtnClickBlock = { [weak self] in
             let vc = OwnerBuildingJointIndepententOfficeViewController()

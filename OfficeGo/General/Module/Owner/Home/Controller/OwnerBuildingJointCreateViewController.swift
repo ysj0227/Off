@@ -824,6 +824,18 @@ class OwnerBuildingJointCreateViewController: BaseTableViewController {
 
 extension OwnerBuildingJointCreateViewController {
     
+    ///左上角按钮
+    func showLeaveAlert() {
+        tableView.endEditing(true)
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.bottomBtnView.rightSelectBtn.setTitle("离开", for: .normal)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "是否退出当前编辑页面？", descMsg: "", cancelButtonCallClick: {
+
+        }) { [weak self] in
+            self?.leftBtnClick()
+        }
+    }
+    
     func setUpView() {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
@@ -848,7 +860,7 @@ extension OwnerBuildingJointCreateViewController {
             titleview?.titleLabel.text = "编辑共享办公网点"
         }
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
+            self?.showLeaveAlert()
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         

@@ -12,6 +12,8 @@ import SwiftyJSON
 
 class OwnerBuildingJointCreatAddViewController: BaseViewController {
     
+    
+    
     ///楼盘
     var isBuilding: Bool?
     
@@ -353,7 +355,7 @@ extension OwnerBuildingJointCreatAddViewController {
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.showLeaveAlert()
+            self?.leftBtnClick()
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
