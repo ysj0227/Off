@@ -853,6 +853,18 @@ class OwnerBuildingOfficeViewController: BaseTableViewController {
 
 extension OwnerBuildingOfficeViewController {
     
+    ///左上角按钮
+    func showLeaveAlert() {
+        tableView.endEditing(true)
+        let alert = SureAlertView(frame: self.view.frame)
+        alert.bottomBtnView.rightSelectBtn.setTitle("离开", for: .normal)
+        alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "是否退出当前编辑页面？", descMsg: "", cancelButtonCallClick: {
+
+        }) { [weak self] in
+            self?.leftBtnClick()
+        }
+    }
+    
     func setUpView() {
         
         titleview = ThorNavigationView.init(type: .backTitleRight)
@@ -877,7 +889,7 @@ extension OwnerBuildingOfficeViewController {
             titleview?.titleLabel.text = "编辑办公室"
         }
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
+            self?.showLeaveAlert()
         }
         titleview?.rightBtnClickBlock = { [weak self] in
             let vc = OwnerBuildingOfficeViewController()
@@ -1073,12 +1085,11 @@ extension OwnerBuildingOfficeViewController {
             
             
             ///数字 - 一位小数点文本输入cell
-            ///建筑面积 - 两位
             ///租金单价 -
             ///净高
             ///层高
             ///物业费
-        case .OwnerBuildingOfficeTypeArea, .OwnerBuildingOfficeTypePrice, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast:
+        case .OwnerBuildingOfficeTypePrice, .OwnerBuildingOfficeTypeClearHeight, .OwnerBuildingOfficeTypeFloorHeight, .OwnerBuildingOfficeTypePropertyCoast:
             
             ///数字文本输入cell
             let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
@@ -1091,6 +1102,24 @@ extension OwnerBuildingOfficeViewController {
             }
             return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
             
+            
+        ///数字 - 一位小数点文本输入cell
+        ///建筑面积 - 两位
+        case .OwnerBuildingOfficeTypeArea:
+            
+            ///数字文本输入cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingDecimalNumInputCell.reuseIdentifierStr) as? OwnerBuildingDecimalNumInputCell
+            cell?.selectionStyle = .none
+            cell?.FYModel = FYModel ?? FangYuanHouseEditModel()
+            cell?.officeModel = model
+            cell?.endEditingFYMessageCell = { [weak self] (model) in
+                self?.FYModel = model
+                self?.loadSections(indexSet: [indexPath.section, indexPath.section + 1])
+
+            }
+            return cell ?? OwnerBuildingDecimalNumInputCell.init(frame: .zero)
+        
+        
             
         ///租金总价 - 两位
         case .OwnerBuildingOfficeTypeTotalPrice:
