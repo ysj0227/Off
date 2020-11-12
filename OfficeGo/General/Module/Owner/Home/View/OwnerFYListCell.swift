@@ -142,7 +142,7 @@ class OwnerFYListCell: BaseTableViewCell {
     
     @objc func shareBtnClick() {
         if viewModel.isPublish != true {
-            AppUtilities.makeToast("房源已下架，请先上架后再分享")
+            AppUtilities.makeToast(viewModel.publishTitle ?? "")
             return
         }
         guard let blockk = shareBtnClickBlock else {

@@ -130,6 +130,8 @@ class OwnerFYListViewModel: NSObject {
     ///如果已经发布，可以分享 否则不能分享
     var isPublish : Bool?
     
+    var publishTitle: String?
+    
     ///更多按钮里边的选项 - 如果是开放工位，只有删除
     ///其他，只有上架的时候，才有下架
     var moreSettingArr : [OWnerFYMoreSettingEnum] = []
@@ -149,13 +151,40 @@ class OwnerFYListViewModel: NSObject {
         houseStatus = model.houseStatus
         isTemp = model.isTemp
         buildingId = model.buildingId
+        officeType = model.officeType
+
         
-        
-        if model.houseStatus == 1 {
-            isPublish = true
-        }else {
-            isPublish = false
+        if btype == 1 {
+            
+            if model.houseStatus == 1 {
+                isPublish = true
+            }else {
+                isPublish = false
+                if houseStatus == 2 {
+                    publishTitle = "房源已下架，请先上架后再分享"
+                }else {
+                    publishTitle = "房源未发布，请先发布后再分享"
+                }
+            }
+        }else if btype == 2 {
+            ///独立办公室
+            if officeType == 1 {
+                if model.houseStatus == 1 {
+                    isPublish = true
+                }else {
+                    isPublish = false
+                    if houseStatus == 2 {
+                        publishTitle = "房源已下架，请先上架后再分享"
+                    }else {
+                        publishTitle = "房源未发布，请先发布后再分享"
+                    }
+                }
+            }else {
+                isPublish = false
+                publishTitle = "开放工位不支持分享"
+            }
         }
+
         
         if btype == 1 {
             buildingArea = String(format: "%.0f㎡", model.area ?? 0)
@@ -193,9 +222,7 @@ class OwnerFYListViewModel: NSObject {
             
             
         }else if btype == 2 {
-            
-            officeType = model.officeType
-            
+                        
             ///独立办公室
             if officeType == 1 {
                 individualAreaString = String(format: "%.0f㎡", model.area ?? 0)
