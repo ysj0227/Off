@@ -62,6 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         
         setUpSDKs(launchOptions: launchOptions)
         
+        UserTool.shared.API_Setting = API_Release
+        
         notifyObserve()
                 
         configLocationManager()
