@@ -18,12 +18,16 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         didSet {
             
             leftEditLabel.text = FYModel?.houseMsg?.floor
-            rightUnitLabel.text = "总\(FYModel?.totalFloor ?? "0")层"
-            if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
-                self.isHidden = false
-            }else {
-                self.isHidden = true
+            if let totalFloor = FYModel?.totalFloor {
+                if totalFloor != "0" || totalFloor.isBlankString != true {
+                    rightUnitLabel.text = "总\(totalFloor)层"
+                }
             }
+//            if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
+//                self.isHidden = false
+//            }else {
+//                self.isHidden = true
+//            }
         }
     }
     
@@ -32,13 +36,17 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
          didSet {
             
             leftEditLabel.text = FYModel?.houseMsg?.floor
-            rightUnitLabel.text = "总\(FYModel?.totalFloor ?? "0")层"
-             if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
-                 self.isHidden = false
-             }else {
-                 self.isHidden = true
-             }
-         }
+            if let totalFloor = FYModel?.totalFloor {
+                if totalFloor != "0" || totalFloor.isBlankString != true {
+                    rightUnitLabel.text = "总\(totalFloor)层"
+                }
+            }
+//            if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
+//                self.isHidden = false
+//            }else {
+//                self.isHidden = true
+//            }
+        }
      }
     
     ///开放工位
@@ -46,12 +54,16 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         didSet {
             
             leftEditLabel.text = FYModel?.houseMsg?.floor
-            rightUnitLabel.text = "总\(FYModel?.totalFloor ?? "0")层"
-            if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
-                self.isHidden = false
-            }else {
-                self.isHidden = true
+            if let totalFloor = FYModel?.totalFloor {
+                if totalFloor != "0" || totalFloor.isBlankString != true {
+                    rightUnitLabel.text = "总\(totalFloor)层"
+                }
             }
+//            if FYModel?.houseMsg?.floorType == "1" || FYModel?.houseMsg?.floorType == "2" {
+//                self.isHidden = false
+//            }else {
+//                self.isHidden = true
+//            }
         }
     }
     
@@ -136,7 +148,6 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
         view.font = FONT_14
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = kAppColor_btnGray_BEBEBE
-        view.text = "总0层"
         return view
     }()
     
