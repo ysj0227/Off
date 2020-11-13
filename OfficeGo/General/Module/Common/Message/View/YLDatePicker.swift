@@ -226,6 +226,24 @@ extension YLDatePicker: UIPickerViewDelegate, UIPickerViewDataSource {
         return dataArray[dateComponent]?[row]
         
     }
+    // 推荐 显示需要 label 。文字大小， 颜色等
+    public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        
+        //显示的文字
+        var showStr = ""
+        let dateComponent = dateComponentOrder[component]
+        showStr = dataArray[dateComponent]?[row] ?? ""
+        //        //修改字体大小， 颜色
+        
+        let arrStr = NSAttributedString.init(string: showStr, attributes: [NSAttributedString.Key.font : FONT_15, NSAttributedString.Key.foregroundColor : kAppColor_333333])
+        
+        //        //这里宽度随便给的， 高度也是随便给的 不能比row的高度大，能显示出来就行
+        let showLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 34))
+        showLabel.textAlignment = .center
+        //重新加载label的文字内容
+        showLabel.attributedText = arrStr
+        return showLabel
+    }
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         let dateComponent = dateComponentOrder[component]
