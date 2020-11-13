@@ -104,13 +104,13 @@ class OwnerBuildingFYCanSeatsCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(minLabel)
-        addSubview(unitLabel)
-        addSubview(maxLabel)
-        addSubview(rightUnitLabel)
-        addSubview(detailIcon)
-        addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(minLabel)
+        self.contentView.addSubview(unitLabel)
+        self.contentView.addSubview(maxLabel)
+        self.contentView.addSubview(rightUnitLabel)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

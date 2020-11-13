@@ -76,9 +76,9 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(categoryTitleLabel)
-        addSubview(featureCollectionView)
-        addSubview(lineView)
+        self.contentView.addSubview(categoryTitleLabel)
+        self.contentView.addSubview(featureCollectionView)
+        self.contentView.addSubview(lineView)
         
         categoryTitleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

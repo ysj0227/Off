@@ -182,12 +182,12 @@ class OwnerBuildingFYFloorCell: BaseTableViewCell {
   
         setDelegate()
         
-        addSubview(titleLabel)
-        addSubview(leftLabel)
-        addSubview(leftEditLabel)
-        addSubview(leftUnitLabel)
-        addSubview(rightUnitLabel)
-        addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(leftLabel)
+        self.contentView.addSubview(leftEditLabel)
+        self.contentView.addSubview(leftUnitLabel)
+        self.contentView.addSubview(rightUnitLabel)
+        self.contentView.addSubview(lineView)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

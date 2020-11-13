@@ -290,10 +290,10 @@ class RenterSettingCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
           
-        addSubview(titleLabel)
-        addSubview(numDescLabel)
-        addSubview(detailIcon)
-        addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(numDescLabel)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

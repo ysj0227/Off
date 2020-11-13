@@ -188,19 +188,19 @@ class OwnerFYListCell: BaseTableViewCell {
   
         self.backgroundColor = kAppColor_bgcolor_F7F7F7
         
-        addSubview(bgView)
-        addSubview(houseImageview)
-        addSubview(houseNameLabel)
-        addSubview(areaLabel)
-        addSubview(housePriceLabel)
-        addSubview(housePriceUnitLabel)
-        addSubview(houseFailureview)
-        addSubview(lineView)
-        addSubview(houseTypTags)
-        addSubview(moreBtn)
-        addSubview(editBtn)
-        addSubview(sharehBtn)
-        addSubview(closePublishBtn)
+        self.contentView.addSubview(bgView)
+        self.contentView.addSubview(houseImageview)
+        self.contentView.addSubview(houseNameLabel)
+        self.contentView.addSubview(areaLabel)
+        self.contentView.addSubview(housePriceLabel)
+        self.contentView.addSubview(housePriceUnitLabel)
+        self.contentView.addSubview(houseFailureview)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(houseTypTags)
+        self.contentView.addSubview(moreBtn)
+        self.contentView.addSubview(editBtn)
+        self.contentView.addSubview(sharehBtn)
+        self.contentView.addSubview(closePublishBtn)
         
         bgView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(7)

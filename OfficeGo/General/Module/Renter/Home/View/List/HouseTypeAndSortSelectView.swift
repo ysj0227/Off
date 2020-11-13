@@ -251,11 +251,11 @@ class TypeAndSortCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-          self.addSubview(titleLabel)
+        self.contentView.addSubview(titleLabel)
         titleLabel.snp.updateConstraints { (make) in
            make.centerX.centerY.equalToSuperview()
        }
-        self.addSubview(itemNumView)
+        self.contentView.addSubview(itemNumView)
          itemNumView.snp.updateConstraints { (make) in
             make.top.equalTo(titleLabel.snp.top).offset(-7)
             make.height.equalTo(14)

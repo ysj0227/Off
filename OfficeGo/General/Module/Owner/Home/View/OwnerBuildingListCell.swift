@@ -112,13 +112,13 @@ class OwnerBuildingListCell: BaseTableViewCell {
         self.backgroundColor = kAppWhiteColor
         
         
-        addSubview(houseTypTags)
-        addSubview(houseNameLabel)
-        addSubview(redView)
-        addSubview(editBtn)
-        addSubview(scanBtn)
-        addSubview(identifyBtn)
-        addSubview(lineView)
+        self.contentView.addSubview(houseTypTags)
+        self.contentView.addSubview(houseNameLabel)
+        self.contentView.addSubview(redView)
+        self.contentView.addSubview(editBtn)
+        self.contentView.addSubview(scanBtn)
+        self.contentView.addSubview(identifyBtn)
+        self.contentView.addSubview(lineView)
         
         
         houseTypTags.snp.makeConstraints { (make) in

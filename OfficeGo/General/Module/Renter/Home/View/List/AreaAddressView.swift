@@ -519,8 +519,8 @@ class AreaSubwayMutileSelectCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-          self.addSubview(itemImg)
-        self.addSubview(titleLabel)
+        self.contentView.addSubview(itemImg)
+        self.contentView.addSubview(titleLabel)
     }
     
     override func awakeFromNib() {

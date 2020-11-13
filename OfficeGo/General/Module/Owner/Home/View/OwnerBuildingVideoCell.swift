@@ -129,10 +129,10 @@ class OwnerBuildingVideoCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-          addSubview(titleLabel)
-        addSubview(descLabel)
-        addSubview(videoView)
-        addSubview(closeBtn)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(descLabel)
+        self.contentView.addSubview(videoView)
+        self.contentView.addSubview(closeBtn)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)

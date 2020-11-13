@@ -294,9 +294,9 @@ class RenterScheduleUserBasicCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(editLabel)
-        addSubview(detailIcon)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(editLabel)
+        self.contentView.addSubview(detailIcon)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
@@ -397,11 +397,11 @@ class RenterScheduleYeZhuBasicCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(yezhuAvatar)
-        addSubview(nameLabel)
-        addSubview(companyLabel)
-        addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(yezhuAvatar)
+        self.contentView.addSubview(nameLabel)
+        self.contentView.addSubview(companyLabel)
+        self.contentView.addSubview(lineView)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)

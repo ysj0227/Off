@@ -243,7 +243,7 @@ fileprivate class ThorPageTitleCell: UICollectionViewCell {
     var titleLabel = BaseLabel.init(localTitle: nil, textColor: kAppColor_222222, textFont: .appBold(18))
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(titleLabel)
+        self.contentView.addSubview(titleLabel)
         titleLabel.textAlignment = .center
         titleLabel.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()

@@ -75,7 +75,7 @@ class RenterSearchHistoryCollectionCell:  BaseCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(titleLabel)
+        self.contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.leading.trailing.equalToSuperview()

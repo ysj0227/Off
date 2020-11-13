@@ -496,11 +496,11 @@ class OwnerEnterCreateCompanyCell : BaseTableViewCell {
   
         setDelegate()
         
-        addSubview(addressIcon)
-        addSubview(titleLabel)
-        addSubview(editLabel)
-        addSubview(detailIcon)
-        addSubview(lineView)
+        self.contentView.addSubview(addressIcon)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(editLabel)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
         
         addressIcon.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()

@@ -130,21 +130,20 @@ class HouseListTableViewCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
           
-        addSubview(houseImageview)
-        addSubview(houseNameLabel)
-        addSubview(houselocationIcon)
-        addSubview(houseAddressLabel)
-        addSubview(houseDistanceLabel)
-        addSubview(houseTrafficIcon)
-        addSubview(houseRouteLineLabel)
-        addSubview(housePriceLabel)
-        addSubview(housePriceUnitLabel)
-        addSubview(mianjiOrLianheView)
-        addSubview(featureView)
-        addSubview(lineView)
-        
-        addSubview(houseTypTags)
-        addSubview(vrImageview)
+        self.contentView.addSubview(houseImageview)
+        self.contentView.addSubview(houseNameLabel)
+        self.contentView.addSubview(houselocationIcon)
+        self.contentView.addSubview(houseAddressLabel)
+        self.contentView.addSubview(houseDistanceLabel)
+        self.contentView.addSubview(houseTrafficIcon)
+        self.contentView.addSubview(houseRouteLineLabel)
+        self.contentView.addSubview(housePriceLabel)
+        self.contentView.addSubview(housePriceUnitLabel)
+        self.contentView.addSubview(mianjiOrLianheView)
+        self.contentView.addSubview(featureView)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(houseTypTags)
+        self.contentView.addSubview(vrImageview)
         
         houseImageview.snp.makeConstraints { (make) in
             make.leading.top.equalTo(left_pending_space_17)

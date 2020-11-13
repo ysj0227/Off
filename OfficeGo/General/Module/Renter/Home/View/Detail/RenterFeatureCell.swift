@@ -56,9 +56,9 @@ class RenterFeatureCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-          self.addSubview(titleLabel)
-        self.addSubview(featureView)
-        self.addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(featureView)
+        self.contentView.addSubview(lineView)
         lineView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(left_pending_space_17)
             make.trailing.equalToSuperview().offset(-left_pending_space_17)

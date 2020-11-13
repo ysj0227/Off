@@ -50,8 +50,8 @@ class RenterOfficeBuildingMsgCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-          addSubview(featureCollectionView)
-        addSubview(lineView)
+        self.contentView.addSubview(featureCollectionView)
+        self.contentView.addSubview(lineView)
         featureCollectionView.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
@@ -159,8 +159,8 @@ class OfficeBuildingmsgCollectionCell: BaseCollectionViewCell {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(nameLabel)
-        addSubview(nameValueLabel)
+        self.contentView.addSubview(nameLabel)
+        self.contentView.addSubview(nameValueLabel)
         nameLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(12)
             make.leading.equalToSuperview().offset(left_pending_space_17)

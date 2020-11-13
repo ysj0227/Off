@@ -85,10 +85,10 @@ class OwnerBuildingIntroductionCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        self.addSubview(titleLabel)
-        self.addSubview(lineView)
-        self.addSubview(intruductionTextview)
-        self.addSubview(numOfCharLabel)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(intruductionTextview)
+        self.contentView.addSubview(numOfCharLabel)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
