@@ -197,7 +197,7 @@ class OwnerBuildingListCell: BaseTableViewCell {
         
         editBtn.isHidden = !viewModel.isHiddenIdentifyBtn
 
-        identifyBtn.isHidden = viewModel.isHiddenIdentifyBtn
+        //identifyBtn.isHidden = viewModel.isHiddenIdentifyBtn
 
 //        editBtn.isUserInteractionEnabled = viewModel.isEdit ?? true
     }
