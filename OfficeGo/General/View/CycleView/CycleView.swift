@@ -25,8 +25,19 @@ class CycleView: UIView,UICollectionViewDelegate, UICollectionViewDataSource {
     
     var mode : contentMode? = .scaleAspectFill
     
+    var isAlert: Bool? = false {
+        didSet {
+            if isAlert == true {
+                collectionView.frame = CGRect(x: 0, y: 0, width: self.width, height: 220)
+                pageControl.frame = CGRect(x: 0, y: self.height - 20, width: width, height: 20)
+            }
+        }
+    }
+    
     //CollectionView复用cell的机制,不管当前的section有道少了item,当cell的宽和屏幕的宽一致是,当前屏幕最多显示两个cell(图片切换时是两个cell),切换完成时有且仅有一个cell,即使放大1000倍,内存中最多加载两个cell,所以不会造成内存暴涨现象
     let KCount = 100
+    
+    var titleArr: [String]?
     
     //MARK: 获取图片URL数组
     var imageURLStringArr : [String] = [] {
@@ -190,7 +201,9 @@ extension CycleView {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : CycleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CycleCell
         cell.mode = mode
+        cell.isAlert = isAlert
         cell.imageURLString = imageURLStringArr[indexPath.item % imageURLStringArr.count]
+        cell.titleString = titleArr?[indexPath.item % imageURLStringArr.count]
         return cell
     }
 }

@@ -195,6 +195,7 @@
 		8EDBA52A253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */; };
 		8EDBA52C253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */; };
 		8EDBA52E253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA52D253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift */; };
+		8EDBA530253EC95400BD3774 /* OwnerNoIdentifyShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA52F253EC95400BD3774 /* OwnerNoIdentifyShowView.swift */; };
 		8EDBA532253FE0E900BD3774 /* OwnerBuildingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA531253FE0E900BD3774 /* OwnerBuildingListCell.swift */; };
 		8EDBA5362540009300BD3774 /* OwnerBuildingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */; };
 		8EDBA53825402E1700BD3774 /* OwnerBuildingListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */; };
@@ -516,6 +517,7 @@
 		8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYCanSeatsCell.swift; sourceTree = "<group>"; };
 		8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYRenterTotalPriceCell.swift; sourceTree = "<group>"; };
 		8EDBA52D253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYFloorCell.swift; sourceTree = "<group>"; };
+		8EDBA52F253EC95400BD3774 /* OwnerNoIdentifyShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerNoIdentifyShowView.swift; sourceTree = "<group>"; };
 		8EDBA531253FE0E900BD3774 /* OwnerBuildingListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListCell.swift; sourceTree = "<group>"; };
 		8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListViewController.swift; sourceTree = "<group>"; };
 		8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListModel.swift; sourceTree = "<group>"; };
@@ -694,6 +696,7 @@
 		04990B7924B870E5008CDE6C /* Identification */ = {
 			isa = PBXGroup;
 			children = (
+				8EDE98B9256228C500EA8371 /* NewIdentify */,
 				04990B8624B87194008CDE6C /* Basic */,
 				04990B7A24B870E5008CDE6C /* Personal */,
 				04990B7E24B870E5008CDE6C /* Joint */,
@@ -1415,6 +1418,7 @@
 				8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */,
 				8EDBA52D253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift */,
 				8EDBA531253FE0E900BD3774 /* OwnerBuildingListCell.swift */,
+				8EDBA52F253EC95400BD3774 /* OwnerNoIdentifyShowView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1513,6 +1517,13 @@
 				8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		8EDE98B9256228C500EA8371 /* NewIdentify */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NewIdentify;
 			sourceTree = "<group>";
 		};
 		EE02BA3D24654B7800B51D34 /* NetworkManager */ = {
@@ -2194,6 +2205,7 @@
 				EEE0D93D2465581200E5C77B /* Device.swift in Sources */,
 				04E23933249B3ABB009DCCEC /* RenterDetailNameCell.swift in Sources */,
 				8EDBA52A253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift in Sources */,
+				8EDBA530253EC95400BD3774 /* OwnerNoIdentifyShowView.swift in Sources */,
 				04E23947249B3ABB009DCCEC /* RecentCitiesableViewCell.swift in Sources */,
 				EEE87B1E2455856800C03424 /* CALayerEx.swift in Sources */,
 				8E3E22692552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift in Sources */,

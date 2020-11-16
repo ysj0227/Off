@@ -10,6 +10,14 @@ import UIKit
 
 class CycleCell: UICollectionViewCell {
     
+    var isAlert: Bool? {
+        didSet {
+            if isAlert == true {
+                setUpAlertUI()
+            }
+        }
+    }
+    
     var mode : contentMode? {
         didSet{
             switch mode ?? .scaleAspectFill {
@@ -34,6 +42,12 @@ class CycleCell: UICollectionViewCell {
         }
     }
     
+    var titleString : String? {
+        didSet {
+            titleLabel.text = titleString
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpUI()
@@ -50,6 +64,16 @@ class CycleCell: UICollectionViewCell {
         imageView.backgroundColor = kAppWhiteColor
         return imageView
     }()
+    
+    //MARK: 懒加载
+    lazy var titleLabel : UILabel = {
+        let imageView = UILabel()
+        imageView.textAlignment = .center
+        imageView.font = FONT_15
+        imageView.textColor = kAppColor_333333
+        imageView.backgroundColor = kAppWhiteColor
+        return imageView
+    }()
 }
 
 //MARK: 设置UI
@@ -57,4 +81,11 @@ extension CycleCell {
     fileprivate func setUpUI() {
         contentView.addSubview(imageView)
     }
+    
+    fileprivate func setUpAlertUI() {
+        contentView.addSubview(titleLabel)
+        titleLabel.frame = CGRect(x: 0, y: 0, width: self.width, height: 40)
+        imageView.frame = CGRect(x: 0, y: 40, width: self.width, height: 180)
+    }
+    
 }
