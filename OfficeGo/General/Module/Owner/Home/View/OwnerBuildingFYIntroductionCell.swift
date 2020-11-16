@@ -114,10 +114,10 @@ class OwnerBuildingFYIntroductionCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        self.addSubview(titleLabel)
-        self.addSubview(lineView)
-        self.addSubview(intruductionTextview)
-        self.addSubview(numOfCharLabel)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(intruductionTextview)
+        self.contentView.addSubview(numOfCharLabel)
         
         addSubview(headerCollectionView)
 

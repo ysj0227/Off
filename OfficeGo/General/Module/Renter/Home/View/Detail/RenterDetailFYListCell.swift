@@ -75,13 +75,13 @@ class RenterDetailFYListCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-        addSubview(mainImageView)
-        addSubview(leftTopLabel)
-        addSubview(leftbottomLabel)
-        addSubview(rightUnitLabel)
-        addSubview(rightPriceLabel)
-        addSubview(rightBottomUnitLabel)
-        addSubview(lineView)
+        self.contentView.addSubview(mainImageView)
+        self.contentView.addSubview(leftTopLabel)
+        self.contentView.addSubview(leftbottomLabel)
+        self.contentView.addSubview(rightUnitLabel)
+        self.contentView.addSubview(rightPriceLabel)
+        self.contentView.addSubview(rightBottomUnitLabel)
+        self.contentView.addSubview(lineView)
         
         mainImageView.snp.makeConstraints { (make) in
             make.leading.top.equalTo(left_pending_space_17)

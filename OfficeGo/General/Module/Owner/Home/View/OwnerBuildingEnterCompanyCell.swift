@@ -87,11 +87,11 @@ class OwnerBuildingEnterCompanyCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(editLabel)
-        addSubview(detailIcon)
-        addSubview(lineView)
-        addSubview(shortLineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(editLabel)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(shortLineView)
         editLabel.delegate = self
         
         titleLabel.snp.makeConstraints { (make) in

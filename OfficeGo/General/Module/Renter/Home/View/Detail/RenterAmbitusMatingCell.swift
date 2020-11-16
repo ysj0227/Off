@@ -101,10 +101,10 @@ class RenterFeatureCollectionCell: BaseCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(selectImg)
-        addSubview(itemImg)
-        addSubview(titleLabel)
-        addSubview(numLabel)
+        self.contentView.addSubview(selectImg)
+        self.contentView.addSubview(itemImg)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(numLabel)
 
         selectImg.snp.makeConstraints { (make) in
             make.size.equalTo(16)

@@ -1002,11 +1002,11 @@ class OwnerAddBuildingOrJointCell: BaseCollectionViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(numDescTF)
-        addSubview(detailIcon)
-        addSubview(lineView)
-        addSubview(addressLabel)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(numDescTF)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(addressLabel)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()

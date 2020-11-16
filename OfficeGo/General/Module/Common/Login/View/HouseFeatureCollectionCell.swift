@@ -43,7 +43,7 @@ class HouseFeatureCollectionCell: BaseCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(itemButton)
+        self.contentView.addSubview(itemButton)
         itemButton.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }

@@ -84,8 +84,8 @@ class OwnerBuildingImgCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(headerCollectionView)
-        addSubview(lineView)
+        self.contentView.addSubview(headerCollectionView)
+        self.contentView.addSubview(lineView)
         
         headerCollectionView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()

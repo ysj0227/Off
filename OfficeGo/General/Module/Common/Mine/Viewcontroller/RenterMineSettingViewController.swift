@@ -17,10 +17,6 @@ class RenterMineSettingViewController: BaseTableViewController {
         //arr.append(SettingConfigureModel.init(types: .RenterSettingTypeChangeWechat))
         arr.append(SettingConfigureModel.init(types: .RenterSettingTypeVersionUpdate))
 //        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeRoleChange))
-        #if DEBUG
-        arr.append(SettingConfigureModel.init(types: .RenterSettingTypeAPISet))
-        #else
-        #endif
         return arr
     }()
     
@@ -214,33 +210,6 @@ extension RenterMineSettingViewController {
                 break
             case .RenterSettingTypeAPISet:
                 UserTool.shared.removeAll()
-                let alertController = UIAlertController.init(title: "修改环境之后，为了聊天正常进行，麻烦杀掉进程重启app", message: nil, preferredStyle: .actionSheet)
-                let debugAction = UIAlertAction.init(title: "测试环境", style: .default) { (action: UIAlertAction) in
-                    UserTool.shared.API_Setting = API_Debug
-                    #if DEBUG
-                    exit(0)
-                    #endif
-                }
-                let testAction = UIAlertAction.init(title: "预发环境", style: .default) { (action: UIAlertAction) in
-                    UserTool.shared.API_Setting = API_Test
-                    #if DEBUG
-                    exit(0)
-                    #endif
-                }
-                let releaseAction = UIAlertAction.init(title: "正式环境", style: .default) { (action: UIAlertAction) in
-                    UserTool.shared.API_Setting = API_Release
-                    #if DEBUG
-                    exit(0)
-                    #endif
-                }
-                let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
-                }
-                alertController.addAction(debugAction)
-                alertController.addAction(testAction)
-                alertController.addAction(releaseAction)
-                alertController.addAction(cancelAction)
-                
-                present(alertController, animated: true, completion: nil)
             }
         }
     }
@@ -321,10 +290,10 @@ class RenterSettingCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
           
-        addSubview(titleLabel)
-        addSubview(numDescLabel)
-        addSubview(detailIcon)
-        addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(numDescLabel)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

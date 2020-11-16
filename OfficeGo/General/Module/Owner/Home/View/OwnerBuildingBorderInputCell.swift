@@ -66,10 +66,10 @@ class OwnerBuildingBorderInputCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(editLabel)
-        addSubview(lineView)
-        addSubview(unitLabel)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(editLabel)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(unitLabel)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

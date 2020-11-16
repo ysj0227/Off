@@ -66,9 +66,9 @@ class OwnerBuildingVRCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(bottomView)
-        addSubview(editLabel)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(bottomView)
+        self.contentView.addSubview(editLabel)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

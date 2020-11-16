@@ -389,10 +389,10 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(editLabel)
-        addSubview(detailIcon)
-        addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(editLabel)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

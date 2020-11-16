@@ -488,12 +488,12 @@ class RenterHouseScheduleCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(dateLabel)
-        addSubview(dateTimeLabel)
-        addSubview(bgView)
-        addSubview(topLineView)
-        addSubview(bottomLineView)
-        addSubview(timeIcon)
+        self.contentView.addSubview(dateLabel)
+        self.contentView.addSubview(dateTimeLabel)
+        self.contentView.addSubview(bgView)
+        self.contentView.addSubview(topLineView)
+        self.contentView.addSubview(bottomLineView)
+        self.contentView.addSubview(timeIcon)
         bgView.addSubview(nameLabel)
         bgView.addSubview(companyLabel)
         bgView.addSubview(stateLabel)

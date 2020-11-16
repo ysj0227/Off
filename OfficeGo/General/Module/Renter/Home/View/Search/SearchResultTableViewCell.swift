@@ -99,14 +99,14 @@ class SearchResultTableViewCell: BaseTableViewCell {
     
     func setupViews() {
 
-        self.backgroundColor = kAppWhiteColor
-          self.addSubview(houseNameLabel)
-        self.addSubview(houseDictrictIcon)
-        self.addSubview(houseDistrictBusinessLabel)
-        self.addSubview(houseAddressIcon)
-        self.addSubview(houseAddressLabel)
-        self.addSubview(housePriceLabel)
-        self.addSubview(lineView)
+        self.contentView.backgroundColor = kAppWhiteColor
+        self.contentView.addSubview(houseNameLabel)
+        self.contentView.addSubview(houseDictrictIcon)
+        self.contentView.addSubview(houseDistrictBusinessLabel)
+        self.contentView.addSubview(houseAddressIcon)
+        self.contentView.addSubview(houseAddressLabel)
+        self.contentView.addSubview(housePriceLabel)
+        self.contentView.addSubview(lineView)
 
         houseNameLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

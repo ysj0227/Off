@@ -53,11 +53,11 @@ class RenterDetailNameCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-          self.addSubview(titleLabel)
-        self.addSubview(firstItem)
-        self.addSubview(secondItem)
-        self.addSubview(thirdItem)
-        self.addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(firstItem)
+        self.contentView.addSubview(secondItem)
+        self.contentView.addSubview(thirdItem)
+        self.contentView.addSubview(lineView)
         
         lineView.snp.makeConstraints { (make) in
             make.height.equalTo(1)
@@ -178,11 +178,11 @@ class RenterJointDetailNameCell: BaseTableViewCell {
     func setupViews() {
 
         self.backgroundColor = kAppWhiteColor
-          self.addSubview(tagLabel)
-        self.addSubview(firstItem)
-        self.addSubview(secondItem)
-        self.addSubview(thirdItem)
-        self.addSubview(lineView)
+        self.contentView.addSubview(tagLabel)
+        self.contentView.addSubview(firstItem)
+        self.contentView.addSubview(secondItem)
+        self.contentView.addSubview(thirdItem)
+        self.contentView.addSubview(lineView)
         
         lineView.snp.makeConstraints { (make) in
             make.height.equalTo(1)

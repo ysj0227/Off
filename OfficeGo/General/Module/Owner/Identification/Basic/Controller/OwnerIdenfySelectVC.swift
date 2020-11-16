@@ -221,8 +221,8 @@ class OwnerIdentifySelectCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
           
-        addSubview(typeImg)
-        addSubview(typeLabel)
+        self.contentView.addSubview(typeImg)
+        self.contentView.addSubview(typeLabel)
         
         typeImg.snp.makeConstraints { (make) in
             make.center.equalToSuperview()

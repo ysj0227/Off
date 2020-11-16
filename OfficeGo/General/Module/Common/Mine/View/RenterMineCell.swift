@@ -106,11 +106,11 @@ class RenterMineCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(itemIcon)
-        addSubview(titleLabel)
-        addSubview(numDescLabel)
-        addSubview(detailIcon)
-        addSubview(lineView)
+        self.contentView.addSubview(itemIcon)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(numDescLabel)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
         
         itemIcon.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

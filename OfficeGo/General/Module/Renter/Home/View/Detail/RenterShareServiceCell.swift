@@ -81,8 +81,8 @@ class RenterShareServiceCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
           addSubview(titleLabel)
-        addSubview(featureCollectionView)
-        addSubview(lineView)
+        self.contentView.addSubview(featureCollectionView)
+        self.contentView.addSubview(lineView)
         titleLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.top.equalToSuperview().offset(15)
@@ -203,9 +203,9 @@ class RenterShareCollectionCell: BaseCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(titleLabel)
-        addSubview(itemButton)
-        addSubview(detailIcon)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(itemButton)
+        self.contentView.addSubview(detailIcon)
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(20)
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)

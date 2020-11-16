@@ -123,13 +123,13 @@ class OwnerBuildingFloorCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
           
-        addSubview(leftLabel)
-        addSubview(leftEditLabel)
-        addSubview(leftUnitLabel)
-        addSubview(rightLabel)
-        addSubview(rightEditLabel)
-        addSubview(rightUnitLabel)
-        addSubview(lineView)
+        self.contentView.addSubview(leftLabel)
+        self.contentView.addSubview(leftEditLabel)
+        self.contentView.addSubview(leftUnitLabel)
+        self.contentView.addSubview(rightLabel)
+        self.contentView.addSubview(rightEditLabel)
+        self.contentView.addSubview(rightUnitLabel)
+        self.contentView.addSubview(lineView)
         
         leftLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)

@@ -187,14 +187,14 @@ class RenterCollectOfficeCell: BaseTableViewCell {
         self.backgroundColor = kAppWhiteColor
           self.addSubview(houseImageview)
         houseImageview.addSubview(houseTagLabel)
-        self.addSubview(houseNameLabel)
-        self.addSubview(houseaddressIcon)
-        self.addSubview(houseAddressLabel)
-        self.addSubview(firstItem)
-        self.addSubview(secondItem)
-        self.addSubview(thirdItem)
-        self.addSubview(lineView)
-        addSubview(vrImageview)
+        self.contentView.addSubview(houseNameLabel)
+        self.contentView.addSubview(houseaddressIcon)
+        self.contentView.addSubview(houseAddressLabel)
+        self.contentView.addSubview(firstItem)
+        self.contentView.addSubview(secondItem)
+        self.contentView.addSubview(thirdItem)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(vrImageview)
 
         houseImageview.snp.makeConstraints { (make) in
             make.top.leading.equalTo(left_pending_space_17)

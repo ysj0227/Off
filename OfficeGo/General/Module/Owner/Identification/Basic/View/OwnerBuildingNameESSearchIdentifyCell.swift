@@ -118,10 +118,10 @@ class OwnerBuildingNameESSearchIdentifyCell : BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(titleLabel)
-        addSubview(numDescLabel)
-        addSubview(addBtn)
-        addSubview(lineView)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(numDescLabel)
+        self.contentView.addSubview(addBtn)
+        self.contentView.addSubview(lineView)
         
         addBtn.snp.makeConstraints { (make) in
             make.trailing.equalTo(-left_pending_space_17)

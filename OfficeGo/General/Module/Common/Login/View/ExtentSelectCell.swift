@@ -83,8 +83,8 @@ class ExtentSelectCell: BaseTableViewCell {
 //        sliderView.lowValue = 0
 //        sliderView.highValue = 100
         
-        self.addSubview(minNumLabel)
-        self.addSubview(maxNumLabel)
+        self.contentView.addSubview(minNumLabel)
+        self.contentView.addSubview(maxNumLabel)
         
         sliderView.valuesChangedHandler = { [weak self] in
             guard let `self` = self else {

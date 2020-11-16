@@ -76,9 +76,9 @@ class OwnerBuildingNetworkSelectCell: BaseTableViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        addSubview(categoryTitleLabel)
-        addSubview(featureCollectionView)
-        addSubview(lineView)
+        self.contentView.addSubview(categoryTitleLabel)
+        self.contentView.addSubview(featureCollectionView)
+        self.contentView.addSubview(lineView)
         
         categoryTitleLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(left_pending_space_17)
@@ -270,7 +270,7 @@ extension OwnerBuildingNetworkSelectCell: UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (kWidth - left_pending_space_17 * 2 - 10 * 2) / 3, height: 40)
+        return CGSize(width: (kWidth - left_pending_space_17 * 2 - 10 * 2 - 5) / 3, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

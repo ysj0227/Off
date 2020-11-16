@@ -115,12 +115,12 @@ class RenterSearchRecommendCollectionCell:  BaseCollectionViewCell {
 
         self.backgroundColor = kAppWhiteColor
           self.addSubview(houseNumberLabel)
-        self.addSubview(houseJiIcon)
-        self.addSubview(houseNameLabel)
-        self.addSubview(houselocationIcon)
-        self.addSubview(houseKmAndAddressLabel)
-        self.addSubview(housePriceLabel)
-        self.addSubview(lineView)
+        self.contentView.addSubview(houseJiIcon)
+        self.contentView.addSubview(houseNameLabel)
+        self.contentView.addSubview(houselocationIcon)
+        self.contentView.addSubview(houseKmAndAddressLabel)
+        self.contentView.addSubview(housePriceLabel)
+        self.contentView.addSubview(lineView)
         houseNumberLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(0)
             make.width.equalTo(10)
