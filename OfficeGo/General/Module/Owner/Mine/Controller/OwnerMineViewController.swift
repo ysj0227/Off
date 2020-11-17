@@ -21,7 +21,7 @@ class OwnerMineViewController: BaseTableViewController {
     
     var typeSourceArray:[OwnerMineConfigureModel] = {
         var arr = [OwnerMineConfigureModel]()
-        arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeAuthority))
+        //arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeAuthority))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeHelpAndFeedback))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeCusomers))
         arr.append(OwnerMineConfigureModel.init(types: .OwnerMineTypeServiceAgent))
@@ -382,7 +382,7 @@ extension OwnerMineViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch typeSourceArray[indexPath.row].type {
-            
+        
         case .OwnerMineTypeAuthority:
             //没有认证过不展示
             ///只有1 通过才会可能
