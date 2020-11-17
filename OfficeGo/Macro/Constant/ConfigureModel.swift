@@ -70,7 +70,7 @@ class OwnerNewIedntifyConfigureModel: ConfigureModel {
     func getDescFormType(type: OwnerNewIdentifyType) -> String{
         switch type {
         case .OwnerNewIdentifyTypeBuildingName:
-            return "写字楼名称："
+            return "请输入要认证的楼盘/网点名称"
         case .OwnerNewIdentifyTypeUploadFangchanzheng:
             return "请确保所上传的产证信息包含权属人及楼盘名称等信息"
         case .OwnerNewIdentifyTypeQuanLiRenType:

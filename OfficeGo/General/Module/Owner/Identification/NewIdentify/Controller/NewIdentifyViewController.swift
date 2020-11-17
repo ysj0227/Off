@@ -36,7 +36,7 @@ class NewIdentifyViewController: BaseViewController {
         
     var buildingName: String? {
         didSet {
-            let rect = headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 0, section: 1))
+            let rect = headerCollectionView.layoutAttributesForItem(at: IndexPath.init(row: 0, section: 0))
             let cellRect = rect?.frame ?? CGRect.zero
             let cellFrame = headerCollectionView.convert(cellRect, to: self.view)
             if buildingName?.isBlankString == true {
@@ -47,7 +47,7 @@ class NewIdentifyViewController: BaseViewController {
                 buildingNameSearchResultVC?.keywords = buildingName
             }
             buildingNameSearchResultVC?.view.snp.remakeConstraints({ (make) in
-                make.top.equalTo(cellFrame.minY + cell_height_58 + 17 + 1)
+                make.top.equalTo(cellFrame.minY + cell_height_58 + cell_height_58 + 1)
                 make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
             })
@@ -132,6 +132,7 @@ class NewIdentifyViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserTool.shared.user_owner_identifytype = 1
         setUpView()
         addNotify()
         requestCompanyIdentifyDetail()
@@ -163,7 +164,6 @@ class NewIdentifyViewController: BaseViewController {
             
         }) { [weak self] in
             
-//            self?.showSureLeaveAlert()
             if self?.isFromPersonalVc == true {
                 self?.navigationController?.popToRootViewController(animated: true)
             }else {
@@ -417,6 +417,7 @@ extension NewIdentifyViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        headerCollectionView.register(OwnerNewIdentifyCell.self, forCellWithReuseIdentifier: OwnerNewIdentifyCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerCompanyIdentifyCell.self, forCellWithReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerImagePickerCell.self, forCellWithReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr)
         headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
@@ -440,7 +441,7 @@ extension NewIdentifyViewController {
             self?.userModel?.buildingAddress = model.addressString?.string
             
             self?.buildingNameSearchResultVC?.view.isHidden = true
-            self?.loadCollectionData()
+            self?.loadCollectionSectionData(section: 0)
         }
         
         // 创建按钮 - 隐藏 - 创建楼盘
@@ -472,12 +473,8 @@ extension NewIdentifyViewController {
         headerCollectionView.reloadData()
     }
     
-    func loadFCZSectionData() {
-        headerCollectionView.reloadSections(NSIndexSet.init(index: 2) as IndexSet)
-    }
-    
-    func loadZLAgentData() {
-        headerCollectionView.reloadSections(NSIndexSet.init(index: 3) as IndexSet)
+    func loadCollectionSectionData(section: Int) {
+        headerCollectionView.reloadSections(NSIndexSet.init(index: section) as IndexSet)
     }
     
     func showCommitAlertview() {
@@ -570,11 +567,11 @@ extension NewIdentifyViewController {
     }
     
     ///删除房产证图片接口
-    func request_deleteFCZImgApp(index: Int) {
+    func request_deleteFCZImgApp(section: Int, index: Int) {
         
         if uploadPicModelFCZArr[index].isLocal == true {
             uploadPicModelFCZArr.remove(at: index)
-            loadFCZSectionData()
+            loadCollectionSectionData(section: section)
             return
         }
         
@@ -589,8 +586,8 @@ extension NewIdentifyViewController {
             guard let weakSelf = self else {return}
             
             weakSelf.uploadPicModelFCZArr.remove(at: index)
-            weakSelf.loadFCZSectionData()
-            
+            weakSelf.loadCollectionSectionData(section: section)
+
             }, failure: { (error) in
                 
         }) { (code, message) in
@@ -603,11 +600,11 @@ extension NewIdentifyViewController {
     }
     
     ///删除租赁协议图片接口
-    func request_deleteZLAgentImgApp(index: Int) {
+    func request_deleteZLAgentImgApp(section: Int, index: Int) {
         
         if uploadPicModelBuChongArr[index].isLocal == true {
             uploadPicModelBuChongArr.remove(at: index)
-            loadZLAgentData()
+            loadCollectionSectionData(section: section)
 
             return
         }
@@ -623,8 +620,7 @@ extension NewIdentifyViewController {
             guard let weakSelf = self else {return}
             
             weakSelf.uploadPicModelBuChongArr.remove(at: index)
-            weakSelf.loadZLAgentData()
-
+            weakSelf.loadCollectionSectionData(section: section)
             
             }, failure: { (error) in
                 
@@ -641,11 +637,10 @@ extension NewIdentifyViewController {
 extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 || indexPath.section == 1{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerCompanyIdentifyCell
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerNewIdentifyCell
             cell?.userModel = self.userModel
-//            cell?.model = typeSourceArray[indexPath.section][indexPath.item]
-            cell?.titleLabel.text = "楼盘网点"
+            cell?.model = typeSourceArray[indexPath.section][indexPath.item]
             cell?.buildingNameClickClouse = { [weak self] (buildingName) in
                 //清除 公司名字 字段改为空
                 self?.userModel?.isCreateBuilding = ""
@@ -654,35 +649,42 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 self?.userModel?.buildingAddress = ""
                 self?.buildingName = buildingName
             }
-//            cell?.editClickBack = { [weak self] (type) in
-//                //公司编辑
-//                if type == OwnerNewIdentifyType.OwnerNewIdentifyTypeCompanyname {
-//                    let vc = OwnerCreateCompanyViewController()
-//                    vc.companyModel = self?.userModel
-//                    self?.navigationController?.pushViewController(vc, animated: true)
-//                }else if type == OwnerNewIdentifyType.OwnerNewIdentifyTypeBuildingName {
-//                    let vc = OwnerCreateBuildingViewController()
-//                    vc.userModel = self?.userModel
-//                    self?.navigationController?.pushViewController(vc, animated: true)
-//                }
-//            }
-//            cell?.closeClickBack = { [weak self] (type) in
-//                //公司编辑
-//                if type == .OwnerNewIdentifyTypeBuildingName {
-//                    //清除 楼盘名字地址 字段改为空
-//                    self?.userModel?.isCreateBuilding = ""
-//
-//                    self?.userModel?.buildingName = ""
-//                    self?.userModel?.buildingAddress = ""
-//
-//                    self?.buildingName = ""
-//                }
-//            }
+            cell?.editClickBack = { [weak self] (type) in
+                //楼盘编辑
+                if type == OwnerNewIdentifyType.OwnerNewIdentifyTypeBuildingName {
+                    let vc = OwnerCreateBuildingViewController()
+                    vc.userModel = self?.userModel
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+            cell?.closeClickBack = { [weak self] (type) in
+                //公司编辑
+                if type == .OwnerNewIdentifyTypeBuildingName {
+                    //清除 楼盘名字地址 字段改为空
+                    self?.userModel?.isCreateBuilding = ""
+                    
+                    self?.userModel?.buildingName = ""
+                    self?.userModel?.buildingAddress = ""
+                    
+                    self?.buildingName = ""
+                }
+            }
+            return cell ?? OwnerNewIdentifyCell()
+        }else if indexPath.section == 2{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerCompanyIdentifyCell
+            cell?.userModel = self.userModel
+//            cell?.model = typeSourceArray[indexPath.section][indexPath.item]
+            let model = typeSourceArray[indexPath.section][indexPath.item]
+            cell?.titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeQuanLiRenType)
+            cell?.numDescTF.placeholder = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeQuanLiRenType)
+            cell?.editBtn.isHidden = true
+            cell?.closeBtn.isHidden = true
+            cell?.numDescTF.isUserInteractionEnabled = false
             return cell ?? OwnerCompanyIdentifyCell()
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
             cell?.indexPath = indexPath
-            if indexPath.section == 2 {
+            if indexPath.section == 1 {
                 if indexPath.item <= uploadPicModelFCZArr.count - 1  {
                     if uploadPicModelFCZArr[indexPath.item].isLocal == false {
                         cell?.image.setImage(with: uploadPicModelFCZArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
@@ -690,7 +692,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                         cell?.image.image = uploadPicModelFCZArr[indexPath.item].image
                     }
                     cell?.closeBtnClickClouse = { [weak self] (index) in
-                        self?.request_deleteFCZImgApp(index: index)
+                        self?.request_deleteFCZImgApp(section: indexPath.section, index: index)
                     }
                 }else {
                     cell?.image.image = UIImage.init(named: "addImgBg")
@@ -702,6 +704,25 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                     cell?.closeBtn.isHidden = false
                 }
             }else if indexPath.section == 3 {
+                if indexPath.item <= uploadPicModelYingyeArr.count - 1  {
+                    if uploadPicModelYingyeArr[indexPath.item].isLocal == false {
+                        cell?.image.setImage(with: uploadPicModelYingyeArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
+                    }else {
+                        cell?.image.image = uploadPicModelYingyeArr[indexPath.item].image
+                    }
+                    cell?.closeBtnClickClouse = { [weak self] (index) in
+                        self?.request_deleteZLAgentImgApp(section: indexPath.section, index: index)
+                    }
+                }else {
+                    cell?.image.image = UIImage.init(named: "addImgBg")
+                }
+                
+                if indexPath.item == uploadPicModelYingyeArr.count {
+                    cell?.closeBtn.isHidden = true
+                }else {
+                    cell?.closeBtn.isHidden = false
+                }
+            }else if indexPath.section == 4 {
                 if indexPath.item <= uploadPicModelBuChongArr.count - 1  {
                     if uploadPicModelBuChongArr[indexPath.item].isLocal == false {
                         cell?.image.setImage(with: uploadPicModelBuChongArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
@@ -709,7 +730,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                         cell?.image.image = uploadPicModelBuChongArr[indexPath.item].image
                     }
                     cell?.closeBtnClickClouse = { [weak self] (index) in
-                        self?.request_deleteZLAgentImgApp(index: index)
+                        self?.request_deleteZLAgentImgApp(section: indexPath.section, index: index)
                     }
                 }else {
                     cell?.image.image = UIImage.init(named: "addImgBg")
@@ -778,15 +799,19 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if indexPath.section == 0 {
-            return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58 * 2)
+            if userModel?.buildingName != nil {
+                return CGSize(width: kWidth, height: cell_height_58 * 2)
+            }else {
+                return CGSize(width: kWidth, height: cell_height_58 * 2)
+            }
         }else if indexPath.section == 1 {
             return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
         }else if indexPath.section == 2 {
             ///身份类型0个人1企业2联合
             if UserTool.shared.user_owner_identifytype == 0 {
-                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58 * 2)
+                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
             }else if UserTool.shared.user_owner_identifytype == 1 {
-                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58 * 2)
+                return CGSize(width: kWidth - left_pending_space_17 * 2, height: cell_height_58)
             }else if UserTool.shared.user_owner_identifytype == 2 {
                 return CGSize(width: 0, height: 0)
             }else {
@@ -823,15 +848,19 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 selectFCZPicker()
             }
         }else if indexPath.section == 2 {
-            if indexPath.item == 1 {
+            if indexPath.item == 0 {
                 
                 let alertController = UIAlertController.init(title: "权利人类型", message: nil, preferredStyle: .actionSheet)
                 let refreshAction = UIAlertAction.init(title: "公司", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.userModel?.leaseType = "0"
+                    UserTool.shared.user_owner_identifytype = 1
                     self?.loadCollectionData()
                 }
                 let copyAction = UIAlertAction.init(title: "个人", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.userModel?.leaseType = "1"
+                    UserTool.shared.user_owner_identifytype = 0
+                    self?.loadCollectionData()
+                }
+                let copy1Action = UIAlertAction.init(title: "网点", style: .default) {[weak self] (action: UIAlertAction) in
+                    UserTool.shared.user_owner_identifytype = 2
                     self?.loadCollectionData()
                 }
                 let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
@@ -839,6 +868,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 }
                 alertController.addAction(refreshAction)
                 alertController.addAction(copyAction)
+                alertController.addAction(copy1Action)
                 alertController.addAction(cancelAction)
                 
                 present(alertController, animated: true, completion: nil)
@@ -873,8 +903,11 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 header?.descLabel.text = ""
             }else {
                 header?.backgroundColor = kAppWhiteColor
-                header?.titleLabel.text = "上传租赁协议"
-                header?.descLabel.text = "上传内容务必包含承租方名称、租赁大厦名称和出租方公章"
+                
+                let model = typeSourceArray[indexPath.section][0]
+                
+                header?.titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeUploadFangchanzheng)
+                header?.descLabel.text = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeUploadFangchanzheng)
             }
             
             return header ?? UICollectionReusableView()
@@ -892,7 +925,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             return CGSize(width: kWidth, height: 12)
         }else if section == 3 {
             return CGSize(width: kWidth, height: 68)
-        }else if section == 3 {
+        }else if section == 4 {
             return CGSize(width: kWidth, height: 68)
         }
         else {
@@ -915,6 +948,305 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             return 0
         }else {
             return 5
+        }
+    }
+}
+
+class OwnerNewIdentifyCell: BaseCollectionViewCell {
+    
+    lazy var rejectImg: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = kAppRedColor
+        return view
+    }()
+    
+    lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.font = FONT_14
+        view.textColor = kAppColor_999999
+        return view
+    }()
+    lazy var numDescTF: UITextField = {
+        let view = UITextField()
+        view.textAlignment = .left
+        view.font = FONT_14
+        view.delegate = self
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    lazy var buildingMsgView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var tagView: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .center
+        view.font = FONT_MEDIUM_11
+        view.textColor = kAppWhiteColor
+        view.backgroundColor = kAppBlueColor
+        view.clipsToBounds = true
+        view.layer.cornerRadius = button_cordious_2
+        view.text = "楼盘"
+        return view
+    }()
+    lazy var buildingNameLabel: UILabel = {
+        let view = UILabel()
+        view.font = FONT_15
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    lazy var houselocationIcon: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage.init(named: "locationGray")
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    lazy var houseAddressLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_LIGHT_11
+        view.textColor = kAppColor_333333
+        return view
+    }()
+    lazy var editBtn: UIButton = {
+        let btn = UIButton.init()
+        btn.setImage(UIImage.init(named: "idenEdit"), for: .normal)
+        btn.addTarget(self, action: #selector(editClick), for: .touchUpInside)
+        return btn
+    }()
+    lazy var closeBtn: UIButton = {
+        let btn = UIButton.init()
+        btn.setImage(UIImage.init(named: "idenDelete"), for: .normal)
+        btn.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
+    
+    //按钮点击方法
+    var editClickBack:((OwnerNewIdentifyType) -> Void)?
+    
+    @objc func editClick() {
+        guard let blockk = editClickBack else {
+            return
+        }
+        blockk(OwnerNewIdentifyType.OwnerNewIdentifyTypeBuildingName)
+    }
+    
+    var closeClickBack:((OwnerNewIdentifyType) -> Void)?
+    
+    @objc func closeClick() {
+        editBtn.isHidden = true
+        numDescTF.isHidden = false
+        buildingMsgView.isHidden = true
+        numDescTF.text = ""
+        numDescTF.becomeFirstResponder()
+        guard let blockk = self.closeClickBack else {
+            return
+        }
+        blockk(OwnerNewIdentifyType.OwnerNewIdentifyTypeBuildingName)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    class func rowHeight() -> CGFloat {
+        return cell_height_58
+    }
+    //公司名字
+    @objc var companyNameClickClouse: IdentifyEditingClickClouse?
+    
+    //大楼名称
+    @objc var buildingNameClickClouse: IdentifyEditingClickClouse?
+    
+    //写字楼地址
+    var buildingAddresEndEditingMessageCell:((String) -> Void)?
+    
+    //写字楼名称址
+    var buildingNameEndEditingMessageCell:((String) -> Void)?
+    
+    //模拟认证模型
+    var userModel: OwnerIdentifyUserModel?
+    
+    var model: OwnerNewIedntifyConfigureModel = OwnerNewIedntifyConfigureModel(types: .OwnerNewIdentifyTypeBuildingName) {
+        didSet {
+            
+//            rejectImg.image =
+            
+            titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeBuildingName)
+            numDescTF.placeholder = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeBuildingName)
+            if model.type == .OwnerNewIdentifyTypeBuildingName {
+                closeBtn.isHidden = false
+                //0 空   无定义     1创建  2关联吗
+                //就是自己创建
+                if userModel?.isCreateBuilding == "1" {
+                    //1的就是自己创建
+                    //不能输入框修改
+                    //有编辑按钮
+                    //有清空
+                    numDescTF.isHidden = true
+                    editBtn.isHidden = false
+                    buildingMsgView.isHidden = false
+                    tagView.text = "楼盘"
+                    buildingNameLabel.text = userModel?.buildingName
+                    houseAddressLabel.text = userModel?.buildingAddress
+                }else if userModel?.isCreateBuilding == "2" {
+                    //0 就是关联的公司
+                    //不能输入框修改
+                    //无编辑按钮
+                    //有清空
+                    numDescTF.isHidden = true
+                    editBtn.isHidden = true
+                    buildingMsgView.isHidden = false
+                    tagView.text = "网点"
+                    buildingNameLabel.text = userModel?.buildingName
+                    houseAddressLabel.text = userModel?.buildingAddress
+                }else {
+                    //如果没有提交过，应该返回一个""
+                    //"" 没有提交过
+                    //能输入框修改
+                    //无编辑按钮
+                    //有清空
+                    numDescTF.isHidden = false
+                    editBtn.isHidden = true
+                    buildingMsgView.isHidden = true
+                }
+            }
+        }
+    }
+    func setupViews() {
+
+        self.backgroundColor = kAppWhiteColor
+  
+        self.contentView.addSubview(rejectImg)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(numDescTF)
+        self.contentView.addSubview(buildingMsgView)
+        self.contentView.addSubview(lineView)
+
+        buildingMsgView.addSubview(tagView)
+        buildingMsgView.addSubview(buildingNameLabel)
+        buildingMsgView.addSubview(houselocationIcon)
+        buildingMsgView.addSubview(houseAddressLabel)
+        buildingMsgView.addSubview(editBtn)
+        buildingMsgView.addSubview(closeBtn)
+        
+        rejectImg.snp.makeConstraints { (make) in
+            make.leading.top.bottom.equalToSuperview()
+            make.width.equalTo(left_pending_space_17)
+        }
+        
+        titleLabel.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.top.equalToSuperview()
+            make.height.equalTo(cell_height_58)
+        }
+        
+        numDescTF.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.leading.trailing.equalTo(titleLabel)
+        }
+        
+        buildingMsgView.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.leading.trailing.equalTo(titleLabel)
+            make.bottom.equalToSuperview()
+        }
+
+        buildingNameLabel.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview().offset(38)
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview().inset(-50)
+        }
+        tagView.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview()
+            make.centerY.equalTo(buildingNameLabel)
+            make.size.equalTo(CGSize(width: 32, height: 18))
+        }
+        houseAddressLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(buildingNameLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(14)
+            make.trailing.equalToSuperview()
+        }
+        houselocationIcon.snp.makeConstraints { (make) in
+            make.leading.equalTo(tagView)
+            make.centerY.height.equalTo(houseAddressLabel)
+            make.width.equalTo(12)
+        }
+        
+        closeBtn.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview()
+            make.width.equalTo(25)
+            make.centerY.equalTo(buildingNameLabel)
+            make.height.equalTo(25)
+        }
+        editBtn.snp.makeConstraints { (make) in
+            make.trailing.equalTo(closeBtn.snp.leading).offset(-3)
+            make.width.equalTo(25)
+            make.centerY.equalTo(buildingNameLabel)
+            make.height.equalTo(25)
+        }
+        lineView.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
+        numDescTF.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
+        
+    }
+    @objc func valueDidChange() {
+        
+        if model.type == .OwnerNewIdentifyTypeBuildingName {
+            guard let blockk = self.buildingNameClickClouse else {
+                return
+            }
+            let textNum = numDescTF.text?.count
+            
+            //截取
+            if textNum! > ownerMaxBuildingnameNumber_20 {
+                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
+                let str = numDescTF.text?.substring(to: index!)
+                numDescTF.text = str
+            }
+            
+            blockk(numDescTF.text ?? "")
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+}
+
+extension OwnerNewIdentifyCell: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        //只有写字楼名称要在编辑结束的时候传过去
+        if model.type == .OwnerNewIdentifyTypeBuildingName {
+            guard let blockk = self.buildingNameEndEditingMessageCell else {
+                return
+            }
+            blockk(textField.text ?? "")
         }
     }
 }
