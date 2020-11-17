@@ -14,6 +14,130 @@ class ConfigureModel: NSObject {
     var isShowDetailIcon: Bool?
 }
 
+//房东
+// 新认证
+class OwnerNewIedntifyConfigureModel: ConfigureModel {
+    
+    var type: OwnerNewIdentifyType?
+    
+    init(types: OwnerNewIdentifyType) {
+        type = types
+    }
+    public enum OwnerNewIdentifyType {
+        ///写字楼名称
+        case OwnerNewIdentifyTypeBuildingName
+        ///上传房产证
+        case OwnerNewIdentifyTypeUploadFangchanzheng
+        ///权利人类型 - 只有楼盘有，分公司和个人
+        case OwnerNewIdentifyTypeQuanLiRenType
+        ///楼盘网点营业执照或个人身份证
+        case OwnerNewIdentifyTypeYinYeOrIdCard
+        ///补充资料
+        case OwnerNewIdentifyTypeAddtional
+    }
+    func getNameFormType(type: OwnerNewIdentifyType) -> NSMutableAttributedString{
+        switch type {
+        case .OwnerNewIdentifyTypeBuildingName:
+            return FuWenBen(name: "楼盘/网点", centerStr: " * ", last: "")
+        case .OwnerNewIdentifyTypeUploadFangchanzheng:
+            return FuWenBen(name: "上传房产证", centerStr: " * ", last: "")
+        case .OwnerNewIdentifyTypeQuanLiRenType:
+            ///身份类型0个人1企业2联合
+            if UserTool.shared.user_owner_identifytype == 0 {
+                return FuWenBen(name: "权利人类型", centerStr: " * ", last: "")
+            }else if UserTool.shared.user_owner_identifytype == 1 {
+                return FuWenBen(name: "权利人类型", centerStr: " * ", last: "")
+            }else if UserTool.shared.user_owner_identifytype == 2 {
+                return FuWenBen(name: " ", centerStr: " ", last: "")
+            }else {
+                return FuWenBen(name: "权利人类型", centerStr: " * ", last: "")
+            }
+        case .OwnerNewIdentifyTypeYinYeOrIdCard:
+            ///身份类型0个人1企业2联合
+            if UserTool.shared.user_owner_identifytype == 0 {
+                return FuWenBen(name: "上传身份证", centerStr: " * ", last: "")
+            }else if UserTool.shared.user_owner_identifytype == 1 {
+                return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
+            }else if UserTool.shared.user_owner_identifytype == 2 {
+                return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
+            }else {
+                return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
+            }
+        case .OwnerNewIdentifyTypeAddtional:
+            return FuWenBen(name: "上传补充材料", centerStr: "   ", last: "")
+        }
+    }
+    func getDescFormType(type: OwnerNewIdentifyType) -> String{
+        switch type {
+        case .OwnerNewIdentifyTypeBuildingName:
+            return "写字楼名称："
+        case .OwnerNewIdentifyTypeUploadFangchanzheng:
+            return "请确保所上传的产证信息包含权属人及楼盘名称等信息"
+        case .OwnerNewIdentifyTypeQuanLiRenType:
+            ///身份类型0个人1企业2联合
+            if UserTool.shared.user_owner_identifytype == 0 {
+                return "请选择权利人类型"
+            }else if UserTool.shared.user_owner_identifytype == 1 {
+                return "请选择权利人类型"
+            }else if UserTool.shared.user_owner_identifytype == 2 {
+                return ""
+            }else {
+                return "请选择权利人类型"
+            }
+        case .OwnerNewIdentifyTypeYinYeOrIdCard:
+            ///身份类型0个人1企业2联合
+            if UserTool.shared.user_owner_identifytype == 0 {
+                return "请上传个人身份证正反面，不可遮挡关键信息"
+            }else if UserTool.shared.user_owner_identifytype == 1 {
+                return "请确保上传与房产证上权利人名称相同的公司营业执照"
+            }else if UserTool.shared.user_owner_identifytype == 2 {
+                return "请确保上传的共享办公营业执照清晰可辨识"
+            }else {
+                return "请确保上传与房产证上权利人名称相同的公司营业执照"
+            }
+        case .OwnerNewIdentifyTypeAddtional:
+            ///身份类型0个人1企业2联合
+            if UserTool.shared.user_owner_identifytype == 0 {
+                return "请上传以公司为主体的房屋租赁协议或其他相关材料"
+            }else if UserTool.shared.user_owner_identifytype == 1 {
+                return "请确保上传与房产证上权利人名称相同的公司营业执照"
+            }else if UserTool.shared.user_owner_identifytype == 2 {
+                return "请上传以共享办公公司为主体的房屋租赁协议或其他相关材料"
+            }else {
+                return "请确保上传与房产证上权利人名称相同的公司营业执照"
+            }
+        }
+    }
+    
+    //centerStr *
+    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
+        
+        //定义富文本即有格式的字符串
+        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
+        
+        if name.count > 0 {
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(nameAtt)
+            
+        }
+        
+        if centerStr.count > 0 {
+            //*
+            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
+            
+            attributedStrM.append(xingxing)
+            
+        }
+        
+        if last.count > 0 {
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            attributedStrM.append(lastAtt)
+            
+        }
+        
+        return attributedStrM
+    }
+}
 
 //房东
 //房源管理写字楼创建

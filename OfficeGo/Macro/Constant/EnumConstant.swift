@@ -290,7 +290,20 @@ public enum OwnerCreteBuildingType {
     case OwnerCreteBuildingTypeUploadYingyePhoto          //网点地址
 }
 
-
+//房东
+///新认证页面
+public enum OwnerNewIdentifyType {
+    ///写字楼名称
+    case OwnerNewIdentifyTypeBuildingName
+    ///上传房产证
+    case OwnerNewIdentifyTypeUploadFangchanzheng
+    ///权利人类型 - 只有楼盘有，分公司和个人
+    case OwnerNewIdentifyTypeQuanLiRenType
+    ///楼盘网点营业执照或个人身份证
+    case OwnerNewIdentifyTypeYinYeOrIdCard
+    ///补充资料
+    case OwnerNewIdentifyTypeAddtional
+}
 
 ///房源管理
 //房东

@@ -247,3 +247,156 @@ class OwnerIdentifyUserModel: BaseModel {
     
 }
 
+class OwnerNewIdentifyUserModel: BaseModel {
+    
+    ///房产证
+    var buildingCardTemp: [BannerModel]?
+    
+    ///大区id
+    var districtId : String?
+    
+    ///商圈id
+    var businessDistrict : String?
+    
+    ///楼盘网点驳回 - 管理id
+    var buildId : String?
+    
+    
+    
+    //企业地址
+    var address : String?
+    
+    ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 4待完善 没有提交过为-1
+    var auditStatus : String?
+    
+    ///权职0普通员工1管理员
+    ///0 就是关联的公司 1的就是自己创建
+    var authority : String?
+    
+    ///网点名称
+    var branchesName : String?
+    
+    ///楼盘网点标识1楼2网点
+    var btype : String?
+    
+    ///楼地址
+    var buildingAddress : String?
+    
+    ///楼id - 返回的
+    ///有值就是关联的 为空就是自己创建的   楼盘和网点
+    ///联办 - 楼盘没有id，只显示名字
+    ///管理楼id
+    var buildingId : String?
+    
+    var buildingManagersId : String?
+    
+    ///楼名称
+    var buildingName : String?
+    
+    var buildingStatus : String?
+    
+    ///营业执照图片
+    var businessLicense : String?
+    
+    ///封面图
+    var mainPic : String?
+    
+    ///公司名称
+    var company : String?
+    
+    ///合同
+    var contract : [BannerModel]?
+    
+    ///营业执照信用码
+    var creditNo : String?
+    
+    ///身份类型0个人1企业2联合
+    var identityType : String?
+    
+    ///租赁类型0直租1转租
+    var leaseType : String?
+    var licenceId : String?
+    var licenceStatus : String?
+    
+    ///房产证
+    var premisesPermit : [BannerModel]?
+    
+    ///驳回理由
+    var remark : String?
+    
+    ///用户id
+    var userId : String?
+    
+    ///申请id
+    var userLicenceId : String?
+    
+    ///userLicenceStatus
+    var userLicenceStatus : String?
+    
+    
+    ///身份证姓名
+    var proprietorRealname : String?
+    
+    ///身份证
+    var idCard : String?
+    
+    ///身份证正面
+    var idFront : String?
+    
+    ///身份证反面
+    var idBack : String?
+    ///职位
+    var proprietorJob : String?
+    
+    
+    
+    ///1提交认证2企业确认3网点确认
+    var createCompany : String?
+    
+    ///楼id 认证的时候传的字段 - 自己创建的楼的id - 关联
+    ///楼名称传过 就会有这个id
+    var buildingTempId : String?
+    
+    ///营业执照
+    var fileBusinessLicense : String?
+    
+    ///封面图
+    var fileMainPic : String?
+    
+    ///房产证
+    var filePremisesPermit : String?
+    
+    ///合同
+    var fileContract : String?
+    
+    
+    //    ///身份证正面
+    //    var fileIdFront : String?
+    //
+    //    ///身份证反面面
+    //    var fileIdBack : String?
+    
+    ///大区id
+    var district : String?
+    
+    ///商圈id
+    var business : String?
+    
+    
+    ///自己添加的显示的参数
+    ///大区id
+    var districtString : String?
+    
+    ///商圈id
+    var businessString : String?
+    
+    ///0 空   无定义     1创建  2关联吗
+    var isCreateCompany: String?
+    
+    ///0 空   无定义     1创建  2关联吗
+    var isCreateBuilding: String?
+    
+    ///0 空   无定义     1创建  2关联吗
+    var isCreateBranch: String?
+    
+}

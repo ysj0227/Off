@@ -180,6 +180,7 @@
 		8E14F58F253033AE007F2096 /* FangYuanBuildingEditDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */; };
 		8E14F59525304EF7007F2096 /* OwnerBuildingIntroductionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */; };
 		8E14F59725305725007F2096 /* OwnerBuildingNetworkSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */; };
+		8E24E61B256399E2007251BE /* NewIdentifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E24E61A256399E2007251BE /* NewIdentifyViewController.swift */; };
 		8E3E22692552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */; };
 		8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486925217C2800F43373 /* OwnerFYListCell.swift */; };
 		8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */; };
@@ -503,6 +504,7 @@
 		8E14F58E253033AD007F2096 /* FangYuanBuildingEditDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FangYuanBuildingEditDetailModel.swift; sourceTree = "<group>"; };
 		8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingIntroductionCell.swift; sourceTree = "<group>"; };
 		8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNetworkSelectCell.swift; sourceTree = "<group>"; };
+		8E24E61A256399E2007251BE /* NewIdentifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIdentifyViewController.swift; sourceTree = "<group>"; };
 		8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointCreatAddViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		8E50486925217C2800F43373 /* OwnerFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListCell.swift; sourceTree = "<group>"; };
 		8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListViewController.swift; sourceTree = "<group>"; };
@@ -1519,9 +1521,34 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8E24E617256399A7007251BE /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8E24E618256399A7007251BE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8E24E61A256399E2007251BE /* NewIdentifyViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		8E24E619256399A8007251BE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		8EDE98B9256228C500EA8371 /* NewIdentify */ = {
 			isa = PBXGroup;
 			children = (
+				8E24E618256399A7007251BE /* Controller */,
+				8E24E619256399A8007251BE /* Model */,
+				8E24E617256399A7007251BE /* View */,
 			);
 			path = NewIdentify;
 			sourceTree = "<group>";
@@ -2325,6 +2352,7 @@
 				8EDBA52C253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift in Sources */,
 				04CBB64E24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift in Sources */,
 				04CB46FD249CB02C001BCC8F /* WechatExchangeMessage.swift in Sources */,
+				8E24E61B256399E2007251BE /* NewIdentifyViewController.swift in Sources */,
 				EEE87B0D2455856800C03424 /* JHBaseWebViewController.swift in Sources */,
 				04E23929249B3ABB009DCCEC /* BannerModel.swift in Sources */,
 				0407F93224BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift in Sources */,

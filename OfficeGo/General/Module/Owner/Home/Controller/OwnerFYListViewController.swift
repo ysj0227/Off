@@ -300,7 +300,7 @@ class OwnerFYListViewController: BaseGroupTableViewController {
                 }) { [weak self] in
                     ///跳转去认证页面
                     ///点击跳转认证页面
-                    let vc = OwnerIdenfySelectVC()
+                    let vc = NewIdentifyViewController()
                     self?.navigationController?.pushViewController(vc, animated: false)
                 }
             }else {
@@ -427,13 +427,13 @@ extension OwnerFYListViewController {
         toIdentifyView.sureIdentifyButtonCallBack = { [weak self] in
             ///跳转去认证页面
             ///点击跳转认证页面
-            let vc = OwnerIdenfySelectVC()
+            let vc = NewIdentifyViewController()
             self?.navigationController?.pushViewController(vc, animated: false)
         }
         
         identifyStatusView.sureIdentifyButtonCallBack = { [weak self] in
             ///认证驳回
-            let vc = OwnerIdenfySelectVC()
+            let vc = NewIdentifyViewController()
             self?.navigationController?.pushViewController(vc, animated: false)
         }
     }
