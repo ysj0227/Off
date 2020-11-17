@@ -61,17 +61,6 @@ class RenterUserHeaderView: UIView {
         return view
     }()
     
-    lazy var aduitStatusView: UIButton = {
-        let view = UIButton()
-        view.isHidden = true
-        view.titleLabel?.font = FONT_MEDIUM_11
-        view.setTitleColor(kAppBlueColor, for: .normal)
-        view.backgroundColor = kAppWhiteColor
-        view.addTarget(self, action: #selector(identifyBtnClick), for: .touchUpInside)
-        view.clipsToBounds = true
-        return view
-    }()
-    
     lazy var loginbutton: UIButton = {
         let view = UIButton()
         view.setTitle("立即登录", for: .normal)
@@ -88,8 +77,6 @@ class RenterUserHeaderView: UIView {
     
     var setBtnClickBlock: (() -> Void)?
     
-    var identifyBtnClickBlock: (() -> Void)?
-
     ///扫一扫
     var saoyisaoBtnClickBlock: (() -> Void)?
 
@@ -97,7 +84,6 @@ class RenterUserHeaderView: UIView {
     var isNoLoginShowView: Bool = false {
         didSet {
             if isNoLoginShowView == true {
-                aduitStatusView.isHidden = true
                 loginbutton.isHidden = false
                 headerImg.image = UIImage.init(named: "avatar")
                 nameLabel.text = "未登录"
@@ -109,7 +95,6 @@ class RenterUserHeaderView: UIView {
     ///租户-
     var userModel: LoginUserModel = LoginUserModel() {
         didSet {
-            aduitStatusView.isHidden = true
             loginbutton.isHidden = true
             headerImg.kf.setImage(with: URL(string: userModel.avatar ?? ""), placeholder: UIImage.init(named: "avatar"), options: nil, progressBlock: { (receivedSize, totalSize) in
                 
@@ -159,36 +144,6 @@ class RenterUserHeaderView: UIView {
             }else {
                 introductionLabel.text = "\(job ?? "")"
             }
-            
-            ///身份类型0个人1企业2联合
-            let identify: Int = ownerUserModel.identityType ?? -1
-            
-            var identifyString: String?
-            
-            if identify == 0 {
-                identifyString = ""
-            }else if identify == 1 {
-                identifyString = ""
-            }else if identify == 2 {
-                identifyString = ""
-            }else {
-                identifyString = "未认证"
-            }
-            
-            ///审核状态0待审核1审核通过2审核未通过
-            let auditStatus: Int = ownerUserModel.auditStatus ?? -1
-            
-            var auditStatusString: String?
-            if auditStatus == 0 {
-                auditStatusString = "待审核"
-            }else if auditStatus == 1 {
-                auditStatusString = "已认证"
-            }else if auditStatus == 2 || auditStatus == 3 {
-                auditStatusString = "审核未通过"
-            }
-            
-            aduitStatusView.setTitle("  \(identifyString ?? "")\(auditStatusString ?? "")  ", for: .normal)
-            aduitStatusView.isHidden = false
         }
     }
     
@@ -212,13 +167,6 @@ class RenterUserHeaderView: UIView {
         }
         blockk()
     }
-    
-    @objc func identifyBtnClick() {
-         guard let blockk = identifyBtnClickBlock else {
-             return
-         }
-         blockk()
-     }
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -234,7 +182,6 @@ class RenterUserHeaderView: UIView {
         headerViewBtn.addSubview(nameLabel)
         headerViewBtn.addSubview(introductionLabel)
         headerViewBtn.addSubview(loginbutton)
-        headerViewBtn.addSubview(aduitStatusView)
         settingBtn.snp.makeConstraints { (make) in
             make.top.equalTo(kStatusBarHeight - 5)
             make.trailing.equalTo(-left_pending_space_17)
@@ -258,14 +205,6 @@ class RenterUserHeaderView: UIView {
             make.leading.equalTo(headerImg.snp.trailing).offset(10)
             make.height.equalTo(40)
         }
-        //只有房东才会出现
-        aduitStatusView.snp.makeConstraints { (make) in
-            make.leading.equalTo(nameLabel.snp.trailing).offset(6)
-            make.centerY.equalTo(nameLabel)
-            make.width.greaterThanOrEqualTo(42)
-            make.height.equalTo(18)
-        }
-        aduitStatusView.layer.cornerRadius = 9
         
         introductionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(nameLabel.snp.bottom).offset(-10)

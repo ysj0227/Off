@@ -89,6 +89,26 @@ class UserTool: NSObject {
         }
     }
     
+    /// 是否已经展示过添加房源按钮
+    var isShowAddFYGuide: Bool?{
+        get{
+            return userDefault.value(forKey: "isShowAddFYGuide") as? Bool
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "isShowAddFYGuide")
+        }
+    }
+    
+    /// 是否已经展示过去认证弹框 - 切换身份或者换账号登录都要展示
+    var isShowOWnerToIdentifyGuide: Bool?{
+        get{
+            return userDefault.value(forKey: "isShowOWnerToIdentifyGuide") as? Bool
+        }
+        set(newValue){
+            return userDefault.set(newValue, forKey: "isShowOWnerToIdentifyGuide")
+        }
+    }
+    
     ///终端渠道,1:IOS,2:安卓,3:H5
     var user_channel: Int = 1
     

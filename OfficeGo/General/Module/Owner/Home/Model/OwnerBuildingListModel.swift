@@ -75,6 +75,9 @@ class OwnerBuildingListViewModel: NSObject {
     ///是否可以添加房源
     var isAddHouse: Bool?
 
+    ///驳回原因
+    var remark : String?
+
     
     init(model:OwnerBuildingListModel) {
         super.init()
@@ -87,6 +90,8 @@ class OwnerBuildingListViewModel: NSObject {
         isEdit = model.isEdit
         isTemp = model.isTemp
         status = model.status
+        
+        remark = model.remark
                 
         /*
          1: 上架(已发布)

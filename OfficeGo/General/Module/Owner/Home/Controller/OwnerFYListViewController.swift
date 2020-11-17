@@ -97,6 +97,26 @@ class OwnerVRView: UIView {
 
 class OwnerFYListViewController: BaseGroupTableViewController {
     
+    
+    lazy var loginPCScanView: OWnerAddFYFirstAlertView = {
+        let view = OWnerAddFYFirstAlertView(frame: self.view.frame)
+        return view
+    }()
+    
+    ///未认证页面
+    lazy var toIdentifyView: OWnerToIdentifyView = {
+        let view = OWnerToIdentifyView(frame: CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: kHeight - kNavigationHeight))
+        view.isHidden = true
+        return view
+    }()
+    
+    ///认证中
+    lazy  var identifyStatusView: OWnerIdentifyStatusView = {
+        let view = OWnerIdentifyStatusView(frame: CGRect(x: 0, y: kNavigationHeight + 68 , width: kWidth, height: kHeight - kNavigationHeight - 68))
+        view.isHidden = true
+        return view
+    }()
+    
     lazy var vrView: OwnerVRView = {
         let view = OwnerVRView()
         return view
@@ -122,7 +142,33 @@ class OwnerFYListViewController: BaseGroupTableViewController {
             }
             
             titleview?.titleLabel.text = buildingListViewModel?.buildingName
-            loadNewData()
+            
+            ///根据楼盘状态展示样式设置楼盘样式
+            ///-1:不是管理员 暂无权限编辑楼盘(临时楼盘),0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除;6待审核7已驳回 注意：（IsTemp为1时，status状态标记 1:待审核 -转6 ,2:已驳回 -转7 ）
+            identifyStatusView.buildingListViewModel = buildingListViewModel
+            
+            ///临时
+            if buildingListViewModel?.isTemp == true {
+                
+                ///没值的时候，清除列表数据
+                pageNo = 1
+                
+                if self.dataSource.count > 0 {
+                    self.dataSource.removeAll()
+                }
+                
+                if self.dataSourceViewModel.count > 0 {
+                    self.dataSourceViewModel.removeAll()
+                }
+                                
+                noDataViewSet()
+                
+                self.tableView.reloadData()
+
+
+            }else {
+                loadNewData()
+            }
         }
     }
     
@@ -179,6 +225,8 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         let tab = self.navigationController?.tabBarController as? OwnerMainTabBarController
         tab?.customTabBar.isHidden = false
                 
+        requestUserMessage()
+
     }
     
     func addNotify() {
@@ -198,7 +246,6 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         
         addNotify()
         
-        requestUserMessage()
     }
     
     @objc func requestUserMessage() {
@@ -219,7 +266,7 @@ class OwnerFYListViewController: BaseGroupTableViewController {
                 UserTool.shared.user_sex = model.sex
                 UserTool.shared.user_phone = model.phone
                 UserTool.shared.user_wechat = model.wxId
-                
+                weakSelf.idifyShowView()
             }
             
             }, failure: { (error) in
@@ -232,6 +279,83 @@ class OwnerFYListViewController: BaseGroupTableViewController {
             }
         }
     }
+    
+    //认证状态和引导显示 -
+    //如果没有认证 - 显示弹框 -
+    func idifyShowView() {
+        
+        
+        ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
+        let auditStatus: Int = userModel?.auditStatus ?? -1
+        
+        ///未认证 - 去认证弹框
+        if auditStatus == -1 {
+            
+            /// 是否已经展示过去认证弹框 - 切换身份或者换账号登录都要展示
+            if UserTool.shared.isShowOWnerToIdentifyGuide != true {
+                let alert = OwnerNoIdentifyShowView(frame: self.view.frame)
+                alert.ShowOwnerNoIdentifyShowView(clearButtonCallBack: { [weak self] in
+                    ///隐藏弹框 - 展示去认证页面
+                    self?.showNoIdentifyView()
+                }) { [weak self] in
+                    ///跳转去认证页面
+                    ///点击跳转认证页面
+                    let vc = OwnerIdenfySelectVC()
+                    self?.navigationController?.pushViewController(vc, animated: false)
+                }
+            }else {
+                identifyStatusView.isHidden = true
+                toIdentifyView.isHidden = false
+            }
+
+        }
+        ///审核通过 - 判断有没有buildinglist
+        else if auditStatus == 1 {
+            
+            ///是否已经展示过添加房源浮层
+            if UserTool.shared.isShowAddFYGuide != true {
+                loginPCScanView.ShowOWnerAddFYFirstAlertView {
+                    
+                } sureHouseSortButtonCallBack: {
+                    
+                }
+            }
+            
+            ///没有选择过楼盘，请求楼盘，请求房源列表
+            if buildingListViewModel == nil {
+                
+                requestBuildingList()
+                
+            }else {
+                ///数据不做刷新
+                ///已经选择过楼盘了，请求房源列表
+//                if pageNo == 1 {
+//                    loadNewData()
+//                }
+            }
+        }
+        ///0待审核 2审核未通过 3过期 2驳回处理
+        else {
+            identifyStatusView.isHidden = true
+            toIdentifyView.isHidden = false
+
+        }
+        
+    }
+    
+    ///MARK: 隐藏无数据view
+    override func noDataViewSet() {
+        noDataView.isHidden = true
+        ///数据大于0 隐藏状态页面
+        if self.dataSource.count > 0 {
+            identifyStatusView.isHidden = true
+        }else {
+            //展示楼盘状态页面
+            identifyStatusView.isHidden = false
+            self.tableView.mj_footer?.isHidden = true
+        }
+    }
+    
     
     func requestHouseList() {
         
@@ -284,6 +408,59 @@ class OwnerFYListViewController: BaseGroupTableViewController {
 
 extension OwnerFYListViewController {
     
+    
+    func showNoIdentifyView() {
+        
+        ///表示已经展示弹层
+        UserTool.shared.isShowOWnerToIdentifyGuide = true
+        toIdentifyView.isHidden = false
+    }
+    
+    func identifyStatus() {
+        
+        ///未认证弹框
+        self.view.addSubview(toIdentifyView)
+        
+        ///认证状态页面
+        self.view.addSubview(identifyStatusView)
+        
+        toIdentifyView.sureIdentifyButtonCallBack = { [weak self] in
+            ///跳转去认证页面
+            ///点击跳转认证页面
+            let vc = OwnerIdenfySelectVC()
+            self?.navigationController?.pushViewController(vc, animated: false)
+        }
+        
+        identifyStatusView.sureIdentifyButtonCallBack = { [weak self] in
+            ///认证驳回
+            let vc = OwnerIdenfySelectVC()
+            self?.navigationController?.pushViewController(vc, animated: false)
+        }
+    }
+    
+    //展示在pc登录的弹框
+    func showAddFYAlertView() {
+        
+        ///点击过
+        if buildingListViewModel?.btype == 1 {
+            ///办公室
+            let vc = OwnerBuildingOfficeViewController()
+            vc.buildingIsTemp = buildingListViewModel?.isTemp
+            vc.BuildingID = buildingListViewModel?.buildingId
+            vc.totalFloor = buildingListViewModel?.totalFloor
+            vc.isFromAdd = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else if buildingListViewModel?.btype == 2 {
+            ///独立办公室
+            let vc = OwnerBuildingJointIndepententOfficeViewController()
+            vc.buildingIsTemp = buildingListViewModel?.isTemp
+            vc.BuildingID = buildingListViewModel?.buildingId
+            vc.totalFloor = buildingListViewModel?.totalFloor
+            vc.isFromAdd = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     func setUpView() {
                 
         titleview = ThorNavigationView.init(type: .backTitleRight)
@@ -302,70 +479,23 @@ extension OwnerFYListViewController {
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
         titleview?.rightButton.layoutButton(.imagePositionRight, margin: 2)
-        titleview?.titleLabel.text = "房源列表"
         titleview?.rightBtnClickBlock = { [weak self] in
             
-
-            if self?.buildingListViewModel?.btype == 1 {
-                ///办公室
-                let vc = OwnerBuildingOfficeViewController()
-                vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
-                vc.BuildingID = self?.buildingListViewModel?.buildingId
-                vc.totalFloor = self?.buildingListViewModel?.totalFloor
-                vc.isFromAdd = true
-                self?.navigationController?.pushViewController(vc, animated: true)
-            }else if self?.buildingListViewModel?.btype == 2 {
-                ///独立办公室
-                let vc = OwnerBuildingJointIndepententOfficeViewController()
-                vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
-                vc.BuildingID = self?.buildingListViewModel?.buildingId
-                vc.totalFloor = self?.buildingListViewModel?.totalFloor
-                vc.isFromAdd = true
-                self?.navigationController?.pushViewController(vc, animated: true)
-            }
-            
-            /*
-            if  self?.buildingListViewModel?.isTemp == false && self?.buildingListViewModel?.status == 1 {
-
-                
-                if self?.buildingListViewModel?.btype == 1 {
-                    ///办公室
-                    let vc = OwnerBuildingOfficeViewController()
-                    vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
-                    vc.BuildingID = self?.buildingListViewModel?.buildingId
-                    vc.isFromAdd = true
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }else if self?.buildingListViewModel?.btype == 2 {
-                    ///独立办公室
-                    let vc = OwnerBuildingJointIndepententOfficeViewController()
-                    vc.buildingIsTemp = self?.buildingListViewModel?.isTemp
-                    vc.BuildingID = self?.buildingListViewModel?.buildingId
-                    vc.isFromAdd = true
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }
-            }else {
-                
-                if self?.buildingListViewModel?.status == 2 {
-                    
-                    AppUtilities.makeToast("信息待完善，不能添加房源")
-
-                }else if self?.buildingListViewModel?.status == 7 {
-                    
-                    AppUtilities.makeToast("审核未通过，不能添加房源")
-
-                }else if self?.buildingListViewModel?.status == 6 {
-                    
-                    AppUtilities.makeToast("审核中，不能添加房源")
-                }
-            }
-            */
+            self?.showAddFYAlertView()
         }
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.buildingListVC.userModel = self?.userModel
-            let nav = BaseNavigationViewController.init(rootViewController: self?.buildingListVC ?? OwnerBuildingListViewController())
-            nav.navigationBar.isHidden = true
-            nav.modalPresentationStyle = .overFullScreen
-            self?.present(nav, animated: true, completion: nil)
+            
+            if self?.userModel?.auditStatus == -1 {
+                AppUtilities.makeToast("请先认证")
+            }else {
+                
+                self?.buildingListVC.userModel = self?.userModel
+                let nav = BaseNavigationViewController.init(rootViewController: self?.buildingListVC ?? OwnerBuildingListViewController())
+                nav.navigationBar.isHidden = true
+                nav.modalPresentationStyle = .overFullScreen
+                self?.present(nav, animated: true, completion: nil)
+            }
+
         }
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
@@ -399,40 +529,14 @@ extension OwnerFYListViewController {
         }
         
         buildingListVC.clickBuildingScanEditBlock = { [weak self] (viewModel, isScan) in
-//            if isScan == true {
-//                if viewModel.btype == 1 {
-//                    let model = FangYuanListModel()
-//                    model.btype = viewModel.btype
-//                    model.id = viewModel.idString
-//                    let vc = RenterOfficebuildingDetailVC()
-//                    vc.buildingModel = model
-//                    self?.navigationController?.pushViewController(vc, animated: true)
-//                }else if viewModel.btype == 2 {
-//                    let model = FangYuanListModel()
-//                    model.btype = viewModel.btype
-//                    model.id = viewModel.idString
-//                    let vc = RenterOfficeJointDetailVC()
-//                    vc.buildingModel = model
-//                    self?.navigationController?.pushViewController(vc, animated: true)
-//                }
-//            }else {
-//
-//                if viewModel.btype == 1 {
-//                    let vc = OwnerBuildingCreateViewController()
-//                    self?.navigationController?.pushViewController(vc, animated: true)
-//                }else if viewModel.btype == 2 {
-//                    let vc = OwnerBuildingJointCreateViewController()
-//                    self?.navigationController?.pushViewController(vc, animated: true)
-//                }
-//            }
+            
         }
         
+        identifyStatus()
         
         requestSet()
-        
-        requestBuildingList()
     }
-
+    
     func requestBuildingList() {
         
         var params = [String:AnyObject]()

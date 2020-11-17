@@ -235,10 +235,6 @@ extension OwnerMineViewController {
         headerView.setBtnClickBlock = { [weak self] in
             self?.settingBtnClick()
         }
-        ///跳转到认证
-        headerView.identifyBtnClickBlock = { [weak self] in
-            self?.idifyClickToView()
-        }
         self.tableView.clipsToBounds = true
         self.tableView.layer.cornerRadius = 13
         self.tableView.snp.remakeConstraints { (make) in
@@ -282,7 +278,6 @@ extension OwnerMineViewController {
                 SSTool.invokeInMainThread {
                     weakSelf.headerView.ownerUserModel = model
                     weakSelf.reloadRCUserInfo()
-                    weakSelf.idifyShowView()
                     weakSelf.tableView.reloadRows(at: [IndexPath.init(row: 0, section: 0)], with: .none)
                 }
                 
@@ -295,108 +290,6 @@ extension OwnerMineViewController {
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
-            }
-        }
-    }
-    
-    //认证状态和引导显示 -
-    //如果没有认证 - 显示弹框 -
-    func idifyShowView() {
-        
-        ///身份类型0个人1企业2联合
-        let identify: Int = userModel?.identityType ?? -1
-        
-        ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
-        let auditStatus: Int = userModel?.auditStatus ?? -1
-        ///审核通过1不显示
-        if auditStatus == 0 || auditStatus == 1 {
-        }else {
-            showIdifyAlertview(identify: identify, auditStatus: auditStatus, remark: userModel?.remark ?? "")
-        }
-    }
-    
-    func showIdifyAlertview(identify: Int, auditStatus: Int, remark: String) {
-
-        if auditStatus == -1 {
-            
-            ///点击跳转认证页面
-            let vc = OwnerIdenfySelectVC()
-            self.navigationController?.pushViewController(vc, animated: true)
-            
-        }else if auditStatus == 2 || auditStatus == 3 {
-            
-            let alert = SureAlertView(frame: self.view.frame)
-            let titleString = "审核未通过"
-            let descString = remark
-            alert.messageLabel.textAlignment = .center
-            alert.bottomBtnView.rightSelectBtn.setTitle("去认证", for: .normal)
-            alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: titleString, descMsg: descString, cancelButtonCallClick: {
-                
-            }) { [weak self] in
-                
-                guard let weakSelf = self else {return}
-
-                weakSelf.identifyVCClick(auditStatus: auditStatus, identify: identify)
-            }
-        }
-        
-    }
-    
-    
-    func idifyClickToView() {
-        
-        ///身份类型0个人1企业2联合
-        let identify: Int = userModel?.identityType ?? -1
-        
-        ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
-        let auditStatus: Int = userModel?.auditStatus ?? -1
-        ///审核通过1不显示
-        if auditStatus == 0 {
-            ///判断是否可以撤销 只有某个员工才能加入企业
-            if userModel?.authority == 0 {
-                let vc = OwnerApplyEnterCompanyViewController()
-                vc.isFromMine = true
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        } else if auditStatus == 1 {
-            
-        }else {
-            identifyVCClick(auditStatus: auditStatus, identify: identify)
-        }
-
-    }
-        
-    func identifyVCClick(auditStatus: Int, identify: Int) {
-        ///审核状态0待审核1审核通过2审核未通过 3过期，当驳回2处理 - 没有提交过为-1
-        //未审核
-        if auditStatus == -1 {
-                            
-            ///点击跳转认证页面
-            let vc = OwnerIdenfySelectVC()
-            self.navigationController?.pushViewController(vc, animated: true)
-            
-        }else if auditStatus == 2 || auditStatus == 3 {
-            
-            UserTool.shared.user_owner_identifytype = identify
-            
-            ///点击跳转认证页面
-            let vc = OwnerIdenfySelectVC()
-            self.navigationController?.pushViewController(vc, animated: false)
-            
-            if identify == 1 {
-                let vc = OwnerCompanyIeditnfyVC()
-                vc.isFromPersonalVc = true
-                self.navigationController?.pushViewController(vc, animated: false)
-            }else if identify == 2 {
-                ///点击跳转认证页面
-                let vc = OwnerJointIeditnfyVC()
-                vc.isFromPersonalVc = true
-                self.navigationController?.pushViewController(vc, animated: false)
-            }else if identify == 0 {
-                ///点击跳转认证页面
-                let vc = OwnerPersonalIeditnfyVC()
-                vc.isFromPersonalVc = true
-                self.navigationController?.pushViewController(vc, animated: false)
             }
         }
     }

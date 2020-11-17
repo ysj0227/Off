@@ -428,7 +428,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     //设置tabbar - 房东
     @objc func setOwnerTabar(){
-        
+
         ///获取到初次定位为否
         UserTool.shared.Has_get_location = false
         
@@ -466,6 +466,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     }
     
     @objc func setLoginVC() {
+        
+        ///未认证 弹层只为空 - 切换身份或者换账号登录都要展示
+        UserTool.shared.isShowOWnerToIdentifyGuide = nil
+        
         let loginvc = RenterLoginViewController()
         loginvc.isHiddenBack = true
         loginvc.titleview?.leftButton.isHidden = true
@@ -476,6 +480,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     
     //切换身份 - 设置里边 - 切换身份字段 - 重新设置tabbar
     @objc func roleChange(){
+        
+        
+        ///未认证 弹层只为空 - 切换身份或者换账号登录都要展示
+        UserTool.shared.isShowOWnerToIdentifyGuide = nil
         
         //登录融云
         loginRongCloud()
