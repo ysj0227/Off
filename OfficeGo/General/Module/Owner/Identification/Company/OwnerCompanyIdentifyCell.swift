@@ -113,72 +113,6 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     
     //模拟认证模型
     var userModel: OwnerIdentifyUserModel?
-
-    ///网点
-    var isBranchs: Bool?
-    
-    ///房源管理 -
-    var FYBuildingCreatAddmodel: OwnerBuildingJointCreatAddConfigureModel = OwnerBuildingJointCreatAddConfigureModel(types: OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeUploadMainPhoto) {
-        didSet {
-            
-            titleLabel.attributedText = FYBuildingCreatAddmodel.getNameFormType(type: FYBuildingCreatAddmodel.type ?? OwnerBuildingCreteAddType.OwnerBuildingCreteAddTypeBuildingName)
-            
-            detailIcon.isHidden = true
-            editBtn.isHidden = true
-            closeBtn.isHidden = true
-            
-            if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName{
-                if isBranchs == true {
-                    titleLabel.attributedText = FuWenBen(name: "网点名称", centerStr: " * ", last: "")
-                }
-                numDescTF.isUserInteractionEnabled = true
-                lineView.isHidden = false
-                numDescTF.text = userModel?.buildingName
-            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingDistrictArea{
-                numDescTF.isUserInteractionEnabled = false
-                lineView.isHidden = false
-                detailIcon.isHidden = false
-                numDescTF.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
-            }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
-                numDescTF.isUserInteractionEnabled = true
-                lineView.isHidden = false
-                numDescTF.text = userModel?.buildingAddress
-            }else {
-                numDescTF.isUserInteractionEnabled = false
-                lineView.isHidden = true
-                numDescTF.text = ""
-            }
-        }
-    }
-    
-    //centerStr *
-    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
-        
-        //定义富文本即有格式的字符串
-        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
-        
-        if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
-            attributedStrM.append(nameAtt)
-            
-        }
-        
-        if centerStr.count > 0 {
-            //*
-            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
-            
-            attributedStrM.append(xingxing)
-            
-        }
-        
-        if last.count > 0 {
-            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
-            attributedStrM.append(lastAtt)
-            
-        }
-        
-        return attributedStrM
-    }
     
     var model: OwnerCompanyIedntifyConfigureModel = OwnerCompanyIedntifyConfigureModel(types: .OwnerCompanyIedntifyTypeIdentigy) {
         didSet {
@@ -195,7 +129,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
                 }else if UserTool.shared.user_owner_identifytype == 1 {
                     numDescTF.text = "公司"
                 }else if UserTool.shared.user_owner_identifytype == 2 {
-                    numDescTF.text = "共享办公"
+                    numDescTF.text = "联合办公"
                 }
             }else if model.type == .OwnerCompanyIedntifyTypeBuildingFCType{
                 numDescTF.isUserInteractionEnabled = false
@@ -281,20 +215,18 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     }
     
     func setupViews() {
-
-        self.backgroundColor = kAppWhiteColor
-  
-        self.contentView.addSubview(titleLabel)
-        self.contentView.addSubview(numDescTF)
-        self.contentView.addSubview(detailIcon)
-        self.contentView.addSubview(lineView)
-        self.contentView.addSubview(addressLabel)
-        self.contentView.addSubview(editBtn)
-        self.contentView.addSubview(closeBtn)
+        
+        addSubview(titleLabel)
+        addSubview(numDescTF)
+        addSubview(detailIcon)
+        addSubview(lineView)
+        addSubview(addressLabel)
+        addSubview(editBtn)
+        addSubview(closeBtn)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
-            make.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
         
         detailIcon.snp.makeConstraints { (make) in
@@ -336,26 +268,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     }
     @objc func valueDidChange() {
         
-            //只有写字楼地址要在编辑结束的时候传过去
-        if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingName {
-            guard let blockk = self.buildingNameClickClouse else {
-                return
-            }
-            addressLabel.text = ""
-            
-            let textNum = numDescTF.text?.count
-            
-            //截取
-            if textNum! > ownerMaxBuildingnameNumber_20 {
-                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
-                let str = numDescTF.text?.substring(to: index!)
-                numDescTF.text = str
-            }
-            
-            blockk(numDescTF.text ?? "")
-        }
-        
-        //只有写字楼地址要在编辑结束的时候传过去
+        //只有办公楼地址要在编辑结束的时候传过去
         if model.type == .OwnerCompanyIedntifyTypeCompanyname {
             guard let blockk = self.companyNameClickClouse else {
                 return
@@ -371,7 +284,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
             
             blockk(numDescTF.text ?? "")
         }
-            //只有写字楼地址要在编辑结束的时候传过去
+            //只有办公楼地址要在编辑结束的时候传过去
         else if model.type == .OwnerCompanyIedntifyTypeBuildingName {
             guard let blockk = self.buildingNameClickClouse else {
                 return
@@ -404,14 +317,14 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
 
 extension OwnerCompanyIdentifyCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        //只有写字楼地址要在编辑结束的时候传过去
+        //只有办公楼地址要在编辑结束的时候传过去
         if model.type == .OwnerCompanyIedntifyTypeBuildingAddress {
             guard let blockk = self.buildingAddresEndEditingMessageCell else {
                 return
             }
             blockk(textField.text ?? "")
         }
-        //只有写字楼名称要在编辑结束的时候传过去
+        //只有办公楼名称要在编辑结束的时候传过去
         if model.type == .OwnerCompanyIedntifyTypeBuildingName {
             guard let blockk = self.buildingNameEndEditingMessageCell else {
                 return
@@ -423,4 +336,93 @@ extension OwnerCompanyIdentifyCell: UITextFieldDelegate {
     //    func textFieldDidBeginEditing(_ textField: UITextField) {
     //
     //    }
+}
+
+
+class OwnerCreateView: UIView {
+    
+    lazy var descLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.font = FONT_LIGHT_13
+        view.text = ""
+        view.textColor = kAppColor_999999
+        return view
+    }()
+    
+    lazy var creatBtn: UIButton = {
+        let view = UIButton()
+        view.setTitleColor(kAppBlueColor, for: .normal)
+        view.setTitle("", for: .normal)
+        view.titleLabel?.font = FONT_12
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+    
+    ///来自新认证 - 楼盘网点搜索
+    var isNewIdentifyES: Bool? = false {
+        didSet {
+            descLabel.text = "楼盘/网点不存在，立即创建"
+            creatBtn.setTitle("立即创建", for: .normal)
+        }
+    }
+        
+    ///房源管理 - 写字楼展示
+    var isManagerBuilding: Bool? = false {
+        didSet {
+
+            descLabel.text = "楼盘不存在，去创建楼盘"
+            creatBtn.setTitle("创建楼盘", for: .normal)
+        }
+    }
+    
+    ///房源管理 - 网点无数据展示
+    var isManagerBranch: Bool? = false {
+        didSet {
+
+            descLabel.text = "网点不存在，去创建网点"
+            creatBtn.setTitle("创建网点", for: .normal)
+        }
+    }
+    
+    
+    ///创建回调
+    var creatButtonCallClick:(() -> Void)?
+    
+    private func setupView() {
+        
+        self.backgroundColor = kAppWhiteColor
+        
+        
+        addSubview(descLabel)
+        addSubview(creatBtn)
+        creatBtn.snp.makeConstraints { (make) in
+            make.trailing.equalTo(-left_pending_space_17)
+            make.top.bottom.equalToSuperview()
+        }
+        
+        descLabel.snp.makeConstraints { (make) in
+            make.leading.equalTo(left_pending_space_17)
+            make.centerY.equalToSuperview()
+            make.trailing.equalTo(-(60 + left_pending_space_17))
+        }
+        
+        creatBtn.addTarget(self, action: #selector(creatBtnClick), for: .touchUpInside)
+    }
+    
+    @objc func creatBtnClick() {
+        guard let blockk = creatButtonCallClick else {
+            return
+        }
+        blockk()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

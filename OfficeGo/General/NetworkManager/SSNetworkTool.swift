@@ -602,13 +602,6 @@ extension SSNetworkTool {
     //  MARK:   --认证
     class SSOwnerIdentify: NSObject {
         
-        ///搜索企业接口
-        static func request_getESCompany(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getESCompany)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-                success,failed:failure,error:error)
-        }
-        
         ///搜索企业大楼接口
         static func request_getESBuild(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerIdentifyURL.getESBuild)
@@ -622,19 +615,6 @@ extension SSNetworkTool {
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
-        ///进入申请加入查询管理员Id APP
-        static func request_getApplyManagerMsg(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getApplyManagerMsg)
-            SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-                success,failed:failure,error:error)
-        }
-        
-        ///申请加入企业
-       static func request_getApplyJoin(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-           let url = String.init(format: SSOwnerIdentifyURL.getApplyJoin)
-           SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-               success,failed:failure,error:error)
-       }
         
         ///加入企业或者网点同意拒绝接口
         static func request_getUpdateAuditStatus(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
@@ -650,48 +630,13 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        ///企业是否可以创建判断接口App
-        static func request_getIsCanCreatCompany(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getIsCanCreatCompany)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-                success,failed:failure,error:error)
-        }
-        
         ///用户选择身份
         static func request_getSelectIdentityTypeApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerIdentifyURL.getSelectIdentityTypeApp)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
-        
-        ///添加公司认证APP
-        static func request_companyIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
-            SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
-            success,failed:failure,error:error)
-        }
-        
-        ///添加共享办公认证APP
-        static func request_jointIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
-            SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
-            success,failed:failure,error:error)
-        }
-        
-        ///添加个人认证APP
-        static func request_personalIdentityApp(params: Eic, frontImage: [UIImage], reverseImage: [UIImage],fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
-            SSNetworkTool.uploadPersonalMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", frontName: "fileIdFront", frontImage: frontImage, reverseName: "fileIdBack", reverseImage: reverseImage, fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
-            success,failed:failure,error:error)
-        }
-        
-        ///创建公司接口 - 上传营业执照
-        static func request_createCompanyApp(params: Eic, imagesArray: [UIImage] ,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
-            SSNetworkTool.uploadMutileImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fileName: "fileBusinessLicense", imagesArray: imagesArray, params: params, isShowHud: true, success:
-            success,failed:failure,error:error)
-        }
-        
+
         ///创建楼盘接口 - 上传封面图
         ///创建网点接口 - 上传封面图
         static func request_createBuildingApp(params: Eic, imagesArray: [UIImage] ,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
@@ -707,19 +652,12 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        ///自主撤销认证
-        static func request_getDeleteUserLicenceApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getDeleteUserLicenceApp)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-                success,failed:failure,error:error)
+        ///添加公司认证APP
+        static func request_companyIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
+            SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
+            success,failed:failure,error:error)
         }
-        
-        ///查询申请信息接口（普通员工申请加入之后查询页面数据）
-        static func request_getQueryApplyLicenceProprietorApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-           let url = String.init(format: SSOwnerIdentifyURL.getQueryApplyLicenceProprietorApp)
-           SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-               success,failed:failure,error:error)
-       }
         
         ///房东和房东聊天列表调用接口
         static func request_getOwnerToOwnerchattedMsgAApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {

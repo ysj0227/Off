@@ -7,17 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0407F92A24BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */; };
-		0407F92C24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */; };
 		0407F92E24BC3CE200C9F581 /* OwnerImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */; };
-		0407F93024BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F92F24BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift */; };
-		0407F93224BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93124BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift */; };
 		0407F93424BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93324BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift */; };
 		0407F93624BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */; };
-		0407F93824BD94D800C9F581 /* OwnerESCompanySearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */; };
 		0407F93A24BD963400C9F581 /* OwnerESBuildingSearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */; };
-		04121F2F24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04121F2E24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift */; };
-		04121F3124BF0CE900864E51 /* OwnerJointIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04121F3024BF0CE900864E51 /* OwnerJointIdentifyCell.swift */; };
 		041DEDA12505E705008DEBB2 /* RenterOfficeBuildingMsgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041DEDA02505E704008DEBB2 /* RenterOfficeBuildingMsgCell.swift */; };
 		041DEDA325063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041DEDA225063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift */; };
 		0420BB4B24A882B00052D165 /* RenterCustomersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */; };
@@ -25,11 +18,8 @@
 		04266B6724FF6FB10027348B /* BannerOutClickWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04266B6624FF6FB10027348B /* BannerOutClickWebViewController.swift */; };
 		042D12542512FA1800292EE4 /* RenterCustomerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D12532512FA1800292EE4 /* RenterCustomerListViewController.swift */; };
 		042D125825130BA000292EE4 /* RenterCustomerListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D125725130BA000292EE4 /* RenterCustomerListCell.swift */; };
-		042D73D524BDAC600062FA7B /* OwnerCreateCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */; };
-		042D73D724BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D73D624BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift */; };
 		042D95012509FD2500BEACED /* BaseGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D95002509FD2500BEACED /* BaseGroupTableViewController.swift */; };
 		042E5E4324964913008B8E14 /* NetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042E5E4224964913008B8E14 /* NetReachability.swift */; };
-		0434D67924DAC73E00582B3B /* OwnerEnterCreatedCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0434D67824DAC73D00582B3B /* OwnerEnterCreatedCompanyViewController.swift */; };
 		0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB0247E15B80015C355 /* SSNetworkTool.swift */; };
 		0437CFB3247E17190015C355 /* SSTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB2247E17180015C355 /* SSTool.swift */; };
 		0437CFB7247E1A5D0015C355 /* SSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0437CFB6247E1A5D0015C355 /* SSAPI.swift */; };
@@ -53,8 +43,6 @@
 		04810B7C2480A88C00F35FBE /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04810B7B2480A88C00F35FBE /* BaseModel.swift */; };
 		048D243924C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D243824C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift */; };
 		048D243B24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D243A24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift */; };
-		048D243D24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D243C24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift */; };
-		04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */; };
 		04990B9224BBF719008CDE6C /* ZKIDCardFloatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8E24BBF719008CDE6C /* ZKIDCardFloatingView.m */; };
 		04990B9324BBF719008CDE6C /* ZKIDCardCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04990B8F24BBF719008CDE6C /* ZKIDCardCameraController.m */; };
 		04990B9424BBF719008CDE6C /* DXIDCardCamera.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04990B9024BBF719008CDE6C /* DXIDCardCamera.bundle */; };
@@ -108,10 +96,6 @@
 		04CB4798249CB47B001BCC8F /* RenterMineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB4797249CB47B001BCC8F /* RenterMineCell.swift */; };
 		04CB479A249CC5A3001BCC8F /* RenterAvatarUploadHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB4799249CC5A3001BCC8F /* RenterAvatarUploadHeaderView.swift */; };
 		04CB479C249CC76B001BCC8F /* OwnerUserMsgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CB479B249CC76B001BCC8F /* OwnerUserMsgViewController.swift */; };
-		04CBB64E24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB64D24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift */; };
-		04CBB65024C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB64F24C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift */; };
-		04CBB65224C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB65124C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift */; };
-		04CBB65424C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB65324C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift */; };
 		04CBB65624C154CE007BDAB4 /* OwnerCreateBuildingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CBB65524C154CE007BDAB4 /* OwnerCreateBuildingViewController.swift */; };
 		04D972292497466500C87168 /* LoadingHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D972282497466500C87168 /* LoadingHudView.swift */; };
 		04E052B724C5667800D7CA96 /* CityDistrictAddressSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E052B624C5667800D7CA96 /* CityDistrictAddressSelectView.swift */; };
@@ -165,7 +149,6 @@
 		04E2394D249B3ABB009DCCEC /* RenterCollectOfficeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238E0249B3ABB009DCCEC /* RenterCollectOfficeCell.swift */; };
 		04E23963249B3ABB009DCCEC /* RenterMineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E238FE249B3ABB009DCCEC /* RenterMineViewController.swift */; };
 		04E23966249B3ABB009DCCEC /* IWantToFindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23903249B3ABB009DCCEC /* IWantToFindViewController.swift */; };
-		04E23987249B3C75009DCCEC /* OwnerHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23986249B3C75009DCCEC /* OwnerHomeViewController.swift */; };
 		04E23989249B3ED2009DCCEC /* OwnerMineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23988249B3ED2009DCCEC /* OwnerMineViewController.swift */; };
 		04E2398B249B3F0D009DCCEC /* OwnerChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2398A249B3F0D009DCCEC /* OwnerChatListViewController.swift */; };
 		04E23995249B4745009DCCEC /* OwnerHouseScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E23994249B4745009DCCEC /* OwnerHouseScheduleViewController.swift */; };
@@ -193,6 +176,7 @@
 		8E896772253949D4005FF38B /* OwnerBuildingOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E896771253949D4005FF38B /* OwnerBuildingOfficeViewController.swift */; };
 		8E89677425394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */; };
 		8E89677625394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */; };
+		8E9B0F7125651E9C004F9CE8 /* OwnerCompanyIdentifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9B0F7025651E9C004F9CE8 /* OwnerCompanyIdentifyCell.swift */; };
 		8EDBA52A253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */; };
 		8EDBA52C253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */; };
 		8EDBA52E253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA52D253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift */; };
@@ -324,17 +308,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyIdentifyCell.swift; sourceTree = "<group>"; };
-		0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyIeditnfyVC.swift; sourceTree = "<group>"; };
 		0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerImagePickerCell.swift; sourceTree = "<group>"; };
-		0407F92F24BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyESSearchIdentifyCell.swift; sourceTree = "<group>"; };
-		0407F93124BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCompanyESearchResultListViewController.swift; sourceTree = "<group>"; };
 		0407F93324BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNameESearchResultListViewController.swift; sourceTree = "<group>"; };
 		0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNameESSearchIdentifyCell.swift; sourceTree = "<group>"; };
-		0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerESCompanySearchModel.swift; sourceTree = "<group>"; };
 		0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerESBuildingSearchModel.swift; sourceTree = "<group>"; };
-		04121F2E24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerJointIeditnfyVC.swift; sourceTree = "<group>"; };
-		04121F3024BF0CE900864E51 /* OwnerJointIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerJointIdentifyCell.swift; sourceTree = "<group>"; };
 		041DEDA02505E704008DEBB2 /* RenterOfficeBuildingMsgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterOfficeBuildingMsgCell.swift; sourceTree = "<group>"; };
 		041DEDA225063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterBuildingFYHouseMsgCell.swift; sourceTree = "<group>"; };
 		0420BB4A24A882B00052D165 /* RenterCustomersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCustomersViewController.swift; sourceTree = "<group>"; };
@@ -342,11 +319,8 @@
 		04266B6624FF6FB10027348B /* BannerOutClickWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerOutClickWebViewController.swift; sourceTree = "<group>"; };
 		042D12532512FA1800292EE4 /* RenterCustomerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCustomerListViewController.swift; sourceTree = "<group>"; };
 		042D125725130BA000292EE4 /* RenterCustomerListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterCustomerListCell.swift; sourceTree = "<group>"; };
-		042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCreateCompanyViewController.swift; sourceTree = "<group>"; };
-		042D73D624BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerApplyEnterCompanyViewController.swift; sourceTree = "<group>"; };
 		042D95002509FD2500BEACED /* BaseGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseGroupTableViewController.swift; sourceTree = "<group>"; };
 		042E5E4224964913008B8E14 /* NetReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetReachability.swift; sourceTree = "<group>"; };
-		0434D67824DAC73D00582B3B /* OwnerEnterCreatedCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerEnterCreatedCompanyViewController.swift; sourceTree = "<group>"; };
 		0437CFB0247E15B80015C355 /* SSNetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSNetworkTool.swift; sourceTree = "<group>"; };
 		0437CFB2247E17180015C355 /* SSTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSTool.swift; sourceTree = "<group>"; };
 		0437CFB6247E1A5D0015C355 /* SSAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSAPI.swift; sourceTree = "<group>"; };
@@ -370,8 +344,6 @@
 		04810B7B2480A88C00F35FBE /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		048D243824C7101C00B0B16D /* ApplyEnterCompanyOrBranchMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyEnterCompanyOrBranchMessage.swift; sourceTree = "<group>"; };
 		048D243A24C7103500B0B16D /* ApplyEnterCompanyOrBranchStatusMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyEnterCompanyOrBranchStatusMessage.swift; sourceTree = "<group>"; };
-		048D243C24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchOrCompanyIIsExistedModel.swift; sourceTree = "<group>"; };
-		04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerIdenfySelectVC.swift; sourceTree = "<group>"; };
 		04990B8D24BBF719008CDE6C /* ZKIDCardCameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKIDCardCameraController.h; sourceTree = "<group>"; };
 		04990B8E24BBF719008CDE6C /* ZKIDCardFloatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKIDCardFloatingView.m; sourceTree = "<group>"; };
 		04990B8F24BBF719008CDE6C /* ZKIDCardCameraController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKIDCardCameraController.m; sourceTree = "<group>"; };
@@ -427,10 +399,6 @@
 		04CB4797249CB47B001BCC8F /* RenterMineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterMineCell.swift; sourceTree = "<group>"; };
 		04CB4799249CC5A3001BCC8F /* RenterAvatarUploadHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenterAvatarUploadHeaderView.swift; sourceTree = "<group>"; };
 		04CB479B249CC76B001BCC8F /* OwnerUserMsgViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerUserMsgViewController.swift; sourceTree = "<group>"; };
-		04CBB64D24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCreateBranchViewController.swift; sourceTree = "<group>"; };
-		04CBB64F24C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerPersonalIeditnfyVC.swift; sourceTree = "<group>"; };
-		04CBB65124C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerPersonalIdentifyCell.swift; sourceTree = "<group>"; };
-		04CBB65324C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerIdCardImagePickerCell.swift; sourceTree = "<group>"; };
 		04CBB65524C154CE007BDAB4 /* OwnerCreateBuildingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerCreateBuildingViewController.swift; sourceTree = "<group>"; };
 		04D972282497466500C87168 /* LoadingHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHudView.swift; sourceTree = "<group>"; };
 		04E052B624C5667800D7CA96 /* CityDistrictAddressSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDistrictAddressSelectView.swift; sourceTree = "<group>"; };
@@ -486,7 +454,6 @@
 		04E238E0249B3ABB009DCCEC /* RenterCollectOfficeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterCollectOfficeCell.swift; sourceTree = "<group>"; };
 		04E238FE249B3ABB009DCCEC /* RenterMineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenterMineViewController.swift; sourceTree = "<group>"; };
 		04E23903249B3ABB009DCCEC /* IWantToFindViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IWantToFindViewController.swift; sourceTree = "<group>"; };
-		04E23986249B3C75009DCCEC /* OwnerHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerHomeViewController.swift; sourceTree = "<group>"; };
 		04E23988249B3ED2009DCCEC /* OwnerMineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerMineViewController.swift; sourceTree = "<group>"; };
 		04E2398A249B3F0D009DCCEC /* OwnerChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerChatListViewController.swift; sourceTree = "<group>"; };
 		04E23994249B4745009DCCEC /* OwnerHouseScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerHouseScheduleViewController.swift; sourceTree = "<group>"; };
@@ -516,6 +483,7 @@
 		8E896771253949D4005FF38B /* OwnerBuildingOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingOfficeViewController.swift; sourceTree = "<group>"; };
 		8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointOpenStationViewController.swift; sourceTree = "<group>"; };
 		8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointIndepententOfficeViewController.swift; sourceTree = "<group>"; };
+		8E9B0F7025651E9C004F9CE8 /* OwnerCompanyIdentifyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwnerCompanyIdentifyCell.swift; sourceTree = "<group>"; };
 		8EDBA529253D226B00BD3774 /* OwnerBuildingFYCanSeatsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYCanSeatsCell.swift; sourceTree = "<group>"; };
 		8EDBA52B253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYRenterTotalPriceCell.swift; sourceTree = "<group>"; };
 		8EDBA52D253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingFYFloorCell.swift; sourceTree = "<group>"; };
@@ -700,87 +668,16 @@
 			children = (
 				8EDE98B9256228C500EA8371 /* NewIdentify */,
 				04990B8624B87194008CDE6C /* Basic */,
-				04990B7A24B870E5008CDE6C /* Personal */,
-				04990B7E24B870E5008CDE6C /* Joint */,
 				04990B8224B870E5008CDE6C /* Company */,
 			);
 			path = Identification;
 			sourceTree = "<group>";
 		};
-		04990B7A24B870E5008CDE6C /* Personal */ = {
-			isa = PBXGroup;
-			children = (
-				04990B7B24B870E5008CDE6C /* Controller */,
-				04990B7C24B870E5008CDE6C /* Model */,
-				04990B7D24B870E5008CDE6C /* View */,
-			);
-			path = Personal;
-			sourceTree = "<group>";
-		};
-		04990B7B24B870E5008CDE6C /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				04CBB64F24C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		04990B7C24B870E5008CDE6C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		04990B7D24B870E5008CDE6C /* View */ = {
-			isa = PBXGroup;
-			children = (
-				04CBB65124C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift */,
-				04CBB65324C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		04990B7E24B870E5008CDE6C /* Joint */ = {
-			isa = PBXGroup;
-			children = (
-				04990B7F24B870E5008CDE6C /* Controller */,
-				04990B8024B870E5008CDE6C /* Model */,
-				04990B8124B870E5008CDE6C /* View */,
-			);
-			path = Joint;
-			sourceTree = "<group>";
-		};
-		04990B7F24B870E5008CDE6C /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				04121F2E24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift */,
-				04CBB64D24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		04990B8024B870E5008CDE6C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		04990B8124B870E5008CDE6C /* View */ = {
-			isa = PBXGroup;
-			children = (
-				04121F3024BF0CE900864E51 /* OwnerJointIdentifyCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		04990B8224B870E5008CDE6C /* Company */ = {
 			isa = PBXGroup;
 			children = (
+				8E9B0F7025651E9C004F9CE8 /* OwnerCompanyIdentifyCell.swift */,
 				04990B8324B870E5008CDE6C /* Controller */,
-				04990B8424B870E5008CDE6C /* Model */,
-				04990B8524B870E5008CDE6C /* View */,
 			);
 			path = Company;
 			sourceTree = "<group>";
@@ -788,25 +685,9 @@
 		04990B8324B870E5008CDE6C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				0407F92B24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift */,
 				04CBB65524C154CE007BDAB4 /* OwnerCreateBuildingViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		04990B8424B870E5008CDE6C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		04990B8524B870E5008CDE6C /* View */ = {
-			isa = PBXGroup;
-			children = (
-				0407F92924BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		04990B8624B87194008CDE6C /* Basic */ = {
@@ -822,12 +703,7 @@
 		04990B8724B87194008CDE6C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				04990B8A24B872D4008CDE6C /* OwnerIdenfySelectVC.swift */,
-				0407F93124BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift */,
 				0407F93324BD8B3C00C9F581 /* OwnerBuildingNameESearchResultListViewController.swift */,
-				042D73D424BDAC5F0062FA7B /* OwnerCreateCompanyViewController.swift */,
-				042D73D624BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift */,
-				0434D67824DAC73D00582B3B /* OwnerEnterCreatedCompanyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -835,9 +711,7 @@
 		04990B8824B87194008CDE6C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0407F93724BD94D800C9F581 /* OwnerESCompanySearchModel.swift */,
 				0407F93924BD963400C9F581 /* OwnerESBuildingSearchModel.swift */,
-				048D243C24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -846,7 +720,6 @@
 			isa = PBXGroup;
 			children = (
 				0407F92D24BC3CE200C9F581 /* OwnerImagePickerCell.swift */,
-				0407F92F24BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift */,
 				0407F93524BD917000C9F581 /* OwnerBuildingNameESSearchIdentifyCell.swift */,
 				04E052B624C5667800D7CA96 /* CityDistrictAddressSelectView.swift */,
 			);
@@ -1379,7 +1252,6 @@
 		04E2397F249B3C3D009DCCEC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				04E23986249B3C75009DCCEC /* OwnerHomeViewController.swift */,
 				046CEF9324F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift */,
 				8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */,
 				8E6D0A392521D903005EFDEF /* OwnerBuildingCreateViewController.swift */,
@@ -2134,7 +2006,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE4914DE24692D62008D5689 /* LLContainerScrollView.swift in Sources */,
-				048D243D24C82E0F00B0B16D /* BranchOrCompanyIIsExistedModel.swift in Sources */,
 				04E23963249B3ABB009DCCEC /* RenterMineViewController.swift in Sources */,
 				04CB478D249CB250001BCC8F /* RenterMineSettingViewController.swift in Sources */,
 				EEE87B222455856800C03424 /* JHImageLoader.swift in Sources */,
@@ -2155,7 +2026,6 @@
 				04CB46FE249CB02C001BCC8F /* YLDatePicker.swift in Sources */,
 				EEE87B212455856800C03424 /* JHTableViewCell.swift in Sources */,
 				04CB479C249CC76B001BCC8F /* OwnerUserMsgViewController.swift in Sources */,
-				04121F2F24BEFF6800864E51 /* OwnerJointIeditnfyVC.swift in Sources */,
 				EEE0D93B2465581200E5C77B /* FontConstant.swift in Sources */,
 				04E23923249B3ABB009DCCEC /* RenterHomePageViewController.swift in Sources */,
 				046F1A7D24FDF0690029A965 /* VRScanWebViewController.swift in Sources */,
@@ -2217,7 +2087,6 @@
 				04E23948249B3ABB009DCCEC /* HouseSelectBtnView.swift in Sources */,
 				046CEF9024F3D41B00B061B8 /* LBXScanViewStyle.swift in Sources */,
 				04E23926249B3ABB009DCCEC /* FangYuanSearchResultModel.swift in Sources */,
-				04CBB65024C04FA1007BDAB4 /* OwnerPersonalIeditnfyVC.swift in Sources */,
 				04CB4701249CB02C001BCC8F /* RenterChatViewController.swift in Sources */,
 				04CB4796249CB43F001BCC8F /* RenterUserHeaderView.swift in Sources */,
 				04CB4781249CB1D9001BCC8F /* RenterHouseScheduleDetailViewController.swift in Sources */,
@@ -2250,7 +2119,6 @@
 				04E23939249B3ABB009DCCEC /* RenterShareServiceShowView.swift in Sources */,
 				04E2393C249B3ABB009DCCEC /* RenterOfficebuildingDeatailHuxingCell.swift in Sources */,
 				042E5E4324964913008B8E14 /* NetReachability.swift in Sources */,
-				042D73D724BEA61B0062FA7B /* OwnerApplyEnterCompanyViewController.swift in Sources */,
 				EEE87B142455856800C03424 /* UIButtonSnapEx.swift in Sources */,
 				EEE87B5724558F9800C03424 /* ThorTouchesEnableCollectionView.swift in Sources */,
 				8E896772253949D4005FF38B /* OwnerBuildingOfficeViewController.swift in Sources */,
@@ -2268,7 +2136,6 @@
 				04E2392E249B3ABB009DCCEC /* RenterShareServiceCell.swift in Sources */,
 				EE4914E024692D62008D5689 /* LLToolFunc.swift in Sources */,
 				04B2BE7C24B5D1FA00D0F963 /* HHGuidePageHUD.swift in Sources */,
-				0434D67924DAC73E00582B3B /* OwnerEnterCreatedCompanyViewController.swift in Sources */,
 				04E23943249B3ABB009DCCEC /* HouseListTableViewCell.swift in Sources */,
 				EE4914DA24692D62008D5689 /* LLSegmentBaseItemView.swift in Sources */,
 				8E14F58625246222007F2096 /* OwnerBuildingBorderInputCell.swift in Sources */,
@@ -2287,7 +2154,6 @@
 				0437CFB3247E17190015C355 /* SSTool.swift in Sources */,
 				EEE87B232455856800C03424 /* JHCollectionReusableView.swift in Sources */,
 				EEE87B162455856800C03424 /* UICollectionViewSnapEx.swift in Sources */,
-				0407F93024BD859E00C9F581 /* OwnerCompanyESSearchIdentifyCell.swift in Sources */,
 				0437CFB1247E15B80015C355 /* SSNetworkTool.swift in Sources */,
 				049EA2D624AD86B1004EC1F5 /* TitleStringEnum.swift in Sources */,
 				EEE87B1C2455856800C03424 /* StatusBaEx.swift in Sources */,
@@ -2342,20 +2208,18 @@
 				04E2394D249B3ABB009DCCEC /* RenterCollectOfficeCell.swift in Sources */,
 				04E2391E249B3ABB009DCCEC /* RenterOfficebuildingFYDetailVC.swift in Sources */,
 				047333312475322400755192 /* CustomerSearchBarview.swift in Sources */,
-				04CBB65424C07BAC007BDAB4 /* OwnerIdCardImagePickerCell.swift in Sources */,
 				8EDBA532253FE0E900BD3774 /* OwnerBuildingListCell.swift in Sources */,
 				8EDBA52E253D77A400BD3774 /* OwnerBuildingFYFloorCell.swift in Sources */,
 				046689222472548800A76669 /* ConfigureModel.swift in Sources */,
 				047333252473D77700755192 /* UIView+Extension.swift in Sources */,
+				8E9B0F7125651E9C004F9CE8 /* OwnerCompanyIdentifyCell.swift in Sources */,
 				8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */,
 				04E23924249B3ABB009DCCEC /* RenterFangYuanListViewController.swift in Sources */,
 				8EDBA52C253D2A7100BD3774 /* OwnerBuildingFYRenterTotalPriceCell.swift in Sources */,
-				04CBB64E24C028D6007BDAB4 /* OwnerCreateBranchViewController.swift in Sources */,
 				04CB46FD249CB02C001BCC8F /* WechatExchangeMessage.swift in Sources */,
 				8E24E61B256399E2007251BE /* NewIdentifyViewController.swift in Sources */,
 				EEE87B0D2455856800C03424 /* JHBaseWebViewController.swift in Sources */,
 				04E23929249B3ABB009DCCEC /* BannerModel.swift in Sources */,
-				0407F93224BD893E00C9F581 /* OwnerCompanyESearchResultListViewController.swift in Sources */,
 				04EF1E41247777B700871762 /* RenterMainTabBarController.swift in Sources */,
 				EEE87B152455856800C03424 /* UIViewSnapEx.swift in Sources */,
 				04EF1E46247777E400871762 /* SSTabBarView.swift in Sources */,
@@ -2375,20 +2239,16 @@
 				8EDBA5362540009300BD3774 /* OwnerBuildingListViewController.swift in Sources */,
 				EEE0D9402465581200E5C77B /* EnumConstant.swift in Sources */,
 				EEE87B3B24558F6A00C03424 /* UIScrollViewExtension.swift in Sources */,
-				04990B8B24B872D4008CDE6C /* OwnerIdenfySelectVC.swift in Sources */,
 				EEE87B6324558F9800C03424 /* BaseButton.swift in Sources */,
-				0407F92A24BC2CB600C9F581 /* OwnerCompanyIdentifyCell.swift in Sources */,
 				EEE87B1F2455856800C03424 /* UIButtonEx.swift in Sources */,
 				0407F93A24BD963400C9F581 /* OwnerESBuildingSearchModel.swift in Sources */,
 				8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */,
-				04E23987249B3C75009DCCEC /* OwnerHomeViewController.swift in Sources */,
 				041DEDA325063BF2008DEBB2 /* RenterBuildingFYHouseMsgCell.swift in Sources */,
 				04266B6724FF6FB10027348B /* BannerOutClickWebViewController.swift in Sources */,
 				04CB46FB249CB02C001BCC8F /* PhoneExchangeMessage.swift in Sources */,
 				EEE87B172455856800C03424 /* UITextViewSnapEx.swift in Sources */,
 				EEE87B102455856800C03424 /* JHTableViewController.swift in Sources */,
 				EEE87B3C24558F6A00C03424 /* UIImageExtension.swift in Sources */,
-				04121F3124BF0CE900864E51 /* OwnerJointIdentifyCell.swift in Sources */,
 				EE4914DD24692D62008D5689 /* LLSegmentViewController.swift in Sources */,
 				042D95012509FD2500BEACED /* BaseGroupTableViewController.swift in Sources */,
 				EE4914DC24692D62008D5689 /* LLIndicatorView.swift in Sources */,
@@ -2397,14 +2257,10 @@
 				EEE87B5324558F9800C03424 /* ThorPlayerMediaControlInfoView.swift in Sources */,
 				8EE62CFB2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift in Sources */,
 				EE4914DF24692D62008D5689 /* LLCtlPageView.swift in Sources */,
-				04CBB65224C05A8F007BDAB4 /* OwnerPersonalIdentifyCell.swift in Sources */,
 				EEE87B6024558F9800C03424 /* Toast.swift in Sources */,
-				0407F93824BD94D800C9F581 /* OwnerESCompanySearchModel.swift in Sources */,
 				046CEF9424F5007A00B061B8 /* OwnerScanLoginSuccessViewController.swift in Sources */,
 				EEE87B242455856800C03424 /* JHCollectionViewCell.swift in Sources */,
-				0407F92C24BC2F9700C9F581 /* OwnerCompanyIeditnfyVC.swift in Sources */,
 				EE4914D824692D62008D5689 /* LLSegmentItemTabbarView.swift in Sources */,
-				042D73D524BDAC600062FA7B /* OwnerCreateCompanyViewController.swift in Sources */,
 				EEE87B192455856800C03424 /* JHSnapKitTool.swift in Sources */,
 				046CEF8E24F3D41B00B061B8 /* LBXScanViewController.swift in Sources */,
 				EE4914B524692D35008D5689 /* UIView+EasyFrame.m in Sources */,

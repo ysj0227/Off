@@ -226,8 +226,6 @@ extension OwnerBuildingJointESSearchViewController {
             view.isManagerBuilding = true
         }else if isManagerBranch == true {
             view.isManagerBranch = true
-        }else {
-            view.isBuilding = true
         }
         view.creatButtonCallClick = { [weak self] in
             guard let blockk = self?.creatButtonCallClick else {

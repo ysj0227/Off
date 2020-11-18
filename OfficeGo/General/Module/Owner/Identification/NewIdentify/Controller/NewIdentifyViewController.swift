@@ -360,7 +360,7 @@ extension NewIdentifyViewController {
             guard let weakSelf = self else {return}
             
             weakSelf.setCommitEnables(isUserinterface: false)
-            
+             
             weakSelf.showCommitAlertview()
             
             }, failure: {[weak self] (error) in
@@ -446,6 +446,8 @@ extension NewIdentifyViewController {
             //判断楼盘是关联的还是自己创建的
             self?.userModel?.isCreateBuilding = "2"
             
+            
+            self?.userModel?.btype = "\(model.buildType)"
             self?.userModel?.buildingId = model.bid
             self?.userModel?.buildingName = model.buildingAttributedName?.string
             self?.userModel?.buildingAddress = model.addressString?.string
@@ -774,17 +776,16 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
     lazy var tagView: UILabel = {
         let view = UILabel()
         view.textAlignment = .center
-        view.font = FONT_MEDIUM_11
+        view.font = FONT_MEDIUM_10
         view.textColor = kAppWhiteColor
         view.backgroundColor = kAppBlueColor
         view.clipsToBounds = true
         view.layer.cornerRadius = button_cordious_2
-        view.text = "楼盘"
         return view
     }()
     lazy var buildingNameLabel: UILabel = {
         let view = UILabel()
-        view.font = FONT_15
+        view.font = FONT_14
         view.textColor = kAppColor_333333
         return view
     }()
@@ -873,11 +874,14 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
     
     var model: OwnerNewIedntifyConfigureModel = OwnerNewIedntifyConfigureModel(types: .OwnerNewIdentifyTypeBuildingName) {
         didSet {
-            
-//            rejectImg.image =
-            
+                        
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeBuildingName)
             numDescTF.placeholder = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeBuildingName)
+            if userModel?.btype == "1" {
+                tagView.text = "楼盘"
+            }else {
+                tagView.text = "网点"
+            }
             if model.type == .OwnerNewIdentifyTypeBuildingName {
                 closeBtn.isHidden = false
                 //0 空   无定义     1创建  2关联吗
@@ -890,7 +894,6 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
                     numDescTF.isHidden = true
                     editBtn.isHidden = false
                     buildingMsgView.isHidden = false
-                    tagView.text = "楼盘"
                     buildingNameLabel.text = userModel?.buildingName
                     houseAddressLabel.text = userModel?.buildingAddress
                 }else if userModel?.isCreateBuilding == "2" {
@@ -901,7 +904,6 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
                     numDescTF.isHidden = true
                     editBtn.isHidden = true
                     buildingMsgView.isHidden = false
-                    tagView.text = "网点"
                     buildingNameLabel.text = userModel?.buildingName
                     houseAddressLabel.text = userModel?.buildingAddress
                 }else {
@@ -964,7 +966,7 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
         tagView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.centerY.equalTo(buildingNameLabel)
-            make.size.equalTo(CGSize(width: 32, height: 18))
+            make.size.equalTo(CGSize(width: 30, height: 16))
         }
         houseAddressLabel.snp.makeConstraints { (make) in
             make.top.equalTo(buildingNameLabel.snp.bottom).offset(8)
