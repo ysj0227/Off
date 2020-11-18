@@ -11,6 +11,71 @@ import UIKit
 typealias CloseBtnClickClouse = (Int)->()
 typealias VisitPhotoBtnClickClouse = (Int)->()
 
+class OwnerNewIdtnfifyImagePickerCell: BaseCollectionViewCell {
+    
+    var indexPath: IndexPath? {
+        didSet {
+            closeBtn.tag = indexPath?.row ?? 0
+        }
+    }
+    
+    ///删除
+    @objc var closeBtnClickClouse: CloseBtnClickClouse?
+    
+    @objc var visitPhotoBtnClickClouse: VisitPhotoBtnClickClouse?
+    
+    /// 关闭按钮
+    @objc func clickCloseBtn(btn:UIButton) {
+        
+        if self.closeBtnClickClouse != nil {
+            self.closeBtnClickClouse!(btn.tag)
+        }
+    }
+    
+    let image: BaseImageView = {
+        let view = BaseImageView()
+        view.backgroundColor = kAppClearColor
+        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFill
+        view.image = UIImage.init(named: "addImgBg")
+        return view
+    }()
+    
+    let closeBtn: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage.init(named: "imageDeleIcon"), for: .normal)
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupViews() {
+
+        self.backgroundColor = kAppWhiteColor
+          
+        self.contentView.addSubview(image)
+        self.contentView.addSubview(closeBtn)
+        image.snp.makeConstraints { (make) in
+            make.top.leading.bottom.trailing.equalToSuperview().inset(5)
+        }
+        closeBtn.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.size.equalTo(20)
+        }
+        closeBtn.addTarget(self, action: #selector(clickCloseBtn(btn:)), for: .touchUpInside)
+        
+    }
+    
+}
 
 class OwnerFYManagerImagePickerCell: BaseCollectionViewCell {
     

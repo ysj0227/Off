@@ -404,7 +404,9 @@ extension OwnerCreateBuildingViewController {
         
         if typeSourceArray[indexPath.row].type == .OwnerCreteBuildingTypeBranchDistrictArea{
             if userModel?.buildingId != nil {
-
+                endEdting()
+                ///区域商圈选择
+                judgeHasData()
             }else {
 
                 endEdting()

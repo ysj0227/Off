@@ -417,11 +417,14 @@ extension NewIdentifyViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        ///楼盘名字地址展示cell
         headerCollectionView.register(OwnerNewIdentifyCell.self, forCellWithReuseIdentifier: OwnerNewIdentifyCell.reuseIdentifierStr)
+        ///权利人cell
         headerCollectionView.register(OwnerCompanyIdentifyCell.self, forCellWithReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr)
-        headerCollectionView.register(OwnerImagePickerCell.self, forCellWithReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr)
-        headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
-        
+        ///房产证 营业执照 补充草料
+        headerCollectionView.register(OwnerNewIdentifyImgCell.self, forCellWithReuseIdentifier: OwnerNewIdentifyImgCell.reuseIdentifierStr)
+        ///身份证
+        headerCollectionView.register(OwnerNewPersonIDCardIdentifyImgCell.self, forCellWithReuseIdentifier: OwnerNewPersonIDCardIdentifyImgCell.reuseIdentifierStr)
         //写字楼
         buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
         buildingNameSearchResultVC?.view.isHidden = true
@@ -672,8 +675,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             return cell ?? OwnerNewIdentifyCell()
         }else if indexPath.section == 2{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerCompanyIdentifyCell
-            cell?.userModel = self.userModel
-//            cell?.model = typeSourceArray[indexPath.section][indexPath.item]
+            cell?.userModel = userModel
             let model = typeSourceArray[indexPath.section][indexPath.item]
             cell?.titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeQuanLiRenType)
             cell?.numDescTF.placeholder = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeQuanLiRenType)
@@ -682,73 +684,26 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             cell?.numDescTF.isUserInteractionEnabled = false
             return cell ?? OwnerCompanyIdentifyCell()
         }else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerImagePickerCell
-            cell?.indexPath = indexPath
-            if indexPath.section == 1 {
-                if indexPath.item <= uploadPicModelFCZArr.count - 1  {
-                    if uploadPicModelFCZArr[indexPath.item].isLocal == false {
-                        cell?.image.setImage(with: uploadPicModelFCZArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
-                    }else {
-                        cell?.image.image = uploadPicModelFCZArr[indexPath.item].image
-                    }
-                    cell?.closeBtnClickClouse = { [weak self] (index) in
-                        self?.request_deleteFCZImgApp(section: indexPath.section, index: index)
-                    }
-                }else {
-                    cell?.image.image = UIImage.init(named: "addImgBg")
-                }
+            
+            if indexPath.section == 3 {
                 
-                if indexPath.item == uploadPicModelFCZArr.count {
-                    cell?.closeBtn.isHidden = true
-                }else {
-                    cell?.closeBtn.isHidden = false
+                if UserTool.shared.user_owner_identifytype == 1 {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewPersonIDCardIdentifyImgCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerNewPersonIDCardIdentifyImgCell
+                    cell?.userModel = userModel
+                    cell?.model = typeSourceArray[indexPath.section][indexPath.item]
+                    return cell ?? OwnerNewPersonIDCardIdentifyImgCell()
                 }
-            }else if indexPath.section == 3 {
-                if indexPath.item <= uploadPicModelYingyeArr.count - 1  {
-                    if uploadPicModelYingyeArr[indexPath.item].isLocal == false {
-                        cell?.image.setImage(with: uploadPicModelYingyeArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
-                    }else {
-                        cell?.image.image = uploadPicModelYingyeArr[indexPath.item].image
-                    }
-                    cell?.closeBtnClickClouse = { [weak self] (index) in
-                        self?.request_deleteZLAgentImgApp(section: indexPath.section, index: index)
-                    }
-                }else {
-                    cell?.image.image = UIImage.init(named: "addImgBg")
-                }
+            }else {
                 
-                if indexPath.item == uploadPicModelYingyeArr.count {
-                    cell?.closeBtn.isHidden = true
-                }else {
-                    cell?.closeBtn.isHidden = false
-                }
-            }else if indexPath.section == 4 {
-                if indexPath.item <= uploadPicModelBuChongArr.count - 1  {
-                    if uploadPicModelBuChongArr[indexPath.item].isLocal == false {
-                        cell?.image.setImage(with: uploadPicModelBuChongArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
-                    }else {
-                        cell?.image.image = uploadPicModelBuChongArr[indexPath.item].image
-                    }
-                    cell?.closeBtnClickClouse = { [weak self] (index) in
-                        self?.request_deleteZLAgentImgApp(section: indexPath.section, index: index)
-                    }
-                }else {
-                    cell?.image.image = UIImage.init(named: "addImgBg")
-                }
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewIdentifyImgCell.reuseIdentifierStr, for: indexPath) as? OwnerNewIdentifyImgCell
+                cell?.userModel = userModel ?? OwnerIdentifyUserModel()
+                cell?.model = typeSourceArray[indexPath.section][indexPath.item]
+                return cell ?? OwnerNewIdentifyImgCell.init(frame: .zero)
                 
-                if indexPath.item == uploadPicModelBuChongArr.count {
-                    cell?.closeBtn.isHidden = true
-                }else {
-                    cell?.closeBtn.isHidden = false
-                }
             }
-            /*else if indexPath.section == 4 {
-             cell?.image.image = uplaodMainPageimg
-             cell?.closeBtn.isHidden = true
-             }*/
-            return cell ?? OwnerImagePickerCell()
+            
         }
-        
+        return UICollectionViewCell.init()
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
 
@@ -762,7 +717,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
         }
         ///房产证
         else if section == 1 {
-            return uploadPicModelFCZArr.count + 1
+            return 1
         }
         ///权利人类型 - 只有楼盘和个人有
         else if section == 2 {
@@ -782,22 +737,24 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
         else if section == 3 {
             ///身份类型0个人1企业2联合
             if UserTool.shared.user_owner_identifytype == 0 {
-                return 2
+                return 1
             }else if UserTool.shared.user_owner_identifytype == 1 {
-                return uploadPicModelYingyeArr.count + 1
+                return 1
             }else if UserTool.shared.user_owner_identifytype == 2 {
-                return uploadPicModelYingyeArr.count + 1
+                return 1
             }else {
                 return 0
             }
         }else {
-            return uploadPicModelBuChongArr.count + 1
+            return 1
         }
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        let width = (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1
+
         if indexPath.section == 0 {
             if userModel?.buildingName != nil {
                 return CGSize(width: kWidth, height: cell_height_58 * 2)
@@ -805,7 +762,12 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 return CGSize(width: kWidth, height: cell_height_58 * 2)
             }
         }else if indexPath.section == 1 {
-            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
+            if let count = userModel?.fczLocalLocalImgArr.count {
+                return CGSize(width: kWidth, height: CGFloat((count + 2) / 3) * CGFloat(width))
+            }else {
+                return CGSize(width: kWidth, height: width + 68)
+            }
+
         }else if indexPath.section == 2 {
             ///身份类型0个人1企业2联合
             if UserTool.shared.user_owner_identifytype == 0 {
@@ -818,36 +780,34 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 return CGSize(width: 0, height: 0)
             }
         }else if indexPath.section == 3 {
-            ///身份类型0个人1企业2联合
-            if UserTool.shared.user_owner_identifytype == 0 {
-                let width = (kWidth - left_pending_space_17 * 3) / 2.0 - 1
-                return CGSize(width: width, height: width * 3 / 4.0)
-            }else if UserTool.shared.user_owner_identifytype == 1 {
-                return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
-            }else if UserTool.shared.user_owner_identifytype == 2 {
-                return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
+            if UserTool.shared.user_owner_identifytype == 1 {
+                return CGSize(width: kWidth, height: OwnerNewPersonIDCardIdentifyImgCell.rowHeight())
             }else {
-                return CGSize(width: 0, height: 0)
+                if let count = userModel?.businessLicenseLocalImgArr.count {
+                    return CGSize(width: kWidth, height: CGFloat((count + 2) / 3) * CGFloat(width))
+                }else {
+                    return CGSize(width: kWidth, height: width + 68)
+                }
             }
+            
         }else {
-            return CGSize(width: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1)
+            if let count = userModel?.addtionalLocalImgArr.count {
+                return CGSize(width: kWidth, height: CGFloat((count + 2) / 3) * CGFloat(width))
+            }else {
+                return CGSize(width: kWidth, height: width + 68)
+            }
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if section == 0 || section == 2 {
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            
+
         }else {
-            return UIEdgeInsets(top: 0, left: left_pending_space_17, bottom: 0, right: left_pending_space_17)
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-        }else if indexPath.section == 1 {
-            if indexPath.item == uploadPicModelFCZArr.count {
-                selectFCZPicker()
-            }
-        }else if indexPath.section == 2 {
+        if indexPath.section == 2 {
             if indexPath.item == 0 {
                 
                 let alertController = UIAlertController.init(title: "权利人类型", message: nil, preferredStyle: .actionSheet)
@@ -873,72 +833,15 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 
                 present(alertController, animated: true, completion: nil)
             }
-        }else if indexPath.section == 3 {
-            ///身份类型0个人1企业2联合
-            if UserTool.shared.user_owner_identifytype == 0 {
-                
-            }else if UserTool.shared.user_owner_identifytype == 1 {
-                if indexPath.item == uploadPicModelYingyeArr.count {
-                    selectYingyePicker()
-                }
-            }else if UserTool.shared.user_owner_identifytype == 2 {
-                if indexPath.item == uploadPicModelYingyeArr.count {
-                    selectYingyePicker()
-                }
-            }
-        }
-        else {
-            if indexPath.item == uploadPicModelBuChongArr.count {
-                selectZLAgentPicker()
-            }
         }
         
     }
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader", for: indexPath) as? OwnerImgPickerCollectionViewHeader
-            if indexPath.section == 0 || indexPath.section == 2  {
-                header?.backgroundColor = kAppColor_line_EEEEEE
-                header?.titleLabel.text = ""
-                header?.descLabel.text = ""
-            }else {
-                header?.backgroundColor = kAppWhiteColor
-                
-                let model = typeSourceArray[indexPath.section][0]
-                
-                header?.titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeUploadFangchanzheng)
-                header?.descLabel.text = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeUploadFangchanzheng)
-            }
-            
-            return header ?? UICollectionReusableView()
-        }
-        
-        return UICollectionReusableView()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 {
-            return CGSize(width: kWidth - left_pending_space_17 * 2, height: 0)
-        }else if section == 1 {
-            return CGSize(width: kWidth, height: 68)
-        }else if section == 2 {
-            return CGSize(width: kWidth, height: 12)
-        }else if section == 3 {
-            return CGSize(width: kWidth, height: 68)
-        }else if section == 4 {
-            return CGSize(width: kWidth, height: 68)
-        }
-        else {
-            return CGSize.zero
-        }
-    }
-    
     //这个是两行cell之间的间距（上下行cell的间距）
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if section == 0 || section == 2 {
             return 0
         }else {
-            return 5
+            return 0
         }
     }
     
@@ -947,7 +850,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
         if section == 0 || section == 2 {
             return 0
         }else {
-            return 5
+            return 0
         }
     }
 }
@@ -956,7 +859,8 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
     
     lazy var rejectImg: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = kAppRedColor
+        view.image = UIImage.init(named: "redLine")
+//        view.backgroundColor = kAppRedColor
         return view
     }()
     
@@ -1131,11 +1035,11 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
 
         self.backgroundColor = kAppWhiteColor
   
-        self.contentView.addSubview(rejectImg)
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(numDescTF)
         self.contentView.addSubview(buildingMsgView)
         self.contentView.addSubview(lineView)
+        self.contentView.addSubview(rejectImg)
 
         buildingMsgView.addSubview(tagView)
         buildingMsgView.addSubview(buildingNameLabel)
@@ -1145,8 +1049,8 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
         buildingMsgView.addSubview(closeBtn)
         
         rejectImg.snp.makeConstraints { (make) in
-            make.leading.top.bottom.equalToSuperview()
-            make.width.equalTo(left_pending_space_17)
+            make.leading.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(3)
         }
         
         titleLabel.snp.makeConstraints { (make) in

@@ -95,6 +95,39 @@ class VersionModel: BaseModel {
 
 class OwnerIdentifyUserModel: BaseModel {
     
+    ///房产证图片数组
+    var fczLocalLocalImgArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
+    
+    ///补充材料图片数组
+    var addtionalLocalImgArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
+    
+    ///营业执照图片数组
+    var businessLicenseLocalImgArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
+    
+    //判断身份证照片是否是第一次调取接口
+    var isFirst: Bool = false
+    
+    
+    var isFront: Bool? = true
+    
+    //身份证 - 正
+    var frontBannerModel: BannerModel?
+    
+    //身份证 - 反
+    var reverseBannerModel: BannerModel?
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     ///房产证
     var buildingCardTemp: [BannerModel]?
     
