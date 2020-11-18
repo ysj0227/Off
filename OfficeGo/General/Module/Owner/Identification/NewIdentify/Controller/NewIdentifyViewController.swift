@@ -178,6 +178,10 @@ extension NewIdentifyViewController {
     
     func detailDataShow() {
         
+        userModel?.frontBannerModel = BannerModel()
+        
+        userModel?.reverseBannerModel = BannerModel()
+
         if userModel?.buildingName?.count ?? 0 > 0 {
             isHasBuilding = true
         }else {
@@ -389,8 +393,8 @@ extension NewIdentifyViewController {
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
-        userModel?.leaseType = ""
-        
+        userModel?.frontBannerModel = BannerModel()
+        userModel?.reverseBannerModel = BannerModel()
     }
     func setUpView() {
         
@@ -417,14 +421,17 @@ extension NewIdentifyViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        
+        headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
+
         ///楼盘名字地址展示cell
         headerCollectionView.register(OwnerNewIdentifyCell.self, forCellWithReuseIdentifier: OwnerNewIdentifyCell.reuseIdentifierStr)
         ///权利人cell
         headerCollectionView.register(OwnerCompanyIdentifyCell.self, forCellWithReuseIdentifier: OwnerCompanyIdentifyCell.reuseIdentifierStr)
-        ///房产证 营业执照 补充草料
+        ///房产证 营业执照 补充材料
         headerCollectionView.register(OwnerNewIdentifyImgCell.self, forCellWithReuseIdentifier: OwnerNewIdentifyImgCell.reuseIdentifierStr)
         ///身份证
-        headerCollectionView.register(OwnerNewPersonIDCardIdentifyImgCell.self, forCellWithReuseIdentifier: OwnerNewPersonIDCardIdentifyImgCell.reuseIdentifierStr)
+        headerCollectionView.register(OwnerNewPersonIDCardIdentifyImgCell.self, forCellWithReuseIdentifier: "OwnerNewPersonIDCardIdentifyImgCell.reuseIdentifierStr")
         //写字楼
         buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
         buildingNameSearchResultVC?.view.isHidden = true
@@ -541,23 +548,38 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             
             if indexPath.section == 3 {
                 
-                if UserTool.shared.user_owner_identifytype == 1 {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewPersonIDCardIdentifyImgCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerNewPersonIDCardIdentifyImgCell
+                if UserTool.shared.user_owner_identifytype == 0 {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OwnerNewPersonIDCardIdentifyImgCell.reuseIdentifierStr", for: indexPath as IndexPath) as? OwnerNewPersonIDCardIdentifyImgCell
+                    cell?.presentVC = self
                     cell?.userModel = userModel
                     cell?.model = typeSourceArray[indexPath.section][indexPath.item]
                     return cell ?? OwnerNewPersonIDCardIdentifyImgCell()
+                }else {
+                    
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewIdentifyImgCell.reuseIdentifierStr, for: indexPath) as? OwnerNewIdentifyImgCell
+                    cell?.userModel = userModel ?? OwnerIdentifyUserModel()
+                    cell?.model = typeSourceArray[indexPath.section][indexPath.item]
+                    cell?.imgSelectClickBlock = { [weak self] (usermodel) in
+                        self?.userModel = usermodel
+                        self?.loadCollectionSectionData(section: indexPath.section)
+                    }
+                    return cell ?? OwnerNewIdentifyImgCell.init(frame: .zero)
+                    
                 }
             }else {
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewIdentifyImgCell.reuseIdentifierStr, for: indexPath) as? OwnerNewIdentifyImgCell
                 cell?.userModel = userModel ?? OwnerIdentifyUserModel()
                 cell?.model = typeSourceArray[indexPath.section][indexPath.item]
+                cell?.imgSelectClickBlock = { [weak self] (usermodel) in
+                    self?.userModel = usermodel
+                    self?.loadCollectionSectionData(section: indexPath.section)
+                }
                 return cell ?? OwnerNewIdentifyImgCell.init(frame: .zero)
                 
             }
             
         }
-        return UICollectionViewCell.init()
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
 
@@ -607,7 +629,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = (kWidth - left_pending_space_17 * 2 - 5 * 2) / 3.0 - 1
+        let width = (kWidth - left_pending_space_17 * 2) / 3.0 - 1
 
         if indexPath.section == 0 {
             if userModel?.buildingName != nil {
@@ -617,7 +639,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             }
         }else if indexPath.section == 1 {
             if let count = userModel?.fczLocalLocalImgArr.count {
-                return CGSize(width: kWidth, height: CGFloat((count + 2) / 3) * CGFloat(width))
+                return CGSize(width: kWidth, height: CGFloat((count + 3) / 3) * CGFloat(width + 5) + 68)
             }else {
                 return CGSize(width: kWidth, height: width + 68)
             }
@@ -634,11 +656,11 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 return CGSize(width: 0, height: 0)
             }
         }else if indexPath.section == 3 {
-            if UserTool.shared.user_owner_identifytype == 1 {
+            if UserTool.shared.user_owner_identifytype == 0 {
                 return CGSize(width: kWidth, height: OwnerNewPersonIDCardIdentifyImgCell.rowHeight())
             }else {
                 if let count = userModel?.businessLicenseLocalImgArr.count {
-                    return CGSize(width: kWidth, height: CGFloat((count + 2) / 3) * CGFloat(width))
+                    return CGSize(width: kWidth, height: CGFloat((count + 3) / 3) * CGFloat(width + 5) + 68)
                 }else {
                     return CGSize(width: kWidth, height: width + 68)
                 }
@@ -646,7 +668,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             
         }else {
             if let count = userModel?.addtionalLocalImgArr.count {
-                return CGSize(width: kWidth, height: CGFloat((count + 2) / 3) * CGFloat(width))
+                return CGSize(width: kWidth, height: CGFloat((count + 3) / 3) * CGFloat(width + 5) + 68)
             }else {
                 return CGSize(width: kWidth, height: width + 68)
             }
@@ -690,22 +712,32 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
         }
         
     }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let view = UICollectionReusableView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        if kind == UICollectionView.elementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader", for: indexPath) as? OwnerImgPickerCollectionViewHeader
+            header?.backgroundColor = kAppColor_line_EEEEEE
+            
+            return header ?? UICollectionReusableView()
+        }
+        return UICollectionReusableView()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == 2 {
+            return CGSize(width: kWidth, height: 12)
+        }
+        return CGSize.zero
+    }
     //这个是两行cell之间的间距（上下行cell的间距）
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if section == 0 || section == 2 {
-            return 0
-        }else {
-            return 0
-        }
+        return 0
     }
     
     ////两个cell之间的间距（同一行的cell的间距）
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if section == 0 || section == 2 {
-            return 0
-        }else {
-            return 0
-        }
+        return 0
     }
 }
 
@@ -904,7 +936,7 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
         
         rejectImg.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
-            make.top.bottom.equalToSuperview().inset(3)
+            make.top.bottom.equalToSuperview().inset(10)
         }
         
         titleLabel.snp.makeConstraints { (make) in

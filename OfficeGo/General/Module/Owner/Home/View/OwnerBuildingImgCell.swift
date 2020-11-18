@@ -459,9 +459,6 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
             
             if indexPath.item == buildingModel.buildingLocalImgArr.count {
                 if indexPath.item < ownerBuildingImageNumber_9 {
-                    //                if self.imgSelectClickBlock != nil {
-                    //                    self.imgSelectClickBlock!(ownerBuildingImageNumber_9 - buildingModel.buildingLocalImgArr.count)
-                    //                }
                     selectFCZPicker()
                 }else {
                     AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber_9)张图片")
@@ -471,9 +468,6 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
             
             if indexPath.item == FYModel.buildingLocalImgArr.count {
                 if indexPath.item < ownerBuildingImageNumber_9 {
-                    //                if self.imgSelectClickBlock != nil {
-                    //                    self.imgSelectClickBlock!(ownerBuildingImageNumber_9 - FYModel.buildingLocalImgArr.count)
-                    //                }
                     selectFCZPicker()
                 }else {
                     AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber_9)张图片")
@@ -528,7 +522,7 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
 //MARK: 新认证 - 图片选择cell
 class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
         
-    var imgSelectClickBlock:((_ maxImg: Int) -> Void)?
+    var imgSelectClickBlock:((_ usermodel: OwnerIdentifyUserModel) -> Void)?
 
     lazy var fczImagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
@@ -541,7 +535,6 @@ class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
         let view = UIImageView()
         view.image = UIImage.init(named: "redLine")
         view.contentMode = .scaleToFill
-//        view.backgroundColor = kAppRedColor
         return view
     }()
     
@@ -553,12 +546,6 @@ class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
         view.showsHorizontalScrollIndicator = false
         view.backgroundColor = kAppWhiteColor
         view.isScrollEnabled = false
-        return view
-    }()
-    
-    lazy var lineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = kAppColor_line_EEEEEE
         return view
     }()
         
@@ -586,12 +573,10 @@ class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
   
         self.contentView.addSubview(headerCollectionView)
         self.contentView.addSubview(rejectImg)
-
-        self.contentView.addSubview(lineView)
         
         rejectImg.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
-            make.top.bottom.equalToSuperview().inset(3)
+            make.top.bottom.equalToSuperview().inset(10)
         }
         
         
@@ -599,13 +584,6 @@ class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
             make.leading.trailing.equalToSuperview()
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
-        }
-        
-        lineView.snp.makeConstraints { (make) in
-            make.leading.equalTo(left_pending_space_17)
-            make.trailing.equalTo(-left_pending_space_17)
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
         }
         
         headerCollectionView.delegate = self
@@ -623,6 +601,13 @@ class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
 
 extension OwnerNewIdentifyImgCell {
     
+    
+    func loadVC() {
+        guard let block = imgSelectClickBlock else {
+            return
+        }
+        block(userModel)
+    }
     
     //MARK: 上传房产证 - 拍照
     func selectFCZPicker() {
@@ -643,10 +628,10 @@ extension OwnerNewIdentifyImgCell {
                 }, failedClouse: { () in
 
             })
-            self?.uploadFCZImg(imgArr: imggggArr, existImgCount: self?.userModel.fczLocalLocalImgArr.count ?? 0)
+            //self?.uploadFCZImg(imgArr: imggggArr, existImgCount: self?.userModel.fczLocalLocalImgArr.count ?? 0)
             //房产证
             self?.userModel.fczLocalLocalImgArr.append(contentsOf: imgArr)
-            self?.loadCollectionData()
+            self?.loadVC()
         }
     }
 
@@ -690,7 +675,7 @@ extension OwnerNewIdentifyImgCell {
     
     
     
-    //MARK: 上传房产证 - 拍照
+    //MARK: 上传营业执照 - 拍照
     func selectYinyePicker() {
         
         var imgArr = [BannerModel]()
@@ -709,10 +694,10 @@ extension OwnerNewIdentifyImgCell {
                 }, failedClouse: { () in
 
             })
-            self?.uploadYingyeImg(imgArr: imggggArr, existImgCount: self?.userModel.businessLicenseLocalImgArr.count ?? 0)
+            //self?.uploadYingyeImg(imgArr: imggggArr, existImgCount: self?.userModel.businessLicenseLocalImgArr.count ?? 0)
             //房产证
             self?.userModel.businessLicenseLocalImgArr.append(contentsOf: imgArr)
-            self?.loadCollectionData()
+            self?.loadVC()
         }
     }
     
@@ -774,10 +759,10 @@ extension OwnerNewIdentifyImgCell {
                 }, failedClouse: { () in
 
             })
-            self?.uploadAddtionalImg(imgArr: imggggArr, existImgCount: self?.userModel.addtionalLocalImgArr.count ?? 0)
+            //self?.uploadAddtionalImg(imgArr: imggggArr, existImgCount: self?.userModel.addtionalLocalImgArr.count ?? 0)
             //房产证
             self?.userModel.addtionalLocalImgArr.append(contentsOf: imgArr)
-            self?.loadCollectionData()
+            self?.loadVC()
         }
     }
     //MARK: 上传补充信息
@@ -829,26 +814,26 @@ extension OwnerNewIdentifyImgCell {
         if type == .OwnerNewIdentifyTypeUploadFangchanzheng {
             if userModel.fczLocalLocalImgArr[index].isLocal == true {
                 userModel.fczLocalLocalImgArr.remove(at: index)
-                loadCollectionData()
+                loadVC()
             }else {
                 userModel.fczLocalLocalImgArr.remove(at: index)
-                loadCollectionData()
+                loadVC()
             }
         }else if type == .OwnerNewIdentifyTypeYinYeOrIdCard {
             if userModel.businessLicenseLocalImgArr[index].isLocal == true {
                 userModel.businessLicenseLocalImgArr.remove(at: index)
-                loadCollectionData()
+                loadVC()
             }else {
                 userModel.businessLicenseLocalImgArr.remove(at: index)
-                loadCollectionData()
+                loadVC()
             }
         }else if type == .OwnerNewIdentifyTypeAddtional {
             if userModel.addtionalLocalImgArr[index].isLocal == true {
                 userModel.addtionalLocalImgArr.remove(at: index)
-                loadCollectionData()
+                loadVC()
             }else {
                 userModel.addtionalLocalImgArr.remove(at: index)
-                loadCollectionData()
+                loadVC()
             }
         }
     }
@@ -998,8 +983,7 @@ extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewD
 
 class OwnerNewIdCardImagePickerView: UIView {
     
-    @objc var closeBtnClickClouse: CloseBtnClickClouse?
-    @objc var visitPhotoBtnClickClouse: VisitPhotoBtnClickClouse?
+    @objc var clickIDCardBlock: CloseBtnClickClouse?
     
     let image: BaseImageView = {
         let view = BaseImageView()
@@ -1008,6 +992,12 @@ class OwnerNewIdCardImagePickerView: UIView {
         view.isUserInteractionEnabled = true
         return view
     }()
+    @objc private func tapTextMessage(_ tap: UITapGestureRecognizer) {
+        guard let blockk = clickIDCardBlock else {
+            return
+        }
+        blockk(1)
+    }
     let bgimage: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = kAppClearColor
@@ -1038,7 +1028,9 @@ class OwnerNewIdCardImagePickerView: UIView {
         bgimage.snp.makeConstraints { (make) in
             make.top.leading.bottom.trailing.equalToSuperview()
         }
-
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(tapTextMessage(_:)))
+        singleTap.numberOfTapsRequired = 1
+        image.addGestureRecognizer(singleTap)
     }
     
 }
@@ -1047,8 +1039,8 @@ class OwnerNewIdCardImagePickerView: UIView {
 //MARK: 新认证 - 图片选择cell
 class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         
-    var imgSelectClickBlock:((_ maxImg: Int) -> Void)?
-
+    var presentVC: BaseViewController?
+    
     lazy var fczImagePickTool: CLImagePickerTool = {
         let picker = CLImagePickerTool()
         picker.cameraOut = true
@@ -1060,7 +1052,6 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         let view = UIImageView()
         view.image = UIImage.init(named: "redLine")
         view.contentMode = .scaleToFill
-//        view.backgroundColor = kAppRedColor
         return view
     }()
     
@@ -1089,12 +1080,6 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         view.bgimage.image = UIImage.init(named: "idcardBgFBack")
         return view
     }()
-    
-    lazy var lineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = kAppColor_line_EEEEEE
-        return view
-    }()
         
     ///认证数据展示
     var userModel: OwnerIdentifyUserModel?
@@ -1102,7 +1087,7 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
     class func rowHeight() -> CGFloat {
         let width = (kWidth - left_pending_space_17 * 3) / 2.0 - 1
         let height = width * 3 / 4.0
-        return 68 + height + 10
+        return 68 + height + 20
     }
     
     var model: OwnerNewIedntifyConfigureModel? {
@@ -1131,6 +1116,93 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         }
     }
     
+    func pickerSelectIDCard() {
+        self.userModel?.isFront = false
+        let alertController = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        let refreshAction = UIAlertAction.init(title: "拍照", style: .default) {[weak self] (action: UIAlertAction) in
+            let vc = ZKIDCardCameraController.init(type: .reverse)
+            vc.modalPresentationStyle = .overFullScreen
+            vc.delegate = self
+            self?.presentVC?.present(vc, animated: true, completion: nil)
+        }
+        let copyAction = UIAlertAction.init(title: "从手机相册选择", style: .default) {[weak self] (action: UIAlertAction) in
+            let picker = CLImagePickerTool()
+            picker.cameraOut = false
+            picker.isHiddenVideo = true
+            picker.singleImageChooseType = .singlePicture   //设置单选
+            picker.singleModelImageCanEditor = false        //单选不可编辑
+            picker.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+                SSLog("返回的asset数组是\(asset)")
+                
+                var index = asset.count // 标记失败的次数
+                
+                // 获取原图，异步
+                // scale 指定压缩比
+                // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+                CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                    let img = image.resizeMax1500Image()
+                    
+                    self?.userModel?.reverseBannerModel?.imgUrl = nil
+                    self?.userModel?.reverseBannerModel?.image = img?.crop(ratio: 4 / 3.0)
+                    self?.reverseView.image.image = self?.userModel?.reverseBannerModel?.image
+                    }, failedClouse: { () in
+                        index = index - 1
+                        //                    self?.dealImage(imageArr: imageArr, index: index)
+                })
+            }
+        }
+        let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
+            
+        }
+        alertController.addAction(refreshAction)
+        alertController.addAction(copyAction)
+        alertController.addAction(cancelAction)
+        presentVC?.present(alertController, animated: true, completion: nil)
+    }
+    
+    func pickerSelectIDCardFront() {
+        self.userModel?.isFront = true
+        let alertController = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        let refreshAction = UIAlertAction.init(title: "拍照", style: .default) {[weak self] (action: UIAlertAction) in
+            let vc = ZKIDCardCameraController.init(type: .front)
+            vc.modalPresentationStyle = .overFullScreen
+            vc.delegate = self
+            self?.presentVC?.present(vc, animated: true, completion: nil)
+        }
+        let copyAction = UIAlertAction.init(title: "从手机相册选择", style: .default) {[weak self] (action: UIAlertAction) in
+            let picker = CLImagePickerTool()
+            picker.cameraOut = false
+            picker.isHiddenVideo = true
+            picker.singleImageChooseType = .singlePicture   //设置单选
+            picker.singleModelImageCanEditor = false        //单选不可编辑
+            picker.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+                SSLog("返回的asset数组是\(asset)")
+                
+                var index = asset.count // 标记失败的次数
+                
+                // 获取原图，异步
+                // scale 指定压缩比
+                // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
+                CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
+                    let img = image.resizeMax1500Image()
+                    
+                    self?.userModel?.frontBannerModel?.imgUrl = nil
+                    self?.userModel?.frontBannerModel?.image = img?.crop(ratio: 4 / 3.0)
+                    self?.frontView.image.image = self?.userModel?.frontBannerModel?.image
+
+                    }, failedClouse: { () in
+                        index = index - 1
+                })
+            }
+        }
+        let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
+            
+        }
+        alertController.addAction(refreshAction)
+        alertController.addAction(copyAction)
+        alertController.addAction(cancelAction)
+        presentVC?.present(alertController, animated: true, completion: nil)
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -1144,25 +1216,23 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
     
     func setupViews() {
   
+        frontView.clickIDCardBlock = { [weak self] (index) in
+            self?.pickerSelectIDCardFront()
+        }
+        reverseView.clickIDCardBlock = { [weak self] (index) in
+            self?.pickerSelectIDCard()
+        }
         self.contentView.addSubview(rejectImg)
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(descLabel)
         self.contentView.addSubview(frontView)
         self.contentView.addSubview(reverseView)
-        self.contentView.addSubview(lineView)
         
         rejectImg.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
-            make.top.bottom.equalToSuperview().inset(3)
+            make.top.bottom.equalToSuperview().inset(10)
         }
                 
-        lineView.snp.makeConstraints { (make) in
-            make.leading.equalTo(left_pending_space_17)
-            make.trailing.equalTo(-left_pending_space_17)
-            make.bottom.equalToSuperview()
-            make.height.equalTo(1)
-        }
-        
         titleLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
             make.top.equalToSuperview()
@@ -1190,3 +1260,16 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
     }
 }
 
+extension OwnerNewPersonIDCardIdentifyImgCell: ZKIDCardCameraControllerDelegate {
+    func cameraDidFinishShoot(withCameraImage image: UIImage) {
+        if userModel?.isFront == true {
+            userModel?.frontBannerModel?.imgUrl = nil
+            userModel?.frontBannerModel?.image = image.crop(ratio: 4 / 3.0)
+            frontView.image.image = userModel?.frontBannerModel?.image
+        }else {
+            userModel?.reverseBannerModel?.imgUrl = nil
+            userModel?.reverseBannerModel?.image = image.crop(ratio: 4 / 3.0)
+            reverseView.image.image = userModel?.reverseBannerModel?.image
+        }
+    }
+}
