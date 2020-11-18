@@ -191,7 +191,7 @@ class SSChatURL: NSObject {
     static let addWxID = "api/user/changeWxId"
     
     //记录第一次发送
-    static let addChatApp = "api/chat/addChat"
+    static let addChatApp = "api/chat/addChatApp"
     
     //获取融云用户信息
     static let getUserChatInfoApp = "api/user/getUser"
