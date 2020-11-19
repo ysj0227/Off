@@ -304,6 +304,12 @@ class OwnerNewIdentifyRejectViewHeader: UICollectionReusableView {
         block(btn.isSelected)
     }
     
+    var isOpen: Bool? {
+        didSet {
+            openBtn.isSelected = isOpen ?? false
+        }
+    }
+    
     var isOpenBlock:((_ isOpen: Bool) -> Void)?
 
     ///驳回原因

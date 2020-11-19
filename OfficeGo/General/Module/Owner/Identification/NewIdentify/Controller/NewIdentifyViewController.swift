@@ -740,6 +740,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 header?.isOpenBlock = { [weak self] (isOpen) in
                     self?.isOpen = isOpen
                 }
+                header?.isOpen = isOpen
                 header?.openBtn.isHidden = false
                 userModel?.remark = "userModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remark"
                 
