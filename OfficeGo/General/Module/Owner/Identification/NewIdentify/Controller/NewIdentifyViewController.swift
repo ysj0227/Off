@@ -10,6 +10,8 @@ import CLImagePickerTool
 
 class NewIdentifyViewController: BaseViewController {
     
+    var buildingId : String?
+
     var isOpen: Bool? {
         didSet {
             loadCollectionSectionData(section: 0)
@@ -246,8 +248,7 @@ extension NewIdentifyViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         
-        //身份类型0个人认证1企业认证2网点认证
-        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
+        params["buildingId"] = buildingId as AnyObject?
         
         
         SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
@@ -404,8 +405,10 @@ extension NewIdentifyViewController {
 extension NewIdentifyViewController {
     
     @objc func logotClick() {
-        self.headerCollectionView.endEditing(true)
-        requestCompanyIdentify()
+        NotificationCenter.default.post(name: NSNotification.Name.OwnerIdentifySuccess, object: nil)
+
+//        self.headerCollectionView.endEditing(true)
+//        requestCompanyIdentify()
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()

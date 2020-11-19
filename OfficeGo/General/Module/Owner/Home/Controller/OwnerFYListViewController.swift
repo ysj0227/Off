@@ -237,6 +237,49 @@ class OwnerFYListViewController: BaseGroupTableViewController {
             self?.loadNewData()
         }
         
+        //楼盘重新认证 成功通知 - 请求楼盘列表，刷新这个楼盘的状态和数据
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerIdentifySuccess, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            self?.requestReIdentifyBuildingList()
+        }
+        
+    }
+    
+    func requestReIdentifyBuildingList() {
+        
+        var params = [String:AnyObject]()
+        
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["pageNo"] = 1 as AnyObject
+        params["pageSize"] = 1 as AnyObject
+
+        SSNetworkTool.SSFYManager.request_getBuildingList(params: params, success: { [weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<OwnerBuildingListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
+                for model in decoratedArray {
+                    if model?.buildingId == weakSelf.buildingListViewModel?.buildingId {
+                        //model?.status = 1
+                        weakSelf.buildingListViewModel = OwnerBuildingListViewModel.init(model: model ?? OwnerBuildingListModel())
+                    }
+                }
+                
+            }
+            
+            }, failure: {[weak self] (error) in
+                guard let weakSelf = self else {return}
+                
+                weakSelf.endRefreshAnimation()
+                
+        }) {[weak self] (code, message) in
+            
+            guard let weakSelf = self else {return}
+            
+            weakSelf.endRefreshAnimation()
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -433,6 +476,7 @@ extension OwnerFYListViewController {
         identifyStatusView.sureIdentifyButtonCallBack = { [weak self] in
             ///认证驳回
             let vc = NewIdentifyViewController()
+            vc.buildingId = "\(self?.buildingListViewModel?.buildingId ?? 0)"
             self?.navigationController?.pushViewController(vc, animated: false)
         }
     }

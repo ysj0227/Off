@@ -35,7 +35,8 @@ extension Notification.Name {
     /// 身份认证 - 房东 - 共享办公认证 - 创建写字楼的通知 - 公司和个人认证独有
     public static let OwnerCreateBuilding = Notification.Name("OwnerCreateBuilding")
     
-    
+    public static let OwnerIdentifySuccess = Notification.Name("OwnerIdentifySuccess")
+
     
     
     /// 设置rootviewcontroller - 房东
