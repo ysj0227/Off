@@ -8,6 +8,9 @@
 
 import CLImagePickerTool
 import Alamofire
+import HandyJSON
+import SwiftyJSON
+
 class OwnerCreateBuildingViewController: BaseTableViewController {
         
     var areaModelCount: CityAreaCategorySelectModel?
@@ -85,10 +88,10 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
             return
         }
         
-//        if userModel?.btype == nil || userModel?.btype?.isBlankString == true{
-//            AppUtilities.makeToast("请选择类型")
-//            return
-//        }
+        if userModel?.btype == nil || userModel?.btype?.isBlankString == true{
+            AppUtilities.makeToast("请选择类型")
+            return
+        }
         
         
         if areaModelCount?.isFirstSelectedModel?.districtID == nil || areaModelCount?.isFirstSelectedModel?.districtID?.isBlankString == true{
@@ -101,10 +104,8 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
             return
         }
         if userModel?.mainPicBannermodel?.isLocal == true {
-            if userModel?.mainPicBannermodel?.image == nil {
-                AppUtilities.makeToast("请上传封面图")
-                return
-            }
+            AppUtilities.makeToast("请上传封面图")
+            return
         }
         
         addNotify()
@@ -174,6 +175,7 @@ extension OwnerCreateBuildingViewController {
                 self?.userModel?.mainPicBannermodel?.isLocal = true
                 self?.userModel?.mainPicBannermodel?.image = img
                 self?.mainPicPhoto.image = image
+                self?.uploadImg(img: img ?? UIImage())
                 }, failedClouse: {[weak self] () in
                     self?.userModel?.mainPicBannermodel?.isLocal = true
                     index = index - 1
@@ -181,6 +183,35 @@ extension OwnerCreateBuildingViewController {
         }
     }
 
+    func uploadImg(img: UIImage) {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        ///1楼图片2视频3房源图片
+        params["filedirType"] = UploadImgOrVideoEnum.buildingImage.rawValue as AnyObject?
+
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: [img], success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count >= 1 {
+                    weakSelf.userModel?.mainPicBannermodel?.isLocal = false
+                    weakSelf.userModel?.mainPicBannermodel?.imgUrl = decoratedArray[0]?.url
+                }
+            }
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
     func setUpData() {
         
         typeSourceArray.append(OwnerCreatBuildingConfigureModel.init(types: .OwnerCreteBuildingTypeBranchName))
@@ -195,25 +226,21 @@ extension OwnerCreateBuildingViewController {
     
     func setData() {
         if userModel != nil {
+            if userModel?.mainPicBannermodel != nil {
+                if userModel?.mainPicBannermodel?.imgUrl?.count ?? 0 > 0 {
+                    mainPicPhoto.setImage(with: userModel?.mainPicBannermodel?.imgUrl ?? "", placeholder: UIImage.init(named: Default_4x3_large))
+                }
+            }else {
+                userModel?.mainPicBannermodel = BannerModel()
+            }
             
         }else {
             userModel = OwnerIdentifyUserModel()
-        }
-        
-        
-        if userModel?.mainPicBannermodel != nil {
-            
-        }else {
             userModel?.mainPicBannermodel = BannerModel()
-            if userModel?.mainPic != nil && userModel?.mainPic?.isBlankString != true {
-                userModel?.mainPicBannermodel?.isLocal = false
-                userModel?.mainPicBannermodel?.imgUrl = userModel?.mainPic
-                mainPicPhoto.setImage(with: userModel?.mainPicBannermodel?.imgUrl ?? "", placeholder: UIImage.init(named: Default_4x3_large))
-            }else {
-                userModel?.mainPicBannermodel?.isLocal = true
-            }
         }
     }
+    
+    
     
     func loadTableview() {
         self.tableView.reloadData()

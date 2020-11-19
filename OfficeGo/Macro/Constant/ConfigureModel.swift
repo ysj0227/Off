@@ -59,7 +59,7 @@ class OwnerNewIedntifyConfigureModel: ConfigureModel {
             }else if UserTool.shared.user_owner_identifytype == 1 {
                 return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
             }else if UserTool.shared.user_owner_identifytype == 2 {
-                return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
+                return FuWenBen(name: "上传共享办公营业执照", centerStr: " * ", last: "")
             }else {
                 return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
             }

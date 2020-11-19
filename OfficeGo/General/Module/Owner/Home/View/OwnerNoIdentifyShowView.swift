@@ -412,13 +412,13 @@ class OWnerIdentifyStatusView: UIView {
 //MARK:  未认证-去认证
 class OWnerToIdentifyView: UIView {
     
-    lazy var topIconImageView : BaseImageView = {
-        let imageView = BaseImageView()
-        imageView.image = UIImage.init(named: "iconBg")
-        imageView.backgroundColor = kAppWhiteColor
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+//    lazy var topIconImageView : BaseImageView = {
+//        let imageView = BaseImageView()
+//        imageView.image = UIImage.init(named: "iconBg")
+//        imageView.backgroundColor = kAppWhiteColor
+//        imageView.contentMode = .scaleAspectFit
+//        return imageView
+//    }()
     
     lazy var imageView : BaseImageView = {
         let imageView = BaseImageView()
@@ -456,16 +456,16 @@ class OWnerToIdentifyView: UIView {
     }
     
     func setupView() {
-        addSubview(topIconImageView)
+//        addSubview(topIconImageView)
         addSubview(imageView)
         addSubview(identifyBtn)
-        topIconImageView.snp.makeConstraints { (make) in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(74)
-        }
+//        topIconImageView.snp.makeConstraints { (make) in
+//            make.top.leading.trailing.equalToSuperview()
+//            make.height.equalTo(74)
+//        }
         imageView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
-            make.top.equalTo(topIconImageView.snp.bottom)
+            make.top.equalToSuperview()
             make.height.equalTo(kWidth - left_pending_space_17 * 2)
         }
         identifyBtn.snp.makeConstraints { (make) in

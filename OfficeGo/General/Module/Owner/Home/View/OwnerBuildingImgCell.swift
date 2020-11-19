@@ -1145,6 +1145,7 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
                     self?.userModel?.reverseBannerModel?.imgUrl = nil
                     self?.userModel?.reverseBannerModel?.image = img?.crop(ratio: 4 / 3.0)
                     self?.reverseView.image.image = self?.userModel?.reverseBannerModel?.image
+                    self?.uploadReverseImg(img: img ?? UIImage())
                     }, failedClouse: { () in
                         index = index - 1
                         //                    self?.dealImage(imageArr: imageArr, index: index)
@@ -1158,6 +1159,36 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         alertController.addAction(copyAction)
         alertController.addAction(cancelAction)
         presentVC?.present(alertController, animated: true, completion: nil)
+    }
+    
+    func uploadReverseImg(img: UIImage) {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        ///1楼图片2视频3房源图片4认证
+        params["filedirType"] = UploadImgOrVideoEnum.newIdentify.rawValue as AnyObject?
+
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: [img], success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count >= 1 {
+                    weakSelf.userModel?.reverseBannerModel?.isLocal = false
+                    weakSelf.userModel?.reverseBannerModel?.imgUrl = decoratedArray[0]?.url
+                }
+            }
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
     func pickerSelectIDCardFront() {
@@ -1189,7 +1220,7 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
                     self?.userModel?.frontBannerModel?.imgUrl = nil
                     self?.userModel?.frontBannerModel?.image = img?.crop(ratio: 4 / 3.0)
                     self?.frontView.image.image = self?.userModel?.frontBannerModel?.image
-
+                    self?.uploadFrontImg(img: img ?? UIImage())
                     }, failedClouse: { () in
                         index = index - 1
                 })
@@ -1203,6 +1234,37 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         alertController.addAction(cancelAction)
         presentVC?.present(alertController, animated: true, completion: nil)
     }
+    
+    func uploadFrontImg(img: UIImage) {
+        
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        ///1楼图片2视频3房源图片4认证
+        params["filedirType"] = UploadImgOrVideoEnum.newIdentify.rawValue as AnyObject?
+
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: [img], success: {[weak self] (response) in
+            guard let weakSelf = self else {return}
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count >= 1 {
+                    weakSelf.userModel?.frontBannerModel?.isLocal = false
+                    weakSelf.userModel?.frontBannerModel?.imgUrl = decoratedArray[0]?.url
+                }
+            }
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

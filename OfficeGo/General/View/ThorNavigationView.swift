@@ -339,8 +339,9 @@ public enum NavgationTitleViewType {
             let img = UIImageView.init(image: UIImage.init(named: "searchGray"))
             let searchLab = UILabel.init()
             searchLab.textColor = kAppColor_999999
-            searchLab.text = "搜索"
-            searchLab.font = FONT_15
+            searchLab.text = "请输入你想找的区域/商圈或办公楼名称"
+            searchLab.font = FONT_12
+            searchLab.adjustsFontSizeToFitWidth = true
             searchBarBtnView.addSubview(img)
             searchBarBtnView.addSubview(searchLab)
             img.snp.makeConstraints { (make) in
@@ -363,7 +364,7 @@ public enum NavgationTitleViewType {
                 make.top.equalTo(kStatusBarHeight)
             }
             
-            searchBarView.searchTextfiled.placeholder = "Search"
+            searchBarView.searchTextfiled.placeholder = "请输入你想找的区域/商圈或办公楼名称"
             homeSearchRightBlueView.addSubview(searchBarView)
             
             rightButton.setTitle("取消", for: .normal)

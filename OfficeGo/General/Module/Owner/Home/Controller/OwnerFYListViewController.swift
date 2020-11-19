@@ -105,7 +105,7 @@ class OwnerFYListViewController: BaseGroupTableViewController {
     
     ///未认证页面
     lazy var toIdentifyView: OWnerToIdentifyView = {
-        let view = OWnerToIdentifyView(frame: CGRect(x: 0, y: kNavigationHeight, width: kWidth, height: kHeight - kNavigationHeight))
+        let view = OWnerToIdentifyView(frame: CGRect(x: 0, y: kNavigationHeight + 68 , width: kWidth, height: kHeight - kNavigationHeight - 68))
         view.isHidden = true
         return view
     }()
@@ -338,7 +338,6 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         else {
             identifyStatusView.isHidden = true
             toIdentifyView.isHidden = false
-
         }
         
     }
