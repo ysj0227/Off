@@ -293,6 +293,59 @@ class OwnerImgPickerCollectionViewHeader: UICollectionReusableView {
     
 }
 
+
+class OwnerNewIdentifyRejectViewHeader: UICollectionReusableView {
+    
+    @objc func openClick(btn: UIButton) {
+        btn.isSelected = !btn.isSelected
+        guard let block = isOpenBlock else {
+            return
+        }
+        block(btn.isSelected)
+    }
+    
+    var isOpenBlock:((_ isOpen: Bool) -> Void)?
+
+    ///驳回原因
+    lazy var rejectReasonLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.textColor = kAppRedColor
+        view.font = FONT_13
+        return view
+    }()
+    
+    ///收起按钮
+    lazy var openBtn: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(named: "upIcon"), for: .selected)
+        view.setImage(UIImage(named: "downIcon"), for: .normal)
+        view.addTarget(self, action: #selector(openClick(btn:)), for: .touchUpInside)
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(rejectReasonLabel)
+        addSubview(openBtn)
+        rejectReasonLabel.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview().inset(left_pending_space_17)
+            make.top.bottom.equalToSuperview().inset(12)
+            make.trailing.equalToSuperview().inset(44)
+        }
+        openBtn.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview()
+            make.size.equalTo(42)
+            make.top.equalToSuperview()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
 class OwnerImgPickerCollectionViewFooter: UICollectionReusableView {
     
     lazy var titleLabel: UILabel = {

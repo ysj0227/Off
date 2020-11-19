@@ -10,6 +10,12 @@ import CLImagePickerTool
 
 class NewIdentifyViewController: BaseViewController {
     
+    var isOpen: Bool? {
+        didSet {
+            loadCollectionSectionData(section: 0)
+        }
+    }
+    
     ///时候有楼盘
     var isHasBuilding: Bool?
     
@@ -432,7 +438,7 @@ extension NewIdentifyViewController {
             make.bottom.equalToSuperview()
         }
         
-        headerCollectionView.register(OwnerImgPickerCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader")
+        headerCollectionView.register(OwnerNewIdentifyRejectViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerNewIdentifyRejectViewHeader")
 
         ///楼盘名字地址展示cell
         headerCollectionView.register(OwnerNewIdentifyCell.self, forCellWithReuseIdentifier: OwnerNewIdentifyCell.reuseIdentifierStr)
@@ -725,19 +731,55 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
         
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = UICollectionReusableView()
-        view.backgroundColor = kAppColor_line_EEEEEE
         if kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader", for: indexPath) as? OwnerImgPickerCollectionViewHeader
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerNewIdentifyRejectViewHeader", for: indexPath) as? OwnerNewIdentifyRejectViewHeader
             header?.backgroundColor = kAppColor_line_EEEEEE
             
+            if indexPath.section == 0 {
+                header?.backgroundColor = kAppLightRedColor
+                header?.isOpenBlock = { [weak self] (isOpen) in
+                    self?.isOpen = isOpen
+                }
+                header?.openBtn.isHidden = false
+                userModel?.remark = "userModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remark"
+                
+                header?.rejectReasonLabel.text = "驳回原因：\(userModel?.remark ?? "")"
+                
+            }else if indexPath.section == 2 {
+                header?.rejectReasonLabel.text = ""
+                header?.openBtn.isHidden = true
+                header?.backgroundColor = kAppColor_line_EEEEEE
+            }else {
+                header?.backgroundColor = kAppWhiteColor
+            }
             return header ?? UICollectionReusableView()
         }
         return UICollectionReusableView()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 2 {
+        if section == 0 {
+            if isOpen == true {
+                
+                userModel?.remark = "userModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remark"
+                
+                if userModel?.remark?.count ?? 0 > 0 {
+                    let str = "驳回原因：\(userModel?.remark ?? "")"
+
+                    let size = str.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 - 42, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
+                    
+                    var height: CGFloat = 0
+                    height = size.height + 24
+                    
+                    return CGSize(width: kWidth, height: height)
+                }else {
+                    return CGSize.zero
+                }
+                
+            }else {
+                return CGSize(width: kWidth, height: 42)
+            }
+        }else if section == 2 {
             return CGSize(width: kWidth, height: 12)
         }
         return CGSize.zero
