@@ -100,7 +100,7 @@ class OwnerNewIedntifyConfigureModel: ConfigureModel {
             if UserTool.shared.user_owner_identifytype == 0 {
                 return "请上传以公司为主体的房屋租赁协议或其他相关材料"
             }else if UserTool.shared.user_owner_identifytype == 1 {
-                return "请确保上传与房产证上权利人名称相同的公司营业执照"
+                return "请上传以公司为主体的房屋租赁协议或其他相关材料"
             }else if UserTool.shared.user_owner_identifytype == 2 {
                 return "请上传以共享办公公司为主体的房屋租赁协议或其他相关材料"
             }else {
