@@ -10,6 +10,143 @@ import UIKit
 
 typealias IdentifyEditingClickClouse = (String)->()
 
+
+class OwnerCreateBuildTypeSelectCell: BaseTableViewCell {
+    
+    lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .left
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.font = FONT_14
+        view.textColor = kAppColor_999999
+        return view
+    }()
+    
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = kAppColor_line_EEEEEE
+        return view
+    }()
+    lazy var buildingBtn: UIButton = {
+        let btn = UIButton.init()
+        btn.setImage(UIImage.init(named: "radioBtn_gray"), for: .normal)
+        btn.setImage(UIImage.init(named: "radioBtn_blue"), for: .selected)
+        btn.setTitleColor(kAppColor_999999, for: .normal)
+        btn.setTitleColor(kAppColor_333333, for: .selected)
+        btn.setTitle(" 楼盘/园区", for: .normal)
+        btn.titleLabel?.font = FONT_14
+        btn.addTarget(self, action: #selector(buildingClick), for: .touchUpInside)
+        return btn
+    }()
+    lazy var jointBtn: UIButton = {
+        let btn = UIButton.init()
+        btn.setImage(UIImage.init(named: "radioBtn_gray"), for: .normal)
+        btn.setImage(UIImage.init(named: "radioBtn_blue"), for: .selected)
+        btn.setTitleColor(kAppColor_999999, for: .normal)
+        btn.setTitleColor(kAppColor_333333, for: .selected)
+        btn.setTitle(" 共享办公", for: .normal)
+        btn.titleLabel?.font = FONT_14
+        btn.addTarget(self, action: #selector(jointClick), for: .touchUpInside)
+        return btn
+    }()
+    
+    //按钮点击方法
+    var editClickBack:((OwnerCompanyIedntifyType) -> Void)?
+    
+    @objc func buildingClick() {
+        userModel?.btype = "1"
+        buildingBtn.isSelected = true
+        jointBtn.isSelected = false
+    }
+        
+    @objc func jointClick() {
+        userModel?.btype = "2"
+        buildingBtn.isSelected = false
+        jointBtn.isSelected = true
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    class func rowHeight() -> CGFloat {
+        return cell_height_58
+    }
+    //公司名字
+    @objc var companyNameClickClouse: IdentifyEditingClickClouse?
+    
+    //大楼名称
+    @objc var buildingNameClickClouse: IdentifyEditingClickClouse?
+    
+    //写字楼地址
+    var buildingAddresEndEditingMessageCell:((String) -> Void)?
+    
+    //写字楼名称址
+    var buildingNameEndEditingMessageCell:((String) -> Void)?
+    
+    //模拟认证模型
+    var userModel: OwnerIdentifyUserModel?
+    
+    var model: OwnerCreatBuildingConfigureModel = OwnerCreatBuildingConfigureModel(types: OwnerCreteBuildingType.OwnerCreteBuildingTypeBuildOrJint) {
+        didSet {
+            
+            titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerCreteBuildingType.OwnerCreteBuildingTypeBuildOrJint)
+            
+            if userModel?.btype == "1" {
+                buildingBtn.isSelected = true
+                jointBtn.isSelected = false
+            }else if userModel?.btype == "2" {
+                buildingBtn.isSelected = false
+                jointBtn.isSelected = true
+            }else {
+                buildingBtn.isSelected = false
+                jointBtn.isSelected = false
+            }
+        }
+    }
+    func setupViews() {
+        
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(buildingBtn)
+        self.contentView.addSubview(jointBtn)
+        
+        titleLabel.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview().offset(left_pending_space_17)
+            make.centerY.equalToSuperview()
+        }
+        
+        buildingBtn.snp.makeConstraints { (make) in
+            make.leading.equalTo(titleLabel.snp.trailing).offset(10)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(25)
+        }
+        jointBtn.snp.makeConstraints { (make) in
+            make.leading.equalTo(buildingBtn.snp.trailing).offset(10)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(25)
+        }
+        lineView.snp.makeConstraints { (make) in
+            make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
+            make.bottom.equalToSuperview()
+            make.height.equalTo(1)
+        }
+    }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+}
+
 class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     
     lazy var titleLabel: UILabel = {
@@ -216,13 +353,13 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     
     func setupViews() {
         
-        addSubview(titleLabel)
-        addSubview(numDescTF)
-        addSubview(detailIcon)
-        addSubview(lineView)
-        addSubview(addressLabel)
-        addSubview(editBtn)
-        addSubview(closeBtn)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(numDescTF)
+        self.contentView.addSubview(detailIcon)
+        self.contentView.addSubview(lineView)
+        self.contentView.addSubview(addressLabel)
+        self.contentView.addSubview(editBtn)
+        self.contentView.addSubview(closeBtn)
         
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()

@@ -142,15 +142,25 @@ class NewIdentifyViewController: BaseViewController {
         
         //公司认证 - 创建写字楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            
+            let model = noti.object as? OwnerIdentifyUserModel
+
             self?.isHasBuilding = true
-            self?.userModel?.identityType = "1"
-            ///身份类型0个人1企业2联合
-            UserTool.shared.user_owner_identifytype = 1
-            self?.userModel?.company = "model.company"
-            self?.userModel?.address = "model.address"
-            self?.userModel?.creditNo = "model.creditNo"
-            self?.userModel?.businessLicense = "model.businessLicense"
+            
+            self?.userModel?.isCreateBuilding = "1"
+            self?.userModel?.btype = model?.btype
+            self?.userModel?.buildingName = model?.buildingName
+            self?.userModel?.buildingAddress = model?.buildingAddress
+            self?.userModel?.district = model?.district
+            self?.userModel?.business = model?.business
+            self?.userModel?.districtString = model?.districtString
+            self?.userModel?.businessString = model?.businessString
+            self?.userModel?.creditNo = model?.creditNo
+            self?.userModel?.businessLicense = model?.businessLicense
+            self?.userModel?.mainPicBannermodel = model?.mainPicBannermodel
+            self?.buildingName = ""
+            self?.buildingNameSearchResultVC?.view.isHidden = true
+            self?.headerCollectionView.endEditing(true)
+            self?.loadCollectionSectionData(section: 0)
         }
         
         
@@ -446,8 +456,7 @@ extension NewIdentifyViewController {
             //判断楼盘是关联的还是自己创建的
             self?.userModel?.isCreateBuilding = "2"
             
-            
-            self?.userModel?.btype = "\(model.buildType)"
+            self?.userModel?.btype = "\(model.buildType ?? 0)"
             self?.userModel?.buildingId = model.bid
             self?.userModel?.buildingName = model.buildingAttributedName?.string
             self?.userModel?.buildingAddress = model.addressString?.string
@@ -466,6 +475,7 @@ extension NewIdentifyViewController {
             userModel.buildingTempId = self?.userModel?.buildingTempId
             userModel.buildingName = self?.buildingName
             userModel.buildingAddress = ""
+            userModel.btype = nil
             userModel.creditNo = ""
             userModel.mainPic = ""
             userModel.district = ""

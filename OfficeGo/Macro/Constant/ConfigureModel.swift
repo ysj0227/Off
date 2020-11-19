@@ -116,7 +116,7 @@ class OwnerNewIedntifyConfigureModel: ConfigureModel {
         let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
         
         if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(nameAtt)
             
         }
@@ -1223,13 +1223,15 @@ class OwnerCreatBuildingConfigureModel: NSObject {
     func getNameFormType(type: OwnerCreteBuildingType) -> NSMutableAttributedString{
         switch type {
         case .OwnerCreteBuildingTypeBranchName:
-            return FuWenBen(name: "写字楼名称", centerStr: " * ", last: "")
+            return FuWenBen(name: "楼盘/网点", centerStr: " * ", last: "")
+        case .OwnerCreteBuildingTypeBuildOrJint:
+            return FuWenBen(name: "选择类型", centerStr: " * ", last: "")
         case .OwnerCreteBuildingTypeBranchDistrictArea:
             return FuWenBen(name: "所在区域", centerStr: " * ", last: "")
         case .OwnerCreteBuildingTypeBranchAddress:
             return FuWenBen(name: "详细地址", centerStr: " * ", last: "")
         case .OwnerCreteBuildingTypeUploadYingyePhoto:
-            return FuWenBen(name: "上传楼盘封面图", centerStr: " * ", last: "")
+            return FuWenBen(name: "上传封面图", centerStr: " * ", last: "")
         }
     }
     
@@ -1240,79 +1242,7 @@ class OwnerCreatBuildingConfigureModel: NSObject {
         let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
         
         if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
-            attributedStrM.append(nameAtt)
-            
-        }
-        
-        if centerStr.count > 0 {
-            //*
-            let xingxing = NSAttributedString.init(string: centerStr, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppRedColor , NSAttributedString.Key.font : FONT_18])
-            
-            attributedStrM.append(xingxing)
-            
-        }
-        
-        if last.count > 0 {
-            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
-            attributedStrM.append(lastAtt)
-            
-        }
-        
-        return attributedStrM
-    }
-}
-
-//房东
-//公司创建
-class OwnerCreatCompanyConfigureModel: NSObject {
-    
-    //房东
-    //创建公司
-    
-    var type: OwnerCreteCompanyType?
-    
-    init(types: OwnerCreteCompanyType) {
-        type = types
-    }
-    
-    func getNameFormType(type: OwnerCreteCompanyType) -> NSMutableAttributedString{
-        switch type {
-        case .OwnerCreteCompanyTypeIedntify:
-            return FuWenBen(name: "认证身份", centerStr: " ", last: "")
-        case .OwnerCreteCompanyTypeCompanyName:
-            return FuWenBen(name: "公司名称", centerStr: " * ", last: "")
-        case .OwnerCreteCompanyTypeCompanyAddress:
-            return FuWenBen(name: "公司地址", centerStr: " * ", last: "")
-        case .OwnerCreteCompanyTypeYingyeCode:
-            return FuWenBen(name: "统一社会信用代码", centerStr: " * ", last: "")
-        case .OwnerCreteCompanyTypeUploadYingyePhoto:
-            return FuWenBen(name: "上传营业执照", centerStr: " * ", last: "")
-        }
-    }
-    
-    func getPalaceHolderFormType(type: OwnerCreteCompanyType) -> String{
-        switch type {
-        case .OwnerCreteCompanyTypeIedntify:
-            return ""
-        case .OwnerCreteCompanyTypeCompanyName:
-            return "请输入公司名称"
-        case .OwnerCreteCompanyTypeCompanyAddress:
-            return "请输入公司地址"
-        case .OwnerCreteCompanyTypeYingyeCode:
-            return ""
-        case .OwnerCreteCompanyTypeUploadYingyePhoto:
-            return ""
-        }
-    }
-    //centerStr *
-    func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
-        
-        //定义富文本即有格式的字符串
-        let attributedStrM : NSMutableAttributedString = NSMutableAttributedString()
-        
-        if name.count > 0 {
-            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            let nameAtt = NSAttributedString.init(string: name, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_333333 , NSAttributedString.Key.font : FONT_14])
             attributedStrM.append(nameAtt)
             
         }

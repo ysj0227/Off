@@ -9,11 +9,12 @@
 import UIKit
 
 ///上传接口的类型
-///1楼图片2视频3房源图片
+///1楼图片2视频3房源图片4认证文件夹
 enum UploadImgOrVideoEnum: Int {
     case buildingImage = 1
     case video = 2
     case fyImage = 3
+    case newIdentify = 4
 }
 
 
@@ -285,6 +286,7 @@ public enum OwnerCreteBranchType {
 //创建写字楼页面
 public enum OwnerCreteBuildingType {
     case OwnerCreteBuildingTypeBranchName             //写字楼名称
+    case OwnerCreteBuildingTypeBuildOrJint             //选择类型
     case OwnerCreteBuildingTypeBranchDistrictArea     //所在区域
     case OwnerCreteBuildingTypeBranchAddress          //网点地址
     case OwnerCreteBuildingTypeUploadYingyePhoto          //网点地址

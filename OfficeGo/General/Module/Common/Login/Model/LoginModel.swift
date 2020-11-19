@@ -117,7 +117,8 @@ class OwnerIdentifyUserModel: BaseModel {
     var reverseBannerModel: BannerModel?
     
     
-    
+    //封面图楼盘
+    var mainPicBannermodel: BannerModel?
     
     
     

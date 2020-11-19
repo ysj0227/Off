@@ -215,7 +215,7 @@ extension OwnerBuildingImgCell {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         
-        ///1楼图片2视频3房源图片
+        ///1楼图片2视频3房源图片4认证文件夹
         params["filedirType"] = UploadImgOrVideoEnum.buildingImage.rawValue as AnyObject?
 
         
@@ -642,8 +642,8 @@ extension OwnerNewIdentifyImgCell {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         
-        ///1楼图片2视频3房源图片
-        params["filedirType"] = UploadImgOrVideoEnum.fyImage.rawValue as AnyObject?
+        ///1楼图片2视频3房源图片4认证文件夹
+        params["filedirType"] = UploadImgOrVideoEnum.newIdentify.rawValue as AnyObject?
         
         
         SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: imgArr, success: {[weak self] (response) in
@@ -708,8 +708,8 @@ extension OwnerNewIdentifyImgCell {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         
-        ///1楼图片2视频3房源图片
-        params["filedirType"] = UploadImgOrVideoEnum.fyImage.rawValue as AnyObject?
+        ///1楼图片2视频3房源图片4认证文件夹
+        params["filedirType"] = UploadImgOrVideoEnum.newIdentify.rawValue as AnyObject?
         
         
         SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: imgArr, success: {[weak self] (response) in
@@ -772,8 +772,8 @@ extension OwnerNewIdentifyImgCell {
         params["token"] = UserTool.shared.user_token as AnyObject?
         
         
-        ///1楼图片2视频3房源图片
-        params["filedirType"] = UploadImgOrVideoEnum.fyImage.rawValue as AnyObject?
+        ///1楼图片2视频3房源图片4认证文件夹
+        params["filedirType"] = UploadImgOrVideoEnum.newIdentify.rawValue as AnyObject?
         
         
         SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: imgArr, success: {[weak self] (response) in
@@ -1230,7 +1230,8 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         
         rejectImg.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
-            make.top.bottom.equalToSuperview().inset(10)
+            make.top.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().inset(20)
         }
                 
         titleLabel.snp.makeConstraints { (make) in
