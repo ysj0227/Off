@@ -100,10 +100,10 @@ class RenterUserHeaderView: UIView {
                 
                 SSLog("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
             })
-            if let realname = userModel.realname {
-                nameLabel.text = realname
-                if realname.count > 8 {
-                    nameLabel.text = String(realname.prefix(8)) + ".."
+            if let nickname = userModel.nickname {
+                nameLabel.text = nickname
+                if nickname.count > 8 {
+                    nameLabel.text = String(nickname.prefix(8)) + ".."
                 }
             }
             let company = userModel.company
@@ -127,15 +127,15 @@ class RenterUserHeaderView: UIView {
                 
                 SSLog("receivedSize----\(receivedSize)---------totalSize---\(totalSize)")
             })
-            if let realname = ownerUserModel.proprietorRealname {
-                nameLabel.text = realname
-                if realname.count > 8 {
-                    nameLabel.text = String(realname.prefix(8)) + ".."
+            if let nickname = ownerUserModel.nickname {
+                nameLabel.text = nickname
+                if nickname.count > 8 {
+                    nameLabel.text = String(nickname.prefix(8)) + ".."
                 }
             }
             
-            let company = ownerUserModel.proprietorCompany
-            let job = ownerUserModel.proprietorJob
+            let company = ownerUserModel.company
+            let job = ownerUserModel.job
             
             if company?.isBlankString != true && company?.isBlankString != nil && job?.isBlankString != true && job?.isBlankString != nil {
                 introductionLabel.text = "\(company ?? "") - \(job ?? "")"

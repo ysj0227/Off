@@ -161,7 +161,6 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
         let view = UITextField()
         view.textAlignment = .left
         view.font = FONT_14
-        view.delegate = self
         view.textColor = kAppColor_333333
 //        view.clearButtonMode = .whileEditing
         return view
@@ -207,7 +206,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
         guard let blockk = editClickBack else {
             return
         }
-        blockk(model.type ?? OwnerCompanyIedntifyType.OwnerCompanyIedntifyTypeIdentigy)
+//        blockk(model.type ?? OwnerCompanyIedntifyType.OwnerCompanyIedntifyTypeIdentigy)
     }
     
     var closeClickBack:((OwnerCompanyIedntifyType) -> Void)?
@@ -221,7 +220,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
         guard let blockk = self.closeClickBack else {
             return
         }
-        blockk(model.type ?? OwnerCompanyIedntifyType.OwnerCompanyIedntifyTypeIdentigy)
+//        blockk(model.type ?? OwnerCompanyIedntifyType.OwnerCompanyIedntifyTypeIdentigy)
     }
     
     override init(frame: CGRect) {
@@ -250,107 +249,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     
     //模拟认证模型
     var userModel: OwnerIdentifyUserModel?
-    
-    var model: OwnerCompanyIedntifyConfigureModel = OwnerCompanyIedntifyConfigureModel(types: .OwnerCompanyIedntifyTypeIdentigy) {
-        didSet {
-            titleLabel.text = model.getNameFormType(type: model.type ?? .OwnerCompanyIedntifyTypeIdentigy)
-            if model.type == .OwnerCompanyIedntifyTypeIdentigy {
-                numDescTF.isUserInteractionEnabled = false
-                detailIcon.isHidden = false
-                addressLabel.isHidden = true
-                editBtn.isHidden = true
-                closeBtn.isHidden = true
-                ///身份类型0个人1企业2联合
-                if UserTool.shared.user_owner_identifytype == 0 {
-                    numDescTF.text = "个人"
-                }else if UserTool.shared.user_owner_identifytype == 1 {
-                    numDescTF.text = "公司"
-                }else if UserTool.shared.user_owner_identifytype == 2 {
-                    numDescTF.text = "联合办公"
-                }
-            }else if model.type == .OwnerCompanyIedntifyTypeBuildingFCType{
-                numDescTF.isUserInteractionEnabled = false
-                detailIcon.isHidden = false
-                addressLabel.isHidden = true
-                editBtn.isHidden = true
-                closeBtn.isHidden = true
-                if userModel?.leaseType == "0" {
-                    numDescTF.text = "自有房产"
-                }else if userModel?.leaseType == "1" {
-                    numDescTF.text = "租赁房产"
-                }else {
-                    numDescTF.text = ""
-                }
-            }else if model.type == .OwnerCompanyIedntifyTypeCompanyname{
-                detailIcon.isHidden = true
-                addressLabel.isHidden = true
-                closeBtn.isHidden = false
-                numDescTF.text = userModel?.company
-                //0 空   无定义     1创建  2关联吗
-                //就是自己创建
-                if userModel?.isCreateCompany == "1" {
-                    //1的就是自己创建
-                    //不能输入框修改
-                    //有编辑按钮
-                    //有清空
-                    numDescTF.isUserInteractionEnabled = false
-                    editBtn.isHidden = false
-                }else if userModel?.isCreateCompany == "2" {
-                    //0 就是关联的公司
-                    //不能输入框修改
-                    //无编辑按钮
-                    //有清空
-                    numDescTF.isUserInteractionEnabled = true
-                    editBtn.isHidden = true
-                }else {
-                    //如果没有提交过，应该返回一个""
-                    //"" 没有提交过
-                    //能输入框修改
-                    //无编辑按钮
-                    //有清空
-                    numDescTF.isUserInteractionEnabled = true
-                    editBtn.isHidden = true
-                }
-            }else if model.type == .OwnerCompanyIedntifyTypeBuildingName {
-                detailIcon.isHidden = true
-                addressLabel.isHidden = false
-                closeBtn.isHidden = false
-                numDescTF.text = userModel?.buildingName
-                addressLabel.text = userModel?.buildingAddress
-                //0 空   无定义     1创建  2关联吗
-                //就是自己创建
-                if userModel?.isCreateBuilding == "1" {
-                    //1的就是自己创建
-                    //不能输入框修改
-                    //有编辑按钮
-                    //有清空
-                    numDescTF.isUserInteractionEnabled = false
-                    editBtn.isHidden = false
-                }else if userModel?.isCreateBuilding == "2" {
-                    //0 就是关联的公司
-                    //不能输入框修改
-                    //无编辑按钮
-                    //有清空
-                    numDescTF.isUserInteractionEnabled = false
-                    editBtn.isHidden = true
-                }else {
-                    //如果没有提交过，应该返回一个""
-                    //"" 没有提交过
-                    //能输入框修改
-                    //无编辑按钮
-                    //有清空
-                    numDescTF.isUserInteractionEnabled = true
-                    editBtn.isHidden = true
-                }
-                
-            }else if model.type == .OwnerCompanyIedntifyTypeBuildingAddress{
-                //                numDescTF.isUserInteractionEnabled = true
-                //                detailIcon.isHidden = true
-                //                numDescTF.text = userModel?.address
-            }
-        }
-    }
-    
+        
     func setupViews() {
         
         self.contentView.addSubview(titleLabel)
@@ -399,46 +298,7 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
-        
-        numDescTF.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
-        
-    }
-    @objc func valueDidChange() {
-        
-        //只有办公楼地址要在编辑结束的时候传过去
-        if model.type == .OwnerCompanyIedntifyTypeCompanyname {
-            guard let blockk = self.companyNameClickClouse else {
-                return
-            }
-            let textNum = numDescTF.text?.count
-            
-            //截取
-            if textNum! > ownerMaxCompanynameNumber_20 {
-                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxCompanynameNumber_20)
-                let str = numDescTF.text?.substring(to: index!)
-                numDescTF.text = str
-            }
-            
-            blockk(numDescTF.text ?? "")
-        }
-            //只有办公楼地址要在编辑结束的时候传过去
-        else if model.type == .OwnerCompanyIedntifyTypeBuildingName {
-            guard let blockk = self.buildingNameClickClouse else {
-                return
-            }
-            addressLabel.text = ""
-            
-            let textNum = numDescTF.text?.count
-            
-            //截取
-            if textNum! > ownerMaxBuildingnameNumber_20 {
-                let index = numDescTF.text?.index((numDescTF.text?.startIndex)!, offsetBy: ownerMaxBuildingnameNumber_20)
-                let str = numDescTF.text?.substring(to: index!)
-                numDescTF.text = str
-            }
-            
-            blockk(numDescTF.text ?? "")
-        }
+                
     }
     
     override func awakeFromNib() {
@@ -451,30 +311,6 @@ class OwnerCompanyIdentifyCell: BaseCollectionViewCell {
     }
     
 }
-
-extension OwnerCompanyIdentifyCell: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        //只有办公楼地址要在编辑结束的时候传过去
-        if model.type == .OwnerCompanyIedntifyTypeBuildingAddress {
-            guard let blockk = self.buildingAddresEndEditingMessageCell else {
-                return
-            }
-            blockk(textField.text ?? "")
-        }
-        //只有办公楼名称要在编辑结束的时候传过去
-        if model.type == .OwnerCompanyIedntifyTypeBuildingName {
-            guard let blockk = self.buildingNameEndEditingMessageCell else {
-                return
-            }
-            blockk(textField.text ?? "")
-        }
-    }
-    //
-    //    func textFieldDidBeginEditing(_ textField: UITextField) {
-    //
-    //    }
-}
-
 
 class OwnerCreateView: UIView {
     

@@ -99,7 +99,7 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
             return
         }
         
-        if userModel?.buildingAddress == nil || userModel?.buildingAddress?.isBlankString == true{
+        if userModel?.address == nil || userModel?.address?.isBlankString == true{
             AppUtilities.makeToast("请输入详细地址")
             return
         }
@@ -301,13 +301,14 @@ extension OwnerCreateBuildingViewController {
     
     func getSelectedDistrictBusiness() {
         areaModelCount?.data.forEach({ (model) in
-            if model.districtID == userModel?.district {
+            if model.districtID == userModel?.districtId
+            {
                 areaModelCount?.isFirstSelectedModel = model
-                userModel?.districtString = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
+                userModel?.districtIdName = "\(areaModelCount?.name ?? "上海市")\(model.district ?? "")"
                 areaModelCount?.isFirstSelectedModel?.list.forEach({ (areaModel) in
-                    if areaModel.id == userModel?.business {
+                    if areaModel.id == userModel?.businessDistrict {
                         areaModelCount?.isFirstSelectedModel?.isSencondSelectedModel = areaModel
-                        userModel?.businessString = areaModel.area
+                        userModel?.businessDistrictName = areaModel.area
                         loadTableview()
                     }
                 })
@@ -329,10 +330,10 @@ extension OwnerCreateBuildingViewController {
 
             }, sureAreaaddressButtonCallBack: { [weak self] (_ selectModel: CityAreaCategorySelectModel) -> Void in
                 self?.areaModelCount = selectModel
-                self?.userModel?.district = selectModel.isFirstSelectedModel?.districtID
-                self?.userModel?.business = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
-                self?.userModel?.districtString = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
-                self?.userModel?.businessString = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
+                self?.userModel?.districtId = selectModel.isFirstSelectedModel?.districtID
+                self?.userModel?.businessDistrict = selectModel.isFirstSelectedModel?.isSencondSelectedModel?.id
+                self?.userModel?.districtIdName = "\(selectModel.name ?? "上海市")\(selectModel.isFirstSelectedModel?.district ?? "")"
+                self?.userModel?.businessDistrictName = "\(selectModel.isFirstSelectedModel?.isSencondSelectedModel?.area ?? "")"
                 self?.tableView.reloadData()
                 
         })
@@ -439,11 +440,11 @@ class OwnerCreateBuildingCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = false
                 detailIcon.isHidden = false
-                editLabel.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
+                editLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")"
             }else if model.type == .OwnerCreteBuildingTypeBranchAddress{
                 editLabel.isUserInteractionEnabled = true
                 lineView.isHidden = false
-                editLabel.text = userModel?.buildingAddress
+                editLabel.text = userModel?.address
             }else if model.type == .OwnerCreteBuildingTypeUploadYingyePhoto{
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = true
@@ -469,19 +470,19 @@ class OwnerCreateBuildingCell: BaseEditCell {
                 editLabel.isUserInteractionEnabled = false
                 lineView.isHidden = false
                 detailIcon.isHidden = false
-                editLabel.text = "\(userModel?.districtString ?? "")\(userModel?.businessString ?? "")"
+                editLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")"
             }else if FYBuildingCreatAddmodel.type == .OwnerBuildingCreteAddTypeBuildingAddress{
                 
                 if userModel?.buildingId != nil {
 
                     editLabel.isUserInteractionEnabled = false
                     lineView.isHidden = false
-                    editLabel.text = userModel?.buildingAddress
+                    editLabel.text = userModel?.address
                 }else {
 
                     editLabel.isUserInteractionEnabled = true
                     lineView.isHidden = false
-                    editLabel.text = userModel?.buildingAddress
+                    editLabel.text = userModel?.address
                 }
             }else {
                 editLabel.isUserInteractionEnabled = false
@@ -498,7 +499,7 @@ extension OwnerCreateBuildingCell: UITextFieldDelegate {
         if model.type == .OwnerCreteBuildingTypeBranchName{
             userModel?.buildingName = textField.text
         }else if model.type == .OwnerCreteBuildingTypeBranchAddress{
-            userModel?.buildingAddress = textField.text
+            userModel?.address = textField.text
         }
         
         guard let blockk = self.endEditingMessageCell else {

@@ -18,25 +18,6 @@ class NewIdentifyViewController: BaseViewController {
         }
     }
     
-    ///时候有楼盘
-    var isHasBuilding: Bool?
-    
-    ///临时添加的几个字段
-    ///管理楼id
-    var buildingIdTemp : String?
-    
-    var licenceIdTemp : String?
-    
-    ///申请id
-    var userLicenceIdTemp : String?
-    
-    ///楼id 认证的时候传的字段 - 自己创建的楼的id - 关联
-    ///楼名称传过 就会有这个id
-    var buildingTempIdTemp : String?
-    
-    ///判断页面时候来自于个人中心驳回页面
-    var isFromPersonalVc: Bool = false
-    
     var userModel: OwnerIdentifyUserModel?
     
     //写字楼名称搜索结果vc
@@ -61,36 +42,7 @@ class NewIdentifyViewController: BaseViewController {
             })
         }
     }
-    
-    ///房产证
-    @objc var uploadPicModelFCZArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
-    ///补充材料
-    @objc var uploadPicModelBuChongArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
-    ///营业执照和身份证
-    @objc var uploadPicModelYingyeArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url
-    
-    @objc var uplaodMainPageimg = UIImage.init(named: "addImgBg")  // 在实际的项目中可能用于存储图片的url
-    
-    lazy var fczImagePickTool: CLImagePickerTool = {
-        let picker = CLImagePickerTool()
-        picker.cameraOut = true
-        picker.isHiddenVideo = true
-        return picker
-    }()
-    lazy var zlAgentImagePickTool: CLImagePickerTool = {
-        let picker = CLImagePickerTool()
-        picker.cameraOut = true
-        picker.isHiddenVideo = true
-        return picker
-    }()
-    lazy var mainPicImagePickTool: CLImagePickerTool = {
-        let picker = CLImagePickerTool()
-        picker.cameraOut = true
-        picker.isHiddenVideo = true
-        picker.singleImageChooseType = .singlePicture   //设置单选
-        return picker
-    }()
-    
+
     var headerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -151,19 +103,15 @@ class NewIdentifyViewController: BaseViewController {
         //公司认证 - 创建写字楼通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             let model = noti.object as? OwnerIdentifyUserModel
-
-            self?.isHasBuilding = true
             
             self?.userModel?.isCreateBuilding = "1"
             self?.userModel?.btype = model?.btype
             self?.userModel?.buildingName = model?.buildingName
-            self?.userModel?.buildingAddress = model?.buildingAddress
-            self?.userModel?.district = model?.district
-            self?.userModel?.business = model?.business
-            self?.userModel?.districtString = model?.districtString
-            self?.userModel?.businessString = model?.businessString
-            self?.userModel?.creditNo = model?.creditNo
-            self?.userModel?.businessLicense = model?.businessLicense
+            self?.userModel?.address = model?.address
+            self?.userModel?.districtId = model?.districtId
+            self?.userModel?.businessDistrict = model?.businessDistrict
+            self?.userModel?.districtIdName = model?.districtIdName
+            self?.userModel?.businessDistrictName = model?.businessDistrictName
             self?.userModel?.mainPicBannermodel = model?.mainPicBannermodel
             self?.buildingName = ""
             self?.buildingNameSearchResultVC?.view.isHidden = true
@@ -182,11 +130,7 @@ class NewIdentifyViewController: BaseViewController {
             
         }) { [weak self] in
             
-            if self?.isFromPersonalVc == true {
-                self?.navigationController?.popToRootViewController(animated: true)
-            }else {
-                self?.leftBtnClick()
-            }
+            self?.leftBtnClick()
         }
     }
     
@@ -196,52 +140,84 @@ extension NewIdentifyViewController {
     
     func detailDataShow() {
         
-        userModel?.frontBannerModel = BannerModel()
-        
-        userModel?.reverseBannerModel = BannerModel()
-
-        if userModel?.buildingName?.count ?? 0 > 0 {
-            isHasBuilding = true
+        if userModel?.buildId != nil && userModel?.buildId?.isBlankString != true {
+            userModel?.isCreateBuilding = "2"
         }else {
-            isHasBuilding = false
+            userModel?.isCreateBuilding = "1"
         }
         
-        ///移除之前的房产证数据
-        for fczBannerModel in uploadPicModelFCZArr {
-            if fczBannerModel.isLocal == false {
-                uploadPicModelFCZArr.remove(fczBannerModel)
-            }
-        }
         ///添加新的房产证数据
         if let premisesPermit = userModel?.premisesPermit {
             
-            for fczBannerModel in premisesPermit {
+            for str in premisesPermit {
+                let fczBannerModel = BannerModel()
+                fczBannerModel.imgUrl = str
                 fczBannerModel.isLocal = false
-                uploadPicModelFCZArr.append(fczBannerModel)
+                userModel?.fczLocalLocalImgArr.append(fczBannerModel)
             }
         }
         
-        ///移除之前的租赁协议数据
-        for lzAgentBannerModel in uploadPicModelBuChongArr {
-            if lzAgentBannerModel.isLocal == false {
-                uploadPicModelBuChongArr.remove(lzAgentBannerModel)
-            }
-        }
-        
-        ///添加新的租赁协议数据
-        if let contract = userModel?.contract {
+        ///添加新的营业执照数据
+        if let contract = userModel?.businessLicense{
             
-            for lzAgentBannerModel in contract {
-                lzAgentBannerModel.isLocal = false
-                uploadPicModelBuChongArr.append(lzAgentBannerModel)
+            for str in contract {
+                let fczBannerModel = BannerModel()
+                fczBannerModel.imgUrl = str
+                fczBannerModel.isLocal = false
+                userModel?.businessLicenseLocalImgArr.append(fczBannerModel)
             }
         }
         
+        ///添加新的补充材料数据
+        if let contract = userModel?.materials {
+            for str in contract {
+                let fczBannerModel = BannerModel()
+                fczBannerModel.imgUrl = str
+                fczBannerModel.isLocal = false
+                userModel?.addtionalLocalImgArr.append(fczBannerModel)
+            }
+        }
+        
+        ///身份证正
+        userModel?.frontBannerModel = BannerModel()
+        if let str = userModel?.idFront {
+            userModel?.frontBannerModel?.imgUrl = str
+            userModel?.frontBannerModel?.isLocal = false
+        }
+        
+        ///身份证反
+        userModel?.reverseBannerModel = BannerModel()
+        if let str = userModel?.idBack {
+            userModel?.reverseBannerModel?.imgUrl = str
+            userModel?.reverseBannerModel?.isLocal = false
+        }
+
+        
+        ///封面图
+        userModel?.mainPicBannermodel = BannerModel()
+        if let str = userModel?.mainPic {
+            userModel?.mainPicBannermodel?.imgUrl = str
+            userModel?.mainPicBannermodel?.isLocal = false
+        }
+
+        if userModel?.btype == "1" {
+            if userModel?.isHolder == 1 {
+                UserTool.shared.user_owner_identifytype = 0
+            }else {
+                UserTool.shared.user_owner_identifytype = 1
+            }
+        }else {
+            UserTool.shared.user_owner_identifytype = 2
+        }
         loadCollectionData()
     }
     
     ///获取信息
     func requestCompanyIdentifyDetail() {
+        
+        if buildingId == nil || buildingId?.isBlankString == true {
+            return
+        }
         
         var params = [String:AnyObject]()
         
@@ -251,12 +227,13 @@ extension NewIdentifyViewController {
         params["buildingId"] = buildingId as AnyObject?
         
         
-        SSNetworkTool.SSOwnerIdentify.request_getSelectIdentityTypeApp(params: params, success: {[weak self] (response) in
+        SSNetworkTool.SSOwnerIdentify.request_getNewIdentifyMsg(params: params, success: {[weak self] (response) in
             
             guard let weakSelf = self else {return}
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
                 weakSelf.userModel = model
+                weakSelf.userModel?.auditStatus = "2"
                 weakSelf.detailDataShow()
                 
             }else {
@@ -287,24 +264,26 @@ extension NewIdentifyViewController {
     ///提交认证
     func requestCompanyIdentify() {
         
+        ///buildid是否为空判断是否是关联的
+        
         if userModel?.buildingName == nil || userModel?.buildingName?.isBlankString == true{
             AppUtilities.makeToast("请选择或创建写字楼")
             return
         }
         
-        if userModel?.leaseType == nil || userModel?.leaseType?.isBlankString == true{
-            AppUtilities.makeToast("请选择房产类型")
-            return
-        }
-        
-        if uploadPicModelFCZArr.count <= 0 {
+        if userModel?.fczLocalLocalImgArr.count ?? 0 <= 0 {
             AppUtilities.makeToast("请上传房产证")
             return
         }
         
-        if userModel?.leaseType == "1" {
-            if uploadPicModelBuChongArr.count <= 0 {
-                AppUtilities.makeToast("请上传租赁协议")
+        if userModel?.businessLicenseLocalImgArr.count ?? 0 <= 0 {
+            AppUtilities.makeToast("请上传营业执照")
+            return
+        }
+        
+        if userModel?.btype == "1" {
+            if userModel?.isHolder == nil {
+                AppUtilities.makeToast("请选择权利人类型")
                 return
             }
         }
@@ -312,26 +291,6 @@ extension NewIdentifyViewController {
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        //身份类型0个人认证1企业认证2网点认证
-        params["identityType"] = UserTool.shared.user_owner_identifytype as AnyObject?
-        
-        //1提交认证2企业确认3网点楼盘创建确认
-        params["createCompany"] = 1 as AnyObject?
-        
-        params["leaseType"] = userModel?.leaseType as AnyObject?
-        
-        
-        ///企业关系id  接口给
-        if userModel?.userLicenceId != "0" || userModel?.userLicenceId?.isBlankString != true {
-            params["userLicenceId"] = userModel?.userLicenceId as AnyObject?
-        }
-        
-        ///企业id  接口给
-        if userModel?.licenceId != "0" || userModel?.licenceId?.isBlankString != true {
-            params["licenceId"] = userModel?.licenceId as AnyObject?
-        }
-        
         ///楼id
         ///关联的。- 覆盖 - 两种
         //        if userModel?.buildingId != 0 {
@@ -341,57 +300,39 @@ extension NewIdentifyViewController {
         //关联 - 楼盘，名字和地址都要给
         params["buildingId"] = userModel?.buildingId as AnyObject?
         
-        params["buildingAddress"] = userModel?.buildingAddress as AnyObject?
+        params["buildingAddress"] = userModel?.address as AnyObject?
         
         params["buildingName"] = userModel?.buildingName as AnyObject?
         
-        
-        ///关联楼id  接口给
-        if userModel?.buildingTempId != "0" || userModel?.buildingTempId?.isBlankString != true {
-            params["buildingTempId"] = userModel?.buildingTempId as AnyObject?
-        }
-        
-        
-        //房产证
-        var fczArr: [UIImage] = []
-        for model in uploadPicModelFCZArr {
-            if model.isLocal == true {
-                fczArr.append(model.image ?? UIImage())
-            }
-        }
-        
-        //租赁
-        var alAgentArr: [UIImage] = []
-        if userModel?.leaseType == "1" {
-            for model in uploadPicModelBuChongArr {
-                if model.isLocal == true {
-                    alAgentArr.append(model.image ?? UIImage())
-                }
-            }
-        }
-        
-        setCommitEnables(isUserinterface: false)
-        
-        SSNetworkTool.SSOwnerIdentify.request_companyIdentityApp(params: params, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
-            
-            guard let weakSelf = self else {return}
-            
-            weakSelf.setCommitEnables(isUserinterface: false)
-             
-            weakSelf.showCommitAlertview()
-            
-            }, failure: {[weak self] (error) in
-                
-                self?.setCommitEnables(isUserinterface: false)
-        }) {[weak self] (code, message) in
-            
-            self?.setCommitEnables(isUserinterface: false)
-
-            //只有5000 提示给用户 - 失效原因
-            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
-                AppUtilities.makeToast(message)
-            }
-        }
+//        //房产证
+//        var fczArr: [String] = []
+//        for model in userModel?.fczLocalLocalImgArr {
+//            fczArr.append(model?.imgUrl)
+//
+//        }
+//
+//        setCommitEnables(isUserinterface: false)
+//
+//        SSNetworkTool.SSOwnerIdentify.request_addNewIdentityApp(params: params, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
+//
+//            guard let weakSelf = self else {return}
+//
+//            weakSelf.setCommitEnables(isUserinterface: false)
+//
+//            weakSelf.showCommitAlertview()
+//
+//            }, failure: {[weak self] (error) in
+//
+//                self?.setCommitEnables(isUserinterface: false)
+//        }) {[weak self] (code, message) in
+//
+//            self?.setCommitEnables(isUserinterface: false)
+//
+//            //只有5000 提示给用户 - 失效原因
+//            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+//                AppUtilities.makeToast(message)
+//            }
+//        }
         
 
     }
@@ -415,6 +356,7 @@ extension NewIdentifyViewController {
         userModel = OwnerIdentifyUserModel()
         userModel?.frontBannerModel = BannerModel()
         userModel?.reverseBannerModel = BannerModel()
+        userModel?.mainPicBannermodel = BannerModel()
     }
     func setUpView() {
         
@@ -461,15 +403,13 @@ extension NewIdentifyViewController {
         buildingNameSearchResultVC?.buildingCallBack = {[weak self] (model) in
             // 搜索完成 关闭resultVC
             
-            self?.isHasBuilding = true
-
             //判断楼盘是关联的还是自己创建的
             self?.userModel?.isCreateBuilding = "2"
             
             self?.userModel?.btype = "\(model.buildType ?? 0)"
             self?.userModel?.buildingId = model.bid
             self?.userModel?.buildingName = model.buildingAttributedName?.string
-            self?.userModel?.buildingAddress = model.addressString?.string
+            self?.userModel?.address = model.addressString?.string
             
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.loadCollectionSectionData(section: 0)
@@ -479,19 +419,15 @@ extension NewIdentifyViewController {
         buildingNameSearchResultVC?.creatButtonCallClick = {[weak self] in
             let vc = OwnerCreateBuildingViewController()
             let userModel = OwnerIdentifyUserModel()
-            userModel.licenceId = self?.userModel?.licenceId
-            userModel.userLicenceId = self?.userModel?.userLicenceId
             userModel.buildingId = self?.userModel?.buildingId
-            userModel.buildingTempId = self?.userModel?.buildingTempId
             userModel.buildingName = self?.buildingName
-            userModel.buildingAddress = ""
+            userModel.address = ""
             userModel.btype = nil
-            userModel.creditNo = ""
             userModel.mainPic = ""
-            userModel.district = ""
-            userModel.business = ""
-            userModel.districtString = ""
-            userModel.businessString = ""
+            userModel.districtId = ""
+            userModel.businessDistrict = ""
+            userModel.districtIdName = ""
+            userModel.businessDistrictName = ""
             vc.userModel = userModel
             self?.navigationController?.pushViewController(vc, animated: true)
         }
@@ -532,7 +468,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 self?.userModel?.isCreateBuilding = ""
                 
                 self?.userModel?.buildingName = ""
-                self?.userModel?.buildingAddress = ""
+                self?.userModel?.address = ""
                 self?.buildingName = buildingName
             }
             cell?.editClickBack = { [weak self] (type) in
@@ -550,7 +486,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                     self?.userModel?.isCreateBuilding = ""
                     
                     self?.userModel?.buildingName = ""
-                    self?.userModel?.buildingAddress = ""
+                    self?.userModel?.address = ""
                     
                     self?.buildingName = ""
                 }
@@ -562,6 +498,11 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             let model = typeSourceArray[indexPath.section][indexPath.item]
             cell?.titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeQuanLiRenType)
             cell?.numDescTF.placeholder = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeQuanLiRenType)
+            if userModel?.isHolder == 1 {
+                cell?.numDescTF.text = "个人"
+            }else if userModel?.isHolder == 2 {
+                cell?.numDescTF.text = "公司"
+            }
             cell?.editBtn.isHidden = true
             cell?.closeBtn.isHidden = true
             cell?.numDescTF.isUserInteractionEnabled = false
@@ -748,8 +689,6 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 }
                 header?.isOpen = isOpen
                 header?.openBtn.isHidden = false
-                userModel?.remark = "userModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remark"
-                
                 header?.rejectReasonLabel.text = "驳回原因：\(userModel?.remark ?? "")"
                 
             }else if indexPath.section == 2 {
@@ -766,26 +705,26 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 0 {
-            if isOpen == true {
-                
-                userModel?.remark = "userModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remarkuserModel?.remark"
-                
-                if userModel?.remark?.count ?? 0 > 0 {
-                    let str = "驳回原因：\(userModel?.remark ?? "")"
+            ///0待审核1审核通过2审核未通过 没有提交过为-1
+            if userModel?.auditStatus == "2" {
+                let str = "驳回原因：\(userModel?.remark ?? "")"
 
-                    let size = str.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 - 42, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
-                    
-                    var height: CGFloat = 0
-                    height = size.height + 24
+                let size = str.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 - 42, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
+                
+                var height: CGFloat = 0
+                height = size.height + 24
+                
+                if isOpen == true {
                     
                     return CGSize(width: kWidth, height: height)
+                    
                 }else {
-                    return CGSize.zero
+                    return CGSize(width: kWidth, height: 42)
                 }
-                
             }else {
-                return CGSize(width: kWidth, height: 42)
+                return CGSize.zero
             }
+            
         }else if section == 2 {
             return CGSize(width: kWidth, height: 12)
         }
@@ -806,8 +745,6 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
     
     lazy var rejectImg: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage.init(named: "redLine")
-//        view.backgroundColor = kAppRedColor
         return view
     }()
     
@@ -936,6 +873,13 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
                         
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeBuildingName)
             numDescTF.placeholder = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeBuildingName)
+            
+            if userModel?.auditStatus == "2" {
+                rejectImg.image = UIImage.init(named: "redLine")
+            }else {
+                rejectImg.image = UIImage.init(named: "")
+            }
+            
             if userModel?.btype == "1" {
                 tagView.text = "楼盘"
             }else {
@@ -954,7 +898,7 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
                     editBtn.isHidden = false
                     buildingMsgView.isHidden = false
                     buildingNameLabel.text = userModel?.buildingName
-                    houseAddressLabel.text = userModel?.buildingAddress
+                    houseAddressLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")\(userModel?.address ?? "")"
                 }else if userModel?.isCreateBuilding == "2" {
                     //0 就是关联的公司
                     //不能输入框修改
@@ -964,7 +908,7 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
                     editBtn.isHidden = true
                     buildingMsgView.isHidden = false
                     buildingNameLabel.text = userModel?.buildingName
-                    houseAddressLabel.text = userModel?.buildingAddress
+                    houseAddressLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")\(userModel?.address ?? "")"
                 }else {
                     //如果没有提交过，应该返回一个""
                     //"" 没有提交过

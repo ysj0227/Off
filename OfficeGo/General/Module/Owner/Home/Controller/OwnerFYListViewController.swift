@@ -307,11 +307,11 @@ class OwnerFYListViewController: BaseGroupTableViewController {
                 
                 weakSelf.userModel = model
                 
-                UserTool.shared.user_name = model.proprietorRealname
-                UserTool.shared.user_nickname = model.proprietorRealname
+                UserTool.shared.user_name = model.nickname
+                UserTool.shared.user_nickname = model.nickname
                 UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_company = model.proprietorCompany
-                UserTool.shared.user_job = model.proprietorJob
+                UserTool.shared.user_company = model.company
+                UserTool.shared.user_job = model.job
                 UserTool.shared.user_sex = model.sex
                 UserTool.shared.user_phone = model.phone
                 UserTool.shared.user_wechat = model.wxId
@@ -385,8 +385,8 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         }
         ///0待审核 2审核未通过 3过期 2驳回处理
         else {
-            identifyStatusView.isHidden = true
-            toIdentifyView.isHidden = false
+            identifyStatusView.isHidden = false
+            toIdentifyView.isHidden = true
         }
         
     }
@@ -412,12 +412,7 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["pageNo"] = self.pageNo as AnyObject
         params["pageSize"] = 10 as AnyObject
-        if userModel?.identityType == 2 {
-            //类型,1:楼盘,2:网点,当是1的时候,网点名称可为空
-            params["btype"] = buildingListViewModel?.btype as AnyObject?
-        }else {
-            params["btype"] = buildingListViewModel?.btype as AnyObject?
-        }
+        params["btype"] = buildingListViewModel?.btype as AnyObject?
         params["buildingId"] = buildingListViewModel?.buildingId as AnyObject?
         ///是不是临时的楼盘；0不是，1是
         params["isTemp"] = buildingListViewModel?.isTemp as AnyObject?

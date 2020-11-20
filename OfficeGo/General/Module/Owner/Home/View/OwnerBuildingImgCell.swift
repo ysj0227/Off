@@ -535,7 +535,6 @@ class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
     
     lazy var rejectImg: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage.init(named: "redLine")
         view.contentMode = .scaleToFill
         return view
     }()
@@ -554,6 +553,11 @@ class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
     ///认证数据展示
     var userModel: OwnerIdentifyUserModel = OwnerIdentifyUserModel() {
         didSet {
+            if userModel.auditStatus == "2" {
+                rejectImg.image = UIImage.init(named: "redLine")
+            }else {
+                rejectImg.image = UIImage.init(named: "")
+            }
             reloadData()
         }
     }
@@ -1052,7 +1056,6 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
     
     lazy var rejectImg: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage.init(named: "redLine")
         view.contentMode = .scaleToFill
         return view
     }()
@@ -1096,6 +1099,12 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         didSet {
             titleLabel.attributedText = model?.getNameFormType(type: model?.type ?? .OwnerNewIdentifyTypeYinYeOrIdCard)
             descLabel.text = model?.getDescFormType(type: model?.type ?? .OwnerNewIdentifyTypeYinYeOrIdCard)
+            
+            if userModel?.auditStatus == "2" {
+                rejectImg.image = UIImage.init(named: "redLine")
+            }else {
+                rejectImg.image = UIImage.init(named: "")
+            }
             
             if let imgUrl = userModel?.frontBannerModel?.imgUrl {
                 if imgUrl.count > 0 {

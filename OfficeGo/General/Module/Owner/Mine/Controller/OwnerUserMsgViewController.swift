@@ -190,7 +190,7 @@ extension OwnerUserMsgViewController {
         
         self.tableView.endEditing(true)
         
-        if userModel?.proprietorRealname?.isBlankString == true {
+        if userModel?.nickname?.isBlankString == true {
             AppUtilities.makeToast("请输入姓名")
             return
         }
@@ -205,7 +205,7 @@ extension OwnerUserMsgViewController {
         setSureBtnEnable(can: false)
         
         var params = [String:AnyObject]()
-        params["realname"] = userModel?.proprietorRealname as AnyObject?
+        params["nickname"] = userModel?.nickname as AnyObject?
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         
@@ -228,8 +228,8 @@ extension OwnerUserMsgViewController {
          }*/
         
         params["WX"] = userModel?.wxId as AnyObject?
-        params["company"] = userModel?.proprietorCompany as AnyObject?
-        params["job"] = userModel?.proprietorJob as AnyObject?
+        params["company"] = userModel?.company as AnyObject?
+        params["job"] = userModel?.job as AnyObject?
         
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
@@ -372,15 +372,15 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
                 self.editLabel.textColor = kAppColor_333333
                 
                 if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
-                    self.editLabel.text = userModel?.proprietorRealname
+                    self.editLabel.text = userModel?.nickname
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
                     self.editLabel.text = userModel?.wxId
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
                     self.editLabel.isUserInteractionEnabled = false
                     self.editLabel.textColor = kAppColor_999999
-                    self.editLabel.text = userModel?.proprietorCompany
+                    self.editLabel.text = userModel?.company
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
-                    self.editLabel.text = userModel?.proprietorJob
+                    self.editLabel.text = userModel?.job
                 }
             }
         }
@@ -437,15 +437,15 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
 extension OwnerMineUserMsgCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
-            userModel?.proprietorRealname = textField.text
+            userModel?.nickname = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
             userModel?.phone = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
             userModel?.wxId = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
-            userModel?.proprietorCompany = textField.text
+            userModel?.company = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
-            userModel?.proprietorJob = textField.text
+            userModel?.job = textField.text
         }
         guard let blockk = self.endEditingMessageCell else {
             return

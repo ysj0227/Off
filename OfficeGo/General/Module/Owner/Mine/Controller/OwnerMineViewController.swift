@@ -266,11 +266,11 @@ extension OwnerMineViewController {
                 
                 weakSelf.userModel = model
                 
-                UserTool.shared.user_name = model.proprietorRealname
-                UserTool.shared.user_nickname = model.proprietorRealname
+                UserTool.shared.user_name = model.nickname
+                UserTool.shared.user_nickname = model.nickname
                 UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_company = model.proprietorCompany
-                UserTool.shared.user_job = model.proprietorJob
+                UserTool.shared.user_company = model.company
+                UserTool.shared.user_job = model.job
                 UserTool.shared.user_sex = model.sex
                 UserTool.shared.user_phone = model.phone
                 UserTool.shared.user_wechat = model.wxId
@@ -384,22 +384,7 @@ extension OwnerMineViewController {
         switch typeSourceArray[indexPath.row].type {
         
         case .OwnerMineTypeAuthority:
-            //没有认证过不展示
-            ///只有1 通过才会可能
-            if userModel?.auditStatus == 1 {
-                //个人认证没有员工管理
-                if userModel?.identityType == 0 {
-                    return 0
-                }else {
-                    if userModel?.authority == 0 {
-                        return 0
-                    }else {
-                        return RenterMineCell.rowHeight()
-                    }
-                }
-            }else {
-                return 0
-            }
+            return 0
             
         case .OwnerMineTypeHelpAndFeedback:
             return RenterMineCell.rowHeight()

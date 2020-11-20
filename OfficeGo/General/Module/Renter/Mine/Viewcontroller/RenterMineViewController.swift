@@ -168,8 +168,8 @@ extension RenterMineViewController {
                 
                 weakSelf.userModel = model
                 
-                UserTool.shared.user_name = model.realname
-                UserTool.shared.user_nickname = model.realname
+                UserTool.shared.user_name = model.nickname
+                UserTool.shared.user_nickname = model.nickname
                 UserTool.shared.user_avatars = model.avatar
                 UserTool.shared.user_company = model.company
                 UserTool.shared.user_job = model.job

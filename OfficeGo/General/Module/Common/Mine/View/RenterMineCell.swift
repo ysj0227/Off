@@ -68,36 +68,8 @@ class RenterMineCell: BaseTableViewCell {
             titleLabel.text = ownerModel.getNameFormType(type: ownerModel.type ?? OwnerMineType.OwnerMineTypeAboutus)
             
             if ownerModel.type == OwnerMineType.OwnerMineTypeAuthority {
-                //个人认证没有员工管理
-                //没有认证过不展示
-                ///只有1 通过才会可能
-                if userModel?.auditStatus == 1 {
-                    //个人认证没有员工管理
-                    if userModel?.identityType == 0 {
-                        itemIcon.image = UIImage.init(named: "")
-                        titleLabel.text = ""
-                    }else {
-                        if userModel?.authority == 0 {
-                            itemIcon.image = UIImage.init(named: "")
-                            titleLabel.text = ""
-                        }else {
-                            
-                        }
-                    }
-                }else {
-                    itemIcon.image = UIImage.init(named: "")
-                    titleLabel.text = ""
-                }
-                if userModel?.identityType == 0 {
-                    itemIcon.image = UIImage.init(named: "")
-                    titleLabel.text = ""
-                }else {
-                    if userModel?.authority == 0 {
-                        itemIcon.image = UIImage.init(named: "")
-                        titleLabel.text = ""
-                    }
-                }
-                
+                itemIcon.image = UIImage.init(named: "")
+                titleLabel.text = ""
             }
         }
     }

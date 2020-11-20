@@ -183,7 +183,7 @@ class UserTool: NSObject {
         }
     }
     
-    /// 名字 - 租户realname
+    /// 名字 - 租户nickname
        var user_name:String?{
            get{
                return userDefault.value(forKey: "user_name") as? String
@@ -193,7 +193,7 @@ class UserTool: NSObject {
            }
        }
    
-    /// 名字 - 租户realname
+    /// 名字 - 租户nickname
     var user_nickname:String?{
         get{
             return userDefault.value(forKey: "user_nickname") as? String

@@ -622,27 +622,12 @@ extension SSNetworkTool {
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
         }
-
-        ///网点是否可以创建判断接口
-        static func request_getIsCanCreatBranch(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getIsCanCreatBranch)
-            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
-                success,failed:failure,error:error)
-        }
         
-        ///用户选择身份
-        static func request_getSelectIdentityTypeApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getSelectIdentityTypeApp)
+        ///认证信息回显接口
+        static func request_getNewIdentifyMsg(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getNewIdentifyMsg)
             SSNetworkTool.request(type: .get,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
                 success,failed:failure,error:error)
-        }
-
-        ///创建楼盘接口 - 上传封面图
-        ///创建网点接口 - 上传封面图
-        static func request_createBuildingApp(params: Eic, imagesArray: [UIImage] ,success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
-            SSNetworkTool.uploadMutileImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fileName: "fileMainPic", imagesArray: imagesArray, params: params, isShowHud: true, success:
-            success,failed:failure,error:error)
         }
         
         ///图片删除接口
@@ -652,9 +637,9 @@ extension SSNetworkTool {
                 success,failed:failure,error:error)
         }
         
-        ///添加公司认证APP
-        static func request_companyIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
-            let url = String.init(format: SSOwnerIdentifyURL.getUploadLicenceProprietorApp)
+        ///提交认证APP
+        static func request_addNewIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+            let url = String.init(format: SSOwnerIdentifyURL.getAddNewIdentifyApp)
             SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
             success,failed:failure,error:error)
         }

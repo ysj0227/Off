@@ -189,7 +189,7 @@ extension RenterUserMsgViewController {
         
         self.tableView.endEditing(true)
         
-       if userModel?.realname?.isBlankString == true {
+       if userModel?.nickname?.isBlankString == true {
            AppUtilities.makeToast("请输入姓名")
            return
        }
@@ -204,7 +204,7 @@ extension RenterUserMsgViewController {
         setSureBtnEnable(can: false)
 
         var params = [String:AnyObject]()
-        params["realname"] = userModel?.realname as AnyObject?
+        params["nickname"] = userModel?.nickname as AnyObject?
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         
@@ -458,7 +458,7 @@ class RenterMineUserMsgCell: BaseEditCell {
                 self.editLabel.textColor = kAppColor_333333
 
                 if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
-                    self.editLabel.text = userModel?.realname
+                    self.editLabel.text = userModel?.nickname
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
                     self.editLabel.text = userModel?.wxId
                 }
@@ -470,7 +470,7 @@ class RenterMineUserMsgCell: BaseEditCell {
 extension RenterMineUserMsgCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if model.type == RenterUserMsgType.RenterUserMsgTypeNick {
-            userModel?.realname = textField.text
+            userModel?.nickname = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeTele {
             userModel?.phone = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {

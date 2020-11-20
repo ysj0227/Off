@@ -125,47 +125,26 @@ class SSWebLoginURL: NSObject {
 //  MARK:   --房东认证接口
 class SSOwnerIdentifyURL: NSObject {
     
-    //搜索企业接口
-    static let getESCompany = "api/esearch/searchListByLicence"
-    
     //搜索企业大楼接口
     static let getESBuild = "api/esearch/searchListBuild"
     
     //搜索网点接口
     static let getESBranch = "api/esearch/searchListBranch"
     
-    //进入申请加入查询管理员Id APP
-    static let getApplyManagerMsg = "api/licence/selectApplyLicenceApp"
-    
-    //申请加入企业
-    static let getApplyJoin = "api/licence/applyLicenceProprietorApp"
-    
     //加入企业或者网点同意拒绝接口
     static let getUpdateAuditStatus = "api/licence/updateAuditStatusApp"
     
-    //网点是否可以创建判断接口app
-    static let getIsCanCreatBranch = "api/licence/selectBuildingByNameApp"
-    
-    //企业是否可以创建判断接口App
-    static let getIsCanCreatCompany = "api/licence/selectLicenceByCompanyApp"
-    
-    //用户选择身份调
-    static let getSelectIdentityTypeApp = "api/licence/selectIdentityTypeApp"
-    
-    //添加认证APP - 待测
-    static let getUploadLicenceProprietorApp = "api/licence/uploadLicenceProprietorApp"
-    
-    //查询申请信息接口（普通员工申请加入之后查询页面数据）
-    static let getQueryApplyLicenceProprietorApp = "api/licence/queryApplyLicenceProprietorApp"
-    
-    //自主撤销认证 待测
-    static let getDeleteUserLicenceApp = "api/licence/deleteUserLicenceApp"
+    //提交认证接口
+    static let getAddNewIdentifyApp = "api/building/addAttestationApp"
     
     //房东和房东聊天列表调用接口
     static let getOwnerToOwnerchattedMsgAApp = "api/chat/chattedMsgApp"
     
     //图片删除调用接口
     static let deleteImgApp = "api/licence/deleteImgApp"
+    
+    //认证信息回显接口
+    static let getNewIdentifyMsg = "api/building/getAttestation"
     
 }
 
@@ -295,10 +274,10 @@ class SSMineURL: NSObject {
     static let bindWeChat = "api/login/sms_codeApp"
     
     ///个人资料 - 租户  - 房东
-    static let getRenterUserMsg = "api/user/userMsgApp"
+    static let getRenterUserMsg = "api/user/getUserInfoApp"
     
     ///个人资料 - 房东
-    static let getOwnerUserMsg = "api/user/userMsgApp"
+    static let getOwnerUserMsg = "api/user/getUserInfoApp"
     
     ///切换身份
     static let roleChange = "api/user/regTokenApp"
