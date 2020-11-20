@@ -239,11 +239,17 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         
         //楼盘重新认证 成功通知 - 请求楼盘列表，刷新这个楼盘的状态和数据
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerIdentifySuccess, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
-            self?.requestReIdentifyBuildingList()
+        
+            self?.delay3request()
         }
         
     }
     
+    func delay3request() {
+        SSTool.delay(time: 1) { [weak self] in
+            self?.requestReIdentifyBuildingList()
+        }
+    }
     func requestReIdentifyBuildingList() {
         
         var params = [String:AnyObject]()
@@ -257,7 +263,7 @@ class OwnerFYListViewController: BaseGroupTableViewController {
             if let decoratedArray = JSONDeserializer<OwnerBuildingListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 for model in decoratedArray {
                     if model?.buildingId == weakSelf.buildingListViewModel?.buildingId {
-                        //model?.status = 1
+                        model?.status = 1
                         weakSelf.buildingListViewModel = OwnerBuildingListViewModel.init(model: model ?? OwnerBuildingListModel())
                     }
                 }

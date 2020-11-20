@@ -406,6 +406,7 @@ extension NewIdentifyViewController {
     
     @objc func logotClick() {
         NotificationCenter.default.post(name: NSNotification.Name.OwnerIdentifySuccess, object: nil)
+        self.navigationController?.popToRootViewController(animated: true)
 
 //        self.headerCollectionView.endEditing(true)
 //        requestCompanyIdentify()
@@ -578,6 +579,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 }else {
                     
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewIdentifyImgCell.reuseIdentifierStr, for: indexPath) as? OwnerNewIdentifyImgCell
+                    cell?.presentVC = self
                     cell?.userModel = userModel ?? OwnerIdentifyUserModel()
                     cell?.model = typeSourceArray[indexPath.section][indexPath.item]
                     cell?.imgSelectClickBlock = { [weak self] (usermodel) in
@@ -590,6 +592,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             }else {
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewIdentifyImgCell.reuseIdentifierStr, for: indexPath) as? OwnerNewIdentifyImgCell
+                cell?.presentVC = self
                 cell?.userModel = userModel ?? OwnerIdentifyUserModel()
                 cell?.model = typeSourceArray[indexPath.section][indexPath.item]
                 cell?.imgSelectClickBlock = { [weak self] (usermodel) in

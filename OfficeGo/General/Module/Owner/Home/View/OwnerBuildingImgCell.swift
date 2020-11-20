@@ -522,6 +522,8 @@ extension OwnerBuildingImgCell: UICollectionViewDataSource, UICollectionViewDele
 //MARK: 新认证 - 图片选择cell
 class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
         
+    var presentVC: BaseViewController?
+
     var imgSelectClickBlock:((_ usermodel: OwnerIdentifyUserModel) -> Void)?
 
     lazy var fczImagePickTool: CLImagePickerTool = {
@@ -614,7 +616,7 @@ extension OwnerNewIdentifyImgCell {
         
         var imgArr = [BannerModel]()
         var imggggArr = [UIImage]()
-        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - userModel.fczLocalLocalImgArr.count, superVC: nil) {[weak self] (asset,cutImage) in
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - userModel.fczLocalLocalImgArr.count, superVC: presentVC) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
@@ -680,7 +682,7 @@ extension OwnerNewIdentifyImgCell {
         
         var imgArr = [BannerModel]()
         var imggggArr = [UIImage]()
-        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - userModel.businessLicenseLocalImgArr.count, superVC: nil) {[weak self] (asset,cutImage) in
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - userModel.businessLicenseLocalImgArr.count, superVC: presentVC) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()
@@ -745,7 +747,7 @@ extension OwnerNewIdentifyImgCell {
         
         var imgArr = [BannerModel]()
         var imggggArr = [UIImage]()
-        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - userModel.addtionalLocalImgArr.count, superVC: nil) {[weak self] (asset,cutImage) in
+        fczImagePickTool.cl_setupImagePickerWith(MaxImagesCount: ownerBuildingImageNumber_9 - userModel.addtionalLocalImgArr.count, superVC: presentVC) {[weak self] (asset,cutImage) in
             // 内部提供的方法可以异步获取图片，同步获取的话时间比较长，不建议！，如果是iCloud中的照片就直接从icloud中下载，下载完成后返回图片,同时也提供了下载失败的方法
             CLImagePickerTool.convertAssetArrToOriginImage(assetArr: asset, scale: 0.1, successClouse: {[weak self] (image,assetItem) in
                 let img = image.resizeMax1500Image()

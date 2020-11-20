@@ -18,39 +18,19 @@ class OwnerBuildingListViewController: BaseTableViewController {
     var clickBuildingBlock:((OwnerBuildingListViewModel) -> Void)?
     
     ///判断身份和认证类型
-    var userModel: LoginUserModel?  {
-        didSet {
-            if userModel?.identityType == 2 {
-                addButton.setTitle("添加网点", for: .normal)
-                textLabel.text = "网点"
-            }else {
-                addButton.setTitle("添加楼盘", for: .normal)
-                textLabel.text = "楼盘"
-            }
-        }
-    }
+    var userModel: LoginUserModel?
     
-    var dataSourceViewModel: [OwnerBuildingListViewModel?] = []
+    var dataSourceViewModel: [[OwnerBuildingListViewModel?]] = []
+    
+    var buildingList: [OwnerBuildingListViewModel?] = []
+    
+    var branchList: [OwnerBuildingListViewModel?] = []
+
     
     lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
         let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
         return view
     }()
-    
-    var titleLabel : UIView = {
-        let view = UIView()
-        view.backgroundColor = kAppWhiteColor
-        return view
-    }()
-    
-    var textLabel : UILabel = {
-        let label = UILabel(frame: CGRect(x: left_pending_space_17, y: 5, width: kWidth - left_pending_space_17 * 2, height: 30))
-        label.textColor = kAppColor_999999
-        label.font = FONT_14
-        label.text = "楼盘"
-        return label
-    }()
-    
     
     var addBottomView : UIView = {
         let view = UIView()
@@ -62,7 +42,7 @@ class OwnerBuildingListViewController: BaseTableViewController {
         let addButton = UIButton(frame: CGRect(x: 0, y: 18, width: kWidth, height: 91))
         addButton.backgroundColor = kAppWhiteColor
         addButton.setImage(UIImage.init(named: "addCircle"), for: .normal)
-        addButton.setTitle("添加楼盘", for: .normal)
+        addButton.setTitle("添加楼盘/网点", for: .normal)
         addButton.setTitleColor(kAppColor_999999, for: .normal)
         addButton.titleLabel?.font = FONT_14
         addButton.layoutButton(.imagePositionTop, space: 10)
@@ -72,17 +52,8 @@ class OwnerBuildingListViewController: BaseTableViewController {
     
     //MARK: 添加楼盘和网点
     @objc func addBuilding() {
-        if userModel?.identityType == 2 {
-            ///网点
-            let vc = OwnerBuildingJointCreatAddViewController()
-            vc.isBranchs = true
-            self.navigationController?.pushViewController(vc, animated: true)
-        }else {
-            ///楼盘
-            let vc = OwnerBuildingJointCreatAddViewController()
-            vc.isBuilding = true
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        let vc = NewIdentifyViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,10 +78,10 @@ class OwnerBuildingListViewController: BaseTableViewController {
     
     
     func requestBuildingList() {
-        if pageNo == 1 {
-            if self.dataSourceViewModel.count > 0 {
-                self.dataSourceViewModel.removeAll()
-            }
+        if dataSourceViewModel.count > 0 {
+            dataSourceViewModel.removeAll()
+            buildingList.removeAll()
+            branchList.removeAll()
         }
         
         var params = [String:AnyObject]()
@@ -124,9 +95,16 @@ class OwnerBuildingListViewController: BaseTableViewController {
             if let decoratedArray = JSONDeserializer<OwnerBuildingListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 weakSelf.dataSource = weakSelf.dataSource + decoratedArray
                 for model in decoratedArray {
+                    
                     let viewmodel = OwnerBuildingListViewModel.init(model: model ?? OwnerBuildingListModel())
-                    weakSelf.dataSourceViewModel.append(viewmodel)
+                    if model?.btype == 1 {
+                        weakSelf.buildingList.append(viewmodel)
+                    }else if model?.btype == 2 {
+                        weakSelf.branchList.append(viewmodel)
+                    }
                 }
+                weakSelf.dataSourceViewModel.append(weakSelf.buildingList)
+                weakSelf.dataSourceViewModel.append(weakSelf.branchList)
                 weakSelf.endRefreshWithCount(0)
             }
             
@@ -183,38 +161,24 @@ extension OwnerBuildingListViewController {
         titleview?.leftButtonCallBack = { [weak self] in
             self?.navigationController?.dismiss(animated: true, completion: nil)
         }
+        
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
         
-        self.view.addSubview(titleLabel)
-        titleLabel.addSubview(textLabel)
         self.view.addSubview(addBottomView)
         addBottomView.addSubview(addButton)
                
-        titleLabel.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(kNavigationHeight)
-            make.height.equalTo(35)
-        }
         addBottomView.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(110)
             make.bottom.equalToSuperview().offset(-kTabBarHeight)
         }
         self.tableView.snp.remakeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom)
+            make.top.equalTo(kNavigationHeight)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(addBottomView.snp.top)
         }
         
         requestSet()
-        
-        if userModel?.identityType == 2 {
-            addButton.setTitle("添加网点", for: .normal)
-            textLabel.text = "网点"
-        }else {
-            addButton.setTitle("添加楼盘", for: .normal)
-            textLabel.text = "楼盘"
-        }
 
     }
     
@@ -241,14 +205,104 @@ extension OwnerBuildingListViewController {
 extension OwnerBuildingListViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: OwnerBuildingListCell.reuseIdentifierStr) as? OwnerBuildingListCell
         cell?.selectionStyle = .none
-        if self.dataSourceViewModel.count > 0 {
-            if let viewModel = self.dataSourceViewModel[indexPath.row]  {
+        cell?.lineView.isHidden = false
+
+        if indexPath.section == 0 {
+            if let viewModel = buildingList[indexPath.row]  {
+                
+                if indexPath.row == buildingList.count - 1 {
+                    cell?.lineView.isHidden = true
+                }
+                
+                cell?.viewModel = viewModel
+                
+                ///预览 - 自己页面dismiss - 跳转到详情页面
+                cell?.scanClickBlock = { [weak self] in
+                    
+                    //self?.dismissCVCScanEdit(viewModel: viewModel, isScan: true)
+
+                    
+                    if viewModel.btype == 1 {
+                        let model = FangYuanListModel()
+                        model.btype = viewModel.btype
+                        model.id = viewModel.buildingId
+                        model.isTemp = viewModel.isTemp
+                        model.status = viewModel.status
+                        let vc = RenterOfficebuildingDetailVC()
+                        vc.isFromOwnerScan = true
+                        vc.buildingModel = model
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }else if viewModel.btype == 2 {
+                        let model = FangYuanListModel()
+                        model.btype = viewModel.btype
+                        model.id = viewModel.buildingId
+                        model.isTemp = viewModel.isTemp
+                        model.status = viewModel.status
+                        let vc = RenterOfficeJointDetailVC()
+                        vc.isFromOwnerScan = true
+                        vc.buildingModel = model
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    
+                }
+                
+                ///编辑
+                cell?.editClickBlock = { [weak self] in
+                    
+                    //self?.dismissCVCScanEdit(viewModel: viewModel, isScan: false)
+                
+                    if viewModel.btype == 1 {
+                        if viewModel.isEdit != true {
+                            //AppUtilities.makeToast("暂不可编辑")
+                            return
+                        }
+                        let buildingModel = FangYuanBuildingEditModel()
+                        buildingModel.isTemp = viewModel.isTemp
+                        buildingModel.buildingId = viewModel.buildingId
+                        let vc = OwnerBuildingCreateViewController()
+                        vc.isTemp = viewModel.isTemp
+                        vc.buildingModel = buildingModel
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }else if viewModel.btype == 2 {
+                        if viewModel.isEdit != true {
+                            //AppUtilities.makeToast("暂不可编辑")
+                            return
+                        }
+                        let buildingModel = FangYuanBuildingEditModel()
+                        buildingModel.isTemp = viewModel.isTemp
+                        buildingModel.buildingId = viewModel.buildingId
+                        let vc = OwnerBuildingJointCreateViewController()
+                        vc.isTemp = viewModel.isTemp
+                        vc.buildingModel = buildingModel
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+                
+                ///重新认证
+                cell?.identifyClickBlock = { [weak self] in
+                    if self?.userModel?.identityType == 2 {
+                        ///网点
+                        let vc = OwnerBuildingJointNewIdentifyCreatAddViewController()
+                        vc.isBranchs = true
+                        vc.buildingId = viewModel.buildingId
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }else {
+                        ///楼盘
+                        let vc = OwnerBuildingJointNewIdentifyCreatAddViewController()
+                        vc.isBuilding = true
+                        vc.buildingId = viewModel.buildingId
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+        }else if indexPath.section == 1 {
+            if let viewModel = branchList[indexPath.row]  {
                 cell?.viewModel = viewModel
                 
                 ///预览 - 自己页面dismiss - 跳转到详情页面
@@ -331,11 +385,16 @@ extension OwnerBuildingListViewController {
                 }
             }
         }
+
         return cell ?? OwnerBuildingListCell.init(frame: .zero)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSourceViewModel.count
+        if section == 0 {
+            return buildingList.count
+        }else {
+            return branchList.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -347,18 +406,51 @@ extension OwnerBuildingListViewController {
         if self.dataSourceViewModel.count <= 0 {
             return
         }
-        
-        if let viewModel = self.dataSourceViewModel[indexPath.row]  {
-            guard let block = clickBuildingBlock else { return }
-            
-            if let viewmodel = dataSourceViewModel[indexPath.row] {
-                block(viewmodel)
+        if indexPath.section == 0 {
+            if let viewModel = buildingList[indexPath.row]  {
+                guard let block = clickBuildingBlock else { return }
+                block(viewModel)
+                self.navigationController?.dismiss(animated: true, completion: nil)
             }
-             
-            self.navigationController?.dismiss(animated: true, completion: nil)
+        }else {
+            if let viewModel = branchList[indexPath.row]  {
+                guard let block = clickBuildingBlock else { return }
+                block(viewModel)
+                self.navigationController?.dismiss(animated: true, completion: nil)
+            }
         }
         
+        
        
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = kAppWhiteColor
+        let bg = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: 18))
+        bg.backgroundColor = kAppColor_bgcolor_F7F7F7
+        view.addSubview(bg)
+        let label = UILabel()
+        label.textColor = kAppColor_999999
+        label.font = FONT_14
+        view.addSubview(label)
+        if section == 0 {
+            bg.backgroundColor = kAppWhiteColor
+            label.text = "楼盘"
+            label.frame = CGRect(x: left_pending_space_17, y: 15, width: kWidth - left_pending_space_17 * 2, height: 30)
+        }else {
+            label.text = "网点"
+            label.frame = CGRect(x: left_pending_space_17, y: 35, width: kWidth - left_pending_space_17 * 2, height: 30)
+        }
+        return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 45
+        }else {
+            return 65
+        }
     }
 }
 
