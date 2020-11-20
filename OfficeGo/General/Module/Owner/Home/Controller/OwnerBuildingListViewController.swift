@@ -283,23 +283,7 @@ extension OwnerBuildingListViewController {
                         self?.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
-                
-                ///重新认证
-                cell?.identifyClickBlock = { [weak self] in
-                    if self?.userModel?.identityType == 2 {
-                        ///网点
-                        let vc = OwnerBuildingJointNewIdentifyCreatAddViewController()
-                        vc.isBranchs = true
-                        vc.buildingId = viewModel.buildingId
-                        self?.navigationController?.pushViewController(vc, animated: true)
-                    }else {
-                        ///楼盘
-                        let vc = OwnerBuildingJointNewIdentifyCreatAddViewController()
-                        vc.isBuilding = true
-                        vc.buildingId = viewModel.buildingId
-                        self?.navigationController?.pushViewController(vc, animated: true)
-                    }
-                }
+            
             }
         }else if indexPath.section == 1 {
             if let viewModel = branchList[indexPath.row]  {
@@ -367,22 +351,6 @@ extension OwnerBuildingListViewController {
                     }
                 }
                 
-                ///重新认证
-                cell?.identifyClickBlock = { [weak self] in
-                    if self?.userModel?.identityType == 2 {
-                        ///网点
-                        let vc = OwnerBuildingJointNewIdentifyCreatAddViewController()
-                        vc.isBranchs = true
-                        vc.buildingId = viewModel.buildingId
-                        self?.navigationController?.pushViewController(vc, animated: true)
-                    }else {
-                        ///楼盘
-                        let vc = OwnerBuildingJointNewIdentifyCreatAddViewController()
-                        vc.isBuilding = true
-                        vc.buildingId = viewModel.buildingId
-                        self?.navigationController?.pushViewController(vc, animated: true)
-                    }
-                }
             }
         }
 

@@ -164,7 +164,6 @@
 		8E14F59525304EF7007F2096 /* OwnerBuildingIntroductionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */; };
 		8E14F59725305725007F2096 /* OwnerBuildingNetworkSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */; };
 		8E24E61B256399E2007251BE /* NewIdentifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E24E61A256399E2007251BE /* NewIdentifyViewController.swift */; };
-		8E3E22692552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */; };
 		8E50486A25217C2800F43373 /* OwnerFYListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486925217C2800F43373 /* OwnerFYListCell.swift */; };
 		8E50486C25217F8C00F43373 /* OwnerFYListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */; };
 		8E50486E2521AE4D00F43373 /* OwnerFYMoreSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */; };
@@ -185,7 +184,6 @@
 		8EDBA5362540009300BD3774 /* OwnerBuildingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */; };
 		8EDBA53825402E1700BD3774 /* OwnerBuildingListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */; };
 		8EE62CFB2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE62CFA2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift */; };
-		8EE62CFD255A2E1D0031A7AA /* OwnerBuildingJointNewIdentifyCreatAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE62CFC255A2E1D0031A7AA /* OwnerBuildingJointNewIdentifyCreatAddViewController.swift */; };
 		8EECEF32253153C600D480B2 /* OwnerBuildingImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */; };
 		8EECEF342531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */; };
 		8EECEF362531B08200D480B2 /* OwnerBuildingVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */; };
@@ -472,7 +470,6 @@
 		8E14F59425304EF7007F2096 /* OwnerBuildingIntroductionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingIntroductionCell.swift; sourceTree = "<group>"; };
 		8E14F59625305725007F2096 /* OwnerBuildingNetworkSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingNetworkSelectCell.swift; sourceTree = "<group>"; };
 		8E24E61A256399E2007251BE /* NewIdentifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIdentifyViewController.swift; sourceTree = "<group>"; };
-		8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointCreatAddViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		8E50486925217C2800F43373 /* OwnerFYListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListCell.swift; sourceTree = "<group>"; };
 		8E50486B25217F8C00F43373 /* OwnerFYListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYListViewController.swift; sourceTree = "<group>"; };
 		8E50486D2521AE4D00F43373 /* OwnerFYMoreSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFYMoreSettingView.swift; sourceTree = "<group>"; };
@@ -492,7 +489,6 @@
 		8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListViewController.swift; sourceTree = "<group>"; };
 		8EDBA53725402E1700BD3774 /* OwnerBuildingListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingListModel.swift; sourceTree = "<group>"; };
 		8EE62CFA2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointESSearchViewController.swift; sourceTree = "<group>"; };
-		8EE62CFC255A2E1D0031A7AA /* OwnerBuildingJointNewIdentifyCreatAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingJointNewIdentifyCreatAddViewController.swift; sourceTree = "<group>"; };
 		8EECEF31253153C600D480B2 /* OwnerBuildingImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingImgCell.swift; sourceTree = "<group>"; };
 		8EECEF332531AC4600D480B2 /* OwnerBuildingCreateVideoVRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingCreateVideoVRViewController.swift; sourceTree = "<group>"; };
 		8EECEF352531B08200D480B2 /* OwnerBuildingVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerBuildingVideoCell.swift; sourceTree = "<group>"; };
@@ -1261,9 +1257,7 @@
 				8E89677325394A47005FF38B /* OwnerBuildingJointOpenStationViewController.swift */,
 				8E89677525394AA1005FF38B /* OwnerBuildingJointIndepententOfficeViewController.swift */,
 				8EDBA5352540009300BD3774 /* OwnerBuildingListViewController.swift */,
-				8E3E22682552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift */,
 				8EE62CFA2554ED6C0031A7AA /* OwnerBuildingJointESSearchViewController.swift */,
-				8EE62CFC255A2E1D0031A7AA /* OwnerBuildingJointNewIdentifyCreatAddViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2104,7 +2098,6 @@
 				8EDBA530253EC95400BD3774 /* OwnerNoIdentifyShowView.swift in Sources */,
 				04E23947249B3ABB009DCCEC /* RecentCitiesableViewCell.swift in Sources */,
 				EEE87B1E2455856800C03424 /* CALayerEx.swift in Sources */,
-				8E3E22692552444F00091193 /* OwnerBuildingJointCreatAddViewController.swift in Sources */,
 				04E2391B249B3ABB009DCCEC /* SearchRenterResultListViewController.swift in Sources */,
 				EEE87B0E2455856800C03424 /* JHViewController.swift in Sources */,
 				04E23935249B3ABB009DCCEC /* RenterFeatureCell.swift in Sources */,
@@ -2194,7 +2187,6 @@
 				EEB1F9C42458299D000500A3 /* CycleView.swift in Sources */,
 				04CB46DA249CAFE9001BCC8F /* RoleSelectTableViewCell.swift in Sources */,
 				04E2392D249B3ABB009DCCEC /* SearchResultTableViewCell.swift in Sources */,
-				8EE62CFD255A2E1D0031A7AA /* OwnerBuildingJointNewIdentifyCreatAddViewController.swift in Sources */,
 				04E2393B249B3ABB009DCCEC /* RenterAmbitusMatingCell.swift in Sources */,
 				04CB478C249CB250001BCC8F /* UserTool.swift in Sources */,
 				EEE87B5E24558F9800C03424 /* BaseImageView.swift in Sources */,
