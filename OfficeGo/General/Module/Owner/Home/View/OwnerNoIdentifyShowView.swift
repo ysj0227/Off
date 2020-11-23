@@ -98,20 +98,16 @@ class OWnerAddFYFirstAlertView: UIView {
 
 class BuildingStautsCell: UIView {
     
-    lazy var topLineView: UILabel = {
-        let view = UILabel()
-        view.textColor = kAppBlueColor
-        view.text = "........"
+    lazy var topLineView: UIImageView = {
+        let view = UIImageView()
         return view
     }()
     lazy var timeIcon: BaseImageView = {
         let view = BaseImageView.init()
         return view
     }()
-    lazy var bottomLineView: UILabel = {
-        let view = UILabel()
-        view.textColor = kAppBlueColor
-        view.text = "........"
+    lazy var bottomLineView: UIImageView = {
+        let view = UIImageView()
         return view
     }()
     
@@ -194,13 +190,13 @@ class BuildingStautsCell: UIView {
             make.top.equalToSuperview()
             make.centerX.equalTo(timeIcon)
             make.bottom.equalTo(timeIcon.snp.top)
-            make.width.equalTo(1.0)
+            make.width.equalTo(2.0)
         }
         bottomLineView.snp.makeConstraints { (make) in
             make.top.equalTo(timeIcon.snp.bottom)
             make.centerX.equalTo(timeIcon)
             make.bottom.equalToSuperview()
-            make.width.equalTo(1.0)
+            make.width.equalTo(2.0)
         }
         statusLabel.snp.makeConstraints { (make) in
             make.top.equalTo(timeIcon)
@@ -226,6 +222,7 @@ class OWnerIdentifyStatusView: UIView {
     
     lazy var topView : BuildingStautsCell = {
         let view = BuildingStautsCell()
+        view.bottomLineView.image = UIImage.init(named: "greenLine")
         return view
     }()
     
@@ -327,11 +324,15 @@ class OWnerIdentifyStatusView: UIView {
                 mediumView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 mediumView.statusLabel.text = "审核"
                 mediumView.timeLabel.text = "10-20 13:34"
+                mediumView.topLineView.image = UIImage.init(named: "greenLine")
+                mediumView.bottomLineView.image = UIImage.init(named: "greenLine")
 
                 bottomView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 bottomView.statusLabel.text = "审核通过"
                 bottomView.timeLabel.text = "10-20 13:34"
-
+                bottomView.topLineView.image = UIImage.init(named: "greenLine")
+                //bottomView.bottomLineView.image = UIImage.init(named: "greenLine")
+                
                 bottomView.statusLabel.textColor = kAppColor_333333
 
                 rejectBg.isHidden = true
@@ -348,10 +349,14 @@ class OWnerIdentifyStatusView: UIView {
                 mediumView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 mediumView.statusLabel.text = "审核"
                 mediumView.timeLabel.text = "10-20 13:34"
-
+                mediumView.topLineView.image = UIImage.init(named: "greenLine")
+                mediumView.bottomLineView.image = UIImage.init(named: "greenLine")
+                
                 bottomView.timeIcon.image = UIImage.init(named: "identifyRed")
                 bottomView.statusLabel.text = "认证未通过"
                 bottomView.timeLabel.text = "10-20 13:34"
+                bottomView.topLineView.image = UIImage.init(named: "greenLine")
+//                bottomView.bottomLineView.image = UIImage.init(named: "greenLine")
                 
                 bottomView.identifyBtn.isHidden = false
 
@@ -392,11 +397,14 @@ class OWnerIdentifyStatusView: UIView {
                 mediumView.timeIcon.image = UIImage.init(named: "identifyOrange")
                 mediumView.statusLabel.text = "审核中"
                 mediumView.timeLabel.text = "10-20 13:34"
+                mediumView.topLineView.image = UIImage.init(named: "greenLine")
+                mediumView.bottomLineView.image = UIImage.init(named: "grayLine")
 
                 bottomView.timeIcon.image = UIImage.init(named: "identifyGray")
                 bottomView.statusLabel.text = "审核通过"
                 bottomView.timeLabel.text = "10-20 13:34"
-
+                bottomView.topLineView.image = UIImage.init(named: "grayLine")
+//                mediumView.bottomLineView.image = UIImage.init(named: "grayLine")
                 bottomView.statusLabel.textColor = kAppColor_666666
 
                 rejectBg.isHidden = true
