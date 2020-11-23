@@ -33,7 +33,7 @@ class OwnerBuildingListModel: BaseModel {
     var nCount : Int?
     var payStatus : Int?
     var perfect : String?
-    var remark : String?
+    //var remark : String?
     ///-1:不是管理员 暂无权限编辑楼盘(临时楼盘),0: 下架(未发布),1: 上架(已发布) ;2:资料待完善 ,3: 置顶推荐;4:已售完;5:删除;6待审核7已驳回 注意：（IsTemp为1时，status状态标记 1:待审核 -转6 ,2:已驳回 -转7 ）
     var status : Int?
     var updateTime : Int?
@@ -45,6 +45,12 @@ class OwnerBuildingListModel: BaseModel {
     
     ///是否可以添加房源
     var isAddHouse: Bool?
+    
+    ///驳回原因
+    var remark : [DictionaryModel]?
+
+    ///驳回原因 - 文本
+    var remarkString : String?
 }
 class OwnerBuildingListViewModel: NSObject {
     ///1是写字楼，2是共享办公
@@ -75,9 +81,8 @@ class OwnerBuildingListViewModel: NSObject {
     ///是否可以添加房源
     var isAddHouse: Bool?
 
-    ///驳回原因
-    var remark : String?
-
+    ///驳回原因 - 文本
+    var remarkString : String?
     
     init(model:OwnerBuildingListModel) {
         super.init()
@@ -90,8 +95,24 @@ class OwnerBuildingListViewModel: NSObject {
         isEdit = model.isEdit
         isTemp = model.isTemp
         status = model.status
-        
-        remark = model.remark
+                
+        if let remarkArr = model.remark {
+            remarkString = "驳回原因："
+
+            for model in remarkArr {
+                
+                remarkString?.append(model.dictCname ?? "")
+                                
+                let index = remarkArr.firstIndex(of: model)
+                
+                if index == remarkArr.count - 1 {
+                    remarkString?.append("")
+                }else {
+                    remarkString?.append("\n")
+                }
+
+            }
+        }
                 
         /*
          1: 上架(已发布)

@@ -116,8 +116,9 @@ class NewIdentifyViewController: BaseViewController {
             self?.userModel?.districtIdName = model?.districtIdName
             self?.userModel?.businessDistrictName = model?.businessDistrictName
             self?.userModel?.mainPicBannermodel = model?.mainPicBannermodel
+            self?.userModel?.buildId = nil
             self?.buildingName = ""
-            
+
             if self?.userModel?.btype == "1" {
                 if self?.userModel?.isHolder == 1 {
                     UserTool.shared.user_owner_identifytype = 0
@@ -154,7 +155,7 @@ extension NewIdentifyViewController {
     
     func detailDataShow() {
         
-        if userModel?.buildId != nil && userModel?.buildId?.isBlankString != true {
+        if userModel?.buildId != nil && userModel?.buildId?.isBlankString != true && userModel?.buildId != "0" {
             userModel?.isCreateBuilding = "2"
         }else {
             userModel?.isCreateBuilding = "1"

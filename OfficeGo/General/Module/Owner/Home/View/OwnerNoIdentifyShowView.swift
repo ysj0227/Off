@@ -362,11 +362,11 @@ class OWnerIdentifyStatusView: UIView {
 
                 bottomView.statusLabel.textColor = kAppColor_333333
 
-                if let remark = buildingListViewModel?.remark {
+                if let remark = buildingListViewModel?.remarkString {
                     
                     rejectBg.isHidden = false
 
-                    rejectReasonLabel.text = "驳回原因：\(remark)"
+                    rejectReasonLabel.text = remark
 
                     let size = rejectReasonLabel.text?.boundingRect(with: CGSize(width: kWidth - (left_pending_space_17 + 8) * 2, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
                     
