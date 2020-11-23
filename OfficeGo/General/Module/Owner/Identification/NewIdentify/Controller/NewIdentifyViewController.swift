@@ -10,6 +10,9 @@ import CLImagePickerTool
 
 class NewIdentifyViewController: BaseViewController {
     
+    //用户第一个认证的楼：1 后面添加的楼：2
+    var isFrist : String?
+    
     var buildingId : String?
 
     var isOpen: Bool? {
@@ -114,9 +117,20 @@ class NewIdentifyViewController: BaseViewController {
             self?.userModel?.businessDistrictName = model?.businessDistrictName
             self?.userModel?.mainPicBannermodel = model?.mainPicBannermodel
             self?.buildingName = ""
+            
+            if self?.userModel?.btype == "1" {
+                if self?.userModel?.isHolder == 1 {
+                    UserTool.shared.user_owner_identifytype = 0
+                }else {
+                    UserTool.shared.user_owner_identifytype = 1
+                }
+            }else {
+                UserTool.shared.user_owner_identifytype = 2
+            }
+            
             self?.buildingNameSearchResultVC?.view.isHidden = true
             self?.headerCollectionView.endEditing(true)
-            self?.loadCollectionSectionData(section: 0)
+            self?.loadCollectionSectionDatas(indexSet: [0, 2, 3])
         }
         
         
@@ -144,6 +158,10 @@ extension NewIdentifyViewController {
             userModel?.isCreateBuilding = "2"
         }else {
             userModel?.isCreateBuilding = "1"
+        }
+        
+        if userModel?.btype == nil || userModel?.btype?.isBlankString == true {
+            userModel?.btype = "1"
         }
         
         ///添加新的房产证数据
@@ -216,6 +234,9 @@ extension NewIdentifyViewController {
     func requestCompanyIdentifyDetail() {
         
         if buildingId == nil || buildingId?.isBlankString == true {
+            
+            setUpData()
+            loadCollectionData()
             return
         }
         
@@ -276,10 +297,6 @@ extension NewIdentifyViewController {
             return
         }
         
-        if userModel?.businessLicenseLocalImgArr.count ?? 0 <= 0 {
-            AppUtilities.makeToast("请上传营业执照")
-            return
-        }
         
         if userModel?.btype == "1" {
             if userModel?.isHolder == nil {
@@ -287,52 +304,124 @@ extension NewIdentifyViewController {
                 return
             }
         }
+        
+        ///如果是个人，需要上传身份证正反面
+        if userModel?.btype == "1" && userModel?.isHolder == 1 {
+            if userModel?.frontBannerModel?.imgUrl == nil || userModel?.frontBannerModel?.imgUrl?.isBlankString == true {
+                AppUtilities.makeToast("请上传身份证")
+                return
+            }
+            
+            if userModel?.reverseBannerModel?.imgUrl == nil || userModel?.reverseBannerModel?.imgUrl?.isBlankString == true {
+                AppUtilities.makeToast("请上传身份证")
+                return
+            }
+        }else {
+            if userModel?.businessLicenseLocalImgArr.count ?? 0 <= 0 {
+                AppUtilities.makeToast("请上传营业执照")
+                return
+            }
+        }
+
 
         var params = [String:AnyObject]()
         
         params["token"] = UserTool.shared.user_token as AnyObject?
+        
+        params["btype"] = userModel?.btype as AnyObject?
+
+        params["buildingName"] = userModel?.buildingName as AnyObject?
+        
+        params["mainPic"] = userModel?.mainPicBannermodel?.imgUrl as AnyObject?
+        
         ///楼id
         ///关联的。- 覆盖 - 两种
-        //        if userModel?.buildingId != 0 {
-        //            params["buildingId"] = userModel?.buildingId as AnyObject?
-        //        }
+        ///有值必传无值无须传值 关联楼id
+        if userModel?.buildId != nil {
+            params["buildId"] = userModel?.buildId as AnyObject?
+        }
         
         //关联 - 楼盘，名字和地址都要给
         params["buildingId"] = userModel?.buildingId as AnyObject?
         
-        params["buildingAddress"] = userModel?.address as AnyObject?
+        params["districtId"] = userModel?.districtId as AnyObject?
+
+        params["businessDistrict"] = userModel?.businessDistrict as AnyObject?
+
+        params["address"] = userModel?.address as AnyObject?
+
+        if userModel?.btype == "1" {
+            params["isHolder"] = userModel?.isHolder as AnyObject?
+        }
+
+        params["isFrist"] = isFrist as AnyObject?
         
-        params["buildingName"] = userModel?.buildingName as AnyObject?
+        //premisesPermit    是    String    房产证
+        if let fczLocalLocalImgArr = userModel?.fczLocalLocalImgArr {
+            var deleteArr: [String] = []
+            for model in fczLocalLocalImgArr {
+                deleteArr.append(model.imgUrl ?? "")
+            }
+            params["premisesPermit"] = deleteArr.joined(separator: ",") as AnyObject?
+        }
         
-//        //房产证
-//        var fczArr: [String] = []
-//        for model in userModel?.fczLocalLocalImgArr {
-//            fczArr.append(model?.imgUrl)
-//
-//        }
-//
-//        setCommitEnables(isUserinterface: false)
-//
-//        SSNetworkTool.SSOwnerIdentify.request_addNewIdentityApp(params: params, fczImagesArray: fczArr, zlAgentImagesArray: alAgentArr, success: {[weak self] (response) in
-//
-//            guard let weakSelf = self else {return}
-//
-//            weakSelf.setCommitEnables(isUserinterface: false)
-//
-//            weakSelf.showCommitAlertview()
-//
-//            }, failure: {[weak self] (error) in
-//
-//                self?.setCommitEnables(isUserinterface: false)
-//        }) {[weak self] (code, message) in
-//
-//            self?.setCommitEnables(isUserinterface: false)
-//
-//            //只有5000 提示给用户 - 失效原因
-//            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
-//                AppUtilities.makeToast(message)
-//            }
-//        }
+        //个人
+        if userModel?.btype == "1" && userModel?.isHolder == 1 {
+            
+            //idFront    是    String    身份证正面
+            if let idFront = userModel?.frontBannerModel?.imgUrl {
+                params["idFront"] = idFront as AnyObject?
+            }
+            
+            //idBack    是    String    身份证反面
+            if let idBack = userModel?.reverseBannerModel?.imgUrl {
+                params["idBack"] = idBack as AnyObject?
+            }
+            
+        }else {
+            //businessLicense    是    String    营业执照
+            if let businessLicenseLocalImgArr = userModel?.businessLicenseLocalImgArr {
+                var deleteArr: [String] = []
+                for model in businessLicenseLocalImgArr {
+                    deleteArr.append(model.imgUrl ?? "")
+                }
+                params["businessLicense"] = deleteArr.joined(separator: ",") as AnyObject?
+            }
+
+        }
+
+        //materials    是    String    补充资料
+        if let addtionalLocalImgArr = userModel?.addtionalLocalImgArr {
+            var deleteArr: [String] = []
+            for model in addtionalLocalImgArr {
+                deleteArr.append(model.imgUrl ?? "")
+            }
+            params["materials"] = deleteArr.joined(separator: ",") as AnyObject?
+        }
+        
+
+        setCommitEnables(isUserinterface: false)
+
+        SSNetworkTool.SSOwnerIdentify.request_addNewIdentityApp(params: params, success: {[weak self] (response) in
+
+            guard let weakSelf = self else {return}
+
+            weakSelf.setCommitEnables(isUserinterface: false)
+
+            weakSelf.showCommitAlertview()
+
+            }, failure: {[weak self] (error) in
+
+                self?.setCommitEnables(isUserinterface: false)
+        }) {[weak self] (code, message) in
+
+            self?.setCommitEnables(isUserinterface: false)
+
+            //只有5000 提示给用户 - 失效原因
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" || code == "\(SSCode.ERROR_CODE_7016.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
         
 
     }
@@ -346,11 +435,8 @@ extension NewIdentifyViewController {
 extension NewIdentifyViewController {
     
     @objc func logotClick() {
-        NotificationCenter.default.post(name: NSNotification.Name.OwnerIdentifySuccess, object: nil)
-        self.navigationController?.popToRootViewController(animated: true)
-
-//        self.headerCollectionView.endEditing(true)
-//        requestCompanyIdentify()
+        self.headerCollectionView.endEditing(true)
+        requestCompanyIdentify()
     }
     func setUpData() {
         userModel = OwnerIdentifyUserModel()
@@ -407,12 +493,22 @@ extension NewIdentifyViewController {
             self?.userModel?.isCreateBuilding = "2"
             
             self?.userModel?.btype = "\(model.buildType ?? 0)"
-            self?.userModel?.buildingId = model.bid
+            self?.userModel?.buildId = model.bid
             self?.userModel?.buildingName = model.buildingAttributedName?.string
             self?.userModel?.address = model.addressString?.string
             
+            
+            if self?.userModel?.btype == "1" {
+                if self?.userModel?.isHolder == 1 {
+                    UserTool.shared.user_owner_identifytype = 0
+                }else {
+                    UserTool.shared.user_owner_identifytype = 1
+                }
+            }else {
+                UserTool.shared.user_owner_identifytype = 2
+            }
             self?.buildingNameSearchResultVC?.view.isHidden = true
-            self?.loadCollectionSectionData(section: 0)
+            self?.loadCollectionSectionDatas(indexSet: [0, 2, 3])
         }
         
         // 创建按钮 - 隐藏 - 创建楼盘
@@ -444,8 +540,16 @@ extension NewIdentifyViewController {
     func loadCollectionSectionData(section: Int) {
         headerCollectionView.reloadSections(NSIndexSet.init(index: section) as IndexSet)
     }
+    func loadCollectionSectionDatas(indexSet: IndexSet) {
+        headerCollectionView.reloadSections(NSIndexSet.init(indexSet: indexSet) as IndexSet)
+    }
     
     func showCommitAlertview() {
+        
+        if isFrist != "1" {
+            NotificationCenter.default.post(name: NSNotification.Name.OwnerIdentifySuccess, object: nil)
+        }
+
         let alert = SureAlertView(frame: self.view.frame)
         alert.isHiddenVersionCancel = true
         alert.ShowAlertView(withalertType: AlertType.AlertTypeMessageAlert, title: "提交成功", descMsg: "我们会在1-2个工作日完成审核", cancelButtonCallClick: {
@@ -653,23 +757,25 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 
                 let alertController = UIAlertController.init(title: "权利人类型", message: nil, preferredStyle: .actionSheet)
                 let refreshAction = UIAlertAction.init(title: "公司", style: .default) {[weak self] (action: UIAlertAction) in
+                    self?.userModel?.isHolder = 2
                     UserTool.shared.user_owner_identifytype = 1
                     self?.loadCollectionData()
                 }
                 let copyAction = UIAlertAction.init(title: "个人", style: .default) {[weak self] (action: UIAlertAction) in
+                    self?.userModel?.isHolder = 1
                     UserTool.shared.user_owner_identifytype = 0
                     self?.loadCollectionData()
                 }
-                let copy1Action = UIAlertAction.init(title: "网点", style: .default) {[weak self] (action: UIAlertAction) in
-                    UserTool.shared.user_owner_identifytype = 2
-                    self?.loadCollectionData()
-                }
+//                let copy1Action = UIAlertAction.init(title: "网点", style: .default) {[weak self] (action: UIAlertAction) in
+//                    UserTool.shared.user_owner_identifytype = 2
+//                    self?.loadCollectionData()
+//                }
                 let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
                     
                 }
                 alertController.addAction(refreshAction)
                 alertController.addAction(copyAction)
-                alertController.addAction(copy1Action)
+//                alertController.addAction(copy1Action)
                 alertController.addAction(cancelAction)
                 
                 present(alertController, animated: true, completion: nil)
@@ -885,40 +991,38 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
             }else {
                 tagView.text = "网点"
             }
-            if model.type == .OwnerNewIdentifyTypeBuildingName {
-                closeBtn.isHidden = false
-                //0 空   无定义     1创建  2关联吗
-                //就是自己创建
-                if userModel?.isCreateBuilding == "1" {
-                    //1的就是自己创建
-                    //不能输入框修改
-                    //有编辑按钮
-                    //有清空
-                    numDescTF.isHidden = true
-                    editBtn.isHidden = false
-                    buildingMsgView.isHidden = false
-                    buildingNameLabel.text = userModel?.buildingName
-                    houseAddressLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")\(userModel?.address ?? "")"
-                }else if userModel?.isCreateBuilding == "2" {
-                    //0 就是关联的公司
-                    //不能输入框修改
-                    //无编辑按钮
-                    //有清空
-                    numDescTF.isHidden = true
-                    editBtn.isHidden = true
-                    buildingMsgView.isHidden = false
-                    buildingNameLabel.text = userModel?.buildingName
-                    houseAddressLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")\(userModel?.address ?? "")"
-                }else {
-                    //如果没有提交过，应该返回一个""
-                    //"" 没有提交过
-                    //能输入框修改
-                    //无编辑按钮
-                    //有清空
-                    numDescTF.isHidden = false
-                    editBtn.isHidden = true
-                    buildingMsgView.isHidden = true
-                }
+            closeBtn.isHidden = false
+            //0 空   无定义     1创建  2关联吗
+            //就是自己创建
+            if userModel?.isCreateBuilding == "1" {
+                //1的就是自己创建
+                //不能输入框修改
+                //有编辑按钮
+                //有清空
+                numDescTF.isHidden = true
+                editBtn.isHidden = false
+                buildingMsgView.isHidden = false
+                buildingNameLabel.text = userModel?.buildingName
+                houseAddressLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")\(userModel?.address ?? "")"
+            }else if userModel?.isCreateBuilding == "2" {
+                //0 就是关联的公司
+                //不能输入框修改
+                //无编辑按钮
+                //有清空
+                numDescTF.isHidden = true
+                editBtn.isHidden = true
+                buildingMsgView.isHidden = false
+                buildingNameLabel.text = userModel?.buildingName
+                houseAddressLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")\(userModel?.address ?? "")"
+            }else {
+                //如果没有提交过，应该返回一个""
+                //"" 没有提交过
+                //能输入框修改
+                //无编辑按钮
+                //有清空
+                numDescTF.isHidden = false
+                editBtn.isHidden = true
+                buildingMsgView.isHidden = true
             }
         }
     }

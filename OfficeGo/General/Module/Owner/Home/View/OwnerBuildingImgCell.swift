@@ -634,7 +634,7 @@ extension OwnerNewIdentifyImgCell {
                 }, failedClouse: { () in
 
             })
-            //self?.uploadFCZImg(imgArr: imggggArr, existImgCount: self?.userModel.fczLocalLocalImgArr.count ?? 0)
+            self?.uploadFCZImg(imgArr: imggggArr, existImgCount: self?.userModel.fczLocalLocalImgArr.count ?? 0)
             //房产证
             self?.userModel.fczLocalLocalImgArr.append(contentsOf: imgArr)
             self?.loadVC()
@@ -700,7 +700,7 @@ extension OwnerNewIdentifyImgCell {
                 }, failedClouse: { () in
 
             })
-            //self?.uploadYingyeImg(imgArr: imggggArr, existImgCount: self?.userModel.businessLicenseLocalImgArr.count ?? 0)
+            self?.uploadYingyeImg(imgArr: imggggArr, existImgCount: self?.userModel.businessLicenseLocalImgArr.count ?? 0)
             //房产证
             self?.userModel.businessLicenseLocalImgArr.append(contentsOf: imgArr)
             self?.loadVC()
@@ -765,7 +765,7 @@ extension OwnerNewIdentifyImgCell {
                 }, failedClouse: { () in
 
             })
-            //self?.uploadAddtionalImg(imgArr: imggggArr, existImgCount: self?.userModel.addtionalLocalImgArr.count ?? 0)
+            self?.uploadAddtionalImg(imgArr: imggggArr, existImgCount: self?.userModel.addtionalLocalImgArr.count ?? 0)
             //房产证
             self?.userModel.addtionalLocalImgArr.append(contentsOf: imgArr)
             self?.loadVC()
@@ -1047,13 +1047,6 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
         
     var presentVC: BaseViewController?
     
-    lazy var fczImagePickTool: CLImagePickerTool = {
-        let picker = CLImagePickerTool()
-        picker.cameraOut = true
-        picker.isHiddenVideo = true
-        return picker
-    }()
-    
     lazy var rejectImg: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleToFill
@@ -1142,9 +1135,8 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
             picker.isHiddenVideo = true
             picker.singleImageChooseType = .singlePicture   //设置单选
             picker.singleModelImageCanEditor = false        //单选不可编辑
-            picker.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
-                SSLog("返回的asset数组是\(asset)")
-                
+            picker.cl_setupImagePickerWith(MaxImagesCount: 2, superVC: self?.presentVC) {[weak self] (asset,cutImage) in
+
                 var index = asset.count // 标记失败的次数
                 
                 // 获取原图，异步
@@ -1217,7 +1209,7 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
             picker.isHiddenVideo = true
             picker.singleImageChooseType = .singlePicture   //设置单选
             picker.singleModelImageCanEditor = false        //单选不可编辑
-            picker.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+            picker.cl_setupImagePickerWith(MaxImagesCount: 2, superVC: self?.presentVC) {[weak self] (asset,cutImage) in
                 SSLog("返回的asset数组是\(asset)")
                 
                 var index = asset.count // 标记失败的次数

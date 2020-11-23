@@ -638,10 +638,10 @@ extension SSNetworkTool {
         }
         
         ///提交认证APP
-        static func request_addNewIdentityApp(params: Eic, fczImagesArray: [UIImage], zlAgentImagesArray: [UIImage], success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
+        static func request_addNewIdentityApp(params: Dic, success: @escaping SSSuccessedClosure,failure: @escaping SSFailedErrorClosure,error: @escaping SSErrorCodeMessageClosure)  {
             let url = String.init(format: SSOwnerIdentifyURL.getAddNewIdentifyApp)
-            SSNetworkTool.uploadMutileArrImage(urlStr: "\(SSAPI.SSApiHost)\(url)", fczfileName: "filePremisesPermit", fczImagesArray: fczImagesArray, zlAgentfileName: "fileContract", zlAgentImagesArray: zlAgentImagesArray, params: params, isShowHud: true, success:
-            success,failed:failure,error:error)
+            SSNetworkTool.request(type: .post,urlStr: "\(SSAPI.SSApiHost)\(url)", params:params, isShowHud: true,success:
+                success,failed:failure,error:error)
         }
         
         ///房东和房东聊天列表调用接口

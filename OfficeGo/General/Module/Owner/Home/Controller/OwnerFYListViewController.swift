@@ -350,6 +350,7 @@ class OwnerFYListViewController: BaseGroupTableViewController {
                     ///跳转去认证页面
                     ///点击跳转认证页面
                     let vc = NewIdentifyViewController()
+                    vc.isFrist = "1"
                     self?.navigationController?.pushViewController(vc, animated: false)
                 }
             }else {
@@ -361,6 +362,8 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         ///审核通过 - 判断有没有buildinglist
         else if auditStatus == 1 {
             
+            toIdentifyView.isHidden = true
+
             ///是否已经展示过添加房源浮层
             if UserTool.shared.isShowAddFYGuide != true {
                 loginPCScanView.ShowOWnerAddFYFirstAlertView {
@@ -471,6 +474,7 @@ extension OwnerFYListViewController {
             ///跳转去认证页面
             ///点击跳转认证页面
             let vc = NewIdentifyViewController()
+            vc.isFrist = "1"
             self?.navigationController?.pushViewController(vc, animated: false)
         }
         
