@@ -551,18 +551,32 @@ class OwnerNewIdentifyImgCell: BaseCollectionViewCell {
     }()
         
     ///认证数据展示
-    var userModel: OwnerIdentifyUserModel = OwnerIdentifyUserModel() {
+    var userModel: OwnerIdentifyUserModel = OwnerIdentifyUserModel()
+    
+    var model: OwnerNewIedntifyConfigureModel = OwnerNewIedntifyConfigureModel(types: .OwnerNewIdentifyTypeBuildingName) {
         didSet {
-            if userModel.auditStatus == "2" {
-                rejectImg.image = UIImage.init(named: "redLine")
-            }else {
-                rejectImg.image = UIImage.init(named: "")
+            if model.type == .OwnerNewIdentifyTypeUploadFangchanzheng {
+                if userModel.fczRemark == true {
+                    rejectImg.image = UIImage.init(named: "redLine")
+                }else {
+                    rejectImg.image = UIImage.init(named: "")
+                }
+            }else if model.type == .OwnerNewIdentifyTypeYinYeOrIdCard {
+                if userModel.businessRemark == true {
+                    rejectImg.image = UIImage.init(named: "redLine")
+                }else {
+                    rejectImg.image = UIImage.init(named: "")
+                }
+            }else if model.type == .OwnerNewIdentifyTypeAddtional {
+                if userModel.addtionalRemark == true {
+                    rejectImg.image = UIImage.init(named: "redLine")
+                }else {
+                    rejectImg.image = UIImage.init(named: "")
+                }
             }
             reloadData()
         }
     }
-    
-    var model: OwnerNewIedntifyConfigureModel?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -849,11 +863,11 @@ extension OwnerNewIdentifyImgCell {
 extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if model?.type == .OwnerNewIdentifyTypeUploadFangchanzheng {
+        if model.type == .OwnerNewIdentifyTypeUploadFangchanzheng {
             return userModel.fczLocalLocalImgArr.count + 1
-        }else if model?.type == .OwnerNewIdentifyTypeYinYeOrIdCard {
+        }else if model.type == .OwnerNewIdentifyTypeYinYeOrIdCard {
             return userModel.businessLicenseLocalImgArr.count + 1
-        }else if model?.type == .OwnerNewIdentifyTypeAddtional {
+        }else if model.type == .OwnerNewIdentifyTypeAddtional {
             return userModel.addtionalLocalImgArr.count + 1
         }
         return 1
@@ -862,7 +876,7 @@ extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OwnerNewIdtnfifyImagePickerCell.reuseIdentifierStr, for: indexPath as IndexPath) as? OwnerNewIdtnfifyImagePickerCell
         cell?.indexPath = indexPath
-        if model?.type == .OwnerNewIdentifyTypeUploadFangchanzheng {
+        if model.type == .OwnerNewIdentifyTypeUploadFangchanzheng {
             if indexPath.item <= userModel.fczLocalLocalImgArr.count - 1  {
                 if userModel.fczLocalLocalImgArr[indexPath.item].isLocal == false {
                     cell?.image.setImage(with: userModel.fczLocalLocalImgArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
@@ -882,7 +896,7 @@ extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewD
             }else {
                 cell?.closeBtn.isHidden = false
             }
-        }else if model?.type == .OwnerNewIdentifyTypeYinYeOrIdCard {
+        }else if model.type == .OwnerNewIdentifyTypeYinYeOrIdCard {
             if indexPath.item <= userModel.businessLicenseLocalImgArr.count - 1  {
                 if userModel.businessLicenseLocalImgArr[indexPath.item].isLocal == false {
                     cell?.image.setImage(with: userModel.businessLicenseLocalImgArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
@@ -902,7 +916,7 @@ extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewD
             }else {
                 cell?.closeBtn.isHidden = false
             }
-        }else if model?.type == .OwnerNewIdentifyTypeAddtional {
+        }else if model.type == .OwnerNewIdentifyTypeAddtional {
             if indexPath.item <= userModel.addtionalLocalImgArr.count - 1  {
                 if userModel.addtionalLocalImgArr[indexPath.item].isLocal == false {
                     cell?.image.setImage(with: userModel.addtionalLocalImgArr[indexPath.item].imgUrl ?? "", placeholder: UIImage(named: Default_1x1))
@@ -931,7 +945,7 @@ extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewD
         
         if model != nil {
 
-            if model?.type == .OwnerNewIdentifyTypeUploadFangchanzheng {
+            if model.type == .OwnerNewIdentifyTypeUploadFangchanzheng {
                 if indexPath.item == userModel.fczLocalLocalImgArr.count {
                     if indexPath.item < ownerBuildingImageNumber_9 {
                         selectFCZPicker()
@@ -939,7 +953,7 @@ extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewD
                         AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber_9)张图片")
                     }
                 }
-            }else if model?.type == .OwnerNewIdentifyTypeYinYeOrIdCard {
+            }else if model.type == .OwnerNewIdentifyTypeYinYeOrIdCard {
                 if indexPath.item == userModel.businessLicenseLocalImgArr.count {
                     if indexPath.item < ownerBuildingImageNumber_9 {
                         selectYinyePicker()
@@ -947,7 +961,7 @@ extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewD
                         AppUtilities.makeToast("最多可选择\(ownerBuildingImageNumber_9)张图片")
                     }
                 }
-            }else if model?.type == .OwnerNewIdentifyTypeAddtional {
+            }else if model.type == .OwnerNewIdentifyTypeAddtional {
                 if indexPath.item == userModel.addtionalLocalImgArr.count {
                     if indexPath.item < ownerBuildingImageNumber_9 {
                         selectAddtionalPicker()
@@ -971,8 +985,8 @@ extension OwnerNewIdentifyImgCell: UICollectionViewDataSource, UICollectionViewD
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerImgPickerCollectionViewHeader", for: indexPath) as? OwnerImgPickerCollectionViewHeader
             header?.backgroundColor = kAppWhiteColor
             if model != nil {
-                header?.titleLabel.attributedText = model?.getNameFormType(type: model?.type ?? .OwnerNewIdentifyTypeUploadFangchanzheng)
-                header?.descLabel.text = model?.getDescFormType(type: model?.type ?? .OwnerNewIdentifyTypeUploadFangchanzheng)
+                header?.titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeUploadFangchanzheng)
+                header?.descLabel.text = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeUploadFangchanzheng)
             }
             
 

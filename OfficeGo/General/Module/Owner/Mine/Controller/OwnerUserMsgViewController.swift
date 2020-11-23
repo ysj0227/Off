@@ -227,7 +227,7 @@ extension OwnerUserMsgViewController {
          }
          }*/
         
-        params["WX"] = userModel?.wxId as AnyObject?
+        params["wxId"] = userModel?.wxId as AnyObject?
         params["company"] = userModel?.company as AnyObject?
         params["job"] = userModel?.job as AnyObject?
         

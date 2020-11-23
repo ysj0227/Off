@@ -60,7 +60,7 @@ class OwnerIdentifyUserModel: BaseModel {
     var auditStatus : String?
     
      ///驳回理由
-     var remark : String?
+     var remark : [DictionaryModel]?
     
     ///楼盘网点标识1楼2网点
     var btype : String?
@@ -115,6 +115,24 @@ class OwnerIdentifyUserModel: BaseModel {
     
 
     
+    
+    ///驳回原因字符串
+    var remarkString : String?
+    
+    ///楼盘地址 名称不对
+    var buildingAddRemark: Bool?
+    
+    ///房产证不对
+    var fczRemark: Bool?
+    
+    ///营业执照不对
+    var businessRemark: Bool?
+    
+    ///身份证不对
+    var idCardRemark: Bool?
+    
+    ///无补充材料不对
+    var addtionalRemark: Bool?
     
     ///房产证图片数组
     var fczLocalLocalImgArr = [BannerModel]()  // 在实际的项目中可能用于存储图片的url

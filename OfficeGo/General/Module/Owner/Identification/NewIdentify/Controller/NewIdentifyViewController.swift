@@ -15,7 +15,7 @@ class NewIdentifyViewController: BaseViewController {
     
     var buildingId : String?
 
-    var isOpen: Bool? {
+    var isOpen: Bool? = true {
         didSet {
             loadCollectionSectionData(section: 0)
         }
@@ -227,6 +227,38 @@ extension NewIdentifyViewController {
         }else {
             UserTool.shared.user_owner_identifytype = 2
         }
+        
+        userModel?.remarkString = "驳回原因："
+        
+        if let remarkArr = userModel?.remark {
+            for model in remarkArr {
+                
+                userModel?.remarkString?.append(model.dictCname ?? "")
+                                
+                let index = remarkArr.firstIndex(of: model)
+                
+                if index == remarkArr.count - 1 {
+                    userModel?.remarkString?.append("")
+                }else {
+                    userModel?.remarkString?.append("\n")
+                }
+                
+                if model.dictValue == 1 || model.dictValue == 2 {
+                    userModel?.buildingAddRemark = true
+                }else if model.dictValue == 3 || model.dictValue == 4 {
+                    userModel?.fczRemark = true
+                }else if model.dictValue == 5 || model.dictValue == 6 {
+                    userModel?.businessRemark = true
+                }else if model.dictValue == 7 || model.dictValue == 8 {
+                    userModel?.idCardRemark = true
+                }else if model.dictValue == 9 || model.dictValue == 10 {
+                    userModel?.addtionalRemark = true
+                }
+            }
+        }else {
+            userModel?.remarkString = "驳回原因：无"
+        }
+        
         loadCollectionData()
     }
     
@@ -795,7 +827,7 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 }
                 header?.isOpen = isOpen
                 header?.openBtn.isHidden = false
-                header?.rejectReasonLabel.text = "驳回原因：\(userModel?.remark ?? "")"
+                header?.rejectReasonLabel.text = userModel?.remarkString
                 
             }else if indexPath.section == 2 {
                 header?.rejectReasonLabel.text = ""
@@ -813,12 +845,12 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
         if section == 0 {
             ///0待审核1审核通过2审核未通过 没有提交过为-1
             if userModel?.auditStatus == "2" {
-                let str = "驳回原因：\(userModel?.remark ?? "")"
+                let str = userModel?.remarkString
 
-                let size = str.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 - 42, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
+                let size = str?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 - 42, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
                 
                 var height: CGFloat = 0
-                height = size.height + 24
+                height = (size?.height ?? 0) + 24
                 
                 if isOpen == true {
                     
@@ -980,7 +1012,7 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? .OwnerNewIdentifyTypeBuildingName)
             numDescTF.placeholder = model.getDescFormType(type: model.type ?? .OwnerNewIdentifyTypeBuildingName)
             
-            if userModel?.auditStatus == "2" {
+            if userModel?.buildingAddRemark == true {
                 rejectImg.image = UIImage.init(named: "redLine")
             }else {
                 rejectImg.image = UIImage.init(named: "")
