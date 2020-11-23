@@ -283,7 +283,7 @@ class SSMineURL: NSObject {
     static let roleChange = "api/user/regTokenApp"
     
     ///修改个人资料 - 房东 - 租户
-    static let updateUserMessage = "api/user/updateDataApp"
+    static let updateUserMessage = "api/user/eidtUserApp"
     
     ///版本更新
     static let versionUpdate = "api/version/ios"

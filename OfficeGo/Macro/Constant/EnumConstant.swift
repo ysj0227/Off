@@ -9,12 +9,13 @@
 import UIKit
 
 ///上传接口的类型
-///1楼图片2视频3房源图片4认证文件夹
+///1楼图片2视频3房源图片4认证文件夹5个人中心头像
 enum UploadImgOrVideoEnum: Int {
     case buildingImage = 1
     case video = 2
     case fyImage = 3
     case newIdentify = 4
+    case avatar = 5
 }
 
 

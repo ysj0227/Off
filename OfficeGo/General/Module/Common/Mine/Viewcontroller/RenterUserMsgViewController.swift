@@ -8,6 +8,8 @@
 
 import CLImagePickerTool
 import Alamofire
+import SwiftyJSON
+import HandyJSON
 
 class RenterUserMsgViewController: BaseTableViewController {
     
@@ -149,23 +151,33 @@ extension RenterUserMsgViewController {
     }
     
     private func upload(uploadImage:UIImage) {
+
+        var params = [String:AnyObject]()
+        params["token"] = UserTool.shared.user_token as AnyObject?
         
-        SSNetworkTool.SSMine.request_uploadAvatar(image: uploadImage, success: {[weak self] (response) in
-            
-            if let model = LoginModel.deserialize(from: response, designatedPath: "data") {
-                UserTool.shared.user_avatars = model.avatar
-                AppUtilities.makeToast("头像已修改")
+        ///1楼图片2视频3房源图片4认证5个人中心
+        params["filedirType"] = UploadImgOrVideoEnum.avatar.rawValue as AnyObject?
+
+        
+        SSNetworkTool.SSFYManager.request_uploadResourcesUrl(params: params, imagesArray: [uploadImage], success: {[weak self] (response) in
+            if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
+                
+                if decoratedArray.count >= 1 {
+                    self?.userModel?.avatar = decoratedArray[0]?.url
+                    UserTool.shared.user_avatars = decoratedArray[0]?.url
+                    self?.requestEditUserAvatarMessage()
+                }
             }
             }, failure: { (error) in
                 
         }) { (code, message) in
+
             
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
             }
         }
-        
     }
     
     func setSureBtnEnable(can: Bool) {
@@ -182,6 +194,23 @@ extension RenterUserMsgViewController {
             
             self?.setSureBtnEnable(can: true)
 
+        }
+    }
+    
+    func requestEditUserAvatarMessage() {
+
+        var params = [String:AnyObject]()
+        params["nickname"] = userModel?.nickname as AnyObject?
+        params["sex"] = userModel?.sex as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["wxId"] = userModel?.wxId as AnyObject?
+        params["avatar"] = userModel?.avatar as AnyObject?
+  
+        SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: { (response) in
+            AppUtilities.makeToast("头像已修改")
+            }, failure: { (error) in
+
+        }) { (code, message) in
         }
     }
     
@@ -207,29 +236,9 @@ extension RenterUserMsgViewController {
         params["nickname"] = userModel?.nickname as AnyObject?
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
-        
-        /*
-        if let wxid = userModel?.wxId {
-            if wxid.isBlankString != true {
-                params["WX"] = wxid as AnyObject?
-            }
-        }
-        
-        if let wxid = userModel?.company {
-            if wxid.isBlankString != true {
-                params["company"] = wxid as AnyObject?
-            }
-        }
-        if let wxid = userModel?.job {
-            if wxid.isBlankString != true {
-                params["job"] = wxid as AnyObject?
-            }
-        }*/
-        
-        params["WX"] = userModel?.wxId as AnyObject?
-        //params["company"] = userModel?.company as AnyObject?
-        //params["job"] = userModel?.job as AnyObject?
-        
+        params["wxId"] = userModel?.wxId as AnyObject?
+        params["avatar"] = userModel?.avatar as AnyObject?
+
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             
             self?.updateSuccess()
