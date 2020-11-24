@@ -263,7 +263,6 @@ class OwnerFYListViewController: BaseGroupTableViewController {
             if let decoratedArray = JSONDeserializer<OwnerBuildingListModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "list") {
                 for model in decoratedArray {
                     if model?.buildingId == weakSelf.buildingListViewModel?.buildingId {
-                        model?.status = 1
                         weakSelf.buildingListViewModel = OwnerBuildingListViewModel.init(model: model ?? OwnerBuildingListModel())
                     }
                 }

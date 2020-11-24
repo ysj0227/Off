@@ -122,6 +122,9 @@ class OwnerIdentifyUserModel: BaseModel {
     ///楼盘地址 名称不对
     var buildingAddRemark: Bool?
     
+    ///楼盘地址 名称驳回之后是否修改。当buildingAddRemark为true的时候，buildingAddRemarkIsIdentify也为true才能提交
+    var buildingAddRemarkIsIdentify: Bool = false
+    
     ///房产证不对
     var fczRemark: Bool?
     

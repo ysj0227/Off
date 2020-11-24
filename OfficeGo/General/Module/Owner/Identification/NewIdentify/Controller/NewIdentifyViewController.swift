@@ -25,7 +25,7 @@ class NewIdentifyViewController: BaseViewController {
     
     var userModel: OwnerIdentifyUserModel?
     
-    //写字楼名称搜索结果vc
+    //楼盘名称搜索结果vc
     var buildingNameSearchResultVC: OwnerBuildingNameESearchResultListViewController?
         
     var buildingName: String? {
@@ -105,9 +105,13 @@ class NewIdentifyViewController: BaseViewController {
     
     func addNotify() {
         
-        //公司认证 - 创建写字楼通知
+        //公司认证 - 创建楼盘通知
         NotificationCenter.default.addObserver(forName: NSNotification.Name.OwnerCreateBuilding, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             let model = noti.object as? OwnerIdentifyUserModel
+            
+            
+            ///说明楼盘名称有编辑
+            self?.userModel?.buildingAddRemarkIsIdentify = true
             
             self?.userModel?.isCreateBuilding = "1"
             self?.userModel?.btype = model?.btype
@@ -167,6 +171,43 @@ extension NewIdentifyViewController {
             userModel?.btype = "1"
         }
         
+        if let remarkArr = userModel?.remark {
+            if remarkArr.count > 0 {
+                userModel?.remarkString = "驳回原因："
+                for model in remarkArr {
+                    
+                    userModel?.remarkString?.append(model.dictCname ?? "")
+                                    
+                    let index = remarkArr.firstIndex(of: model)
+                    
+                    if index == remarkArr.count - 1 {
+                        userModel?.remarkString?.append("")
+                    }else {
+                        userModel?.remarkString?.append("\n")
+                    }
+                    
+                    if model.dictValue == 1 || model.dictValue == 2 {
+                        userModel?.buildingAddRemark = true
+                    }else if model.dictValue == 3 || model.dictValue == 4 {
+                        userModel?.fczRemark = true
+                        userModel?.premisesPermit = nil
+                    }else if model.dictValue == 5 || model.dictValue == 6 {
+                        userModel?.businessRemark = true
+                        userModel?.businessLicense = nil
+                    }else if model.dictValue == 7 || model.dictValue == 8 {
+                        userModel?.idCardRemark = true
+                        userModel?.idFront = nil
+                        userModel?.idBack = nil
+                    }else if model.dictValue == 9 || model.dictValue == 10 {
+                        userModel?.addtionalRemark = true
+                        userModel?.materials = nil
+                    }
+                }
+            }
+
+        }
+        
+        ///房产证被驳回
         ///添加新的房产证数据
         if let premisesPermit = userModel?.premisesPermit {
             
@@ -231,37 +272,6 @@ extension NewIdentifyViewController {
             UserTool.shared.user_owner_identifytype = 2
         }
         
-        userModel?.remarkString = "驳回原因："
-        
-        if let remarkArr = userModel?.remark {
-            for model in remarkArr {
-                
-                userModel?.remarkString?.append(model.dictCname ?? "")
-                                
-                let index = remarkArr.firstIndex(of: model)
-                
-                if index == remarkArr.count - 1 {
-                    userModel?.remarkString?.append("")
-                }else {
-                    userModel?.remarkString?.append("\n")
-                }
-                
-                if model.dictValue == 1 || model.dictValue == 2 {
-                    userModel?.buildingAddRemark = true
-                }else if model.dictValue == 3 || model.dictValue == 4 {
-                    userModel?.fczRemark = true
-                }else if model.dictValue == 5 || model.dictValue == 6 {
-                    userModel?.businessRemark = true
-                }else if model.dictValue == 7 || model.dictValue == 8 {
-                    userModel?.idCardRemark = true
-                }else if model.dictValue == 9 || model.dictValue == 10 {
-                    userModel?.addtionalRemark = true
-                }
-            }
-        }else {
-            userModel?.remarkString = "驳回原因：无"
-        }
-        
         loadCollectionData()
     }
     
@@ -323,7 +333,13 @@ extension NewIdentifyViewController {
         ///buildid是否为空判断是否是关联的
         
         if userModel?.buildingName == nil || userModel?.buildingName?.isBlankString == true{
-            AppUtilities.makeToast("请选择或创建写字楼")
+            AppUtilities.makeToast("请选择或创建楼盘")
+            return
+        }
+        
+        ///当为驳回，并且楼盘信息没有修改时，提示用户修改楼盘信息
+        if userModel?.buildingAddRemark == true && userModel?.buildingAddRemarkIsIdentify == false {
+            AppUtilities.makeToast("请修改楼盘/网点信息")
             return
         }
         
@@ -432,6 +448,8 @@ extension NewIdentifyViewController {
                 deleteArr.append(model.imgUrl ?? "")
             }
             params["materials"] = deleteArr.joined(separator: ",") as AnyObject?
+        }else {
+            params["materials"] = "" as AnyObject?
         }
         
 
@@ -515,7 +533,7 @@ extension NewIdentifyViewController {
         headerCollectionView.register(OwnerNewIdentifyImgCell.self, forCellWithReuseIdentifier: OwnerNewIdentifyImgCell.reuseIdentifierStr)
         ///身份证
         headerCollectionView.register(OwnerNewPersonIDCardIdentifyImgCell.self, forCellWithReuseIdentifier: "OwnerNewPersonIDCardIdentifyImgCell.reuseIdentifierStr")
-        //写字楼
+        //楼盘
         buildingNameSearchResultVC = OwnerBuildingNameESearchResultListViewController.init()
         buildingNameSearchResultVC?.view.isHidden = true
         self.view.addSubview(buildingNameSearchResultVC?.view ?? UIView())
@@ -660,6 +678,8 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 }
             }
             cell?.closeClickBack = { [weak self] (type) in
+                ///说明楼盘名称有编辑
+                self?.userModel?.buildingAddRemarkIsIdentify = true
                 //公司编辑
                 if type == .OwnerNewIdentifyTypeBuildingName {
                     //清除 楼盘名字地址 字段改为空
@@ -886,9 +906,12 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
         if section == 0 {
-            ///0待审核1审核通过2审核未通过 没有提交过为-1
-            if userModel?.auditStatus == "2" {
+            
+            if userModel?.remark?.count ?? 0 <= 0 {
+                return CGSize.zero
+            }else {
                 let str = userModel?.remarkString
 
                 let size = str?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 - 42, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
@@ -903,8 +926,6 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
                 }else {
                     return CGSize(width: kWidth, height: 42)
                 }
-            }else {
-                return CGSize.zero
             }
             
         }else if section == 2 {
@@ -1041,10 +1062,10 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
     //大楼名称
     @objc var buildingNameClickClouse: IdentifyEditingClickClouse?
     
-    //写字楼地址
+    //楼盘地址
     var buildingAddresEndEditingMessageCell:((String) -> Void)?
     
-    //写字楼名称址
+    //楼盘名称址
     var buildingNameEndEditingMessageCell:((String) -> Void)?
     
     //模拟认证模型
@@ -1216,7 +1237,7 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
 
 extension OwnerNewIdentifyCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        //只有写字楼名称要在编辑结束的时候传过去
+        //只有楼盘名称要在编辑结束的时候传过去
         if model.type == .OwnerNewIdentifyTypeBuildingName {
             guard let blockk = self.buildingNameEndEditingMessageCell else {
                 return
