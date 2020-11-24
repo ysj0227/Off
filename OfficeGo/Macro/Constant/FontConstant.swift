@@ -46,6 +46,7 @@ public let FONT_SEMBLOD_13 = UIFont.appSemibold(13 + 1)
 public let FONT_SEMBLOD_14 = UIFont.appSemibold(14 + 1)
 public let FONT_SEMBLOD_15 = UIFont.appSemibold(15 + 1)
 public let FONT_SEMBLOD_16 = UIFont.appSemibold(16 + 1)
+public let FONT_SEMBLOD_23 = UIFont.appSemibold(23 + 1)
 public let FONT_BOLD_11 = UIFont.appBold(11 + 1)
 
 public var SystemMediumFont : (CGFloat) -> UIFont = {size in

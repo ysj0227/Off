@@ -26,6 +26,9 @@ class OwnerUserMsgViewController: BaseTableViewController {
                 bottomBtnView.rightSelectBtn.isUserInteractionEnabled = true
                 bottomBtnView.rightSelectBtn.backgroundColor = kAppBlueColor
             }
+            headerView.userModel = userModel
+            
+            tableView.reloadData()
         }
     }
     
@@ -139,8 +142,6 @@ extension OwnerUserMsgViewController {
     }
     func setUpData() {
         
-        //设置头像
-        headerView.userModel = userModel
         
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeNick))
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
@@ -149,6 +150,33 @@ extension OwnerUserMsgViewController {
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeWechat))
         
         self.tableView.reloadData()
+        
+        if userModel == nil {
+            requestUserMessage()
+        }
+    }
+    
+    
+    @objc func requestUserMessage() {
+        
+        SSNetworkTool.SSMine.request_getOwnerUserMsg(success: {[weak self] (response) in
+
+            guard let weakSelf = self else {return}
+            
+            if let model = LoginUserModel.deserialize(from: response, designatedPath: "data") {
+                
+                weakSelf.userModel = model
+            }
+            
+            }, failure: { (error) in
+                
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
+        }
     }
     
     private func upload(uploadImage:UIImage) {

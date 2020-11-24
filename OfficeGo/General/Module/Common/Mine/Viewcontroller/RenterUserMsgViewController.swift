@@ -224,11 +224,11 @@ extension RenterUserMsgViewController {
        }
        
         if userModel?.sex == UserSex.SexMale.rawValue || userModel?.sex == UserSex.SexFeMale.rawValue {
-           
-       }else {
-           AppUtilities.makeToast("请选择性别")
-           return
-       }
+            
+        }else {
+            AppUtilities.makeToast("请选择性别")
+            return
+        }
         
         setSureBtnEnable(can: false)
 

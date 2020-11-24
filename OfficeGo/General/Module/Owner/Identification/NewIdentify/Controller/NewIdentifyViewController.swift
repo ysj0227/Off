@@ -21,6 +21,8 @@ class NewIdentifyViewController: BaseViewController {
         }
     }
     
+    var visitingCardView: OwnerVisitingCardView?
+    
     var userModel: OwnerIdentifyUserModel?
     
     //写字楼名称搜索结果vc
@@ -563,6 +565,47 @@ extension NewIdentifyViewController {
         // 关闭按钮 - 隐藏页面
         buildingNameSearchResultVC?.closeButtonCallClick = {[weak self] in
             self?.buildingNameSearchResultVC?.view.isHidden = true
+        }
+        
+        judgeShowVisitingCardview()
+    }
+    
+    func judgeShowVisitingCardview() {
+        
+        if UserTool.shared.user_avatars?.count ?? 0 <= 0 || UserTool.shared.user_nickname?.count ?? 0 <= 0 || UserTool.shared.user_job?.count ?? 0 <= 0 {
+            visitingCardView = OwnerVisitingCardView()
+            visitingCardView?.ShowOwnerVisitingCardView(moreClickBlock: { [weak self] in
+                
+                let vc = OwnerUserMsgViewController()
+                self?.navigationController?.pushViewController(vc, animated: true)
+                self?.visitingCardView?.view.removeFromSuperview()
+            }, commitClickBlock: { [weak self] in
+                self?.visitingCardView?.view.removeFromSuperview()
+                self?.requestEditUserMessage()
+            })
+        }
+        
+    }
+    
+    func requestEditUserMessage() {
+        
+        var params = [String:AnyObject]()
+        params["nickname"] = UserTool.shared.user_nickname as AnyObject?
+        params["job"] = UserTool.shared.user_job as AnyObject?
+        params["avatar"] = UserTool.shared.user_avatars as AnyObject?
+        params["sex"] = UserTool.shared.user_sex as AnyObject?
+        params["token"] = UserTool.shared.user_token as AnyObject?
+        params["wxId"] = UserTool.shared.user_wechat as AnyObject?
+        params["company"] = UserTool.shared.user_company as AnyObject?
+        SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: { (response) in
+                        
+            }, failure: { (error) in
+        }) { (code, message) in
+            
+            //只有5000 提示给用户
+            if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
+                AppUtilities.makeToast(message)
+            }
         }
     }
     
