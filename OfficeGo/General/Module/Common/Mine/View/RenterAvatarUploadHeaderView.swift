@@ -107,7 +107,7 @@ class OwnerVisitingCardView: BaseViewController { //高度408
     lazy var blackAlphabgView: UIButton = {
         let button = UIButton.init()
         button.backgroundColor = kAppAlphaWhite0_alpha_7
-        //button.addTarget(self, action: #selector(clickRemoveFromSuperview), for: .touchUpInside)
+        button.addTarget(self, action: #selector(clickRemoveFromSuperview), for: .touchUpInside)
         return button
     }()
     
@@ -148,12 +148,13 @@ class OwnerVisitingCardView: BaseViewController { //高度408
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = 40
-        view.setImage(with: UserTool.shared.user_avatars ?? "", placeholder: UIImage.init(named: "avatar"))
+        view.setImage(with: UserTool.shared.user_avatars ?? "", placeholder: UIImage.init(named: "newAvatar"))
         return view
     }()
     
     lazy var cameraImage: BaseImageView = {
         let view = BaseImageView()
+        view.image = UIImage.init(named: "camera_blue")
         return view
     }()
     
@@ -242,7 +243,8 @@ class OwnerVisitingCardView: BaseViewController { //高度408
     
     
     func pickerSelect() {
-        imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+
+        imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2, superVC: self) {[weak self] (asset,cutImage) in
             SSLog("返回的asset数组是\(asset)")
             
             var imageArr = [UIImage]()
@@ -419,7 +421,7 @@ class OwnerVisitingCardView: BaseViewController { //高度408
             make.leading.bottom.trailing.top.equalToSuperview()
         }
         cameraImage.snp.makeConstraints { (make) in
-            make.bottom.trailing.equalToSuperview()
+            make.bottom.trailing.equalToSuperview().inset(3)
             make.size.equalTo(22)
         }
 
