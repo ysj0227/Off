@@ -226,7 +226,7 @@ class OwnerVisitingCardView: BaseViewController { //高度408
     }
         
     ///commit提交
-    var commitClickBlock: (() -> Void)?
+    var commitClickBlock: ((_ usermodel: LoginUserModel) -> Void)?
 
     var moreClickBlock: (() -> Void)?
     
@@ -302,8 +302,8 @@ class OwnerVisitingCardView: BaseViewController { //高度408
                 
                 if decoratedArray.count >= 1 {
                     self?.userModel?.avatar = decoratedArray[0]?.url
-                    UserTool.shared.user_avatars = decoratedArray[0]?.url
-                    self?.requestEditUserAvatarMessage()
+//                    UserTool.shared.user_avatars = decoratedArray[0]?.url
+//                    self?.requestEditUserAvatarMessage()
                 }
             }
             }, failure: { (error) in
@@ -341,7 +341,7 @@ class OwnerVisitingCardView: BaseViewController { //高度408
         
         self.view.endEditing(true)
         
-        if UserTool.shared.user_avatars?.count ?? 0 <= 0 {
+        if userModel?.avatar?.count ?? 0 <= 0 {
             AppUtilities.makeToast("请上传头像")
             return
         }
@@ -355,14 +355,14 @@ class OwnerVisitingCardView: BaseViewController { //高度408
             AppUtilities.makeToast("请输入职位")
             return
         }
-        
-        UserTool.shared.user_nickname = nickTF.text
-        UserTool.shared.user_job = jobTF.text
+        userModel?.nickname = nickTF.text
+        userModel?.job = jobTF.text
         guard let blockk = commitClickBlock else {
             return
         }
         ///调用更新个人中心接口
-        blockk()
+        blockk(userModel ?? LoginUserModel())
+        selfRemove()
     }
     
     @objc func moreBtnClick() {
@@ -370,13 +370,14 @@ class OwnerVisitingCardView: BaseViewController { //高度408
             return
         }
         blockk()
+        selfRemove()
     }
     
     
     // MARK: - 弹出view显示 - 名片独有
-    func ShowOwnerVisitingCardView(moreClickBlock: @escaping (() -> Void), commitClickBlock: @escaping (() -> Void)) -> Void {
+    func ShowOwnerVisitingCardView(moreClickBlock: @escaping (() -> Void), commitClickBlock: @escaping ((LoginUserModel) -> Void)) -> Void {
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
-            if view.isKind(of: OwnerFYMoreSettingView.self) {
+            if view.isKind(of: OwnerVisitingCardView.self) {
                 view.removeFromSuperview()
             }
         })

@@ -43,6 +43,10 @@ class LoginUserModel: BaseModel {
     var isNickname : Bool?
     
     var tempNickName: String?
+    
+    
+    ///false未完善true完善
+    var isUserInfo : Bool = true
 }
 
 class VersionModel: BaseModel {

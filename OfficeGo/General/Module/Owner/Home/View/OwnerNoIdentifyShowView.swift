@@ -82,7 +82,7 @@ class OWnerAddFYFirstAlertView: UIView {
         }
     }
     
-    // MARK: - 弹出view显示 - 排序
+    // MARK: - 弹出view显示 -
     func ShowOWnerAddFYFirstAlertView(clearButtonCallBack: @escaping (() -> Void), sureHouseSortButtonCallBack: @escaping (() -> Void)) -> Void {
         UIApplication.shared.keyWindow?.subviews.forEach({ (view) in
             if view.isKind(of: OWnerAddFYFirstAlertView.self) {
@@ -524,10 +524,9 @@ class OwnerNoIdentifyShowView: UIView {
         cycleview.pageColor = kAppLightBlueColor
         cycleview.currentPageColor = kAppBlueColor
         cycleview.imageURLStringArr = ["noIdentify1", "noIdentify2", "noIdentify3", "noIdentify4"]
-        cycleview.titleArr = ["成为房东，房源全网触达", "720 VR全方位呈现房源", "与客户线上直接沟通", "交易数据保密，无中介费"]
+        cycleview.titleArr = ["成为房东，房源全网触达", "720°VR全方位呈现房源", "与客户线上直接沟通", "交易数据保密，无中介费"]
         return cycleview
     }()
-    
     
     lazy var identifyBtn: UIButton = {
         let button = UIButton(frame: CGRect(x: (kWidth - 130) / 2.0 , y: (kHeight - 300) / 2.0 + 40 + 220, width: 130, height: 30))
@@ -549,6 +548,9 @@ class OwnerNoIdentifyShowView: UIView {
         guard let blockk = clearButtonCallBack else {
             return
         }
+        
+        ///表示已经展示弹层
+        UserTool.shared.isShowOWnerToIdentifyGuide = true
         blockk()
         selfRemove()
     }
@@ -557,6 +559,9 @@ class OwnerNoIdentifyShowView: UIView {
         guard let blockk = sureIdentifyButtonCallBack else {
             return
         }
+        
+        ///表示已经展示弹层
+        UserTool.shared.isShowOWnerToIdentifyGuide = true
         blockk()
         selfRemove()
     }
