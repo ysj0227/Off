@@ -145,7 +145,7 @@ extension OwnerUserMsgViewController {
         
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeNick))
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeSex))
-        typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeCompany))
+        //typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeCompany))
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeJob))
         typeSourceArray.append(UserMsgConfigureModel.init(types: .RenterUserMsgTypeWechat))
         
@@ -234,7 +234,6 @@ extension OwnerUserMsgViewController {
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["wxId"] = userModel?.wxId as AnyObject?
-        params["company"] = userModel?.company as AnyObject?
         params["job"] = userModel?.job as AnyObject?
         params["avatar"] = userModel?.avatar as AnyObject?
   
@@ -269,7 +268,6 @@ extension OwnerUserMsgViewController {
         params["sex"] = userModel?.sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["wxId"] = userModel?.wxId as AnyObject?
-        params["company"] = userModel?.company as AnyObject?
         params["job"] = userModel?.job as AnyObject?
         params["avatar"] = userModel?.avatar as AnyObject?
 
@@ -420,7 +418,7 @@ class OwnerMineUserMsgCell: BaseTableViewCell {
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
                     self.editLabel.isUserInteractionEnabled = false
                     self.editLabel.textColor = kAppColor_999999
-                    self.editLabel.text = userModel?.company
+                    self.editLabel.text = ""
                 }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
                     self.editLabel.text = userModel?.job
                 }
@@ -485,7 +483,7 @@ extension OwnerMineUserMsgCell: UITextFieldDelegate {
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
             userModel?.wxId = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
-            userModel?.company = textField.text
+
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
             userModel?.job = textField.text
         }

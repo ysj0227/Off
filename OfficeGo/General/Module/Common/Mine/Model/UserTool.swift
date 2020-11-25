@@ -233,16 +233,6 @@ class UserTool: NSObject {
         }
     }
     
-    /// 公司
-    var user_company:String?{
-        get{
-            return userDefault.value(forKey: "user_company") as? String
-        }
-        set(newValue){
-            return userDefault.set(newValue, forKey: "user_company")
-        }
-    }
-    
     /// 岗位
     var user_job:String?{
         get{

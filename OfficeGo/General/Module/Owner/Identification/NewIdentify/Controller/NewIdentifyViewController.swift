@@ -662,7 +662,6 @@ extension NewIdentifyViewController {
         params["sex"] = UserTool.shared.user_sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["wxId"] = UserTool.shared.user_wechat as AnyObject?
-        params["company"] = UserTool.shared.user_company as AnyObject?
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
             UserTool.shared.user_avatars = self?.userModel?.avatar
             UserTool.shared.user_job = self?.userModel?.job

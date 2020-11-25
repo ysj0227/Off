@@ -327,7 +327,6 @@ class OwnerVisitingCardView: BaseViewController { //高度408
         params["job"] = userModel?.job as AnyObject?
         params["sex"] = UserTool.shared.user_sex as AnyObject?
         params["wxId"] = UserTool.shared.user_wechat as AnyObject?
-        params["company"] = UserTool.shared.user_company as AnyObject?
         SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: { (response) in
             AppUtilities.makeToast("头像已修改")
             }, failure: { (error) in

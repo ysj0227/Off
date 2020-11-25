@@ -485,7 +485,7 @@ extension RenterMineUserMsgCell: UITextFieldDelegate {
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeWechat {
             userModel?.wxId = textField.text
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeCompany {
-            userModel?.company = textField.text
+            
         }else if model.type == RenterUserMsgType.RenterUserMsgTypeJob {
             userModel?.job = textField.text
         }

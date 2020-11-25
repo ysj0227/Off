@@ -269,8 +269,6 @@ extension OwnerMineViewController {
                 UserTool.shared.user_name = model.nickname
                 UserTool.shared.user_nickname = model.nickname
                 UserTool.shared.user_avatars = model.avatar
-                UserTool.shared.user_company = model.company
-                UserTool.shared.user_job = model.job
                 UserTool.shared.user_sex = model.sex
                 UserTool.shared.user_phone = model.phone
                 UserTool.shared.user_wechat = model.wxId

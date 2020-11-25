@@ -30,8 +30,6 @@ class LoginUserModel: BaseModel {
     ///审核状态 0待审核1审核通过2审核未通过5在其他端产生过临时数据（提示去app认证） - 没有提交过为-1
     var auditStatus : Int?
     
-    ///租户公司 职位 姓名
-    var company : String?
     var job : String?
     //var nickname : String?
     var nickname : String?
