@@ -156,7 +156,7 @@ extension OwnerCreateBuildingViewController {
     }
     
     @objc func pickerSelect() {
-        imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
+        imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2, superVC: self) {[weak self] (asset,cutImage) in
             SSLog("返回的asset数组是\(asset)")
             
             var index = asset.count // 标记失败的次数
