@@ -148,7 +148,6 @@ class OwnerVisitingCardView: BaseViewController { //高度408
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = 40
-        view.setImage(with: UserTool.shared.user_avatars ?? "", placeholder: UIImage.init(named: "newAvatar"))
         return view
     }()
     
@@ -172,10 +171,9 @@ class OwnerVisitingCardView: BaseViewController { //高度408
         view.textColor = kAppColor_333333
         view.clearButtonMode = .whileEditing
         view.placeholder = "输入称呼"
-        view.text = UserTool.shared.user_nickname
         return view
     }()
-    
+
     lazy var jobLabel: UILabel = {
         let view = UILabel()
         view.font = FONT_13
@@ -190,7 +188,6 @@ class OwnerVisitingCardView: BaseViewController { //高度408
         view.textColor = kAppColor_333333
         view.clearButtonMode = .whileEditing
         view.placeholder = "输入职位"
-        view.text = UserTool.shared.user_job
         return view
     }()
     
@@ -241,6 +238,22 @@ class OwnerVisitingCardView: BaseViewController { //高度408
         pickerSelect()
     }
     
+    var userModel: LoginUserModel? {
+        didSet {
+            
+            if userModel?.isNickname == true {
+                userModel?.tempNickName = userModel?.nickname
+            }else {
+                userModel?.tempNickName = nil
+            }
+            
+            headerImg.setImage(with: userModel?.avatar ?? "", placeholder: UIImage.init(named: "newAvatar"))
+
+            nickTF.text = userModel?.tempNickName
+            
+            jobTF.text = UserTool.shared.user_job
+        }
+    }
     
     func pickerSelect() {
 
@@ -288,6 +301,7 @@ class OwnerVisitingCardView: BaseViewController { //高度408
             if let decoratedArray = JSONDeserializer<BannerModel>.deserializeModelArrayFrom(json: JSON(response["data"] ?? "").rawString() ?? "", designatedPath: "urls") {
                 
                 if decoratedArray.count >= 1 {
+                    self?.userModel?.avatar = decoratedArray[0]?.url
                     UserTool.shared.user_avatars = decoratedArray[0]?.url
                     self?.requestEditUserAvatarMessage()
                 }
@@ -308,9 +322,9 @@ class OwnerVisitingCardView: BaseViewController { //高度408
 
         var params = [String:AnyObject]()
         params["token"] = UserTool.shared.user_token as AnyObject?
-        params["avatar"] = UserTool.shared.user_avatars as AnyObject?
-        params["nickname"] = UserTool.shared.user_nickname as AnyObject?
-        params["job"] = UserTool.shared.user_job as AnyObject?
+        params["avatar"] = userModel?.avatar as AnyObject?
+        params["nickname"] = userModel?.tempNickName as AnyObject?
+        params["job"] = userModel?.job as AnyObject?
         params["sex"] = UserTool.shared.user_sex as AnyObject?
         params["wxId"] = UserTool.shared.user_wechat as AnyObject?
         params["company"] = UserTool.shared.user_company as AnyObject?

@@ -54,6 +54,9 @@ class OwnerBuildingListModel: BaseModel {
     
     ///结束请求时间戳
     var endTime: Double = 0
+    
+    ///true有小红点 false无小红点
+    var isRed: Bool = false
 }
 class OwnerBuildingListViewModel: NSObject {
     ///1是写字楼，2是共享办公
@@ -104,7 +107,7 @@ class OwnerBuildingListViewModel: NSObject {
         isEdit = model.isEdit
         isTemp = model.isTemp
         status = model.status
-                
+                        
         startTimeString = SSTool.timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(model.startTime), dateFormat: "yyyy-MM-dd HH:mm")
         
         endTimeString = SSTool.timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(model.endTime), dateFormat: "yyyy-MM-dd HH:mm")
@@ -195,8 +198,11 @@ class OwnerBuildingListViewModel: NSObject {
         }
         
         ///红色通知
-        //redViewColor = "noReadRed"
-        redViewColor = ""
+        if model.isRed == true {
+            redViewColor = "noReadRed"
+        }else {
+            redViewColor = ""
+        }
         
         let size = buildingName?.boundingRect(with: CGSize(width: kWidth, height: OwnerBuildingListCell.rowHeight()), font: FONT_14)
         redViewLeading = size?.width

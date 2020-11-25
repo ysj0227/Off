@@ -39,6 +39,10 @@ class LoginUserModel: BaseModel {
     ///行程条数
     var trip : Int?
     
+    ///true 自己设置过 false是默认昵称，没有自己设置过 当为false的时候，在编辑名片，名字展示为空
+    var isNickname : Bool?
+    
+    var tempNickName: String?
 }
 
 class VersionModel: BaseModel {
