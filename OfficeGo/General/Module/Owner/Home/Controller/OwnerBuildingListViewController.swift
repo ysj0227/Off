@@ -53,6 +53,7 @@ class OwnerBuildingListViewController: BaseTableViewController {
     //MARK: 添加楼盘和网点
     @objc func addBuilding() {
         let vc = NewIdentifyViewController()
+        vc.isAdd = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

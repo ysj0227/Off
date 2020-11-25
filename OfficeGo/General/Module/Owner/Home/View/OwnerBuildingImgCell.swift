@@ -1107,7 +1107,7 @@ class OwnerNewPersonIDCardIdentifyImgCell: BaseCollectionViewCell {
             titleLabel.attributedText = model?.getNameFormType(type: model?.type ?? .OwnerNewIdentifyTypeYinYeOrIdCard)
             descLabel.text = model?.getDescFormType(type: model?.type ?? .OwnerNewIdentifyTypeYinYeOrIdCard)
             
-            if userModel?.auditStatus == "2" {
+            if userModel?.idCardRemark == true {
                 rejectImg.image = UIImage.init(named: "redLine")
             }else {
                 rejectImg.image = UIImage.init(named: "")

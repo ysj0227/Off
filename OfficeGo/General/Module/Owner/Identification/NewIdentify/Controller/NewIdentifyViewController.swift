@@ -10,6 +10,15 @@ import CLImagePickerTool
 
 class NewIdentifyViewController: BaseViewController {
     
+    ///是否来自于添加
+    var isAdd: Bool? {
+        didSet {
+            if isAdd == true {
+                titleview?.titleLabel.text = "添加楼盘/网点"
+            }
+        }
+    }
+    
     //用户第一个认证的楼：1 后面添加的楼：2
     var isFrist : String?
     
@@ -335,7 +344,6 @@ extension NewIdentifyViewController {
             
             if let model = OwnerIdentifyUserModel.deserialize(from: response, designatedPath: "data") {
                 weakSelf.identifyUserModel = model
-                weakSelf.identifyUserModel?.auditStatus = "2"
                 weakSelf.detailDataShow()
                 
             }else {
@@ -537,6 +545,9 @@ extension NewIdentifyViewController {
         
         titleview = ThorNavigationView.init(type: .backTitleRightBlueBgclolor)
         titleview?.titleLabel.text = "房东认证"
+        if isAdd == true {
+            titleview?.titleLabel.text = "添加楼盘/网点"
+        }
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
             self?.showLeaveAlert()
@@ -939,14 +950,16 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
             }else {
                 let str = identifyUserModel?.remarkString
 
-                let size = str?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 - 42, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
+                let size = str?.boundingRect(with: CGSize(width: kWidth - left_pending_space_17 - 44, height: 8000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : FONT_13], context: nil)
                 
                 var height: CGFloat = 0
-                height = (size?.height ?? 0) + 24
+                if let hh = size?.height {
+                    height = hh + 24
+                }
                 
                 if isOpen == true {
                     
-                    return CGSize(width: kWidth, height: height)
+                    return CGSize(width: kWidth, height: height + 1)
                     
                 }else {
                     return CGSize(width: kWidth, height: 42)
