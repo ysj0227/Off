@@ -378,7 +378,7 @@ class OWnerIdentifyStatusView: UIView {
                     rejectBg.snp.remakeConstraints { (make) in
                         make.leading.trailing.equalToSuperview().inset(left_pending_space_17)
                         make.top.equalTo(bottomView.snp.bottom)
-                        make.height.equalTo(height + 8 * 2)
+                        make.height.equalTo(height + 8 * 2 + 1)
                     }
                     
                     rejectReasonLabel.snp.remakeConstraints { (make) in
