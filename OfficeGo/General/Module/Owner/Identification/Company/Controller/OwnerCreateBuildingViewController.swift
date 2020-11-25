@@ -17,7 +17,7 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
     
     var mainPicPhoto: BaseImageView = {
         
-        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        let view = BaseImageView.init(frame: CGRect(x: left_pending_space_17, y: 20, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFill
         view.image = UIImage.init(named: "addImgBg")
@@ -33,6 +33,14 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
         view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
         view.rightSelectBtn.setTitle("确认创建", for: .normal)
         view.backgroundColor = kAppWhiteColor
+        return view
+    }()
+    
+    lazy var descLabel : UILabel = {
+        let view = UILabel(frame: CGRect(x: left_pending_space_17, y: -10, width: kWidth - left_pending_space_17, height: 20))
+        view.font = FONT_13
+        view.text = "请上传楼盘外立面照片"
+        view.textColor = kAppColor_btnGray_BEBEBE
         return view
     }()
     
@@ -149,7 +157,8 @@ extension OwnerCreateBuildingViewController {
             make.height.equalTo(50)
         }
         
-        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1 + 20))
+        footerview.addSubview(descLabel)
         footerview.addSubview(mainPicPhoto)
         
         self.tableView.tableFooterView = footerview
@@ -424,6 +433,7 @@ class OwnerCreateBuildingCell: BaseEditCell {
         didSet {
             
             titleLabel.attributedText = model.getNameFormType(type: model.type ?? OwnerCreteBuildingType.OwnerCreteBuildingTypeBranchName)
+            editLabel.placeholder = model.getDescFormType(type: model.type ?? OwnerCreteBuildingType.OwnerCreteBuildingTypeBranchName)
             
             detailIcon.isHidden = true
             

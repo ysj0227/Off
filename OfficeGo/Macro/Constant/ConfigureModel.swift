@@ -98,7 +98,7 @@ class OwnerNewIedntifyConfigureModel: ConfigureModel {
         case .OwnerNewIdentifyTypeAddtional:
             ///身份类型0个人1企业2联合
             if UserTool.shared.user_owner_identifytype == 0 {
-                return "请上传以公司为主体的房屋租赁协议或其他相关材料"
+                return "若需要，请上传身份信息与产证信息一致的相关材料"
             }else if UserTool.shared.user_owner_identifytype == 1 {
                 return "请上传以公司为主体的房屋租赁协议或其他相关材料"
             }else if UserTool.shared.user_owner_identifytype == 2 {
@@ -1231,10 +1231,24 @@ class OwnerCreatBuildingConfigureModel: NSObject {
         case .OwnerCreteBuildingTypeBranchAddress:
             return FuWenBen(name: "详细地址", centerStr: " * ", last: "")
         case .OwnerCreteBuildingTypeUploadYingyePhoto:
-            return FuWenBen(name: "上传封面图", centerStr: " * ", last: "")
+            return FuWenBen(name: "上传封面图", centerStr: " * ", last: "\n请上传楼盘外立面照片")
         }
     }
     
+    func getDescFormType(type: OwnerCreteBuildingType) -> String{
+        switch type {
+        case .OwnerCreteBuildingTypeBranchName:
+            return "请输入楼盘/网点名称"
+        case .OwnerCreteBuildingTypeBuildOrJint:
+            return ""
+        case .OwnerCreteBuildingTypeBranchDistrictArea:
+            return "请选择城市、区域与商圈"
+        case .OwnerCreteBuildingTypeBranchAddress:
+            return "请输入详细地址（2～100个字）"
+        case .OwnerCreteBuildingTypeUploadYingyePhoto:
+            return ""
+        }
+    }
     //centerStr *
     func FuWenBen(name: String, centerStr: String, last: String) -> NSMutableAttributedString {
         
@@ -1256,7 +1270,7 @@ class OwnerCreatBuildingConfigureModel: NSObject {
         }
         
         if last.count > 0 {
-            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_14])
+            let lastAtt = NSAttributedString.init(string: last, attributes: [NSAttributedString.Key.backgroundColor : kAppWhiteColor , NSAttributedString.Key.foregroundColor : kAppColor_999999 , NSAttributedString.Key.font : FONT_12])
             attributedStrM.append(lastAtt)
             
         }

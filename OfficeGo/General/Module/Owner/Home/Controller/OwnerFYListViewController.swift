@@ -134,6 +134,15 @@ class OwnerFYListViewController: BaseGroupTableViewController {
     var buildingListViewModel : OwnerBuildingListViewModel? {
         didSet {
             
+            ///是否已经展示过添加房源浮层
+            if UserTool.shared.isShowAddFYGuide != true {
+                loginPCScanView.ShowOWnerAddFYFirstAlertView {
+                    
+                } sureHouseSortButtonCallBack: {
+                    
+                }
+            }
+            
             ///可以添加，按钮不隐藏
             if  buildingListViewModel?.isAddHouse == true  {
                 titleview?.rightButton.isHidden = false
@@ -362,15 +371,6 @@ class OwnerFYListViewController: BaseGroupTableViewController {
         else if auditStatus == 1 {
             
             toIdentifyView.isHidden = true
-
-            ///是否已经展示过添加房源浮层
-            if UserTool.shared.isShowAddFYGuide != true {
-                loginPCScanView.ShowOWnerAddFYFirstAlertView {
-                    
-                } sureHouseSortButtonCallBack: {
-                    
-                }
-            }
             
             ///没有选择过楼盘，请求楼盘，请求房源列表
             if buildingListViewModel == nil {
@@ -456,8 +456,6 @@ extension OwnerFYListViewController {
     
     func showNoIdentifyView() {
         
-        ///表示已经展示弹层
-        UserTool.shared.isShowOWnerToIdentifyGuide = true
         toIdentifyView.isHidden = false
     }
     

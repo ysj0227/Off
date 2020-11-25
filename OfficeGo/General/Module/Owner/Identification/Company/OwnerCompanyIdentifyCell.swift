@@ -339,7 +339,7 @@ class OwnerCreateView: UIView {
     ///来自新认证 - 楼盘网点搜索
     var isNewIdentifyES: Bool? = false {
         didSet {
-            descLabel.text = "楼盘/网点不存在，立即创建"
+            descLabel.text = "以上都不是，去创建"
             creatBtn.setTitle("立即创建", for: .normal)
         }
     }

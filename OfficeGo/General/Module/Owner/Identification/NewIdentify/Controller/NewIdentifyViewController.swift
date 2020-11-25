@@ -636,37 +636,39 @@ extension NewIdentifyViewController {
     
     func judgeShowVisitingCardview() {
         
-        if userModel?.avatar?.count ?? 0 <= 0 || userModel?.nickname?.count ?? 0 <= 0 || userModel?.job?.count ?? 0 <= 0 {
+        ///不完善修改
+        if userModel?.isUserInfo == false
+        {
             visitingCardView = OwnerVisitingCardView()
             visitingCardView?.userModel = userModel
             visitingCardView?.ShowOwnerVisitingCardView(moreClickBlock: { [weak self] in
-                
                 let vc = OwnerUserMsgViewController()
                 self?.navigationController?.pushViewController(vc, animated: true)
-                self?.visitingCardView?.view.removeFromSuperview()
-            }, commitClickBlock: { [weak self] in
-                self?.visitingCardView?.view.removeFromSuperview()
+                self?.visitingCardView?.selfRemove()
+            }, commitClickBlock: { [weak self] (userModel) in
+                self?.userModel = userModel
                 self?.requestEditUserMessage()
+                self?.visitingCardView?.selfRemove()
             })
         }
         
     }
     
     func requestEditUserMessage() {
-        
         var params = [String:AnyObject]()
-        params["nickname"] = UserTool.shared.user_nickname as AnyObject?
-        params["job"] = UserTool.shared.user_job as AnyObject?
-        params["avatar"] = UserTool.shared.user_avatars as AnyObject?
+        params["nickname"] = userModel?.nickname as AnyObject?
+        params["job"] = userModel?.job as AnyObject?
+        params["avatar"] = userModel?.avatar as AnyObject?
         params["sex"] = UserTool.shared.user_sex as AnyObject?
         params["token"] = UserTool.shared.user_token as AnyObject?
         params["wxId"] = UserTool.shared.user_wechat as AnyObject?
         params["company"] = UserTool.shared.user_company as AnyObject?
-        SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: { (response) in
-                        
+        SSNetworkTool.SSMine.request_updateUserMessage(params: params, success: {[weak self] (response) in
+            UserTool.shared.user_avatars = self?.userModel?.avatar
+            UserTool.shared.user_job = self?.userModel?.job
+            UserTool.shared.user_nickname = self?.userModel?.nickname
             }, failure: { (error) in
         }) { (code, message) in
-            
             //只有5000 提示给用户
             if code == "\(SSCode.DEFAULT_ERROR_CODE_5000.code)" {
                 AppUtilities.makeToast(message)
