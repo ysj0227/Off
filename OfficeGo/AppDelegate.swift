@@ -438,7 +438,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
         if UserTool.shared.user_id_type == 1 {
             //不清空身份类型
             let tabbarVC = OwnerMainTabBarController()
-            tabbarVC.selectedIndex = 3
+            tabbarVC.selectedIndex = 0
             window?.rootViewController = tabbarVC
         }
         SSTool.invokeInMainThread {
