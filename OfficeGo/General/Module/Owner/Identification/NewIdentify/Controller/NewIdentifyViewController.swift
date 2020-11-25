@@ -91,6 +91,13 @@ class NewIdentifyViewController: BaseViewController {
         return view
     }()
     
+    ///选择弹框
+    lazy var ownerFYMoreSettingView: OwnerFYMoreSettingView = {
+        let view = OwnerFYMoreSettingView.init(frame: CGRect(x: 0.0, y: 0, width: kWidth, height: kHeight))
+        view.titleString = "房产类型"
+        return view
+    }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
@@ -851,30 +858,19 @@ extension NewIdentifyViewController: UICollectionViewDataSource, UICollectionVie
         if indexPath.section == 2 {
             if indexPath.item == 0 {
                 
-                let alertController = UIAlertController.init(title: "权利人类型", message: nil, preferredStyle: .actionSheet)
-                let refreshAction = UIAlertAction.init(title: "公司", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.userModel?.isHolder = 2
-                    UserTool.shared.user_owner_identifytype = 1
-                    self?.loadCollectionData()
-                }
-                let copyAction = UIAlertAction.init(title: "个人", style: .default) {[weak self] (action: UIAlertAction) in
-                    self?.userModel?.isHolder = 1
-                    UserTool.shared.user_owner_identifytype = 0
-                    self?.loadCollectionData()
-                }
-//                let copy1Action = UIAlertAction.init(title: "网点", style: .default) {[weak self] (action: UIAlertAction) in
-//                    UserTool.shared.user_owner_identifytype = 2
-//                    self?.loadCollectionData()
-//                }
-                let cancelAction = UIAlertAction.init(title: "取消", style: .cancel) { (action: UIAlertAction) in
+                ownerFYMoreSettingView.ShowOwnerSettingView(datasource: ["公司", "个人"], clearButtonCallBack: {
                     
+                }) {[weak self] (settingEnumIndex) in
+                    if settingEnumIndex == 0 {
+                        self?.userModel?.isHolder = 2
+                        UserTool.shared.user_owner_identifytype = 1
+                        self?.loadCollectionData()
+                    }else if settingEnumIndex == 1 {
+                        self?.userModel?.isHolder = 1
+                        UserTool.shared.user_owner_identifytype = 0
+                        self?.loadCollectionData()
+                    }
                 }
-                alertController.addAction(refreshAction)
-                alertController.addAction(copyAction)
-//                alertController.addAction(copy1Action)
-                alertController.addAction(cancelAction)
-                
-                present(alertController, animated: true, completion: nil)
             }
         }
         
@@ -1003,13 +999,13 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
     }()
     lazy var editBtn: UIButton = {
         let btn = UIButton.init()
-        btn.setImage(UIImage.init(named: "idenEdit"), for: .normal)
+        btn.setImage(UIImage.init(named: "identifyEdit_gray"), for: .normal)
         btn.addTarget(self, action: #selector(editClick), for: .touchUpInside)
         return btn
     }()
     lazy var closeBtn: UIButton = {
         let btn = UIButton.init()
-        btn.setImage(UIImage.init(named: "idenDelete"), for: .normal)
+        btn.setImage(UIImage.init(named: "identifyClose_gray"), for: .normal)
         btn.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
         return btn
     }()
@@ -1085,8 +1081,10 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
             
             if userModel?.btype == "1" {
                 tagView.text = "楼盘"
+                tagView.backgroundColor = kAppBlueDeepColor
             }else {
                 tagView.text = "网点"
+                tagView.backgroundColor = kAppPurpleDeepColor
             }
             closeBtn.isHidden = false
             //0 空   无定义     1创建  2关联吗

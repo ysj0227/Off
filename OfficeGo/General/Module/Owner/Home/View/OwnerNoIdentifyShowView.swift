@@ -319,21 +319,23 @@ class OWnerIdentifyStatusView: UIView {
                 //审核通过 绿
                 topView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 topView.statusLabel.text = "提交认证"
-                topView.timeLabel.text = "10-20 13:34"
+                topView.timeLabel.text = buildingListViewModel?.startTimeString
 
                 mediumView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 mediumView.statusLabel.text = "审核"
-                mediumView.timeLabel.text = "10-20 13:34"
+                mediumView.timeLabel.text = ""
                 mediumView.topLineView.image = UIImage.init(named: "greenLine")
                 mediumView.bottomLineView.image = UIImage.init(named: "greenLine")
 
                 bottomView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 bottomView.statusLabel.text = "审核通过"
-                bottomView.timeLabel.text = "10-20 13:34"
+                bottomView.timeLabel.text = buildingListViewModel?.endTimeString
                 bottomView.topLineView.image = UIImage.init(named: "greenLine")
                 //bottomView.bottomLineView.image = UIImage.init(named: "greenLine")
-                
+
                 bottomView.statusLabel.textColor = kAppColor_333333
+
+                bottomView.identifyBtn.isHidden = true
 
                 rejectBg.isHidden = true
 
@@ -344,20 +346,20 @@ class OWnerIdentifyStatusView: UIView {
                 //认证未通过 红
                 topView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 topView.statusLabel.text = "提交认证"
-                topView.timeLabel.text = "10-20 13:34"
+                topView.timeLabel.text = buildingListViewModel?.startTimeString
 
                 mediumView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 mediumView.statusLabel.text = "审核"
-                mediumView.timeLabel.text = "10-20 13:34"
+                mediumView.timeLabel.text = ""
                 mediumView.topLineView.image = UIImage.init(named: "greenLine")
                 mediumView.bottomLineView.image = UIImage.init(named: "greenLine")
                 
                 bottomView.timeIcon.image = UIImage.init(named: "identifyRed")
                 bottomView.statusLabel.text = "认证未通过"
-                bottomView.timeLabel.text = "10-20 13:34"
+                bottomView.timeLabel.text = buildingListViewModel?.endTimeString
                 bottomView.topLineView.image = UIImage.init(named: "greenLine")
 //                bottomView.bottomLineView.image = UIImage.init(named: "greenLine")
-                
+
                 bottomView.identifyBtn.isHidden = false
 
                 bottomView.statusLabel.textColor = kAppColor_333333
@@ -392,20 +394,22 @@ class OWnerIdentifyStatusView: UIView {
                 
                 topView.timeIcon.image = UIImage.init(named: "identifyGreen")
                 topView.statusLabel.text = "提交认证"
-                topView.timeLabel.text = "10-20 13:34"
+                topView.timeLabel.text = buildingListViewModel?.startTimeString
 
                 mediumView.timeIcon.image = UIImage.init(named: "identifyOrange")
                 mediumView.statusLabel.text = "审核中"
-                mediumView.timeLabel.text = "10-20 13:34"
+                mediumView.timeLabel.text = ""
                 mediumView.topLineView.image = UIImage.init(named: "greenLine")
                 mediumView.bottomLineView.image = UIImage.init(named: "grayLine")
 
                 bottomView.timeIcon.image = UIImage.init(named: "identifyGray")
                 bottomView.statusLabel.text = "审核通过"
-                bottomView.timeLabel.text = "10-20 13:34"
+                bottomView.timeLabel.text = ""
                 bottomView.topLineView.image = UIImage.init(named: "grayLine")
 //                mediumView.bottomLineView.image = UIImage.init(named: "grayLine")
                 bottomView.statusLabel.textColor = kAppColor_666666
+
+                bottomView.identifyBtn.isHidden = true
 
                 rejectBg.isHidden = true
 

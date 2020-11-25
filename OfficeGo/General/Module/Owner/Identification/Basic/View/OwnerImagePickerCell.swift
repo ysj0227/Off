@@ -324,7 +324,7 @@ class OwnerNewIdentifyRejectViewHeader: UICollectionReusableView {
     ///收起按钮
     lazy var openBtn: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(named: "upIcon"), for: .selected)
+        view.setImage(UIImage(named: "upIconGary"), for: .selected)
         view.setImage(UIImage(named: "downIcon"), for: .normal)
         view.addTarget(self, action: #selector(openClick(btn:)), for: .touchUpInside)
         return view

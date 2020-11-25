@@ -107,7 +107,7 @@ class OwnerVisitingCardView: BaseViewController { //高度408
     lazy var blackAlphabgView: UIButton = {
         let button = UIButton.init()
         button.backgroundColor = kAppAlphaWhite0_alpha_7
-        button.addTarget(self, action: #selector(clickRemoveFromSuperview), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(clickRemoveFromSuperview), for: .touchUpInside)
         return button
     }()
     

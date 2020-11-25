@@ -49,8 +49,11 @@ class OwnerBuildingListModel: BaseModel {
     ///驳回原因
     var remark : [DictionaryModel]?
 
-    ///驳回原因 - 文本
-    var remarkString : String?
+    ///开始请求时间戳
+    var startTime: Double = 0
+    
+    ///结束请求时间戳
+    var endTime: Double = 0
 }
 class OwnerBuildingListViewModel: NSObject {
     ///1是写字楼，2是共享办公
@@ -84,6 +87,12 @@ class OwnerBuildingListViewModel: NSObject {
     ///驳回原因 - 文本
     var remarkString : String?
     
+    ///开始请求时间戳
+    var startTimeString: String = ""
+    
+    ///结束请求时间戳
+    var endTimeString: String = ""
+    
     init(model:OwnerBuildingListModel) {
         super.init()
         
@@ -96,6 +105,10 @@ class OwnerBuildingListViewModel: NSObject {
         isTemp = model.isTemp
         status = model.status
                 
+        startTimeString = SSTool.timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(model.startTime), dateFormat: "yyyy-MM-dd HH:mm")
+        
+        endTimeString = SSTool.timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(model.endTime), dateFormat: "yyyy-MM-dd HH:mm")
+        
         if let remarkArr = model.remark {
             remarkString = "驳回原因："
 

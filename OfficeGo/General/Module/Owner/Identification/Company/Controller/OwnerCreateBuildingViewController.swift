@@ -22,6 +22,9 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
         view.contentMode = .scaleAspectFill
         view.image = UIImage.init(named: "addImgBg")
         view.isUserInteractionEnabled = true
+        let control = UIButton(frame: CGRect(x: 0, y: 0, width: (kWidth - left_pending_space_17 * 4) / 3.0 - 1, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
+        control.addTarget(self, action: #selector(pickerSelect), for: .touchUpInside)
+        view.addSubview(control)
         return view
     }()
         
@@ -103,7 +106,7 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
             AppUtilities.makeToast("请输入详细地址")
             return
         }
-        if userModel?.mainPicBannermodel?.isLocal == true {
+        if userModel?.mainPicBannermodel?.imgUrl == nil || userModel?.mainPicBannermodel?.imgUrl?.isBlankString == true{
             AppUtilities.makeToast("请上传封面图")
             return
         }
@@ -146,21 +149,13 @@ extension OwnerCreateBuildingViewController {
             make.height.equalTo(50)
         }
         
-        let textMessageTap = UITapGestureRecognizer(target: self, action: #selector(imgClickGesture(_:)))
-        textMessageTap.numberOfTapsRequired = 1
-        textMessageTap.numberOfTouchesRequired = 1
-        mainPicPhoto.addGestureRecognizer(textMessageTap)
-        
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: (kWidth - left_pending_space_17 * 4) / 3.0 - 1))
         footerview.addSubview(mainPicPhoto)
         
         self.tableView.tableFooterView = footerview
     }
-    @objc private func imgClickGesture(_ tap: UITapGestureRecognizer) {
-        
-        pickerSelect()
-    }
-    func pickerSelect() {
+    
+    @objc func pickerSelect() {
         imagePickTool.cl_setupImagePickerWith(MaxImagesCount: 2) {[weak self] (asset,cutImage) in
             SSLog("返回的asset数组是\(asset)")
             
