@@ -39,7 +39,7 @@ class OwnerCreateBuildingViewController: BaseTableViewController {
     lazy var descLabel : UILabel = {
         let view = UILabel(frame: CGRect(x: left_pending_space_17, y: -10, width: kWidth - left_pending_space_17, height: 20))
         view.font = FONT_13
-        view.text = "请上传楼盘外立面照片"
+        view.text = "请上传楼盘/网点的封面图"
         view.textColor = kAppColor_btnGray_BEBEBE
         return view
     }()
@@ -407,6 +407,7 @@ class OwnerCreateBuildingCell: BaseEditCell {
     var endEditingMessageCell:((OwnerIdentifyUserModel) -> Void)?
     
     override func setDelegate() {
+        editLabel.font = FONT_14
         editLabel.delegate = self
         editLabel.addTarget(self, action: #selector(valueDidChange), for: .editingChanged)
     }

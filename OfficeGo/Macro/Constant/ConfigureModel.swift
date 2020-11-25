@@ -1231,7 +1231,7 @@ class OwnerCreatBuildingConfigureModel: NSObject {
         case .OwnerCreteBuildingTypeBranchAddress:
             return FuWenBen(name: "详细地址", centerStr: " * ", last: "")
         case .OwnerCreteBuildingTypeUploadYingyePhoto:
-            return FuWenBen(name: "上传封面图", centerStr: " * ", last: "\n请上传楼盘外立面照片")
+            return FuWenBen(name: "上传封面图", centerStr: " * ", last: "\n请上传楼盘/网点的封面图")
         }
     }
     
