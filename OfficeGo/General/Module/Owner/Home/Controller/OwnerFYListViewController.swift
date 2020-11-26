@@ -377,11 +377,26 @@ class OwnerFYListViewController: BaseGroupTableViewController {
                 requestBuildingList()
                 
             }else {
+                ///判断楼状态，是否是认证通过
+                ///认证通过，不做任何处理
                 ///数据不做刷新
                 ///已经选择过楼盘了，请求房源列表
-//                if pageNo == 1 {
-//                    loadNewData()
-//                }
+                //                if pageNo == 1 {
+                //                    loadNewData()
+                //                }
+                
+                ///没有认证通过，请求楼盘列表刷新
+                //                1: 上架(已发布)
+                //               待审核： status"= 6 ｜｜  isTemp": = 1
+                //               资料待完善 status = 2:资料待完善
+                //               status 7已驳回*/
+                
+                if buildingListViewModel?.status == 1 || buildingListViewModel?.status == 2 {
+                    
+                }else {
+                    requestReIdentifyBuildingList()
+                }
+                
             }
         }
         ///0待审核 2审核未通过 3过期 2驳回处理
