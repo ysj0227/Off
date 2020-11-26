@@ -193,26 +193,26 @@ extension NewIdentifyViewController {
                     identifyUserModel?.remarkString?.append(model.dictCname ?? "")
                                     
                     let index = remarkArr.firstIndex(of: model)
-                    
+                     
                     if index == remarkArr.count - 1 {
                         identifyUserModel?.remarkString?.append("")
                     }else {
                         identifyUserModel?.remarkString?.append("\n")
                     }
                     
-                    if model.dictValue == 1 || model.dictValue == 2 {
+                    if model.dictValue == 1 {
                         identifyUserModel?.buildingAddRemark = true
-                    }else if model.dictValue == 3 || model.dictValue == 4 {
+                    }else if model.dictValue == 2 {
                         identifyUserModel?.fczRemark = true
                         identifyUserModel?.premisesPermit = nil
-                    }else if model.dictValue == 5 || model.dictValue == 6 {
+                    }else if model.dictValue == 3 {
                         identifyUserModel?.businessRemark = true
                         identifyUserModel?.businessLicense = nil
-                    }else if model.dictValue == 7 || model.dictValue == 8 {
+                    }else if model.dictValue == 4 {
                         identifyUserModel?.idCardRemark = true
                         identifyUserModel?.idFront = nil
                         identifyUserModel?.idBack = nil
-                    }else if model.dictValue == 9 || model.dictValue == 10 {
+                    }else if model.dictValue == 6 {
                         identifyUserModel?.addtionalRemark = true
                         identifyUserModel?.materials = nil
                     }
