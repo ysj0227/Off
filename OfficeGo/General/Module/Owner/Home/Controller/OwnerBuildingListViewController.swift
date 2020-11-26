@@ -50,11 +50,21 @@ class OwnerBuildingListViewController: BaseTableViewController {
         return addButton
     }()
     
+    var lightGaryButton : UIButton = {
+        let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: kWidth, height: kTabBarHeight))
+        addButton.addTarget(self, action: #selector(leftBtnClick), for: .touchUpInside)
+        return addButton
+    }()
+    
     //MARK: 添加楼盘和网点
     @objc func addBuilding() {
         let vc = NewIdentifyViewController()
         vc.isAdd = true
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    override func leftBtnClick() {
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -160,7 +170,7 @@ extension OwnerBuildingListViewController {
         titleview?.leftButton.isHidden = false
         titleview?.rightButton.isHidden = true
         titleview?.leftButtonCallBack = { [weak self] in
-            self?.navigationController?.dismiss(animated: true, completion: nil)
+            self?.leftBtnClick()
         }
         
         self.view.addSubview(titleview ?? ThorNavigationView.init(type: .backTitleRight))
@@ -172,6 +182,12 @@ extension OwnerBuildingListViewController {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(110)
             make.bottom.equalToSuperview().offset(-kTabBarHeight)
+        }
+        
+        self.view.addSubview(lightGaryButton)
+        lightGaryButton.snp.makeConstraints { (make) in
+            make.top.equalTo(addBottomView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
         }
         self.tableView.snp.remakeConstraints { (make) in
             make.top.equalTo(kNavigationHeight)

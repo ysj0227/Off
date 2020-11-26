@@ -234,7 +234,7 @@ extension NewIdentifyViewController {
         }
         
         ///添加新的营业执照数据
-        if let contract = identifyUserModel?.businessLicense{
+        if let contract = identifyUserModel?.businessLicense {
             
             for str in contract {
                 let fczBannerModel = BannerModel()
