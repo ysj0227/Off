@@ -422,8 +422,8 @@ class OwnerCreateBuildingCell: BaseEditCell {
             }
         }else if model.type == .OwnerCreteBuildingTypeBranchAddress{
             //截取
-            if textNum! > ownerMaxAddressDetailNumber_30 {
-                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_30)
+            if textNum! > ownerMaxAddressDetailNumber_100 {
+                let index = editLabel.text?.index((editLabel.text?.startIndex)!, offsetBy: ownerMaxAddressDetailNumber_100)
                 let str = editLabel.text?.substring(to: index!)
                 editLabel.text = str
             }

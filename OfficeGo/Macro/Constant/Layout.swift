@@ -42,8 +42,8 @@ let ownerMaxCompanynameNumber_20 = 20
 //房东 - 认证 -写字楼名称，20个字
 let ownerMaxBuildingnameNumber_20 = 20
 
-//房东 - 认证 -详细地址，30字
-let ownerMaxAddressDetailNumber_30 = 30
+//房东 - 认证 -详细地址，100字
+let ownerMaxAddressDetailNumber_100 = 100
 
 //房东 - 认证 -网点名称，20字
 let ownerMaxBranchnameNumber_20 = 20

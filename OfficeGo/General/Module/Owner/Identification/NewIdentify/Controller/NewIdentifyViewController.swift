@@ -89,20 +89,11 @@ class NewIdentifyViewController: BaseViewController {
         return arr
     }()
     
-    var commitBtn: UIButton {
-        let btn = UIButton.init(frame: CGRect(x: left_pending_space_17, y: 0, width: kWidth - left_pending_space_17 * 2, height: btnHeight_44))
-        btn.backgroundColor = kAppBlueColor
-        btn.clipsToBounds = true
-        btn.layer.cornerRadius = button_cordious_2
-        btn.setTitle("提交认证", for: .normal)
-        btn.setTitleColor(kAppWhiteColor, for: .normal)
-        btn.titleLabel?.font = FONT_15
-        btn.addTarget(self, action: #selector(logotClick), for: .touchUpInside)
-        return btn
-    }
-    
-    var LogotView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: kWidth, height: btnHeight_44 + bottomMargin()))
+    lazy var bottomBtnView: BottomBtnView = {
+        let view = BottomBtnView.init(frame: CGRect(x: 0, y: 0, width: kWidth, height: 50))
+        view.bottomType = BottomBtnViewType.BottomBtnViewTypeIwantToFind
+        view.rightSelectBtn.setTitle("提交认证", for: .normal)
+        view.backgroundColor = kAppWhiteColor
         return view
     }()
     
@@ -377,7 +368,7 @@ extension NewIdentifyViewController {
         ///buildid是否为空判断是否是关联的
         
         if identifyUserModel?.buildingName == nil || identifyUserModel?.buildingName?.isBlankString == true{
-            AppUtilities.makeToast("请选择或创建楼盘")
+            AppUtilities.makeToast("请输入要认证的楼盘/网点名称")
             return
         }
         
@@ -524,7 +515,7 @@ extension NewIdentifyViewController {
     }
     
     func setCommitEnables(isUserinterface: Bool) {
-        commitBtn.isUserInteractionEnabled = false
+        bottomBtnView.rightSelectBtn.isUserInteractionEnabled = false
     }
         
 }
@@ -558,16 +549,19 @@ extension NewIdentifyViewController {
         headerCollectionView.snp.makeConstraints { (make) in
             make.top.equalTo(kNavigationHeight)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-(bottomMargin() + btnHeight_44))
+            make.bottom.equalToSuperview().offset(-(bottomMargin() + 50))
         }
         headerCollectionView.delegate = self
         headerCollectionView.dataSource = self
-        self.view.addSubview(LogotView)
-        LogotView.addSubview(commitBtn)
-        LogotView.snp.remakeConstraints { (make) in
-            make.height.equalTo(bottomMargin() + btnHeight_44)
+        self.view.addSubview(bottomBtnView)
+        
+        bottomBtnView.rightBtnClickBlock = { [weak self] in
+            self?.logotClick()
+        }
+        bottomBtnView.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().offset(-bottomMargin())
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.height.equalTo(50)
         }
         
         headerCollectionView.register(OwnerNewIdentifyRejectViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "OwnerNewIdentifyRejectViewHeader")
@@ -1205,8 +1199,8 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
 
         buildingNameLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(38)
+            make.width.equalTo(kWidth - left_pending_space_17 * 2 - 50 - 30 - 5)
             make.top.equalToSuperview()
-            make.trailing.equalToSuperview().inset(-50)
         }
         tagView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
