@@ -545,6 +545,9 @@ class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelega
     }
     
     /*
+     先判断，有没有房源
+     有房源，判断是不是单业主
+     无房源，提示“该楼盘无业主入住，请持续关注”
      ///调用创建聊天 -  判断是不是单房东
      ///单房东直接跳转 多房东选择房源
      */
@@ -589,7 +592,7 @@ class RenterOfficebuildingDetailVC: BaseGroupTableViewController, WMPlayerDelega
         
         SSTool.invokeInMainThread { [weak self] in
             guard let weakSelf = self else {return}
-            AppUtilities.makeToast("请先选择房源，再和房东聊")
+            AppUtilities.makeToast("该楼盘有多个房东入驻，请选择一个房源再跟房东聊")
             //1
             if weakSelf.dataSourceArr.count > 0 {
                 if weakSelf.dataSource.count > 0 {
