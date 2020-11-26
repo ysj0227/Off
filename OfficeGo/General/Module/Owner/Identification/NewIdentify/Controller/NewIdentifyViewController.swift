@@ -1124,6 +1124,9 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
                 tagView.backgroundColor = kAppPurpleDeepColor
             }
             closeBtn.isHidden = false
+            
+            houselocationIcon.isHidden = true
+
             //0 空   无定义     1创建  2关联吗
             //就是自己创建
             if userModel?.isCreateBuilding == "1" {
@@ -1136,6 +1139,9 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
                 buildingMsgView.isHidden = false
                 buildingNameLabel.text = userModel?.buildingName
                 houseAddressLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")\(userModel?.address ?? "")"
+                if houseAddressLabel.text?.count ?? 0 > 0 {
+                    houselocationIcon.isHidden = false
+                }
             }else if userModel?.isCreateBuilding == "2" {
                 //0 就是关联的公司
                 //不能输入框修改
@@ -1146,6 +1152,9 @@ class OwnerNewIdentifyCell: BaseCollectionViewCell {
                 buildingMsgView.isHidden = false
                 buildingNameLabel.text = userModel?.buildingName
                 houseAddressLabel.text = "\(userModel?.districtIdName ?? "")\(userModel?.businessDistrictName ?? "")\(userModel?.address ?? "")"
+                if houseAddressLabel.text?.count ?? 0 > 0 {
+                    houselocationIcon.isHidden = false
+                }
             }else {
                 //如果没有提交过，应该返回一个""
                 //"" 没有提交过

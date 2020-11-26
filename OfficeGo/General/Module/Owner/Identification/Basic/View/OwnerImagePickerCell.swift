@@ -341,9 +341,11 @@ class OwnerNewIdentifyRejectViewHeader: UICollectionReusableView {
         }
         openBtn.snp.makeConstraints { (make) in
             make.trailing.equalToSuperview()
-            make.size.equalTo(42)
+            make.size.equalTo(CGSize(width: kWidth, height: 42))
             make.top.equalToSuperview()
         }
+        
+        openBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: kWidth - 42, bottom: 0, right: 0)
     }
     
     required init?(coder: NSCoder) {
