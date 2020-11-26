@@ -985,17 +985,16 @@ extension RenterChatViewController {
     }
     
     
-    ///过滤手机号发送******
-    override func willSendMessage(_ messageContent: RCMessageContent!) -> RCMessageContent! {
-        if messageContent.isKind(of: RCTextMessage.self) {
-            let cotentt: RCTextMessage = RCTextMessage(content: "*****")
-            cotentt.content = "******"
-            return cotentt
-        }else {
-            return messageContent
-        }
-        
-    }
+//    ///过滤手机号发送******
+//    override func willSendMessage(_ messageContent: RCMessageContent!) -> RCMessageContent! {
+//        if messageContent.isKind(of: RCTextMessage.self) {
+//            let cotentt: RCTextMessage = RCTextMessage(content: "*****")
+//            cotentt.content = "******"
+//            return cotentt
+//        }else {
+//            return messageContent
+//        }
+//    }
     
 }
 
